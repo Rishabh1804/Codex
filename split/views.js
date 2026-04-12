@@ -567,13 +567,326 @@ function renderSupersessionChain(chain, currentId) {
 
 
 /* ============================================================
-   DASHBOARD (from Phase 1)
+   PHASE 4: Search Results
+   ============================================================ */
+
+function renderSearchResults(results, query) {
+  var container = document.querySelector('.cx-search-results');
+  if (!container) return;
+  if (!results || results.length === 0) {
+    container.innerHTML = '<div class="cx-search-empty">No results for \u201C' + escHtml(query) + '\u201D</div>';
+    return;
+  }
+
+  var groups = { canon: [], rejection: [], session: [], volume: [] };
+  var labels = { canon: 'Canons', rejection: 'Rejected Alternatives', session: 'Sessions', volume: 'Volumes' };
+  var icons = { canon: 'bookmark', rejection: 'alert', session: 'scroll', volume: 'book' };
+  results.forEach(function(r) { if (groups[r.type]) groups[r.type].push(r); });
+
+  var html = '';
+  ['canon', 'session', 'rejection', 'volume'].forEach(function(type) {
+    var items = groups[type];
+    if (items.length === 0) return;
+    html += '<div class="cx-search-group-header">' + cx(icons[type]) + ' ' + escHtml(labels[type]) + ' (' + items.length + ')</div>';
+    items.forEach(function(item) {
+      var e = item.entity;
+      var title = '', snippet = '', route = '';
+      switch (type) {
+        case 'canon':
+          title = e.title || e.id;
+          snippet = buildSnippet(e.rationale || '', query);
+          route = '#/canon/' + encodeURIComponent(e.id);
+          break;
+        case 'rejection':
+          title = 'Rejected: ' + (e.rejected || e.id);
+          snippet = buildSnippet(e.reason || e.chosen || '', query);
+          route = '#/canons';
+          break;
+        case 'session':
+          title = e.id + (e.date ? ' \u00B7 ' + formatAbsoluteDate(e.date) : '');
+          snippet = buildSnippet(e.summary || '', query);
+          route = '#/journal';
+          break;
+        case 'volume':
+          title = e.name || e.id;
+          snippet = buildSnippet(e.description || e.current_phase || '', query);
+          route = '#/volume/' + encodeURIComponent(e.id);
+          break;
+      }
+      html += '<div class="cx-search-result" data-action="searchNavigate" data-route="' + escAttr(route) + '">';
+      html += '<div class="cx-search-result-title">' + highlightMatch(title, query) + '</div>';
+      if (snippet) html += '<div class="cx-search-result-snippet">' + snippet + '</div>';
+      html += '</div>';
+    });
+  });
+
+  container.innerHTML = html;
+}
+
+/* ============================================================
+   PHASE 4: Stats Bar
+   ============================================================ */
+
+function renderStatsBar() {
+  var totalVols = filterActive(store.volumes).length;
+  var activeChapters = 0;
+  filterActive(store.volumes).forEach(function(v) {
+    filterActive(v.chapters || []).forEach(function(ch) {
+      if (ch.status === 'in-progress') activeChapters++;
+    });
+  });
+  var openTodos = 0;
+  store.volumes.forEach(function(v) {
+    (v.todos || []).forEach(function(t) { if (t.status === 'open') openTodos++; });
+  });
+  var now = new Date();
+  var monthStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+  var sessionsThisMonth = 0;
+  store.journal.forEach(function(day) {
+    if (day.date.substring(0, 7) === monthStr) sessionsThisMonth += (day.sessions || []).length;
+  });
+  var canonCount = filterActive(store.canons).length;
+
+  var html = '<div class="cx-stats-bar">';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + totalVols + '</span>volumes</div>';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + activeChapters + '</span>active ch.</div>';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + openTodos + '</span>TODOs</div>';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + sessionsThisMonth + '</span>sessions/mo</div>';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + canonCount + '</span>canons</div>';
+  html += '</div>';
+  return html;
+}
+
+/* ============================================================
+   PHASE 4: Heatmap (90-day GitHub-style activity grid)
+   ============================================================ */
+
+function renderHeatmap() {
+  var sessionCounts = {};
+  store.journal.forEach(function(day) {
+    sessionCounts[day.date] = (day.sessions || []).length;
+  });
+
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Start 89 days ago, walk back to nearest Sunday
+  var start = new Date(today);
+  start.setDate(start.getDate() - 89);
+  while (start.getDay() !== 0) start.setDate(start.getDate() - 1);
+
+  var html = '<div class="cx-heatmap-wrap">';
+  html += '<div class="cx-heatmap-label">Activity</div>';
+  html += '<div class="cx-heatmap-scroll"><div class="cx-heatmap">';
+
+  var cursor = new Date(start);
+  while (cursor <= today) {
+    var dateStr = localDateStr(cursor);
+    var count = sessionCounts[dateStr] || 0;
+    var level = count === 0 ? 0 : count === 1 ? 1 : count <= 3 ? 2 : 3;
+    html += '<div class="cx-heatmap-cell" data-level="' + level + '" data-action="heatmapTap" data-date="' + escAttr(dateStr) + '" title="' + escAttr(dateStr + ': ' + count + ' session' + (count !== 1 ? 's' : '')) + '"></div>';
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  // Fill remaining cells to complete the last column (reach Saturday)
+  while (cursor.getDay() !== 0) {
+    html += '<div class="cx-heatmap-cell" style="visibility:hidden"></div>';
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  html += '</div></div></div>';
+  return html;
+}
+
+/* ============================================================
+   PHASE 4: Sync Detail Panel
+   ============================================================ */
+
+function toggleSyncDetailPanel() {
+  var existing = document.getElementById('syncDetailPanel');
+  if (existing) { existing.remove(); return; }
+
+  var pending = store._wal.filter(function(e) { return e.status === 'pending'; }).length;
+  var syncing = store._wal.filter(function(e) { return e.status === 'syncing'; }).length;
+  var synced = store._wal.filter(function(e) { return e.status === 'synced'; }).length;
+  var failed = store._wal.filter(function(e) { return e.status === 'failed'; }).length;
+
+  var hasRepo = !!localStorage.getItem(KEYS.REPO_URL);
+  var statusLabel, statusColor;
+  if (!hasRepo) { statusLabel = 'Local only'; statusColor = 'var(--text-tertiary)'; }
+  else if (_isOffline) { statusLabel = 'Offline'; statusColor = 'var(--warning)'; }
+  else if (failed > 0) { statusLabel = 'Sync failed'; statusColor = 'var(--error)'; }
+  else if (pending > 0 || syncing > 0) { statusLabel = 'Syncing'; statusColor = 'var(--warning)'; }
+  else { statusLabel = 'Connected'; statusColor = 'var(--success)'; }
+
+  var lastFetch = store._meta.lastFetch;
+  var lastFetchLabel = lastFetch ? formatRelativeTime(lastFetch.substring(0, 10)) : 'Never';
+
+  var html = '<div id="syncDetailPanel" class="cx-sync-panel">';
+  html += '<div class="cx-sync-panel-header"><span class="cx-sync-panel-title">Sync</span>';
+  html += '<button class="cx-btn-icon" data-action="closeSyncPanel" style="min-width:28px;min-height:28px;padding:var(--sp-4)">' + cx('close') + '</button></div>';
+  html += '<div class="cx-sync-panel-status"><div class="cx-sync-panel-dot" style="background:' + statusColor + '"></div>' + escHtml(statusLabel) + '</div>';
+  html += '<div class="cx-sync-panel-row"><span>Pending</span><span class="cx-sync-panel-val">' + pending + '</span></div>';
+  html += '<div class="cx-sync-panel-row"><span>Syncing</span><span class="cx-sync-panel-val">' + syncing + '</span></div>';
+  html += '<div class="cx-sync-panel-row"><span>Synced</span><span class="cx-sync-panel-val">' + synced + '</span></div>';
+  html += '<div class="cx-sync-panel-row"><span>Failed</span><span class="cx-sync-panel-val">' + failed + '</span></div>';
+  html += '<div class="cx-sync-panel-meta">Last fetch: ' + escHtml(lastFetchLabel) + '</div>';
+  if (hasRepo) {
+    html += '<button class="cx-btn-primary cx-btn-sm cx-full-width" data-action="forceSyncFromPanel" style="margin-top:var(--sp-8)">' + cx('refresh') + ' Force Sync</button>';
+  }
+  html += '</div>';
+
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+/* ============================================================
+   PHASE 4: Trash View (sub-settings, no hash route)
+   ============================================================ */
+
+function renderTrashView() {
+  var vc = document.getElementById('viewContainer');
+  var deletedCanons = store.canons.filter(function(c) { return c._deleted; });
+  var deletedChapters = [];
+  store.volumes.forEach(function(v) {
+    (v.chapters || []).forEach(function(ch) {
+      if (ch._deleted) deletedChapters.push({ volume: v, chapter: ch });
+    });
+  });
+
+  var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
+  html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
+  html += '<h2 class="cx-page-title" style="margin:0">Trash</h2></div>';
+
+  if (deletedCanons.length === 0 && deletedChapters.length === 0) {
+    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons and chapters appear here');
+    vc.innerHTML = html;
+    return;
+  }
+
+  if (deletedCanons.length > 0) {
+    html += '<div class="cx-section-title">' + cx('bookmark') + ' Canons (' + deletedCanons.length + ')</div>';
+    html += '<div class="cx-card">';
+    deletedCanons.forEach(function(c) {
+      html += '<div class="cx-trash-item">';
+      html += '<div class="cx-trash-info"><div class="cx-trash-name">' + escHtml(c.title || c.id) + '</div>';
+      html += '<div class="cx-trash-meta">Deleted ' + escHtml(formatRelativeTime(c._deleted_date)) + '</div></div>';
+      html += '<div class="cx-trash-actions">';
+      html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreCanon" data-id="' + escAttr(c.id) + '">Restore</button>';
+      html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteCanon" data-id="' + escAttr(c.id) + '">' + cx('trash') + '</button>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  if (deletedChapters.length > 0) {
+    html += '<div class="cx-section-title">' + cx('bookmark') + ' Chapters (' + deletedChapters.length + ')</div>';
+    html += '<div class="cx-card">';
+    deletedChapters.forEach(function(item) {
+      html += '<div class="cx-trash-item">';
+      html += '<div class="cx-trash-info"><div class="cx-trash-name">' + escHtml(item.chapter.name || item.chapter.id) + '</div>';
+      html += '<div class="cx-trash-meta">' + escHtml(item.volume.name) + ' \u00B7 Deleted ' + escHtml(formatRelativeTime(item.chapter._deleted_date)) + '</div></div>';
+      html += '<div class="cx-trash-actions">';
+      html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreChapter" data-id="' + escAttr(item.chapter.id) + '" data-vol="' + escAttr(item.volume.id) + '">Restore</button>';
+      html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteChapter" data-id="' + escAttr(item.chapter.id) + '" data-vol="' + escAttr(item.volume.id) + '">' + cx('trash') + '</button>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  vc.innerHTML = html;
+}
+
+/* ============================================================
+   PHASE 4: Error Log View (sub-settings, no hash route)
+   ============================================================ */
+
+function renderErrorLogView() {
+  var vc = document.getElementById('viewContainer');
+  var log = [];
+  try { log = JSON.parse(localStorage.getItem(KEYS.ERROR_LOG) || '[]'); } catch(e) {}
+
+  var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
+  html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
+  html += '<h2 class="cx-page-title" style="margin:0">Error Log</h2></div>';
+
+  if (log.length === 0) {
+    html += renderEmptyState('check', 'No errors', 'Error log is clean');
+    vc.innerHTML = html;
+    return;
+  }
+
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-12)">';
+  html += '<span class="cx-card-meta">' + log.length + ' entries</span>';
+  html += '<button class="cx-btn-danger cx-btn-sm" data-action="clearErrorLog">' + cx('trash') + ' Clear All</button>';
+  html += '</div>';
+
+  html += '<div class="cx-card">';
+  log.forEach(function(entry) {
+    html += '<div class="cx-error-entry">';
+    html += '<div><span class="cx-error-ts">' + escHtml(entry.ts ? entry.ts.substring(0, 19).replace('T', ' ') : '?') + '</span>';
+    html += '<span class="cx-error-cat">' + escHtml(entry.cat || '?') + '</span></div>';
+    html += '<div class="cx-error-msg">' + escHtml(entry.msg || '') + '</div>';
+    if (entry.detail) html += '<div class="cx-error-detail">' + escHtml(entry.detail) + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  vc.innerHTML = html;
+}
+
+/* ============================================================
+   PHASE 4: Storage Usage View (sub-settings)
+   ============================================================ */
+
+function renderStorageUsage() {
+  var vc = document.getElementById('viewContainer');
+  var keys = Object.values(KEYS);
+  var rows = [];
+  var total = 0;
+
+  keys.forEach(function(key) {
+    var val = localStorage.getItem(key);
+    if (val !== null) {
+      var size = val.length * 2; // rough byte estimate (UTF-16)
+      rows.push({ key: key, size: size });
+      total += size;
+    }
+  });
+  rows.sort(function(a, b) { return b.size - a.size; });
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    return (bytes / 1024).toFixed(1) + ' KB';
+  }
+
+  var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
+  html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
+  html += '<h2 class="cx-page-title" style="margin:0">Storage Usage</h2></div>';
+
+  html += '<div class="cx-card">';
+  rows.forEach(function(r) {
+    html += '<div class="cx-storage-row"><span>' + escHtml(r.key.replace('codex-', '')) + '</span><span>' + formatBytes(r.size) + '</span></div>';
+  });
+  html += '<div class="cx-storage-row cx-storage-total"><span>Total</span><span>' + formatBytes(total) + '</span></div>';
+  html += '</div>';
+
+  vc.innerHTML = html;
+}
+
+/* ============================================================
+   DASHBOARD (from Phase 1, Phase 4: stats bar + heatmap)
    ============================================================ */
 
 function renderDashboard() {
   var vc = document.getElementById('viewContainer');
   var snap = store.getSnapshot();
   var html = renderConnectGitHubCta();
+
+  // Phase 4: Stats bar
+  html += renderStatsBar();
+
+  // Phase 4: Heatmap
+  html += renderHeatmap();
 
   var hasAny = false;
   SHELF_ORDER.forEach(function(shelf) {
@@ -826,6 +1139,13 @@ function renderSettings() {
   html += '<div class="cx-settings-section"><div class="cx-section-title">Data</div><div class="cx-card">';
   html += '<div class="cx-settings-row" data-action="openSnippetImport"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Import Aurelius Snippet</div><div class="cx-settings-hint">Paste JSON from build sessions</div></div></div></div>';
   html += '<div class="cx-settings-row" data-action="exportData"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Export Data</div><div class="cx-settings-hint">Download as JSON</div></div></div></div>';
+  html += '</div></div>';
+
+  // Advanced (Phase 4)
+  html += '<div class="cx-settings-section"><div class="cx-section-title">Advanced</div><div class="cx-card">';
+  html += '<div class="cx-settings-row" data-action="viewTrash"><div class="cx-settings-left">' + cx('trash') + '<div><div class="cx-settings-label">Trash</div><div class="cx-settings-hint">Restore or permanently delete items</div></div></div></div>';
+  html += '<div class="cx-settings-row" data-action="viewErrorLog"><div class="cx-settings-left">' + cx('alert') + '<div><div class="cx-settings-label">Error Log</div><div class="cx-settings-hint">View recent errors</div></div></div></div>';
+  html += '<div class="cx-settings-row" data-action="viewStorage"><div class="cx-settings-left">' + cx('info') + '<div><div class="cx-settings-label">Storage Usage</div><div class="cx-settings-hint">localStorage breakdown</div></div></div></div>';
   html += '</div></div>';
 
   // About

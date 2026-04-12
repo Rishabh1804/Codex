@@ -92,8 +92,73 @@ function setupDelegation() {
         initializeApp();
         break;
 
-      // Search (Phase 4 stub)
-      case 'openSearch': showToast('Search coming in Phase 4', 'info'); break;
+      // Phase 4: Search
+      case 'openSearch': openSearch(); break;
+      case 'closeSearch': closeSearch(); break;
+      case 'searchNavigate': closeSearch(); navigate(el.dataset.route); break;
+
+      // Phase 4: Heatmap
+      case 'heatmapTap':
+        var hDate = el.dataset.date;
+        var hasSessions = store.journal.some(function(d) { return d.date === hDate && (d.sessions || []).length > 0; });
+        if (hasSessions) {
+          _journalFilters.range = 'all';
+          _journalLoadMoreCount = 999;
+          navigate('#/journal');
+        } else {
+          showToast('No sessions on ' + formatAbsoluteDate(hDate), 'info');
+        }
+        break;
+
+      // Phase 4: Sub-settings
+      case 'viewTrash': renderTrashView(); break;
+      case 'viewErrorLog': renderErrorLogView(); break;
+      case 'viewStorage': renderStorageUsage(); break;
+      case 'clearErrorLog': localStorage.removeItem(KEYS.ERROR_LOG); renderErrorLogView(); showToast('Log cleared', 'success'); break;
+
+      // Phase 4: Trash actions
+      case 'restoreCanon':
+        var rc = store.canons.find(function(c) { return c.id === id; });
+        if (rc) { rc._deleted = false; rc._deleted_date = null; store._createWalEntry('update', 'canon', id, 'canons.json', { _deleted: false, _deleted_date: null }); store._fireChange(); showToast('Canon restored', 'success'); renderTrashView(); }
+        break;
+      case 'restoreChapter':
+        var rcv = store.volumes.find(function(v) { return v.id === vol; });
+        if (rcv) { var rch = (rcv.chapters || []).find(function(c) { return c.id === id; }); if (rch) { rch._deleted = false; rch._deleted_date = null; store._createWalEntry('update', 'chapter', id, 'volumes.json', { _deleted: false, _deleted_date: null }, vol); store._fireChange(); showToast('Chapter restored', 'success'); renderTrashView(); } }
+        break;
+      case 'permanentDeleteCanon':
+        showConfirmDialog('Permanently Delete', 'This cannot be undone. Are you sure?', function() {
+          store.canons = store.canons.filter(function(c) { return c.id !== id; });
+          store._createWalEntry('delete', 'canon', id, 'canons.json', { _permanent: true });
+          store._fireChange();
+          showToast('Permanently deleted', 'success');
+          closeConfirmDialog();
+          renderTrashView();
+        }, { danger: true, label: 'Delete Forever' });
+        break;
+      case 'permanentDeleteChapter':
+        showConfirmDialog('Permanently Delete', 'This cannot be undone. Are you sure?', function() {
+          var pdv = store.volumes.find(function(v) { return v.id === vol; });
+          if (pdv) {
+            pdv.chapters = (pdv.chapters || []).filter(function(c) { return c.id !== id; });
+            store._createWalEntry('delete', 'chapter', id, 'volumes.json', { _permanent: true }, vol);
+            store._fireChange();
+          }
+          showToast('Permanently deleted', 'success');
+          closeConfirmDialog();
+          renderTrashView();
+        }, { danger: true, label: 'Delete Forever' });
+        break;
+
+      // Phase 4: Sync panel
+      case 'closeSyncPanel':
+        var sp = document.getElementById('syncDetailPanel');
+        if (sp) sp.remove();
+        break;
+      case 'forceSyncFromPanel':
+        var spp = document.getElementById('syncDetailPanel');
+        if (spp) spp.remove();
+        handleSyncNow();
+        break;
 
       // Phase 3: Journal
       case 'setJournalRange': _journalFilters.range = el.dataset.value; _journalLoadMoreCount = 30; renderCurrentView(); break;
@@ -167,15 +232,9 @@ function setupDelegation() {
   document.getElementById('overlayBackdrop').addEventListener('click', closeOverlay);
   document.getElementById('confirmBackdrop').addEventListener('click', closeConfirmDialog);
 
-  // Sync indicator
+  // Sync indicator — Phase 4: real panel
   var syncDot = document.getElementById('syncIndicator');
-  if (syncDot) syncDot.addEventListener('click', function() {
-    var pending = store._wal.filter(function(e) { return e.status === 'pending' || e.status === 'failed'; }).length;
-    var synced = store._wal.filter(function(e) { return e.status === 'synced'; }).length;
-    var msg = _isOffline ? 'Offline' : (pending > 0 ? pending + ' pending' : 'Synced');
-    if (!localStorage.getItem(KEYS.REPO_URL)) msg = 'Local only';
-    showToast(msg + ' (' + synced + ' synced in WAL)', 'info');
-  });
+  if (syncDot) syncDot.addEventListener('click', toggleSyncDetailPanel);
 }
 
 /* --- Escape handler --- */
@@ -183,6 +242,11 @@ function _escapeHandler(e) {
   if (e.key !== 'Escape') return;
   if (!document.getElementById('confirmContainer').hidden) { closeConfirmDialog(); return; }
   if (!document.getElementById('overlayContainer').hidden) { closeOverlay(); return; }
+  // Phase 4: search overlay
+  if (!document.getElementById('searchOverlay').hidden) { closeSearch(); return; }
+  // Phase 4: sync panel
+  var sp = document.getElementById('syncDetailPanel');
+  if (sp) { sp.remove(); return; }
 }
 
 /* --- Global error handlers --- */

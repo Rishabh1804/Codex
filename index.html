@@ -815,6 +815,69 @@ body {
 .cx-truncated-container {
   display: inline;
 }
+
+/* ============================================================
+   PHASE 4 CSS — Search, Heatmap, Stats, Sync Panel, Trash, Error Log
+   ============================================================ */
+
+/* --- Search Results --- */
+.cx-search-group-header{font-size:var(--fs-xs);font-weight:700;color:var(--text-secondary);margin:var(--sp-16) 0 var(--sp-8);display:flex;align-items:center;gap:var(--sp-6);text-transform:uppercase;letter-spacing:0.5px}
+.cx-search-group-header svg{width:16px;height:16px}
+.cx-search-result{padding:var(--sp-10) var(--sp-8);border-radius:var(--r-md);cursor:pointer;margin-bottom:var(--sp-2)}
+.cx-search-result:active{background:var(--bg-secondary)}
+.cx-search-result-title{font-weight:600;font-size:var(--fs-sm)}
+.cx-search-result-snippet{font-size:var(--fs-xs);color:var(--text-secondary);margin-top:var(--sp-2);line-height:1.4}
+.cx-highlight{background:var(--warning);color:var(--text-primary);border-radius:2px;padding:0 2px}
+.cx-search-empty{text-align:center;padding:var(--sp-32) var(--sp-16);color:var(--text-tertiary);font-size:var(--fs-sm)}
+
+/* --- Heatmap --- */
+.cx-heatmap-wrap{margin-bottom:var(--sp-16)}
+.cx-heatmap-label{font-size:var(--fs-2xs);color:var(--text-tertiary);margin-bottom:var(--sp-6);font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.cx-heatmap-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:var(--sp-4) 0}
+.cx-heatmap-scroll::-webkit-scrollbar{display:none}
+.cx-heatmap{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:2px;min-width:min-content}
+.cx-heatmap-cell{width:12px;height:12px;border-radius:2px;cursor:pointer;background:var(--bg-secondary)}
+.cx-heatmap-cell:hover{outline:1px solid var(--accent-light)}
+.cx-heatmap-cell[data-level="1"]{background:var(--accent-light);opacity:0.5}
+.cx-heatmap-cell[data-level="2"]{background:var(--accent);opacity:0.7}
+.cx-heatmap-cell[data-level="3"]{background:var(--accent);opacity:1}
+
+/* --- Stats Bar --- */
+.cx-stats-bar{display:flex;gap:var(--sp-16);padding:var(--sp-4) 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:var(--sp-12)}
+.cx-stats-bar::-webkit-scrollbar{display:none}
+.cx-stat-item{white-space:nowrap;flex-shrink:0;font-size:var(--fs-xs);color:var(--text-tertiary)}
+.cx-stat-value{font-weight:700;color:var(--text-primary);margin-right:var(--sp-4);font-size:var(--fs-sm)}
+
+/* --- Sync Detail Panel --- */
+.cx-sync-panel{position:fixed;top:calc(env(safe-area-inset-top,0px) + 28px);right:var(--sp-8);width:260px;background:var(--bg-card);border-radius:var(--r-lg);box-shadow:0 4px 20px rgba(0,0,0,0.2);padding:var(--sp-12);z-index:500}
+.cx-sync-panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-8)}
+.cx-sync-panel-title{font-weight:700;font-size:var(--fs-sm)}
+.cx-sync-panel-status{display:flex;align-items:center;gap:var(--sp-6);margin-bottom:var(--sp-8);font-size:var(--fs-sm)}
+.cx-sync-panel-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cx-sync-panel-row{display:flex;justify-content:space-between;padding:var(--sp-4) 0;font-size:var(--fs-xs);color:var(--text-secondary)}
+.cx-sync-panel-val{font-weight:600;color:var(--text-primary)}
+.cx-sync-panel-meta{font-size:var(--fs-2xs);color:var(--text-tertiary);margin-top:var(--sp-6)}
+
+/* --- Trash View --- */
+.cx-trash-item{display:flex;justify-content:space-between;align-items:center;padding:var(--sp-10) 0;border-bottom:1px solid var(--border)}
+.cx-trash-item:last-child{border-bottom:none}
+.cx-trash-info{flex:1;min-width:0}
+.cx-trash-name{font-size:var(--fs-sm);font-weight:600}
+.cx-trash-meta{font-size:var(--fs-2xs);color:var(--text-tertiary);margin-top:var(--sp-2)}
+.cx-trash-actions{display:flex;gap:var(--sp-4);flex-shrink:0}
+
+/* --- Error Log --- */
+.cx-error-entry{padding:var(--sp-8) 0;border-bottom:1px solid var(--border);font-size:var(--fs-xs)}
+.cx-error-entry:last-child{border-bottom:none}
+.cx-error-ts{font-size:var(--fs-2xs);color:var(--text-tertiary)}
+.cx-error-cat{font-weight:600;color:var(--warning);margin-left:var(--sp-4)}
+.cx-error-msg{margin-top:var(--sp-2);color:var(--text-secondary)}
+.cx-error-detail{font-family:'Courier New',monospace;font-size:var(--fs-2xs);background:var(--bg-secondary);padding:var(--sp-6);border-radius:var(--r-sm);overflow-x:auto;margin-top:var(--sp-4);word-break:break-all;max-height:80px;overflow-y:auto}
+
+/* --- Storage View --- */
+.cx-storage-row{display:flex;justify-content:space-between;padding:var(--sp-6) 0;border-bottom:1px solid var(--border);font-size:var(--fs-xs);color:var(--text-secondary)}
+.cx-storage-row:last-child{border-bottom:none}
+.cx-storage-total{font-weight:600;color:var(--text-primary);border-top:2px solid var(--border);padding-top:var(--sp-8);margin-top:var(--sp-4)}
 </style>
 <script>
 /* CODEX — Data Layer (Phase 2: WAL + GitHub sync support) */
@@ -1522,6 +1585,62 @@ function updateHeader(route) {
       + '<button data-action="openSearch" class="cx-btn-icon">' + cx('search') + '</button>'
       + '<button data-action="openSettings" class="cx-btn-icon">' + cx('gear') + '</button></div>';
   }
+}
+
+/* --- Phase 4: Search --- */
+var _searchTimer = null;
+
+function openSearch() {
+  var header = document.getElementById('appHeader');
+  header.dataset.searchOpen = 'true';
+  document.getElementById('searchOverlay').hidden = false;
+  document.getElementById('searchOverlay').innerHTML = '<div class="cx-search-results"></div>';
+  header.innerHTML = '<input type="text" id="searchInput" class="cx-search-input" placeholder="Search Codex\u2026" autocomplete="off">'
+    + '<button data-action="closeSearch" class="cx-btn-icon">' + cx('close') + '</button>';
+  var input = document.getElementById('searchInput');
+  input.focus();
+  input.addEventListener('input', function() {
+    clearTimeout(_searchTimer);
+    _searchTimer = setTimeout(function() {
+      var q = input.value.trim();
+      if (q.length < 2) { document.querySelector('.cx-search-results').innerHTML = ''; return; }
+      renderSearchResults(search(q), q);
+    }, 300);
+  });
+}
+
+function closeSearch() {
+  clearTimeout(_searchTimer);
+  var header = document.getElementById('appHeader');
+  delete header.dataset.searchOpen;
+  updateHeader(_currentViewParams);
+  document.getElementById('searchOverlay').hidden = true;
+  document.getElementById('searchOverlay').innerHTML = '';
+}
+
+function search(query) {
+  var q = query.toLowerCase().trim();
+  var results = [];
+  var w = { canon: 4, rejection: 3, session: 2, volume: 1 };
+  filterActive(store.canons).forEach(function(c) { var s = matchScore(q, [c.title, c.rationale, c.id].concat(c.references || [])); if (s > 0) results.push({ type: 'canon', entity: c, score: s * w.canon }); });
+  filterActive(store.rejections).forEach(function(r) { var s = matchScore(q, [r.rejected, r.chosen, r.reason, r.context || '']); if (s > 0) results.push({ type: 'rejection', entity: r, score: s * w.rejection }); });
+  store.journal.forEach(function(day) { (day.sessions || []).forEach(function(sess) { var sc = matchScore(q, [sess.summary, sess.handoff || ''].concat(sess.open_todos || [])); if (sc > 0) results.push({ type: 'session', entity: { id: sess.id, date: day.date, summary: sess.summary, handoff: sess.handoff }, score: sc * w.session }); }); });
+  filterActive(store.volumes).forEach(function(v) { var s = matchScore(q, [v.name, v.description || '', v.current_phase || ''].concat(v.tags || [])); if (s > 0) results.push({ type: 'volume', entity: v, score: s * w.volume }); });
+  return results.sort(function(a, b) { return b.score - a.score; });
+}
+
+function matchScore(query, fields) {
+  var score = 0;
+  fields.forEach(function(f) {
+    if (!f) return;
+    var l = f.toLowerCase();
+    if (l === query) score += 10;
+    else if (l.startsWith(query)) score += 5;
+    else if (l.indexOf(query) !== -1) score += 2;
+    var words = l.split(/[\s\-_]+/);
+    if (words.some(function(w) { return w.indexOf(query) === 0; })) score += 3;
+  });
+  return score;
 }
 
 /* --- FAB --- */
@@ -2560,13 +2679,326 @@ function renderSupersessionChain(chain, currentId) {
 
 
 /* ============================================================
-   DASHBOARD (from Phase 1)
+   PHASE 4: Search Results
+   ============================================================ */
+
+function renderSearchResults(results, query) {
+  var container = document.querySelector('.cx-search-results');
+  if (!container) return;
+  if (!results || results.length === 0) {
+    container.innerHTML = '<div class="cx-search-empty">No results for \u201C' + escHtml(query) + '\u201D</div>';
+    return;
+  }
+
+  var groups = { canon: [], rejection: [], session: [], volume: [] };
+  var labels = { canon: 'Canons', rejection: 'Rejected Alternatives', session: 'Sessions', volume: 'Volumes' };
+  var icons = { canon: 'bookmark', rejection: 'alert', session: 'scroll', volume: 'book' };
+  results.forEach(function(r) { if (groups[r.type]) groups[r.type].push(r); });
+
+  var html = '';
+  ['canon', 'session', 'rejection', 'volume'].forEach(function(type) {
+    var items = groups[type];
+    if (items.length === 0) return;
+    html += '<div class="cx-search-group-header">' + cx(icons[type]) + ' ' + escHtml(labels[type]) + ' (' + items.length + ')</div>';
+    items.forEach(function(item) {
+      var e = item.entity;
+      var title = '', snippet = '', route = '';
+      switch (type) {
+        case 'canon':
+          title = e.title || e.id;
+          snippet = buildSnippet(e.rationale || '', query);
+          route = '#/canon/' + encodeURIComponent(e.id);
+          break;
+        case 'rejection':
+          title = 'Rejected: ' + (e.rejected || e.id);
+          snippet = buildSnippet(e.reason || e.chosen || '', query);
+          route = '#/canons';
+          break;
+        case 'session':
+          title = e.id + (e.date ? ' \u00B7 ' + formatAbsoluteDate(e.date) : '');
+          snippet = buildSnippet(e.summary || '', query);
+          route = '#/journal';
+          break;
+        case 'volume':
+          title = e.name || e.id;
+          snippet = buildSnippet(e.description || e.current_phase || '', query);
+          route = '#/volume/' + encodeURIComponent(e.id);
+          break;
+      }
+      html += '<div class="cx-search-result" data-action="searchNavigate" data-route="' + escAttr(route) + '">';
+      html += '<div class="cx-search-result-title">' + highlightMatch(title, query) + '</div>';
+      if (snippet) html += '<div class="cx-search-result-snippet">' + snippet + '</div>';
+      html += '</div>';
+    });
+  });
+
+  container.innerHTML = html;
+}
+
+/* ============================================================
+   PHASE 4: Stats Bar
+   ============================================================ */
+
+function renderStatsBar() {
+  var totalVols = filterActive(store.volumes).length;
+  var activeChapters = 0;
+  filterActive(store.volumes).forEach(function(v) {
+    filterActive(v.chapters || []).forEach(function(ch) {
+      if (ch.status === 'in-progress') activeChapters++;
+    });
+  });
+  var openTodos = 0;
+  store.volumes.forEach(function(v) {
+    (v.todos || []).forEach(function(t) { if (t.status === 'open') openTodos++; });
+  });
+  var now = new Date();
+  var monthStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+  var sessionsThisMonth = 0;
+  store.journal.forEach(function(day) {
+    if (day.date.substring(0, 7) === monthStr) sessionsThisMonth += (day.sessions || []).length;
+  });
+  var canonCount = filterActive(store.canons).length;
+
+  var html = '<div class="cx-stats-bar">';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + totalVols + '</span>volumes</div>';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + activeChapters + '</span>active ch.</div>';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + openTodos + '</span>TODOs</div>';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + sessionsThisMonth + '</span>sessions/mo</div>';
+  html += '<div class="cx-stat-item"><span class="cx-stat-value">' + canonCount + '</span>canons</div>';
+  html += '</div>';
+  return html;
+}
+
+/* ============================================================
+   PHASE 4: Heatmap (90-day GitHub-style activity grid)
+   ============================================================ */
+
+function renderHeatmap() {
+  var sessionCounts = {};
+  store.journal.forEach(function(day) {
+    sessionCounts[day.date] = (day.sessions || []).length;
+  });
+
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Start 89 days ago, walk back to nearest Sunday
+  var start = new Date(today);
+  start.setDate(start.getDate() - 89);
+  while (start.getDay() !== 0) start.setDate(start.getDate() - 1);
+
+  var html = '<div class="cx-heatmap-wrap">';
+  html += '<div class="cx-heatmap-label">Activity</div>';
+  html += '<div class="cx-heatmap-scroll"><div class="cx-heatmap">';
+
+  var cursor = new Date(start);
+  while (cursor <= today) {
+    var dateStr = localDateStr(cursor);
+    var count = sessionCounts[dateStr] || 0;
+    var level = count === 0 ? 0 : count === 1 ? 1 : count <= 3 ? 2 : 3;
+    html += '<div class="cx-heatmap-cell" data-level="' + level + '" data-action="heatmapTap" data-date="' + escAttr(dateStr) + '" title="' + escAttr(dateStr + ': ' + count + ' session' + (count !== 1 ? 's' : '')) + '"></div>';
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  // Fill remaining cells to complete the last column (reach Saturday)
+  while (cursor.getDay() !== 0) {
+    html += '<div class="cx-heatmap-cell" style="visibility:hidden"></div>';
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  html += '</div></div></div>';
+  return html;
+}
+
+/* ============================================================
+   PHASE 4: Sync Detail Panel
+   ============================================================ */
+
+function toggleSyncDetailPanel() {
+  var existing = document.getElementById('syncDetailPanel');
+  if (existing) { existing.remove(); return; }
+
+  var pending = store._wal.filter(function(e) { return e.status === 'pending'; }).length;
+  var syncing = store._wal.filter(function(e) { return e.status === 'syncing'; }).length;
+  var synced = store._wal.filter(function(e) { return e.status === 'synced'; }).length;
+  var failed = store._wal.filter(function(e) { return e.status === 'failed'; }).length;
+
+  var hasRepo = !!localStorage.getItem(KEYS.REPO_URL);
+  var statusLabel, statusColor;
+  if (!hasRepo) { statusLabel = 'Local only'; statusColor = 'var(--text-tertiary)'; }
+  else if (_isOffline) { statusLabel = 'Offline'; statusColor = 'var(--warning)'; }
+  else if (failed > 0) { statusLabel = 'Sync failed'; statusColor = 'var(--error)'; }
+  else if (pending > 0 || syncing > 0) { statusLabel = 'Syncing'; statusColor = 'var(--warning)'; }
+  else { statusLabel = 'Connected'; statusColor = 'var(--success)'; }
+
+  var lastFetch = store._meta.lastFetch;
+  var lastFetchLabel = lastFetch ? formatRelativeTime(lastFetch.substring(0, 10)) : 'Never';
+
+  var html = '<div id="syncDetailPanel" class="cx-sync-panel">';
+  html += '<div class="cx-sync-panel-header"><span class="cx-sync-panel-title">Sync</span>';
+  html += '<button class="cx-btn-icon" data-action="closeSyncPanel" style="min-width:28px;min-height:28px;padding:var(--sp-4)">' + cx('close') + '</button></div>';
+  html += '<div class="cx-sync-panel-status"><div class="cx-sync-panel-dot" style="background:' + statusColor + '"></div>' + escHtml(statusLabel) + '</div>';
+  html += '<div class="cx-sync-panel-row"><span>Pending</span><span class="cx-sync-panel-val">' + pending + '</span></div>';
+  html += '<div class="cx-sync-panel-row"><span>Syncing</span><span class="cx-sync-panel-val">' + syncing + '</span></div>';
+  html += '<div class="cx-sync-panel-row"><span>Synced</span><span class="cx-sync-panel-val">' + synced + '</span></div>';
+  html += '<div class="cx-sync-panel-row"><span>Failed</span><span class="cx-sync-panel-val">' + failed + '</span></div>';
+  html += '<div class="cx-sync-panel-meta">Last fetch: ' + escHtml(lastFetchLabel) + '</div>';
+  if (hasRepo) {
+    html += '<button class="cx-btn-primary cx-btn-sm cx-full-width" data-action="forceSyncFromPanel" style="margin-top:var(--sp-8)">' + cx('refresh') + ' Force Sync</button>';
+  }
+  html += '</div>';
+
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+/* ============================================================
+   PHASE 4: Trash View (sub-settings, no hash route)
+   ============================================================ */
+
+function renderTrashView() {
+  var vc = document.getElementById('viewContainer');
+  var deletedCanons = store.canons.filter(function(c) { return c._deleted; });
+  var deletedChapters = [];
+  store.volumes.forEach(function(v) {
+    (v.chapters || []).forEach(function(ch) {
+      if (ch._deleted) deletedChapters.push({ volume: v, chapter: ch });
+    });
+  });
+
+  var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
+  html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
+  html += '<h2 class="cx-page-title" style="margin:0">Trash</h2></div>';
+
+  if (deletedCanons.length === 0 && deletedChapters.length === 0) {
+    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons and chapters appear here');
+    vc.innerHTML = html;
+    return;
+  }
+
+  if (deletedCanons.length > 0) {
+    html += '<div class="cx-section-title">' + cx('bookmark') + ' Canons (' + deletedCanons.length + ')</div>';
+    html += '<div class="cx-card">';
+    deletedCanons.forEach(function(c) {
+      html += '<div class="cx-trash-item">';
+      html += '<div class="cx-trash-info"><div class="cx-trash-name">' + escHtml(c.title || c.id) + '</div>';
+      html += '<div class="cx-trash-meta">Deleted ' + escHtml(formatRelativeTime(c._deleted_date)) + '</div></div>';
+      html += '<div class="cx-trash-actions">';
+      html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreCanon" data-id="' + escAttr(c.id) + '">Restore</button>';
+      html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteCanon" data-id="' + escAttr(c.id) + '">' + cx('trash') + '</button>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  if (deletedChapters.length > 0) {
+    html += '<div class="cx-section-title">' + cx('bookmark') + ' Chapters (' + deletedChapters.length + ')</div>';
+    html += '<div class="cx-card">';
+    deletedChapters.forEach(function(item) {
+      html += '<div class="cx-trash-item">';
+      html += '<div class="cx-trash-info"><div class="cx-trash-name">' + escHtml(item.chapter.name || item.chapter.id) + '</div>';
+      html += '<div class="cx-trash-meta">' + escHtml(item.volume.name) + ' \u00B7 Deleted ' + escHtml(formatRelativeTime(item.chapter._deleted_date)) + '</div></div>';
+      html += '<div class="cx-trash-actions">';
+      html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreChapter" data-id="' + escAttr(item.chapter.id) + '" data-vol="' + escAttr(item.volume.id) + '">Restore</button>';
+      html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteChapter" data-id="' + escAttr(item.chapter.id) + '" data-vol="' + escAttr(item.volume.id) + '">' + cx('trash') + '</button>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  vc.innerHTML = html;
+}
+
+/* ============================================================
+   PHASE 4: Error Log View (sub-settings, no hash route)
+   ============================================================ */
+
+function renderErrorLogView() {
+  var vc = document.getElementById('viewContainer');
+  var log = [];
+  try { log = JSON.parse(localStorage.getItem(KEYS.ERROR_LOG) || '[]'); } catch(e) {}
+
+  var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
+  html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
+  html += '<h2 class="cx-page-title" style="margin:0">Error Log</h2></div>';
+
+  if (log.length === 0) {
+    html += renderEmptyState('check', 'No errors', 'Error log is clean');
+    vc.innerHTML = html;
+    return;
+  }
+
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-12)">';
+  html += '<span class="cx-card-meta">' + log.length + ' entries</span>';
+  html += '<button class="cx-btn-danger cx-btn-sm" data-action="clearErrorLog">' + cx('trash') + ' Clear All</button>';
+  html += '</div>';
+
+  html += '<div class="cx-card">';
+  log.forEach(function(entry) {
+    html += '<div class="cx-error-entry">';
+    html += '<div><span class="cx-error-ts">' + escHtml(entry.ts ? entry.ts.substring(0, 19).replace('T', ' ') : '?') + '</span>';
+    html += '<span class="cx-error-cat">' + escHtml(entry.cat || '?') + '</span></div>';
+    html += '<div class="cx-error-msg">' + escHtml(entry.msg || '') + '</div>';
+    if (entry.detail) html += '<div class="cx-error-detail">' + escHtml(entry.detail) + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  vc.innerHTML = html;
+}
+
+/* ============================================================
+   PHASE 4: Storage Usage View (sub-settings)
+   ============================================================ */
+
+function renderStorageUsage() {
+  var vc = document.getElementById('viewContainer');
+  var keys = Object.values(KEYS);
+  var rows = [];
+  var total = 0;
+
+  keys.forEach(function(key) {
+    var val = localStorage.getItem(key);
+    if (val !== null) {
+      var size = val.length * 2; // rough byte estimate (UTF-16)
+      rows.push({ key: key, size: size });
+      total += size;
+    }
+  });
+  rows.sort(function(a, b) { return b.size - a.size; });
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    return (bytes / 1024).toFixed(1) + ' KB';
+  }
+
+  var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
+  html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
+  html += '<h2 class="cx-page-title" style="margin:0">Storage Usage</h2></div>';
+
+  html += '<div class="cx-card">';
+  rows.forEach(function(r) {
+    html += '<div class="cx-storage-row"><span>' + escHtml(r.key.replace('codex-', '')) + '</span><span>' + formatBytes(r.size) + '</span></div>';
+  });
+  html += '<div class="cx-storage-row cx-storage-total"><span>Total</span><span>' + formatBytes(total) + '</span></div>';
+  html += '</div>';
+
+  vc.innerHTML = html;
+}
+
+/* ============================================================
+   DASHBOARD (from Phase 1, Phase 4: stats bar + heatmap)
    ============================================================ */
 
 function renderDashboard() {
   var vc = document.getElementById('viewContainer');
   var snap = store.getSnapshot();
   var html = renderConnectGitHubCta();
+
+  // Phase 4: Stats bar
+  html += renderStatsBar();
+
+  // Phase 4: Heatmap
+  html += renderHeatmap();
 
   var hasAny = false;
   SHELF_ORDER.forEach(function(shelf) {
@@ -2819,6 +3251,13 @@ function renderSettings() {
   html += '<div class="cx-settings-section"><div class="cx-section-title">Data</div><div class="cx-card">';
   html += '<div class="cx-settings-row" data-action="openSnippetImport"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Import Aurelius Snippet</div><div class="cx-settings-hint">Paste JSON from build sessions</div></div></div></div>';
   html += '<div class="cx-settings-row" data-action="exportData"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Export Data</div><div class="cx-settings-hint">Download as JSON</div></div></div></div>';
+  html += '</div></div>';
+
+  // Advanced (Phase 4)
+  html += '<div class="cx-settings-section"><div class="cx-section-title">Advanced</div><div class="cx-card">';
+  html += '<div class="cx-settings-row" data-action="viewTrash"><div class="cx-settings-left">' + cx('trash') + '<div><div class="cx-settings-label">Trash</div><div class="cx-settings-hint">Restore or permanently delete items</div></div></div></div>';
+  html += '<div class="cx-settings-row" data-action="viewErrorLog"><div class="cx-settings-left">' + cx('alert') + '<div><div class="cx-settings-label">Error Log</div><div class="cx-settings-hint">View recent errors</div></div></div></div>';
+  html += '<div class="cx-settings-row" data-action="viewStorage"><div class="cx-settings-left">' + cx('info') + '<div><div class="cx-settings-label">Storage Usage</div><div class="cx-settings-hint">localStorage breakdown</div></div></div></div>';
   html += '</div></div>';
 
   // About
@@ -3697,8 +4136,73 @@ function setupDelegation() {
         initializeApp();
         break;
 
-      // Search (Phase 4 stub)
-      case 'openSearch': showToast('Search coming in Phase 4', 'info'); break;
+      // Phase 4: Search
+      case 'openSearch': openSearch(); break;
+      case 'closeSearch': closeSearch(); break;
+      case 'searchNavigate': closeSearch(); navigate(el.dataset.route); break;
+
+      // Phase 4: Heatmap
+      case 'heatmapTap':
+        var hDate = el.dataset.date;
+        var hasSessions = store.journal.some(function(d) { return d.date === hDate && (d.sessions || []).length > 0; });
+        if (hasSessions) {
+          _journalFilters.range = 'all';
+          _journalLoadMoreCount = 999;
+          navigate('#/journal');
+        } else {
+          showToast('No sessions on ' + formatAbsoluteDate(hDate), 'info');
+        }
+        break;
+
+      // Phase 4: Sub-settings
+      case 'viewTrash': renderTrashView(); break;
+      case 'viewErrorLog': renderErrorLogView(); break;
+      case 'viewStorage': renderStorageUsage(); break;
+      case 'clearErrorLog': localStorage.removeItem(KEYS.ERROR_LOG); renderErrorLogView(); showToast('Log cleared', 'success'); break;
+
+      // Phase 4: Trash actions
+      case 'restoreCanon':
+        var rc = store.canons.find(function(c) { return c.id === id; });
+        if (rc) { rc._deleted = false; rc._deleted_date = null; store._createWalEntry('update', 'canon', id, 'canons.json', { _deleted: false, _deleted_date: null }); store._fireChange(); showToast('Canon restored', 'success'); renderTrashView(); }
+        break;
+      case 'restoreChapter':
+        var rcv = store.volumes.find(function(v) { return v.id === vol; });
+        if (rcv) { var rch = (rcv.chapters || []).find(function(c) { return c.id === id; }); if (rch) { rch._deleted = false; rch._deleted_date = null; store._createWalEntry('update', 'chapter', id, 'volumes.json', { _deleted: false, _deleted_date: null }, vol); store._fireChange(); showToast('Chapter restored', 'success'); renderTrashView(); } }
+        break;
+      case 'permanentDeleteCanon':
+        showConfirmDialog('Permanently Delete', 'This cannot be undone. Are you sure?', function() {
+          store.canons = store.canons.filter(function(c) { return c.id !== id; });
+          store._createWalEntry('delete', 'canon', id, 'canons.json', { _permanent: true });
+          store._fireChange();
+          showToast('Permanently deleted', 'success');
+          closeConfirmDialog();
+          renderTrashView();
+        }, { danger: true, label: 'Delete Forever' });
+        break;
+      case 'permanentDeleteChapter':
+        showConfirmDialog('Permanently Delete', 'This cannot be undone. Are you sure?', function() {
+          var pdv = store.volumes.find(function(v) { return v.id === vol; });
+          if (pdv) {
+            pdv.chapters = (pdv.chapters || []).filter(function(c) { return c.id !== id; });
+            store._createWalEntry('delete', 'chapter', id, 'volumes.json', { _permanent: true }, vol);
+            store._fireChange();
+          }
+          showToast('Permanently deleted', 'success');
+          closeConfirmDialog();
+          renderTrashView();
+        }, { danger: true, label: 'Delete Forever' });
+        break;
+
+      // Phase 4: Sync panel
+      case 'closeSyncPanel':
+        var sp = document.getElementById('syncDetailPanel');
+        if (sp) sp.remove();
+        break;
+      case 'forceSyncFromPanel':
+        var spp = document.getElementById('syncDetailPanel');
+        if (spp) spp.remove();
+        handleSyncNow();
+        break;
 
       // Phase 3: Journal
       case 'setJournalRange': _journalFilters.range = el.dataset.value; _journalLoadMoreCount = 30; renderCurrentView(); break;
@@ -3772,15 +4276,9 @@ function setupDelegation() {
   document.getElementById('overlayBackdrop').addEventListener('click', closeOverlay);
   document.getElementById('confirmBackdrop').addEventListener('click', closeConfirmDialog);
 
-  // Sync indicator
+  // Sync indicator — Phase 4: real panel
   var syncDot = document.getElementById('syncIndicator');
-  if (syncDot) syncDot.addEventListener('click', function() {
-    var pending = store._wal.filter(function(e) { return e.status === 'pending' || e.status === 'failed'; }).length;
-    var synced = store._wal.filter(function(e) { return e.status === 'synced'; }).length;
-    var msg = _isOffline ? 'Offline' : (pending > 0 ? pending + ' pending' : 'Synced');
-    if (!localStorage.getItem(KEYS.REPO_URL)) msg = 'Local only';
-    showToast(msg + ' (' + synced + ' synced in WAL)', 'info');
-  });
+  if (syncDot) syncDot.addEventListener('click', toggleSyncDetailPanel);
 }
 
 /* --- Escape handler --- */
@@ -3788,6 +4286,11 @@ function _escapeHandler(e) {
   if (e.key !== 'Escape') return;
   if (!document.getElementById('confirmContainer').hidden) { closeConfirmDialog(); return; }
   if (!document.getElementById('overlayContainer').hidden) { closeOverlay(); return; }
+  // Phase 4: search overlay
+  if (!document.getElementById('searchOverlay').hidden) { closeSearch(); return; }
+  // Phase 4: sync panel
+  var sp = document.getElementById('syncDetailPanel');
+  if (sp) { sp.remove(); return; }
 }
 
 /* --- Global error handlers --- */

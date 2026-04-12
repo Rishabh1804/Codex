@@ -194,6 +194,62 @@ function updateHeader(route) {
   }
 }
 
+/* --- Phase 4: Search --- */
+var _searchTimer = null;
+
+function openSearch() {
+  var header = document.getElementById('appHeader');
+  header.dataset.searchOpen = 'true';
+  document.getElementById('searchOverlay').hidden = false;
+  document.getElementById('searchOverlay').innerHTML = '<div class="cx-search-results"></div>';
+  header.innerHTML = '<input type="text" id="searchInput" class="cx-search-input" placeholder="Search Codex\u2026" autocomplete="off">'
+    + '<button data-action="closeSearch" class="cx-btn-icon">' + cx('close') + '</button>';
+  var input = document.getElementById('searchInput');
+  input.focus();
+  input.addEventListener('input', function() {
+    clearTimeout(_searchTimer);
+    _searchTimer = setTimeout(function() {
+      var q = input.value.trim();
+      if (q.length < 2) { document.querySelector('.cx-search-results').innerHTML = ''; return; }
+      renderSearchResults(search(q), q);
+    }, 300);
+  });
+}
+
+function closeSearch() {
+  clearTimeout(_searchTimer);
+  var header = document.getElementById('appHeader');
+  delete header.dataset.searchOpen;
+  updateHeader(_currentViewParams);
+  document.getElementById('searchOverlay').hidden = true;
+  document.getElementById('searchOverlay').innerHTML = '';
+}
+
+function search(query) {
+  var q = query.toLowerCase().trim();
+  var results = [];
+  var w = { canon: 4, rejection: 3, session: 2, volume: 1 };
+  filterActive(store.canons).forEach(function(c) { var s = matchScore(q, [c.title, c.rationale, c.id].concat(c.references || [])); if (s > 0) results.push({ type: 'canon', entity: c, score: s * w.canon }); });
+  filterActive(store.rejections).forEach(function(r) { var s = matchScore(q, [r.rejected, r.chosen, r.reason, r.context || '']); if (s > 0) results.push({ type: 'rejection', entity: r, score: s * w.rejection }); });
+  store.journal.forEach(function(day) { (day.sessions || []).forEach(function(sess) { var sc = matchScore(q, [sess.summary, sess.handoff || ''].concat(sess.open_todos || [])); if (sc > 0) results.push({ type: 'session', entity: { id: sess.id, date: day.date, summary: sess.summary, handoff: sess.handoff }, score: sc * w.session }); }); });
+  filterActive(store.volumes).forEach(function(v) { var s = matchScore(q, [v.name, v.description || '', v.current_phase || ''].concat(v.tags || [])); if (s > 0) results.push({ type: 'volume', entity: v, score: s * w.volume }); });
+  return results.sort(function(a, b) { return b.score - a.score; });
+}
+
+function matchScore(query, fields) {
+  var score = 0;
+  fields.forEach(function(f) {
+    if (!f) return;
+    var l = f.toLowerCase();
+    if (l === query) score += 10;
+    else if (l.startsWith(query)) score += 5;
+    else if (l.indexOf(query) !== -1) score += 2;
+    var words = l.split(/[\s\-_]+/);
+    if (words.some(function(w) { return w.indexOf(query) === 0; })) score += 3;
+  });
+  return score;
+}
+
 /* --- FAB --- */
 function updateFab(view) {
   var fab = document.getElementById('fabButton');
