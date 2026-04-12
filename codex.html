@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1A1610">
+<title>Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var t = localStorage.getItem('codex-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  var s = localStorage.getItem('codex-textSize');
+  var bases = { low: '12px', med: '14px', high: '17px' };
+  if (s && bases[s]) document.documentElement.style.setProperty('--fs-base', bases[s]);
+})();
+</script>
+<noscript><p style="padding:2rem;text-align:center;font-family:sans-serif;">Codex requires JavaScript.</p></noscript>
+</head>
+<body>
+
+<div id="syncIndicator" class="cx-sync-dot"></div>
+<div id="offlineBanner" class="banner-offline" hidden>Offline — changes saved locally</div>
+
+<header id="appHeader">
+  <span class="cx-app-title">Codex</span>
+  <div class="cx-header-actions">
+    <button data-action="openSearch" class="cx-btn-icon" aria-label="Search"></button>
+    <button data-action="openSettings" class="cx-btn-icon" aria-label="Settings"></button>
+  </div>
+</header>
+
+<nav id="breadcrumbBar" hidden></nav>
+<main id="viewContainer"></main>
+<div id="toastContainer"></div>
+
+<div id="overlayBackdrop" class="cx-overlay-backdrop" hidden></div>
+<div id="overlayContainer" class="cx-overlay" hidden></div>
+<div id="confirmBackdrop" class="cx-overlay-backdrop cx-confirm-backdrop" hidden></div>
+<div id="confirmContainer" class="cx-confirm" hidden></div>
+
+<nav id="tabBar">
+  <button data-action="switchTab" data-tab="dashboard" class="cx-tab-btn cx-tab-active"></button>
+  <button data-action="switchTab" data-tab="journal" class="cx-tab-btn"></button>
+  <button data-action="switchTab" data-tab="canons" class="cx-tab-btn"></button>
+  <button data-action="switchTab" data-tab="todos" class="cx-tab-btn"></button>
+</nav>
+
+<button id="fabButton" class="cx-fab" data-action="fabAction"></button>
+<div id="searchOverlay" hidden></div>
+<style>
+/* CODEX — Stylesheet (from spec + design session decisions)
+   Fonts: Playfair Display + Work Sans (design session locked)
+   Text size: dynamic --fs-base system (design session locked)
+   Icons: cx() Style C (design session locked) */
+
+/* --- Tokens --- */
+:root {
+  --sp-2:2px;--sp-4:4px;--sp-6:6px;--sp-8:8px;--sp-10:10px;--sp-12:12px;--sp-16:16px;--sp-20:20px;--sp-24:24px;--sp-32:32px;
+  --fs-base:14px;
+  --fs-2xs:calc(var(--fs-base) - 4px);--fs-xs:calc(var(--fs-base) - 2px);--fs-sm:var(--fs-base);--fs-md:calc(var(--fs-base) + 2px);
+  --fs-lg:calc(var(--fs-base) + 4px);--fs-xl:calc(var(--fs-base) + 6px);--fs-2xl:calc(var(--fs-base) + 10px);--fs-3xl:calc(var(--fs-base) + 16px);
+  --r-sm:4px;--r-md:8px;--r-lg:12px;--r-xl:16px;--r-2xl:20px;--r-full:9999px;
+  --anim-overlay:300ms;--anim-toast:200ms;--anim-tab-switch:150ms;--anim-expand:200ms;
+  --ff-heading:'Playfair Display',Georgia,'Times New Roman',serif;
+  --ff-body:'Work Sans','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+
+/* --- Theme --- */
+[data-theme="light"] {
+  --bg-primary:#FAF6F1;--bg-secondary:#F0EBE3;--bg-card:#FFFFFF;
+  --text-primary:#2C2417;--text-secondary:#6B5E50;--text-tertiary:#9C8E7E;
+  --border:#E0D6CA;--accent:#8B7355;--accent-light:#B09A7E;--focus-ring:#5C4A35;
+  --success:#4A7C59;--warning:#C4883A;--error:#B84C4C;
+  --card-shadow:0 1px 3px rgba(44,36,23,0.08);
+}
+[data-theme="dark"] {
+  --bg-primary:#1A1610;--bg-secondary:#242018;--bg-card:#2E2820;
+  --text-primary:#E8E0D4;--text-secondary:#B0A494;--text-tertiary:#7A6E60;
+  --border:#3D362C;--accent:#C4A87A;--accent-light:#A08C6A;--focus-ring:#D4BC94;
+  --success:#6AAF7B;--warning:#E0A850;--error:#D46A6A;
+  --card-shadow:0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* --- Reset --- */
+*,*::before,*::after{box-sizing:border-box}
+html{height:auto}
+body{margin:0;font-family:var(--ff-body);font-size:var(--fs-sm);line-height:1.5;color:var(--text-primary);background:var(--bg-primary);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-heading);font-weight:700;margin:0}
+button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+input,textarea,select{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+
+/* --- Layout --- */
+#appHeader{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:calc(env(safe-area-inset-top,8px) + var(--sp-8)) var(--sp-16) var(--sp-8);background:var(--bg-primary);border-bottom:1px solid var(--border)}
+.cx-app-title{font-family:var(--ff-heading);font-size:var(--fs-lg);font-weight:700}
+.cx-header-actions{display:flex;gap:var(--sp-8)}
+
+#viewContainer{padding:var(--sp-16);padding-bottom:calc(60px + env(safe-area-inset-bottom) + var(--sp-16))}
+
+#tabBar{position:fixed;bottom:0;left:0;right:0;z-index:10;display:flex;justify-content:space-around;align-items:center;height:calc(56px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:var(--bg-card);border-top:1px solid var(--border)}
+.cx-tab-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--sp-2);flex:1;padding:var(--sp-8) 0;color:var(--text-tertiary);min-height:44px;transition:color var(--anim-tab-switch)}
+.cx-tab-btn svg{width:22px;height:22px}
+.cx-tab-label{font-size:var(--fs-2xs);font-weight:500;letter-spacing:0.3px}
+.cx-tab-active{color:var(--accent)}
+
+#breadcrumbBar{padding:var(--sp-4) var(--sp-16);font-size:var(--fs-xs);display:flex;align-items:center;gap:var(--sp-4);overflow:hidden;white-space:nowrap;z-index:15}
+.cx-breadcrumb-sep{color:var(--text-tertiary);margin:0 var(--sp-2)}
+.cx-breadcrumb-link{color:var(--accent);cursor:pointer}
+.cx-breadcrumb-current{color:var(--text-primary);font-weight:600}
+
+.cx-page-title{font-family:var(--ff-heading);font-size:var(--fs-xl);margin-bottom:var(--sp-16)}
+.cx-section-title{font-size:var(--fs-xs);font-weight:700;color:var(--text-secondary);margin:var(--sp-16) 0 var(--sp-8);text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:var(--sp-6)}
+.cx-section-title svg{width:18px;height:18px;flex-shrink:0}
+
+/* --- Buttons --- */
+.cx-btn-primary{background:var(--accent);color:white;border:none;border-radius:var(--r-md);padding:var(--sp-10) var(--sp-20);font-size:var(--fs-sm);font-weight:600;cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-6)}
+.cx-btn-primary svg{width:18px;height:18px;flex-shrink:0}
+.cx-btn-primary:active{opacity:0.85}.cx-btn-primary:disabled{opacity:0.4;cursor:default}
+.cx-btn-secondary{background:transparent;color:var(--accent);border:1px solid var(--accent);border-radius:var(--r-md);padding:var(--sp-8) var(--sp-16);font-size:var(--fs-sm);cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-6)}
+.cx-btn-secondary svg{width:18px;height:18px;flex-shrink:0}
+.cx-btn-danger{background:var(--error);color:white;border:none;border-radius:var(--r-md);padding:var(--sp-10) var(--sp-20);font-size:var(--fs-sm);cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-6)}
+.cx-btn-danger svg{width:18px;height:18px;flex-shrink:0}
+.cx-btn-icon{background:none;border:none;padding:var(--sp-8);cursor:pointer;color:var(--text-secondary);min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.cx-btn-danger-icon{color:var(--error)}
+.cx-btn-sm{padding:var(--sp-6) var(--sp-12);font-size:var(--fs-xs);min-height:36px}
+.cx-link-btn{background:none;border:none;color:var(--accent);cursor:pointer;font-size:var(--fs-sm);padding:var(--sp-4);text-decoration:underline;min-height:36px;display:inline-flex;align-items:center}
+.cx-full-width{width:100%}
+.cx-center{display:flex;justify-content:center;margin:var(--sp-16) 0}
+
+/* --- Forms --- */
+.cx-form-group{margin-bottom:var(--sp-16)}
+.cx-form-label{display:block;font-size:var(--fs-xs);font-weight:600;color:var(--text-secondary);margin-bottom:var(--sp-4)}
+.cx-form-input,.cx-form-textarea,.cx-form-select{width:100%;box-sizing:border-box;padding:var(--sp-10) var(--sp-12);border:1px solid var(--border);border-radius:var(--r-md);font-size:var(--fs-sm);color:var(--text-primary);background:var(--bg-card);min-height:44px}
+.cx-form-input:focus,.cx-form-textarea:focus,.cx-form-select:focus{outline:2px solid var(--focus-ring);outline-offset:2px;border-color:var(--accent)}
+.cx-form-input::placeholder,.cx-form-textarea::placeholder{color:var(--text-tertiary)}
+.cx-form-input-error{border-color:var(--error)}
+.cx-form-error{color:var(--error);font-size:var(--fs-xs);margin-top:var(--sp-4)}
+.cx-form-readonly{background:var(--bg-secondary);color:var(--text-tertiary)}
+.cx-form-textarea{resize:vertical;min-height:80px;line-height:1.5}
+.cx-form-select{appearance:none;cursor:pointer}
+.cx-form-color{width:48px;height:44px;border:1px solid var(--border);border-radius:var(--r-md);padding:2px;cursor:pointer}
+.cx-form-section-title{font-size:var(--fs-xs);font-weight:700;color:var(--text-secondary);margin:var(--sp-16) 0 var(--sp-8)}
+.cx-checkbox-group{display:flex;flex-wrap:wrap;gap:var(--sp-8)}
+.cx-checkbox-item{display:flex;align-items:center;gap:var(--sp-4);font-size:var(--fs-sm)}
+
+/* --- Cards --- */
+.cx-card{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-12) var(--sp-16);margin-bottom:var(--sp-8);box-shadow:var(--card-shadow)}
+.cx-card-header{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-8)}
+.cx-card-body{margin-top:var(--sp-8)}
+.cx-card-footer{display:flex;flex-wrap:wrap;gap:var(--sp-8);align-items:center;margin-top:var(--sp-8)}
+.cx-card-meta{font-size:var(--fs-xs);color:var(--text-tertiary);display:flex;align-items:center;gap:var(--sp-6)}
+.cx-card-meta svg{width:16px;height:16px;flex-shrink:0}
+.cx-card-actions{display:flex;gap:var(--sp-4);justify-content:flex-end;margin-top:var(--sp-8)}
+.cx-card-title{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;display:flex;align-items:center;gap:var(--sp-8)}
+.cx-card-title svg{width:22px;height:22px;color:var(--accent);flex-shrink:0}
+.cx-card-clickable{cursor:pointer;transition:border-color var(--anim-tab-switch)}
+.cx-card-clickable:active{border:1px solid var(--accent)}
+
+/* Volume card accent bar */
+.cx-vol-accent{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch}
+.cx-vol-card{display:flex;gap:var(--sp-12)}
+.cx-vol-card-content{flex:1;min-width:0}
+
+/* --- Chips & Badges --- */
+.cx-chip{display:inline-flex;align-items:center;padding:var(--sp-6) var(--sp-12);border-radius:var(--r-full);font-size:var(--fs-xs);border:1px solid var(--border);background:transparent;color:var(--text-secondary);cursor:pointer;min-height:32px;gap:var(--sp-4)}
+.cx-chip svg{width:14px;height:14px}
+.cx-chip-active{background:var(--accent);color:white;border-color:var(--accent)}
+.cx-chip-sm{padding:var(--sp-4) var(--sp-8);font-size:var(--fs-2xs);min-height:28px}
+.cx-chip-row{display:flex;flex-wrap:wrap;gap:var(--sp-6);margin-top:var(--sp-8)}
+
+.cx-shelf-badge{font-size:var(--fs-2xs);padding:var(--sp-2) var(--sp-8);border-radius:var(--r-sm);font-weight:600;text-transform:uppercase}
+.cx-shelf-active{background:var(--success);color:white}
+.cx-shelf-paused{background:var(--warning);color:white}
+.cx-shelf-archived{background:var(--text-tertiary);color:white}
+.cx-shelf-abandoned{background:var(--error);color:white}
+
+.cx-status-planned{color:var(--text-tertiary)}
+.cx-status-in-progress{color:var(--accent)}
+.cx-status-paused{color:var(--warning)}
+.cx-status-complete{color:var(--success)}
+.cx-status-abandoned{color:var(--error)}
+
+/* --- Overlay --- */
+.cx-overlay-backdrop{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity var(--anim-overlay)}
+.cx-overlay-backdrop[data-visible="true"]{opacity:1;pointer-events:auto}
+.cx-overlay{position:fixed;left:0;right:0;bottom:0;z-index:100;max-height:90vh;max-height:90dvh;background:var(--bg-card);border-radius:var(--r-xl) var(--r-xl) 0 0;box-shadow:0 -4px 24px rgba(0,0,0,0.3);transform:translateY(100%);transition:transform var(--anim-overlay) ease-out;overflow-y:auto;overscroll-behavior:contain}
+.cx-overlay[data-visible="true"]{transform:translateY(0)}
+.cx-overlay-header{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-16) var(--sp-16) var(--sp-12);border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg-card);z-index:1}
+.cx-overlay-title{font-family:var(--ff-heading);font-size:var(--fs-lg);font-weight:700}
+.cx-overlay-body{padding:var(--sp-16)}
+.cx-overlay-footer{padding:var(--sp-12) var(--sp-16);padding-bottom:calc(var(--sp-12) + env(safe-area-inset-bottom,0px));border-top:1px solid var(--border);display:flex;gap:var(--sp-8)}
+
+/* --- Confirm --- */
+.cx-confirm-backdrop{z-index:190}
+.cx-confirm{position:fixed;left:var(--sp-20);right:var(--sp-20);top:50%;z-index:200;transform:translateY(-50%) scale(0.95);background:var(--bg-card);border-radius:var(--r-lg);box-shadow:0 4px 24px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:opacity var(--anim-overlay),transform var(--anim-overlay)}
+.cx-confirm[data-visible="true"]{opacity:1;pointer-events:auto;transform:translateY(-50%) scale(1)}
+.cx-confirm-title{font-family:var(--ff-heading);font-size:var(--fs-lg);font-weight:700;padding:var(--sp-20) var(--sp-20) var(--sp-8)}
+.cx-confirm-body{padding:0 var(--sp-20) var(--sp-16);font-size:var(--fs-sm);color:var(--text-secondary);line-height:1.5}
+.cx-confirm-actions{padding:var(--sp-12) var(--sp-20) var(--sp-20);display:flex;gap:var(--sp-8);justify-content:flex-end}
+
+/* --- Toast --- */
+#toastContainer{position:fixed;left:var(--sp-16);right:var(--sp-16);bottom:calc(60px + env(safe-area-inset-bottom) + var(--sp-8));z-index:1000;display:flex;flex-direction:column;gap:var(--sp-4);pointer-events:none}
+.cx-toast{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-10) var(--sp-16);box-shadow:var(--card-shadow);display:flex;align-items:center;gap:var(--sp-8);font-size:var(--fs-sm);pointer-events:auto;animation:toastIn var(--anim-toast) ease-out}
+.cx-toast svg{width:18px;height:18px;flex-shrink:0}
+.cx-toast-success svg{color:var(--success)}
+.cx-toast-error svg{color:var(--error)}
+.cx-toast-info svg{color:var(--accent)}
+.cx-toast-warning svg{color:var(--warning)}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* --- FAB --- */
+.cx-fab{position:fixed;bottom:calc(60px + env(safe-area-inset-bottom) + var(--sp-16));right:var(--sp-16);width:56px;height:56px;border-radius:50%;background:var(--accent);color:white;border:none;box-shadow:0 4px 12px rgba(0,0,0,0.2);cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center}
+.cx-fab:active{transform:scale(0.95)}
+.cx-fab svg{width:24px;height:24px}
+.cx-fab-hidden{display:none}
+
+/* --- Shelf Section --- */
+.cx-shelf-group{margin-bottom:var(--sp-20)}
+.cx-shelf-group-label{font-size:var(--fs-2xs);font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:var(--sp-8);padding-left:var(--sp-4)}
+
+/* --- Chapter / TODO items --- */
+.cx-chapter-item{display:flex;align-items:flex-start;gap:var(--sp-10);padding:var(--sp-10) 0;border-bottom:1px solid var(--border);cursor:pointer}
+.cx-chapter-item:last-child{border-bottom:none}
+.cx-chapter-item svg{width:18px;height:18px;flex-shrink:0;margin-top:var(--sp-2)}
+.cx-chapter-name{font-size:var(--fs-sm);font-weight:500}
+.cx-chapter-summary{font-size:var(--fs-xs);color:var(--text-secondary);margin-top:var(--sp-2)}
+.cx-chapter-meta{font-size:var(--fs-2xs);color:var(--text-tertiary);margin-top:var(--sp-2)}
+
+.cx-todo-item{display:flex;align-items:flex-start;gap:var(--sp-8);padding:var(--sp-8) 0;border-bottom:1px solid var(--border)}
+.cx-todo-item:last-child{border-bottom:none}
+.cx-todo-check{width:22px;height:22px;border:2px solid var(--border);border-radius:50%;background:none;cursor:pointer;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;min-height:22px;min-width:22px}
+.cx-todo-checked{background:var(--success);border-color:var(--success);color:white}
+.cx-todo-checked svg{width:14px;height:14px}
+.cx-todo-content{flex:1;min-width:0}
+.cx-todo-text{font-size:var(--fs-sm)}
+.cx-todo-text-done{font-size:var(--fs-sm);text-decoration:line-through;color:var(--text-tertiary)}
+.cx-todo-meta{font-size:var(--fs-2xs);color:var(--text-tertiary);margin-top:var(--sp-2)}
+.cx-todo-resolved{opacity:0.6}
+.cx-todo-volume-group{padding:var(--sp-12);margin-bottom:var(--sp-12)}
+.cx-todo-volume-title{font-size:var(--fs-sm);font-weight:600;margin-bottom:var(--sp-8);display:flex;align-items:center;gap:var(--sp-6)}
+.cx-todo-volume-title svg{width:20px;height:20px;flex-shrink:0}
+.cx-todo-chapter-label{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;margin:var(--sp-8) 0 var(--sp-4)}
+
+/* --- Tags --- */
+.cx-tag-container{border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-6)}
+.cx-tag-chips{display:flex;flex-wrap:wrap;gap:var(--sp-4);margin-bottom:var(--sp-4)}
+.cx-tag-chip{display:inline-flex;align-items:center;gap:var(--sp-4);background:var(--bg-secondary);padding:var(--sp-2) var(--sp-8);border-radius:var(--r-full);font-size:var(--fs-xs)}
+.cx-tag-remove{background:none;border:none;cursor:pointer;color:var(--text-tertiary);font-size:var(--fs-sm);padding:0 var(--sp-2)}
+.cx-tag-inline{display:flex;flex-wrap:wrap;gap:var(--sp-4);margin-top:var(--sp-6)}
+
+/* --- Shelf Timeline --- */
+.cx-shelf-timeline{padding-left:var(--sp-12)}
+.cx-timeline-entry{display:flex;align-items:center;gap:var(--sp-8);padding:var(--sp-6) 0}
+.cx-timeline-dot{width:10px;height:10px;border-radius:var(--r-full);background:var(--accent);flex-shrink:0}
+.cx-timeline-text{font-size:var(--fs-xs);color:var(--text-secondary)}
+.cx-timeline-date{font-size:var(--fs-2xs);color:var(--text-tertiary)}
+
+/* --- Empty / Error --- */
+.cx-empty-state{text-align:center;padding:var(--sp-32) var(--sp-16)}
+.cx-empty-state svg{width:48px;height:48px;color:var(--text-tertiary);opacity:0.4;margin-bottom:var(--sp-12)}
+.cx-empty-title{font-family:var(--ff-heading);font-size:var(--fs-md);margin:var(--sp-8) 0;color:var(--text-secondary)}
+.cx-empty-subtitle{font-size:var(--fs-sm);color:var(--text-tertiary);margin-bottom:var(--sp-16)}
+.cx-error-state{text-align:center;padding:var(--sp-32) var(--sp-16)}
+.cx-blocker{text-align:center;padding:var(--sp-32)}
+
+/* --- Settings rows --- */
+.cx-settings-section{margin-bottom:var(--sp-24)}
+.cx-settings-row{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-12) 0;border-bottom:1px solid var(--border);cursor:pointer;min-height:44px}
+.cx-settings-row:last-child{border-bottom:none}
+.cx-settings-left{display:flex;align-items:center;gap:var(--sp-10)}
+.cx-settings-left svg{width:20px;height:20px;color:var(--accent);flex-shrink:0}
+.cx-settings-label{font-size:var(--fs-sm)}
+.cx-settings-hint{font-size:var(--fs-xs);color:var(--text-tertiary);margin-top:var(--sp-2)}
+.cx-settings-right{color:var(--text-tertiary);font-size:var(--fs-xs)}
+
+/* --- Text Size Slider --- */
+.cx-slider-wrap{position:relative;padding:var(--sp-8) 0}
+.cx-slider-track{width:100%;height:6px;background:var(--border);border-radius:3px;position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none}
+.cx-slider-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 0.15s ease-out;pointer-events:none}
+.cx-slider-thumb{width:28px;height:28px;background:var(--accent);border-radius:var(--r-full);position:absolute;top:50%;transform:translate(-50%,-50%);cursor:grab;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:left 0.15s ease-out;-webkit-tap-highlight-color:transparent;outline:none;touch-action:none}
+.cx-slider-thumb:active{cursor:grabbing;transform:translate(-50%,-50%) scale(1.1)}
+.cx-slider-labels{display:flex;justify-content:space-between;margin-top:var(--sp-10)}
+.cx-slider-label{font-size:var(--fs-2xs);font-weight:600;letter-spacing:1.5px;color:var(--text-tertiary);padding:var(--sp-4) var(--sp-8);border-radius:var(--r-sm);cursor:pointer;transition:color var(--anim-tab-switch),background var(--anim-tab-switch);-webkit-tap-highlight-color:transparent}
+.cx-slider-label-active{color:var(--accent);background:rgba(196,168,122,0.1)}
+.cx-preview-pill{background:rgba(196,168,122,0.08);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-12) var(--sp-16);text-align:center;margin-top:var(--sp-12)}
+
+/* --- Connect CTA --- */
+.cx-connect-cta{display:flex;align-items:center;gap:var(--sp-8);padding:var(--sp-10) var(--sp-16);background:var(--warning);color:white;border-radius:var(--r-md);margin-bottom:var(--sp-12);font-size:var(--fs-sm)}
+.cx-connect-cta svg{width:18px;height:18px;flex-shrink:0}
+
+/* --- Misc --- */
+.cx-action-bar{display:flex;gap:var(--sp-8);flex-wrap:wrap;margin:var(--sp-12) 0}
+.cx-divider{height:1px;background:var(--border);margin:var(--sp-16) 0}
+.cx-hidden{display:none!important}
+.banner-offline{padding:var(--sp-6) var(--sp-16);background:var(--warning);color:white;font-size:var(--fs-xs);text-align:center}
+.cx-sync-dot{position:fixed;top:calc(env(safe-area-inset-top,8px) + var(--sp-12));right:var(--sp-12);width:8px;height:8px;border-radius:50%;z-index:11}
+
+/* --- Search --- */
+.cx-search-input{width:100%;padding:var(--sp-8) var(--sp-12);border:none;background:transparent;font-size:var(--fs-sm);color:var(--text-primary);outline:none}
+#searchOverlay{position:fixed;top:0;left:0;right:0;bottom:56px;z-index:8;background:var(--bg-primary);overflow-y:auto;padding:calc(env(safe-area-inset-top) + 56px) var(--sp-16) var(--sp-16)}
+
+/* --- Focus / A11y --- */
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+
+/* --- Print --- */
+@media print{#tabBar,#appHeader,#syncIndicator,.cx-fab,.cx-action-bar,.cx-btn-icon{display:none}#viewContainer{padding:0;overflow:visible}}
+
+/* --- Reduced Motion --- */
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+
+/* --- Responsive --- */
+@media(min-width:600px){#viewContainer{max-width:640px;margin:0 auto}.cx-overlay{max-width:640px;margin:0 auto}}
+</style>
+<script>
+/* CODEX — Data Layer (from spec CODEBASE_REFERENCE) */
+
+var CODEX_VERSION = '0.1.0';
+var CODEX_SCHEMA_VERSION = 1;
+var OVERLAY_ANIM_MS = 300;
+var TEXT_SIZES = { low: '12px', med: '14px', high: '17px' };
+var TEXT_SIZE_POS = { low: 0, med: 50, high: 100 };
+var SHELF_ORDER = ['active', 'paused', 'archived', 'abandoned'];
+var SHELF_LABELS = { active: 'Active', paused: 'Paused', archived: 'Archived', abandoned: 'Abandoned' };
+var CHAPTER_STATUSES = ['planned', 'in-progress', 'paused', 'complete', 'abandoned'];
+var CANON_CATEGORIES = ['design', 'architecture', 'process'];
+var TODO_STATUSES = ['open', 'resolved'];
+
+var KEYS = {
+  THEME: 'codex-theme', TEXT_SIZE: 'codex-textSize', TOKEN: 'codex-token',
+  REPO_URL: 'codex-repo-url', DISPLAY_NAME: 'codex-display-name',
+  DEFAULT_SHELF: 'codex-default-shelf', DEFAULT_BRANCH: 'codex-default-branch',
+  CACHE_VOLUMES: 'codex-cache-volumes', CACHE_CANONS: 'codex-cache-canons',
+  CACHE_JOURNAL: 'codex-cache-journal', SHA_VOLUMES: 'codex-sha-volumes',
+  SHA_CANONS: 'codex-sha-canons', SHA_JOURNAL: 'codex-sha-journal',
+  WAL: 'codex-wal', ERROR_LOG: 'codex-errorlog',
+  VISIT_COUNT: 'codex-visits', WIZARD_DONE: 'codex-wizard-done'
+};
+
+/* --- Utilities (exact from spec) --- */
+function escHtml(str) {
+  if (str == null) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escAttr(str) { return escHtml(str); }
+
+function localDateStr(date) {
+  var d = date || new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function parseDateSafe(str) {
+  if (!str) return null;
+  var parts = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!parts) return null;
+  return new Date(Number(parts[1]), Number(parts[2]) - 1, Number(parts[3]));
+}
+
+function formatRelativeTime(dateStr) {
+  var now = new Date();
+  var then = parseDateSafe(dateStr);
+  if (!then) return dateStr || '';
+  var diffMs = now - then;
+  var diffDays = Math.floor(diffMs / 86400000);
+  if (diffDays === 0) return 'Today';
+  if (diffDays === 1) return 'Yesterday';
+  if (diffDays < 30) return diffDays + ' days ago';
+  return formatAbsoluteDate(dateStr);
+}
+
+function formatAbsoluteDate(dateStr) {
+  if (!dateStr) return '';
+  var parts = dateStr.split('-').map(Number);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[parts[1]-1] + ' ' + parts[2] + ', ' + parts[0];
+}
+
+function daysAgo(n) {
+  var d = new Date(); d.setDate(d.getDate() - n);
+  return localDateStr(d);
+}
+
+function autoSlug(str) {
+  if (!str) return '';
+  return str.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '').substring(0, 30).replace(/-$/g, '');
+}
+
+function deepClone(obj) {
+  if (obj === null || typeof obj !== 'object') return obj;
+  try { if (typeof structuredClone === 'function') return structuredClone(obj); } catch(e) {}
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function filterActive(arr) {
+  if (!arr) return [];
+  return arr.filter(function(item) { return !item._deleted; });
+}
+
+function generateId(prefix, existingIds) {
+  var max = 0;
+  var re = new RegExp('^' + prefix + '-(\\d{4})');
+  for (var i = 0; i < existingIds.length; i++) {
+    var m = existingIds[i].match(re);
+    if (m) max = Math.max(max, parseInt(m[1], 10));
+  }
+  return prefix + '-' + String(max + 1).padStart(4, '0');
+}
+
+function escapeRegex(str) { return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+function highlightMatch(text, query) {
+  if (!text || !query) return escHtml(text || '');
+  var escaped = escHtml(text);
+  var escapedQuery = escHtml(query);
+  var regex = new RegExp('(' + escapeRegex(escapedQuery) + ')', 'gi');
+  return escaped.replace(regex, '<mark class="cx-highlight">$1</mark>');
+}
+
+function buildSnippet(text, query, contextChars) {
+  contextChars = contextChars || 40;
+  if (!text) return '';
+  var lowerText = text.toLowerCase();
+  var lowerQuery = query.toLowerCase();
+  var idx = lowerText.indexOf(lowerQuery);
+  if (idx === -1) return escHtml(text.substring(0, 80)) + '…';
+  var start = Math.max(0, idx - contextChars);
+  var end = Math.min(text.length, idx + query.length + contextChars);
+  var snippet = '';
+  if (start > 0) snippet += '…';
+  snippet += text.substring(start, end);
+  if (end < text.length) snippet += '…';
+  return highlightMatch(snippet, query);
+}
+
+function copyToClipboard(text, successMessage) {
+  try {
+    navigator.clipboard.writeText(text).then(function() {
+      showToast(successMessage, 'success');
+    }).catch(function() { _fallbackCopy(text, successMessage); });
+  } catch(e) { _fallbackCopy(text, successMessage); }
+}
+function _fallbackCopy(text, msg) {
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); showToast(msg, 'success'); }
+  catch(e) { showToast('Copy failed', 'error'); }
+  document.body.removeChild(ta);
+}
+
+/* --- Error Logging --- */
+function logError(category, message, detail) {
+  try {
+    var log = JSON.parse(localStorage.getItem(KEYS.ERROR_LOG) || '[]');
+    log.unshift({ ts: new Date().toISOString(), cat: category, msg: message, detail: detail || null });
+    if (log.length > 50) log = log.slice(0, 50);
+    localStorage.setItem(KEYS.ERROR_LOG, JSON.stringify(log));
+  } catch(e) { console.error('logError failed:', e); }
+}
+
+function safeParseLocalStorage(key) {
+  try { var raw = localStorage.getItem(key); if (!raw) return null; return JSON.parse(raw); }
+  catch(e) { localStorage.removeItem(key); return null; }
+}
+
+/* --- Store --- */
+var store = {
+  volumes: [],
+  canons: [],
+  rejections: [],
+  journal: [],
+  _wal: [],
+  _listeners: [],
+  _walListeners: [],
+  _overlayCount: 0,
+
+  onChange: function(fn) { store._listeners.push(fn); },
+  onWalChange: function(fn) { store._walListeners.push(fn); },
+
+  _fireChange: function() {
+    if (_initializing || _isRendering) return;
+    store._cacheToLocalStorage();
+    for (var i = 0; i < store._listeners.length; i++) {
+      try { store._listeners[i](); } catch(e) { logError('onChange', e.message); }
+    }
+  },
+
+  _cacheToLocalStorage: function() {
+    try {
+      localStorage.setItem(KEYS.CACHE_VOLUMES, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }));
+      localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, rejected_alternatives: store.rejections }));
+      localStorage.setItem(KEYS.CACHE_JOURNAL, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }));
+    } catch(e) { logError('cache', 'Cache write failed', e.message); }
+  },
+
+  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, rejections: store.rejections, journal: store.journal }); },
+
+  /* --- Volume --- */
+  addVolume: function(vol) {
+    if (!vol.id || !vol.name) throw new Error('Volume requires id and name');
+    if (store.volumes.some(function(v) { return v.id === vol.id; })) throw new Error('Duplicate volume ID: ' + vol.id);
+    var entry = { id: vol.id, name: vol.name, shelf: vol.shelf || 'active', description: vol.description || '',
+      domain_color: vol.domain_color || '#8B7355', tags: vol.tags || [], repo: vol.repo || null,
+      current_phase: vol.current_phase || '', chapters: [], todos: [],
+      shelf_history: [{ shelf: vol.shelf || 'active', date: localDateStr(), reason: 'Created' }] };
+    store.volumes.push(entry);
+    store._fireChange();
+    return entry;
+  },
+  updateVolume: function(id, patch) {
+    var vol = store.volumes.find(function(v) { return v.id === id; });
+    if (!vol) throw new Error('Volume not found: ' + id);
+    ['name','description','domain_color','tags','repo','current_phase'].forEach(function(k) { if (patch.hasOwnProperty(k)) vol[k] = patch[k]; });
+    store._fireChange();
+  },
+  deleteVolume: function(id) {
+    var vol = store.volumes.find(function(v) { return v.id === id; });
+    if (!vol) throw new Error('Volume not found');
+    var active = filterActive(vol.chapters || []);
+    if (active.length > 0 || (vol.todos || []).length > 0) throw new Error('Remove chapters and TODOs first');
+    store.volumes = store.volumes.filter(function(v) { return v.id !== id; });
+    store._fireChange();
+  },
+  transitionShelf: function(volumeId, newShelf, reason) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    if (!vol) throw new Error('Volume not found');
+    if (SHELF_ORDER.indexOf(newShelf) === -1) throw new Error('Invalid shelf');
+    if (newShelf === 'abandoned' && !reason) throw new Error('Abandoned requires a reason');
+    vol.shelf = newShelf;
+    if (!vol.shelf_history) vol.shelf_history = [];
+    vol.shelf_history.push({ shelf: newShelf, date: localDateStr(), reason: reason || null });
+    store._fireChange();
+  },
+
+  /* --- Chapter --- */
+  addChapter: function(volumeId, ch) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    if (!vol) throw new Error('Volume not found');
+    if (!ch.id || !ch.name) throw new Error('Chapter requires id and name');
+    if ((vol.chapters || []).some(function(c) { return c.id === ch.id; })) throw new Error('Duplicate chapter');
+    var entry = { id: ch.id, name: ch.name, status: ch.status || 'planned', started: ch.started || null,
+      completed: null, ended: null, summary: ch.summary || '', spec_url: ch.spec_url || null, _deleted: false, _deleted_date: null };
+    if (entry.status === 'in-progress' && !entry.started) entry.started = localDateStr();
+    if (entry.status === 'complete') entry.completed = localDateStr();
+    if (!vol.chapters) vol.chapters = [];
+    vol.chapters.push(entry);
+    store._fireChange();
+    return entry;
+  },
+  updateChapter: function(volumeId, chapterId, patch) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    if (!vol) throw new Error('Volume not found');
+    var ch = (vol.chapters || []).find(function(c) { return c.id === chapterId; });
+    if (!ch) throw new Error('Chapter not found');
+    ['name','status','started','summary','spec_url'].forEach(function(k) { if (patch.hasOwnProperty(k)) ch[k] = patch[k]; });
+    if (patch.status === 'complete' && !ch.completed) ch.completed = localDateStr();
+    if (patch.status === 'abandoned' && !ch.ended) ch.ended = localDateStr();
+    if (patch.status === 'in-progress' && !ch.started) ch.started = localDateStr();
+    if (patch.status && patch.status !== 'complete') ch.completed = null;
+    if (patch.status && patch.status !== 'abandoned') ch.ended = null;
+    store._fireChange();
+  },
+  deleteChapter: function(volumeId, chapterId) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    if (!vol) throw new Error('Volume not found');
+    var ch = (vol.chapters || []).find(function(c) { return c.id === chapterId; });
+    if (!ch) throw new Error('Chapter not found');
+    ch._deleted = true; ch._deleted_date = localDateStr();
+    store._fireChange();
+  },
+
+  /* --- TODO --- */
+  addTodo: function(volumeId, todo) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    if (!vol) throw new Error('Volume not found');
+    if (!todo.id || !todo.text) throw new Error('TODO requires id and text');
+    var entry = { id: todo.id, text: todo.text, status: todo.status || 'open', chapter: todo.chapter || null,
+      created: todo.created || localDateStr(), resolved: null, source_session: todo.source_session || null };
+    if (!vol.todos) vol.todos = [];
+    vol.todos.push(entry);
+    store._fireChange();
+    return entry;
+  },
+  updateTodo: function(volumeId, todoId, patch) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    if (!vol) throw new Error('Volume not found');
+    var todo = (vol.todos || []).find(function(t) { return t.id === todoId; });
+    if (!todo) throw new Error('TODO not found');
+    if (patch.hasOwnProperty('text')) todo.text = patch.text;
+    if (patch.hasOwnProperty('chapter')) todo.chapter = patch.chapter;
+    if (patch.hasOwnProperty('status')) {
+      todo.status = patch.status;
+      if (patch.status === 'resolved' && !todo.resolved) todo.resolved = localDateStr();
+      if (patch.status === 'open') todo.resolved = null;
+    }
+    store._fireChange();
+  },
+  deleteTodo: function(volumeId, todoId) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    if (!vol) throw new Error('Volume not found');
+    vol.todos = (vol.todos || []).filter(function(t) { return t.id !== todoId; });
+    store._fireChange();
+  },
+
+  /* --- Canon (stub for Phase 3) --- */
+  addCanon: function(c) { if (!c.id || !c.title) throw new Error('Canon requires id and title'); store.canons.push(c); store._fireChange(); },
+
+  /* --- Helpers --- */
+  getScopeOptions: function() {
+    var opts = ['global'];
+    store.volumes.forEach(function(v) { opts.push(v.id); });
+    return opts;
+  }
+};
+
+function populateStore(volResult, canonResult, journalResult) {
+  if (volResult && volResult.data) {
+    store.volumes = volResult.data.volumes || [];
+    if (volResult.sha) localStorage.setItem(KEYS.SHA_VOLUMES, volResult.sha);
+  }
+  if (canonResult && canonResult.data) {
+    store.canons = canonResult.data.canons || [];
+    store.rejections = canonResult.data.rejected_alternatives || [];
+    if (canonResult.sha) localStorage.setItem(KEYS.SHA_CANONS, canonResult.sha);
+  }
+  if (journalResult && journalResult.data) {
+    store.journal = journalResult.data.journal || [];
+    if (journalResult.sha) localStorage.setItem(KEYS.SHA_JOURNAL, journalResult.sha);
+  }
+}
+
+/* CODEX — Seed Data (initial backfill) */
+
+function getSeedVolumes() {
+  return {"_schema_version":1,"volumes":[{"id":"sproutlab","name":"SproutLab","shelf":"active","description":"Single-file PWA tracking feeding, sleep, growth, milestones, and medical data for Ziva. Wife Mode default. Hosted at rishabh1804.github.io/sproutlab/.","domain_color":"#E8B4B8","tags":["pwa","health","parenting"],"repo":"rishabh1804/sproutlab","current_phase":"CareTickets Phase D complete \u2014 notifications, integration, polish done","chapters":[{"id":"v1-v2-builds","name":"v1\u2013v2 Iterative Builds","status":"complete","started":"2024-10-01","completed":"2026-03-15","ended":null,"summary":"Single-file HTML PWA built iteratively from v1.x through v2.38+. Core tracking: feeding, sleep, poop, growth, milestones, medical. Wife Mode, localStorage persistence, GitHub Pages hosting.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"architecture-split","name":"Architecture Split","status":"complete","started":"2026-04-07","completed":"2026-04-09","ended":null,"summary":"Split monolith into 9 modules (data, core, home, diet, medical, intelligence, start + styles.css, template.html). Concat build via build.sh. Phases 1\u20133 complete.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"diet","name":"Diet Module","status":"complete","started":"2026-03-01","completed":"2026-04-01","ended":null,"summary":"Food logging, Smart Quick Log, Food Favorites, nutrient intelligence, ingredient picker.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"medical","name":"Medical Module","status":"complete","started":"2026-03-01","completed":"2026-04-01","ended":null,"summary":"Vaccination intelligence with reaction tracking and timeline visualization. Growth tracking, medical records.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"intelligence","name":"Intelligence Module","status":"complete","started":"2026-03-15","completed":"2026-04-05","ended":null,"summary":"Cross-Domain Intelligence (6 cards), Smart Q&A Phase 2 (22 intents, 24 handlers).","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"smart-qa","name":"Smart Q&A","status":"complete","started":"2026-03-20","completed":"2026-04-05","ended":null,"summary":"Phase 2: 22 intents, 24 dedicated handlers, natural language query processing for baby data.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"search-bar","name":"Search Bar Upgrade","status":"complete","started":"2026-04-01","completed":"2026-04-05","ended":null,"summary":"ISL generateRangeSummary(), lookback/pattern/planning query modes, nutrient intelligence cards, ingredient picker.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"today-so-far","name":"Today So Far","status":"complete","started":"2026-04-05","completed":"2026-04-06","ended":null,"summary":"Smart card with vertical chronological list, warmth gradient bar, pattern-based nudges, 12 functions with _tsf* prefix.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"caretickets","name":"CareTickets","status":"complete","started":"2026-04-06","completed":"2026-04-10","ended":null,"summary":"21-field data model, 7 templates, 6-transition state machine, main-thread notifications, illness-aware metric pausing, TSF integration, share summary. Spec v5 (~1,089 lines). 15 QA rounds, 310 scenarios.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"bug-capture","name":"Bug Capture System","status":"complete","started":"2026-04-08","completed":"2026-04-09","ended":null,"summary":"Three capture paths, WhatsApp/clipboard delivery.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"cross-domain","name":"Cross-Domain Intelligence","status":"complete","started":"2026-04-04","completed":"2026-04-05","ended":null,"summary":"6 intelligence cards spanning feeding, sleep, growth, and medical domains.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"migration-m1-m2-m3","name":"Migration M1\u2013M3","status":"complete","started":"2026-04-03","completed":"2026-04-07","ended":null,"summary":"M3: emoji\u2192SVG, inline style extraction, onclick\u2192delegation. Full codebase modernization.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"design-principles-v3","name":"Design Principles v3","status":"complete","started":"2026-04-01","completed":"2026-04-05","ended":null,"summary":"2,011 lines locked. Overlay/Chip/Card/Answer Card/Form systems plus Animation Tokens, Touch Targets, data-action naming.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[{"id":"todo-0001-fix-id-mismatch","text":"Fix ctStorageWarning div ID mismatch \u2014 template.html uses ctStorageWarning but JS references ctStorageWarn","status":"open","chapter":"caretickets","created":"2026-04-10","resolved":null,"source_session":"s-2026-04-10-01"}],"shelf_history":[{"shelf":"active","date":"2024-10-01","reason":"Project started \u2014 Ziva's Dashboard v1"}]},{"id":"sep-dashboard","name":"SEP Dashboard","shelf":"active","description":"Single-file PWA for SEP workforce management \u2014 attendance, production, stock, payroll. 7-principle design system, 21-worker roster, full wage calculation engine.","domain_color":"#7A9E7E","tags":["pwa","manufacturing","workforce"],"repo":null,"current_phase":"v2.0 stable, restructuring data reconciliation in progress","chapters":[{"id":"v1-v2-builds","name":"v1\u2013v2 Builds","status":"complete","started":"2024-01-01","completed":"2026-03-01","ended":null,"summary":"Iterative build from v1.x through v2.0. Attendance, production logging, stock tracking, payroll with wage calculation engine.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"restructuring","name":"SEP Restructuring","status":"in-progress","started":"2026-04-01","completed":null,"ended":null,"summary":"Effective 1 Apr 2026. DIGITAL-001 v5, KB-006 AppSheet spec, KPI-001\u2013007 binders done. Salary confirmations complete. Data reconciliation in progress.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[],"shelf_history":[{"shelf":"active","date":"2024-01-01","reason":null}]},{"id":"sep-invoicing","name":"SEP Invoicing","shelf":"active","description":"Standalone PWA for SEP invoicing \u2014 21 clients, full rate cards, three billing modes, GST export.","domain_color":"#6B8EAD","tags":["pwa","invoicing","gst"],"repo":null,"current_phase":"Phase 1 complete (Client Master, Create Invoice, Settings). Phase 2: Invoice Register + GST Export.","chapters":[{"id":"spec","name":"Spec & Design","status":"complete","started":"2026-04-01","completed":"2026-04-03","ended":null,"summary":"SEP_INVOICING_SPEC_v1.md \u2014 21 clients, rate cards, weight/piece-challan/NOS-to-weight billing, Sales Register + GSTR1 CSV, five tabs.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"phase-1","name":"Phase 1 Build","status":"complete","started":"2026-04-03","completed":"2026-04-06","ended":null,"summary":"Client Master, Create Invoice, Settings. 21 bugs found and fixed across three QA rounds.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"phase-2","name":"Phase 2 Build","status":"planned","started":null,"completed":null,"ended":null,"summary":"Invoice Register and GST Export tabs.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[],"shelf_history":[{"shelf":"active","date":"2026-04-01","reason":"New project \u2014 SEP billing digitization"}]},{"id":"codex","name":"Codex","shelf":"active","description":"Library-themed PWA tracking projects, sessions, design decisions, and progress across Claude conversations. GitHub JSON storage. Shared design system roots with SproutLab but distinct icon set and library-themed tokens.","domain_color":"#C4A87A","tags":["pwa","meta","knowledge-management"],"repo":null,"current_phase":"Pre-build design session \u2014 fonts, icons, initial data backfill","chapters":[{"id":"spec","name":"Spec & Design Session","status":"in-progress","started":"2026-04-11","completed":null,"ended":null,"summary":"CODEX_SPEC_v1.md and CODEX_QUICK_REFERENCE.md written. Design session resolving fonts, icon set, and initial data backfill.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[],"shelf_history":[{"shelf":"active","date":"2026-04-11","reason":"Project started \u2014 institutional memory system"}]},{"id":"businessai-simulation","name":"BusinessAI Simulation","shelf":"paused","description":"Business simulation addressed as BAI. ~\u20b930 crore/year business, 14 members, four entities (trading, industry, logistics). Objective: organize from informal to structured.","domain_color":"#A08870","tags":["simulation","business","strategy"],"repo":null,"current_phase":"Agenda-setting meeting planned, Shyam ops+culture discussion guide TODO","chapters":[{"id":"kickoff","name":"Kickoff & Agenda Setting","status":"in-progress","started":"2026-03-01","completed":null,"ended":null,"summary":"Initial informal discussion to set meeting agendas and lay organizational foundations. Shyam ops+culture discussion guide still pending.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[{"id":"todo-0001-shyam-guide","text":"Prep Shyam ops+culture discussion guide for follow-up meeting","status":"open","chapter":"kickoff","created":"2026-04-01","resolved":null,"source_session":null}],"shelf_history":[{"shelf":"active","date":"2026-03-01","reason":null},{"shelf":"paused","date":"2026-04-01","reason":"Focus shifted to SproutLab feature builds and SEP restructuring"}]}]};
+}
+
+function getSeedCanons() {
+  return {"_schema_version":1,"canons":[{"id":"canon-0001-no-emojis","scope":"sproutlab","category":"design","title":"HR-1: No Emojis","rationale":"All iconography uses the zi() SVG icon system. No emoji characters in application-rendered UI. Emoji in user-supplied text is passthrough only.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-1"],"_deleted":false,"_deleted_date":null},{"id":"canon-0002-no-inline-styles","scope":"sproutlab","category":"design","title":"HR-2: No Inline Styles","rationale":"All styling through CSS classes and CSS custom properties. Never style= attributes. Ensures consistency and theme-ability.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-2"],"_deleted":false,"_deleted_date":null},{"id":"canon-0003-no-inline-handlers","scope":"sproutlab","category":"architecture","title":"HR-3: No Inline Event Handlers","rationale":"All interactivity via data-action delegation. Never onclick= attributes. Single delegation root ensures consistent behavior and easier debugging.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-3"],"_deleted":false,"_deleted_date":null},{"id":"canon-0004-eschtml-boundary","scope":"sproutlab","category":"architecture","title":"HR-4: escHtml at All Render Boundaries","rationale":"All user-supplied text passes through escHtml() before innerHTML. Prevents XSS and ensures safe rendering of arbitrary input.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-4"],"_deleted":false,"_deleted_date":null},{"id":"canon-0005-css-tokens","scope":"sproutlab","category":"design","title":"HR-5: All Spacing/Font/Radius via CSS Tokens","rationale":"Use --sp-*, --fs-*, --r-* tokens exclusively. No magic numbers. Ensures design consistency and enables theme/text-size scaling.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-5"],"_deleted":false,"_deleted_date":null},{"id":"canon-0006-data-action-delegation","scope":"sproutlab","category":"architecture","title":"HR-6: data-action Delegation Universal","rationale":"Every interactive element uses data-action attributes. Single event delegation root. Naming convention: verb-noun or domain-verb-noun.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-6"],"_deleted":false,"_deleted_date":null},{"id":"canon-0007-zi-innerhtml","scope":"sproutlab","category":"architecture","title":"HR-7: zi() Returns SVG HTML, Set via innerHTML","rationale":"zi() returns SVG HTML strings. Always set via .innerHTML, never .textContent. Ensures icons render as SVG elements, not escaped text.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-7"],"_deleted":false,"_deleted_date":null},{"id":"canon-0008-coming-soon-toast","scope":"sproutlab","category":"design","title":"HR-8: Stub Features Show Coming Soon Toast","rationale":"Incomplete or stub features show 'Coming soon' via showQLToast(). Never leave dead buttons or silent no-ops.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-8"],"_deleted":false,"_deleted_date":null},{"id":"canon-0009-post-build-qa","scope":"sproutlab","category":"process","title":"HR-9: Post-Build Multi-Round QA Audit","rationale":"After every build session: multi-round QA continuing until only cosmetic bugs remain. List cosmetic bugs at end. Check all HRs, functional flows, null guards, class coverage, overlay close, escHtml/escAttr.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-9"],"_deleted":false,"_deleted_date":null},{"id":"canon-0010-no-text-overflow-ellipsis","scope":"sproutlab","category":"design","title":"HR-10: No text-overflow Ellipsis","rationale":"Truncated text hides meaning. Wrap, resize, or restructure \u2014 never truncate with ellipsis.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-10"],"_deleted":false,"_deleted_date":null},{"id":"canon-0011-math-floor-currency","scope":"sproutlab","category":"architecture","title":"HR-11: Math.floor for Currency","rationale":"All currency values use Math.floor(). Never round up on money \u2014 always in the user's favor.","created":"2026-03","status":"active","superseded_by":null,"references":["HR-11"],"_deleted":false,"_deleted_date":null},{"id":"canon-0012-timezone-safe-dates","scope":"sproutlab","category":"architecture","title":"HR-12: Timezone-Safe Dates via localDateStr()","rationale":"All date operations use localDateStr() to avoid timezone offset bugs. Never raw new Date().toISOString().slice(0,10).","created":"2026-03","status":"active","superseded_by":null,"references":["HR-12"],"_deleted":false,"_deleted_date":null},{"id":"canon-0013-no-ellipsis","scope":"global","category":"design","title":"No text-overflow Ellipsis (Global)","rationale":"Promoted from SproutLab HR-10 to global canon. Applies across all projects. Truncation hides meaning \u2014 always find a layout solution.","created":"2026-04","status":"active","superseded_by":null,"references":["canon-0010-no-text-overflow-ellipsis"],"_deleted":false,"_deleted_date":null},{"id":"canon-0014-eschtml-boundary-global","scope":"global","category":"architecture","title":"escHtml at All Render Boundaries (Global)","rationale":"All user-supplied text sanitized before innerHTML in every project. Non-negotiable security practice.","created":"2026-04","status":"active","superseded_by":null,"references":["canon-0004-eschtml-boundary"],"_deleted":false,"_deleted_date":null},{"id":"canon-0015-data-action-delegation-global","scope":"global","category":"architecture","title":"data-action Delegation (Global)","rationale":"Event delegation via data-action attributes across all projects. Never inline onclick handlers.","created":"2026-04","status":"active","superseded_by":null,"references":["canon-0006-data-action-delegation"],"_deleted":false,"_deleted_date":null},{"id":"canon-0016-defensive-depth","scope":"global","category":"architecture","title":"Defensive Depth","rationale":"Null guards, fallback defaults, and graceful degradation at every layer. Never assume upstream data is clean. Check before access, fallback before crash.","created":"2026-04","status":"active","superseded_by":null,"references":[],"_deleted":false,"_deleted_date":null},{"id":"canon-0017-exhaustive-pass4","scope":"global","category":"process","title":"Exhaustive Pass 4 (Bugs Today)","rationale":"In the 8-pass SPEC_ITERATION_PROCESS, Pass 4 (Bugs Today) must be exhaustive \u2014 enumerate every edge case, null state, overflow, and boundary. Never skim.","created":"2026-04","status":"active","superseded_by":null,"references":["SPEC_ITERATION_PROCESS.md"],"_deleted":false,"_deleted_date":null},{"id":"canon-0018-shelf-definitions","scope":"global","category":"process","title":"Shelf Definitions","rationale":"Active = currently being built or maintained. Paused = intentionally on hold, will resume. Archived = complete, read-only reference. Abandoned = stopped, no intent to resume.","created":"2026-04","status":"active","superseded_by":null,"references":[],"_deleted":false,"_deleted_date":null},{"id":"canon-0019-token-naming","scope":"global","category":"design","title":"Token Naming Convention","rationale":"CSS tokens: --{prefix}-{category}-{variant}. SproutLab: --sp-*, Codex: --cx-*. Spacing: --sp-N. Font size: --fs-*. Radius: --r-*. Animation: --anim-*. Consistent across all projects.","created":"2026-04","status":"active","superseded_by":null,"references":[],"_deleted":false,"_deleted_date":null},{"id":"canon-0020-micro-label-deprecated","scope":"sproutlab","category":"design","title":".micro-label Deprecated","rationale":"Replaced by .form-label. All instances migrated. Do not reintroduce .micro-label.","created":"2026-04","status":"active","superseded_by":null,"references":[],"_deleted":false,"_deleted_date":null},{"id":"canon-0021-overlay-anim-sync","scope":"sproutlab","category":"design","title":"OVERLAY_ANIM_MS Must Mirror --anim-overlay","rationale":"JS constant OVERLAY_ANIM_MS = 300 must always match CSS --anim-overlay: 300ms. Mismatch causes visual glitches on overlay close.","created":"2026-04","status":"active","superseded_by":null,"references":[],"_deleted":false,"_deleted_date":null},{"id":"canon-0022-keys-constants","scope":"sproutlab","category":"architecture","title":"KEYS Constants for All localStorage Keys","rationale":"Every localStorage key accessed through the KEYS object. Never bare string keys. Prevents typos and enables easy refactoring.","created":"2026-03","status":"active","superseded_by":null,"references":[],"_deleted":false,"_deleted_date":null},{"id":"canon-0023-build-sh-only","scope":"sproutlab","category":"process","title":"Never Raw Cat \u2014 Always build.sh","rationale":"Concat order matters (data\u2192core\u2192home\u2192diet\u2192medical\u2192intelligence\u2192start). Always use build.sh, never manual cat. Prevents module ordering bugs.","created":"2026-04","status":"active","superseded_by":null,"references":[],"_deleted":false,"_deleted_date":null}],"rejected_alternatives":[{"id":"rej-0001-horizontal-timeline","context":"Today So Far card design","volumes":["sproutlab"],"rejected":"Horizontal scrolling timeline","chosen":"Vertical chronological list with warmth gradient bar","reason":"375px screen width makes horizontal scroll unusable for dense data. Vertical list scans naturally on mobile.","date":"2026-04-06","canon_id":null},{"id":"rej-0002-service-worker-notifications","context":"CareTickets notification architecture","volumes":["sproutlab"],"rejected":"Service Worker push notifications","chosen":"Main-thread notification architecture with in-app alerts","reason":"Push notifications require a backend server and VAPID keys. Main-thread approach works offline, no server dependency, simpler permission model.","date":"2026-04-08","canon_id":null},{"id":"rej-0003-multi-file-architecture","context":"SproutLab architecture split approach","volumes":["sproutlab"],"rejected":"ES modules with import/export","chosen":"Concat build via build.sh \u2014 single output file","reason":"GitHub Pages serves static files. ES modules add complexity (CORS, load order, bundler dependency). Concat keeps single-file PWA simplicity with module organization benefits.","date":"2026-04-07","canon_id":null},{"id":"rej-0004-libre-baskerville","context":"Codex font selection","volumes":["codex"],"rejected":"Libre Baskerville + Source Sans 3","chosen":"Playfair Display + Work Sans","reason":"Playfair's high-contrast thick/thin strokes read as library spine lettering. Work Sans has warmer geometry than Source Sans 3, fitting the parchment/leather palette better.","date":"2026-04-11","canon_id":null},{"id":"rej-0005-icon-style-a","context":"Codex icon set style","volumes":["codex"],"rejected":"Style A (thin rounded, stroke 1.5, no fills)","chosen":"Style C (thin + accent fill \u2014 stroke 1.5 with small filled accents)","reason":"Style C adds subtle filled accents on key icons (bookmark, lock, alert, info, moon) giving a brass-embossed quality that matches the library theme without losing the thin line elegance.","date":"2026-04-11","canon_id":null},{"id":"rej-0006-icon-style-b","context":"Codex icon set style","volumes":["codex"],"rejected":"Style B (medium rounded, stroke 2)","chosen":"Style C (thin + accent fill)","reason":"Stroke 2 felt too heavy for the library aesthetic. Style C maintains elegance while improving visual anchoring through selective fills.","date":"2026-04-11","canon_id":null},{"id":"rej-0007-scaling-icons","context":"Codex text size system \u2014 icon behavior","volumes":["codex"],"rejected":"Icons scale with text size","chosen":"Icons stay fixed at 24\u00d724","reason":"Scaling SVGs with text creates alignment headaches. Fixed icons provide consistent touch targets and layout stability across all text size presets.","date":"2026-04-11","canon_id":null}]};
+}
+
+function getSeedJournal() {
+  return {"_schema_version":1,"journal":[{"date":"2026-04-12","sessions":[{"id":"s-2026-04-12-01","summary":"Codex pre-build design session. Resolved all three blockers: (1) Font pairing locked \u2014 Playfair Display (headings) + Work Sans (body) with Google Fonts CDN import and fallback stacks. (2) Icon set locked \u2014 Style C (thin stroke 1.5 + accent fills), 19 icons in cx() function, brass-embossed library aesthetic. (3) Text size system designed \u2014 LOW/MED/HIGH presets driven by --fs-base CSS variable, icons fixed 24px, localStorage persistence via cx_textSize key. (4) Initial data backfill JSONs generated \u2014 volumes.json (5 volumes, 13 SproutLab chapters), canons.json (23 canons including HR-1\u2013HR-12 + globals, 7 rejected alternatives), journal.json (this session). Also identified spec delta: QUICK_REFERENCE static --fs-* tokens need reconciliation with dynamic --fs-base system.","volumes_touched":["codex"],"chapters_touched":["spec"],"decisions":["Playfair Display + Work Sans font pairing","Style C icon set (thin + accent fill)","Text size: 3-preset system, --fs-base driven, icons fixed 24px","cx_textSize localStorage key for persistence"],"bugs_found":0,"bugs_fixed":0,"duration_minutes":null,"open_todos":["Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system","Generate complete cx() function code for build"],"handoff":"All three pre-build blockers resolved. Ready for Phase 1 build: Core (utilities, store, settings, shell, dashboard, volume detail, edit overlays, theme).","screenshots":[]}]}]};
+}
+
+/* CODEX — Core (from spec CODEBASE_SHELL) */
+
+/* --- cx() Icons — Style C (design session locked) --- */
+function cx(name) {
+  var icons = {
+    'book':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/><circle cx="12" cy="10" r="1.5" fill="currentColor" opacity="0.3"/></svg>',
+    'bookmark':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18l-6-4-6 4V4z"/><path d="M9 2h6v5l-3-2-3 2V2z" fill="currentColor" opacity="0.25"/></svg>',
+    'scroll':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8a2 2 0 0 0 2-2v-2H6v2a2 2 0 0 0 2 2z"/><path d="M6 17V5a2 2 0 0 1 2-2h4"/><path d="M18 17V7a2 2 0 0 0-2-2h-4"/><path d="M10 3v2"/></svg>',
+    'quill':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>',
+    'shelf':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>',
+    'search':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>',
+    'check':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    'clock':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
+    'lock':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.5" fill="currentColor" opacity="0.3"/></svg>',
+    'sun':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
+    'moon':'<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+    'plus':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>',
+    'trash':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>',
+    'arrow-left':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
+    'link':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07.5l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07-.5l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+    'alert':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>',
+    'close':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+    'download':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>',
+    'info':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>'
+  };
+  return icons[name] || '<span class="cx-missing"></span>';
+}
+
+/* --- Toast (from spec) --- */
+var _toastTimer = null;
+function showToast(message, type) {
+  type = type || 'info';
+  var container = document.getElementById('toastContainer');
+  if (!container) return;
+  var iconName = type === 'success' ? 'check' : type === 'error' ? 'alert' : type === 'warning' ? 'alert' : 'info';
+  var toast = document.createElement('div');
+  toast.className = 'cx-toast cx-toast-' + type;
+  toast.innerHTML = cx(iconName) + '<span>' + escHtml(message) + '</span>';
+  container.appendChild(toast);
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(function() {
+    toast.style.opacity = '0'; toast.style.transform = 'translateY(10px)'; toast.style.transition = 'all 0.2s';
+    setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 200);
+  }, 2500);
+}
+
+/* --- Overlay (from spec) --- */
+var _currentDraftKey = null;
+
+function openOverlay(title, bodyHtml, footerHtml) {
+  var backdrop = document.getElementById('overlayBackdrop');
+  var overlay = document.getElementById('overlayContainer');
+  var header = '<div class="cx-overlay-header"><div class="cx-overlay-title">' + escHtml(title) + '</div>'
+    + '<button data-action="closeOverlay" class="cx-btn-icon">' + cx('close') + '</button></div>';
+  var body = '<div class="cx-overlay-body">' + bodyHtml + '</div>';
+  var footer = footerHtml ? '<div class="cx-overlay-footer">' + footerHtml + '</div>' : '';
+  overlay.innerHTML = header + body + footer;
+  backdrop.hidden = false; overlay.hidden = false;
+  requestAnimationFrame(function() { backdrop.dataset.visible = 'true'; overlay.dataset.visible = 'true'; });
+  store._overlayCount++;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOverlay() {
+  var backdrop = document.getElementById('overlayBackdrop');
+  var overlay = document.getElementById('overlayContainer');
+  backdrop.dataset.visible = 'false'; overlay.dataset.visible = 'false';
+  _currentDraftKey = null;
+  store._overlayCount--;
+  if (store._overlayCount <= 0) { store._overlayCount = 0; document.body.style.overflow = ''; }
+  setTimeout(function() { backdrop.hidden = true; overlay.hidden = true; overlay.innerHTML = ''; }, OVERLAY_ANIM_MS);
+}
+
+/* --- Confirm (from spec) --- */
+var _confirmResolve = null;
+function showConfirmDialog(title, message, onConfirm, options) {
+  options = options || {};
+  var backdrop = document.getElementById('confirmBackdrop');
+  var dialog = document.getElementById('confirmContainer');
+  var btnClass = options.danger ? 'cx-btn-danger' : 'cx-btn-primary';
+  var label = options.label || 'Confirm';
+  dialog.innerHTML = '<div class="cx-confirm-title">' + escHtml(title) + '</div>'
+    + '<div class="cx-confirm-body">' + escHtml(message) + '</div>'
+    + '<div class="cx-confirm-actions">'
+    + '<button data-action="confirmCancel" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="confirmOk" class="' + btnClass + '">' + escHtml(label) + '</button></div>';
+  backdrop.hidden = false; dialog.hidden = false;
+  requestAnimationFrame(function() { backdrop.dataset.visible = 'true'; dialog.dataset.visible = 'true'; });
+  _confirmResolve = onConfirm;
+}
+
+function closeConfirmDialog() {
+  var backdrop = document.getElementById('confirmBackdrop');
+  var dialog = document.getElementById('confirmContainer');
+  backdrop.dataset.visible = 'false'; dialog.dataset.visible = 'false';
+  setTimeout(function() { backdrop.hidden = true; dialog.hidden = true; dialog.innerHTML = ''; }, OVERLAY_ANIM_MS);
+  _confirmResolve = null;
+}
+
+/* --- Routing (from spec) --- */
+var _currentView = 'dashboard';
+var _currentViewParams = {};
+var _navigating = false;
+var _scrollPositions = {};
+var _pendingFilter = null;
+
+function parseRoute(hash) {
+  var parts = (hash || '#/').replace('#/', '').split('/');
+  if (parts[0] === 'volume' && parts[1]) return { view: 'volume-detail', id: decodeURIComponent(parts[1]) };
+  if (parts[0] === 'canon' && parts[1]) return { view: 'canon-detail', id: decodeURIComponent(parts[1]) };
+  if (['dashboard','journal','canons','todos','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
+  return { view: 'dashboard' };
+}
+
+function navigate(hash) {
+  _navigating = true;
+  location.hash = hash;
+  handleRouteChange(hash, true);
+  _navigating = false;
+}
+
+function handleRouteChange(hash, scrollToTop) {
+  var route = parseRoute(hash);
+  _scrollPositions[_currentView] = (document.getElementById('viewContainer') || {}).scrollTop || 0;
+  _currentView = route.view;
+  _currentViewParams = route;
+  updateTabBarActive(route.view);
+  renderBreadcrumbForRoute(route);
+  updateFab(route.view);
+  renderCurrentView();
+  var vc = document.getElementById('viewContainer');
+  if (vc) vc.scrollTop = scrollToTop ? 0 : (_scrollPositions[route.view] || 0);
+}
+
+function handleSwitchTab(tabName) {
+  _pendingFilter = null;
+  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos' };
+  navigate(map[tabName] || '#/dashboard');
+}
+
+function updateTabBarActive(view) {
+  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', 'volume-detail':'dashboard', 'canon-detail':'canons', settings:null };
+  var active = map[view];
+  var btns = document.querySelectorAll('.cx-tab-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
+}
+
+/* --- Breadcrumb (from spec) --- */
+function renderBreadcrumbForRoute(route) {
+  var segments = [];
+  if (route.view === 'volume-detail') {
+    var vol = store.volumes.find(function(v) { return v.id === route.id; });
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: vol ? vol.name : route.id, route: null }];
+  } else if (route.view === 'settings') {
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Settings', route: null }];
+  }
+  renderBreadcrumb(segments);
+}
+
+function renderBreadcrumb(segments) {
+  var bar = document.getElementById('breadcrumbBar');
+  if (!bar) return;
+  bar.hidden = segments.length <= 1;
+  if (bar.hidden) return;
+  bar.innerHTML = segments.map(function(seg, i) {
+    var isLast = i === segments.length - 1;
+    var sep = i > 0 ? '<span class="cx-breadcrumb-sep">›</span>' : '';
+    return sep + (isLast
+      ? '<span class="cx-breadcrumb-current">' + escHtml(seg.label) + '</span>'
+      : '<a data-action="navigate" data-route="' + escAttr(seg.route) + '" class="cx-breadcrumb-link">' + escHtml(seg.label) + '</a>');
+  }).join('');
+}
+
+/* --- Header (from spec) --- */
+function updateHeader(route) {
+  var header = document.getElementById('appHeader');
+  if (!header) return;
+  if (route && (route.view === 'volume-detail' || route.view === 'settings')) {
+    var title = route.view === 'settings' ? 'Settings' : (function() { var v = store.volumes.find(function(x) { return x.id === route.id; }); return v ? v.name : 'Volume'; })();
+    header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
+      + '<span class="cx-app-title">' + escHtml(title) + '</span>'
+      + '<div class="cx-header-actions">'
+      + (route.view === 'volume-detail' ? '<button data-action="editVolume" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
+      + '</div>';
+  } else {
+    header.innerHTML = '<span class="cx-app-title">Codex</span>'
+      + '<div class="cx-header-actions">'
+      + '<button data-action="openSearch" class="cx-btn-icon">' + cx('search') + '</button>'
+      + '<button data-action="openSettings" class="cx-btn-icon">' + cx('lock') + '</button></div>';
+  }
+}
+
+/* --- FAB --- */
+function updateFab(view) {
+  var fab = document.getElementById('fabButton');
+  if (!fab) return;
+  var show = ['dashboard', 'volume-detail', 'todos'].indexOf(view) !== -1;
+  fab.classList.toggle('cx-fab-hidden', !show);
+  fab.innerHTML = cx('plus');
+}
+
+/* --- Tab Icons --- */
+function initTabIcons() {
+  var btns = document.querySelectorAll('.cx-tab-btn');
+  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', todos: 'check' };
+  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', todos: 'TODOs' };
+  for (var i = 0; i < btns.length; i++) {
+    var tab = btns[i].dataset.tab;
+    btns[i].innerHTML = cx(icons[tab] || 'book') + '<span class="cx-tab-label">' + (labels[tab] || tab) + '</span>';
+  }
+}
+
+/* --- Render Current View --- */
+var _isRendering = false;
+var _initializing = true;
+
+function renderCurrentView() {
+  _isRendering = true;
+  try {
+    updateHeader(_currentViewParams);
+    var renderers = {
+      dashboard: renderDashboard, 'volume-detail': renderVolumeDetail,
+      settings: renderSettings, todos: renderTodos,
+      journal: renderComingSoon.bind(null, 'Journal', 'Phase 3'),
+      canons: renderComingSoon.bind(null, 'Canons', 'Phase 3')
+    };
+    var fn = renderers[_currentView];
+    if (fn) fn(_currentViewParams);
+    else renderDashboard();
+  } catch(e) {
+    logError('render', e.message, e.stack);
+    var vc = document.getElementById('viewContainer');
+    if (vc) vc.innerHTML = '<div class="cx-error-state">' + cx('alert') + '<p class="cx-error-message">' + escHtml(e.message) + '</p></div>';
+  }
+  _isRendering = false;
+}
+
+function renderComingSoon(name, phase) {
+  var vc = document.getElementById('viewContainer');
+  if (vc) vc.innerHTML = '<div class="cx-empty-state">' + cx('book') + '<p class="cx-empty-title">' + escHtml(name) + '</p><p class="cx-empty-subtitle">Coming in ' + escHtml(phase) + '</p></div>';
+}
+
+/* --- Form Field Renderers (from spec CODEBASE_VIEWS) --- */
+function renderTextField(name, label, value, options) {
+  options = options || {};
+  var req = options.required ? ' *' : '';
+  var ph = options.placeholder || '';
+  var ro = options.readonly ? ' readonly' : '';
+  var roCls = options.readonly ? ' cx-form-readonly' : '';
+  var type = options.type || 'text';
+  return '<div class="cx-form-group"><label class="cx-form-label" for="field-' + name + '">' + escHtml(label) + req + '</label>'
+    + '<input type="' + escAttr(type) + '" id="field-' + name + '" name="' + name + '" value="' + escAttr(value || '') + '"'
+    + (options.maxlength ? ' maxlength="' + options.maxlength + '"' : '')
+    + ' placeholder="' + escAttr(ph) + '"' + ro + ' class="cx-form-input' + roCls + '">'
+    + '<span class="cx-form-error" id="error-' + name + '" hidden></span></div>';
+}
+
+function renderTextarea(name, label, value, options) {
+  options = options || {};
+  var req = options.required ? ' *' : '';
+  return '<div class="cx-form-group"><label class="cx-form-label" for="field-' + name + '">' + escHtml(label) + req + '</label>'
+    + '<textarea id="field-' + name + '" name="' + name + '" rows="' + (options.rows || 3) + '"'
+    + (options.maxlength ? ' maxlength="' + options.maxlength + '"' : '')
+    + ' placeholder="' + escAttr(options.placeholder || '') + '" class="cx-form-textarea">' + escHtml(value || '') + '</textarea>'
+    + '<span class="cx-form-error" id="error-' + name + '" hidden></span></div>';
+}
+
+function renderSelect(name, label, value, optionsList, options) {
+  options = options || {};
+  var req = options.required ? ' *' : '';
+  var opts = optionsList.map(function(o) {
+    return '<option value="' + escAttr(o.value) + '"' + (o.value === value ? ' selected' : '') + '>' + escHtml(o.label) + '</option>';
+  }).join('');
+  return '<div class="cx-form-group"><label class="cx-form-label" for="field-' + name + '">' + escHtml(label) + req + '</label>'
+    + '<select id="field-' + name + '" name="' + name + '" class="cx-form-select">' + opts + '</select>'
+    + '<span class="cx-form-error" id="error-' + name + '" hidden></span></div>';
+}
+
+function renderDateField(name, label, value, options) {
+  options = options || {};
+  var req = options.required ? ' *' : '';
+  return '<div class="cx-form-group"><label class="cx-form-label" for="field-' + name + '">' + escHtml(label) + req + '</label>'
+    + '<input type="date" id="field-' + name + '" name="' + name + '" value="' + escAttr(value || '') + '" class="cx-form-input">'
+    + '<span class="cx-form-error" id="error-' + name + '" hidden></span></div>';
+}
+
+function renderColorField(name, label, value) {
+  return '<div class="cx-form-group"><label class="cx-form-label">' + escHtml(label) + '</label>'
+    + '<input type="color" id="field-' + name + '" name="' + name + '" value="' + escAttr(value || '#8B7355') + '" class="cx-form-color"></div>';
+}
+
+/* --- Shared components --- */
+function renderEmptyState(icon, title, subtitle, actionLabel, actionName) {
+  return '<div class="cx-empty-state">' + cx(icon) + '<p class="cx-empty-title">' + escHtml(title) + '</p>'
+    + '<p class="cx-empty-subtitle">' + escHtml(subtitle) + '</p>'
+    + (actionLabel ? '<button data-action="' + escAttr(actionName) + '" class="cx-btn-primary">' + escHtml(actionLabel) + '</button>' : '') + '</div>';
+}
+
+function renderConnectGitHubCta() {
+  if (localStorage.getItem(KEYS.REPO_URL)) return '';
+  return '<div class="cx-connect-cta">' + cx('link') + '<span>Your data is local only.</span><button data-action="openSettings" class="cx-btn-primary cx-btn-sm">Connect GitHub</button></div>';
+}
+
+/* CODEX — Views (from spec CODEBASE_VIEWS) */
+
+/* --- Dashboard --- */
+function renderDashboard() {
+  var vc = document.getElementById('viewContainer');
+  var snap = store.getSnapshot();
+  var html = renderConnectGitHubCta();
+
+  var hasAny = false;
+  SHELF_ORDER.forEach(function(shelf) {
+    var vols = snap.volumes.filter(function(v) { return v.shelf === shelf; });
+    if (vols.length === 0) return;
+    hasAny = true;
+    html += '<div class="cx-shelf-group"><div class="cx-shelf-group-label">' + escHtml(SHELF_LABELS[shelf]) + ' (' + vols.length + ')</div>';
+    vols.forEach(function(vol) {
+      var chapters = filterActive(vol.chapters || []);
+      var openTodos = (vol.todos || []).filter(function(t) { return t.status === 'open'; });
+      var meta = [];
+      if (chapters.length > 0) meta.push(chapters.length + ' ch');
+      if (openTodos.length > 0) meta.push(openTodos.length + ' TODO');
+
+      html += '<div class="cx-card cx-card-clickable cx-vol-card" data-action="goToVolume" data-id="' + escAttr(vol.id) + '">';
+      html += '<div class="cx-vol-accent" style="background:' + escAttr(vol.domain_color || '#8B7355') + '"></div>';
+      html += '<div class="cx-vol-card-content">';
+      html += '<div class="cx-card-header"><div class="cx-card-title">' + cx('book') + escHtml(vol.name) + '</div>'
+        + '<span class="cx-shelf-badge cx-shelf-' + escAttr(vol.shelf) + '">' + escHtml(vol.shelf) + '</span></div>';
+      if (vol.current_phase) html += '<div class="cx-card-body" style="color:var(--accent);font-size:var(--fs-xs)">' + escHtml(vol.current_phase) + '</div>';
+      if (vol.description) html += '<div class="cx-card-body" style="font-size:var(--fs-xs);color:var(--text-secondary)">' + escHtml(vol.description) + '</div>';
+      if (meta.length > 0) html += '<div class="cx-card-meta">' + cx('clock') + ' ' + escHtml(meta.join(' · ')) + '</div>';
+      if (vol.tags && vol.tags.length > 0) {
+        html += '<div class="cx-tag-inline">';
+        vol.tags.forEach(function(t) { html += '<span class="cx-chip cx-chip-sm">' + escHtml(t) + '</span>'; });
+        html += '</div>';
+      }
+      html += '</div></div>';
+    });
+    html += '</div>';
+  });
+
+  if (!hasAny) {
+    html += renderEmptyState('book', 'The library is empty', 'Tap + to add your first volume', 'New Volume', 'fabAction');
+  }
+  vc.innerHTML = html;
+}
+
+/* --- Volume Detail --- */
+function renderVolumeDetail(route) {
+  var vc = document.getElementById('viewContainer');
+  var vol = store.volumes.find(function(v) { return v.id === route.id; });
+  if (!vol) {
+    vc.innerHTML = renderEmptyState('alert', 'Volume not found', 'This volume may have been deleted');
+    return;
+  }
+
+  var html = '';
+
+  // Header
+  html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-8)">';
+  html += '<div class="cx-vol-accent" style="background:' + escAttr(vol.domain_color) + ';width:4px;height:28px;border-radius:2px"></div>';
+  html += '<h1 class="cx-page-title" style="margin:0">' + escHtml(vol.name) + '</h1>';
+  html += '<span class="cx-shelf-badge cx-shelf-' + escAttr(vol.shelf) + '">' + escHtml(vol.shelf) + '</span>';
+  html += '</div>';
+  if (vol.description) html += '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12);line-height:1.6">' + escHtml(vol.description) + '</p>';
+  if (vol.current_phase) html += '<p style="color:var(--accent);font-size:var(--fs-xs);font-weight:500;margin-bottom:var(--sp-12)">' + cx('info') + ' ' + escHtml(vol.current_phase) + '</p>';
+  if (vol.tags && vol.tags.length > 0) {
+    html += '<div class="cx-tag-inline" style="margin-bottom:var(--sp-12)">';
+    vol.tags.forEach(function(t) { html += '<span class="cx-chip cx-chip-sm">' + escHtml(t) + '</span>'; });
+    html += '</div>';
+  }
+
+  // Action bar
+  html += '<div class="cx-action-bar">';
+  html += '<button class="cx-btn-secondary cx-btn-sm" data-action="openShelfTransition" data-id="' + escAttr(vol.id) + '">' + cx('shelf') + ' Move Shelf</button>';
+  html += '</div>';
+
+  // TODOs
+  var todos = vol.todos || [];
+  var openTodos = todos.filter(function(t) { return t.status === 'open'; });
+  var resolvedTodos = todos.filter(function(t) { return t.status === 'resolved'; });
+
+  html += '<div class="cx-section-title">' + cx('check') + ' TODOs (' + openTodos.length + ' open)</div>';
+  if (openTodos.length === 0 && resolvedTodos.length === 0) {
+    html += '<p style="color:var(--text-tertiary);font-size:var(--fs-xs);margin-bottom:var(--sp-16)">No TODOs yet</p>';
+  } else {
+    html += '<div class="cx-card">';
+    openTodos.forEach(function(t) { html += renderTodoItem(vol.id, t); });
+    if (resolvedTodos.length > 0) {
+      html += '<div class="cx-todo-chapter-label" style="margin-top:var(--sp-8)">Resolved (' + resolvedTodos.length + ')</div>';
+      resolvedTodos.forEach(function(t) { html += renderTodoItem(vol.id, t); });
+    }
+    html += '</div>';
+  }
+
+  // Chapters
+  var chapters = filterActive(vol.chapters || []);
+  html += '<div class="cx-section-title">' + cx('bookmark') + ' Chapters (' + chapters.length + ')</div>';
+  if (chapters.length === 0) {
+    html += '<p style="color:var(--text-tertiary);font-size:var(--fs-xs);margin-bottom:var(--sp-16)">No chapters yet</p>';
+  } else {
+    html += '<div class="cx-card">';
+    chapters.forEach(function(ch) {
+      var icon = ch.status === 'complete' ? 'check' : ch.status === 'in-progress' ? 'clock' : ch.status === 'abandoned' ? 'alert' : ch.status === 'paused' ? 'clock' : 'bookmark';
+      var meta = [];
+      if (ch.started) meta.push('Started ' + formatRelativeTime(ch.started));
+      if (ch.completed) meta.push('Done ' + formatRelativeTime(ch.completed));
+
+      html += '<div class="cx-chapter-item" data-action="editChapter" data-vol="' + escAttr(vol.id) + '" data-id="' + escAttr(ch.id) + '">';
+      html += '<span class="cx-status-' + escAttr(ch.status) + '">' + cx(icon) + '</span>';
+      html += '<div><div class="cx-chapter-name">' + escHtml(ch.name) + '</div>';
+      if (ch.summary) html += '<div class="cx-chapter-summary">' + escHtml(ch.summary) + '</div>';
+      if (meta.length > 0) html += '<div class="cx-chapter-meta">' + escHtml(meta.join(' · ')) + '</div>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  // Shelf History
+  var history = vol.shelf_history || [];
+  if (history.length > 1) {
+    html += '<div class="cx-divider"></div>';
+    html += '<div class="cx-section-title">' + cx('clock') + ' Shelf History</div>';
+    html += '<div class="cx-shelf-timeline">';
+    for (var h = history.length - 1; h >= 0; h--) {
+      var sh = history[h];
+      html += '<div class="cx-timeline-entry"><div class="cx-timeline-dot"></div><div>'
+        + '<div class="cx-timeline-text">' + escHtml(SHELF_LABELS[sh.shelf] || sh.shelf) + (sh.reason ? ' — ' + escHtml(sh.reason) : '') + '</div>'
+        + '<div class="cx-timeline-date">' + escHtml(formatAbsoluteDate(sh.date)) + '</div></div></div>';
+    }
+    html += '</div>';
+  }
+
+  // Danger zone
+  html += '<div class="cx-divider"></div>';
+  html += '<div class="cx-section-title">Danger Zone</div>';
+  html += '<button class="cx-btn-danger cx-full-width" data-action="deleteVolume" data-id="' + escAttr(vol.id) + '">' + cx('trash') + ' Delete Volume</button>';
+
+  vc.innerHTML = html;
+}
+
+function renderTodoItem(volumeId, todo) {
+  var done = todo.status === 'resolved';
+  var cls = done ? ' cx-todo-resolved' : '';
+  var html = '<div class="cx-todo-item' + cls + '">';
+  html += '<button class="cx-todo-check' + (done ? ' cx-todo-checked' : '') + '" data-action="toggleTodo" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(todo.id) + '">';
+  if (done) html += cx('check');
+  html += '</button>';
+  html += '<div class="cx-todo-content">';
+  html += '<div class="' + (done ? 'cx-todo-text-done' : 'cx-todo-text') + '">' + escHtml(todo.text) + '</div>';
+  var meta = [];
+  if (todo.chapter) meta.push(todo.chapter);
+  meta.push(formatRelativeTime(todo.created));
+  html += '<div class="cx-todo-meta">' + escHtml(meta.join(' · ')) + '</div>';
+  html += '</div>';
+  html += '<button class="cx-btn-icon cx-btn-danger-icon" data-action="deleteTodo" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(todo.id) + '">' + cx('trash') + '</button>';
+  html += '</div>';
+  return html;
+}
+
+/* --- TODOs (All) --- */
+function renderTodos() {
+  var vc = document.getElementById('viewContainer');
+  var allTodos = [];
+  store.volumes.forEach(function(vol) {
+    (vol.todos || []).forEach(function(t) {
+      if (t.status === 'open') allTodos.push({ volume: vol, todo: t });
+    });
+  });
+
+  if (allTodos.length === 0) {
+    vc.innerHTML = renderEmptyState('check', 'All clear', 'No open TODOs across any volume');
+    return;
+  }
+
+  var html = '<div class="cx-section-title">' + allTodos.length + ' open TODO' + (allTodos.length !== 1 ? 's' : '') + '</div>';
+
+  // Group by volume
+  var grouped = {};
+  allTodos.forEach(function(item) {
+    if (!grouped[item.volume.id]) grouped[item.volume.id] = { volume: item.volume, todos: [] };
+    grouped[item.volume.id].todos.push(item.todo);
+  });
+
+  Object.keys(grouped).forEach(function(volId) {
+    var g = grouped[volId];
+    html += '<div class="cx-card cx-todo-volume-group">';
+    html += '<div class="cx-todo-volume-title" data-action="goToVolume" data-id="' + escAttr(volId) + '" style="cursor:pointer">' + cx('book') + escHtml(g.volume.name) + '</div>';
+    g.todos.forEach(function(t) { html += renderTodoItem(volId, t); });
+    html += '</div>';
+  });
+
+  vc.innerHTML = html;
+}
+
+/* --- Settings --- */
+function renderSettings() {
+  var vc = document.getElementById('viewContainer');
+  var currentTheme = localStorage.getItem(KEYS.THEME) || 'dark';
+  var currentSize = localStorage.getItem(KEYS.TEXT_SIZE) || 'med';
+  var isLight = currentTheme === 'light';
+  var html = '';
+
+  // Appearance
+  html += '<div class="cx-settings-section"><div class="cx-section-title">Appearance</div><div class="cx-card">';
+  html += '<div class="cx-settings-row" data-action="toggleTheme">';
+  html += '<div class="cx-settings-left">' + cx(isLight ? 'sun' : 'moon') + '<div><div class="cx-settings-label">Theme</div><div class="cx-settings-hint">' + (isLight ? 'Light' : 'Dark') + ' mode</div></div></div>';
+  html += '<div class="cx-settings-right">' + (isLight ? 'Light' : 'Dark') + '</div></div>';
+  html += '</div></div>';
+
+  // Text size
+  html += '<div class="cx-settings-section"><div class="cx-card" style="padding:var(--sp-16)">';
+  html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)">' + cx('book') + '<div><div class="cx-settings-label">Text size</div><div class="cx-settings-hint">Adjust reading comfort</div></div></div>';
+  html += '<div class="cx-slider-wrap"><div class="cx-slider-track" id="cxSliderTrack">';
+  html += '<div class="cx-slider-fill" id="cxSliderFill" style="width:' + TEXT_SIZE_POS[currentSize] + '%"></div>';
+  html += '<div class="cx-slider-thumb" id="cxSliderThumb" style="left:' + TEXT_SIZE_POS[currentSize] + '%"></div></div>';
+  html += '<div class="cx-slider-labels">';
+  ['low','med','high'].forEach(function(s) {
+    html += '<span class="cx-slider-label' + (currentSize === s ? ' cx-slider-label-active' : '') + '" data-action="setTextSize" data-size="' + s + '">' + s.toUpperCase() + '</span>';
+  });
+  html += '</div></div>';
+  html += '<div class="cx-preview-pill"><span style="font-family:var(--ff-heading);font-size:var(--fs-lg)">Aa</span> — <span style="font-size:var(--fs-sm)">This is how text will look</span></div>';
+  html += '</div></div>';
+
+  // Data
+  html += '<div class="cx-settings-section"><div class="cx-section-title">Data</div><div class="cx-card">';
+  html += '<div class="cx-settings-row"><div class="cx-settings-left">' + cx('lock') + '<div><div class="cx-settings-label">GitHub Sync</div><div class="cx-settings-hint">Coming in Phase 2</div></div></div></div>';
+  html += '<div class="cx-settings-row" data-action="exportData"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Export Data</div><div class="cx-settings-hint">Download as JSON</div></div></div></div>';
+  html += '</div></div>';
+
+  // About
+  html += '<div class="cx-settings-section"><div class="cx-section-title">About</div><div class="cx-card">';
+  html += '<div class="cx-settings-row"><div class="cx-settings-left">' + cx('info') + '<div><div class="cx-settings-label">Codex v' + escHtml(CODEX_VERSION) + '</div><div class="cx-settings-hint">The builder who journals</div></div></div></div>';
+  html += '</div></div>';
+
+  vc.innerHTML = html;
+  initTextSizeSlider();
+}
+
+function initTextSizeSlider() {
+  var track = document.getElementById('cxSliderTrack');
+  var thumb = document.getElementById('cxSliderThumb');
+  if (!track || !thumb) return;
+
+  function posToSize(x) {
+    var rect = track.getBoundingClientRect();
+    var pct = Math.max(0, Math.min(100, ((x - rect.left) / rect.width) * 100));
+    return pct < 25 ? 'low' : pct < 75 ? 'med' : 'high';
+  }
+  track.addEventListener('click', function(e) { applyTextSize(posToSize(e.clientX)); });
+  var dragging = false;
+  thumb.addEventListener('pointerdown', function(e) { dragging = true; thumb.setPointerCapture(e.pointerId); });
+  document.addEventListener('pointermove', function(e) { if (dragging) applyTextSize(posToSize(e.clientX)); });
+  document.addEventListener('pointerup', function() { dragging = false; });
+}
+
+function applyTextSize(size) {
+  if (!TEXT_SIZES[size]) return;
+  document.documentElement.style.setProperty('--fs-base', TEXT_SIZES[size]);
+  localStorage.setItem(KEYS.TEXT_SIZE, size);
+  var fill = document.getElementById('cxSliderFill');
+  var thumb = document.getElementById('cxSliderThumb');
+  if (fill) fill.style.width = TEXT_SIZE_POS[size] + '%';
+  if (thumb) thumb.style.left = TEXT_SIZE_POS[size] + '%';
+  var labels = document.querySelectorAll('.cx-slider-label');
+  for (var i = 0; i < labels.length; i++) labels[i].classList.toggle('cx-slider-label-active', labels[i].dataset.size === size);
+}
+
+/* CODEX — Forms (from spec CODEBASE_VIEWS) */
+
+/* --- Volume Create/Edit --- */
+function openCreateVolume() { openVolumeForm(null); }
+function openEditVolume(volumeId) { openVolumeForm(volumeId); }
+
+function openVolumeForm(volumeId) {
+  var isEdit = !!volumeId;
+  var vol = isEdit ? store.volumes.find(function(v) { return v.id === volumeId; }) : null;
+
+  var body = '';
+  body += renderTextField('name', 'Name', vol ? vol.name : '', { required: true, placeholder: 'e.g. SproutLab' });
+  body += renderTextarea('description', 'Description', vol ? vol.description : '', { placeholder: 'What is this project about?' });
+  body += renderTextField('current_phase', 'Current Phase', vol ? vol.current_phase : '', { placeholder: 'e.g. Phase 1 — Core build' });
+  body += renderColorField('domain_color', 'Domain Color', vol ? vol.domain_color : '#8B7355');
+  body += renderTextField('tags', 'Tags (comma-separated)', vol ? (vol.tags || []).join(', ') : '', { placeholder: 'pwa, health, tracking' });
+  body += renderTextField('repo', 'Repo', vol ? vol.repo || '' : '', { placeholder: 'owner/repo' });
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveVolume" data-id="' + escAttr(volumeId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
+
+  openOverlay(isEdit ? 'Edit Volume' : 'New Volume', body, footer);
+  setTimeout(function() { var el = document.getElementById('field-name'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+}
+
+function handleSaveVolume(volumeId) {
+  var name = (document.getElementById('field-name') || {}).value || '';
+  var desc = (document.getElementById('field-description') || {}).value || '';
+  var phase = (document.getElementById('field-current_phase') || {}).value || '';
+  var color = (document.getElementById('field-domain_color') || {}).value || '#8B7355';
+  var tagsStr = (document.getElementById('field-tags') || {}).value || '';
+  var repo = (document.getElementById('field-repo') || {}).value || '';
+
+  name = name.trim();
+  if (!name) { showToast('Name is required', 'error'); return; }
+
+  var tags = tagsStr.split(',').map(function(t) { return t.trim(); }).filter(function(t) { return t.length > 0; });
+
+  try {
+    if (volumeId) {
+      store.updateVolume(volumeId, { name: name, description: desc, current_phase: phase, domain_color: color, tags: tags, repo: repo || null });
+      showToast('Volume updated', 'success');
+    } else {
+      var id = autoSlug(name);
+      if (store.volumes.find(function(v) { return v.id === id; })) { showToast('Volume with this name already exists', 'error'); return; }
+      store.addVolume({ id: id, name: name, description: desc, current_phase: phase, domain_color: color, tags: tags, repo: repo || null });
+      showToast('Volume created', 'success');
+    }
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+/* --- Chapter Create/Edit --- */
+function openAddChapter(volumeId) { openChapterForm(volumeId, null); }
+function openEditChapter(volumeId, chapterId) { openChapterForm(volumeId, chapterId); }
+
+function openChapterForm(volumeId, chapterId) {
+  var isEdit = !!chapterId;
+  var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+  if (!vol) return;
+  var ch = isEdit ? (vol.chapters || []).find(function(c) { return c.id === chapterId; }) : null;
+
+  var statusOpts = CHAPTER_STATUSES.map(function(s) { return { value: s, label: s }; });
+  var body = '';
+  body += renderTextField('ch_name', 'Name', ch ? ch.name : '', { required: true, placeholder: 'e.g. CareTickets' });
+  body += renderSelect('ch_status', 'Status', ch ? ch.status : 'planned', statusOpts);
+  body += renderTextarea('ch_summary', 'Summary', ch ? ch.summary : '', { placeholder: 'Brief description' });
+  body += renderDateField('ch_started', 'Started', ch ? ch.started || '' : '');
+  body += renderTextField('ch_spec_url', 'Spec URL', ch ? ch.spec_url || '' : '', { placeholder: 'https://...' });
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>';
+  if (isEdit) {
+    footer += '<button data-action="handleDeleteChapter" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(chapterId) + '" class="cx-btn-danger cx-btn-sm">' + cx('trash') + '</button>';
+  }
+  footer += '<button data-action="handleSaveChapter" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(chapterId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + cx('check') + ' ' + (isEdit ? 'Save' : 'Add') + '</button>';
+
+  openOverlay(isEdit ? 'Edit Chapter' : 'New Chapter', body, footer);
+  setTimeout(function() { var el = document.getElementById('field-ch_name'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+}
+
+function handleSaveChapter(volumeId, chapterId) {
+  var name = (document.getElementById('field-ch_name') || {}).value || '';
+  var status = (document.getElementById('field-ch_status') || {}).value || 'planned';
+  var summary = (document.getElementById('field-ch_summary') || {}).value || '';
+  var started = (document.getElementById('field-ch_started') || {}).value || null;
+  var specUrl = (document.getElementById('field-ch_spec_url') || {}).value || null;
+  name = name.trim();
+  if (!name) { showToast('Name is required', 'error'); return; }
+  try {
+    if (chapterId) {
+      store.updateChapter(volumeId, chapterId, { name: name, status: status, summary: summary, started: started, spec_url: specUrl });
+      showToast('Chapter updated', 'success');
+    } else {
+      var id = autoSlug(name);
+      store.addChapter(volumeId, { id: id, name: name, status: status, summary: summary, started: started, spec_url: specUrl });
+      showToast('Chapter added', 'success');
+    }
+    closeOverlay(); renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+function handleDeleteChapter(volumeId, chapterId) {
+  var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+  var ch = vol ? (vol.chapters || []).find(function(c) { return c.id === chapterId; }) : null;
+  if (!ch) return;
+  showConfirmDialog('Delete Chapter', 'Delete "' + ch.name + '"? This is a soft delete.', function() {
+    try { store.deleteChapter(volumeId, chapterId); showToast('Chapter deleted', 'success'); closeOverlay(); closeConfirmDialog(); renderCurrentView(); }
+    catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+/* --- TODO Create --- */
+function openCreateTodo(volumeId) {
+  var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+  if (!vol) { showToast('Volume not found', 'error'); return; }
+  var chapters = filterActive(vol.chapters || []);
+  var body = renderTextarea('todo_text', 'TODO', '', { required: true, placeholder: 'What needs to be done?' });
+  if (chapters.length > 0) {
+    var opts = [{ value: '', label: 'None' }].concat(chapters.map(function(c) { return { value: c.id, label: c.name }; }));
+    body += renderSelect('todo_chapter', 'Chapter (optional)', '', opts);
+  }
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveTodo" data-vol="' + escAttr(volumeId) + '" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
+  openOverlay('New TODO', body, footer);
+  setTimeout(function() { var el = document.getElementById('field-todo_text'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+}
+
+function handleSaveTodo(volumeId) {
+  var text = (document.getElementById('field-todo_text') || {}).value || '';
+  var chapter = (document.getElementById('field-todo_chapter') || {}).value || null;
+  text = text.trim();
+  if (!text) { showToast('Text is required', 'error'); return; }
+  try {
+    var ids = (store.volumes.find(function(v) { return v.id === volumeId; }).todos || []).map(function(t) { return t.id; });
+    var id = generateId('todo', ids) + '-' + autoSlug(text).substring(0, 20);
+    store.addTodo(volumeId, { id: id, text: text, chapter: chapter || null });
+    showToast('TODO added', 'success'); closeOverlay(); renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+/* --- Toggle / Delete TODO --- */
+function handleToggleTodo(volumeId, todoId) {
+  var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+  if (!vol) return;
+  var todo = (vol.todos || []).find(function(t) { return t.id === todoId; });
+  if (!todo) return;
+  store.updateTodo(volumeId, todoId, { status: todo.status === 'open' ? 'resolved' : 'open' });
+  renderCurrentView();
+}
+
+function handleDeleteTodo(volumeId, todoId) {
+  showConfirmDialog('Delete TODO', 'Permanently delete this TODO?', function() {
+    try { store.deleteTodo(volumeId, todoId); showToast('Deleted', 'success'); closeConfirmDialog(); renderCurrentView(); }
+    catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+/* --- Shelf Transition --- */
+function openShelfTransition(volumeId) {
+  var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+  if (!vol) return;
+  var opts = SHELF_ORDER.filter(function(s) { return s !== vol.shelf; }).map(function(s) { return { value: s, label: SHELF_LABELS[s] }; });
+  var body = renderSelect('shelf', 'Move to', opts[0].value, opts);
+  body += renderTextField('shelf_reason', 'Reason', '', { placeholder: 'Why? (required for Abandoned)' });
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleConfirmShelfTransition" data-id="' + escAttr(volumeId) + '" class="cx-btn-primary" style="flex:1">' + cx('shelf') + ' Move</button>';
+  openOverlay('Move Shelf — ' + vol.name, body, footer);
+}
+
+function handleConfirmShelfTransition(volumeId) {
+  var shelf = (document.getElementById('field-shelf') || {}).value || '';
+  var reason = (document.getElementById('field-shelf_reason') || {}).value || '';
+  try {
+    store.transitionShelf(volumeId, shelf, reason.trim() || null);
+    showToast('Moved to ' + SHELF_LABELS[shelf], 'success');
+    closeOverlay(); renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+/* --- Delete Volume --- */
+function handleDeleteVolume(volumeId) {
+  showConfirmDialog('Delete Volume', 'Remove all chapters and TODOs first, then delete.', function() {
+    try { store.deleteVolume(volumeId); showToast('Deleted', 'success'); closeConfirmDialog(); navigate('#/dashboard'); }
+    catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+/* --- FAB Context --- */
+function handleFabAction() {
+  if (_currentView === 'dashboard') { openCreateVolume(); }
+  else if (_currentView === 'volume-detail' && _currentViewParams.id) { openFabChoice(_currentViewParams.id); }
+  else if (_currentView === 'todos') { openTodoVolumeChoice(); }
+}
+
+function openFabChoice(volumeId) {
+  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  body += '<button class="cx-btn-secondary cx-full-width" data-action="fabAddChapter" data-vol="' + escAttr(volumeId) + '">' + cx('bookmark') + ' New Chapter</button>';
+  body += '<button class="cx-btn-secondary cx-full-width" data-action="fabAddTodo" data-vol="' + escAttr(volumeId) + '">' + cx('check') + ' New TODO</button>';
+  body += '</div>';
+  openOverlay('Add to Volume', body, '');
+}
+
+function openTodoVolumeChoice() {
+  var vols = store.volumes.filter(function(v) { return v.shelf === 'active'; });
+  if (vols.length === 0) { showToast('No active volumes', 'warning'); return; }
+  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  vols.forEach(function(v) {
+    body += '<button class="cx-btn-secondary cx-full-width" data-action="fabAddTodo" data-vol="' + escAttr(v.id) + '">' + cx('book') + ' ' + escHtml(v.name) + '</button>';
+  });
+  body += '</div>';
+  openOverlay('Add TODO to…', body, '');
+}
+
+/* --- Export --- */
+function handleExportData() {
+  var data = store.getSnapshot();
+  data._exported = new Date().toISOString();
+  data._version = CODEX_VERSION;
+  var json = JSON.stringify(data, null, 2);
+  var blob = new Blob([json], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'codex-export-' + localDateStr() + '.json';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('Exported', 'success');
+}
+
+/* CODEX — Start (from spec CODEBASE_SHELL) */
+
+(function() {
+
+/* --- Delegation (spec: 7 roots, Phase 1 uses document-level with spec action names) --- */
+function setupDelegation() {
+  document.addEventListener('click', function(e) {
+    var el = e.target.closest('[data-action]');
+    if (!el) return;
+    var action = el.dataset.action;
+    var id = el.dataset.id || '';
+    var vol = el.dataset.vol || '';
+
+    switch (action) {
+      // Navigation
+      case 'switchTab': handleSwitchTab(el.dataset.tab); break;
+      case 'goToVolume': navigate('#/volume/' + encodeURIComponent(id)); break;
+      case 'goBack': window.history.back(); break;
+      case 'navigate': navigate(el.dataset.route); break;
+      case 'openSettings': navigate('#/settings'); break;
+
+      // FAB
+      case 'fabAction': handleFabAction(); break;
+      case 'fabAddChapter': closeOverlay(); setTimeout(function() { openAddChapter(vol); }, OVERLAY_ANIM_MS + 50); break;
+      case 'fabAddTodo': closeOverlay(); setTimeout(function() { openCreateTodo(vol); }, OVERLAY_ANIM_MS + 50); break;
+
+      // Overlay / Confirm
+      case 'closeOverlay': closeOverlay(); break;
+      case 'confirmOk': if (_confirmResolve) { var fn = _confirmResolve; _confirmResolve = null; fn(); } else { closeConfirmDialog(); } break;
+      case 'confirmCancel': closeConfirmDialog(); break;
+
+      // Volume
+      case 'editVolume': openEditVolume(_currentViewParams.id); break;
+      case 'handleSaveVolume': handleSaveVolume(id || null); break;
+      case 'deleteVolume': handleDeleteVolume(id); break;
+      case 'openShelfTransition': openShelfTransition(id); break;
+      case 'handleConfirmShelfTransition': handleConfirmShelfTransition(id); break;
+
+      // Chapter
+      case 'editChapter': openEditChapter(vol, id); break;
+      case 'handleSaveChapter': handleSaveChapter(vol, id || null); break;
+      case 'handleDeleteChapter': handleDeleteChapter(vol, id); break;
+
+      // TODO
+      case 'handleSaveTodo': handleSaveTodo(vol); break;
+      case 'toggleTodo': handleToggleTodo(vol, id); break;
+      case 'deleteTodo': handleDeleteTodo(vol, id); break;
+
+      // Settings
+      case 'toggleTheme':
+        var cur = localStorage.getItem(KEYS.THEME) || 'dark';
+        var next = cur === 'dark' ? 'light' : 'dark';
+        localStorage.setItem(KEYS.THEME, next);
+        document.documentElement.setAttribute('data-theme', next);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', next === 'dark' ? '#1A1610' : '#FAF6F1');
+        renderCurrentView();
+        break;
+      case 'setTextSize': applyTextSize(el.dataset.size); break;
+      case 'exportData': handleExportData(); break;
+
+      // Search (Phase 4 stub)
+      case 'openSearch': showToast('Search coming in Phase 4', 'info'); break;
+
+      // Coming soon
+      case 'comingSoon': showToast('Coming soon', 'info'); break;
+    }
+  });
+
+  // Overlay backdrop close
+  document.getElementById('overlayBackdrop').addEventListener('click', closeOverlay);
+  document.getElementById('confirmBackdrop').addEventListener('click', closeConfirmDialog);
+}
+
+/* --- Escape handler --- */
+function _escapeHandler(e) {
+  if (e.key !== 'Escape') return;
+  if (!document.getElementById('confirmContainer').hidden) { closeConfirmDialog(); return; }
+  if (!document.getElementById('overlayContainer').hidden) { closeOverlay(); return; }
+}
+
+/* --- Global error handlers --- */
+window.addEventListener('error', function(event) {
+  logError('uncaught', event.message, { filename: event.filename, lineno: event.lineno });
+  try { showToast('Something went wrong', 'error'); } catch(e) {}
+});
+window.addEventListener('unhandledrejection', function(event) {
+  logError('promise', event.reason ? event.reason.message || String(event.reason) : 'unknown');
+});
+
+/* --- localStorage test --- */
+function testLocalStorage() {
+  try { localStorage.setItem('codex-test', '1'); localStorage.removeItem('codex-test'); return true; } catch(e) { return false; }
+}
+
+/* --- Initialize (from spec — Phase 1: local-only, no GitHub fetch) --- */
+function initialize() {
+  if (!testLocalStorage()) {
+    document.getElementById('viewContainer').innerHTML = '<div class="cx-blocker"><p>Codex requires local storage.</p></div>';
+    return;
+  }
+
+  initTabIcons();
+
+  // Load from localStorage cache
+  var volData = safeParseLocalStorage(KEYS.CACHE_VOLUMES);
+  var canonData = safeParseLocalStorage(KEYS.CACHE_CANONS);
+  var journalData = safeParseLocalStorage(KEYS.CACHE_JOURNAL);
+
+  // Seed on first visit if no data exists
+  var isFirstVisit = !volData && !canonData && !journalData;
+  if (isFirstVisit && typeof getSeedVolumes === 'function') {
+    volData = getSeedVolumes();
+    canonData = getSeedCanons();
+    journalData = getSeedJournal();
+  }
+
+  populateStore(
+    { data: volData, sha: null },
+    { data: canonData, sha: null },
+    { data: journalData, sha: null }
+  );
+
+  // Persist seed data to localStorage
+  if (isFirstVisit) { store._cacheToLocalStorage(); }
+
+  // Register listeners
+  store.onChange(function() {
+    if (!_initializing) renderCurrentView();
+  });
+
+  // Parse initial route
+  var route = parseRoute(location.hash);
+  _currentView = route.view;
+  _currentViewParams = route;
+  updateTabBarActive(route.view);
+  renderBreadcrumbForRoute(route);
+  updateFab(route.view);
+
+  // Initial render
+  _initializing = false;
+  renderCurrentView();
+
+  // Setup interaction
+  setupDelegation();
+  document.addEventListener('keydown', _escapeHandler);
+  window.addEventListener('hashchange', function() {
+    if (_navigating) return;
+    handleRouteChange(location.hash, true);
+  });
+
+  // Visit count
+  var visits = parseInt(localStorage.getItem(KEYS.VISIT_COUNT) || '0', 10) + 1;
+  localStorage.setItem(KEYS.VISIT_COUNT, String(visits));
+}
+
+// Boot
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initialize);
+} else {
+  initialize();
+}
+
+})();
+</script>
+</body>
+</html>

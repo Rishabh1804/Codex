@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1A1610">
+<title>Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var t = localStorage.getItem('codex-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  var s = localStorage.getItem('codex-textSize');
+  var bases = { low: '12px', med: '14px', high: '17px' };
+  if (s && bases[s]) document.documentElement.style.setProperty('--fs-base', bases[s]);
+})();
+</script>
+<noscript><p style="padding:2rem;text-align:center;font-family:sans-serif;">Codex requires JavaScript.</p></noscript>
+</head>
+<body>
+
+<div id="syncIndicator" class="cx-sync-dot"></div>
+<div id="offlineBanner" class="banner-offline" hidden>Offline — changes saved locally</div>
+
+<header id="appHeader">
+  <span class="cx-app-title">Codex</span>
+  <div class="cx-header-actions">
+    <button data-action="openSearch" class="cx-btn-icon" aria-label="Search"></button>
+    <button data-action="openSettings" class="cx-btn-icon" aria-label="Settings"></button>
+  </div>
+</header>
+
+<nav id="breadcrumbBar" hidden></nav>
+<main id="viewContainer"></main>
+<div id="toastContainer"></div>
+
+<div id="overlayBackdrop" class="cx-overlay-backdrop" hidden></div>
+<div id="overlayContainer" class="cx-overlay" hidden></div>
+<div id="confirmBackdrop" class="cx-overlay-backdrop cx-confirm-backdrop" hidden></div>
+<div id="confirmContainer" class="cx-confirm" hidden></div>
+
+<nav id="tabBar">
+  <button data-action="switchTab" data-tab="dashboard" class="cx-tab-btn cx-tab-active"></button>
+  <button data-action="switchTab" data-tab="journal" class="cx-tab-btn"></button>
+  <button data-action="switchTab" data-tab="canons" class="cx-tab-btn"></button>
+  <button data-action="switchTab" data-tab="todos" class="cx-tab-btn"></button>
+</nav>
+
+<button id="fabButton" class="cx-fab" data-action="fabAction"></button>
+<div id="searchOverlay" hidden></div>
