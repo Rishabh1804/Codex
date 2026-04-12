@@ -463,3 +463,19 @@ a{color:inherit;text-decoration:none}
   flex-shrink: 0;
   vertical-align: middle;
 }
+/* Hotfix 2: Global SVG fallback + scroll fix */
+
+/* Global SVG fallback — :where() zeroes out specificity so ANY
+   class-based rule (.cx-card-title svg, .cx-fab svg, etc.) overrides this */
+:where(#viewContainer) svg,
+:where(#appHeader) svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* Scroll fix: original body{height:100%} caps body at viewport height,
+   blocking natural page scroll. Override to auto. */
+html:root { height: auto; }
+body { height: auto; overflow-y: auto; }
