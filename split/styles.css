@@ -257,3 +257,198 @@ a{color:inherit;text-decoration:none}
 
 /* --- Responsive --- */
 @media(min-width:600px){#viewContainer{max-width:640px;margin:0 auto}.cx-overlay{max-width:640px;margin:0 auto}}
+/* ============================================================
+   PHASE 2 CSS — Append to end of styles.css
+   ============================================================ */
+
+/* --- Wizard --- */
+.cx-wizard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: var(--sp-24);
+  text-align: center;
+}
+.cx-wizard-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--accent);
+  margin-bottom: var(--sp-16);
+}
+.cx-wizard-icon svg { width: 100%; height: 100%; }
+.cx-wizard-title {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  color: var(--text-primary);
+  margin: 0 0 var(--sp-8);
+}
+.cx-wizard-subtitle {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  margin: 0 0 var(--sp-16);
+  max-width: 320px;
+  line-height: 1.5;
+}
+.cx-wizard-body {
+  font-size: var(--fs-sm);
+  color: var(--text-tertiary);
+  margin: 0 0 var(--sp-24);
+  max-width: 320px;
+  line-height: 1.6;
+}
+.cx-wizard-progress {
+  font-size: var(--fs-2xs);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--sp-16);
+}
+.cx-wizard-btn {
+  min-width: 200px;
+  margin-bottom: var(--sp-8);
+}
+.cx-wizard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  width: 100%;
+  max-width: 320px;
+}
+.cx-wizard-form {
+  width: 100%;
+  max-width: 320px;
+  text-align: left;
+  margin-bottom: var(--sp-16);
+}
+.cx-wizard-theme-options {
+  display: flex;
+  gap: var(--sp-16);
+  margin-bottom: var(--sp-24);
+}
+.cx-wizard-theme-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-8);
+  padding: var(--sp-20) var(--sp-24);
+  border: 2px solid var(--border);
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+}
+.cx-wizard-theme-card svg { width: 32px; height: 32px; }
+.cx-wizard-theme-card:hover { border-color: var(--accent-light); }
+.cx-wizard-theme-active {
+  border-color: var(--accent);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* --- Sync Indicator --- */
+.cx-sync-dot {
+  position: fixed;
+  top: var(--sp-12);
+  right: var(--sp-12);
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-full);
+  z-index: 1001;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.cx-sync-synced { background: var(--success); }
+.cx-sync-pending { background: var(--warning); animation: cx-pulse 1.5s infinite; }
+.cx-sync-failed { background: var(--error); }
+
+@keyframes cx-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* --- Offline Banner --- */
+.banner-offline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--warning);
+  color: #fff;
+  text-align: center;
+  padding: var(--sp-6) var(--sp-12);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  z-index: 1001;
+}
+
+/* --- Tab Badge --- */
+.cx-tab-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: var(--error);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+}
+.cx-tab-btn { position: relative; }
+
+/* --- Loading State --- */
+.cx-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: var(--text-tertiary);
+}
+.cx-loading-state svg {
+  width: 48px;
+  height: 48px;
+  color: var(--accent);
+  margin-bottom: var(--sp-16);
+  animation: cx-pulse 1.5s infinite;
+}
+.cx-loading-text {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+/* --- Sync Badge (Settings) --- */
+.cx-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-10);
+  border-radius: var(--r-full);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+}
+.cx-sync-badge svg { width: 14px; height: 14px; }
+.cx-sync-badge-connected {
+  background: var(--success);
+  color: #fff;
+}
+
+/* --- Blocker (localStorage unavailable) --- */
+.cx-blocker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--sp-24);
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+}

@@ -91,8 +91,8 @@
 
 /* --- Reset --- */
 *,*::before,*::after{box-sizing:border-box}
-html{height:auto}
-body{margin:0;font-family:var(--ff-body);font-size:var(--fs-sm);line-height:1.5;color:var(--text-primary);background:var(--bg-primary);-webkit-font-smoothing:antialiased}
+html{height:100%}
+body{margin:0;font-family:var(--ff-body);font-size:var(--fs-sm);line-height:1.5;color:var(--text-primary);background:var(--bg-primary);height:100%;overscroll-behavior:none;-webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:var(--ff-heading);font-weight:700;margin:0}
 button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 input,textarea,select{font:inherit;color:inherit}
@@ -103,7 +103,7 @@ a{color:inherit;text-decoration:none}
 .cx-app-title{font-family:var(--ff-heading);font-size:var(--fs-lg);font-weight:700}
 .cx-header-actions{display:flex;gap:var(--sp-8)}
 
-#viewContainer{padding:var(--sp-16);padding-bottom:calc(60px + env(safe-area-inset-bottom) + var(--sp-16))}
+#viewContainer{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:var(--sp-16);padding-bottom:calc(60px + env(safe-area-inset-bottom) + var(--sp-16));overscroll-behavior-y:contain}
 
 #tabBar{position:fixed;bottom:0;left:0;right:0;z-index:10;display:flex;justify-content:space-around;align-items:center;height:calc(56px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:var(--bg-card);border-top:1px solid var(--border)}
 .cx-tab-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--sp-2);flex:1;padding:var(--sp-8) 0;color:var(--text-tertiary);min-height:44px;transition:color var(--anim-tab-switch)}
@@ -117,8 +117,7 @@ a{color:inherit;text-decoration:none}
 .cx-breadcrumb-current{color:var(--text-primary);font-weight:600}
 
 .cx-page-title{font-family:var(--ff-heading);font-size:var(--fs-xl);margin-bottom:var(--sp-16)}
-.cx-section-title{font-size:var(--fs-xs);font-weight:700;color:var(--text-secondary);margin:var(--sp-16) 0 var(--sp-8);text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:var(--sp-6)}
-.cx-section-title svg{width:18px;height:18px;flex-shrink:0}
+.cx-section-title{font-size:var(--fs-xs);font-weight:700;color:var(--text-secondary);margin:var(--sp-16) 0 var(--sp-8);text-transform:uppercase;letter-spacing:0.5px}
 
 /* --- Buttons --- */
 .cx-btn-primary{background:var(--accent);color:white;border:none;border-radius:var(--r-md);padding:var(--sp-10) var(--sp-20);font-size:var(--fs-sm);font-weight:600;cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-6)}
@@ -156,8 +155,7 @@ a{color:inherit;text-decoration:none}
 .cx-card-header{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-8)}
 .cx-card-body{margin-top:var(--sp-8)}
 .cx-card-footer{display:flex;flex-wrap:wrap;gap:var(--sp-8);align-items:center;margin-top:var(--sp-8)}
-.cx-card-meta{font-size:var(--fs-xs);color:var(--text-tertiary);display:flex;align-items:center;gap:var(--sp-6)}
-.cx-card-meta svg{width:16px;height:16px;flex-shrink:0}
+.cx-card-meta{font-size:var(--fs-xs);color:var(--text-tertiary)}
 .cx-card-actions{display:flex;gap:var(--sp-4);justify-content:flex-end;margin-top:var(--sp-8)}
 .cx-card-title{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;display:flex;align-items:center;gap:var(--sp-8)}
 .cx-card-title svg{width:22px;height:22px;color:var(--accent);flex-shrink:0}
@@ -246,7 +244,6 @@ a{color:inherit;text-decoration:none}
 .cx-todo-resolved{opacity:0.6}
 .cx-todo-volume-group{padding:var(--sp-12);margin-bottom:var(--sp-12)}
 .cx-todo-volume-title{font-size:var(--fs-sm);font-weight:600;margin-bottom:var(--sp-8);display:flex;align-items:center;gap:var(--sp-6)}
-.cx-todo-volume-title svg{width:20px;height:20px;flex-shrink:0}
 .cx-todo-chapter-label{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;margin:var(--sp-8) 0 var(--sp-4)}
 
 /* --- Tags --- */
@@ -283,12 +280,12 @@ a{color:inherit;text-decoration:none}
 
 /* --- Text Size Slider --- */
 .cx-slider-wrap{position:relative;padding:var(--sp-8) 0}
-.cx-slider-track{width:100%;height:6px;background:var(--border);border-radius:3px;position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none}
-.cx-slider-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 0.15s ease-out;pointer-events:none}
-.cx-slider-thumb{width:28px;height:28px;background:var(--accent);border-radius:var(--r-full);position:absolute;top:50%;transform:translate(-50%,-50%);cursor:grab;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:left 0.15s ease-out;-webkit-tap-highlight-color:transparent;outline:none;touch-action:none}
+.cx-slider-track{width:100%;height:6px;background:var(--border);border-radius:3px;position:relative;cursor:pointer}
+.cx-slider-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 0.2s ease}
+.cx-slider-thumb{width:28px;height:28px;background:var(--accent);border-radius:var(--r-full);position:absolute;top:50%;transform:translate(-50%,-50%);cursor:grab;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:left 0.2s ease}
 .cx-slider-thumb:active{cursor:grabbing;transform:translate(-50%,-50%) scale(1.1)}
 .cx-slider-labels{display:flex;justify-content:space-between;margin-top:var(--sp-10)}
-.cx-slider-label{font-size:var(--fs-2xs);font-weight:600;letter-spacing:1.5px;color:var(--text-tertiary);padding:var(--sp-4) var(--sp-8);border-radius:var(--r-sm);cursor:pointer;transition:color var(--anim-tab-switch),background var(--anim-tab-switch);-webkit-tap-highlight-color:transparent}
+.cx-slider-label{font-size:var(--fs-2xs);font-weight:600;letter-spacing:1.5px;color:var(--text-tertiary);padding:var(--sp-4) var(--sp-8);border-radius:var(--r-sm);cursor:pointer;transition:color var(--anim-tab-switch),background var(--anim-tab-switch)}
 .cx-slider-label-active{color:var(--accent);background:rgba(196,168,122,0.1)}
 .cx-preview-pill{background:rgba(196,168,122,0.08);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-12) var(--sp-16);text-align:center;margin-top:var(--sp-12)}
 
@@ -318,11 +315,206 @@ a{color:inherit;text-decoration:none}
 
 /* --- Responsive --- */
 @media(min-width:600px){#viewContainer{max-width:640px;margin:0 auto}.cx-overlay{max-width:640px;margin:0 auto}}
+/* ============================================================
+   PHASE 2 CSS — Append to end of styles.css
+   ============================================================ */
+
+/* --- Wizard --- */
+.cx-wizard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: var(--sp-24);
+  text-align: center;
+}
+.cx-wizard-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--accent);
+  margin-bottom: var(--sp-16);
+}
+.cx-wizard-icon svg { width: 100%; height: 100%; }
+.cx-wizard-title {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  color: var(--text-primary);
+  margin: 0 0 var(--sp-8);
+}
+.cx-wizard-subtitle {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  margin: 0 0 var(--sp-16);
+  max-width: 320px;
+  line-height: 1.5;
+}
+.cx-wizard-body {
+  font-size: var(--fs-sm);
+  color: var(--text-tertiary);
+  margin: 0 0 var(--sp-24);
+  max-width: 320px;
+  line-height: 1.6;
+}
+.cx-wizard-progress {
+  font-size: var(--fs-2xs);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--sp-16);
+}
+.cx-wizard-btn {
+  min-width: 200px;
+  margin-bottom: var(--sp-8);
+}
+.cx-wizard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  width: 100%;
+  max-width: 320px;
+}
+.cx-wizard-form {
+  width: 100%;
+  max-width: 320px;
+  text-align: left;
+  margin-bottom: var(--sp-16);
+}
+.cx-wizard-theme-options {
+  display: flex;
+  gap: var(--sp-16);
+  margin-bottom: var(--sp-24);
+}
+.cx-wizard-theme-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-8);
+  padding: var(--sp-20) var(--sp-24);
+  border: 2px solid var(--border);
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+}
+.cx-wizard-theme-card svg { width: 32px; height: 32px; }
+.cx-wizard-theme-card:hover { border-color: var(--accent-light); }
+.cx-wizard-theme-active {
+  border-color: var(--accent);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* --- Sync Indicator --- */
+.cx-sync-dot {
+  position: fixed;
+  top: var(--sp-12);
+  right: var(--sp-12);
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-full);
+  z-index: 1001;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.cx-sync-synced { background: var(--success); }
+.cx-sync-pending { background: var(--warning); animation: cx-pulse 1.5s infinite; }
+.cx-sync-failed { background: var(--error); }
+
+@keyframes cx-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* --- Offline Banner --- */
+.banner-offline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--warning);
+  color: #fff;
+  text-align: center;
+  padding: var(--sp-6) var(--sp-12);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  z-index: 1001;
+}
+
+/* --- Tab Badge --- */
+.cx-tab-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: var(--error);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+}
+.cx-tab-btn { position: relative; }
+
+/* --- Loading State --- */
+.cx-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: var(--text-tertiary);
+}
+.cx-loading-state svg {
+  width: 48px;
+  height: 48px;
+  color: var(--accent);
+  margin-bottom: var(--sp-16);
+  animation: cx-pulse 1.5s infinite;
+}
+.cx-loading-text {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+/* --- Sync Badge (Settings) --- */
+.cx-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-10);
+  border-radius: var(--r-full);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+}
+.cx-sync-badge svg { width: 14px; height: 14px; }
+.cx-sync-badge-connected {
+  background: var(--success);
+  color: #fff;
+}
+
+/* --- Blocker (localStorage unavailable) --- */
+.cx-blocker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--sp-24);
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+}
 </style>
 <script>
-/* CODEX — Data Layer (from spec CODEBASE_REFERENCE) */
+/* CODEX — Data Layer (Phase 2: WAL + GitHub sync support) */
 
-var CODEX_VERSION = '0.1.0';
+var CODEX_VERSION = '1.0.0';
 var CODEX_SCHEMA_VERSION = 1;
 var OVERLAY_ANIM_MS = 300;
 var TEXT_SIZES = { low: '12px', med: '14px', high: '17px' };
@@ -332,6 +524,11 @@ var SHELF_LABELS = { active: 'Active', paused: 'Paused', archived: 'Archived', a
 var CHAPTER_STATUSES = ['planned', 'in-progress', 'paused', 'complete', 'abandoned'];
 var CANON_CATEGORIES = ['design', 'architecture', 'process'];
 var TODO_STATUSES = ['open', 'resolved'];
+
+/* Phase 2 globals */
+var _isOffline = false;
+var _initializing = true;
+var _isRendering = false;
 
 var KEYS = {
   THEME: 'codex-theme', TEXT_SIZE: 'codex-textSize', TOKEN: 'codex-token',
@@ -429,13 +626,13 @@ function buildSnippet(text, query, contextChars) {
   var lowerText = text.toLowerCase();
   var lowerQuery = query.toLowerCase();
   var idx = lowerText.indexOf(lowerQuery);
-  if (idx === -1) return escHtml(text.substring(0, 80)) + '…';
+  if (idx === -1) return escHtml(text.substring(0, 80)) + '\u2026';
   var start = Math.max(0, idx - contextChars);
   var end = Math.min(text.length, idx + query.length + contextChars);
   var snippet = '';
-  if (start > 0) snippet += '…';
+  if (start > 0) snippet += '\u2026';
   snippet += text.substring(start, end);
-  if (end < text.length) snippet += '…';
+  if (end < text.length) snippet += '\u2026';
   return highlightMatch(snippet, query);
 }
 
@@ -455,14 +652,48 @@ function _fallbackCopy(text, msg) {
   document.body.removeChild(ta);
 }
 
+/* --- Phase 2: Base64 (UTF-8 safe — never raw btoa/atob) --- */
+function utf8ToBase64(str) {
+  var encoder = new TextEncoder();
+  var bytes = encoder.encode(str);
+  var binary = '';
+  bytes.forEach(function(b) { binary += String.fromCharCode(b); });
+  return btoa(binary);
+}
+
+function base64ToUtf8(base64) {
+  var binary = atob(base64);
+  var bytes = Uint8Array.from(binary, function(c) { return c.charCodeAt(0); });
+  return new TextDecoder().decode(bytes);
+}
+
+/* --- Phase 2: API Throttle --- */
+function createThrottle(minIntervalMs) {
+  var lastCall = 0;
+  return function throttled(fn) {
+    var now = Date.now();
+    var elapsed = now - lastCall;
+    if (elapsed < minIntervalMs) {
+      return new Promise(function(resolve) {
+        setTimeout(function() { lastCall = Date.now(); resolve(fn()); }, minIntervalMs - elapsed);
+      });
+    }
+    lastCall = Date.now();
+    return Promise.resolve(fn());
+  };
+}
+var apiThrottle = createThrottle(500);
+
 /* --- Error Logging --- */
 function logError(category, message, detail) {
   try {
     var log = JSON.parse(localStorage.getItem(KEYS.ERROR_LOG) || '[]');
-    log.unshift({ ts: new Date().toISOString(), cat: category, msg: message, detail: detail || null });
+    log.unshift({ ts: new Date().toISOString(), v: CODEX_VERSION, cat: category, msg: message,
+      detail: typeof detail === 'string' ? detail : JSON.stringify(detail || null).substring(0, 500) });
     if (log.length > 50) log = log.slice(0, 50);
     localStorage.setItem(KEYS.ERROR_LOG, JSON.stringify(log));
   } catch(e) { console.error('logError failed:', e); }
+  console.error('[Codex ' + category + '] ' + message, detail);
 }
 
 function safeParseLocalStorage(key) {
@@ -470,16 +701,22 @@ function safeParseLocalStorage(key) {
   catch(e) { localStorage.removeItem(key); return null; }
 }
 
-/* --- Store --- */
+/* --- Store (Phase 2: WAL-aware mutations) --- */
 var store = {
   volumes: [],
   canons: [],
   rejections: [],
   journal: [],
   _wal: [],
+  _meta: {
+    shas: { volumes: null, canons: null, journal: null },
+    lastFetch: null,
+    schemaVersions: { volumes: 1, canons: 1, journal: 1 }
+  },
   _listeners: [],
   _walListeners: [],
   _overlayCount: 0,
+  _flushTimer: null,
 
   onChange: function(fn) { store._listeners.push(fn); },
   onWalChange: function(fn) { store._walListeners.push(fn); },
@@ -490,6 +727,46 @@ var store = {
     for (var i = 0; i < store._listeners.length; i++) {
       try { store._listeners[i](); } catch(e) { logError('onChange', e.message); }
     }
+  },
+
+  _fireWalChange: function() {
+    for (var i = 0; i < store._walListeners.length; i++) {
+      try { store._walListeners[i](); } catch(e) { logError('onWalChange', e.message); }
+    }
+  },
+
+  _createWalEntry: function(action, entityType, entityId, targetFile, payload, parentId) {
+    var entry = {
+      id: 'wal-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+      timestamp: new Date().toISOString(),
+      _schema_version: CODEX_SCHEMA_VERSION,
+      action: action,
+      entity_type: entityType,
+      entity_id: entityId,
+      target_file: targetFile,
+      parent_id: parentId || null,
+      payload: payload ? deepClone(payload) : null,
+      status: 'pending',
+      error: null
+    };
+    store._wal.push(entry);
+    try {
+      localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal));
+    } catch(e) {
+      store._wal.pop();
+      showToast('Storage full \u2014 change not saved!', 'error');
+      throw new Error('WAL_STORAGE_FULL');
+    }
+    store._fireWalChange();
+    if (!_isOffline && localStorage.getItem(KEYS.REPO_URL)) store._scheduleFlush();
+  },
+
+  _scheduleFlush: function() {
+    if (store._flushTimer) return;
+    store._flushTimer = setTimeout(function() {
+      store._flushTimer = null;
+      if (typeof flushQueue === 'function') flushQueue();
+    }, 1000);
   },
 
   _cacheToLocalStorage: function() {
@@ -511,13 +788,16 @@ var store = {
       current_phase: vol.current_phase || '', chapters: [], todos: [],
       shelf_history: [{ shelf: vol.shelf || 'active', date: localDateStr(), reason: 'Created' }] };
     store.volumes.push(entry);
+    store._createWalEntry('create', 'volume', entry.id, 'volumes.json', entry);
     store._fireChange();
     return entry;
   },
   updateVolume: function(id, patch) {
     var vol = store.volumes.find(function(v) { return v.id === id; });
     if (!vol) throw new Error('Volume not found: ' + id);
+    delete patch.id;
     ['name','description','domain_color','tags','repo','current_phase'].forEach(function(k) { if (patch.hasOwnProperty(k)) vol[k] = patch[k]; });
+    store._createWalEntry('update', 'volume', id, 'volumes.json', patch);
     store._fireChange();
   },
   deleteVolume: function(id) {
@@ -526,6 +806,7 @@ var store = {
     var active = filterActive(vol.chapters || []);
     if (active.length > 0 || (vol.todos || []).length > 0) throw new Error('Remove chapters and TODOs first');
     store.volumes = store.volumes.filter(function(v) { return v.id !== id; });
+    store._createWalEntry('delete', 'volume', id, 'volumes.json', null);
     store._fireChange();
   },
   transitionShelf: function(volumeId, newShelf, reason) {
@@ -536,6 +817,7 @@ var store = {
     vol.shelf = newShelf;
     if (!vol.shelf_history) vol.shelf_history = [];
     vol.shelf_history.push({ shelf: newShelf, date: localDateStr(), reason: reason || null });
+    store._createWalEntry('shelf_transition', 'volume', volumeId, 'volumes.json', { shelf: newShelf, reason: reason || null });
     store._fireChange();
   },
 
@@ -551,6 +833,7 @@ var store = {
     if (entry.status === 'complete') entry.completed = localDateStr();
     if (!vol.chapters) vol.chapters = [];
     vol.chapters.push(entry);
+    store._createWalEntry('create', 'chapter', entry.id, 'volumes.json', entry, volumeId);
     store._fireChange();
     return entry;
   },
@@ -565,6 +848,7 @@ var store = {
     if (patch.status === 'in-progress' && !ch.started) ch.started = localDateStr();
     if (patch.status && patch.status !== 'complete') ch.completed = null;
     if (patch.status && patch.status !== 'abandoned') ch.ended = null;
+    store._createWalEntry('update', 'chapter', chapterId, 'volumes.json', patch, volumeId);
     store._fireChange();
   },
   deleteChapter: function(volumeId, chapterId) {
@@ -573,6 +857,7 @@ var store = {
     var ch = (vol.chapters || []).find(function(c) { return c.id === chapterId; });
     if (!ch) throw new Error('Chapter not found');
     ch._deleted = true; ch._deleted_date = localDateStr();
+    store._createWalEntry('delete', 'chapter', chapterId, 'volumes.json', null, volumeId);
     store._fireChange();
   },
 
@@ -585,6 +870,7 @@ var store = {
       created: todo.created || localDateStr(), resolved: null, source_session: todo.source_session || null };
     if (!vol.todos) vol.todos = [];
     vol.todos.push(entry);
+    store._createWalEntry('create', 'todo', entry.id, 'volumes.json', entry, volumeId);
     store._fireChange();
     return entry;
   },
@@ -600,17 +886,53 @@ var store = {
       if (patch.status === 'resolved' && !todo.resolved) todo.resolved = localDateStr();
       if (patch.status === 'open') todo.resolved = null;
     }
+    store._createWalEntry('update', 'todo', todoId, 'volumes.json', patch, volumeId);
     store._fireChange();
   },
   deleteTodo: function(volumeId, todoId) {
     var vol = store.volumes.find(function(v) { return v.id === volumeId; });
     if (!vol) throw new Error('Volume not found');
     vol.todos = (vol.todos || []).filter(function(t) { return t.id !== todoId; });
+    store._createWalEntry('delete', 'todo', todoId, 'volumes.json', null, volumeId);
     store._fireChange();
   },
 
-  /* --- Canon (stub for Phase 3) --- */
-  addCanon: function(c) { if (!c.id || !c.title) throw new Error('Canon requires id and title'); store.canons.push(c); store._fireChange(); },
+  /* --- Canon --- */
+  addCanon: function(c) {
+    if (!c.id || !c.title) throw new Error('Canon requires id and title');
+    store.canons.push(c);
+    store._createWalEntry('create', 'canon', c.id, 'canons.json', c);
+    store._fireChange();
+  },
+
+  /* --- Rejection --- */
+  addRejection: function(r) {
+    if (!r.id) throw new Error('Rejection requires id');
+    store.rejections.push(r);
+    store._createWalEntry('create', 'rejection', r.id, 'canons.json', r);
+    store._fireChange();
+  },
+
+  /* --- Journal --- */
+  addJournalSession: function(date, session) {
+    var day = store.journal.find(function(d) { return d.date === date; });
+    if (!day) {
+      day = { date: date, sessions: [] };
+      store.journal.push(day);
+      store.journal.sort(function(a, b) { return b.date.localeCompare(a.date); });
+    }
+    if (!session.id) {
+      var suffix = 1;
+      if (day.sessions.length > 0) {
+        var suffixes = day.sessions.map(function(s) { var m = s.id.match(/-(\d+)$/); return m ? parseInt(m[1], 10) : 0; });
+        suffix = Math.max.apply(null, [0].concat(suffixes)) + 1;
+      }
+      session.id = 's-' + date + '-' + String(suffix).padStart(2, '0');
+    }
+    day.sessions.push(session);
+    store._createWalEntry('create', 'session', session.id, 'journal.json', session, date);
+    store._fireChange();
+  },
 
   /* --- Helpers --- */
   getScopeOptions: function() {
@@ -620,28 +942,51 @@ var store = {
   }
 };
 
+/* --- Store Population (Phase 2: tracks _meta SHAs) --- */
 function populateStore(volResult, canonResult, journalResult) {
-  if (volResult && volResult.data) {
-    store.volumes = volResult.data.volumes || [];
-    if (volResult.sha) localStorage.setItem(KEYS.SHA_VOLUMES, volResult.sha);
-  }
-  if (canonResult && canonResult.data) {
-    store.canons = canonResult.data.canons || [];
-    store.rejections = canonResult.data.rejected_alternatives || [];
-    if (canonResult.sha) localStorage.setItem(KEYS.SHA_CANONS, canonResult.sha);
-  }
-  if (journalResult && journalResult.data) {
-    store.journal = journalResult.data.journal || [];
-    if (journalResult.sha) localStorage.setItem(KEYS.SHA_JOURNAL, journalResult.sha);
-  }
+  var vData = (volResult && volResult.data) || { _schema_version: 1, volumes: [] };
+  store.volumes = vData.volumes || [];
+  store._meta.schemaVersions.volumes = vData._schema_version || 1;
+  store._meta.shas.volumes = (volResult && volResult.sha) || null;
+
+  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], rejected_alternatives: [] };
+  store.canons = cData.canons || [];
+  store.rejections = cData.rejected_alternatives || [];
+  store._meta.schemaVersions.canons = cData._schema_version || 1;
+  store._meta.shas.canons = (canonResult && canonResult.sha) || null;
+
+  var jData = (journalResult && journalResult.data) || { _schema_version: 1, journal: [] };
+  store.journal = jData.journal || [];
+  store._meta.schemaVersions.journal = jData._schema_version || 1;
+  store._meta.shas.journal = (journalResult && journalResult.sha) || null;
+
+  store.journal.sort(function(a, b) { return b.date.localeCompare(a.date); });
+
+  try {
+    localStorage.setItem(KEYS.CACHE_VOLUMES, JSON.stringify(vData));
+    localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify(cData));
+    localStorage.setItem(KEYS.CACHE_JOURNAL, JSON.stringify(jData));
+    if (volResult && volResult.sha) localStorage.setItem(KEYS.SHA_VOLUMES, volResult.sha);
+    if (canonResult && canonResult.sha) localStorage.setItem(KEYS.SHA_CANONS, canonResult.sha);
+    if (journalResult && journalResult.sha) localStorage.setItem(KEYS.SHA_JOURNAL, journalResult.sha);
+  } catch(e) { logError('cache', 'Failed to cache', e.message); }
+
+  store._meta.lastFetch = new Date().toISOString();
+}
+
+function getStoreSnapshot() {
+  return JSON.parse(JSON.stringify({
+    volumes: store.volumes, canons: store.canons,
+    rejections: store.rejections, journal: store.journal
+  }));
 }
 
 /* CODEX — Seed Data (updated 12 Apr 2026) */
 
-var SEED_VERSION = 3;
+var SEED_VERSION = 2;
 
 function getSeedVolumes() {
-  return {"_schema_version":1,"volumes":[{"id":"sproutlab","name":"SproutLab","shelf":"active","description":"Single-file PWA tracking feeding, sleep, growth, milestones, and medical data for Ziva. Wife Mode default. Hosted at rishabh1804.github.io/sproutlab/.","domain_color":"#E8B4B8","tags":["pwa","health","parenting"],"repo":"rishabh1804/sproutlab","current_phase":"CareTickets Phase D complete \u2014 notifications, integration, polish done","chapters":[{"id":"v1-v2-builds","name":"v1\u2013v2 Iterative Builds","status":"complete","started":"2024-10-01","completed":"2026-03-15","ended":null,"summary":"Single-file HTML PWA built iteratively from v1.x through v2.38+. Core tracking: feeding, sleep, poop, growth, milestones, medical. Wife Mode, localStorage persistence, GitHub Pages hosting.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"architecture-split","name":"Architecture Split","status":"complete","started":"2026-04-07","completed":"2026-04-09","ended":null,"summary":"Split monolith into 9 modules (data, core, home, diet, medical, intelligence, start + styles.css, template.html). Concat build via build.sh. Phases 1\u20133 complete.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"diet","name":"Diet Module","status":"complete","started":"2026-03-01","completed":"2026-04-01","ended":null,"summary":"Food logging, Smart Quick Log, Food Favorites, nutrient intelligence, ingredient picker.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"medical","name":"Medical Module","status":"complete","started":"2026-03-01","completed":"2026-04-01","ended":null,"summary":"Vaccination intelligence with reaction tracking and timeline visualization. Growth tracking, medical records.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"intelligence","name":"Intelligence Module","status":"complete","started":"2026-03-15","completed":"2026-04-05","ended":null,"summary":"Cross-Domain Intelligence (6 cards), Smart Q&A Phase 2 (22 intents, 24 handlers).","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"smart-qa","name":"Smart Q&A","status":"complete","started":"2026-03-20","completed":"2026-04-05","ended":null,"summary":"Phase 2: 22 intents, 24 dedicated handlers, natural language query processing for baby data.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"search-bar","name":"Search Bar Upgrade","status":"complete","started":"2026-04-01","completed":"2026-04-05","ended":null,"summary":"ISL generateRangeSummary(), lookback/pattern/planning query modes, nutrient intelligence cards, ingredient picker.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"today-so-far","name":"Today So Far","status":"complete","started":"2026-04-05","completed":"2026-04-06","ended":null,"summary":"Smart card with vertical chronological list, warmth gradient bar, pattern-based nudges, 12 functions with _tsf* prefix.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"caretickets","name":"CareTickets","status":"complete","started":"2026-04-06","completed":"2026-04-10","ended":null,"summary":"21-field data model, 7 templates, 6-transition state machine, main-thread notifications, illness-aware metric pausing, TSF integration, share summary. Spec v5 (~1,089 lines). 15 QA rounds, 310 scenarios.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"bug-capture","name":"Bug Capture System","status":"complete","started":"2026-04-08","completed":"2026-04-09","ended":null,"summary":"Three capture paths, WhatsApp/clipboard delivery.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"cross-domain","name":"Cross-Domain Intelligence","status":"complete","started":"2026-04-04","completed":"2026-04-05","ended":null,"summary":"6 intelligence cards spanning feeding, sleep, growth, and medical domains.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"migration-m1-m2-m3","name":"Migration M1\u2013M3","status":"complete","started":"2026-04-03","completed":"2026-04-07","ended":null,"summary":"M3: emoji\u2192SVG, inline style extraction, onclick\u2192delegation. Full codebase modernization.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"design-principles-v3","name":"Design Principles v3","status":"complete","started":"2026-04-01","completed":"2026-04-05","ended":null,"summary":"2,011 lines locked. Overlay/Chip/Card/Answer Card/Form systems plus Animation Tokens, Touch Targets, data-action naming.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[{"id":"todo-0001-fix-id-mismatch","text":"Fix ctStorageWarning div ID mismatch \u2014 template.html uses ctStorageWarning but JS references ctStorageWarn","status":"open","chapter":"caretickets","created":"2026-04-10","resolved":null,"source_session":"s-2026-04-10-01"}],"shelf_history":[{"shelf":"active","date":"2024-10-01","reason":"Project started \u2014 Ziva's Dashboard v1"}]},{"id":"sep-dashboard","name":"SEP Dashboard","shelf":"active","description":"Single-file PWA for SEP workforce management \u2014 attendance, production, stock, payroll. 7-principle design system, 21-worker roster, full wage calculation engine.","domain_color":"#7A9E7E","tags":["pwa","manufacturing","workforce"],"repo":null,"current_phase":"v2.0 stable, restructuring data reconciliation in progress","chapters":[{"id":"v1-v2-builds","name":"v1\u2013v2 Builds","status":"complete","started":"2024-01-01","completed":"2026-03-01","ended":null,"summary":"Iterative build from v1.x through v2.0. Attendance, production logging, stock tracking, payroll with wage calculation engine.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"restructuring","name":"SEP Restructuring","status":"in-progress","started":"2026-04-01","completed":null,"ended":null,"summary":"Effective 1 Apr 2026. DIGITAL-001 v5, KB-006 AppSheet spec, KPI-001\u2013007 binders done. Salary confirmations complete. Data reconciliation in progress.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[],"shelf_history":[{"shelf":"active","date":"2024-01-01","reason":null}]},{"id":"sep-invoicing","name":"SEP Invoicing","shelf":"active","description":"Standalone PWA for SEP invoicing \u2014 21 clients, full rate cards, three billing modes, GST export.","domain_color":"#6B8EAD","tags":["pwa","invoicing","gst"],"repo":null,"current_phase":"Phase 1 complete (Client Master, Create Invoice, Settings). Phase 2: Invoice Register + GST Export.","chapters":[{"id":"spec","name":"Spec & Design","status":"complete","started":"2026-04-01","completed":"2026-04-03","ended":null,"summary":"SEP_INVOICING_SPEC_v1.md \u2014 21 clients, rate cards, weight/piece-challan/NOS-to-weight billing, Sales Register + GSTR1 CSV, five tabs.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"phase-1","name":"Phase 1 Build","status":"complete","started":"2026-04-03","completed":"2026-04-06","ended":null,"summary":"Client Master, Create Invoice, Settings. 21 bugs found and fixed across three QA rounds.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"phase-2","name":"Phase 2 Build","status":"planned","started":null,"completed":null,"ended":null,"summary":"Invoice Register and GST Export tabs.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[],"shelf_history":[{"shelf":"active","date":"2026-04-01","reason":"New project \u2014 SEP billing digitization"}]},{"id":"codex","name":"Codex","shelf":"active","description":"Library-themed PWA tracking projects, sessions, design decisions, and progress across Claude conversations. GitHub JSON storage. Shared design system roots with SproutLab but distinct icon set and library-themed tokens.","domain_color":"#C4A87A","tags":["pwa","meta","knowledge-management"],"repo":"Rishabh1804/Codex","current_phase":"Phase 1 complete \u2014 deployed to rishabh1804.github.io/Codex/","chapters":[{"id":"spec","name":"Spec & Design Session","status":"complete","started":"2026-04-11","completed":"2026-04-11","ended":null,"summary":"CODEX_SPEC_v1.md and CODEX_QUICK_REFERENCE.md written. Design session resolved all 3 blockers: Playfair Display + Work Sans fonts, Style C icons (19 cx() SVGs), text size system (LOW/MED/HIGH). Initial data backfill generated.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"design-session","name":"Design Session","status":"complete","started":"2026-04-11","completed":"2026-04-12","ended":null,"summary":"Pre-build design session resolving fonts (Playfair Display + Work Sans), icons (Style C thin + accent fill, 19 icons), text size system (3-preset --fs-base driven), and initial data backfill (3 JSONs).","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"phase-1-build","name":"Phase 1 \u2014 Core Build","status":"complete","started":"2026-04-12","completed":"2026-04-12","ended":null,"summary":"Built and deployed Phase 1. 8-module split architecture (template, styles, data, seed, core, views, forms, start). Dashboard, Volume Detail, TODOs, Settings views. Overlay/confirm/toast systems. Theme toggle, text size slider. Seed data with 5 volumes, 23 canons. PWA manifest + icons. Deployed to GitHub Pages.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[{"id":"todo-0001-reconcile-fs-tokens","text":"Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system","status":"resolved","chapter":"design-session","created":"2026-04-11","resolved":"2026-04-12","source_session":"s-2026-04-11-01"},{"id":"todo-0002-phase-2-github-sync","text":"Phase 2: GitHub sync, WAL, onboarding wizard, token validation","status":"open","chapter":"phase-1-build","created":"2026-04-12","resolved":null,"source_session":"s-2026-04-12-01"},{"id":"todo-0003-service-worker","text":"Add service worker for offline caching","status":"open","chapter":"phase-1-build","created":"2026-04-12","resolved":null,"source_session":"s-2026-04-12-01"}],"shelf_history":[{"shelf":"active","date":"2026-04-11","reason":"Project started \u2014 institutional memory system"}]},{"id":"businessai-simulation","name":"BusinessAI Simulation","shelf":"paused","description":"Business simulation addressed as BAI. ~\u20b930 crore/year business, 14 members, four entities (trading, industry, logistics). Objective: organize from informal to structured.","domain_color":"#A08870","tags":["simulation","business","strategy"],"repo":null,"current_phase":"Agenda-setting meeting planned, Shyam ops+culture discussion guide TODO","chapters":[{"id":"kickoff","name":"Kickoff & Agenda Setting","status":"in-progress","started":"2026-03-01","completed":null,"ended":null,"summary":"Initial informal discussion to set meeting agendas and lay organizational foundations. Shyam ops+culture discussion guide still pending.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[{"id":"todo-0001-shyam-guide","text":"Prep Shyam ops+culture discussion guide for follow-up meeting","status":"open","chapter":"kickoff","created":"2026-04-01","resolved":null,"source_session":null}],"shelf_history":[{"shelf":"active","date":"2026-03-01","reason":null},{"shelf":"paused","date":"2026-04-01","reason":"Focus shifted to SproutLab feature builds and SEP restructuring"}]}]};
+  return {"_schema_version":1,"volumes":[{"id":"sproutlab","name":"SproutLab","shelf":"active","description":"Single-file PWA tracking feeding, sleep, growth, milestones, and medical data for Ziva. Wife Mode default. Hosted at rishabh1804.github.io/sproutlab/.","domain_color":"#E8B4B8","tags":["pwa","health","parenting"],"repo":"rishabh1804/sproutlab","current_phase":"CareTickets Phase D complete \u2014 notifications, integration, polish done","chapters":[{"id":"v1-v2-builds","name":"v1\u2013v2 Iterative Builds","status":"complete","started":"2024-10-01","completed":"2026-03-15","ended":null,"summary":"Single-file HTML PWA built iteratively from v1.x through v2.38+. Core tracking: feeding, sleep, poop, growth, milestones, medical. Wife Mode, localStorage persistence, GitHub Pages hosting.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"architecture-split","name":"Architecture Split","status":"complete","started":"2026-04-07","completed":"2026-04-09","ended":null,"summary":"Split monolith into 9 modules (data, core, home, diet, medical, intelligence, start + styles.css, template.html). Concat build via build.sh. Phases 1\u20133 complete.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"diet","name":"Diet Module","status":"complete","started":"2026-03-01","completed":"2026-04-01","ended":null,"summary":"Food logging, Smart Quick Log, Food Favorites, nutrient intelligence, ingredient picker.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"medical","name":"Medical Module","status":"complete","started":"2026-03-01","completed":"2026-04-01","ended":null,"summary":"Vaccination intelligence with reaction tracking and timeline visualization. Growth tracking, medical records.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"intelligence","name":"Intelligence Module","status":"complete","started":"2026-03-15","completed":"2026-04-05","ended":null,"summary":"Cross-Domain Intelligence (6 cards), Smart Q&A Phase 2 (22 intents, 24 handlers).","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"smart-qa","name":"Smart Q&A","status":"complete","started":"2026-03-20","completed":"2026-04-05","ended":null,"summary":"Phase 2: 22 intents, 24 dedicated handlers, natural language query processing for baby data.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"search-bar","name":"Search Bar Upgrade","status":"complete","started":"2026-04-01","completed":"2026-04-05","ended":null,"summary":"ISL generateRangeSummary(), lookback/pattern/planning query modes, nutrient intelligence cards, ingredient picker.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"today-so-far","name":"Today So Far","status":"complete","started":"2026-04-05","completed":"2026-04-06","ended":null,"summary":"Smart card with vertical chronological list, warmth gradient bar, pattern-based nudges, 12 functions with _tsf* prefix.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"caretickets","name":"CareTickets","status":"complete","started":"2026-04-06","completed":"2026-04-10","ended":null,"summary":"21-field data model, 7 templates, 6-transition state machine, main-thread notifications, illness-aware metric pausing, TSF integration, share summary. Spec v5 (~1,089 lines). 15 QA rounds, 310 scenarios.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"bug-capture","name":"Bug Capture System","status":"complete","started":"2026-04-08","completed":"2026-04-09","ended":null,"summary":"Three capture paths, WhatsApp/clipboard delivery.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"cross-domain","name":"Cross-Domain Intelligence","status":"complete","started":"2026-04-04","completed":"2026-04-05","ended":null,"summary":"6 intelligence cards spanning feeding, sleep, growth, and medical domains.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"migration-m1-m2-m3","name":"Migration M1\u2013M3","status":"complete","started":"2026-04-03","completed":"2026-04-07","ended":null,"summary":"M3: emoji\u2192SVG, inline style extraction, onclick\u2192delegation. Full codebase modernization.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"design-principles-v3","name":"Design Principles v3","status":"complete","started":"2026-04-01","completed":"2026-04-05","ended":null,"summary":"2,011 lines locked. Overlay/Chip/Card/Answer Card/Form systems plus Animation Tokens, Touch Targets, data-action naming.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[{"id":"todo-0001-fix-id-mismatch","text":"Fix ctStorageWarning div ID mismatch \u2014 template.html uses ctStorageWarning but JS references ctStorageWarn","status":"open","chapter":"caretickets","created":"2026-04-10","resolved":null,"source_session":"s-2026-04-10-01"}],"shelf_history":[{"shelf":"active","date":"2024-10-01","reason":"Project started \u2014 Ziva's Dashboard v1"}]},{"id":"sep-dashboard","name":"SEP Dashboard","shelf":"active","description":"Single-file PWA for SEP workforce management \u2014 attendance, production, stock, payroll. 7-principle design system, 21-worker roster, full wage calculation engine.","domain_color":"#7A9E7E","tags":["pwa","manufacturing","workforce"],"repo":null,"current_phase":"v2.0 stable, restructuring data reconciliation in progress","chapters":[{"id":"v1-v2-builds","name":"v1\u2013v2 Builds","status":"complete","started":"2024-01-01","completed":"2026-03-01","ended":null,"summary":"Iterative build from v1.x through v2.0. Attendance, production logging, stock tracking, payroll with wage calculation engine.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"restructuring","name":"SEP Restructuring","status":"in-progress","started":"2026-04-01","completed":null,"ended":null,"summary":"Effective 1 Apr 2026. DIGITAL-001 v5, KB-006 AppSheet spec, KPI-001\u2013007 binders done. Salary confirmations complete. Data reconciliation in progress.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[],"shelf_history":[{"shelf":"active","date":"2024-01-01","reason":null}]},{"id":"sep-invoicing","name":"SEP Invoicing","shelf":"active","description":"Standalone PWA for SEP invoicing \u2014 21 clients, full rate cards, three billing modes, GST export.","domain_color":"#6B8EAD","tags":["pwa","invoicing","gst"],"repo":null,"current_phase":"Phase 1 complete (Client Master, Create Invoice, Settings). Phase 2: Invoice Register + GST Export.","chapters":[{"id":"spec","name":"Spec & Design","status":"complete","started":"2026-04-01","completed":"2026-04-03","ended":null,"summary":"SEP_INVOICING_SPEC_v1.md \u2014 21 clients, rate cards, weight/piece-challan/NOS-to-weight billing, Sales Register + GSTR1 CSV, five tabs.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"phase-1","name":"Phase 1 Build","status":"complete","started":"2026-04-03","completed":"2026-04-06","ended":null,"summary":"Client Master, Create Invoice, Settings. 21 bugs found and fixed across three QA rounds.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"phase-2","name":"Phase 2 Build","status":"planned","started":null,"completed":null,"ended":null,"summary":"Invoice Register and GST Export tabs.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[],"shelf_history":[{"shelf":"active","date":"2026-04-01","reason":"New project \u2014 SEP billing digitization"}]},{"id":"codex","name":"Codex","shelf":"active","description":"Library-themed PWA tracking projects, sessions, design decisions, and progress across Claude conversations. GitHub JSON storage. Shared design system roots with SproutLab but distinct icon set and library-themed tokens.","domain_color":"#C4A87A","tags":["pwa","meta","knowledge-management"],"repo":"Rishabh1804/Codex","current_phase":"Phase 1 complete \u2014 deployed to rishabh1804.github.io/Codex/","chapters":[{"id":"spec","name":"Spec & Design Session","status":"complete","started":"2026-04-11","completed":"2026-04-11","ended":null,"summary":"CODEX_SPEC_v1.md and CODEX_QUICK_REFERENCE.md written. Design session resolved all 3 blockers: Playfair Display + Work Sans fonts, Style C icons (19 cx() SVGs), text size system (LOW/MED/HIGH). Initial data backfill generated.","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"design-session","name":"Design Session","status":"complete","started":"2026-04-11","completed":"2026-04-12","ended":null,"summary":"Pre-build design session resolving fonts (Playfair Display + Work Sans), icons (Style C thin + accent fill, 19 icons), text size system (3-preset --fs-base driven), and initial data backfill (3 JSONs).","spec_url":null,"_deleted":false,"_deleted_date":null},{"id":"phase-1-build","name":"Phase 1 \u2014 Core Build","status":"complete","started":"2026-04-12","completed":"2026-04-12","ended":null,"summary":"Built and deployed Phase 1. 8-module split architecture (template, styles, data, seed, core, views, forms, start). Dashboard, Volume Detail, TODOs, Settings views. Overlay/confirm/toast systems. Theme toggle, text size slider. Seed data with 5 volumes, 23 canons. PWA manifest + icons. Deployed to GitHub Pages.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[{"id":"todo-0001-reconcile-fs-tokens","text":"Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system","status":"open","chapter":"design-session","created":"2026-04-11","resolved":null,"source_session":"s-2026-04-11-01"},{"id":"todo-0002-phase-2-github-sync","text":"Phase 2: GitHub sync, WAL, onboarding wizard, token validation","status":"open","chapter":"phase-1-build","created":"2026-04-12","resolved":null,"source_session":"s-2026-04-12-01"},{"id":"todo-0003-service-worker","text":"Add service worker for offline caching","status":"open","chapter":"phase-1-build","created":"2026-04-12","resolved":null,"source_session":"s-2026-04-12-01"}],"shelf_history":[{"shelf":"active","date":"2026-04-11","reason":"Project started \u2014 institutional memory system"}]},{"id":"businessai-simulation","name":"BusinessAI Simulation","shelf":"paused","description":"Business simulation addressed as BAI. ~\u20b930 crore/year business, 14 members, four entities (trading, industry, logistics). Objective: organize from informal to structured.","domain_color":"#A08870","tags":["simulation","business","strategy"],"repo":null,"current_phase":"Agenda-setting meeting planned, Shyam ops+culture discussion guide TODO","chapters":[{"id":"kickoff","name":"Kickoff & Agenda Setting","status":"in-progress","started":"2026-03-01","completed":null,"ended":null,"summary":"Initial informal discussion to set meeting agendas and lay organizational foundations. Shyam ops+culture discussion guide still pending.","spec_url":null,"_deleted":false,"_deleted_date":null}],"todos":[{"id":"todo-0001-shyam-guide","text":"Prep Shyam ops+culture discussion guide for follow-up meeting","status":"open","chapter":"kickoff","created":"2026-04-01","resolved":null,"source_session":null}],"shelf_history":[{"shelf":"active","date":"2026-03-01","reason":null},{"shelf":"paused","date":"2026-04-01","reason":"Focus shifted to SproutLab feature builds and SEP restructuring"}]}]};
 }
 
 function getSeedCanons() {
@@ -652,30 +997,32 @@ function getSeedJournal() {
   return {"_schema_version":1,"journal":[{"date":"2026-04-11","sessions":[{"id":"s-2026-04-11-01","summary":"Codex pre-build design session. Resolved all three blockers: (1) Font pairing locked \u2014 Playfair Display (headings) + Work Sans (body) with Google Fonts CDN import and fallback stacks. (2) Icon set locked \u2014 Style C (thin stroke 1.5 + accent fills), 19 icons in cx() function, brass-embossed library aesthetic. (3) Text size system designed \u2014 LOW/MED/HIGH presets driven by --fs-base CSS variable, icons fixed 24px, localStorage persistence via cx_textSize key. (4) Initial data backfill JSONs generated \u2014 volumes.json (5 volumes, 13 SproutLab chapters), canons.json (23 canons including HR-1\u2013HR-12 + globals, 7 rejected alternatives), journal.json (this session). Also identified spec delta: QUICK_REFERENCE static --fs-* tokens need reconciliation with dynamic --fs-base system.","volumes_touched":["codex"],"chapters_touched":["spec"],"decisions":["Playfair Display + Work Sans font pairing","Style C icon set (thin + accent fill)","Text size: 3-preset system, --fs-base driven, icons fixed 24px","cx_textSize localStorage key for persistence"],"bugs_found":0,"bugs_fixed":0,"duration_minutes":null,"open_todos":["Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system","Generate complete cx() function code for build"],"handoff":"All three pre-build blockers resolved. Ready for Phase 1 build: Core (utilities, store, settings, shell, dashboard, volume detail, edit overlays, theme).","screenshots":[]}]},{"date":"2026-04-12","sessions":[{"id":"s-2026-04-12-01","summary":"Phase 1 build and deploy. First build attempt from memory diverged from spec (wrong IDs, action names, missing features). Rebuilt from CODEBASE_REFERENCE, CODEBASE_SHELL, CODEBASE_VIEWS, CODEBASE_CSS spec files \u2014 matching exact element IDs, action names, routing patterns, form renderers, and initialization sequence. Fixed 3 bugs: (1) SVGs rendering at container size \u2014 added explicit width/height, (2) slider blue flash \u2014 tap-highlight suppression, (3) Chrome localhost scroll \u2014 removed flex column, used natural scroll. Set up GitHub repo, pushed 10 files (4,827 lines). Added PWA manifest + generated book icons. Deployed to rishabh1804.github.io/Codex/. Seeded 5 volumes, 23 canons, 7 rejections.","volumes_touched":["codex"],"chapters_touched":["design-session","phase-1-build"],"decisions":["Split architecture from day one (8 modules + build.sh)","Rebuild from spec over patching first attempt","Natural page scroll over flex column layout","SVG icons require explicit width/height attributes","mv over cp for downloads workflow","Python http.server for local testing","GitHub Pages for deployment"],"bugs_found":3,"bugs_fixed":3,"open_todos":["Reconcile QUICK_REFERENCE --fs-* tokens with dynamic --fs-base","Phase 2: GitHub sync, WAL, wizard","Service worker for offline"],"handoff":"Phase 1 complete and deployed. App is installable PWA. Next: Phase 2 (GitHub sync, WAL, onboarding wizard) or QA pass on Phase 1 flows.","screenshots":[]}]}]};
 }
 
-/* CODEX — Core (from spec CODEBASE_SHELL) */
+/* CODEX — Core (Phase 2: GitHub sync + WAL replay) */
 
 /* --- cx() Icons — Style C (design session locked) --- */
 function cx(name) {
   var icons = {
-    'book':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/><circle cx="12" cy="10" r="1.5" fill="currentColor" opacity="0.3"/></svg>',
-    'bookmark':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18l-6-4-6 4V4z"/><path d="M9 2h6v5l-3-2-3 2V2z" fill="currentColor" opacity="0.25"/></svg>',
-    'scroll':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8a2 2 0 0 0 2-2v-2H6v2a2 2 0 0 0 2 2z"/><path d="M6 17V5a2 2 0 0 1 2-2h4"/><path d="M18 17V7a2 2 0 0 0-2-2h-4"/><path d="M10 3v2"/></svg>',
-    'quill':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>',
-    'shelf':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>',
-    'search':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>',
-    'check':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
-    'clock':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
-    'lock':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.5" fill="currentColor" opacity="0.3"/></svg>',
-    'sun':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
-    'moon':'<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
-    'plus':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>',
-    'trash':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>',
-    'arrow-left':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
-    'link':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07.5l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07-.5l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
-    'alert':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>',
-    'close':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
-    'download':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>',
-    'info':'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>'
+    'book':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/><circle cx="12" cy="10" r="1.5" fill="currentColor" opacity="0.3"/></svg>',
+    'bookmark':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18l-6-4-6 4V4z"/><path d="M9 2h6v5l-3-2-3 2V2z" fill="currentColor" opacity="0.25"/></svg>',
+    'scroll':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8a2 2 0 0 0 2-2v-2H6v2a2 2 0 0 0 2 2z"/><path d="M6 17V5a2 2 0 0 1 2-2h4"/><path d="M18 17V7a2 2 0 0 0-2-2h-4"/><path d="M10 3v2"/></svg>',
+    'quill':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>',
+    'shelf':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>',
+    'search':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>',
+    'check':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    'clock':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
+    'lock':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.5" fill="currentColor" opacity="0.3"/></svg>',
+    'sun':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
+    'moon':'<svg viewBox="0 0 24 24" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+    'plus':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>',
+    'trash':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>',
+    'arrow-left':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
+    'link':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07.5l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07-.5l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+    'alert':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>',
+    'close':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+    'download':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>',
+    'info':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>',
+    'github':'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>',
+    'refresh':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>'
   };
   return icons[name] || '<span class="cx-missing"></span>';
 }
@@ -818,7 +1165,7 @@ function renderBreadcrumb(segments) {
   if (bar.hidden) return;
   bar.innerHTML = segments.map(function(seg, i) {
     var isLast = i === segments.length - 1;
-    var sep = i > 0 ? '<span class="cx-breadcrumb-sep">›</span>' : '';
+    var sep = i > 0 ? '<span class="cx-breadcrumb-sep">\u203A</span>' : '';
     return sep + (isLast
       ? '<span class="cx-breadcrumb-current">' + escHtml(seg.label) + '</span>'
       : '<a data-action="navigate" data-route="' + escAttr(seg.route) + '" class="cx-breadcrumb-link">' + escHtml(seg.label) + '</a>');
@@ -865,9 +1212,6 @@ function initTabIcons() {
 }
 
 /* --- Render Current View --- */
-var _isRendering = false;
-var _initializing = true;
-
 function renderCurrentView() {
   _isRendering = true;
   try {
@@ -955,27 +1299,371 @@ function renderConnectGitHubCta() {
   return '<div class="cx-connect-cta">' + cx('link') + '<span>Your data is local only.</span><button data-action="openSettings" class="cx-btn-primary cx-btn-sm">Connect GitHub</button></div>';
 }
 
-/* CODEX — Views (from spec CODEBASE_VIEWS) */
+/* ============================================================
+   PHASE 2: GitHub Sync Module
+   ============================================================ */
 
-/* --- Dashboard --- */
-function getLatestActivity(vol) {
-  var dates = [];
-  (vol.chapters || []).forEach(function(c) {
-    if (c._deleted) return;
-    if (c.completed) dates.push(c.completed);
-    if (c.started) dates.push(c.started);
-  });
-  (vol.todos || []).forEach(function(t) {
-    if (t.created) dates.push(t.created);
-    if (t.resolved) dates.push(t.resolved);
-  });
-  (vol.shelf_history || []).forEach(function(h) {
-    if (h.date) dates.push(h.date);
-  });
-  if (dates.length === 0) return '0000-00-00';
-  return dates.sort().pop();
+var _currentFetchController = null;
+
+function buildHeaders() {
+  var headers = { 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
+  var token = localStorage.getItem(KEYS.TOKEN);
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  return headers;
 }
 
+function normalizeRepoUrl(input) {
+  if (!input) return null;
+  var url = input.trim()
+    .replace(/^https?:\/\//, '')
+    .replace(/^github\.com\//, '')
+    .replace(/\/+$/, '')
+    .replace(/\.git$/, '');
+  var parts = url.split('/');
+  if (parts.length !== 2 || !parts[0] || !parts[1]) return null;
+  return url;
+}
+
+function fetchFile(filename, signal) {
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL);
+  if (!repoUrl) return Promise.resolve({ data: null, sha: null });
+  return fetch('https://api.github.com/repos/' + repoUrl + '/contents/data/' + filename, {
+    headers: buildHeaders(), signal: signal
+  }).then(function(res) {
+    if (res.status === 404) return { data: null, sha: null };
+    if (!res.ok) throw new Error('GitHub ' + res.status + ': ' + res.statusText);
+    return res.json();
+  }).then(function(json) {
+    if (!json || !json.content) return { data: null, sha: null };
+    var content = base64ToUtf8(json.content.replace(/\n/g, ''));
+    var parsed = JSON.parse(content.replace(/^\uFEFF/, ''));
+    return { data: parsed, sha: json.sha };
+  });
+}
+
+function pushFile(filename, content, sha) {
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL);
+  var branch = localStorage.getItem(KEYS.DEFAULT_BRANCH) || 'main';
+  var body = { message: 'Update ' + filename, content: utf8ToBase64(content), branch: branch };
+  if (sha) body.sha = sha;
+  var controller = new AbortController();
+  var timeout = setTimeout(function() { controller.abort(); }, 15000);
+  return fetch('https://api.github.com/repos/' + repoUrl + '/contents/data/' + filename, {
+    method: 'PUT', headers: buildHeaders(), body: JSON.stringify(body), signal: controller.signal
+  }).then(function(res) {
+    clearTimeout(timeout);
+    if (res.status === 200 || res.status === 201) {
+      return res.json().then(function(json) {
+        return { success: true, sha: json.content.sha };
+      });
+    }
+    if (res.status === 409) return { success: false, reason: 'conflict' };
+    if (res.status === 401) return { success: false, reason: 'auth' };
+    if (res.status === 403) return { success: false, reason: 'rate_limit', retryAfter: res.headers.get('Retry-After') };
+    return { success: false, reason: 'unknown', status: res.status };
+  }).catch(function(e) {
+    clearTimeout(timeout);
+    if (e.name === 'AbortError') return { success: false, reason: 'timeout' };
+    return { success: false, reason: 'network' };
+  });
+}
+
+function fetchAll() {
+  if (_currentFetchController) _currentFetchController.abort();
+  _currentFetchController = new AbortController();
+  var signal = _currentFetchController.signal;
+  var timeout = setTimeout(function() { _currentFetchController.abort(); }, 10000);
+
+  var files = [
+    { name: 'volumes.json', cacheKey: KEYS.CACHE_VOLUMES, shaKey: KEYS.SHA_VOLUMES },
+    { name: 'canons.json', cacheKey: KEYS.CACHE_CANONS, shaKey: KEYS.SHA_CANONS },
+    { name: 'journal.json', cacheKey: KEYS.CACHE_JOURNAL, shaKey: KEYS.SHA_JOURNAL }
+  ];
+
+  return Promise.allSettled(files.map(function(f) { return fetchFile(f.name, signal); }))
+    .then(function(results) {
+      clearTimeout(timeout);
+      _currentFetchController = null;
+      var fetched = {};
+      var anySuccess = false, anyFailure = false;
+
+      results.forEach(function(result, i) {
+        var file = files[i];
+        if (result.status === 'fulfilled') {
+          fetched[file.name] = result.value;
+          anySuccess = true;
+          setOfflineStatus(false);
+        } else {
+          anyFailure = true;
+          fetched[file.name] = {
+            data: safeParseLocalStorage(file.cacheKey),
+            sha: localStorage.getItem(file.shaKey) || null,
+            fromCache: true
+          };
+          logError('fetch', 'Failed: ' + file.name, result.reason ? result.reason.message : 'unknown');
+        }
+      });
+
+      if (!anySuccess) setOfflineStatus(true);
+      if (anyFailure && anySuccess) showToast('Some data loaded from cache', 'info');
+      return fetched;
+    });
+}
+
+function validateToken(repoUrl, token) {
+  return fetch('https://api.github.com/repos/' + repoUrl, {
+    headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json' },
+    signal: AbortSignal.timeout(10000)
+  }).then(function(res) {
+    if (res.status === 401) return { valid: false, reason: 'Invalid token' };
+    if (res.status === 404) return { valid: false, reason: 'Repository not found' };
+    if (res.status === 403) return { valid: false, reason: 'Access denied' };
+    if (!res.ok) return { valid: false, reason: 'GitHub returned ' + res.status };
+    return res.json().then(function(data) {
+      if (!data.permissions || !data.permissions.push) return { valid: false, reason: 'Token has read-only access' };
+      return { valid: true, defaultBranch: data.default_branch || 'main', repoFullName: data.full_name };
+    });
+  }).catch(function(e) {
+    if (e.name === 'AbortError' || e.name === 'TimeoutError') return { valid: false, reason: 'Connection timed out' };
+    return { valid: false, reason: 'Network error' };
+  });
+}
+
+function setOfflineStatus(offline) {
+  if (offline === _isOffline) return;
+  _isOffline = offline;
+  var banner = document.getElementById('offlineBanner');
+  if (banner) banner.hidden = !offline;
+  if (!offline && localStorage.getItem(KEYS.REPO_URL)) flushQueue();
+}
+
+/* --- File Builders (rebuild entire file from current store) --- */
+function buildVolumesFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }, null, 2); }
+function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, rejected_alternatives: store.rejections }, null, 2); }
+function buildJournalFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }, null, 2); }
+
+/* --- Flush Queue (push pending WAL entries to GitHub) --- */
+var _flushing = false;
+
+function flushQueue() {
+  if (_flushing || _isOffline) return Promise.resolve();
+  if (!localStorage.getItem(KEYS.REPO_URL)) return Promise.resolve();
+
+  var pending = store._wal.filter(function(e) { return e.status === 'pending' || e.status === 'failed'; });
+  if (pending.length === 0) return Promise.resolve();
+
+  _flushing = true;
+  pending.forEach(function(e) { e.status = 'syncing'; });
+  try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(e) {}
+  store._fireWalChange();
+
+  var dirtyFiles = {};
+  pending.forEach(function(e) { dirtyFiles[e.target_file] = true; });
+
+  var pushOrder = ['volumes.json', 'canons.json', 'journal.json'];
+  var shaKeyMap = { 'volumes.json': 'volumes', 'canons.json': 'canons', 'journal.json': 'journal' };
+  var lsKeyMap = { 'volumes.json': KEYS.SHA_VOLUMES, 'canons.json': KEYS.SHA_CANONS, 'journal.json': KEYS.SHA_JOURNAL };
+  var builderMap = { 'volumes.json': buildVolumesFile, 'canons.json': buildCanonsFile, 'journal.json': buildJournalFile };
+
+  var chain = Promise.resolve();
+  pushOrder.forEach(function(file) {
+    if (!dirtyFiles[file]) return;
+    chain = chain.then(function() {
+      var content = builderMap[file]();
+      var sha = store._meta.shas[shaKeyMap[file]] || localStorage.getItem(lsKeyMap[file]) || null;
+      return apiThrottle(function() { return pushFile(file, content, sha); }).then(function(result) {
+        var fileEntries = pending.filter(function(e) { return e.target_file === file; });
+        if (result.success) {
+          store._meta.shas[shaKeyMap[file]] = result.sha;
+          localStorage.setItem(lsKeyMap[file], result.sha);
+          fileEntries.forEach(function(e) { e.status = 'synced'; });
+          store._cacheToLocalStorage();
+        } else {
+          fileEntries.forEach(function(e) { e.status = 'failed'; e.error = result.reason; });
+          if (result.reason === 'conflict') {
+            showToast('Sync conflict \u2014 refreshing data', 'warning');
+          } else if (result.reason === 'auth') {
+            showToast('GitHub token expired or invalid', 'error');
+          } else {
+            showToast('Sync failed: ' + (result.reason || 'unknown'), 'error');
+          }
+          logError('flush', 'Push failed: ' + file, result.reason);
+        }
+      });
+    });
+  });
+
+  return chain.then(function() {
+    _flushing = false;
+    try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(e) {}
+    store._fireWalChange();
+    purgeOldWalEntries();
+  }).catch(function(e) {
+    _flushing = false;
+    logError('flush', 'flushQueue error', e.message);
+    pending.forEach(function(en) { if (en.status === 'syncing') en.status = 'failed'; });
+    try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(ex) {}
+    store._fireWalChange();
+  });
+}
+
+/* ============================================================
+   PHASE 2: WAL Replay
+   ============================================================ */
+
+function replayWal(wal) {
+  var errors = [];
+  for (var i = 0; i < wal.length; i++) {
+    var entry = wal[i];
+    if (entry.status === 'syncing') entry.status = 'pending';
+    if (entry.status !== 'pending' && entry.status !== 'failed') continue;
+    try {
+      switch (entry.action) {
+        case 'create': replayCreate(entry); break;
+        case 'update': replayUpdate(entry); break;
+        case 'delete': replayDelete(entry); break;
+        case 'shelf_transition': replayShelfTransition(entry); break;
+      }
+    } catch(e) { errors.push({ entry: entry, error: e.message }); }
+  }
+  if (errors.length > 0) {
+    logError('WAL replay', errors.length + ' entries failed', errors);
+    showToast(errors.length + ' pending changes could not be applied', 'error');
+  }
+}
+
+function replayCreate(entry) {
+  var existing = findEntity(entry.entity_type, entry.entity_id, entry.parent_id);
+  if (existing) {
+    var existingTime = existing.created || existing._lastModified || '1970-01-01';
+    if (entry.timestamp > existingTime) Object.assign(existing, entry.payload);
+    entry.status = 'resolved';
+    return;
+  }
+  insertEntity(entry.entity_type, entry.payload, entry.parent_id);
+}
+
+function replayUpdate(entry) {
+  var existing = findEntity(entry.entity_type, entry.entity_id, entry.parent_id);
+  if (!existing) { entry.status = 'resolved'; return; }
+  if (existing._deleted) { entry.status = 'resolved'; return; }
+  Object.assign(existing, entry.payload);
+}
+
+function replayDelete(entry) {
+  var existing = findEntity(entry.entity_type, entry.entity_id, entry.parent_id);
+  if (!existing) { entry.status = 'resolved'; return; }
+  if (entry.payload && entry.payload._permanent) {
+    removeEntity(entry.entity_type, entry.entity_id, entry.parent_id);
+  } else {
+    existing._deleted = true;
+    existing._deleted_date = existing._deleted_date || localDateStr();
+  }
+}
+
+function replayShelfTransition(entry) {
+  var volume = store.volumes.find(function(v) { return v.id === entry.entity_id; });
+  if (!volume) { entry.status = 'resolved'; return; }
+  volume.shelf = entry.payload.shelf;
+  if (!volume.shelf_history) volume.shelf_history = [];
+  var last = volume.shelf_history[volume.shelf_history.length - 1];
+  var entryDate = entry.timestamp.substring(0, 10);
+  if (!last || last.shelf !== entry.payload.shelf || last.date !== entryDate) {
+    volume.shelf_history.push({ shelf: entry.payload.shelf, date: entryDate, reason: entry.payload.reason || null });
+  }
+}
+
+function findEntity(type, id, parentId) {
+  switch (type) {
+    case 'volume': return store.volumes.find(function(v) { return v.id === id; });
+    case 'canon': return store.canons.find(function(c) { return c.id === id; });
+    case 'rejection': return store.rejections.find(function(r) { return r.id === id; });
+    case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); return vc ? (vc.chapters || []).find(function(c) { return c.id === id; }) : undefined;
+    case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); return vt ? (vt.todos || []).find(function(t) { return t.id === id; }) : undefined;
+    case 'session': var d = store.journal.find(function(d) { return d.date === parentId; }); return d ? (d.sessions || []).find(function(s) { return s.id === id; }) : undefined;
+  }
+}
+
+function insertEntity(type, payload, parentId) {
+  switch (type) {
+    case 'volume': store.volumes.push(payload); break;
+    case 'canon': store.canons.push(payload); break;
+    case 'rejection': store.rejections.push(payload); break;
+    case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) { if (!vc.chapters) vc.chapters = []; vc.chapters.push(payload); } break;
+    case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) { if (!vt.todos) vt.todos = []; vt.todos.push(payload); } break;
+    case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (!d) { d = { date: parentId, sessions: [] }; store.journal.push(d); } d.sessions.push(payload); break;
+  }
+}
+
+function removeEntity(type, id, parentId) {
+  switch (type) {
+    case 'volume': store.volumes = store.volumes.filter(function(v) { return v.id !== id; }); break;
+    case 'canon': store.canons = store.canons.filter(function(c) { return c.id !== id; }); break;
+    case 'rejection': store.rejections = store.rejections.filter(function(r) { return r.id !== id; }); break;
+    case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) vc.chapters = (vc.chapters || []).filter(function(c) { return c.id !== id; }); break;
+    case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) vt.todos = (vt.todos || []).filter(function(t) { return t.id !== id; }); break;
+    case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (d) { d.sessions = (d.sessions || []).filter(function(s) { return s.id !== id; }); if (d.sessions.length === 0) store.journal = store.journal.filter(function(x) { return x.date !== parentId; }); } break;
+  }
+}
+
+function purgeOldWalEntries() {
+  var now = Date.now();
+  var DAY_MS = 24 * 60 * 60 * 1000;
+  var before = store._wal.length;
+  store._wal = store._wal.filter(function(entry) {
+    if (entry.status === 'pending' || entry.status === 'failed' || entry.status === 'syncing') return true;
+    var entryTime = new Date(entry.timestamp).getTime();
+    return (now - entryTime) < DAY_MS;
+  });
+  if (before !== store._wal.length) {
+    try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(e) {}
+  }
+}
+
+/* ============================================================
+   PHASE 2: Sync Indicator & Tab Badge
+   ============================================================ */
+
+function renderSyncIndicator() {
+  var dot = document.getElementById('syncIndicator');
+  if (!dot) return;
+  var pending = store._wal.filter(function(e) { return e.status === 'pending'; }).length;
+  var failed = store._wal.filter(function(e) { return e.status === 'failed'; }).length;
+  var syncing = store._wal.filter(function(e) { return e.status === 'syncing'; }).length;
+  dot.className = 'cx-sync-dot';
+  if (failed > 0) { dot.classList.add('cx-sync-failed'); dot.setAttribute('aria-label', 'Sync failed: ' + failed); }
+  else if (syncing > 0 || pending > 0) { dot.classList.add('cx-sync-pending'); dot.setAttribute('aria-label', (pending + syncing) + ' pending'); }
+  else { dot.classList.add('cx-sync-synced'); dot.setAttribute('aria-label', 'Synced'); }
+}
+
+function renderTabBadge() {
+  var tab = document.querySelector('[data-tab="todos"]');
+  if (!tab) return;
+  var count = store.volumes.reduce(function(s, v) {
+    return s + (v.todos || []).filter(function(t) { return t.status === 'open'; }).length;
+  }, 0);
+  var badge = tab.querySelector('.cx-tab-badge');
+  if (count === 0) { if (badge) badge.remove(); return; }
+  if (!badge) { badge = document.createElement('span'); badge.className = 'cx-tab-badge'; tab.appendChild(badge); }
+  badge.textContent = count > 99 ? '99+' : String(count);
+}
+
+/* --- Progressive fetch with loading messages --- */
+function fetchAllWithProgressiveMessages() {
+  var vc = document.getElementById('viewContainer');
+  if (vc) vc.innerHTML = '<div class="cx-loading-state">' + cx('book')
+    + '<p class="cx-loading-text">Opening the library\u2026</p></div>';
+
+  return fetchAll().then(function(fetched) {
+    if (vc) vc.innerHTML = '<div class="cx-loading-state">' + cx('book')
+      + '<p class="cx-loading-text">Arranging the shelves\u2026</p></div>';
+    return fetched;
+  });
+}
+
+/* CODEX — Views (Phase 2: Wizard + GitHub Settings) */
+
+/* --- Dashboard --- */
 function renderDashboard() {
   var vc = document.getElementById('viewContainer');
   var snap = store.getSnapshot();
@@ -985,7 +1673,6 @@ function renderDashboard() {
   SHELF_ORDER.forEach(function(shelf) {
     var vols = snap.volumes.filter(function(v) { return v.shelf === shelf; });
     if (vols.length === 0) return;
-    vols.sort(function(a, b) { return getLatestActivity(b).localeCompare(getLatestActivity(a)); });
     hasAny = true;
     html += '<div class="cx-shelf-group"><div class="cx-shelf-group-label">' + escHtml(SHELF_LABELS[shelf]) + ' (' + vols.length + ')</div>';
     vols.forEach(function(vol) {
@@ -1002,7 +1689,7 @@ function renderDashboard() {
         + '<span class="cx-shelf-badge cx-shelf-' + escAttr(vol.shelf) + '">' + escHtml(vol.shelf) + '</span></div>';
       if (vol.current_phase) html += '<div class="cx-card-body" style="color:var(--accent);font-size:var(--fs-xs)">' + escHtml(vol.current_phase) + '</div>';
       if (vol.description) html += '<div class="cx-card-body" style="font-size:var(--fs-xs);color:var(--text-secondary)">' + escHtml(vol.description) + '</div>';
-      if (meta.length > 0) html += '<div class="cx-card-meta">' + cx('clock') + ' ' + escHtml(meta.join(' · ')) + '</div>';
+      if (meta.length > 0) html += '<div class="cx-card-meta">' + cx('clock') + ' ' + escHtml(meta.join(' \u00B7 ')) + '</div>';
       if (vol.tags && vol.tags.length > 0) {
         html += '<div class="cx-tag-inline">';
         vol.tags.forEach(function(t) { html += '<span class="cx-chip cx-chip-sm">' + escHtml(t) + '</span>'; });
@@ -1084,7 +1771,7 @@ function renderVolumeDetail(route) {
       html += '<span class="cx-status-' + escAttr(ch.status) + '">' + cx(icon) + '</span>';
       html += '<div><div class="cx-chapter-name">' + escHtml(ch.name) + '</div>';
       if (ch.summary) html += '<div class="cx-chapter-summary">' + escHtml(ch.summary) + '</div>';
-      if (meta.length > 0) html += '<div class="cx-chapter-meta">' + escHtml(meta.join(' · ')) + '</div>';
+      if (meta.length > 0) html += '<div class="cx-chapter-meta">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
       html += '</div></div>';
     });
     html += '</div>';
@@ -1099,7 +1786,7 @@ function renderVolumeDetail(route) {
     for (var h = history.length - 1; h >= 0; h--) {
       var sh = history[h];
       html += '<div class="cx-timeline-entry"><div class="cx-timeline-dot"></div><div>'
-        + '<div class="cx-timeline-text">' + escHtml(SHELF_LABELS[sh.shelf] || sh.shelf) + (sh.reason ? ' — ' + escHtml(sh.reason) : '') + '</div>'
+        + '<div class="cx-timeline-text">' + escHtml(SHELF_LABELS[sh.shelf] || sh.shelf) + (sh.reason ? ' \u2014 ' + escHtml(sh.reason) : '') + '</div>'
         + '<div class="cx-timeline-date">' + escHtml(formatAbsoluteDate(sh.date)) + '</div></div></div>';
     }
     html += '</div>';
@@ -1125,7 +1812,7 @@ function renderTodoItem(volumeId, todo) {
   var meta = [];
   if (todo.chapter) meta.push(todo.chapter);
   meta.push(formatRelativeTime(todo.created));
-  html += '<div class="cx-todo-meta">' + escHtml(meta.join(' · ')) + '</div>';
+  html += '<div class="cx-todo-meta">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
   html += '</div>';
   html += '<button class="cx-btn-icon cx-btn-danger-icon" data-action="deleteTodo" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(todo.id) + '">' + cx('trash') + '</button>';
   html += '</div>';
@@ -1167,12 +1854,14 @@ function renderTodos() {
   vc.innerHTML = html;
 }
 
-/* --- Settings --- */
+/* --- Settings (Phase 2: GitHub connection replaces stub) --- */
 function renderSettings() {
   var vc = document.getElementById('viewContainer');
   var currentTheme = localStorage.getItem(KEYS.THEME) || 'dark';
   var currentSize = localStorage.getItem(KEYS.TEXT_SIZE) || 'med';
   var isLight = currentTheme === 'light';
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL) || '';
+  var hasGitHub = !!repoUrl;
   var html = '';
 
   // Appearance
@@ -1193,12 +1882,37 @@ function renderSettings() {
     html += '<span class="cx-slider-label' + (currentSize === s ? ' cx-slider-label-active' : '') + '" data-action="setTextSize" data-size="' + s + '">' + s.toUpperCase() + '</span>';
   });
   html += '</div></div>';
-  html += '<div class="cx-preview-pill"><span style="font-family:var(--ff-heading);font-size:var(--fs-lg)">Aa</span> — <span style="font-size:var(--fs-sm)">This is how text will look</span></div>';
+  html += '<div class="cx-preview-pill"><span style="font-family:var(--ff-heading);font-size:var(--fs-lg)">Aa</span> \u2014 <span style="font-size:var(--fs-sm)">This is how text will look</span></div>';
+  html += '</div></div>';
+
+  // GitHub Sync (Phase 2: live connection)
+  html += '<div class="cx-settings-section"><div class="cx-section-title">GitHub Sync</div><div class="cx-card" style="padding:var(--sp-16)">';
+  if (hasGitHub) {
+    html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)">';
+    html += '<span class="cx-sync-badge cx-sync-badge-connected">' + cx('check') + ' Connected</span>';
+    html += '</div>';
+    html += '<div class="cx-settings-hint" style="margin-bottom:var(--sp-12)">Repository: ' + escHtml(repoUrl) + '</div>';
+    var pending = store._wal.filter(function(e) { return e.status === 'pending' || e.status === 'failed'; }).length;
+    if (pending > 0) {
+      html += '<div class="cx-settings-hint" style="color:var(--warning)">' + pending + ' pending change' + (pending !== 1 ? 's' : '') + '</div>';
+    }
+    html += '<div style="display:flex;gap:var(--sp-8);margin-top:var(--sp-12)">';
+    html += '<button class="cx-btn-secondary cx-btn-sm" data-action="syncNow">' + cx('refresh') + ' Sync Now</button>';
+    html += '<button class="cx-btn-secondary cx-btn-sm" data-action="disconnectGitHub">Disconnect</button>';
+    html += '</div>';
+  } else {
+    html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)">' + cx('github');
+    html += '<div><div class="cx-settings-label">Connect GitHub</div><div class="cx-settings-hint">Sync data to a repository for backup and cross-device access</div></div></div>';
+    html += renderTextField('settings-repo', 'Repository URL', '', { placeholder: 'owner/repo or https://github.com/owner/repo' });
+    html += renderTextField('settings-token', 'Personal Access Token', '', { placeholder: 'ghp_...', type: 'password' });
+    html += '<div class="cx-settings-hint" style="margin-bottom:var(--sp-12)">Token needs repo Contents read/write permission</div>';
+    html += '<button class="cx-btn-primary" data-action="validateAndSaveGitHub">' + cx('check') + ' Connect</button>';
+    html += '<div id="github-validation-status"></div>';
+  }
   html += '</div></div>';
 
   // Data
   html += '<div class="cx-settings-section"><div class="cx-section-title">Data</div><div class="cx-card">';
-  html += '<div class="cx-settings-row"><div class="cx-settings-left">' + cx('lock') + '<div><div class="cx-settings-label">GitHub Sync</div><div class="cx-settings-hint">Coming in Phase 2</div></div></div></div>';
   html += '<div class="cx-settings-row" data-action="exportData"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Export Data</div><div class="cx-settings-hint">Download as JSON</div></div></div></div>';
   html += '</div></div>';
 
@@ -1238,6 +1952,79 @@ function applyTextSize(size) {
   if (thumb) thumb.style.left = TEXT_SIZE_POS[size] + '%';
   var labels = document.querySelectorAll('.cx-slider-label');
   for (var i = 0; i < labels.length; i++) labels[i].classList.toggle('cx-slider-label-active', labels[i].dataset.size === size);
+}
+
+/* ============================================================
+   PHASE 2: Onboarding Wizard (4 steps)
+   ============================================================ */
+
+var _wizardStep = 1;
+
+function renderWizard() {
+  var vc = document.getElementById('viewContainer');
+  if (!vc) return;
+  var steps = [null, renderWizardWelcome, renderWizardGitHub, renderWizardTheme, renderWizardDone];
+  if (_wizardStep < 1 || _wizardStep > 4) _wizardStep = 1;
+  vc.innerHTML = steps[_wizardStep]();
+}
+
+function renderWizardWelcome() {
+  return '<div class="cx-wizard">'
+    + '<div class="cx-wizard-icon">' + cx('book') + '</div>'
+    + '<h1 class="cx-wizard-title">Welcome to Codex</h1>'
+    + '<p class="cx-wizard-subtitle">The project library that remembers everything.</p>'
+    + '<p class="cx-wizard-body">Codex tracks your volumes, chapters, canons, and decisions across every build session. '
+    + 'Connect GitHub for cross-device sync, or use it locally.</p>'
+    + '<div class="cx-wizard-progress">Step 1 of 4</div>'
+    + '<button class="cx-btn-primary cx-wizard-btn" data-action="wizardNext">Get Started</button>'
+    + '</div>';
+}
+
+function renderWizardGitHub() {
+  return '<div class="cx-wizard">'
+    + '<div class="cx-wizard-icon">' + cx('github') + '</div>'
+    + '<h1 class="cx-wizard-title">Connect GitHub</h1>'
+    + '<p class="cx-wizard-subtitle">Optional \u2014 sync your library to a repository for backup and cross-device access.</p>'
+    + '<div class="cx-wizard-form">'
+    + renderTextField('wizard-repo', 'Repository URL', '', { placeholder: 'owner/repo or https://github.com/owner/repo' })
+    + renderTextField('wizard-token', 'Personal Access Token', '', { placeholder: 'ghp_...', type: 'password' })
+    + '<div class="cx-settings-hint" style="margin-bottom:var(--sp-16)">Create a fine-grained token with Contents read/write on the target repo.</div>'
+    + '<div id="wizard-validation-status"></div>'
+    + '</div>'
+    + '<div class="cx-wizard-progress">Step 2 of 4</div>'
+    + '<div class="cx-wizard-actions">'
+    + '<button class="cx-btn-primary cx-wizard-btn" data-action="wizardValidateGitHub">' + cx('check') + ' Connect</button>'
+    + '<button class="cx-btn-secondary cx-wizard-btn" data-action="wizardSkipGitHub">Skip \u2014 use locally</button>'
+    + '</div></div>';
+}
+
+function renderWizardTheme() {
+  var current = localStorage.getItem(KEYS.THEME) || 'dark';
+  return '<div class="cx-wizard">'
+    + '<div class="cx-wizard-icon">' + (current === 'light' ? cx('sun') : cx('moon')) + '</div>'
+    + '<h1 class="cx-wizard-title">Choose Your Theme</h1>'
+    + '<div class="cx-wizard-theme-options">'
+    + '<div class="cx-wizard-theme-card' + (current === 'light' ? ' cx-wizard-theme-active' : '') + '" data-action="wizardSelectTheme" data-value="light">'
+    + cx('sun') + '<span>Light</span></div>'
+    + '<div class="cx-wizard-theme-card' + (current === 'dark' ? ' cx-wizard-theme-active' : '') + '" data-action="wizardSelectTheme" data-value="dark">'
+    + cx('moon') + '<span>Dark</span></div>'
+    + '</div>'
+    + '<div class="cx-wizard-progress">Step 3 of 4</div>'
+    + '<button class="cx-btn-primary cx-wizard-btn" data-action="wizardThemeNext">Continue</button>'
+    + '</div>';
+}
+
+function renderWizardDone() {
+  var hasGitHub = !!localStorage.getItem(KEYS.REPO_URL);
+  return '<div class="cx-wizard">'
+    + '<div class="cx-wizard-icon">' + cx('check') + '</div>'
+    + '<h1 class="cx-wizard-title">You\u2019re All Set</h1>'
+    + '<p class="cx-wizard-subtitle">' + (hasGitHub
+      ? 'Connected to GitHub. Your library will sync automatically.'
+      : 'Running locally. You can connect GitHub anytime from Settings.') + '</p>'
+    + '<div class="cx-wizard-progress">Step 4 of 4</div>'
+    + '<button class="cx-btn-primary cx-wizard-btn" data-action="wizardFinish">Open Codex</button>'
+    + '</div>';
 }
 
 /* CODEX — Forms (from spec CODEBASE_VIEWS) */
@@ -1470,11 +2257,11 @@ function handleExportData() {
   showToast('Exported', 'success');
 }
 
-/* CODEX — Start (from spec CODEBASE_SHELL) */
+/* CODEX — Start (Phase 2: Full lifecycle with GitHub sync) */
 
 (function() {
 
-/* --- Delegation (spec: 7 roots, Phase 1 uses document-level with spec action names) --- */
+/* --- Delegation (Phase 2: added wizard, GitHub, sync actions) --- */
 function setupDelegation() {
   document.addEventListener('click', function(e) {
     var el = e.target.closest('[data-action]');
@@ -1531,6 +2318,36 @@ function setupDelegation() {
       case 'setTextSize': applyTextSize(el.dataset.size); break;
       case 'exportData': handleExportData(); break;
 
+      // Phase 2: GitHub Settings
+      case 'validateAndSaveGitHub': handleSettingsGitHubSave(); break;
+      case 'syncNow': handleSyncNow(); break;
+      case 'disconnectGitHub': handleDisconnectGitHub(); break;
+
+      // Phase 2: Wizard
+      case 'wizardNext': _wizardStep = 2; renderWizard(); break;
+      case 'wizardValidateGitHub': handleWizardValidate(); break;
+      case 'wizardSkipGitHub':
+        localStorage.setItem(KEYS.WIZARD_DONE, 'skipped');
+        _wizardStep = 3;
+        renderWizard();
+        break;
+      case 'wizardSelectTheme':
+        var theme = el.dataset.value;
+        localStorage.setItem(KEYS.THEME, theme);
+        document.documentElement.setAttribute('data-theme', theme);
+        var tc = document.querySelector('meta[name="theme-color"]');
+        if (tc) tc.setAttribute('content', theme === 'dark' ? '#1A1610' : '#FAF6F1');
+        _wizardStep = 3;
+        renderWizard();
+        break;
+      case 'wizardThemeNext': _wizardStep = 4; renderWizard(); break;
+      case 'wizardFinish':
+        localStorage.setItem(KEYS.WIZARD_DONE, 'true');
+        document.getElementById('tabBar').hidden = false;
+        _wizardStep = 1;
+        initializeApp();
+        break;
+
       // Search (Phase 4 stub)
       case 'openSearch': showToast('Search coming in Phase 4', 'info'); break;
 
@@ -1542,6 +2359,16 @@ function setupDelegation() {
   // Overlay backdrop close
   document.getElementById('overlayBackdrop').addEventListener('click', closeOverlay);
   document.getElementById('confirmBackdrop').addEventListener('click', closeConfirmDialog);
+
+  // Sync indicator
+  var syncDot = document.getElementById('syncIndicator');
+  if (syncDot) syncDot.addEventListener('click', function() {
+    var pending = store._wal.filter(function(e) { return e.status === 'pending' || e.status === 'failed'; }).length;
+    var synced = store._wal.filter(function(e) { return e.status === 'synced'; }).length;
+    var msg = _isOffline ? 'Offline' : (pending > 0 ? pending + ' pending' : 'Synced');
+    if (!localStorage.getItem(KEYS.REPO_URL)) msg = 'Local only';
+    showToast(msg + ' (' + synced + ' synced in WAL)', 'info');
+  });
 }
 
 /* --- Escape handler --- */
@@ -1565,77 +2392,279 @@ function testLocalStorage() {
   try { localStorage.setItem('codex-test', '1'); localStorage.removeItem('codex-test'); return true; } catch(e) { return false; }
 }
 
-/* --- Initialize (from spec — Phase 1: local-only, no GitHub fetch) --- */
-function initialize() {
+/* --- Phase 2: Service Worker --- */
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('sw.js', { scope: './' })
+    .then(function(reg) {
+      reg.addEventListener('updatefound', function() {
+        var nw = reg.installing;
+        if (!nw) return;
+        nw.addEventListener('statechange', function() {
+          if (nw.state === 'activated' && navigator.serviceWorker.controller) {
+            showToast('New version available \u2014 refresh', 'info');
+          }
+        });
+      });
+    })
+    .catch(function(err) { logError('sw', 'Registration failed', err.message); });
+}
+
+/* --- Phase 2: bfcache handler --- */
+function handlePageShow(event) {
+  if (!event.persisted) return;
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL);
+  if (repoUrl) {
+    fetchAll().then(function(f) {
+      populateStore(f['volumes.json'], f['canons.json'], f['journal.json']);
+      replayWal(store._wal);
+      renderCurrentView();
+    });
+  }
+}
+
+/* --- Phase 2: Wizard Handlers --- */
+function handleWizardValidate() {
+  var repoInput = document.getElementById('field-wizard-repo');
+  var tokenInput = document.getElementById('field-wizard-token');
+  var statusEl = document.getElementById('wizard-validation-status');
+  if (!repoInput || !tokenInput) return;
+
+  var rawUrl = repoInput.value.trim();
+  var token = tokenInput.value.trim();
+
+  if (!rawUrl || !token) {
+    if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">Both fields are required</div>';
+    return;
+  }
+
+  var normalized = normalizeRepoUrl(rawUrl);
+  if (!normalized) {
+    if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">Invalid repository URL. Use: owner/repo</div>';
+    return;
+  }
+
+  if (statusEl) statusEl.innerHTML = '<div class="cx-settings-hint">Validating\u2026</div>';
+
+  validateToken(normalized, token).then(function(result) {
+    if (result.valid) {
+      localStorage.setItem(KEYS.REPO_URL, normalized);
+      localStorage.setItem(KEYS.TOKEN, token);
+      localStorage.setItem(KEYS.DEFAULT_BRANCH, result.defaultBranch || 'main');
+      localStorage.setItem(KEYS.WIZARD_DONE, 'true');
+      if (statusEl) statusEl.innerHTML = '<div style="color:var(--success)">' + cx('check') + ' Connected to ' + escHtml(result.repoFullName) + '</div>';
+      setTimeout(function() { _wizardStep = 3; renderWizard(); }, 800);
+    } else {
+      if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">' + escHtml(result.reason) + '</div>';
+    }
+  });
+}
+
+/* --- Phase 2: Settings GitHub Handlers --- */
+function handleSettingsGitHubSave() {
+  var repoInput = document.getElementById('field-settings-repo');
+  var tokenInput = document.getElementById('field-settings-token');
+  var statusEl = document.getElementById('github-validation-status');
+  if (!repoInput || !tokenInput) return;
+
+  var rawUrl = repoInput.value.trim();
+  var token = tokenInput.value.trim();
+
+  if (!rawUrl || !token) {
+    if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">Both fields are required</div>';
+    return;
+  }
+
+  var normalized = normalizeRepoUrl(rawUrl);
+  if (!normalized) {
+    if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">Invalid format. Use: owner/repo</div>';
+    return;
+  }
+
+  if (statusEl) statusEl.innerHTML = '<div class="cx-settings-hint">Validating\u2026</div>';
+
+  validateToken(normalized, token).then(function(result) {
+    if (result.valid) {
+      localStorage.setItem(KEYS.REPO_URL, normalized);
+      localStorage.setItem(KEYS.TOKEN, token);
+      localStorage.setItem(KEYS.DEFAULT_BRANCH, result.defaultBranch || 'main');
+      showToast('Connected to ' + result.repoFullName, 'success');
+      setOfflineStatus(false);
+      // Sync existing local data to the repo
+      flushQueue();
+      renderSettings();
+    } else {
+      if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">' + escHtml(result.reason) + '</div>';
+    }
+  });
+}
+
+function handleSyncNow() {
+  if (!localStorage.getItem(KEYS.REPO_URL)) {
+    showToast('No GitHub repo connected', 'info');
+    return;
+  }
+  showToast('Syncing\u2026', 'info');
+  fetchAll().then(function(fetched) {
+    populateStore(fetched['volumes.json'], fetched['canons.json'], fetched['journal.json']);
+    replayWal(store._wal);
+    return flushQueue();
+  }).then(function() {
+    renderCurrentView();
+    showToast('Sync complete', 'success');
+  }).catch(function(e) {
+    logError('syncNow', e.message);
+    showToast('Sync failed', 'error');
+  });
+}
+
+function handleDisconnectGitHub() {
+  showConfirmDialog('Disconnect GitHub?',
+    'Your data will remain locally. You can reconnect anytime.',
+    function() {
+      localStorage.removeItem(KEYS.REPO_URL);
+      localStorage.removeItem(KEYS.TOKEN);
+      localStorage.removeItem(KEYS.DEFAULT_BRANCH);
+      localStorage.removeItem(KEYS.SHA_VOLUMES);
+      localStorage.removeItem(KEYS.SHA_CANONS);
+      localStorage.removeItem(KEYS.SHA_JOURNAL);
+      store._meta.shas = { volumes: null, canons: null, journal: null };
+      // Clear synced WAL entries; keep pending/failed
+      store._wal = store._wal.filter(function(e) {
+        return e.status === 'pending' || e.status === 'failed';
+      });
+      try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(e) {}
+      setOfflineStatus(false);
+      showToast('Disconnected from GitHub', 'success');
+      renderSettings();
+    },
+    { danger: true, label: 'Disconnect' }
+  );
+}
+
+/* --- Initialize (Phase 2: full 15-step lifecycle) --- */
+function initializeApp() {
   if (!testLocalStorage()) {
     document.getElementById('viewContainer').innerHTML = '<div class="cx-blocker"><p>Codex requires local storage.</p></div>';
     return;
   }
 
+  // Register service worker (async, non-blocking)
+  registerServiceWorker();
+
   initTabIcons();
 
-  // Load from localStorage cache
-  var volData = safeParseLocalStorage(KEYS.CACHE_VOLUMES);
-  var canonData = safeParseLocalStorage(KEYS.CACHE_CANONS);
-  var journalData = safeParseLocalStorage(KEYS.CACHE_JOURNAL);
-
-  // Seed on first visit OR when seed version is newer (Phase 1 only — removed once GitHub sync is live)
-  var currentSeedVer = typeof SEED_VERSION === 'number' ? SEED_VERSION : 0;
-  var storedSeedVer = parseInt(localStorage.getItem('codex-seed-version') || '0', 10);
-  var needsSeed = (!volData && !canonData && !journalData) || (currentSeedVer > storedSeedVer);
-  if (needsSeed && typeof getSeedVolumes === 'function') {
-    volData = getSeedVolumes();
-    canonData = getSeedCanons();
-    journalData = getSeedJournal();
+  // Step 5: Check if wizard needed
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL);
+  var wizardDone = localStorage.getItem(KEYS.WIZARD_DONE);
+  if (!repoUrl && !wizardDone) {
+    document.getElementById('tabBar').hidden = true;
+    var fab = document.getElementById('fabButton');
+    if (fab) fab.classList.add('cx-fab-hidden');
+    renderWizard();
+    setupDelegation();
+    document.addEventListener('keydown', _escapeHandler);
+    return;
   }
 
-  populateStore(
-    { data: volData, sha: null },
-    { data: canonData, sha: null },
-    { data: journalData, sha: null }
-  );
+  // Step 7: Load WAL from localStorage
+  try { store._wal = JSON.parse(localStorage.getItem(KEYS.WAL) || '[]'); } catch(e) { store._wal = []; }
+  store._wal.forEach(function(e) { if (e.status === 'syncing') e.status = 'pending'; });
 
-  // Persist seed data to localStorage
-  if (needsSeed) {
-    store._cacheToLocalStorage();
-    localStorage.setItem('codex-seed-version', String(currentSeedVer));
+  // Step 8-10: Fetch or load from cache
+  var bootPromise;
+  if (repoUrl) {
+    bootPromise = fetchAllWithProgressiveMessages();
+  } else {
+    // Local-only mode: load from cache
+    bootPromise = Promise.resolve({
+      'volumes.json': { data: safeParseLocalStorage(KEYS.CACHE_VOLUMES), sha: null, fromCache: true },
+      'canons.json': { data: safeParseLocalStorage(KEYS.CACHE_CANONS), sha: null, fromCache: true },
+      'journal.json': { data: safeParseLocalStorage(KEYS.CACHE_JOURNAL), sha: null, fromCache: true }
+    });
   }
 
-  // Register listeners
-  store.onChange(function() {
-    if (!_initializing) renderCurrentView();
+  bootPromise.then(function(fetched) {
+    // Seed on first visit (local-only mode, Phase 1 compat)
+    var volData = fetched['volumes.json'].data;
+    var canonData = fetched['canons.json'].data;
+    var journalData = fetched['journal.json'].data;
+
+    if (!repoUrl) {
+      var currentSeedVer = typeof SEED_VERSION === 'number' ? SEED_VERSION : 0;
+      var storedSeedVer = parseInt(localStorage.getItem('codex-seed-version') || '0', 10);
+      var needsSeed = (!volData && !canonData && !journalData) || (currentSeedVer > storedSeedVer);
+      if (needsSeed && typeof getSeedVolumes === 'function') {
+        fetched['volumes.json'] = { data: getSeedVolumes(), sha: null };
+        fetched['canons.json'] = { data: getSeedCanons(), sha: null };
+        fetched['journal.json'] = { data: getSeedJournal(), sha: null };
+        localStorage.setItem('codex-seed-version', String(currentSeedVer));
+      }
+    }
+
+    // Step 10: Populate store
+    populateStore(fetched['volumes.json'], fetched['canons.json'], fetched['journal.json']);
+
+    // Step 11: Replay WAL
+    replayWal(store._wal);
+
+    // Step 12: Register listeners
+    store.onChange(function() {
+      if (!_initializing) renderCurrentView();
+    });
+    store.onWalChange(function() {
+      renderSyncIndicator();
+      renderTabBadge();
+    });
+
+    // Step 13-14: Parse route and render
+    var route = parseRoute(location.hash);
+    _currentView = route.view;
+    _currentViewParams = route;
+    document.getElementById('tabBar').hidden = false;
+    updateTabBarActive(route.view);
+    renderBreadcrumbForRoute(route);
+    updateFab(route.view);
+
+    // Step 15: Finish initialization
+    _initializing = false;
+    renderCurrentView();
+
+    // Post-init
+    purgeOldWalEntries();
+    renderSyncIndicator();
+    renderTabBadge();
+
+    var visits = parseInt(localStorage.getItem(KEYS.VISIT_COUNT) || '0', 10) + 1;
+    localStorage.setItem(KEYS.VISIT_COUNT, String(visits));
+  }).catch(function(e) {
+    logError('init', 'Boot failed', e.message);
+    _initializing = false;
+    // Fall back to cached data
+    populateStore(
+      { data: safeParseLocalStorage(KEYS.CACHE_VOLUMES), sha: null },
+      { data: safeParseLocalStorage(KEYS.CACHE_CANONS), sha: null },
+      { data: safeParseLocalStorage(KEYS.CACHE_JOURNAL), sha: null }
+    );
+    renderCurrentView();
+    showToast('Loaded from cache \u2014 some data may be stale', 'warning');
   });
 
-  // Parse initial route
-  var route = parseRoute(location.hash);
-  _currentView = route.view;
-  _currentViewParams = route;
-  updateTabBarActive(route.view);
-  renderBreadcrumbForRoute(route);
-  updateFab(route.view);
-
-  // Initial render
-  _initializing = false;
-  renderCurrentView();
-
-  // Setup interaction
+  // Setup interaction (immediate, before async boot completes)
   setupDelegation();
   document.addEventListener('keydown', _escapeHandler);
   window.addEventListener('hashchange', function() {
     if (_navigating) return;
     handleRouteChange(location.hash, true);
   });
-
-  // Visit count
-  var visits = parseInt(localStorage.getItem(KEYS.VISIT_COUNT) || '0', 10) + 1;
-  localStorage.setItem(KEYS.VISIT_COUNT, String(visits));
+  window.addEventListener('pageshow', handlePageShow);
 }
 
 // Boot
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initialize);
+  document.addEventListener('DOMContentLoaded', initializeApp);
 } else {
-  initialize();
+  initializeApp();
 }
 
 })();

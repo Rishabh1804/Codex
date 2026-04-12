@@ -1,8 +1,8 @@
-/* CODEX — Start (from spec CODEBASE_SHELL) */
+/* CODEX — Start (Phase 2: Full lifecycle with GitHub sync) */
 
 (function() {
 
-/* --- Delegation (spec: 7 roots, Phase 1 uses document-level with spec action names) --- */
+/* --- Delegation (Phase 2: added wizard, GitHub, sync actions) --- */
 function setupDelegation() {
   document.addEventListener('click', function(e) {
     var el = e.target.closest('[data-action]');
@@ -59,6 +59,36 @@ function setupDelegation() {
       case 'setTextSize': applyTextSize(el.dataset.size); break;
       case 'exportData': handleExportData(); break;
 
+      // Phase 2: GitHub Settings
+      case 'validateAndSaveGitHub': handleSettingsGitHubSave(); break;
+      case 'syncNow': handleSyncNow(); break;
+      case 'disconnectGitHub': handleDisconnectGitHub(); break;
+
+      // Phase 2: Wizard
+      case 'wizardNext': _wizardStep = 2; renderWizard(); break;
+      case 'wizardValidateGitHub': handleWizardValidate(); break;
+      case 'wizardSkipGitHub':
+        localStorage.setItem(KEYS.WIZARD_DONE, 'skipped');
+        _wizardStep = 3;
+        renderWizard();
+        break;
+      case 'wizardSelectTheme':
+        var theme = el.dataset.value;
+        localStorage.setItem(KEYS.THEME, theme);
+        document.documentElement.setAttribute('data-theme', theme);
+        var tc = document.querySelector('meta[name="theme-color"]');
+        if (tc) tc.setAttribute('content', theme === 'dark' ? '#1A1610' : '#FAF6F1');
+        _wizardStep = 3;
+        renderWizard();
+        break;
+      case 'wizardThemeNext': _wizardStep = 4; renderWizard(); break;
+      case 'wizardFinish':
+        localStorage.setItem(KEYS.WIZARD_DONE, 'true');
+        document.getElementById('tabBar').hidden = false;
+        _wizardStep = 1;
+        initializeApp();
+        break;
+
       // Search (Phase 4 stub)
       case 'openSearch': showToast('Search coming in Phase 4', 'info'); break;
 
@@ -70,6 +100,16 @@ function setupDelegation() {
   // Overlay backdrop close
   document.getElementById('overlayBackdrop').addEventListener('click', closeOverlay);
   document.getElementById('confirmBackdrop').addEventListener('click', closeConfirmDialog);
+
+  // Sync indicator
+  var syncDot = document.getElementById('syncIndicator');
+  if (syncDot) syncDot.addEventListener('click', function() {
+    var pending = store._wal.filter(function(e) { return e.status === 'pending' || e.status === 'failed'; }).length;
+    var synced = store._wal.filter(function(e) { return e.status === 'synced'; }).length;
+    var msg = _isOffline ? 'Offline' : (pending > 0 ? pending + ' pending' : 'Synced');
+    if (!localStorage.getItem(KEYS.REPO_URL)) msg = 'Local only';
+    showToast(msg + ' (' + synced + ' synced in WAL)', 'info');
+  });
 }
 
 /* --- Escape handler --- */
@@ -93,77 +133,279 @@ function testLocalStorage() {
   try { localStorage.setItem('codex-test', '1'); localStorage.removeItem('codex-test'); return true; } catch(e) { return false; }
 }
 
-/* --- Initialize (from spec — Phase 1: local-only, no GitHub fetch) --- */
-function initialize() {
+/* --- Phase 2: Service Worker --- */
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('sw.js', { scope: './' })
+    .then(function(reg) {
+      reg.addEventListener('updatefound', function() {
+        var nw = reg.installing;
+        if (!nw) return;
+        nw.addEventListener('statechange', function() {
+          if (nw.state === 'activated' && navigator.serviceWorker.controller) {
+            showToast('New version available \u2014 refresh', 'info');
+          }
+        });
+      });
+    })
+    .catch(function(err) { logError('sw', 'Registration failed', err.message); });
+}
+
+/* --- Phase 2: bfcache handler --- */
+function handlePageShow(event) {
+  if (!event.persisted) return;
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL);
+  if (repoUrl) {
+    fetchAll().then(function(f) {
+      populateStore(f['volumes.json'], f['canons.json'], f['journal.json']);
+      replayWal(store._wal);
+      renderCurrentView();
+    });
+  }
+}
+
+/* --- Phase 2: Wizard Handlers --- */
+function handleWizardValidate() {
+  var repoInput = document.getElementById('field-wizard-repo');
+  var tokenInput = document.getElementById('field-wizard-token');
+  var statusEl = document.getElementById('wizard-validation-status');
+  if (!repoInput || !tokenInput) return;
+
+  var rawUrl = repoInput.value.trim();
+  var token = tokenInput.value.trim();
+
+  if (!rawUrl || !token) {
+    if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">Both fields are required</div>';
+    return;
+  }
+
+  var normalized = normalizeRepoUrl(rawUrl);
+  if (!normalized) {
+    if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">Invalid repository URL. Use: owner/repo</div>';
+    return;
+  }
+
+  if (statusEl) statusEl.innerHTML = '<div class="cx-settings-hint">Validating\u2026</div>';
+
+  validateToken(normalized, token).then(function(result) {
+    if (result.valid) {
+      localStorage.setItem(KEYS.REPO_URL, normalized);
+      localStorage.setItem(KEYS.TOKEN, token);
+      localStorage.setItem(KEYS.DEFAULT_BRANCH, result.defaultBranch || 'main');
+      localStorage.setItem(KEYS.WIZARD_DONE, 'true');
+      if (statusEl) statusEl.innerHTML = '<div style="color:var(--success)">' + cx('check') + ' Connected to ' + escHtml(result.repoFullName) + '</div>';
+      setTimeout(function() { _wizardStep = 3; renderWizard(); }, 800);
+    } else {
+      if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">' + escHtml(result.reason) + '</div>';
+    }
+  });
+}
+
+/* --- Phase 2: Settings GitHub Handlers --- */
+function handleSettingsGitHubSave() {
+  var repoInput = document.getElementById('field-settings-repo');
+  var tokenInput = document.getElementById('field-settings-token');
+  var statusEl = document.getElementById('github-validation-status');
+  if (!repoInput || !tokenInput) return;
+
+  var rawUrl = repoInput.value.trim();
+  var token = tokenInput.value.trim();
+
+  if (!rawUrl || !token) {
+    if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">Both fields are required</div>';
+    return;
+  }
+
+  var normalized = normalizeRepoUrl(rawUrl);
+  if (!normalized) {
+    if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">Invalid format. Use: owner/repo</div>';
+    return;
+  }
+
+  if (statusEl) statusEl.innerHTML = '<div class="cx-settings-hint">Validating\u2026</div>';
+
+  validateToken(normalized, token).then(function(result) {
+    if (result.valid) {
+      localStorage.setItem(KEYS.REPO_URL, normalized);
+      localStorage.setItem(KEYS.TOKEN, token);
+      localStorage.setItem(KEYS.DEFAULT_BRANCH, result.defaultBranch || 'main');
+      showToast('Connected to ' + result.repoFullName, 'success');
+      setOfflineStatus(false);
+      // Sync existing local data to the repo
+      flushQueue();
+      renderSettings();
+    } else {
+      if (statusEl) statusEl.innerHTML = '<div class="cx-form-error" style="display:block">' + escHtml(result.reason) + '</div>';
+    }
+  });
+}
+
+function handleSyncNow() {
+  if (!localStorage.getItem(KEYS.REPO_URL)) {
+    showToast('No GitHub repo connected', 'info');
+    return;
+  }
+  showToast('Syncing\u2026', 'info');
+  fetchAll().then(function(fetched) {
+    populateStore(fetched['volumes.json'], fetched['canons.json'], fetched['journal.json']);
+    replayWal(store._wal);
+    return flushQueue();
+  }).then(function() {
+    renderCurrentView();
+    showToast('Sync complete', 'success');
+  }).catch(function(e) {
+    logError('syncNow', e.message);
+    showToast('Sync failed', 'error');
+  });
+}
+
+function handleDisconnectGitHub() {
+  showConfirmDialog('Disconnect GitHub?',
+    'Your data will remain locally. You can reconnect anytime.',
+    function() {
+      localStorage.removeItem(KEYS.REPO_URL);
+      localStorage.removeItem(KEYS.TOKEN);
+      localStorage.removeItem(KEYS.DEFAULT_BRANCH);
+      localStorage.removeItem(KEYS.SHA_VOLUMES);
+      localStorage.removeItem(KEYS.SHA_CANONS);
+      localStorage.removeItem(KEYS.SHA_JOURNAL);
+      store._meta.shas = { volumes: null, canons: null, journal: null };
+      // Clear synced WAL entries; keep pending/failed
+      store._wal = store._wal.filter(function(e) {
+        return e.status === 'pending' || e.status === 'failed';
+      });
+      try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(e) {}
+      setOfflineStatus(false);
+      showToast('Disconnected from GitHub', 'success');
+      renderSettings();
+    },
+    { danger: true, label: 'Disconnect' }
+  );
+}
+
+/* --- Initialize (Phase 2: full 15-step lifecycle) --- */
+function initializeApp() {
   if (!testLocalStorage()) {
     document.getElementById('viewContainer').innerHTML = '<div class="cx-blocker"><p>Codex requires local storage.</p></div>';
     return;
   }
 
+  // Register service worker (async, non-blocking)
+  registerServiceWorker();
+
   initTabIcons();
 
-  // Load from localStorage cache
-  var volData = safeParseLocalStorage(KEYS.CACHE_VOLUMES);
-  var canonData = safeParseLocalStorage(KEYS.CACHE_CANONS);
-  var journalData = safeParseLocalStorage(KEYS.CACHE_JOURNAL);
-
-  // Seed on first visit OR when seed version is newer (Phase 1 only — removed once GitHub sync is live)
-  var currentSeedVer = typeof SEED_VERSION === 'number' ? SEED_VERSION : 0;
-  var storedSeedVer = parseInt(localStorage.getItem('codex-seed-version') || '0', 10);
-  var needsSeed = (!volData && !canonData && !journalData) || (currentSeedVer > storedSeedVer);
-  if (needsSeed && typeof getSeedVolumes === 'function') {
-    volData = getSeedVolumes();
-    canonData = getSeedCanons();
-    journalData = getSeedJournal();
+  // Step 5: Check if wizard needed
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL);
+  var wizardDone = localStorage.getItem(KEYS.WIZARD_DONE);
+  if (!repoUrl && !wizardDone) {
+    document.getElementById('tabBar').hidden = true;
+    var fab = document.getElementById('fabButton');
+    if (fab) fab.classList.add('cx-fab-hidden');
+    renderWizard();
+    setupDelegation();
+    document.addEventListener('keydown', _escapeHandler);
+    return;
   }
 
-  populateStore(
-    { data: volData, sha: null },
-    { data: canonData, sha: null },
-    { data: journalData, sha: null }
-  );
+  // Step 7: Load WAL from localStorage
+  try { store._wal = JSON.parse(localStorage.getItem(KEYS.WAL) || '[]'); } catch(e) { store._wal = []; }
+  store._wal.forEach(function(e) { if (e.status === 'syncing') e.status = 'pending'; });
 
-  // Persist seed data to localStorage
-  if (needsSeed) {
-    store._cacheToLocalStorage();
-    localStorage.setItem('codex-seed-version', String(currentSeedVer));
+  // Step 8-10: Fetch or load from cache
+  var bootPromise;
+  if (repoUrl) {
+    bootPromise = fetchAllWithProgressiveMessages();
+  } else {
+    // Local-only mode: load from cache
+    bootPromise = Promise.resolve({
+      'volumes.json': { data: safeParseLocalStorage(KEYS.CACHE_VOLUMES), sha: null, fromCache: true },
+      'canons.json': { data: safeParseLocalStorage(KEYS.CACHE_CANONS), sha: null, fromCache: true },
+      'journal.json': { data: safeParseLocalStorage(KEYS.CACHE_JOURNAL), sha: null, fromCache: true }
+    });
   }
 
-  // Register listeners
-  store.onChange(function() {
-    if (!_initializing) renderCurrentView();
+  bootPromise.then(function(fetched) {
+    // Seed on first visit (local-only mode, Phase 1 compat)
+    var volData = fetched['volumes.json'].data;
+    var canonData = fetched['canons.json'].data;
+    var journalData = fetched['journal.json'].data;
+
+    if (!repoUrl) {
+      var currentSeedVer = typeof SEED_VERSION === 'number' ? SEED_VERSION : 0;
+      var storedSeedVer = parseInt(localStorage.getItem('codex-seed-version') || '0', 10);
+      var needsSeed = (!volData && !canonData && !journalData) || (currentSeedVer > storedSeedVer);
+      if (needsSeed && typeof getSeedVolumes === 'function') {
+        fetched['volumes.json'] = { data: getSeedVolumes(), sha: null };
+        fetched['canons.json'] = { data: getSeedCanons(), sha: null };
+        fetched['journal.json'] = { data: getSeedJournal(), sha: null };
+        localStorage.setItem('codex-seed-version', String(currentSeedVer));
+      }
+    }
+
+    // Step 10: Populate store
+    populateStore(fetched['volumes.json'], fetched['canons.json'], fetched['journal.json']);
+
+    // Step 11: Replay WAL
+    replayWal(store._wal);
+
+    // Step 12: Register listeners
+    store.onChange(function() {
+      if (!_initializing) renderCurrentView();
+    });
+    store.onWalChange(function() {
+      renderSyncIndicator();
+      renderTabBadge();
+    });
+
+    // Step 13-14: Parse route and render
+    var route = parseRoute(location.hash);
+    _currentView = route.view;
+    _currentViewParams = route;
+    document.getElementById('tabBar').hidden = false;
+    updateTabBarActive(route.view);
+    renderBreadcrumbForRoute(route);
+    updateFab(route.view);
+
+    // Step 15: Finish initialization
+    _initializing = false;
+    renderCurrentView();
+
+    // Post-init
+    purgeOldWalEntries();
+    renderSyncIndicator();
+    renderTabBadge();
+
+    var visits = parseInt(localStorage.getItem(KEYS.VISIT_COUNT) || '0', 10) + 1;
+    localStorage.setItem(KEYS.VISIT_COUNT, String(visits));
+  }).catch(function(e) {
+    logError('init', 'Boot failed', e.message);
+    _initializing = false;
+    // Fall back to cached data
+    populateStore(
+      { data: safeParseLocalStorage(KEYS.CACHE_VOLUMES), sha: null },
+      { data: safeParseLocalStorage(KEYS.CACHE_CANONS), sha: null },
+      { data: safeParseLocalStorage(KEYS.CACHE_JOURNAL), sha: null }
+    );
+    renderCurrentView();
+    showToast('Loaded from cache \u2014 some data may be stale', 'warning');
   });
 
-  // Parse initial route
-  var route = parseRoute(location.hash);
-  _currentView = route.view;
-  _currentViewParams = route;
-  updateTabBarActive(route.view);
-  renderBreadcrumbForRoute(route);
-  updateFab(route.view);
-
-  // Initial render
-  _initializing = false;
-  renderCurrentView();
-
-  // Setup interaction
+  // Setup interaction (immediate, before async boot completes)
   setupDelegation();
   document.addEventListener('keydown', _escapeHandler);
   window.addEventListener('hashchange', function() {
     if (_navigating) return;
     handleRouteChange(location.hash, true);
   });
-
-  // Visit count
-  var visits = parseInt(localStorage.getItem(KEYS.VISIT_COUNT) || '0', 10) + 1;
-  localStorage.setItem(KEYS.VISIT_COUNT, String(visits));
+  window.addEventListener('pageshow', handlePageShow);
 }
 
 // Boot
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initialize);
+  document.addEventListener('DOMContentLoaded', initializeApp);
 } else {
-  initialize();
+  initializeApp();
 }
 
 })();

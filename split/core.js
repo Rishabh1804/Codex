@@ -1,4 +1,4 @@
-/* CODEX — Core (from spec CODEBASE_SHELL) */
+/* CODEX — Core (Phase 2: GitHub sync + WAL replay) */
 
 /* --- cx() Icons — Style C (design session locked) --- */
 function cx(name) {
@@ -21,7 +21,9 @@ function cx(name) {
     'alert':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>',
     'close':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
     'download':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>',
-    'info':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>'
+    'info':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>',
+    'github':'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>',
+    'refresh':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>'
   };
   return icons[name] || '<span class="cx-missing"></span>';
 }
@@ -164,7 +166,7 @@ function renderBreadcrumb(segments) {
   if (bar.hidden) return;
   bar.innerHTML = segments.map(function(seg, i) {
     var isLast = i === segments.length - 1;
-    var sep = i > 0 ? '<span class="cx-breadcrumb-sep">›</span>' : '';
+    var sep = i > 0 ? '<span class="cx-breadcrumb-sep">\u203A</span>' : '';
     return sep + (isLast
       ? '<span class="cx-breadcrumb-current">' + escHtml(seg.label) + '</span>'
       : '<a data-action="navigate" data-route="' + escAttr(seg.route) + '" class="cx-breadcrumb-link">' + escHtml(seg.label) + '</a>');
@@ -211,9 +213,6 @@ function initTabIcons() {
 }
 
 /* --- Render Current View --- */
-var _isRendering = false;
-var _initializing = true;
-
 function renderCurrentView() {
   _isRendering = true;
   try {
@@ -299,4 +298,366 @@ function renderEmptyState(icon, title, subtitle, actionLabel, actionName) {
 function renderConnectGitHubCta() {
   if (localStorage.getItem(KEYS.REPO_URL)) return '';
   return '<div class="cx-connect-cta">' + cx('link') + '<span>Your data is local only.</span><button data-action="openSettings" class="cx-btn-primary cx-btn-sm">Connect GitHub</button></div>';
+}
+
+/* ============================================================
+   PHASE 2: GitHub Sync Module
+   ============================================================ */
+
+var _currentFetchController = null;
+
+function buildHeaders() {
+  var headers = { 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
+  var token = localStorage.getItem(KEYS.TOKEN);
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  return headers;
+}
+
+function normalizeRepoUrl(input) {
+  if (!input) return null;
+  var url = input.trim()
+    .replace(/^https?:\/\//, '')
+    .replace(/^github\.com\//, '')
+    .replace(/\/+$/, '')
+    .replace(/\.git$/, '');
+  var parts = url.split('/');
+  if (parts.length !== 2 || !parts[0] || !parts[1]) return null;
+  return url;
+}
+
+function fetchFile(filename, signal) {
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL);
+  if (!repoUrl) return Promise.resolve({ data: null, sha: null });
+  return fetch('https://api.github.com/repos/' + repoUrl + '/contents/data/' + filename, {
+    headers: buildHeaders(), signal: signal
+  }).then(function(res) {
+    if (res.status === 404) return { data: null, sha: null };
+    if (!res.ok) throw new Error('GitHub ' + res.status + ': ' + res.statusText);
+    return res.json();
+  }).then(function(json) {
+    if (!json || !json.content) return { data: null, sha: null };
+    var content = base64ToUtf8(json.content.replace(/\n/g, ''));
+    var parsed = JSON.parse(content.replace(/^\uFEFF/, ''));
+    return { data: parsed, sha: json.sha };
+  });
+}
+
+function pushFile(filename, content, sha) {
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL);
+  var branch = localStorage.getItem(KEYS.DEFAULT_BRANCH) || 'main';
+  var body = { message: 'Update ' + filename, content: utf8ToBase64(content), branch: branch };
+  if (sha) body.sha = sha;
+  var controller = new AbortController();
+  var timeout = setTimeout(function() { controller.abort(); }, 15000);
+  return fetch('https://api.github.com/repos/' + repoUrl + '/contents/data/' + filename, {
+    method: 'PUT', headers: buildHeaders(), body: JSON.stringify(body), signal: controller.signal
+  }).then(function(res) {
+    clearTimeout(timeout);
+    if (res.status === 200 || res.status === 201) {
+      return res.json().then(function(json) {
+        return { success: true, sha: json.content.sha };
+      });
+    }
+    if (res.status === 409) return { success: false, reason: 'conflict' };
+    if (res.status === 401) return { success: false, reason: 'auth' };
+    if (res.status === 403) return { success: false, reason: 'rate_limit', retryAfter: res.headers.get('Retry-After') };
+    return { success: false, reason: 'unknown', status: res.status };
+  }).catch(function(e) {
+    clearTimeout(timeout);
+    if (e.name === 'AbortError') return { success: false, reason: 'timeout' };
+    return { success: false, reason: 'network' };
+  });
+}
+
+function fetchAll() {
+  if (_currentFetchController) _currentFetchController.abort();
+  _currentFetchController = new AbortController();
+  var signal = _currentFetchController.signal;
+  var timeout = setTimeout(function() { _currentFetchController.abort(); }, 10000);
+
+  var files = [
+    { name: 'volumes.json', cacheKey: KEYS.CACHE_VOLUMES, shaKey: KEYS.SHA_VOLUMES },
+    { name: 'canons.json', cacheKey: KEYS.CACHE_CANONS, shaKey: KEYS.SHA_CANONS },
+    { name: 'journal.json', cacheKey: KEYS.CACHE_JOURNAL, shaKey: KEYS.SHA_JOURNAL }
+  ];
+
+  return Promise.allSettled(files.map(function(f) { return fetchFile(f.name, signal); }))
+    .then(function(results) {
+      clearTimeout(timeout);
+      _currentFetchController = null;
+      var fetched = {};
+      var anySuccess = false, anyFailure = false;
+
+      results.forEach(function(result, i) {
+        var file = files[i];
+        if (result.status === 'fulfilled') {
+          fetched[file.name] = result.value;
+          anySuccess = true;
+          setOfflineStatus(false);
+        } else {
+          anyFailure = true;
+          fetched[file.name] = {
+            data: safeParseLocalStorage(file.cacheKey),
+            sha: localStorage.getItem(file.shaKey) || null,
+            fromCache: true
+          };
+          logError('fetch', 'Failed: ' + file.name, result.reason ? result.reason.message : 'unknown');
+        }
+      });
+
+      if (!anySuccess) setOfflineStatus(true);
+      if (anyFailure && anySuccess) showToast('Some data loaded from cache', 'info');
+      return fetched;
+    });
+}
+
+function validateToken(repoUrl, token) {
+  return fetch('https://api.github.com/repos/' + repoUrl, {
+    headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json' },
+    signal: AbortSignal.timeout(10000)
+  }).then(function(res) {
+    if (res.status === 401) return { valid: false, reason: 'Invalid token' };
+    if (res.status === 404) return { valid: false, reason: 'Repository not found' };
+    if (res.status === 403) return { valid: false, reason: 'Access denied' };
+    if (!res.ok) return { valid: false, reason: 'GitHub returned ' + res.status };
+    return res.json().then(function(data) {
+      if (!data.permissions || !data.permissions.push) return { valid: false, reason: 'Token has read-only access' };
+      return { valid: true, defaultBranch: data.default_branch || 'main', repoFullName: data.full_name };
+    });
+  }).catch(function(e) {
+    if (e.name === 'AbortError' || e.name === 'TimeoutError') return { valid: false, reason: 'Connection timed out' };
+    return { valid: false, reason: 'Network error' };
+  });
+}
+
+function setOfflineStatus(offline) {
+  if (offline === _isOffline) return;
+  _isOffline = offline;
+  var banner = document.getElementById('offlineBanner');
+  if (banner) banner.hidden = !offline;
+  if (!offline && localStorage.getItem(KEYS.REPO_URL)) flushQueue();
+}
+
+/* --- File Builders (rebuild entire file from current store) --- */
+function buildVolumesFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }, null, 2); }
+function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, rejected_alternatives: store.rejections }, null, 2); }
+function buildJournalFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }, null, 2); }
+
+/* --- Flush Queue (push pending WAL entries to GitHub) --- */
+var _flushing = false;
+
+function flushQueue() {
+  if (_flushing || _isOffline) return Promise.resolve();
+  if (!localStorage.getItem(KEYS.REPO_URL)) return Promise.resolve();
+
+  var pending = store._wal.filter(function(e) { return e.status === 'pending' || e.status === 'failed'; });
+  if (pending.length === 0) return Promise.resolve();
+
+  _flushing = true;
+  pending.forEach(function(e) { e.status = 'syncing'; });
+  try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(e) {}
+  store._fireWalChange();
+
+  var dirtyFiles = {};
+  pending.forEach(function(e) { dirtyFiles[e.target_file] = true; });
+
+  var pushOrder = ['volumes.json', 'canons.json', 'journal.json'];
+  var shaKeyMap = { 'volumes.json': 'volumes', 'canons.json': 'canons', 'journal.json': 'journal' };
+  var lsKeyMap = { 'volumes.json': KEYS.SHA_VOLUMES, 'canons.json': KEYS.SHA_CANONS, 'journal.json': KEYS.SHA_JOURNAL };
+  var builderMap = { 'volumes.json': buildVolumesFile, 'canons.json': buildCanonsFile, 'journal.json': buildJournalFile };
+
+  var chain = Promise.resolve();
+  pushOrder.forEach(function(file) {
+    if (!dirtyFiles[file]) return;
+    chain = chain.then(function() {
+      var content = builderMap[file]();
+      var sha = store._meta.shas[shaKeyMap[file]] || localStorage.getItem(lsKeyMap[file]) || null;
+      return apiThrottle(function() { return pushFile(file, content, sha); }).then(function(result) {
+        var fileEntries = pending.filter(function(e) { return e.target_file === file; });
+        if (result.success) {
+          store._meta.shas[shaKeyMap[file]] = result.sha;
+          localStorage.setItem(lsKeyMap[file], result.sha);
+          fileEntries.forEach(function(e) { e.status = 'synced'; });
+          store._cacheToLocalStorage();
+        } else {
+          fileEntries.forEach(function(e) { e.status = 'failed'; e.error = result.reason; });
+          if (result.reason === 'conflict') {
+            showToast('Sync conflict \u2014 refreshing data', 'warning');
+          } else if (result.reason === 'auth') {
+            showToast('GitHub token expired or invalid', 'error');
+          } else {
+            showToast('Sync failed: ' + (result.reason || 'unknown'), 'error');
+          }
+          logError('flush', 'Push failed: ' + file, result.reason);
+        }
+      });
+    });
+  });
+
+  return chain.then(function() {
+    _flushing = false;
+    try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(e) {}
+    store._fireWalChange();
+    purgeOldWalEntries();
+  }).catch(function(e) {
+    _flushing = false;
+    logError('flush', 'flushQueue error', e.message);
+    pending.forEach(function(en) { if (en.status === 'syncing') en.status = 'failed'; });
+    try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(ex) {}
+    store._fireWalChange();
+  });
+}
+
+/* ============================================================
+   PHASE 2: WAL Replay
+   ============================================================ */
+
+function replayWal(wal) {
+  var errors = [];
+  for (var i = 0; i < wal.length; i++) {
+    var entry = wal[i];
+    if (entry.status === 'syncing') entry.status = 'pending';
+    if (entry.status !== 'pending' && entry.status !== 'failed') continue;
+    try {
+      switch (entry.action) {
+        case 'create': replayCreate(entry); break;
+        case 'update': replayUpdate(entry); break;
+        case 'delete': replayDelete(entry); break;
+        case 'shelf_transition': replayShelfTransition(entry); break;
+      }
+    } catch(e) { errors.push({ entry: entry, error: e.message }); }
+  }
+  if (errors.length > 0) {
+    logError('WAL replay', errors.length + ' entries failed', errors);
+    showToast(errors.length + ' pending changes could not be applied', 'error');
+  }
+}
+
+function replayCreate(entry) {
+  var existing = findEntity(entry.entity_type, entry.entity_id, entry.parent_id);
+  if (existing) {
+    var existingTime = existing.created || existing._lastModified || '1970-01-01';
+    if (entry.timestamp > existingTime) Object.assign(existing, entry.payload);
+    entry.status = 'resolved';
+    return;
+  }
+  insertEntity(entry.entity_type, entry.payload, entry.parent_id);
+}
+
+function replayUpdate(entry) {
+  var existing = findEntity(entry.entity_type, entry.entity_id, entry.parent_id);
+  if (!existing) { entry.status = 'resolved'; return; }
+  if (existing._deleted) { entry.status = 'resolved'; return; }
+  Object.assign(existing, entry.payload);
+}
+
+function replayDelete(entry) {
+  var existing = findEntity(entry.entity_type, entry.entity_id, entry.parent_id);
+  if (!existing) { entry.status = 'resolved'; return; }
+  if (entry.payload && entry.payload._permanent) {
+    removeEntity(entry.entity_type, entry.entity_id, entry.parent_id);
+  } else {
+    existing._deleted = true;
+    existing._deleted_date = existing._deleted_date || localDateStr();
+  }
+}
+
+function replayShelfTransition(entry) {
+  var volume = store.volumes.find(function(v) { return v.id === entry.entity_id; });
+  if (!volume) { entry.status = 'resolved'; return; }
+  volume.shelf = entry.payload.shelf;
+  if (!volume.shelf_history) volume.shelf_history = [];
+  var last = volume.shelf_history[volume.shelf_history.length - 1];
+  var entryDate = entry.timestamp.substring(0, 10);
+  if (!last || last.shelf !== entry.payload.shelf || last.date !== entryDate) {
+    volume.shelf_history.push({ shelf: entry.payload.shelf, date: entryDate, reason: entry.payload.reason || null });
+  }
+}
+
+function findEntity(type, id, parentId) {
+  switch (type) {
+    case 'volume': return store.volumes.find(function(v) { return v.id === id; });
+    case 'canon': return store.canons.find(function(c) { return c.id === id; });
+    case 'rejection': return store.rejections.find(function(r) { return r.id === id; });
+    case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); return vc ? (vc.chapters || []).find(function(c) { return c.id === id; }) : undefined;
+    case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); return vt ? (vt.todos || []).find(function(t) { return t.id === id; }) : undefined;
+    case 'session': var d = store.journal.find(function(d) { return d.date === parentId; }); return d ? (d.sessions || []).find(function(s) { return s.id === id; }) : undefined;
+  }
+}
+
+function insertEntity(type, payload, parentId) {
+  switch (type) {
+    case 'volume': store.volumes.push(payload); break;
+    case 'canon': store.canons.push(payload); break;
+    case 'rejection': store.rejections.push(payload); break;
+    case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) { if (!vc.chapters) vc.chapters = []; vc.chapters.push(payload); } break;
+    case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) { if (!vt.todos) vt.todos = []; vt.todos.push(payload); } break;
+    case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (!d) { d = { date: parentId, sessions: [] }; store.journal.push(d); } d.sessions.push(payload); break;
+  }
+}
+
+function removeEntity(type, id, parentId) {
+  switch (type) {
+    case 'volume': store.volumes = store.volumes.filter(function(v) { return v.id !== id; }); break;
+    case 'canon': store.canons = store.canons.filter(function(c) { return c.id !== id; }); break;
+    case 'rejection': store.rejections = store.rejections.filter(function(r) { return r.id !== id; }); break;
+    case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) vc.chapters = (vc.chapters || []).filter(function(c) { return c.id !== id; }); break;
+    case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) vt.todos = (vt.todos || []).filter(function(t) { return t.id !== id; }); break;
+    case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (d) { d.sessions = (d.sessions || []).filter(function(s) { return s.id !== id; }); if (d.sessions.length === 0) store.journal = store.journal.filter(function(x) { return x.date !== parentId; }); } break;
+  }
+}
+
+function purgeOldWalEntries() {
+  var now = Date.now();
+  var DAY_MS = 24 * 60 * 60 * 1000;
+  var before = store._wal.length;
+  store._wal = store._wal.filter(function(entry) {
+    if (entry.status === 'pending' || entry.status === 'failed' || entry.status === 'syncing') return true;
+    var entryTime = new Date(entry.timestamp).getTime();
+    return (now - entryTime) < DAY_MS;
+  });
+  if (before !== store._wal.length) {
+    try { localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal)); } catch(e) {}
+  }
+}
+
+/* ============================================================
+   PHASE 2: Sync Indicator & Tab Badge
+   ============================================================ */
+
+function renderSyncIndicator() {
+  var dot = document.getElementById('syncIndicator');
+  if (!dot) return;
+  var pending = store._wal.filter(function(e) { return e.status === 'pending'; }).length;
+  var failed = store._wal.filter(function(e) { return e.status === 'failed'; }).length;
+  var syncing = store._wal.filter(function(e) { return e.status === 'syncing'; }).length;
+  dot.className = 'cx-sync-dot';
+  if (failed > 0) { dot.classList.add('cx-sync-failed'); dot.setAttribute('aria-label', 'Sync failed: ' + failed); }
+  else if (syncing > 0 || pending > 0) { dot.classList.add('cx-sync-pending'); dot.setAttribute('aria-label', (pending + syncing) + ' pending'); }
+  else { dot.classList.add('cx-sync-synced'); dot.setAttribute('aria-label', 'Synced'); }
+}
+
+function renderTabBadge() {
+  var tab = document.querySelector('[data-tab="todos"]');
+  if (!tab) return;
+  var count = store.volumes.reduce(function(s, v) {
+    return s + (v.todos || []).filter(function(t) { return t.status === 'open'; }).length;
+  }, 0);
+  var badge = tab.querySelector('.cx-tab-badge');
+  if (count === 0) { if (badge) badge.remove(); return; }
+  if (!badge) { badge = document.createElement('span'); badge.className = 'cx-tab-badge'; tab.appendChild(badge); }
+  badge.textContent = count > 99 ? '99+' : String(count);
+}
+
+/* --- Progressive fetch with loading messages --- */
+function fetchAllWithProgressiveMessages() {
+  var vc = document.getElementById('viewContainer');
+  if (vc) vc.innerHTML = '<div class="cx-loading-state">' + cx('book')
+    + '<p class="cx-loading-text">Opening the library\u2026</p></div>';
+
+  return fetchAll().then(function(fetched) {
+    if (vc) vc.innerHTML = '<div class="cx-loading-state">' + cx('book')
+      + '<p class="cx-loading-text">Arranging the shelves\u2026</p></div>';
+    return fetched;
+  });
 }

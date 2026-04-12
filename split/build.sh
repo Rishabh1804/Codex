@@ -1,5 +1,5 @@
 #!/bin/bash
-# Codex Build Script — concat order: data → core → views → forms → start
+# Codex Build Script — concat order: data → seed → core → views → forms → start
 SPLIT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cat "$SPLIT_DIR/template.html"
 echo '<style>'
@@ -7,6 +7,8 @@ cat "$SPLIT_DIR/styles.css"
 echo '</style>'
 echo '<script>'
 cat "$SPLIT_DIR/data.js"
+echo ''
+cat "$SPLIT_DIR/seed.js"
 echo ''
 cat "$SPLIT_DIR/core.js"
 echo ''

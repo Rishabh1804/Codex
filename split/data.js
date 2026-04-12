@@ -1,6 +1,6 @@
-/* CODEX — Data Layer (from spec CODEBASE_REFERENCE) */
+/* CODEX — Data Layer (Phase 2: WAL + GitHub sync support) */
 
-var CODEX_VERSION = '0.1.0';
+var CODEX_VERSION = '1.0.0';
 var CODEX_SCHEMA_VERSION = 1;
 var OVERLAY_ANIM_MS = 300;
 var TEXT_SIZES = { low: '12px', med: '14px', high: '17px' };
@@ -10,6 +10,11 @@ var SHELF_LABELS = { active: 'Active', paused: 'Paused', archived: 'Archived', a
 var CHAPTER_STATUSES = ['planned', 'in-progress', 'paused', 'complete', 'abandoned'];
 var CANON_CATEGORIES = ['design', 'architecture', 'process'];
 var TODO_STATUSES = ['open', 'resolved'];
+
+/* Phase 2 globals */
+var _isOffline = false;
+var _initializing = true;
+var _isRendering = false;
 
 var KEYS = {
   THEME: 'codex-theme', TEXT_SIZE: 'codex-textSize', TOKEN: 'codex-token',
@@ -107,13 +112,13 @@ function buildSnippet(text, query, contextChars) {
   var lowerText = text.toLowerCase();
   var lowerQuery = query.toLowerCase();
   var idx = lowerText.indexOf(lowerQuery);
-  if (idx === -1) return escHtml(text.substring(0, 80)) + '…';
+  if (idx === -1) return escHtml(text.substring(0, 80)) + '\u2026';
   var start = Math.max(0, idx - contextChars);
   var end = Math.min(text.length, idx + query.length + contextChars);
   var snippet = '';
-  if (start > 0) snippet += '…';
+  if (start > 0) snippet += '\u2026';
   snippet += text.substring(start, end);
-  if (end < text.length) snippet += '…';
+  if (end < text.length) snippet += '\u2026';
   return highlightMatch(snippet, query);
 }
 
@@ -133,14 +138,48 @@ function _fallbackCopy(text, msg) {
   document.body.removeChild(ta);
 }
 
+/* --- Phase 2: Base64 (UTF-8 safe — never raw btoa/atob) --- */
+function utf8ToBase64(str) {
+  var encoder = new TextEncoder();
+  var bytes = encoder.encode(str);
+  var binary = '';
+  bytes.forEach(function(b) { binary += String.fromCharCode(b); });
+  return btoa(binary);
+}
+
+function base64ToUtf8(base64) {
+  var binary = atob(base64);
+  var bytes = Uint8Array.from(binary, function(c) { return c.charCodeAt(0); });
+  return new TextDecoder().decode(bytes);
+}
+
+/* --- Phase 2: API Throttle --- */
+function createThrottle(minIntervalMs) {
+  var lastCall = 0;
+  return function throttled(fn) {
+    var now = Date.now();
+    var elapsed = now - lastCall;
+    if (elapsed < minIntervalMs) {
+      return new Promise(function(resolve) {
+        setTimeout(function() { lastCall = Date.now(); resolve(fn()); }, minIntervalMs - elapsed);
+      });
+    }
+    lastCall = Date.now();
+    return Promise.resolve(fn());
+  };
+}
+var apiThrottle = createThrottle(500);
+
 /* --- Error Logging --- */
 function logError(category, message, detail) {
   try {
     var log = JSON.parse(localStorage.getItem(KEYS.ERROR_LOG) || '[]');
-    log.unshift({ ts: new Date().toISOString(), cat: category, msg: message, detail: detail || null });
+    log.unshift({ ts: new Date().toISOString(), v: CODEX_VERSION, cat: category, msg: message,
+      detail: typeof detail === 'string' ? detail : JSON.stringify(detail || null).substring(0, 500) });
     if (log.length > 50) log = log.slice(0, 50);
     localStorage.setItem(KEYS.ERROR_LOG, JSON.stringify(log));
   } catch(e) { console.error('logError failed:', e); }
+  console.error('[Codex ' + category + '] ' + message, detail);
 }
 
 function safeParseLocalStorage(key) {
@@ -148,16 +187,22 @@ function safeParseLocalStorage(key) {
   catch(e) { localStorage.removeItem(key); return null; }
 }
 
-/* --- Store --- */
+/* --- Store (Phase 2: WAL-aware mutations) --- */
 var store = {
   volumes: [],
   canons: [],
   rejections: [],
   journal: [],
   _wal: [],
+  _meta: {
+    shas: { volumes: null, canons: null, journal: null },
+    lastFetch: null,
+    schemaVersions: { volumes: 1, canons: 1, journal: 1 }
+  },
   _listeners: [],
   _walListeners: [],
   _overlayCount: 0,
+  _flushTimer: null,
 
   onChange: function(fn) { store._listeners.push(fn); },
   onWalChange: function(fn) { store._walListeners.push(fn); },
@@ -168,6 +213,46 @@ var store = {
     for (var i = 0; i < store._listeners.length; i++) {
       try { store._listeners[i](); } catch(e) { logError('onChange', e.message); }
     }
+  },
+
+  _fireWalChange: function() {
+    for (var i = 0; i < store._walListeners.length; i++) {
+      try { store._walListeners[i](); } catch(e) { logError('onWalChange', e.message); }
+    }
+  },
+
+  _createWalEntry: function(action, entityType, entityId, targetFile, payload, parentId) {
+    var entry = {
+      id: 'wal-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+      timestamp: new Date().toISOString(),
+      _schema_version: CODEX_SCHEMA_VERSION,
+      action: action,
+      entity_type: entityType,
+      entity_id: entityId,
+      target_file: targetFile,
+      parent_id: parentId || null,
+      payload: payload ? deepClone(payload) : null,
+      status: 'pending',
+      error: null
+    };
+    store._wal.push(entry);
+    try {
+      localStorage.setItem(KEYS.WAL, JSON.stringify(store._wal));
+    } catch(e) {
+      store._wal.pop();
+      showToast('Storage full \u2014 change not saved!', 'error');
+      throw new Error('WAL_STORAGE_FULL');
+    }
+    store._fireWalChange();
+    if (!_isOffline && localStorage.getItem(KEYS.REPO_URL)) store._scheduleFlush();
+  },
+
+  _scheduleFlush: function() {
+    if (store._flushTimer) return;
+    store._flushTimer = setTimeout(function() {
+      store._flushTimer = null;
+      if (typeof flushQueue === 'function') flushQueue();
+    }, 1000);
   },
 
   _cacheToLocalStorage: function() {
@@ -189,13 +274,16 @@ var store = {
       current_phase: vol.current_phase || '', chapters: [], todos: [],
       shelf_history: [{ shelf: vol.shelf || 'active', date: localDateStr(), reason: 'Created' }] };
     store.volumes.push(entry);
+    store._createWalEntry('create', 'volume', entry.id, 'volumes.json', entry);
     store._fireChange();
     return entry;
   },
   updateVolume: function(id, patch) {
     var vol = store.volumes.find(function(v) { return v.id === id; });
     if (!vol) throw new Error('Volume not found: ' + id);
+    delete patch.id;
     ['name','description','domain_color','tags','repo','current_phase'].forEach(function(k) { if (patch.hasOwnProperty(k)) vol[k] = patch[k]; });
+    store._createWalEntry('update', 'volume', id, 'volumes.json', patch);
     store._fireChange();
   },
   deleteVolume: function(id) {
@@ -204,6 +292,7 @@ var store = {
     var active = filterActive(vol.chapters || []);
     if (active.length > 0 || (vol.todos || []).length > 0) throw new Error('Remove chapters and TODOs first');
     store.volumes = store.volumes.filter(function(v) { return v.id !== id; });
+    store._createWalEntry('delete', 'volume', id, 'volumes.json', null);
     store._fireChange();
   },
   transitionShelf: function(volumeId, newShelf, reason) {
@@ -214,6 +303,7 @@ var store = {
     vol.shelf = newShelf;
     if (!vol.shelf_history) vol.shelf_history = [];
     vol.shelf_history.push({ shelf: newShelf, date: localDateStr(), reason: reason || null });
+    store._createWalEntry('shelf_transition', 'volume', volumeId, 'volumes.json', { shelf: newShelf, reason: reason || null });
     store._fireChange();
   },
 
@@ -229,6 +319,7 @@ var store = {
     if (entry.status === 'complete') entry.completed = localDateStr();
     if (!vol.chapters) vol.chapters = [];
     vol.chapters.push(entry);
+    store._createWalEntry('create', 'chapter', entry.id, 'volumes.json', entry, volumeId);
     store._fireChange();
     return entry;
   },
@@ -243,6 +334,7 @@ var store = {
     if (patch.status === 'in-progress' && !ch.started) ch.started = localDateStr();
     if (patch.status && patch.status !== 'complete') ch.completed = null;
     if (patch.status && patch.status !== 'abandoned') ch.ended = null;
+    store._createWalEntry('update', 'chapter', chapterId, 'volumes.json', patch, volumeId);
     store._fireChange();
   },
   deleteChapter: function(volumeId, chapterId) {
@@ -251,6 +343,7 @@ var store = {
     var ch = (vol.chapters || []).find(function(c) { return c.id === chapterId; });
     if (!ch) throw new Error('Chapter not found');
     ch._deleted = true; ch._deleted_date = localDateStr();
+    store._createWalEntry('delete', 'chapter', chapterId, 'volumes.json', null, volumeId);
     store._fireChange();
   },
 
@@ -263,6 +356,7 @@ var store = {
       created: todo.created || localDateStr(), resolved: null, source_session: todo.source_session || null };
     if (!vol.todos) vol.todos = [];
     vol.todos.push(entry);
+    store._createWalEntry('create', 'todo', entry.id, 'volumes.json', entry, volumeId);
     store._fireChange();
     return entry;
   },
@@ -278,17 +372,53 @@ var store = {
       if (patch.status === 'resolved' && !todo.resolved) todo.resolved = localDateStr();
       if (patch.status === 'open') todo.resolved = null;
     }
+    store._createWalEntry('update', 'todo', todoId, 'volumes.json', patch, volumeId);
     store._fireChange();
   },
   deleteTodo: function(volumeId, todoId) {
     var vol = store.volumes.find(function(v) { return v.id === volumeId; });
     if (!vol) throw new Error('Volume not found');
     vol.todos = (vol.todos || []).filter(function(t) { return t.id !== todoId; });
+    store._createWalEntry('delete', 'todo', todoId, 'volumes.json', null, volumeId);
     store._fireChange();
   },
 
-  /* --- Canon (stub for Phase 3) --- */
-  addCanon: function(c) { if (!c.id || !c.title) throw new Error('Canon requires id and title'); store.canons.push(c); store._fireChange(); },
+  /* --- Canon --- */
+  addCanon: function(c) {
+    if (!c.id || !c.title) throw new Error('Canon requires id and title');
+    store.canons.push(c);
+    store._createWalEntry('create', 'canon', c.id, 'canons.json', c);
+    store._fireChange();
+  },
+
+  /* --- Rejection --- */
+  addRejection: function(r) {
+    if (!r.id) throw new Error('Rejection requires id');
+    store.rejections.push(r);
+    store._createWalEntry('create', 'rejection', r.id, 'canons.json', r);
+    store._fireChange();
+  },
+
+  /* --- Journal --- */
+  addJournalSession: function(date, session) {
+    var day = store.journal.find(function(d) { return d.date === date; });
+    if (!day) {
+      day = { date: date, sessions: [] };
+      store.journal.push(day);
+      store.journal.sort(function(a, b) { return b.date.localeCompare(a.date); });
+    }
+    if (!session.id) {
+      var suffix = 1;
+      if (day.sessions.length > 0) {
+        var suffixes = day.sessions.map(function(s) { var m = s.id.match(/-(\d+)$/); return m ? parseInt(m[1], 10) : 0; });
+        suffix = Math.max.apply(null, [0].concat(suffixes)) + 1;
+      }
+      session.id = 's-' + date + '-' + String(suffix).padStart(2, '0');
+    }
+    day.sessions.push(session);
+    store._createWalEntry('create', 'session', session.id, 'journal.json', session, date);
+    store._fireChange();
+  },
 
   /* --- Helpers --- */
   getScopeOptions: function() {
@@ -298,18 +428,41 @@ var store = {
   }
 };
 
+/* --- Store Population (Phase 2: tracks _meta SHAs) --- */
 function populateStore(volResult, canonResult, journalResult) {
-  if (volResult && volResult.data) {
-    store.volumes = volResult.data.volumes || [];
-    if (volResult.sha) localStorage.setItem(KEYS.SHA_VOLUMES, volResult.sha);
-  }
-  if (canonResult && canonResult.data) {
-    store.canons = canonResult.data.canons || [];
-    store.rejections = canonResult.data.rejected_alternatives || [];
-    if (canonResult.sha) localStorage.setItem(KEYS.SHA_CANONS, canonResult.sha);
-  }
-  if (journalResult && journalResult.data) {
-    store.journal = journalResult.data.journal || [];
-    if (journalResult.sha) localStorage.setItem(KEYS.SHA_JOURNAL, journalResult.sha);
-  }
+  var vData = (volResult && volResult.data) || { _schema_version: 1, volumes: [] };
+  store.volumes = vData.volumes || [];
+  store._meta.schemaVersions.volumes = vData._schema_version || 1;
+  store._meta.shas.volumes = (volResult && volResult.sha) || null;
+
+  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], rejected_alternatives: [] };
+  store.canons = cData.canons || [];
+  store.rejections = cData.rejected_alternatives || [];
+  store._meta.schemaVersions.canons = cData._schema_version || 1;
+  store._meta.shas.canons = (canonResult && canonResult.sha) || null;
+
+  var jData = (journalResult && journalResult.data) || { _schema_version: 1, journal: [] };
+  store.journal = jData.journal || [];
+  store._meta.schemaVersions.journal = jData._schema_version || 1;
+  store._meta.shas.journal = (journalResult && journalResult.sha) || null;
+
+  store.journal.sort(function(a, b) { return b.date.localeCompare(a.date); });
+
+  try {
+    localStorage.setItem(KEYS.CACHE_VOLUMES, JSON.stringify(vData));
+    localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify(cData));
+    localStorage.setItem(KEYS.CACHE_JOURNAL, JSON.stringify(jData));
+    if (volResult && volResult.sha) localStorage.setItem(KEYS.SHA_VOLUMES, volResult.sha);
+    if (canonResult && canonResult.sha) localStorage.setItem(KEYS.SHA_CANONS, canonResult.sha);
+    if (journalResult && journalResult.sha) localStorage.setItem(KEYS.SHA_JOURNAL, journalResult.sha);
+  } catch(e) { logError('cache', 'Failed to cache', e.message); }
+
+  store._meta.lastFetch = new Date().toISOString();
+}
+
+function getStoreSnapshot() {
+  return JSON.parse(JSON.stringify({
+    volumes: store.volumes, canons: store.canons,
+    rejections: store.rejections, journal: store.journal
+  }));
 }

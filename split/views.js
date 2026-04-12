@@ -1,4 +1,4 @@
-/* CODEX — Views (from spec CODEBASE_VIEWS) */
+/* CODEX — Views (Phase 2: Wizard + GitHub Settings) */
 
 /* --- Dashboard --- */
 function renderDashboard() {
@@ -26,7 +26,7 @@ function renderDashboard() {
         + '<span class="cx-shelf-badge cx-shelf-' + escAttr(vol.shelf) + '">' + escHtml(vol.shelf) + '</span></div>';
       if (vol.current_phase) html += '<div class="cx-card-body" style="color:var(--accent);font-size:var(--fs-xs)">' + escHtml(vol.current_phase) + '</div>';
       if (vol.description) html += '<div class="cx-card-body" style="font-size:var(--fs-xs);color:var(--text-secondary)">' + escHtml(vol.description) + '</div>';
-      if (meta.length > 0) html += '<div class="cx-card-meta">' + cx('clock') + ' ' + escHtml(meta.join(' · ')) + '</div>';
+      if (meta.length > 0) html += '<div class="cx-card-meta">' + cx('clock') + ' ' + escHtml(meta.join(' \u00B7 ')) + '</div>';
       if (vol.tags && vol.tags.length > 0) {
         html += '<div class="cx-tag-inline">';
         vol.tags.forEach(function(t) { html += '<span class="cx-chip cx-chip-sm">' + escHtml(t) + '</span>'; });
@@ -108,7 +108,7 @@ function renderVolumeDetail(route) {
       html += '<span class="cx-status-' + escAttr(ch.status) + '">' + cx(icon) + '</span>';
       html += '<div><div class="cx-chapter-name">' + escHtml(ch.name) + '</div>';
       if (ch.summary) html += '<div class="cx-chapter-summary">' + escHtml(ch.summary) + '</div>';
-      if (meta.length > 0) html += '<div class="cx-chapter-meta">' + escHtml(meta.join(' · ')) + '</div>';
+      if (meta.length > 0) html += '<div class="cx-chapter-meta">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
       html += '</div></div>';
     });
     html += '</div>';
@@ -123,7 +123,7 @@ function renderVolumeDetail(route) {
     for (var h = history.length - 1; h >= 0; h--) {
       var sh = history[h];
       html += '<div class="cx-timeline-entry"><div class="cx-timeline-dot"></div><div>'
-        + '<div class="cx-timeline-text">' + escHtml(SHELF_LABELS[sh.shelf] || sh.shelf) + (sh.reason ? ' — ' + escHtml(sh.reason) : '') + '</div>'
+        + '<div class="cx-timeline-text">' + escHtml(SHELF_LABELS[sh.shelf] || sh.shelf) + (sh.reason ? ' \u2014 ' + escHtml(sh.reason) : '') + '</div>'
         + '<div class="cx-timeline-date">' + escHtml(formatAbsoluteDate(sh.date)) + '</div></div></div>';
     }
     html += '</div>';
@@ -149,7 +149,7 @@ function renderTodoItem(volumeId, todo) {
   var meta = [];
   if (todo.chapter) meta.push(todo.chapter);
   meta.push(formatRelativeTime(todo.created));
-  html += '<div class="cx-todo-meta">' + escHtml(meta.join(' · ')) + '</div>';
+  html += '<div class="cx-todo-meta">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
   html += '</div>';
   html += '<button class="cx-btn-icon cx-btn-danger-icon" data-action="deleteTodo" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(todo.id) + '">' + cx('trash') + '</button>';
   html += '</div>';
@@ -191,12 +191,14 @@ function renderTodos() {
   vc.innerHTML = html;
 }
 
-/* --- Settings --- */
+/* --- Settings (Phase 2: GitHub connection replaces stub) --- */
 function renderSettings() {
   var vc = document.getElementById('viewContainer');
   var currentTheme = localStorage.getItem(KEYS.THEME) || 'dark';
   var currentSize = localStorage.getItem(KEYS.TEXT_SIZE) || 'med';
   var isLight = currentTheme === 'light';
+  var repoUrl = localStorage.getItem(KEYS.REPO_URL) || '';
+  var hasGitHub = !!repoUrl;
   var html = '';
 
   // Appearance
@@ -217,12 +219,37 @@ function renderSettings() {
     html += '<span class="cx-slider-label' + (currentSize === s ? ' cx-slider-label-active' : '') + '" data-action="setTextSize" data-size="' + s + '">' + s.toUpperCase() + '</span>';
   });
   html += '</div></div>';
-  html += '<div class="cx-preview-pill"><span style="font-family:var(--ff-heading);font-size:var(--fs-lg)">Aa</span> — <span style="font-size:var(--fs-sm)">This is how text will look</span></div>';
+  html += '<div class="cx-preview-pill"><span style="font-family:var(--ff-heading);font-size:var(--fs-lg)">Aa</span> \u2014 <span style="font-size:var(--fs-sm)">This is how text will look</span></div>';
+  html += '</div></div>';
+
+  // GitHub Sync (Phase 2: live connection)
+  html += '<div class="cx-settings-section"><div class="cx-section-title">GitHub Sync</div><div class="cx-card" style="padding:var(--sp-16)">';
+  if (hasGitHub) {
+    html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)">';
+    html += '<span class="cx-sync-badge cx-sync-badge-connected">' + cx('check') + ' Connected</span>';
+    html += '</div>';
+    html += '<div class="cx-settings-hint" style="margin-bottom:var(--sp-12)">Repository: ' + escHtml(repoUrl) + '</div>';
+    var pending = store._wal.filter(function(e) { return e.status === 'pending' || e.status === 'failed'; }).length;
+    if (pending > 0) {
+      html += '<div class="cx-settings-hint" style="color:var(--warning)">' + pending + ' pending change' + (pending !== 1 ? 's' : '') + '</div>';
+    }
+    html += '<div style="display:flex;gap:var(--sp-8);margin-top:var(--sp-12)">';
+    html += '<button class="cx-btn-secondary cx-btn-sm" data-action="syncNow">' + cx('refresh') + ' Sync Now</button>';
+    html += '<button class="cx-btn-secondary cx-btn-sm" data-action="disconnectGitHub">Disconnect</button>';
+    html += '</div>';
+  } else {
+    html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)">' + cx('github');
+    html += '<div><div class="cx-settings-label">Connect GitHub</div><div class="cx-settings-hint">Sync data to a repository for backup and cross-device access</div></div></div>';
+    html += renderTextField('settings-repo', 'Repository URL', '', { placeholder: 'owner/repo or https://github.com/owner/repo' });
+    html += renderTextField('settings-token', 'Personal Access Token', '', { placeholder: 'ghp_...', type: 'password' });
+    html += '<div class="cx-settings-hint" style="margin-bottom:var(--sp-12)">Token needs repo Contents read/write permission</div>';
+    html += '<button class="cx-btn-primary" data-action="validateAndSaveGitHub">' + cx('check') + ' Connect</button>';
+    html += '<div id="github-validation-status"></div>';
+  }
   html += '</div></div>';
 
   // Data
   html += '<div class="cx-settings-section"><div class="cx-section-title">Data</div><div class="cx-card">';
-  html += '<div class="cx-settings-row"><div class="cx-settings-left">' + cx('lock') + '<div><div class="cx-settings-label">GitHub Sync</div><div class="cx-settings-hint">Coming in Phase 2</div></div></div></div>';
   html += '<div class="cx-settings-row" data-action="exportData"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Export Data</div><div class="cx-settings-hint">Download as JSON</div></div></div></div>';
   html += '</div></div>';
 
@@ -262,4 +289,77 @@ function applyTextSize(size) {
   if (thumb) thumb.style.left = TEXT_SIZE_POS[size] + '%';
   var labels = document.querySelectorAll('.cx-slider-label');
   for (var i = 0; i < labels.length; i++) labels[i].classList.toggle('cx-slider-label-active', labels[i].dataset.size === size);
+}
+
+/* ============================================================
+   PHASE 2: Onboarding Wizard (4 steps)
+   ============================================================ */
+
+var _wizardStep = 1;
+
+function renderWizard() {
+  var vc = document.getElementById('viewContainer');
+  if (!vc) return;
+  var steps = [null, renderWizardWelcome, renderWizardGitHub, renderWizardTheme, renderWizardDone];
+  if (_wizardStep < 1 || _wizardStep > 4) _wizardStep = 1;
+  vc.innerHTML = steps[_wizardStep]();
+}
+
+function renderWizardWelcome() {
+  return '<div class="cx-wizard">'
+    + '<div class="cx-wizard-icon">' + cx('book') + '</div>'
+    + '<h1 class="cx-wizard-title">Welcome to Codex</h1>'
+    + '<p class="cx-wizard-subtitle">The project library that remembers everything.</p>'
+    + '<p class="cx-wizard-body">Codex tracks your volumes, chapters, canons, and decisions across every build session. '
+    + 'Connect GitHub for cross-device sync, or use it locally.</p>'
+    + '<div class="cx-wizard-progress">Step 1 of 4</div>'
+    + '<button class="cx-btn-primary cx-wizard-btn" data-action="wizardNext">Get Started</button>'
+    + '</div>';
+}
+
+function renderWizardGitHub() {
+  return '<div class="cx-wizard">'
+    + '<div class="cx-wizard-icon">' + cx('github') + '</div>'
+    + '<h1 class="cx-wizard-title">Connect GitHub</h1>'
+    + '<p class="cx-wizard-subtitle">Optional \u2014 sync your library to a repository for backup and cross-device access.</p>'
+    + '<div class="cx-wizard-form">'
+    + renderTextField('wizard-repo', 'Repository URL', '', { placeholder: 'owner/repo or https://github.com/owner/repo' })
+    + renderTextField('wizard-token', 'Personal Access Token', '', { placeholder: 'ghp_...', type: 'password' })
+    + '<div class="cx-settings-hint" style="margin-bottom:var(--sp-16)">Create a fine-grained token with Contents read/write on the target repo.</div>'
+    + '<div id="wizard-validation-status"></div>'
+    + '</div>'
+    + '<div class="cx-wizard-progress">Step 2 of 4</div>'
+    + '<div class="cx-wizard-actions">'
+    + '<button class="cx-btn-primary cx-wizard-btn" data-action="wizardValidateGitHub">' + cx('check') + ' Connect</button>'
+    + '<button class="cx-btn-secondary cx-wizard-btn" data-action="wizardSkipGitHub">Skip \u2014 use locally</button>'
+    + '</div></div>';
+}
+
+function renderWizardTheme() {
+  var current = localStorage.getItem(KEYS.THEME) || 'dark';
+  return '<div class="cx-wizard">'
+    + '<div class="cx-wizard-icon">' + (current === 'light' ? cx('sun') : cx('moon')) + '</div>'
+    + '<h1 class="cx-wizard-title">Choose Your Theme</h1>'
+    + '<div class="cx-wizard-theme-options">'
+    + '<div class="cx-wizard-theme-card' + (current === 'light' ? ' cx-wizard-theme-active' : '') + '" data-action="wizardSelectTheme" data-value="light">'
+    + cx('sun') + '<span>Light</span></div>'
+    + '<div class="cx-wizard-theme-card' + (current === 'dark' ? ' cx-wizard-theme-active' : '') + '" data-action="wizardSelectTheme" data-value="dark">'
+    + cx('moon') + '<span>Dark</span></div>'
+    + '</div>'
+    + '<div class="cx-wizard-progress">Step 3 of 4</div>'
+    + '<button class="cx-btn-primary cx-wizard-btn" data-action="wizardThemeNext">Continue</button>'
+    + '</div>';
+}
+
+function renderWizardDone() {
+  var hasGitHub = !!localStorage.getItem(KEYS.REPO_URL);
+  return '<div class="cx-wizard">'
+    + '<div class="cx-wizard-icon">' + cx('check') + '</div>'
+    + '<h1 class="cx-wizard-title">You\u2019re All Set</h1>'
+    + '<p class="cx-wizard-subtitle">' + (hasGitHub
+      ? 'Connected to GitHub. Your library will sync automatically.'
+      : 'Running locally. You can connect GitHub anytime from Settings.') + '</p>'
+    + '<div class="cx-wizard-progress">Step 4 of 4</div>'
+    + '<button class="cx-btn-primary cx-wizard-btn" data-action="wizardFinish">Open Codex</button>'
+    + '</div>';
 }
