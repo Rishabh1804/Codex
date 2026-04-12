@@ -1,5 +1,22 @@
 /* CODEX — Views (Phase 2: Wizard + GitHub Settings) */
 
+/* --- Last Active Date (for dashboard sort — spec bug #97) --- */
+function getLastActiveDate(volumeId) {
+  // Journal sessions (sorted newest first by populateStore)
+  for (var i = 0; i < store.journal.length; i++) {
+    var day = store.journal[i];
+    for (var j = 0; j < (day.sessions || []).length; j++) {
+      if ((day.sessions[j].volumes_touched || []).includes(volumeId)) return day.date;
+    }
+  }
+  // Fallback: latest shelf_history entry
+  var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+  if (vol && vol.shelf_history && vol.shelf_history.length > 0) {
+    return vol.shelf_history[vol.shelf_history.length - 1].date;
+  }
+  return null;
+}
+
 /* --- Dashboard --- */
 function renderDashboard() {
   var vc = document.getElementById('viewContainer');
@@ -10,6 +27,12 @@ function renderDashboard() {
   SHELF_ORDER.forEach(function(shelf) {
     var vols = snap.volumes.filter(function(v) { return v.shelf === shelf; });
     if (vols.length === 0) return;
+    // Sort by most recently active first (spec bug #97)
+    vols.sort(function(a, b) {
+      var dateA = getLastActiveDate(a.id) || '0000-00-00';
+      var dateB = getLastActiveDate(b.id) || '0000-00-00';
+      return dateB.localeCompare(dateA);
+    });
     hasAny = true;
     html += '<div class="cx-shelf-group"><div class="cx-shelf-group-label">' + escHtml(SHELF_LABELS[shelf]) + ' (' + vols.length + ')</div>';
     vols.forEach(function(vol) {
