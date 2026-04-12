@@ -107,11 +107,27 @@ function initialize() {
   var canonData = safeParseLocalStorage(KEYS.CACHE_CANONS);
   var journalData = safeParseLocalStorage(KEYS.CACHE_JOURNAL);
 
+  // Seed on first visit OR when seed version is newer (Phase 1 only — removed once GitHub sync is live)
+  var currentSeedVer = typeof SEED_VERSION === 'number' ? SEED_VERSION : 0;
+  var storedSeedVer = parseInt(localStorage.getItem('codex-seed-version') || '0', 10);
+  var needsSeed = (!volData && !canonData && !journalData) || (currentSeedVer > storedSeedVer);
+  if (needsSeed && typeof getSeedVolumes === 'function') {
+    volData = getSeedVolumes();
+    canonData = getSeedCanons();
+    journalData = getSeedJournal();
+  }
+
   populateStore(
     { data: volData, sha: null },
     { data: canonData, sha: null },
     { data: journalData, sha: null }
   );
+
+  // Persist seed data to localStorage
+  if (needsSeed) {
+    store._cacheToLocalStorage();
+    localStorage.setItem('codex-seed-version', String(currentSeedVer));
+  }
 
   // Register listeners
   store.onChange(function() {
