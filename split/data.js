@@ -390,6 +390,22 @@ var store = {
     store._createWalEntry('create', 'canon', c.id, 'canons.json', c);
     store._fireChange();
   },
+  updateCanon: function(id, patch) {
+    var canon = store.canons.find(function(c) { return c.id === id; });
+    if (!canon) throw new Error('Canon not found');
+    delete patch.id;
+    ['title','scope','category','status','superseded_by','rationale','references','created'].forEach(function(k) { if (patch.hasOwnProperty(k)) canon[k] = patch[k]; });
+    store._createWalEntry('update', 'canon', id, 'canons.json', patch);
+    store._fireChange();
+  },
+  deleteCanon: function(id) {
+    var canon = store.canons.find(function(c) { return c.id === id; });
+    if (!canon) throw new Error('Canon not found');
+    canon._deleted = true;
+    canon._deleted_date = localDateStr();
+    store._createWalEntry('delete', 'canon', id, 'canons.json', null);
+    store._fireChange();
+  },
 
   /* --- Rejection --- */
   addRejection: function(r) {
@@ -417,6 +433,16 @@ var store = {
     }
     day.sessions.push(session);
     store._createWalEntry('create', 'session', session.id, 'journal.json', session, date);
+    store._fireChange();
+  },
+  deleteSession: function(date, sessionId) {
+    var day = store.journal.find(function(d) { return d.date === date; });
+    if (!day) throw new Error('Day not found');
+    day.sessions = (day.sessions || []).filter(function(s) { return s.id !== sessionId; });
+    if (day.sessions.length === 0) {
+      store.journal = store.journal.filter(function(d) { return d.date !== date; });
+    }
+    store._createWalEntry('delete', 'session', sessionId, 'journal.json', null, date);
     store._fireChange();
   },
 

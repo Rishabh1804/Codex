@@ -12,7 +12,7 @@ var CANONS_PER_PAGE = 10;
 function renderTruncated(text, maxChars, entityId, field) {
   if (!text || text.length <= maxChars) return '<span class="cx-truncated-container">' + escHtml(text || '') + '</span>';
   var truncated = text.substring(0, maxChars).replace(/\s+\S*$/, '');
-  return '<span class="cx-truncated-container">' + escHtml(truncated) + '\u2026 <button class="cx-link-btn" data-action="expandText" data-id="' + escAttr(entityId) + '" data-field="' + escAttr(field) + '">Read more</button></span>';
+  return '<span class="cx-truncated-container" data-max="' + maxChars + '">' + escHtml(truncated) + '\u2026 <button class="cx-link-btn" data-action="expandText" data-id="' + escAttr(entityId) + '" data-field="' + escAttr(field) + '">Read more</button></span>';
 }
 
 function getEntityFieldText(id, field) {
@@ -47,8 +47,9 @@ function handleCollapseText(el) {
   var field = el.dataset.field;
   var container = el.closest('.cx-truncated-container');
   if (!container) return;
+  var maxChars = parseInt(container.dataset.max, 10) || 120;
   var full = getEntityFieldText(id, field);
-  var truncated = full.substring(0, 120).replace(/\s+\S*$/, '');
+  var truncated = full.substring(0, maxChars).replace(/\s+\S*$/, '');
   container.innerHTML = escHtml(truncated) + '\u2026 <button data-action="expandText" data-id="' + escAttr(id) + '" data-field="' + escAttr(field) + '" class="cx-link-btn">Read more</button>';
 }
 
@@ -179,7 +180,7 @@ function renderSessionCard(session, date) {
   // Header: session ID + duration + delete
   html += '<div class="cx-card-header">';
   html += '<div class="cx-card-meta">' + escHtml(session.id);
-  if (session.duration_minutes) html += ' \u00B7 ' + session.duration_minutes + ' min';
+  if (session.duration_minutes) html += ' \u00B7 ' + escHtml(session.duration_minutes) + ' min';
   html += '</div>';
   html += '<button class="cx-btn-icon cx-btn-danger-icon" data-action="deleteSession" data-date="' + escAttr(date) + '" data-id="' + escAttr(session.id) + '">' + cx('trash') + '</button>';
   html += '</div>';
@@ -223,7 +224,7 @@ function renderSessionCard(session, date) {
 
     // Bugs
     if (session.bugs_found > 0 || session.bugs_fixed > 0) {
-      html += '<div class="cx-session-detail-section"><span class="cx-session-detail-label">Bugs:</span> ' + (session.bugs_found || 0) + ' found, ' + (session.bugs_fixed || 0) + ' fixed</div>';
+      html += '<div class="cx-session-detail-section"><span class="cx-session-detail-label">Bugs:</span> ' + escHtml(session.bugs_found || 0) + ' found, ' + escHtml(session.bugs_fixed || 0) + ' fixed</div>';
     }
 
     // Decisions
@@ -409,7 +410,7 @@ function renderCanonCard(canon) {
 
 function renderRejectionCard(rej) {
   var html = '<div class="cx-card cx-rejection-card">';
-  html += '<div class="cx-card-header"><div class="cx-card-meta" style="font-weight:600">Rejected: ' + escHtml(rej.rejected) + '</div></div>';
+  html += '<div class="cx-card-header"><div class="cx-card-meta cx-rejection-title">Rejected: ' + escHtml(rej.rejected) + '</div></div>';
   html += '<div class="cx-card-body" style="font-size:var(--fs-xs)"><span style="color:var(--success)">Chosen:</span> ' + escHtml(rej.chosen) + '</div>';
   if (rej.reason) {
     html += '<div class="cx-card-body" style="font-size:var(--fs-xs);color:var(--text-secondary)">' + renderTruncated(rej.reason, 120, rej.id, 'reason') + '</div>';
@@ -510,14 +511,17 @@ function renderCanonDetail(route) {
 
 function buildSupersessionChain(canonId, allCanons) {
   var active = filterActive(allCanons);
+  var visited = {};
 
   // Walk backward for predecessors
   var predecessors = [];
   var currentId = canonId;
   var depth = 0;
+  visited[canonId] = true;
   while (depth < 10) {
-    var pred = active.find(function(c) { return c.superseded_by === currentId; });
+    var pred = active.find(function(c) { return c.superseded_by === currentId && !visited[c.id]; });
     if (!pred) break;
+    visited[pred.id] = true;
     predecessors.unshift(pred.id);
     currentId = pred.id;
     depth++;
@@ -528,7 +532,8 @@ function buildSupersessionChain(canonId, allCanons) {
   var canon = active.find(function(c) { return c.id === canonId; });
   currentId = canon ? canon.superseded_by : null;
   depth = 0;
-  while (currentId && depth < 10) {
+  while (currentId && depth < 10 && !visited[currentId]) {
+    visited[currentId] = true;
     successors.push(currentId);
     var next = active.find(function(c) { return c.id === currentId; });
     currentId = next ? next.superseded_by : null;
@@ -550,8 +555,8 @@ function renderSupersessionChain(chain, currentId) {
 
     if (i > 0) html += '<div class="cx-chain-line"></div>';
 
-    html += '<div class="cx-chain-node' + (isCurrent ? ' cx-chain-current' : '') + '"'
-      + (isCurrent ? '' : ' data-action="goToCanon" data-id="' + escAttr(nodeId) + '" style="cursor:pointer"') + '>';
+    html += '<div class="cx-chain-node' + (isCurrent ? ' cx-chain-current' : ' cx-chain-link') + '"'
+      + (isCurrent ? '' : ' data-action="goToCanon" data-id="' + escAttr(nodeId) + '"') + '>';
     html += '<span class="cx-chain-marker">' + (isCurrent ? '\u25C9' : '\u25CB') + '</span>';
     html += '<span class="cx-chain-id">' + escHtml(title) + '</span>';
     html += '</div>';

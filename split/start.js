@@ -148,7 +148,9 @@ function setupDelegation() {
             el.classList.remove('cx-expand-open');
           } else {
             content.style.maxHeight = '0';
-            content.style.maxHeight = content.scrollHeight + 'px';
+            requestAnimationFrame(function() {
+              content.style.maxHeight = content.scrollHeight + 'px';
+            });
             container.dataset.expanded = 'true';
             el.classList.add('cx-expand-open');
             setTimeout(function() { if (container.dataset.expanded === 'true') content.style.maxHeight = 'none'; }, 200);

@@ -726,6 +726,9 @@ body {
   border-left: 3px solid var(--warning);
   margin-bottom: var(--sp-8);
 }
+.cx-rejection-title {
+  font-weight: 600;
+}
 
 /* --- Supersession Chain --- */
 .cx-chain {
@@ -738,6 +741,12 @@ body {
   padding: var(--sp-6) var(--sp-8);
   border-radius: var(--r-md);
   font-size: var(--fs-sm);
+}
+.cx-chain-link {
+  cursor: pointer;
+}
+.cx-chain-link:active {
+  background: var(--bg-secondary);
 }
 .cx-chain-current {
   font-weight: 700;
@@ -1200,6 +1209,22 @@ var store = {
     store._createWalEntry('create', 'canon', c.id, 'canons.json', c);
     store._fireChange();
   },
+  updateCanon: function(id, patch) {
+    var canon = store.canons.find(function(c) { return c.id === id; });
+    if (!canon) throw new Error('Canon not found');
+    delete patch.id;
+    ['title','scope','category','status','superseded_by','rationale','references','created'].forEach(function(k) { if (patch.hasOwnProperty(k)) canon[k] = patch[k]; });
+    store._createWalEntry('update', 'canon', id, 'canons.json', patch);
+    store._fireChange();
+  },
+  deleteCanon: function(id) {
+    var canon = store.canons.find(function(c) { return c.id === id; });
+    if (!canon) throw new Error('Canon not found');
+    canon._deleted = true;
+    canon._deleted_date = localDateStr();
+    store._createWalEntry('delete', 'canon', id, 'canons.json', null);
+    store._fireChange();
+  },
 
   /* --- Rejection --- */
   addRejection: function(r) {
@@ -1227,6 +1252,16 @@ var store = {
     }
     day.sessions.push(session);
     store._createWalEntry('create', 'session', session.id, 'journal.json', session, date);
+    store._fireChange();
+  },
+  deleteSession: function(date, sessionId) {
+    var day = store.journal.find(function(d) { return d.date === date; });
+    if (!day) throw new Error('Day not found');
+    day.sessions = (day.sessions || []).filter(function(s) { return s.id !== sessionId; });
+    if (day.sessions.length === 0) {
+      store.journal = store.journal.filter(function(d) { return d.date !== date; });
+    }
+    store._createWalEntry('delete', 'session', sessionId, 'journal.json', null, date);
     store._fireChange();
   },
 
@@ -1452,8 +1487,6 @@ function renderBreadcrumbForRoute(route) {
   } else if (route.view === 'canon-detail') {
     var canon = store.canons.find(function(c) { return c.id === route.id; });
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Canons', route: '#/canons' }, { label: canon ? canon.title : route.id, route: null }];
-  } else if (route.view === 'settings') {
-    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Settings', route: null }];
   }
   renderBreadcrumb(segments);
 }
@@ -1972,7 +2005,7 @@ var CANONS_PER_PAGE = 10;
 function renderTruncated(text, maxChars, entityId, field) {
   if (!text || text.length <= maxChars) return '<span class="cx-truncated-container">' + escHtml(text || '') + '</span>';
   var truncated = text.substring(0, maxChars).replace(/\s+\S*$/, '');
-  return '<span class="cx-truncated-container">' + escHtml(truncated) + '\u2026 <button class="cx-link-btn" data-action="expandText" data-id="' + escAttr(entityId) + '" data-field="' + escAttr(field) + '">Read more</button></span>';
+  return '<span class="cx-truncated-container" data-max="' + maxChars + '">' + escHtml(truncated) + '\u2026 <button class="cx-link-btn" data-action="expandText" data-id="' + escAttr(entityId) + '" data-field="' + escAttr(field) + '">Read more</button></span>';
 }
 
 function getEntityFieldText(id, field) {
@@ -2007,8 +2040,9 @@ function handleCollapseText(el) {
   var field = el.dataset.field;
   var container = el.closest('.cx-truncated-container');
   if (!container) return;
+  var maxChars = parseInt(container.dataset.max, 10) || 120;
   var full = getEntityFieldText(id, field);
-  var truncated = full.substring(0, 120).replace(/\s+\S*$/, '');
+  var truncated = full.substring(0, maxChars).replace(/\s+\S*$/, '');
   container.innerHTML = escHtml(truncated) + '\u2026 <button data-action="expandText" data-id="' + escAttr(id) + '" data-field="' + escAttr(field) + '" class="cx-link-btn">Read more</button>';
 }
 
@@ -2139,7 +2173,7 @@ function renderSessionCard(session, date) {
   // Header: session ID + duration + delete
   html += '<div class="cx-card-header">';
   html += '<div class="cx-card-meta">' + escHtml(session.id);
-  if (session.duration_minutes) html += ' \u00B7 ' + session.duration_minutes + ' min';
+  if (session.duration_minutes) html += ' \u00B7 ' + escHtml(session.duration_minutes) + ' min';
   html += '</div>';
   html += '<button class="cx-btn-icon cx-btn-danger-icon" data-action="deleteSession" data-date="' + escAttr(date) + '" data-id="' + escAttr(session.id) + '">' + cx('trash') + '</button>';
   html += '</div>';
@@ -2183,7 +2217,7 @@ function renderSessionCard(session, date) {
 
     // Bugs
     if (session.bugs_found > 0 || session.bugs_fixed > 0) {
-      html += '<div class="cx-session-detail-section"><span class="cx-session-detail-label">Bugs:</span> ' + (session.bugs_found || 0) + ' found, ' + (session.bugs_fixed || 0) + ' fixed</div>';
+      html += '<div class="cx-session-detail-section"><span class="cx-session-detail-label">Bugs:</span> ' + escHtml(session.bugs_found || 0) + ' found, ' + escHtml(session.bugs_fixed || 0) + ' fixed</div>';
     }
 
     // Decisions
@@ -2369,7 +2403,7 @@ function renderCanonCard(canon) {
 
 function renderRejectionCard(rej) {
   var html = '<div class="cx-card cx-rejection-card">';
-  html += '<div class="cx-card-header"><div class="cx-card-meta" style="font-weight:600">Rejected: ' + escHtml(rej.rejected) + '</div></div>';
+  html += '<div class="cx-card-header"><div class="cx-card-meta cx-rejection-title">Rejected: ' + escHtml(rej.rejected) + '</div></div>';
   html += '<div class="cx-card-body" style="font-size:var(--fs-xs)"><span style="color:var(--success)">Chosen:</span> ' + escHtml(rej.chosen) + '</div>';
   if (rej.reason) {
     html += '<div class="cx-card-body" style="font-size:var(--fs-xs);color:var(--text-secondary)">' + renderTruncated(rej.reason, 120, rej.id, 'reason') + '</div>';
@@ -2470,14 +2504,17 @@ function renderCanonDetail(route) {
 
 function buildSupersessionChain(canonId, allCanons) {
   var active = filterActive(allCanons);
+  var visited = {};
 
   // Walk backward for predecessors
   var predecessors = [];
   var currentId = canonId;
   var depth = 0;
+  visited[canonId] = true;
   while (depth < 10) {
-    var pred = active.find(function(c) { return c.superseded_by === currentId; });
+    var pred = active.find(function(c) { return c.superseded_by === currentId && !visited[c.id]; });
     if (!pred) break;
+    visited[pred.id] = true;
     predecessors.unshift(pred.id);
     currentId = pred.id;
     depth++;
@@ -2488,7 +2525,8 @@ function buildSupersessionChain(canonId, allCanons) {
   var canon = active.find(function(c) { return c.id === canonId; });
   currentId = canon ? canon.superseded_by : null;
   depth = 0;
-  while (currentId && depth < 10) {
+  while (currentId && depth < 10 && !visited[currentId]) {
+    visited[currentId] = true;
     successors.push(currentId);
     var next = active.find(function(c) { return c.id === currentId; });
     currentId = next ? next.superseded_by : null;
@@ -2510,8 +2548,8 @@ function renderSupersessionChain(chain, currentId) {
 
     if (i > 0) html += '<div class="cx-chain-line"></div>';
 
-    html += '<div class="cx-chain-node' + (isCurrent ? ' cx-chain-current' : '') + '"'
-      + (isCurrent ? '' : ' data-action="goToCanon" data-id="' + escAttr(nodeId) + '" style="cursor:pointer"') + '>';
+    html += '<div class="cx-chain-node' + (isCurrent ? ' cx-chain-current' : ' cx-chain-link') + '"'
+      + (isCurrent ? '' : ' data-action="goToCanon" data-id="' + escAttr(nodeId) + '"') + '>';
     html += '<span class="cx-chain-marker">' + (isCurrent ? '\u25C9' : '\u25CB') + '</span>';
     html += '<span class="cx-chain-id">' + escHtml(title) + '</span>';
     html += '</div>';
@@ -3206,15 +3244,7 @@ function handleSaveSession() {
 function handleDeleteSession(date, sessionId) {
   showConfirmDialog('Delete Session', 'Remove this session log?', function() {
     try {
-      var day = store.journal.find(function(d) { return d.date === date; });
-      if (day) {
-        day.sessions = (day.sessions || []).filter(function(s) { return s.id !== sessionId; });
-        if (day.sessions.length === 0) {
-          store.journal = store.journal.filter(function(d) { return d.date !== date; });
-        }
-        store._createWalEntry('delete', 'session', sessionId, 'journal.json', null, date);
-        store._fireChange();
-      }
+      store.deleteSession(date, sessionId);
       showToast('Session deleted', 'success');
       closeConfirmDialog();
       renderCurrentView();
@@ -3300,16 +3330,7 @@ function handleSaveCanon(canonId) {
       var supersededBy = (document.getElementById('field-canon_superseded_by') || {}).value || null;
       if (supersededBy) supersededBy = supersededBy.trim() || null;
 
-      canon.title = title;
-      canon.scope = scope;
-      canon.category = category;
-      canon.status = status;
-      canon.superseded_by = supersededBy;
-      canon.rationale = rationale.trim();
-      canon.references = refs;
-      canon.created = created;
-      store._createWalEntry('update', 'canon', canonId, 'canons.json', { title: title, scope: scope, category: category, status: status, superseded_by: supersededBy, rationale: rationale.trim(), references: refs, created: created });
-      store._fireChange();
+      store.updateCanon(canonId, { title: title, scope: scope, category: category, status: status, superseded_by: supersededBy, rationale: rationale.trim(), references: refs, created: created });
       showToast('Canon updated', 'success');
     } else {
       // Create new canon
@@ -3337,10 +3358,7 @@ function handleDeleteCanon(canonId) {
   if (refs.length > 0) msg += ' Warning: ' + refs.length + ' canon(s) reference this as superseded_by.';
   showConfirmDialog('Delete Canon', msg, function() {
     try {
-      canon._deleted = true;
-      canon._deleted_date = localDateStr();
-      store._createWalEntry('delete', 'canon', canonId, 'canons.json', null);
-      store._fireChange();
+      store.deleteCanon(canonId);
       showToast('Canon deleted', 'success');
       closeConfirmDialog();
       navigate('#/canons');
@@ -3735,7 +3753,9 @@ function setupDelegation() {
             el.classList.remove('cx-expand-open');
           } else {
             content.style.maxHeight = '0';
-            content.style.maxHeight = content.scrollHeight + 'px';
+            requestAnimationFrame(function() {
+              content.style.maxHeight = content.scrollHeight + 'px';
+            });
             container.dataset.expanded = 'true';
             el.classList.add('cx-expand-open');
             setTimeout(function() { if (container.dataset.expanded === 'true') content.style.maxHeight = 'none'; }, 200);

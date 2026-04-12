@@ -668,6 +668,9 @@ body {
   border-left: 3px solid var(--warning);
   margin-bottom: var(--sp-8);
 }
+.cx-rejection-title {
+  font-weight: 600;
+}
 
 /* --- Supersession Chain --- */
 .cx-chain {
@@ -680,6 +683,12 @@ body {
   padding: var(--sp-6) var(--sp-8);
   border-radius: var(--r-md);
   font-size: var(--fs-sm);
+}
+.cx-chain-link {
+  cursor: pointer;
+}
+.cx-chain-link:active {
+  background: var(--bg-secondary);
 }
 .cx-chain-current {
   font-weight: 700;

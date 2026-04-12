@@ -157,8 +157,6 @@ function renderBreadcrumbForRoute(route) {
   } else if (route.view === 'canon-detail') {
     var canon = store.canons.find(function(c) { return c.id === route.id; });
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Canons', route: '#/canons' }, { label: canon ? canon.title : route.id, route: null }];
-  } else if (route.view === 'settings') {
-    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Settings', route: null }];
   }
   renderBreadcrumb(segments);
 }

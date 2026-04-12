@@ -310,15 +310,7 @@ function handleSaveSession() {
 function handleDeleteSession(date, sessionId) {
   showConfirmDialog('Delete Session', 'Remove this session log?', function() {
     try {
-      var day = store.journal.find(function(d) { return d.date === date; });
-      if (day) {
-        day.sessions = (day.sessions || []).filter(function(s) { return s.id !== sessionId; });
-        if (day.sessions.length === 0) {
-          store.journal = store.journal.filter(function(d) { return d.date !== date; });
-        }
-        store._createWalEntry('delete', 'session', sessionId, 'journal.json', null, date);
-        store._fireChange();
-      }
+      store.deleteSession(date, sessionId);
       showToast('Session deleted', 'success');
       closeConfirmDialog();
       renderCurrentView();
@@ -404,16 +396,7 @@ function handleSaveCanon(canonId) {
       var supersededBy = (document.getElementById('field-canon_superseded_by') || {}).value || null;
       if (supersededBy) supersededBy = supersededBy.trim() || null;
 
-      canon.title = title;
-      canon.scope = scope;
-      canon.category = category;
-      canon.status = status;
-      canon.superseded_by = supersededBy;
-      canon.rationale = rationale.trim();
-      canon.references = refs;
-      canon.created = created;
-      store._createWalEntry('update', 'canon', canonId, 'canons.json', { title: title, scope: scope, category: category, status: status, superseded_by: supersededBy, rationale: rationale.trim(), references: refs, created: created });
-      store._fireChange();
+      store.updateCanon(canonId, { title: title, scope: scope, category: category, status: status, superseded_by: supersededBy, rationale: rationale.trim(), references: refs, created: created });
       showToast('Canon updated', 'success');
     } else {
       // Create new canon
@@ -441,10 +424,7 @@ function handleDeleteCanon(canonId) {
   if (refs.length > 0) msg += ' Warning: ' + refs.length + ' canon(s) reference this as superseded_by.';
   showConfirmDialog('Delete Canon', msg, function() {
     try {
-      canon._deleted = true;
-      canon._deleted_date = localDateStr();
-      store._createWalEntry('delete', 'canon', canonId, 'canons.json', null);
-      store._fireChange();
+      store.deleteCanon(canonId);
       showToast('Canon deleted', 'success');
       closeConfirmDialog();
       navigate('#/canons');
