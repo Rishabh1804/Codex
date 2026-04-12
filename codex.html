@@ -537,6 +537,55 @@ a{color:inherit;text-decoration:none}
    blocking natural page scroll. Override to auto. */
 html:root { height: auto; }
 body { height: auto; overflow-y: auto; }
+/* Hotfix 3: Scroll layout + SVG fallback + slider flash + badge position */
+
+/* === SCROLL FIX ===
+   flex:1 on viewContainer was dead code without a flex parent.
+   Make body a flex column so viewContainer fills remaining height and scrolls. */
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+#appHeader {
+  position: relative;
+  flex-shrink: 0;
+}
+#breadcrumbBar {
+  flex-shrink: 0;
+}
+#viewContainer {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* === SVG FALLBACK ===
+   :where() gives zero specificity so all existing class rules override */
+:where(#viewContainer) svg,
+:where(#appHeader) svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* === SLIDER FLASH FIX === */
+.cx-slider-thumb,
+.cx-slider-track {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+}
+
+/* === TAB BADGE POSITION ===
+   Move badge closer to icon center instead of button edge */
+.cx-tab-badge {
+  top: 2px;
+  right: auto;
+  left: calc(50% + 6px);
+}
 </style>
 <script>
 /* CODEX — Data Layer (Phase 2: WAL + GitHub sync support) */
