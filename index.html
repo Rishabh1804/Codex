@@ -958,6 +958,24 @@ function renderConnectGitHubCta() {
 /* CODEX — Views (from spec CODEBASE_VIEWS) */
 
 /* --- Dashboard --- */
+function getLatestActivity(vol) {
+  var dates = [];
+  (vol.chapters || []).forEach(function(c) {
+    if (c._deleted) return;
+    if (c.completed) dates.push(c.completed);
+    if (c.started) dates.push(c.started);
+  });
+  (vol.todos || []).forEach(function(t) {
+    if (t.created) dates.push(t.created);
+    if (t.resolved) dates.push(t.resolved);
+  });
+  (vol.shelf_history || []).forEach(function(h) {
+    if (h.date) dates.push(h.date);
+  });
+  if (dates.length === 0) return '0000-00-00';
+  return dates.sort().pop();
+}
+
 function renderDashboard() {
   var vc = document.getElementById('viewContainer');
   var snap = store.getSnapshot();
@@ -967,6 +985,7 @@ function renderDashboard() {
   SHELF_ORDER.forEach(function(shelf) {
     var vols = snap.volumes.filter(function(v) { return v.shelf === shelf; });
     if (vols.length === 0) return;
+    vols.sort(function(a, b) { return getLatestActivity(b).localeCompare(getLatestActivity(a)); });
     hasAny = true;
     html += '<div class="cx-shelf-group"><div class="cx-shelf-group-label">' + escHtml(SHELF_LABELS[shelf]) + ' (' + vols.length + ')</div>';
     vols.forEach(function(vol) {
