@@ -350,36 +350,84 @@ function setupPullToRefresh() {
   var vc = document.getElementById('viewContainer');
   if (!vc) return;
 
+  // Create pull indicator (outside viewContainer so it persists across renders)
+  var indicator = document.createElement('div');
+  indicator.id = 'pullIndicator';
+  indicator.className = 'cx-pull-indicator';
+  indicator.innerHTML = '<div class="cx-pull-spinner">' + cx('refresh') + '</div>';
+  vc.parentNode.insertBefore(indicator, vc);
+
+  var THRESHOLD = 80;
+
   vc.addEventListener('touchstart', function(e) {
     _pullable = (vc.scrollTop <= 0);
     if (_pullable) _pullStartY = e.changedTouches[0].screenY;
   }, { passive: true });
 
-  vc.addEventListener('touchend', function(e) {
+  vc.addEventListener('touchmove', function(e) {
     if (!_pullable) return;
+    if (!document.getElementById('overlayContainer').hidden) return;
     var dy = e.changedTouches[0].screenY - _pullStartY;
     var dx = e.changedTouches[0].screenX - _swipeStartX;
-    // Must be vertical dominant pull-down > 80px (not a horizontal swipe)
-    if (dy < 80 || Math.abs(dx) > dy * 0.5) return;
-    // Suppress during overlays
-    if (!document.getElementById('overlayContainer').hidden) return;
-    handlePullRefresh();
+    if (dy <= 0 || Math.abs(dx) > dy * 0.5) {
+      indicator.style.height = '0';
+      indicator.style.opacity = '0';
+      return;
+    }
+    // Resistance feel: dampen the pull
+    var pull = Math.min(dy * 0.4, 60);
+    indicator.style.height = pull + 'px';
+    indicator.style.opacity = String(Math.min(dy / THRESHOLD, 1));
+    var spinner = indicator.querySelector('.cx-pull-spinner');
+    if (spinner) {
+      var rotation = Math.min((dy / THRESHOLD) * 360, 360);
+      spinner.style.transform = 'rotate(' + rotation + 'deg)';
+      indicator.classList.toggle('cx-pull-ready', dy >= THRESHOLD);
+    }
   }, { passive: true });
+
+  vc.addEventListener('touchend', function(e) {
+    if (!_pullable) return;
+    _pullable = false;
+    var dy = e.changedTouches[0].screenY - _pullStartY;
+    var dx = e.changedTouches[0].screenX - _swipeStartX;
+
+    if (dy >= THRESHOLD && Math.abs(dx) < dy * 0.5) {
+      // Trigger refresh — hold indicator open with spin animation
+      indicator.classList.add('cx-pull-refreshing');
+      indicator.classList.remove('cx-pull-ready');
+      indicator.style.height = '48px';
+      indicator.style.opacity = '1';
+      handlePullRefresh().then(function() { collapsePullIndicator(indicator); });
+    } else {
+      // Cancelled — collapse
+      collapsePullIndicator(indicator);
+    }
+  }, { passive: true });
+}
+
+function collapsePullIndicator(indicator) {
+  if (!indicator) indicator = document.getElementById('pullIndicator');
+  if (!indicator) return;
+  indicator.style.transition = 'height 0.3s ease, opacity 0.3s ease';
+  indicator.style.height = '0';
+  indicator.style.opacity = '0';
+  indicator.classList.remove('cx-pull-refreshing', 'cx-pull-ready');
+  var spinner = indicator.querySelector('.cx-pull-spinner');
+  if (spinner) spinner.style.transform = '';
+  setTimeout(function() { indicator.style.transition = ''; }, 300);
 }
 
 function handlePullRefresh() {
   if (!localStorage.getItem(KEYS.REPO_URL)) {
-    // Local-only: just re-render
     renderCurrentView();
-    showToast('Data is local \u2014 refreshed view', 'info');
-    return;
+    return Promise.resolve();
   }
-  showToast('Refreshing\u2026', 'info');
-  fetchAll().then(function(f) {
+  return fetchAll().then(function(f) {
     populateStore(f['volumes.json'], f['canons.json'], f['journal.json']);
     replayWal(store._wal);
     renderCurrentView();
-    showToast('Refreshed', 'success');
+    showToast('Synced', 'success');
   }).catch(function() {
     showToast('Refresh failed', 'error');
   });

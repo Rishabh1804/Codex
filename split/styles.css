@@ -528,3 +528,38 @@ body {
   right: auto;
   left: calc(50% + 6px);
 }
+/* Hotfix 4: Pull-to-refresh indicator + breadcrumb hidden fix */
+
+/* Breadcrumb fix: CSS display:flex overrides [hidden] attribute.
+   This rule restores hidden behavior. */
+#breadcrumbBar[hidden] { display: none !important; }
+
+/* Pull-to-refresh indicator */
+.cx-pull-indicator {
+  height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  background: var(--bg-primary);
+  flex-shrink: 0;
+}
+.cx-pull-spinner {
+  color: var(--accent);
+  transition: transform 0.05s linear;
+}
+.cx-pull-spinner svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+.cx-pull-ready .cx-pull-spinner {
+  color: var(--success);
+}
+.cx-pull-refreshing .cx-pull-spinner {
+  animation: cx-spin 0.6s linear infinite;
+}
+@keyframes cx-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
