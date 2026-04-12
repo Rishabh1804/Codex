@@ -837,7 +837,7 @@ body {
 .cx-heatmap-scroll::-webkit-scrollbar{display:none}
 .cx-heatmap{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:2px;min-width:min-content}
 .cx-heatmap-cell{width:12px;height:12px;border-radius:2px;cursor:pointer;background:var(--bg-secondary)}
-.cx-heatmap-cell:hover{outline:1px solid var(--accent-light)}
+@media(hover:hover){.cx-heatmap-cell:hover{outline:1px solid var(--accent-light)}}
 .cx-heatmap-cell[data-level="1"]{background:var(--accent-light);opacity:0.5}
 .cx-heatmap-cell[data-level="2"]{background:var(--accent);opacity:0.7}
 .cx-heatmap-cell[data-level="3"]{background:var(--accent);opacity:1}
@@ -1516,6 +1516,8 @@ function navigate(hash) {
 }
 
 function handleRouteChange(hash, scrollToTop) {
+  // Phase 4: Close search if open during navigation
+  if (!document.getElementById('searchOverlay').hidden) closeSearch();
   var route = parseRoute(hash);
   _scrollPositions[_currentView] = (document.getElementById('viewContainer') || {}).scrollTop || 0;
   _currentView = route.view;
@@ -1995,7 +1997,8 @@ function replayCreate(entry) {
 function replayUpdate(entry) {
   var existing = findEntity(entry.entity_type, entry.entity_id, entry.parent_id);
   if (!existing) { entry.status = 'resolved'; return; }
-  if (existing._deleted) { entry.status = 'resolved'; return; }
+  // Allow restore operations (payload._deleted === false) through even if entity is deleted
+  if (existing._deleted && !(entry.payload && entry.payload._deleted === false)) { entry.status = 'resolved'; return; }
   Object.assign(existing, entry.payload);
 }
 
@@ -2994,11 +2997,12 @@ function renderDashboard() {
   var snap = store.getSnapshot();
   var html = renderConnectGitHubCta();
 
-  // Phase 4: Stats bar
-  html += renderStatsBar();
-
-  // Phase 4: Heatmap
-  html += renderHeatmap();
+  // Phase 4: Stats bar + Heatmap (only when library has content)
+  var hasVolumes = snap.volumes.length > 0;
+  if (hasVolumes) {
+    html += renderStatsBar();
+    html += renderHeatmap();
+  }
 
   var hasAny = false;
   SHELF_ORDER.forEach(function(shelf) {
@@ -3040,6 +3044,10 @@ function renderDashboard() {
     html += renderEmptyState('book', 'The library is empty', 'Tap + to add your first volume', 'New Volume', 'fabAction');
   }
   vc.innerHTML = html;
+
+  // Phase 4: Auto-scroll heatmap to show most recent dates
+  var heatScroll = vc.querySelector('.cx-heatmap-scroll');
+  if (heatScroll) heatScroll.scrollLeft = heatScroll.scrollWidth;
 }
 
 /* --- Volume Detail (from Phase 1) --- */
@@ -4052,6 +4060,12 @@ function setupDelegation() {
   if (_delegationReady) return;
   _delegationReady = true;
   document.addEventListener('click', function(e) {
+    // Phase 4: Dismiss sync panel on outside click
+    var syncPanel = document.getElementById('syncDetailPanel');
+    if (syncPanel && !syncPanel.contains(e.target) && !e.target.closest('#syncIndicator')) {
+      syncPanel.remove();
+    }
+
     var el = e.target.closest('[data-action]');
     if (!el) return;
     var action = el.dataset.action;

@@ -123,6 +123,8 @@ function navigate(hash) {
 }
 
 function handleRouteChange(hash, scrollToTop) {
+  // Phase 4: Close search if open during navigation
+  if (!document.getElementById('searchOverlay').hidden) closeSearch();
   var route = parseRoute(hash);
   _scrollPositions[_currentView] = (document.getElementById('viewContainer') || {}).scrollTop || 0;
   _currentView = route.view;
@@ -602,7 +604,8 @@ function replayCreate(entry) {
 function replayUpdate(entry) {
   var existing = findEntity(entry.entity_type, entry.entity_id, entry.parent_id);
   if (!existing) { entry.status = 'resolved'; return; }
-  if (existing._deleted) { entry.status = 'resolved'; return; }
+  // Allow restore operations (payload._deleted === false) through even if entity is deleted
+  if (existing._deleted && !(entry.payload && entry.payload._deleted === false)) { entry.status = 'resolved'; return; }
   Object.assign(existing, entry.payload);
 }
 

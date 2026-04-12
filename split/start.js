@@ -8,6 +8,12 @@ function setupDelegation() {
   if (_delegationReady) return;
   _delegationReady = true;
   document.addEventListener('click', function(e) {
+    // Phase 4: Dismiss sync panel on outside click
+    var syncPanel = document.getElementById('syncDetailPanel');
+    if (syncPanel && !syncPanel.contains(e.target) && !e.target.closest('#syncIndicator')) {
+      syncPanel.remove();
+    }
+
     var el = e.target.closest('[data-action]');
     if (!el) return;
     var action = el.dataset.action;

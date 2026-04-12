@@ -882,11 +882,12 @@ function renderDashboard() {
   var snap = store.getSnapshot();
   var html = renderConnectGitHubCta();
 
-  // Phase 4: Stats bar
-  html += renderStatsBar();
-
-  // Phase 4: Heatmap
-  html += renderHeatmap();
+  // Phase 4: Stats bar + Heatmap (only when library has content)
+  var hasVolumes = snap.volumes.length > 0;
+  if (hasVolumes) {
+    html += renderStatsBar();
+    html += renderHeatmap();
+  }
 
   var hasAny = false;
   SHELF_ORDER.forEach(function(shelf) {
@@ -928,6 +929,10 @@ function renderDashboard() {
     html += renderEmptyState('book', 'The library is empty', 'Tap + to add your first volume', 'New Volume', 'fabAction');
   }
   vc.innerHTML = html;
+
+  // Phase 4: Auto-scroll heatmap to show most recent dates
+  var heatScroll = vc.querySelector('.cx-heatmap-scroll');
+  if (heatScroll) heatScroll.scrollLeft = heatScroll.scrollWidth;
 }
 
 /* --- Volume Detail (from Phase 1) --- */
