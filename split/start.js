@@ -187,6 +187,11 @@ function setupDelegation() {
         _canonPage = 1;
         renderCurrentView();
         break;
+      case 'setCanonSort':
+        _canonSort = el.dataset.value || 'newest';
+        _canonPage = 1;
+        renderCurrentView();
+        break;
       case 'changePage': _canonPage = parseInt(el.dataset.page, 10) || 1; renderCurrentView(); document.getElementById('viewContainer').scrollTop = 0; break;
       case 'openCreateCanon': openCreateCanon(); break;
       case 'editCanon': openEditCanon(id); break;

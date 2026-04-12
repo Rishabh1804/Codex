@@ -62,6 +62,7 @@ function formatAbsoluteDate(dateStr) {
   if (!dateStr) return '';
   var parts = dateStr.split('-').map(Number);
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if (parts.length < 3 || !parts[2]) return months[parts[1]-1] + ' ' + parts[0];
   return months[parts[1]-1] + ' ' + parts[2] + ', ' + parts[0];
 }
 

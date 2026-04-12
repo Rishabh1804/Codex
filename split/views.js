@@ -5,6 +5,7 @@ var _journalFilters = { range: '30d', volume: null };
 var _journalLoadMoreCount = 30;
 var _canonPage = 1;
 var _canonFilters = { scope: null, category: null, status: null };
+var _canonSort = 'newest';
 var CANONS_PER_PAGE = 10;
 
 /* --- Shared Helpers --- */
@@ -310,6 +311,21 @@ function renderCanons() {
   });
   html += '</div>';
 
+  // Sort bar
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Sort:</span>';
+  var sortOptions = [
+    { value: 'newest', label: 'Newest' },
+    { value: 'oldest', label: 'Oldest' },
+    { value: 'title', label: 'Title' },
+    { value: 'scope', label: 'Scope' }
+  ];
+  sortOptions.forEach(function(s) {
+    var active = _canonSort === s.value ? ' cx-chip-active' : '';
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="setCanonSort" data-value="' + escAttr(s.value) + '">' + escHtml(s.label) + '</button>';
+  });
+  html += '</div>';
+
   // Apply filters (intersection)
   var canons = filterActive(store.canons).filter(function(c) {
     if (_canonFilters.scope && c.scope !== _canonFilters.scope) return false;
@@ -318,8 +334,16 @@ function renderCanons() {
     return true;
   });
 
-  // Sort by ID descending (newest first)
-  canons.sort(function(a, b) { return b.id.localeCompare(a.id); });
+  // Sort
+  if (_canonSort === 'oldest') {
+    canons.sort(function(a, b) { return a.id.localeCompare(b.id); });
+  } else if (_canonSort === 'title') {
+    canons.sort(function(a, b) { return (a.title || '').localeCompare(b.title || ''); });
+  } else if (_canonSort === 'scope') {
+    canons.sort(function(a, b) { return (a.scope || '').localeCompare(b.scope || '') || b.id.localeCompare(a.id); });
+  } else {
+    canons.sort(function(a, b) { return b.id.localeCompare(a.id); });
+  }
 
   // Paginate
   var totalPages = Math.max(1, Math.ceil(canons.length / CANONS_PER_PAGE));
@@ -401,7 +425,7 @@ function renderCanonCard(canon) {
 
   // Created date
   if (canon.created) {
-    html += '<div class="cx-card-meta">' + escHtml(formatAbsoluteDate(canon.created.length >= 10 ? canon.created : canon.created + '-01')) + '</div>';
+    html += '<div class="cx-card-meta">' + escHtml(formatAbsoluteDate(canon.created)) + '</div>';
   }
 
   html += '</div>';
@@ -465,7 +489,7 @@ function renderCanonDetail(route) {
   html += '<span class="cx-chip cx-chip-sm">' + escHtml(canon.category) + '</span>';
   html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(canon.status) + '">' + escHtml(canon.status) + '</span>';
   if (canon.created) {
-    html += '<span class="cx-chip cx-chip-sm">' + escHtml(formatAbsoluteDate(canon.created.length >= 10 ? canon.created : canon.created + '-01')) + '</span>';
+    html += '<span class="cx-chip cx-chip-sm">' + escHtml(formatAbsoluteDate(canon.created)) + '</span>';
   }
   html += '</div>';
 
