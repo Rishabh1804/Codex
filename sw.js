@@ -1,5 +1,5 @@
-/* CODEX — Service Worker v1 */
-var CACHE_NAME = 'codex-v1';
+/* CODEX — Service Worker v2 (network-first for app shell) */
+var CACHE_NAME = 'codex-v2';
 var APP_SHELL = [
   './',
   './index.html',
@@ -19,7 +19,7 @@ self.addEventListener('install', function(event) {
   );
 });
 
-/* Activate: clean old caches */
+/* Activate: purge old caches */
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keys) {
@@ -34,17 +34,17 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-/* Fetch: network-first for API, cache-first for app shell */
+/* Fetch strategies */
 self.addEventListener('fetch', function(event) {
   var url = event.request.url;
 
-  // GitHub API: always network (never cache API responses)
+  // GitHub API: network only
   if (url.indexOf('api.github.com') !== -1) {
     event.respondWith(fetch(event.request));
     return;
   }
 
-  // Google Fonts: cache-first (stable resources)
+  // Google Fonts: cache-first (stable, rarely change)
   if (url.indexOf('fonts.googleapis.com') !== -1 || url.indexOf('fonts.gstatic.com') !== -1) {
     event.respondWith(
       caches.match(event.request).then(function(cached) {
@@ -61,19 +61,16 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // App shell: stale-while-revalidate
+  // App shell: network-first (always get latest, cache as fallback for offline)
   event.respondWith(
-    caches.match(event.request).then(function(cached) {
-      var fetchPromise = fetch(event.request).then(function(response) {
-        if (response.ok) {
-          var clone = response.clone();
-          caches.open(CACHE_NAME).then(function(cache) { cache.put(event.request, clone); });
-        }
-        return response;
-      }).catch(function() {
-        return cached;
-      });
-      return cached || fetchPromise;
+    fetch(event.request).then(function(response) {
+      if (response.ok) {
+        var clone = response.clone();
+        caches.open(CACHE_NAME).then(function(cache) { cache.put(event.request, clone); });
+      }
+      return response;
+    }).catch(function() {
+      return caches.match(event.request);
     })
   );
 });
