@@ -621,6 +621,191 @@ body {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* ============================================================
+   PHASE 3 CSS — Journal, Canons, Canon Detail, Snippet Import
+   ============================================================ */
+
+/* --- Filter Bar --- */
+.cx-filter-bar {
+  display: flex;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-8);
+  align-items: center;
+}
+.cx-filter-label {
+  font-size: var(--fs-2xs);
+  color: var(--text-tertiary);
+  margin-right: var(--sp-2);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- Day Header (Journal) --- */
+.cx-day-header {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin: var(--sp-16) 0 var(--sp-8);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--border);
+}
+.cx-day-header:first-child {
+  margin-top: var(--sp-8);
+}
+
+/* --- Session Card --- */
+.cx-session-card {
+  margin-bottom: var(--sp-8);
+}
+.cx-session-summary {
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-top: var(--sp-6);
+}
+.cx-session-detail-section {
+  padding: var(--sp-6) 0;
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+}
+.cx-session-detail-section:last-child {
+  border-bottom: none;
+}
+.cx-session-detail-label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.cx-session-decision {
+  padding: var(--sp-2) 0 var(--sp-2) var(--sp-12);
+  font-size: var(--fs-xs);
+}
+.cx-session-todo-item {
+  padding: var(--sp-2) 0 var(--sp-2) var(--sp-12);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+}
+
+/* --- Volume Chip (colored border) --- */
+.cx-vol-chip {
+  background: transparent !important;
+  cursor: pointer;
+}
+.cx-vol-chip:active {
+  opacity: 0.7;
+}
+
+/* --- Expand/Collapse --- */
+.cx-expandable-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height var(--anim-expand) ease-out;
+}
+.cx-expand-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  margin-top: var(--sp-8);
+}
+.cx-expand-toggle {
+  display: inline-block;
+  font-size: var(--fs-2xs);
+  transition: transform var(--anim-expand);
+}
+.cx-expand-open .cx-expand-toggle {
+  transform: rotate(90deg);
+}
+
+/* --- Rejection Card --- */
+.cx-rejection-card {
+  border-left: 3px solid var(--warning);
+  margin-bottom: var(--sp-8);
+}
+
+/* --- Supersession Chain --- */
+.cx-chain {
+  padding-left: var(--sp-16);
+}
+.cx-chain-node {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-8);
+  padding: var(--sp-6) var(--sp-8);
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm);
+}
+.cx-chain-current {
+  font-weight: 700;
+  background: var(--bg-secondary);
+}
+.cx-chain-line {
+  width: 2px;
+  height: 16px;
+  background: var(--border);
+  margin-left: calc(var(--sp-8) + 6px);
+}
+.cx-chain-marker {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+.cx-chain-id {
+  min-width: 0;
+}
+
+/* --- Canon Status in Chips --- */
+.cx-chip.cx-status-active {
+  color: var(--success);
+  border-color: var(--success);
+}
+.cx-chip.cx-status-deprecated {
+  color: var(--warning);
+  border-color: var(--warning);
+}
+.cx-chip.cx-status-superseded {
+  color: var(--text-tertiary);
+  border-color: var(--text-tertiary);
+}
+
+/* --- Snippet Import --- */
+.cx-snippet-input {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+}
+.cx-preview-item {
+  padding: var(--sp-4) var(--sp-6);
+  font-size: var(--fs-sm);
+  display: flex;
+  gap: var(--sp-6);
+  align-items: center;
+}
+.cx-preview-ok {
+  color: var(--success);
+  font-weight: 700;
+}
+.cx-preview-skip {
+  color: var(--error);
+  font-weight: 700;
+}
+
+/* --- Pagination --- */
+.cx-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-12);
+  margin: var(--sp-16) 0;
+}
+
+/* --- Truncated Text --- */
+.cx-truncated-container {
+  display: inline;
+}
 </style>
 <script>
 /* CODEX — Data Layer (Phase 2: WAL + GitHub sync support) */
@@ -1264,6 +1449,11 @@ function renderBreadcrumbForRoute(route) {
   if (route.view === 'volume-detail') {
     var vol = store.volumes.find(function(v) { return v.id === route.id; });
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: vol ? vol.name : route.id, route: null }];
+  } else if (route.view === 'canon-detail') {
+    var canon = store.canons.find(function(c) { return c.id === route.id; });
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Canons', route: '#/canons' }, { label: canon ? canon.title : route.id, route: null }];
+  } else if (route.view === 'settings') {
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Settings', route: null }];
   }
   renderBreadcrumb(segments);
 }
@@ -1286,8 +1476,8 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings')) {
-    var title = route.view === 'settings' ? 'Settings' : (function() { var v = store.volumes.find(function(x) { return x.id === route.id; }); return v ? v.name : 'Volume'; })();
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail')) {
+    var title = route.view === 'settings' ? 'Settings' : route.view === 'canon-detail' ? 'Canon' : (function() { var v = store.volumes.find(function(x) { return x.id === route.id; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
       + '<div class="cx-header-actions">'
@@ -1305,7 +1495,7 @@ function updateHeader(route) {
 function updateFab(view) {
   var fab = document.getElementById('fabButton');
   if (!fab) return;
-  var show = ['dashboard', 'volume-detail', 'todos'].indexOf(view) !== -1;
+  var show = ['dashboard', 'volume-detail', 'todos', 'journal', 'canons'].indexOf(view) !== -1;
   fab.classList.toggle('cx-fab-hidden', !show);
   fab.innerHTML = cx('plus');
 }
@@ -1329,8 +1519,8 @@ function renderCurrentView() {
     var renderers = {
       dashboard: renderDashboard, 'volume-detail': renderVolumeDetail,
       settings: renderSettings, todos: renderTodos,
-      journal: renderComingSoon.bind(null, 'Journal', 'Phase 3'),
-      canons: renderComingSoon.bind(null, 'Canons', 'Phase 3')
+      journal: renderJournal, canons: renderCanons,
+      'canon-detail': renderCanonDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);
@@ -1343,10 +1533,7 @@ function renderCurrentView() {
   _isRendering = false;
 }
 
-function renderComingSoon(name, phase) {
-  var vc = document.getElementById('viewContainer');
-  if (vc) vc.innerHTML = '<div class="cx-empty-state">' + cx('book') + '<p class="cx-empty-title">' + escHtml(name) + '</p><p class="cx-empty-subtitle">Coming in ' + escHtml(phase) + '</p></div>';
-}
+/* renderComingSoon removed — Phase 3 renders all views */
 
 /* --- Form Field Renderers (from spec CODEBASE_VIEWS) --- */
 function renderTextField(name, label, value, options) {
@@ -1771,18 +1958,76 @@ function fetchAllWithProgressiveMessages() {
   });
 }
 
-/* CODEX — Views (Phase 2: Wizard + GitHub Settings) */
+/* CODEX — Views (Phase 3: Journal, Canons, Canon Detail, Snippet Import) */
+
+/* --- Phase 3 State --- */
+var _journalFilters = { range: '30d', volume: null };
+var _journalLoadMoreCount = 30;
+var _canonPage = 1;
+var _canonFilters = { scope: null, category: null, status: null };
+var CANONS_PER_PAGE = 10;
+
+/* --- Shared Helpers --- */
+
+function renderTruncated(text, maxChars, entityId, field) {
+  if (!text || text.length <= maxChars) return '<span class="cx-truncated-container">' + escHtml(text || '') + '</span>';
+  var truncated = text.substring(0, maxChars).replace(/\s+\S*$/, '');
+  return '<span class="cx-truncated-container">' + escHtml(truncated) + '\u2026 <button class="cx-link-btn" data-action="expandText" data-id="' + escAttr(entityId) + '" data-field="' + escAttr(field) + '">Read more</button></span>';
+}
+
+function getEntityFieldText(id, field) {
+  // Search sessions
+  for (var i = 0; i < store.journal.length; i++) {
+    var day = store.journal[i];
+    for (var j = 0; j < (day.sessions || []).length; j++) {
+      var s = day.sessions[j];
+      if (s.id === id) return s[field] || '';
+    }
+  }
+  // Search canons
+  var canon = store.canons.find(function(c) { return c.id === id; });
+  if (canon) return canon[field] || '';
+  // Search rejections
+  var rej = store.rejections.find(function(r) { return r.id === id; });
+  if (rej) return rej[field] || '';
+  return '';
+}
+
+function handleExpandText(el) {
+  var id = el.dataset.id;
+  var field = el.dataset.field;
+  var container = el.closest('.cx-truncated-container');
+  if (!container) return;
+  var full = getEntityFieldText(id, field);
+  container.innerHTML = escHtml(full) + ' <button data-action="collapseText" data-id="' + escAttr(id) + '" data-field="' + escAttr(field) + '" class="cx-link-btn">Show less</button>';
+}
+
+function handleCollapseText(el) {
+  var id = el.dataset.id;
+  var field = el.dataset.field;
+  var container = el.closest('.cx-truncated-container');
+  if (!container) return;
+  var full = getEntityFieldText(id, field);
+  var truncated = full.substring(0, 120).replace(/\s+\S*$/, '');
+  container.innerHTML = escHtml(truncated) + '\u2026 <button data-action="expandText" data-id="' + escAttr(id) + '" data-field="' + escAttr(field) + '" class="cx-link-btn">Read more</button>';
+}
+
+function renderDayHeader(dateStr) {
+  var today = localDateStr();
+  var yd = new Date(); yd.setDate(yd.getDate() - 1);
+  var yesterday = localDateStr(yd);
+  var label = dateStr === today ? 'Today' : dateStr === yesterday ? 'Yesterday' : formatAbsoluteDate(dateStr);
+  return '<div class="cx-day-header">' + escHtml(label) + '</div>';
+}
 
 /* --- Last Active Date (for dashboard sort — spec bug #97) --- */
 function getLastActiveDate(volumeId) {
-  // Journal sessions (sorted newest first by populateStore)
   for (var i = 0; i < store.journal.length; i++) {
     var day = store.journal[i];
     for (var j = 0; j < (day.sessions || []).length; j++) {
       if ((day.sessions[j].volumes_touched || []).includes(volumeId)) return day.date;
     }
   }
-  // Fallback: latest shelf_history entry
   var vol = store.volumes.find(function(v) { return v.id === volumeId; });
   if (vol && vol.shelf_history && vol.shelf_history.length > 0) {
     return vol.shelf_history[vol.shelf_history.length - 1].date;
@@ -1790,7 +2035,496 @@ function getLastActiveDate(volumeId) {
   return null;
 }
 
-/* --- Dashboard --- */
+/* ============================================================
+   JOURNAL VIEW
+   ============================================================ */
+
+function renderJournal() {
+  var vc = document.getElementById('viewContainer');
+  var html = '';
+
+  // Filter bar: range chips
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Range:</span>';
+  var ranges = [
+    { value: '7d', label: '7 days' },
+    { value: '30d', label: '30 days' },
+    { value: '90d', label: '90 days' },
+    { value: 'all', label: 'All' }
+  ];
+  ranges.forEach(function(r) {
+    var active = _journalFilters.range === r.value ? ' cx-chip-active' : '';
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="setJournalRange" data-value="' + escAttr(r.value) + '">' + escHtml(r.label) + '</button>';
+  });
+  html += '</div>';
+
+  // Volume filter chips
+  var activeVols = filterActive(store.volumes);
+  if (activeVols.length > 1) {
+    html += '<div class="cx-filter-bar">';
+    html += '<span class="cx-filter-label">Volume:</span>';
+    html += '<button class="cx-chip cx-chip-sm' + (!_journalFilters.volume ? ' cx-chip-active' : '') + '" data-action="setJournalVolume" data-value="">All</button>';
+    activeVols.forEach(function(v) {
+      var active = _journalFilters.volume === v.id ? ' cx-chip-active' : '';
+      html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="setJournalVolume" data-value="' + escAttr(v.id) + '">' + escHtml(v.name) + '</button>';
+    });
+    html += '</div>';
+  }
+
+  // Filter sessions
+  var cutoffDate = null;
+  if (_journalFilters.range === '7d') cutoffDate = daysAgo(7);
+  else if (_journalFilters.range === '30d') cutoffDate = daysAgo(30);
+  else if (_journalFilters.range === '90d') cutoffDate = daysAgo(90);
+
+  var filteredDays = [];
+  store.journal.forEach(function(day) {
+    if (cutoffDate && day.date < cutoffDate) return;
+    var sessions = day.sessions || [];
+    if (_journalFilters.volume) {
+      sessions = sessions.filter(function(s) {
+        return (s.volumes_touched || []).indexOf(_journalFilters.volume) !== -1;
+      });
+    }
+    if (sessions.length > 0) {
+      filteredDays.push({ date: day.date, sessions: sessions });
+    }
+  });
+
+  // Sort newest first (store.journal is already sorted, but filtered copy may not be)
+  filteredDays.sort(function(a, b) { return b.date.localeCompare(a.date); });
+
+  if (filteredDays.length === 0) {
+    html += renderEmptyState('scroll', 'No sessions found', _journalFilters.volume || cutoffDate ? 'Try adjusting filters' : 'Log your first build session', 'New Session', 'openCreateSession');
+    vc.innerHTML = html;
+    return;
+  }
+
+  // Flatten to count total sessions
+  var totalSessions = 0;
+  filteredDays.forEach(function(d) { totalSessions += d.sessions.length; });
+
+  // Paginate by _journalLoadMoreCount (session count)
+  var sessionsRendered = 0;
+  var daysToRender = [];
+  for (var di = 0; di < filteredDays.length && sessionsRendered < _journalLoadMoreCount; di++) {
+    var day = filteredDays[di];
+    var sessionsForDay = [];
+    for (var si = 0; si < day.sessions.length && sessionsRendered < _journalLoadMoreCount; si++) {
+      sessionsForDay.push(day.sessions[si]);
+      sessionsRendered++;
+    }
+    daysToRender.push({ date: day.date, sessions: sessionsForDay });
+  }
+
+  // Render day groups
+  daysToRender.forEach(function(day) {
+    html += renderDayHeader(day.date);
+    day.sessions.forEach(function(session) {
+      html += renderSessionCard(session, day.date);
+    });
+  });
+
+  // Load more button
+  if (sessionsRendered < totalSessions) {
+    html += '<div class="cx-center"><button class="cx-btn-secondary" data-action="loadMoreJournal">Load more (' + (totalSessions - sessionsRendered) + ' remaining)</button></div>';
+  }
+
+  vc.innerHTML = html;
+}
+
+function renderSessionCard(session, date) {
+  var html = '<div class="cx-card cx-session-card">';
+
+  // Header: session ID + duration + delete
+  html += '<div class="cx-card-header">';
+  html += '<div class="cx-card-meta">' + escHtml(session.id);
+  if (session.duration_minutes) html += ' \u00B7 ' + session.duration_minutes + ' min';
+  html += '</div>';
+  html += '<button class="cx-btn-icon cx-btn-danger-icon" data-action="deleteSession" data-date="' + escAttr(date) + '" data-id="' + escAttr(session.id) + '">' + cx('trash') + '</button>';
+  html += '</div>';
+
+  // Summary (truncated)
+  if (session.summary) {
+    html += '<div class="cx-session-summary">' + renderTruncated(session.summary, 120, session.id, 'summary') + '</div>';
+  }
+
+  // Volume chips
+  if (session.volumes_touched && session.volumes_touched.length > 0) {
+    html += '<div class="cx-chip-row">';
+    session.volumes_touched.forEach(function(vid) {
+      var vol = store.volumes.find(function(v) { return v.id === vid; });
+      var color = vol ? vol.domain_color : '#8B7355';
+      var name = vol ? vol.name : vid;
+      html += '<span class="cx-chip cx-chip-sm cx-vol-chip" style="border-color:' + escAttr(color) + ';color:' + escAttr(color) + '" data-action="goToVolume" data-id="' + escAttr(vid) + '">' + escHtml(name) + '</span>';
+    });
+    html += '</div>';
+  }
+
+  // Chapter chips
+  if (session.chapters_touched && session.chapters_touched.length > 0) {
+    html += '<div class="cx-chip-row">';
+    session.chapters_touched.forEach(function(ch) {
+      html += '<span class="cx-chip cx-chip-sm">' + cx('bookmark') + ' ' + escHtml(ch) + '</span>';
+    });
+    html += '</div>';
+  }
+
+  // Expandable details section
+  var hasDetails = (session.bugs_found > 0 || session.bugs_fixed > 0) ||
+    (session.decisions && session.decisions.length > 0) ||
+    (session.open_todos && session.open_todos.length > 0) ||
+    session.handoff;
+
+  if (hasDetails) {
+    html += '<div data-expandable="true" data-expanded="false">';
+    html += '<button class="cx-expand-header cx-link-btn" data-action="toggleExpand"><span class="cx-expand-toggle">\u25B6</span> Details</button>';
+    html += '<div class="cx-expandable-content">';
+
+    // Bugs
+    if (session.bugs_found > 0 || session.bugs_fixed > 0) {
+      html += '<div class="cx-session-detail-section"><span class="cx-session-detail-label">Bugs:</span> ' + (session.bugs_found || 0) + ' found, ' + (session.bugs_fixed || 0) + ' fixed</div>';
+    }
+
+    // Decisions
+    if (session.decisions && session.decisions.length > 0) {
+      html += '<div class="cx-session-detail-section"><span class="cx-session-detail-label">Decisions:</span>';
+      session.decisions.forEach(function(d) {
+        // Check if it's a canon reference (starts with canon-)
+        if (d.match && d.match(/^canon-/)) {
+          html += '<div class="cx-session-decision"><button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(d) + '">' + escHtml(d) + '</button></div>';
+        } else {
+          html += '<div class="cx-session-decision">' + escHtml(d) + '</div>';
+        }
+      });
+      html += '</div>';
+    }
+
+    // Open TODOs (historical snapshot)
+    if (session.open_todos && session.open_todos.length > 0) {
+      html += '<div class="cx-session-detail-section"><span class="cx-session-detail-label">Open TODOs:</span>';
+      session.open_todos.forEach(function(t) {
+        html += '<div class="cx-session-todo-item">\u2022 ' + escHtml(t) + '</div>';
+      });
+      html += '</div>';
+    }
+
+    // Handoff
+    if (session.handoff) {
+      html += '<div class="cx-session-detail-section"><span class="cx-session-detail-label">Handoff:</span> ' + renderTruncated(session.handoff, 200, session.id, 'handoff') + '</div>';
+    }
+
+    html += '</div></div>'; // expandable
+  }
+
+  html += '</div>'; // card
+  return html;
+}
+
+
+/* ============================================================
+   CANONS VIEW
+   ============================================================ */
+
+function renderCanons() {
+  var vc = document.getElementById('viewContainer');
+  var html = '';
+
+  // Build scope options from data
+  var scopeOptions = ['global'];
+  filterActive(store.volumes).forEach(function(v) {
+    if (filterActive(store.canons).some(function(c) { return c.scope === v.id; })) {
+      scopeOptions.push(v.id);
+    }
+  });
+
+  // Filter bar: scope
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Scope:</span>';
+  html += '<button class="cx-chip cx-chip-sm' + (!_canonFilters.scope ? ' cx-chip-active' : '') + '" data-action="toggleCanonFilter" data-key="scope" data-value="">All</button>';
+  scopeOptions.forEach(function(s) {
+    var active = _canonFilters.scope === s ? ' cx-chip-active' : '';
+    var label = s === 'global' ? 'Global' : (function() { var v = store.volumes.find(function(x) { return x.id === s; }); return v ? v.name : s; })();
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleCanonFilter" data-key="scope" data-value="' + escAttr(s) + '">' + escHtml(label) + '</button>';
+  });
+  html += '</div>';
+
+  // Filter bar: category
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Category:</span>';
+  html += '<button class="cx-chip cx-chip-sm' + (!_canonFilters.category ? ' cx-chip-active' : '') + '" data-action="toggleCanonFilter" data-key="category" data-value="">All</button>';
+  CANON_CATEGORIES.forEach(function(c) {
+    var active = _canonFilters.category === c ? ' cx-chip-active' : '';
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleCanonFilter" data-key="category" data-value="' + escAttr(c) + '">' + escHtml(c) + '</button>';
+  });
+  html += '</div>';
+
+  // Filter bar: status
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Status:</span>';
+  html += '<button class="cx-chip cx-chip-sm' + (!_canonFilters.status ? ' cx-chip-active' : '') + '" data-action="toggleCanonFilter" data-key="status" data-value="">All</button>';
+  ['active', 'deprecated', 'superseded'].forEach(function(s) {
+    var active = _canonFilters.status === s ? ' cx-chip-active' : '';
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleCanonFilter" data-key="status" data-value="' + escAttr(s) + '">' + escHtml(s) + '</button>';
+  });
+  html += '</div>';
+
+  // Apply filters (intersection)
+  var canons = filterActive(store.canons).filter(function(c) {
+    if (_canonFilters.scope && c.scope !== _canonFilters.scope) return false;
+    if (_canonFilters.category && c.category !== _canonFilters.category) return false;
+    if (_canonFilters.status && c.status !== _canonFilters.status) return false;
+    return true;
+  });
+
+  // Sort by ID descending (newest first)
+  canons.sort(function(a, b) { return b.id.localeCompare(a.id); });
+
+  // Paginate
+  var totalPages = Math.max(1, Math.ceil(canons.length / CANONS_PER_PAGE));
+  if (_canonPage > totalPages) _canonPage = totalPages;
+  var startIdx = (_canonPage - 1) * CANONS_PER_PAGE;
+  var pageCanons = canons.slice(startIdx, startIdx + CANONS_PER_PAGE);
+
+  if (canons.length === 0) {
+    html += renderEmptyState('bookmark', 'No canons match', 'Try adjusting filters or add a new canon', 'New Canon', 'openCreateCanon');
+    vc.innerHTML = html;
+    return;
+  }
+
+  html += '<div class="cx-card-meta" style="margin-bottom:var(--sp-8)">' + canons.length + ' canon' + (canons.length !== 1 ? 's' : '') + '</div>';
+
+  // Canon cards
+  pageCanons.forEach(function(canon) {
+    html += renderCanonCard(canon);
+  });
+
+  // Pagination
+  if (totalPages > 1) {
+    html += renderPaginationHtml(_canonPage, totalPages);
+  }
+
+  // Rejections section (inline at bottom, not paginated)
+  var rejections = filterActive(store.rejections);
+  if (_canonFilters.scope) {
+    rejections = rejections.filter(function(r) {
+      return (r.volumes || []).indexOf(_canonFilters.scope) !== -1 || _canonFilters.scope === 'global';
+    });
+  }
+
+  if (rejections.length > 0) {
+    html += '<div class="cx-divider"></div>';
+    html += '<div class="cx-section-title">' + cx('alert') + ' Rejected Alternatives (' + rejections.length + ')</div>';
+    rejections.forEach(function(rej) {
+      html += renderRejectionCard(rej);
+    });
+  }
+
+  vc.innerHTML = html;
+}
+
+function renderPaginationHtml(current, total) {
+  return '<div class="cx-pagination">'
+    + '<button data-action="changePage" data-page="' + (current - 1) + '" class="cx-btn-secondary cx-btn-sm"' + (current === 1 ? ' disabled' : '') + '>Prev</button>'
+    + '<span class="cx-card-meta">Page ' + current + ' of ' + total + '</span>'
+    + '<button data-action="changePage" data-page="' + (current + 1) + '" class="cx-btn-secondary cx-btn-sm"' + (current === total ? ' disabled' : '') + '>Next</button>'
+    + '</div>';
+}
+
+function renderCanonCard(canon) {
+  var html = '<div class="cx-card cx-card-clickable" data-action="goToCanon" data-id="' + escAttr(canon.id) + '">';
+  html += '<div class="cx-card-header">';
+  html += '<div class="cx-card-title">' + cx('bookmark') + escHtml(canon.title) + '</div>';
+  html += '</div>';
+
+  // Badges
+  html += '<div class="cx-chip-row">';
+  // Scope badge
+  var scopeLabel = canon.scope === 'global' ? 'Global' : (function() { var v = store.volumes.find(function(x) { return x.id === canon.scope; }); return v ? v.name : canon.scope; })();
+  html += '<span class="cx-chip cx-chip-sm">' + escHtml(scopeLabel) + '</span>';
+  // Category badge
+  html += '<span class="cx-chip cx-chip-sm">' + escHtml(canon.category) + '</span>';
+  // Status badge
+  html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(canon.status) + '">' + escHtml(canon.status) + '</span>';
+  html += '</div>';
+
+  // Rationale (truncated)
+  if (canon.rationale) {
+    html += '<div class="cx-card-body">' + renderTruncated(canon.rationale, 100, canon.id, 'rationale') + '</div>';
+  }
+
+  // References
+  if (canon.references && canon.references.length > 0) {
+    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">Refs: ' + escHtml(canon.references.join(', ')) + '</div>';
+  }
+
+  // Created date
+  if (canon.created) {
+    html += '<div class="cx-card-meta">' + escHtml(formatAbsoluteDate(canon.created.length >= 10 ? canon.created : canon.created + '-01')) + '</div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+function renderRejectionCard(rej) {
+  var html = '<div class="cx-card cx-rejection-card">';
+  html += '<div class="cx-card-header"><div class="cx-card-meta" style="font-weight:600">Rejected: ' + escHtml(rej.rejected) + '</div></div>';
+  html += '<div class="cx-card-body" style="font-size:var(--fs-xs)"><span style="color:var(--success)">Chosen:</span> ' + escHtml(rej.chosen) + '</div>';
+  if (rej.reason) {
+    html += '<div class="cx-card-body" style="font-size:var(--fs-xs);color:var(--text-secondary)">' + renderTruncated(rej.reason, 120, rej.id, 'reason') + '</div>';
+  }
+
+  // Context + volumes + date
+  var meta = [];
+  if (rej.context) meta.push(rej.context);
+  if (rej.volumes && rej.volumes.length > 0) {
+    var volNames = rej.volumes.map(function(vid) {
+      var v = store.volumes.find(function(x) { return x.id === vid; });
+      return v ? v.name : vid;
+    });
+    meta.push(volNames.join(', '));
+  }
+  if (rej.date) meta.push(formatAbsoluteDate(rej.date));
+  if (meta.length > 0) {
+    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
+  }
+
+  // Linked canon
+  if (rej.canon_id) {
+    html += '<div style="margin-top:var(--sp-4)"><button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(rej.canon_id) + '">Canon: ' + escHtml(rej.canon_id) + '</button></div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+
+/* ============================================================
+   CANON DETAIL VIEW
+   ============================================================ */
+
+function renderCanonDetail(route) {
+  var vc = document.getElementById('viewContainer');
+  var canon = store.canons.find(function(c) { return c.id === route.id; });
+  if (!canon) {
+    vc.innerHTML = renderEmptyState('alert', 'Canon not found', 'This canon may have been deleted');
+    return;
+  }
+
+  var html = '';
+
+  // Title
+  html += '<h1 class="cx-page-title">' + cx('bookmark') + ' ' + escHtml(canon.title) + '</h1>';
+
+  // Badges row
+  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-16)">';
+  var scopeLabel = canon.scope === 'global' ? 'Global' : (function() { var v = store.volumes.find(function(x) { return x.id === canon.scope; }); return v ? v.name : canon.scope; })();
+  html += '<span class="cx-chip cx-chip-sm">' + escHtml(scopeLabel) + '</span>';
+  html += '<span class="cx-chip cx-chip-sm">' + escHtml(canon.category) + '</span>';
+  html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(canon.status) + '">' + escHtml(canon.status) + '</span>';
+  if (canon.created) {
+    html += '<span class="cx-chip cx-chip-sm">' + escHtml(formatAbsoluteDate(canon.created.length >= 10 ? canon.created : canon.created + '-01')) + '</span>';
+  }
+  html += '</div>';
+
+  // Rationale (full)
+  if (canon.rationale) {
+    html += '<div class="cx-section-title">Rationale</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0;line-height:1.6">' + escHtml(canon.rationale) + '</div></div>';
+  }
+
+  // References
+  if (canon.references && canon.references.length > 0) {
+    html += '<div class="cx-section-title">References</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">' + escHtml(canon.references.join(', ')) + '</div></div>';
+  }
+
+  // Supersession Chain
+  var chain = buildSupersessionChain(canon.id, store.canons);
+  if (chain.length > 1) {
+    html += '<div class="cx-section-title">Supersession Chain</div>';
+    html += '<div class="cx-card">' + renderSupersessionChain(chain, canon.id) + '</div>';
+  } else if (canon.superseded_by) {
+    html += '<div class="cx-section-title">Superseded By</div>';
+    html += '<div class="cx-card"><button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(canon.superseded_by) + '">' + escHtml(canon.superseded_by) + '</button></div>';
+  }
+
+  // Linked Rejections
+  var linkedRejs = filterActive(store.rejections).filter(function(r) { return r.canon_id === canon.id; });
+  if (linkedRejs.length > 0) {
+    html += '<div class="cx-section-title">Linked Rejections (' + linkedRejs.length + ')</div>';
+    linkedRejs.forEach(function(rej) { html += renderRejectionCard(rej); });
+  }
+
+  // Action bar
+  html += '<div class="cx-action-bar">';
+  html += '<button class="cx-btn-secondary cx-btn-sm" data-action="copyCanonId" data-id="' + escAttr(canon.id) + '">' + cx('link') + ' Copy ID</button>';
+  html += '<button class="cx-btn-secondary cx-btn-sm" data-action="copyCanonJson" data-id="' + escAttr(canon.id) + '">' + cx('download') + ' Copy JSON</button>';
+  html += '<button class="cx-btn-secondary cx-btn-sm" data-action="editCanon" data-id="' + escAttr(canon.id) + '">' + cx('quill') + ' Edit</button>';
+  html += '<button class="cx-btn-danger cx-btn-sm" data-action="deleteCanon" data-id="' + escAttr(canon.id) + '">' + cx('trash') + ' Delete</button>';
+  html += '</div>';
+
+  vc.innerHTML = html;
+}
+
+function buildSupersessionChain(canonId, allCanons) {
+  var active = filterActive(allCanons);
+
+  // Walk backward for predecessors
+  var predecessors = [];
+  var currentId = canonId;
+  var depth = 0;
+  while (depth < 10) {
+    var pred = active.find(function(c) { return c.superseded_by === currentId; });
+    if (!pred) break;
+    predecessors.unshift(pred.id);
+    currentId = pred.id;
+    depth++;
+  }
+
+  // Walk forward for successors
+  var successors = [];
+  var canon = active.find(function(c) { return c.id === canonId; });
+  currentId = canon ? canon.superseded_by : null;
+  depth = 0;
+  while (currentId && depth < 10) {
+    successors.push(currentId);
+    var next = active.find(function(c) { return c.id === currentId; });
+    currentId = next ? next.superseded_by : null;
+    depth++;
+  }
+
+  // Full chain: predecessors → current → successors
+  var chain = predecessors.concat([canonId]).concat(successors);
+  return chain;
+}
+
+function renderSupersessionChain(chain, currentId) {
+  var html = '<div class="cx-chain">';
+  for (var i = 0; i < chain.length; i++) {
+    var nodeId = chain[i];
+    var canon = store.canons.find(function(c) { return c.id === nodeId; });
+    var title = canon ? canon.title : nodeId;
+    var isCurrent = nodeId === currentId;
+
+    if (i > 0) html += '<div class="cx-chain-line"></div>';
+
+    html += '<div class="cx-chain-node' + (isCurrent ? ' cx-chain-current' : '') + '"'
+      + (isCurrent ? '' : ' data-action="goToCanon" data-id="' + escAttr(nodeId) + '" style="cursor:pointer"') + '>';
+    html += '<span class="cx-chain-marker">' + (isCurrent ? '\u25C9' : '\u25CB') + '</span>';
+    html += '<span class="cx-chain-id">' + escHtml(title) + '</span>';
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+
+/* ============================================================
+   DASHBOARD (from Phase 1)
+   ============================================================ */
+
 function renderDashboard() {
   var vc = document.getElementById('viewContainer');
   var snap = store.getSnapshot();
@@ -1800,7 +2534,6 @@ function renderDashboard() {
   SHELF_ORDER.forEach(function(shelf) {
     var vols = snap.volumes.filter(function(v) { return v.shelf === shelf; });
     if (vols.length === 0) return;
-    // Sort by most recently active first (spec bug #97)
     vols.sort(function(a, b) {
       var dateA = getLastActiveDate(a.id) || '0000-00-00';
       var dateB = getLastActiveDate(b.id) || '0000-00-00';
@@ -1839,7 +2572,7 @@ function renderDashboard() {
   vc.innerHTML = html;
 }
 
-/* --- Volume Detail --- */
+/* --- Volume Detail (from Phase 1) --- */
 function renderVolumeDetail(route) {
   var vc = document.getElementById('viewContainer');
   var vol = store.volumes.find(function(v) { return v.id === route.id; });
@@ -1987,7 +2720,7 @@ function renderTodos() {
   vc.innerHTML = html;
 }
 
-/* --- Settings (Phase 2: GitHub connection replaces stub) --- */
+/* --- Settings (Phase 2: GitHub connection) --- */
 function renderSettings() {
   var vc = document.getElementById('viewContainer');
   var currentTheme = localStorage.getItem(KEYS.THEME) || 'dark';
@@ -2011,14 +2744,14 @@ function renderSettings() {
   html += '<div class="cx-slider-fill" id="cxSliderFill" style="width:' + TEXT_SIZE_POS[currentSize] + '%"></div>';
   html += '<div class="cx-slider-thumb" id="cxSliderThumb" style="left:' + TEXT_SIZE_POS[currentSize] + '%"></div></div>';
   html += '<div class="cx-slider-labels">';
-  ['low','med','high'].forEach(function(s) {
-    html += '<span class="cx-slider-label' + (currentSize === s ? ' cx-slider-label-active' : '') + '" data-action="setTextSize" data-size="' + s + '">' + s.toUpperCase() + '</span>';
+  ['low', 'med', 'high'].forEach(function(s) {
+    html += '<span class="cx-slider-label' + (s === currentSize ? ' cx-slider-label-active' : '') + '" data-action="setTextSize" data-size="' + s + '">' + s.toUpperCase() + '</span>';
   });
   html += '</div></div>';
   html += '<div class="cx-preview-pill"><span style="font-family:var(--ff-heading);font-size:var(--fs-lg)">Aa</span> \u2014 <span style="font-size:var(--fs-sm)">This is how text will look</span></div>';
   html += '</div></div>';
 
-  // GitHub Sync (Phase 2: live connection)
+  // GitHub Sync
   html += '<div class="cx-settings-section"><div class="cx-section-title">GitHub Sync</div><div class="cx-card" style="padding:var(--sp-16)">';
   if (hasGitHub) {
     html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)">';
@@ -2046,6 +2779,7 @@ function renderSettings() {
 
   // Data
   html += '<div class="cx-settings-section"><div class="cx-section-title">Data</div><div class="cx-card">';
+  html += '<div class="cx-settings-row" data-action="openSnippetImport"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Import Aurelius Snippet</div><div class="cx-settings-hint">Paste JSON from build sessions</div></div></div></div>';
   html += '<div class="cx-settings-row" data-action="exportData"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Export Data</div><div class="cx-settings-hint">Download as JSON</div></div></div></div>';
   html += '</div></div>';
 
@@ -2355,6 +3089,8 @@ function handleFabAction() {
   if (_currentView === 'dashboard') { openCreateVolume(); }
   else if (_currentView === 'volume-detail' && _currentViewParams.id) { openFabChoice(_currentViewParams.id); }
   else if (_currentView === 'todos') { openTodoVolumeChoice(); }
+  else if (_currentView === 'journal') { openCreateSession(); }
+  else if (_currentView === 'canons') { openCanonFabChoice(); }
 }
 
 function openFabChoice(volumeId) {
@@ -2388,6 +3124,465 @@ function handleExportData() {
   a.href = url; a.download = 'codex-export-' + localDateStr() + '.json';
   a.click(); URL.revokeObjectURL(url);
   showToast('Exported', 'success');
+}
+
+/* ============================================================
+   PHASE 3: Session Create
+   ============================================================ */
+
+function openCreateSession() {
+  var vols = filterActive(store.volumes);
+  var body = '';
+  body += renderDateField('session_date', 'Date', localDateStr(), { required: true });
+  body += renderTextarea('session_summary', 'Summary', '', { required: true, placeholder: 'What happened in this session?', rows: 4 });
+
+  // Volume checkboxes
+  if (vols.length > 0) {
+    body += '<div class="cx-form-group"><label class="cx-form-label">Volumes Touched</label><div class="cx-checkbox-group">';
+    vols.forEach(function(v) {
+      body += '<label class="cx-checkbox-item"><input type="checkbox" name="session_volumes" value="' + escAttr(v.id) + '"><span>' + escHtml(v.name) + '</span></label>';
+    });
+    body += '</div></div>';
+  }
+
+  body += renderTextField('session_chapters', 'Chapters Touched', '', { placeholder: 'Comma-separated chapter slugs' });
+  body += renderTextField('session_decisions', 'Decisions', '', { placeholder: 'Comma-separated (canon IDs or descriptions)' });
+  body += '<div style="display:flex;gap:var(--sp-8)">';
+  body += renderTextField('session_bugs_found', 'Bugs Found', '', { type: 'number', min: '0' });
+  body += renderTextField('session_bugs_fixed', 'Bugs Fixed', '', { type: 'number', min: '0' });
+  body += '</div>';
+  body += renderTextField('session_duration', 'Duration (minutes)', '', { type: 'number', min: '0' });
+  body += renderTextarea('session_handoff', 'Handoff', '', { placeholder: 'What does the next session need to know?', rows: 2 });
+  body += renderTextField('session_open_todos', 'Open TODOs (snapshot)', '', { placeholder: 'Comma-separated TODO texts' });
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveSession" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Log Session</button>';
+  openOverlay('New Session', body, footer);
+}
+
+function handleSaveSession() {
+  var date = (document.getElementById('field-session_date') || {}).value || '';
+  var summary = (document.getElementById('field-session_summary') || {}).value || '';
+  if (!date.trim()) { showToast('Date is required', 'error'); return; }
+  if (!summary.trim()) { showToast('Summary is required', 'error'); return; }
+
+  var volumeCheckboxes = document.querySelectorAll('input[name="session_volumes"]:checked');
+  var volumes = [];
+  for (var i = 0; i < volumeCheckboxes.length; i++) volumes.push(volumeCheckboxes[i].value);
+
+  var chaptersStr = (document.getElementById('field-session_chapters') || {}).value || '';
+  var chapters = chaptersStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  var decisionsStr = (document.getElementById('field-session_decisions') || {}).value || '';
+  var decisions = decisionsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  var bugsFound = parseInt((document.getElementById('field-session_bugs_found') || {}).value || '0', 10) || 0;
+  var bugsFixed = parseInt((document.getElementById('field-session_bugs_fixed') || {}).value || '0', 10) || 0;
+  var duration = parseInt((document.getElementById('field-session_duration') || {}).value || '0', 10) || null;
+
+  var handoff = (document.getElementById('field-session_handoff') || {}).value || '';
+  var todosStr = (document.getElementById('field-session_open_todos') || {}).value || '';
+  var openTodos = todosStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    store.addJournalSession(date, {
+      summary: summary.trim(),
+      volumes_touched: volumes,
+      chapters_touched: chapters,
+      decisions: decisions,
+      bugs_found: bugsFound,
+      bugs_fixed: bugsFixed,
+      duration_minutes: duration,
+      open_todos: openTodos,
+      handoff: handoff.trim() || null,
+      screenshots: []
+    });
+    showToast('Session logged', 'success');
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+function handleDeleteSession(date, sessionId) {
+  showConfirmDialog('Delete Session', 'Remove this session log?', function() {
+    try {
+      var day = store.journal.find(function(d) { return d.date === date; });
+      if (day) {
+        day.sessions = (day.sessions || []).filter(function(s) { return s.id !== sessionId; });
+        if (day.sessions.length === 0) {
+          store.journal = store.journal.filter(function(d) { return d.date !== date; });
+        }
+        store._createWalEntry('delete', 'session', sessionId, 'journal.json', null, date);
+        store._fireChange();
+      }
+      showToast('Session deleted', 'success');
+      closeConfirmDialog();
+      renderCurrentView();
+    } catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+/* ============================================================
+   PHASE 3: Canon Create / Edit
+   ============================================================ */
+
+function openCanonFabChoice() {
+  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateCanon">' + cx('bookmark') + ' New Canon</button>';
+  body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateRejection">' + cx('alert') + ' New Rejection</button>';
+  body += '</div>';
+  openOverlay('Add to Canons', body, '');
+}
+
+function openCreateCanon() {
+  closeOverlay();
+  setTimeout(function() { openCanonForm(null); }, OVERLAY_ANIM_MS + 50);
+}
+
+function openEditCanon(canonId) { openCanonForm(canonId); }
+
+function openCanonForm(canonId) {
+  var isEdit = !!canonId;
+  var canon = isEdit ? store.canons.find(function(c) { return c.id === canonId; }) : null;
+
+  var scopeOpts = [{ value: 'global', label: 'Global' }];
+  filterActive(store.volumes).forEach(function(v) {
+    scopeOpts.push({ value: v.id, label: v.name });
+  });
+
+  var catOpts = CANON_CATEGORIES.map(function(c) { return { value: c, label: c }; });
+  var statusOpts = [
+    { value: 'active', label: 'Active' },
+    { value: 'deprecated', label: 'Deprecated' },
+    { value: 'superseded', label: 'Superseded' }
+  ];
+
+  var body = '';
+  body += renderTextField('canon_title', 'Title', canon ? canon.title : '', { required: true, placeholder: 'e.g. No text-overflow ellipsis' });
+  body += renderSelect('canon_scope', 'Scope', canon ? canon.scope : 'global', scopeOpts);
+  body += renderSelect('canon_category', 'Category', canon ? canon.category : 'design', catOpts);
+  if (isEdit) {
+    body += renderSelect('canon_status', 'Status', canon ? canon.status : 'active', statusOpts);
+    body += renderTextField('canon_superseded_by', 'Superseded By (canon ID)', canon ? canon.superseded_by || '' : '', { placeholder: 'canon-NNNN-slug' });
+  }
+  body += renderTextarea('canon_rationale', 'Rationale', canon ? canon.rationale : '', { required: true, placeholder: 'Why does this rule exist?', rows: 4 });
+  body += renderTextField('canon_references', 'References', canon ? (canon.references || []).join(', ') : '', { placeholder: 'Comma-separated (e.g. HR-1, HR-7)' });
+  body += renderTextField('canon_created', 'Created (YYYY-MM)', canon ? canon.created || '' : localDateStr().substring(0, 7), { placeholder: '2026-04' });
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveCanon" data-id="' + escAttr(canonId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
+
+  openOverlay(isEdit ? 'Edit Canon' : 'New Canon', body, footer);
+  setTimeout(function() { var el = document.getElementById('field-canon_title'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+}
+
+function handleSaveCanon(canonId) {
+  var title = (document.getElementById('field-canon_title') || {}).value || '';
+  var scope = (document.getElementById('field-canon_scope') || {}).value || 'global';
+  var category = (document.getElementById('field-canon_category') || {}).value || 'design';
+  var rationale = (document.getElementById('field-canon_rationale') || {}).value || '';
+  var refsStr = (document.getElementById('field-canon_references') || {}).value || '';
+  var created = (document.getElementById('field-canon_created') || {}).value || localDateStr().substring(0, 7);
+
+  title = title.trim();
+  if (!title) { showToast('Title is required', 'error'); return; }
+  if (!rationale.trim()) { showToast('Rationale is required', 'error'); return; }
+
+  var refs = refsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    if (canonId) {
+      // Edit existing canon
+      var canon = store.canons.find(function(c) { return c.id === canonId; });
+      if (!canon) { showToast('Canon not found', 'error'); return; }
+      var status = (document.getElementById('field-canon_status') || {}).value || 'active';
+      var supersededBy = (document.getElementById('field-canon_superseded_by') || {}).value || null;
+      if (supersededBy) supersededBy = supersededBy.trim() || null;
+
+      canon.title = title;
+      canon.scope = scope;
+      canon.category = category;
+      canon.status = status;
+      canon.superseded_by = supersededBy;
+      canon.rationale = rationale.trim();
+      canon.references = refs;
+      canon.created = created;
+      store._createWalEntry('update', 'canon', canonId, 'canons.json', { title: title, scope: scope, category: category, status: status, superseded_by: supersededBy, rationale: rationale.trim(), references: refs, created: created });
+      store._fireChange();
+      showToast('Canon updated', 'success');
+    } else {
+      // Create new canon
+      var allIds = store.canons.map(function(c) { return c.id; });
+      var id = generateId('canon', allIds) + '-' + autoSlug(title).substring(0, 20);
+      var newCanon = {
+        id: id, scope: scope, category: category, title: title,
+        rationale: rationale.trim(), created: created, status: 'active',
+        superseded_by: null, references: refs, _deleted: false, _deleted_date: null
+      };
+      store.addCanon(newCanon);
+      showToast('Canon created', 'success');
+    }
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+function handleDeleteCanon(canonId) {
+  var canon = store.canons.find(function(c) { return c.id === canonId; });
+  if (!canon) return;
+  // Check if anything supersedes this
+  var refs = store.canons.filter(function(c) { return c.superseded_by === canonId && !c._deleted; });
+  var msg = 'Soft-delete "' + canon.title + '"?';
+  if (refs.length > 0) msg += ' Warning: ' + refs.length + ' canon(s) reference this as superseded_by.';
+  showConfirmDialog('Delete Canon', msg, function() {
+    try {
+      canon._deleted = true;
+      canon._deleted_date = localDateStr();
+      store._createWalEntry('delete', 'canon', canonId, 'canons.json', null);
+      store._fireChange();
+      showToast('Canon deleted', 'success');
+      closeConfirmDialog();
+      navigate('#/canons');
+    } catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+/* ============================================================
+   PHASE 3: Rejection Create
+   ============================================================ */
+
+function openCreateRejection() {
+  closeOverlay();
+  setTimeout(function() {
+    var vols = filterActive(store.volumes);
+    var body = '';
+    body += renderTextField('rej_rejected', 'Rejected Option', '', { required: true, placeholder: 'What was rejected?' });
+    body += renderTextField('rej_chosen', 'Chosen Instead', '', { required: true, placeholder: 'What was chosen?' });
+    body += renderTextarea('rej_reason', 'Reason', '', { required: true, placeholder: 'Why was this rejected?', rows: 3 });
+    body += renderTextField('rej_context', 'Context', '', { placeholder: 'e.g. Today So Far card design' });
+    body += renderTextField('rej_volumes', 'Volumes (comma-separated IDs)', '', { placeholder: 'sproutlab, codex' });
+    body += renderDateField('rej_date', 'Date', localDateStr());
+    body += renderTextField('rej_canon_id', 'Linked Canon (optional)', '', { placeholder: 'canon-NNNN-slug' });
+
+    var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+      + '<button data-action="handleSaveRejection" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
+    openOverlay('New Rejected Alternative', body, footer);
+    setTimeout(function() { var el = document.getElementById('field-rej_rejected'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+  }, OVERLAY_ANIM_MS + 50);
+}
+
+function handleSaveRejection() {
+  var rejected = (document.getElementById('field-rej_rejected') || {}).value || '';
+  var chosen = (document.getElementById('field-rej_chosen') || {}).value || '';
+  var reason = (document.getElementById('field-rej_reason') || {}).value || '';
+  var context = (document.getElementById('field-rej_context') || {}).value || '';
+  var volumesStr = (document.getElementById('field-rej_volumes') || {}).value || '';
+  var date = (document.getElementById('field-rej_date') || {}).value || localDateStr();
+  var canonId = (document.getElementById('field-rej_canon_id') || {}).value || null;
+
+  rejected = rejected.trim(); chosen = chosen.trim(); reason = reason.trim();
+  if (!rejected) { showToast('Rejected option is required', 'error'); return; }
+  if (!chosen) { showToast('Chosen option is required', 'error'); return; }
+  if (!reason) { showToast('Reason is required', 'error'); return; }
+
+  var volumes = volumesStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    var allIds = store.rejections.map(function(r) { return r.id; });
+    var id = generateId('rej', allIds) + '-' + autoSlug(rejected).substring(0, 20);
+    store.addRejection({
+      id: id, context: context.trim() || null, volumes: volumes,
+      rejected: rejected, chosen: chosen, reason: reason,
+      date: date, canon_id: (canonId && canonId.trim()) || null
+    });
+    showToast('Rejection recorded', 'success');
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+/* ============================================================
+   PHASE 3: Copy Canon Helpers
+   ============================================================ */
+
+function handleCopyCanonId(canonId) {
+  copyToClipboard(canonId, 'Canon ID copied');
+}
+
+function handleCopyCanonJson(canonId) {
+  var canon = store.canons.find(function(c) { return c.id === canonId; });
+  if (!canon) return;
+  var copy = deepClone(canon);
+  delete copy._deleted;
+  delete copy._deleted_date;
+  copyToClipboard(JSON.stringify(copy, null, 2), 'Canon JSON copied');
+}
+
+/* ============================================================
+   PHASE 3: Snippet Import
+   ============================================================ */
+
+var _snippetParsed = null;
+
+function openSnippetImport() {
+  _snippetParsed = null;
+  var body = '<p style="font-size:var(--fs-xs);color:var(--text-secondary);margin-bottom:var(--sp-12)">Paste an Aurelius JSON snippet from a build session.</p>';
+  body += '<textarea id="snippetInput" class="cx-form-textarea cx-snippet-input" rows="8" placeholder="Paste JSON here\u2026"></textarea>';
+  body += '<div id="snippetPreview"></div>';
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="previewSnippet" class="cx-btn-secondary">' + cx('search') + ' Preview</button>'
+    + '<button data-action="importSnippet" class="cx-btn-primary" style="flex:1" disabled id="snippetImportBtn">' + cx('download') + ' Import</button>';
+  openOverlay('Import Aurelius Snippet', body, footer);
+}
+
+function handlePreviewSnippet() {
+  var input = document.getElementById('snippetInput');
+  var preview = document.getElementById('snippetPreview');
+  var importBtn = document.getElementById('snippetImportBtn');
+  if (!input || !preview) return;
+
+  var raw = input.value.trim();
+  // Strip code fences
+  raw = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '');
+
+  try {
+    var parsed = JSON.parse(raw);
+    _snippetParsed = parsed;
+  } catch(e) {
+    preview.innerHTML = '<div class="cx-form-error" style="display:block;margin-top:var(--sp-8)">Invalid JSON: ' + escHtml(e.message) + '</div>';
+    if (importBtn) importBtn.disabled = true;
+    return;
+  }
+
+  if (!_snippetParsed._snippet_version) {
+    preview.innerHTML = '<div class="cx-form-error" style="display:block;margin-top:var(--sp-8)">Missing _snippet_version field</div>';
+    if (importBtn) importBtn.disabled = true;
+    return;
+  }
+
+  var html = '<div style="margin-top:var(--sp-12)">';
+
+  // Preview session
+  if (_snippetParsed.session) {
+    var s = _snippetParsed.session;
+    var exists = store.journal.some(function(d) {
+      return d.date === s.date && (d.sessions || []).some(function(x) { return x.id === s.id; });
+    });
+    html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Session (exists)' : '<span class="cx-preview-ok">\u2713</span> Session: ' + escHtml(s.date)) + '</div>';
+  }
+
+  // Preview canons
+  if (_snippetParsed.canons && _snippetParsed.canons.length > 0) {
+    _snippetParsed.canons.forEach(function(c) {
+      var exists = store.canons.some(function(x) { return x.id === c.id; });
+      html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Canon ' + escHtml(c.id) + ' (exists)' : '<span class="cx-preview-ok">\u2713</span> Canon: ' + escHtml(c.title || c.id)) + '</div>';
+    });
+  }
+
+  // Preview rejections
+  if (_snippetParsed.rejections && _snippetParsed.rejections.length > 0) {
+    _snippetParsed.rejections.forEach(function(r) {
+      var exists = store.rejections.some(function(x) { return x.id === r.id; });
+      html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Rejection ' + escHtml(r.id) + ' (exists)' : '<span class="cx-preview-ok">\u2713</span> Rejection: ' + escHtml(r.rejected || r.id)) + '</div>';
+    });
+  }
+
+  // Preview todos
+  if (_snippetParsed.todos && _snippetParsed.todos.length > 0) {
+    _snippetParsed.todos.forEach(function(t) {
+      var vol = store.volumes.find(function(v) { return v.id === t.volume; });
+      var volName = vol ? vol.name : t.volume;
+      html += '<div class="cx-preview-item"><span class="cx-preview-ok">\u2713</span> TODO in ' + escHtml(volName) + ': ' + escHtml(t.todo ? t.todo.text : '?') + '</div>';
+    });
+  }
+
+  // Preview chapter_updates
+  if (_snippetParsed.chapter_updates && _snippetParsed.chapter_updates.length > 0) {
+    _snippetParsed.chapter_updates.forEach(function(cu) {
+      html += '<div class="cx-preview-item"><span class="cx-preview-ok">\u2713</span> Chapter update: ' + escHtml(cu.volume + '/' + cu.chapter) + '</div>';
+    });
+  }
+
+  html += '</div>';
+  preview.innerHTML = html;
+  if (importBtn) importBtn.disabled = false;
+}
+
+function handleImportSnippet() {
+  if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
+  var counts = { sessions: 0, canons: 0, rejections: 0, todos: 0, chapters: 0 };
+
+  try {
+    // 1. Session
+    if (_snippetParsed.session) {
+      var s = _snippetParsed.session;
+      var exists = store.journal.some(function(d) {
+        return d.date === s.date && (d.sessions || []).some(function(x) { return x.id === s.id; });
+      });
+      if (!exists) {
+        store.addJournalSession(s.date, s);
+        counts.sessions++;
+      }
+    }
+
+    // 2. Canons
+    if (_snippetParsed.canons) {
+      _snippetParsed.canons.forEach(function(c) {
+        var exists = store.canons.some(function(x) { return x.id === c.id; });
+        if (!exists) {
+          if (!c._deleted) c._deleted = false;
+          if (!c._deleted_date) c._deleted_date = null;
+          store.addCanon(c);
+          counts.canons++;
+        }
+      });
+    }
+
+    // 3. Rejections
+    if (_snippetParsed.rejections) {
+      _snippetParsed.rejections.forEach(function(r) {
+        var exists = store.rejections.some(function(x) { return x.id === r.id; });
+        if (!exists) {
+          store.addRejection(r);
+          counts.rejections++;
+        }
+      });
+    }
+
+    // 4. TODOs
+    if (_snippetParsed.todos) {
+      _snippetParsed.todos.forEach(function(t) {
+        try {
+          store.addTodo(t.volume, t.todo);
+          counts.todos++;
+        } catch(e) { /* skip if volume not found or duplicate */ }
+      });
+    }
+
+    // 5. Chapter updates
+    if (_snippetParsed.chapter_updates) {
+      _snippetParsed.chapter_updates.forEach(function(cu) {
+        try {
+          store.updateChapter(cu.volume, cu.chapter, cu.patch);
+          counts.chapters++;
+        } catch(e) { /* skip if not found */ }
+      });
+    }
+
+    var parts = [];
+    if (counts.sessions) parts.push(counts.sessions + ' session');
+    if (counts.canons) parts.push(counts.canons + ' canon' + (counts.canons > 1 ? 's' : ''));
+    if (counts.rejections) parts.push(counts.rejections + ' rejection' + (counts.rejections > 1 ? 's' : ''));
+    if (counts.todos) parts.push(counts.todos + ' TODO' + (counts.todos > 1 ? 's' : ''));
+    if (counts.chapters) parts.push(counts.chapters + ' chapter update' + (counts.chapters > 1 ? 's' : ''));
+
+    showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');
+    _snippetParsed = null;
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast('Import error: ' + e.message, 'error'); }
 }
 
 /* CODEX — Start (Phase 2: Full lifecycle with GitHub sync) */
@@ -2486,6 +3681,67 @@ function setupDelegation() {
 
       // Search (Phase 4 stub)
       case 'openSearch': showToast('Search coming in Phase 4', 'info'); break;
+
+      // Phase 3: Journal
+      case 'setJournalRange': _journalFilters.range = el.dataset.value; _journalLoadMoreCount = 30; renderCurrentView(); break;
+      case 'loadMoreJournal': _journalLoadMoreCount += 30; renderCurrentView(); break;
+      case 'setJournalVolume':
+        _journalFilters.volume = el.dataset.value || null;
+        _journalLoadMoreCount = 30;
+        renderCurrentView();
+        break;
+      case 'openCreateSession': openCreateSession(); break;
+      case 'handleSaveSession': handleSaveSession(); break;
+      case 'deleteSession': handleDeleteSession(el.dataset.date, id); break;
+
+      // Phase 3: Canons
+      case 'goToCanon': navigate('#/canon/' + encodeURIComponent(id)); break;
+      case 'toggleCanonFilter':
+        var key = el.dataset.key;
+        var val = el.dataset.value;
+        _canonFilters[key] = val || null;
+        _canonPage = 1;
+        renderCurrentView();
+        break;
+      case 'changePage': _canonPage = parseInt(el.dataset.page, 10) || 1; renderCurrentView(); document.getElementById('viewContainer').scrollTop = 0; break;
+      case 'openCreateCanon': openCreateCanon(); break;
+      case 'editCanon': openEditCanon(id); break;
+      case 'handleSaveCanon': handleSaveCanon(id || null); break;
+      case 'deleteCanon': handleDeleteCanon(id); break;
+      case 'copyCanonId': handleCopyCanonId(id); break;
+      case 'copyCanonJson': handleCopyCanonJson(id); break;
+
+      // Phase 3: Rejections
+      case 'openCreateRejection': openCreateRejection(); break;
+      case 'handleSaveRejection': handleSaveRejection(); break;
+
+      // Phase 3: Snippet Import
+      case 'openSnippetImport': openSnippetImport(); break;
+      case 'previewSnippet': handlePreviewSnippet(); break;
+      case 'importSnippet': handleImportSnippet(); break;
+
+      // Phase 3: Expand/Collapse text
+      case 'expandText': handleExpandText(el); break;
+      case 'collapseText': handleCollapseText(el); break;
+      case 'toggleExpand':
+        var container = el.closest('[data-expandable]');
+        if (container) {
+          var content = container.querySelector('.cx-expandable-content');
+          var isExpanded = container.dataset.expanded === 'true';
+          if (isExpanded) {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            requestAnimationFrame(function() { content.style.maxHeight = '0'; });
+            container.dataset.expanded = 'false';
+            el.classList.remove('cx-expand-open');
+          } else {
+            content.style.maxHeight = '0';
+            content.style.maxHeight = content.scrollHeight + 'px';
+            container.dataset.expanded = 'true';
+            el.classList.add('cx-expand-open');
+            setTimeout(function() { if (container.dataset.expanded === 'true') content.style.maxHeight = 'none'; }, 200);
+          }
+        }
+        break;
 
       // Coming soon
       case 'comingSoon': showToast('Coming soon', 'info'); break;

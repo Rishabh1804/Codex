@@ -193,6 +193,8 @@ function handleFabAction() {
   if (_currentView === 'dashboard') { openCreateVolume(); }
   else if (_currentView === 'volume-detail' && _currentViewParams.id) { openFabChoice(_currentViewParams.id); }
   else if (_currentView === 'todos') { openTodoVolumeChoice(); }
+  else if (_currentView === 'journal') { openCreateSession(); }
+  else if (_currentView === 'canons') { openCanonFabChoice(); }
 }
 
 function openFabChoice(volumeId) {
@@ -226,4 +228,463 @@ function handleExportData() {
   a.href = url; a.download = 'codex-export-' + localDateStr() + '.json';
   a.click(); URL.revokeObjectURL(url);
   showToast('Exported', 'success');
+}
+
+/* ============================================================
+   PHASE 3: Session Create
+   ============================================================ */
+
+function openCreateSession() {
+  var vols = filterActive(store.volumes);
+  var body = '';
+  body += renderDateField('session_date', 'Date', localDateStr(), { required: true });
+  body += renderTextarea('session_summary', 'Summary', '', { required: true, placeholder: 'What happened in this session?', rows: 4 });
+
+  // Volume checkboxes
+  if (vols.length > 0) {
+    body += '<div class="cx-form-group"><label class="cx-form-label">Volumes Touched</label><div class="cx-checkbox-group">';
+    vols.forEach(function(v) {
+      body += '<label class="cx-checkbox-item"><input type="checkbox" name="session_volumes" value="' + escAttr(v.id) + '"><span>' + escHtml(v.name) + '</span></label>';
+    });
+    body += '</div></div>';
+  }
+
+  body += renderTextField('session_chapters', 'Chapters Touched', '', { placeholder: 'Comma-separated chapter slugs' });
+  body += renderTextField('session_decisions', 'Decisions', '', { placeholder: 'Comma-separated (canon IDs or descriptions)' });
+  body += '<div style="display:flex;gap:var(--sp-8)">';
+  body += renderTextField('session_bugs_found', 'Bugs Found', '', { type: 'number', min: '0' });
+  body += renderTextField('session_bugs_fixed', 'Bugs Fixed', '', { type: 'number', min: '0' });
+  body += '</div>';
+  body += renderTextField('session_duration', 'Duration (minutes)', '', { type: 'number', min: '0' });
+  body += renderTextarea('session_handoff', 'Handoff', '', { placeholder: 'What does the next session need to know?', rows: 2 });
+  body += renderTextField('session_open_todos', 'Open TODOs (snapshot)', '', { placeholder: 'Comma-separated TODO texts' });
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveSession" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Log Session</button>';
+  openOverlay('New Session', body, footer);
+}
+
+function handleSaveSession() {
+  var date = (document.getElementById('field-session_date') || {}).value || '';
+  var summary = (document.getElementById('field-session_summary') || {}).value || '';
+  if (!date.trim()) { showToast('Date is required', 'error'); return; }
+  if (!summary.trim()) { showToast('Summary is required', 'error'); return; }
+
+  var volumeCheckboxes = document.querySelectorAll('input[name="session_volumes"]:checked');
+  var volumes = [];
+  for (var i = 0; i < volumeCheckboxes.length; i++) volumes.push(volumeCheckboxes[i].value);
+
+  var chaptersStr = (document.getElementById('field-session_chapters') || {}).value || '';
+  var chapters = chaptersStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  var decisionsStr = (document.getElementById('field-session_decisions') || {}).value || '';
+  var decisions = decisionsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  var bugsFound = parseInt((document.getElementById('field-session_bugs_found') || {}).value || '0', 10) || 0;
+  var bugsFixed = parseInt((document.getElementById('field-session_bugs_fixed') || {}).value || '0', 10) || 0;
+  var duration = parseInt((document.getElementById('field-session_duration') || {}).value || '0', 10) || null;
+
+  var handoff = (document.getElementById('field-session_handoff') || {}).value || '';
+  var todosStr = (document.getElementById('field-session_open_todos') || {}).value || '';
+  var openTodos = todosStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    store.addJournalSession(date, {
+      summary: summary.trim(),
+      volumes_touched: volumes,
+      chapters_touched: chapters,
+      decisions: decisions,
+      bugs_found: bugsFound,
+      bugs_fixed: bugsFixed,
+      duration_minutes: duration,
+      open_todos: openTodos,
+      handoff: handoff.trim() || null,
+      screenshots: []
+    });
+    showToast('Session logged', 'success');
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+function handleDeleteSession(date, sessionId) {
+  showConfirmDialog('Delete Session', 'Remove this session log?', function() {
+    try {
+      var day = store.journal.find(function(d) { return d.date === date; });
+      if (day) {
+        day.sessions = (day.sessions || []).filter(function(s) { return s.id !== sessionId; });
+        if (day.sessions.length === 0) {
+          store.journal = store.journal.filter(function(d) { return d.date !== date; });
+        }
+        store._createWalEntry('delete', 'session', sessionId, 'journal.json', null, date);
+        store._fireChange();
+      }
+      showToast('Session deleted', 'success');
+      closeConfirmDialog();
+      renderCurrentView();
+    } catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+/* ============================================================
+   PHASE 3: Canon Create / Edit
+   ============================================================ */
+
+function openCanonFabChoice() {
+  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateCanon">' + cx('bookmark') + ' New Canon</button>';
+  body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateRejection">' + cx('alert') + ' New Rejection</button>';
+  body += '</div>';
+  openOverlay('Add to Canons', body, '');
+}
+
+function openCreateCanon() {
+  closeOverlay();
+  setTimeout(function() { openCanonForm(null); }, OVERLAY_ANIM_MS + 50);
+}
+
+function openEditCanon(canonId) { openCanonForm(canonId); }
+
+function openCanonForm(canonId) {
+  var isEdit = !!canonId;
+  var canon = isEdit ? store.canons.find(function(c) { return c.id === canonId; }) : null;
+
+  var scopeOpts = [{ value: 'global', label: 'Global' }];
+  filterActive(store.volumes).forEach(function(v) {
+    scopeOpts.push({ value: v.id, label: v.name });
+  });
+
+  var catOpts = CANON_CATEGORIES.map(function(c) { return { value: c, label: c }; });
+  var statusOpts = [
+    { value: 'active', label: 'Active' },
+    { value: 'deprecated', label: 'Deprecated' },
+    { value: 'superseded', label: 'Superseded' }
+  ];
+
+  var body = '';
+  body += renderTextField('canon_title', 'Title', canon ? canon.title : '', { required: true, placeholder: 'e.g. No text-overflow ellipsis' });
+  body += renderSelect('canon_scope', 'Scope', canon ? canon.scope : 'global', scopeOpts);
+  body += renderSelect('canon_category', 'Category', canon ? canon.category : 'design', catOpts);
+  if (isEdit) {
+    body += renderSelect('canon_status', 'Status', canon ? canon.status : 'active', statusOpts);
+    body += renderTextField('canon_superseded_by', 'Superseded By (canon ID)', canon ? canon.superseded_by || '' : '', { placeholder: 'canon-NNNN-slug' });
+  }
+  body += renderTextarea('canon_rationale', 'Rationale', canon ? canon.rationale : '', { required: true, placeholder: 'Why does this rule exist?', rows: 4 });
+  body += renderTextField('canon_references', 'References', canon ? (canon.references || []).join(', ') : '', { placeholder: 'Comma-separated (e.g. HR-1, HR-7)' });
+  body += renderTextField('canon_created', 'Created (YYYY-MM)', canon ? canon.created || '' : localDateStr().substring(0, 7), { placeholder: '2026-04' });
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveCanon" data-id="' + escAttr(canonId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
+
+  openOverlay(isEdit ? 'Edit Canon' : 'New Canon', body, footer);
+  setTimeout(function() { var el = document.getElementById('field-canon_title'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+}
+
+function handleSaveCanon(canonId) {
+  var title = (document.getElementById('field-canon_title') || {}).value || '';
+  var scope = (document.getElementById('field-canon_scope') || {}).value || 'global';
+  var category = (document.getElementById('field-canon_category') || {}).value || 'design';
+  var rationale = (document.getElementById('field-canon_rationale') || {}).value || '';
+  var refsStr = (document.getElementById('field-canon_references') || {}).value || '';
+  var created = (document.getElementById('field-canon_created') || {}).value || localDateStr().substring(0, 7);
+
+  title = title.trim();
+  if (!title) { showToast('Title is required', 'error'); return; }
+  if (!rationale.trim()) { showToast('Rationale is required', 'error'); return; }
+
+  var refs = refsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    if (canonId) {
+      // Edit existing canon
+      var canon = store.canons.find(function(c) { return c.id === canonId; });
+      if (!canon) { showToast('Canon not found', 'error'); return; }
+      var status = (document.getElementById('field-canon_status') || {}).value || 'active';
+      var supersededBy = (document.getElementById('field-canon_superseded_by') || {}).value || null;
+      if (supersededBy) supersededBy = supersededBy.trim() || null;
+
+      canon.title = title;
+      canon.scope = scope;
+      canon.category = category;
+      canon.status = status;
+      canon.superseded_by = supersededBy;
+      canon.rationale = rationale.trim();
+      canon.references = refs;
+      canon.created = created;
+      store._createWalEntry('update', 'canon', canonId, 'canons.json', { title: title, scope: scope, category: category, status: status, superseded_by: supersededBy, rationale: rationale.trim(), references: refs, created: created });
+      store._fireChange();
+      showToast('Canon updated', 'success');
+    } else {
+      // Create new canon
+      var allIds = store.canons.map(function(c) { return c.id; });
+      var id = generateId('canon', allIds) + '-' + autoSlug(title).substring(0, 20);
+      var newCanon = {
+        id: id, scope: scope, category: category, title: title,
+        rationale: rationale.trim(), created: created, status: 'active',
+        superseded_by: null, references: refs, _deleted: false, _deleted_date: null
+      };
+      store.addCanon(newCanon);
+      showToast('Canon created', 'success');
+    }
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+function handleDeleteCanon(canonId) {
+  var canon = store.canons.find(function(c) { return c.id === canonId; });
+  if (!canon) return;
+  // Check if anything supersedes this
+  var refs = store.canons.filter(function(c) { return c.superseded_by === canonId && !c._deleted; });
+  var msg = 'Soft-delete "' + canon.title + '"?';
+  if (refs.length > 0) msg += ' Warning: ' + refs.length + ' canon(s) reference this as superseded_by.';
+  showConfirmDialog('Delete Canon', msg, function() {
+    try {
+      canon._deleted = true;
+      canon._deleted_date = localDateStr();
+      store._createWalEntry('delete', 'canon', canonId, 'canons.json', null);
+      store._fireChange();
+      showToast('Canon deleted', 'success');
+      closeConfirmDialog();
+      navigate('#/canons');
+    } catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+/* ============================================================
+   PHASE 3: Rejection Create
+   ============================================================ */
+
+function openCreateRejection() {
+  closeOverlay();
+  setTimeout(function() {
+    var vols = filterActive(store.volumes);
+    var body = '';
+    body += renderTextField('rej_rejected', 'Rejected Option', '', { required: true, placeholder: 'What was rejected?' });
+    body += renderTextField('rej_chosen', 'Chosen Instead', '', { required: true, placeholder: 'What was chosen?' });
+    body += renderTextarea('rej_reason', 'Reason', '', { required: true, placeholder: 'Why was this rejected?', rows: 3 });
+    body += renderTextField('rej_context', 'Context', '', { placeholder: 'e.g. Today So Far card design' });
+    body += renderTextField('rej_volumes', 'Volumes (comma-separated IDs)', '', { placeholder: 'sproutlab, codex' });
+    body += renderDateField('rej_date', 'Date', localDateStr());
+    body += renderTextField('rej_canon_id', 'Linked Canon (optional)', '', { placeholder: 'canon-NNNN-slug' });
+
+    var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+      + '<button data-action="handleSaveRejection" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
+    openOverlay('New Rejected Alternative', body, footer);
+    setTimeout(function() { var el = document.getElementById('field-rej_rejected'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+  }, OVERLAY_ANIM_MS + 50);
+}
+
+function handleSaveRejection() {
+  var rejected = (document.getElementById('field-rej_rejected') || {}).value || '';
+  var chosen = (document.getElementById('field-rej_chosen') || {}).value || '';
+  var reason = (document.getElementById('field-rej_reason') || {}).value || '';
+  var context = (document.getElementById('field-rej_context') || {}).value || '';
+  var volumesStr = (document.getElementById('field-rej_volumes') || {}).value || '';
+  var date = (document.getElementById('field-rej_date') || {}).value || localDateStr();
+  var canonId = (document.getElementById('field-rej_canon_id') || {}).value || null;
+
+  rejected = rejected.trim(); chosen = chosen.trim(); reason = reason.trim();
+  if (!rejected) { showToast('Rejected option is required', 'error'); return; }
+  if (!chosen) { showToast('Chosen option is required', 'error'); return; }
+  if (!reason) { showToast('Reason is required', 'error'); return; }
+
+  var volumes = volumesStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    var allIds = store.rejections.map(function(r) { return r.id; });
+    var id = generateId('rej', allIds) + '-' + autoSlug(rejected).substring(0, 20);
+    store.addRejection({
+      id: id, context: context.trim() || null, volumes: volumes,
+      rejected: rejected, chosen: chosen, reason: reason,
+      date: date, canon_id: (canonId && canonId.trim()) || null
+    });
+    showToast('Rejection recorded', 'success');
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+/* ============================================================
+   PHASE 3: Copy Canon Helpers
+   ============================================================ */
+
+function handleCopyCanonId(canonId) {
+  copyToClipboard(canonId, 'Canon ID copied');
+}
+
+function handleCopyCanonJson(canonId) {
+  var canon = store.canons.find(function(c) { return c.id === canonId; });
+  if (!canon) return;
+  var copy = deepClone(canon);
+  delete copy._deleted;
+  delete copy._deleted_date;
+  copyToClipboard(JSON.stringify(copy, null, 2), 'Canon JSON copied');
+}
+
+/* ============================================================
+   PHASE 3: Snippet Import
+   ============================================================ */
+
+var _snippetParsed = null;
+
+function openSnippetImport() {
+  _snippetParsed = null;
+  var body = '<p style="font-size:var(--fs-xs);color:var(--text-secondary);margin-bottom:var(--sp-12)">Paste an Aurelius JSON snippet from a build session.</p>';
+  body += '<textarea id="snippetInput" class="cx-form-textarea cx-snippet-input" rows="8" placeholder="Paste JSON here\u2026"></textarea>';
+  body += '<div id="snippetPreview"></div>';
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="previewSnippet" class="cx-btn-secondary">' + cx('search') + ' Preview</button>'
+    + '<button data-action="importSnippet" class="cx-btn-primary" style="flex:1" disabled id="snippetImportBtn">' + cx('download') + ' Import</button>';
+  openOverlay('Import Aurelius Snippet', body, footer);
+}
+
+function handlePreviewSnippet() {
+  var input = document.getElementById('snippetInput');
+  var preview = document.getElementById('snippetPreview');
+  var importBtn = document.getElementById('snippetImportBtn');
+  if (!input || !preview) return;
+
+  var raw = input.value.trim();
+  // Strip code fences
+  raw = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '');
+
+  try {
+    var parsed = JSON.parse(raw);
+    _snippetParsed = parsed;
+  } catch(e) {
+    preview.innerHTML = '<div class="cx-form-error" style="display:block;margin-top:var(--sp-8)">Invalid JSON: ' + escHtml(e.message) + '</div>';
+    if (importBtn) importBtn.disabled = true;
+    return;
+  }
+
+  if (!_snippetParsed._snippet_version) {
+    preview.innerHTML = '<div class="cx-form-error" style="display:block;margin-top:var(--sp-8)">Missing _snippet_version field</div>';
+    if (importBtn) importBtn.disabled = true;
+    return;
+  }
+
+  var html = '<div style="margin-top:var(--sp-12)">';
+
+  // Preview session
+  if (_snippetParsed.session) {
+    var s = _snippetParsed.session;
+    var exists = store.journal.some(function(d) {
+      return d.date === s.date && (d.sessions || []).some(function(x) { return x.id === s.id; });
+    });
+    html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Session (exists)' : '<span class="cx-preview-ok">\u2713</span> Session: ' + escHtml(s.date)) + '</div>';
+  }
+
+  // Preview canons
+  if (_snippetParsed.canons && _snippetParsed.canons.length > 0) {
+    _snippetParsed.canons.forEach(function(c) {
+      var exists = store.canons.some(function(x) { return x.id === c.id; });
+      html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Canon ' + escHtml(c.id) + ' (exists)' : '<span class="cx-preview-ok">\u2713</span> Canon: ' + escHtml(c.title || c.id)) + '</div>';
+    });
+  }
+
+  // Preview rejections
+  if (_snippetParsed.rejections && _snippetParsed.rejections.length > 0) {
+    _snippetParsed.rejections.forEach(function(r) {
+      var exists = store.rejections.some(function(x) { return x.id === r.id; });
+      html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Rejection ' + escHtml(r.id) + ' (exists)' : '<span class="cx-preview-ok">\u2713</span> Rejection: ' + escHtml(r.rejected || r.id)) + '</div>';
+    });
+  }
+
+  // Preview todos
+  if (_snippetParsed.todos && _snippetParsed.todos.length > 0) {
+    _snippetParsed.todos.forEach(function(t) {
+      var vol = store.volumes.find(function(v) { return v.id === t.volume; });
+      var volName = vol ? vol.name : t.volume;
+      html += '<div class="cx-preview-item"><span class="cx-preview-ok">\u2713</span> TODO in ' + escHtml(volName) + ': ' + escHtml(t.todo ? t.todo.text : '?') + '</div>';
+    });
+  }
+
+  // Preview chapter_updates
+  if (_snippetParsed.chapter_updates && _snippetParsed.chapter_updates.length > 0) {
+    _snippetParsed.chapter_updates.forEach(function(cu) {
+      html += '<div class="cx-preview-item"><span class="cx-preview-ok">\u2713</span> Chapter update: ' + escHtml(cu.volume + '/' + cu.chapter) + '</div>';
+    });
+  }
+
+  html += '</div>';
+  preview.innerHTML = html;
+  if (importBtn) importBtn.disabled = false;
+}
+
+function handleImportSnippet() {
+  if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
+  var counts = { sessions: 0, canons: 0, rejections: 0, todos: 0, chapters: 0 };
+
+  try {
+    // 1. Session
+    if (_snippetParsed.session) {
+      var s = _snippetParsed.session;
+      var exists = store.journal.some(function(d) {
+        return d.date === s.date && (d.sessions || []).some(function(x) { return x.id === s.id; });
+      });
+      if (!exists) {
+        store.addJournalSession(s.date, s);
+        counts.sessions++;
+      }
+    }
+
+    // 2. Canons
+    if (_snippetParsed.canons) {
+      _snippetParsed.canons.forEach(function(c) {
+        var exists = store.canons.some(function(x) { return x.id === c.id; });
+        if (!exists) {
+          if (!c._deleted) c._deleted = false;
+          if (!c._deleted_date) c._deleted_date = null;
+          store.addCanon(c);
+          counts.canons++;
+        }
+      });
+    }
+
+    // 3. Rejections
+    if (_snippetParsed.rejections) {
+      _snippetParsed.rejections.forEach(function(r) {
+        var exists = store.rejections.some(function(x) { return x.id === r.id; });
+        if (!exists) {
+          store.addRejection(r);
+          counts.rejections++;
+        }
+      });
+    }
+
+    // 4. TODOs
+    if (_snippetParsed.todos) {
+      _snippetParsed.todos.forEach(function(t) {
+        try {
+          store.addTodo(t.volume, t.todo);
+          counts.todos++;
+        } catch(e) { /* skip if volume not found or duplicate */ }
+      });
+    }
+
+    // 5. Chapter updates
+    if (_snippetParsed.chapter_updates) {
+      _snippetParsed.chapter_updates.forEach(function(cu) {
+        try {
+          store.updateChapter(cu.volume, cu.chapter, cu.patch);
+          counts.chapters++;
+        } catch(e) { /* skip if not found */ }
+      });
+    }
+
+    var parts = [];
+    if (counts.sessions) parts.push(counts.sessions + ' session');
+    if (counts.canons) parts.push(counts.canons + ' canon' + (counts.canons > 1 ? 's' : ''));
+    if (counts.rejections) parts.push(counts.rejections + ' rejection' + (counts.rejections > 1 ? 's' : ''));
+    if (counts.todos) parts.push(counts.todos + ' TODO' + (counts.todos > 1 ? 's' : ''));
+    if (counts.chapters) parts.push(counts.chapters + ' chapter update' + (counts.chapters > 1 ? 's' : ''));
+
+    showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');
+    _snippetParsed = null;
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast('Import error: ' + e.message, 'error'); }
 }

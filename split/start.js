@@ -95,6 +95,67 @@ function setupDelegation() {
       // Search (Phase 4 stub)
       case 'openSearch': showToast('Search coming in Phase 4', 'info'); break;
 
+      // Phase 3: Journal
+      case 'setJournalRange': _journalFilters.range = el.dataset.value; _journalLoadMoreCount = 30; renderCurrentView(); break;
+      case 'loadMoreJournal': _journalLoadMoreCount += 30; renderCurrentView(); break;
+      case 'setJournalVolume':
+        _journalFilters.volume = el.dataset.value || null;
+        _journalLoadMoreCount = 30;
+        renderCurrentView();
+        break;
+      case 'openCreateSession': openCreateSession(); break;
+      case 'handleSaveSession': handleSaveSession(); break;
+      case 'deleteSession': handleDeleteSession(el.dataset.date, id); break;
+
+      // Phase 3: Canons
+      case 'goToCanon': navigate('#/canon/' + encodeURIComponent(id)); break;
+      case 'toggleCanonFilter':
+        var key = el.dataset.key;
+        var val = el.dataset.value;
+        _canonFilters[key] = val || null;
+        _canonPage = 1;
+        renderCurrentView();
+        break;
+      case 'changePage': _canonPage = parseInt(el.dataset.page, 10) || 1; renderCurrentView(); document.getElementById('viewContainer').scrollTop = 0; break;
+      case 'openCreateCanon': openCreateCanon(); break;
+      case 'editCanon': openEditCanon(id); break;
+      case 'handleSaveCanon': handleSaveCanon(id || null); break;
+      case 'deleteCanon': handleDeleteCanon(id); break;
+      case 'copyCanonId': handleCopyCanonId(id); break;
+      case 'copyCanonJson': handleCopyCanonJson(id); break;
+
+      // Phase 3: Rejections
+      case 'openCreateRejection': openCreateRejection(); break;
+      case 'handleSaveRejection': handleSaveRejection(); break;
+
+      // Phase 3: Snippet Import
+      case 'openSnippetImport': openSnippetImport(); break;
+      case 'previewSnippet': handlePreviewSnippet(); break;
+      case 'importSnippet': handleImportSnippet(); break;
+
+      // Phase 3: Expand/Collapse text
+      case 'expandText': handleExpandText(el); break;
+      case 'collapseText': handleCollapseText(el); break;
+      case 'toggleExpand':
+        var container = el.closest('[data-expandable]');
+        if (container) {
+          var content = container.querySelector('.cx-expandable-content');
+          var isExpanded = container.dataset.expanded === 'true';
+          if (isExpanded) {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            requestAnimationFrame(function() { content.style.maxHeight = '0'; });
+            container.dataset.expanded = 'false';
+            el.classList.remove('cx-expand-open');
+          } else {
+            content.style.maxHeight = '0';
+            content.style.maxHeight = content.scrollHeight + 'px';
+            container.dataset.expanded = 'true';
+            el.classList.add('cx-expand-open');
+            setTimeout(function() { if (container.dataset.expanded === 'true') content.style.maxHeight = 'none'; }, 200);
+          }
+        }
+        break;
+
       // Coming soon
       case 'comingSoon': showToast('Coming soon', 'info'); break;
     }

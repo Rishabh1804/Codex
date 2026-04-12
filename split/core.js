@@ -154,6 +154,11 @@ function renderBreadcrumbForRoute(route) {
   if (route.view === 'volume-detail') {
     var vol = store.volumes.find(function(v) { return v.id === route.id; });
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: vol ? vol.name : route.id, route: null }];
+  } else if (route.view === 'canon-detail') {
+    var canon = store.canons.find(function(c) { return c.id === route.id; });
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Canons', route: '#/canons' }, { label: canon ? canon.title : route.id, route: null }];
+  } else if (route.view === 'settings') {
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Settings', route: null }];
   }
   renderBreadcrumb(segments);
 }
@@ -176,8 +181,8 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings')) {
-    var title = route.view === 'settings' ? 'Settings' : (function() { var v = store.volumes.find(function(x) { return x.id === route.id; }); return v ? v.name : 'Volume'; })();
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail')) {
+    var title = route.view === 'settings' ? 'Settings' : route.view === 'canon-detail' ? 'Canon' : (function() { var v = store.volumes.find(function(x) { return x.id === route.id; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
       + '<div class="cx-header-actions">'
@@ -195,7 +200,7 @@ function updateHeader(route) {
 function updateFab(view) {
   var fab = document.getElementById('fabButton');
   if (!fab) return;
-  var show = ['dashboard', 'volume-detail', 'todos'].indexOf(view) !== -1;
+  var show = ['dashboard', 'volume-detail', 'todos', 'journal', 'canons'].indexOf(view) !== -1;
   fab.classList.toggle('cx-fab-hidden', !show);
   fab.innerHTML = cx('plus');
 }
@@ -219,8 +224,8 @@ function renderCurrentView() {
     var renderers = {
       dashboard: renderDashboard, 'volume-detail': renderVolumeDetail,
       settings: renderSettings, todos: renderTodos,
-      journal: renderComingSoon.bind(null, 'Journal', 'Phase 3'),
-      canons: renderComingSoon.bind(null, 'Canons', 'Phase 3')
+      journal: renderJournal, canons: renderCanons,
+      'canon-detail': renderCanonDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);
@@ -233,10 +238,7 @@ function renderCurrentView() {
   _isRendering = false;
 }
 
-function renderComingSoon(name, phase) {
-  var vc = document.getElementById('viewContainer');
-  if (vc) vc.innerHTML = '<div class="cx-empty-state">' + cx('book') + '<p class="cx-empty-title">' + escHtml(name) + '</p><p class="cx-empty-subtitle">Coming in ' + escHtml(phase) + '</p></div>';
-}
+/* renderComingSoon removed — Phase 3 renders all views */
 
 /* --- Form Field Renderers (from spec CODEBASE_VIEWS) --- */
 function renderTextField(name, label, value, options) {
