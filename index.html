@@ -510,6 +510,17 @@ a{color:inherit;text-decoration:none}
   color: var(--text-secondary);
   font-size: var(--fs-sm);
 }
+/* Hotfix: SVG sizing for contexts missing explicit dimensions */
+.cx-card-meta svg,
+.cx-section-title svg,
+.cx-todo-volume-title svg,
+.cx-action-bar svg,
+.cx-settings-hint svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
 </style>
 <script>
 /* CODEX — Data Layer (Phase 2: WAL + GitHub sync support) */
