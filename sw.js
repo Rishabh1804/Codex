@@ -1,5 +1,5 @@
 /* CODEX — Service Worker v2 (network-first for app shell) */
-var CACHE_NAME = 'codex-v2';
+var CACHE_NAME = 'codex-v3';
 var APP_SHELL = [
   './',
   './index.html',
