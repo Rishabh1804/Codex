@@ -155,6 +155,20 @@ function setupDelegation() {
           renderTrashView();
         }, { danger: true, label: 'Delete Forever' });
         break;
+      case 'restoreApocryphon':
+        var ra = store.apocrypha.find(function(a) { return a.id === id; });
+        if (ra) { ra._deleted = false; ra._deleted_date = null; store._createWalEntry('update', 'apocryphon', id, 'canons.json', { _deleted: false, _deleted_date: null }); store._fireChange(); showToast('Apocryphon restored', 'success'); renderTrashView(); }
+        break;
+      case 'permanentDeleteApocryphon':
+        showConfirmDialog('Permanently Delete', 'This cannot be undone. Are you sure?', function() {
+          store.apocrypha = store.apocrypha.filter(function(a) { return a.id !== id; });
+          store._createWalEntry('delete', 'apocryphon', id, 'canons.json', { _permanent: true });
+          store._fireChange();
+          showToast('Permanently deleted', 'success');
+          closeConfirmDialog();
+          renderTrashView();
+        }, { danger: true, label: 'Delete Forever' });
+        break;
 
       // Phase 4: Sync panel
       case 'closeSyncPanel':

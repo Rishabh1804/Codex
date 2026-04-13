@@ -1,0 +1,39 @@
+{
+  "_snippet_version": 1,
+  "session": {
+    "date": "2026-04-14",
+    "summary": "TODO Cleanup — resolved all 5 open Codex TODOs. Fixed renderStorageUsage to scan all codex-* keys (was missing draft/seed/migration keys). Added deleted apocrypha to trash view with restore + permanent delete. Added canon_updates to snippet pipeline (preview + import). Reconciled QUICK_REFERENCE docs (font tokens, KEYS, routes, store API, snippet format, build phases). canon-0009 superseded via canon_updates.",
+    "volumes_touched": ["codex"],
+    "chapters_touched": ["phase-4-polish", "phase-5-chapter-detail", "design-session", "phase-2-build"],
+    "decisions": [],
+    "bugs_found": 0,
+    "bugs_fixed": 0,
+    "duration_minutes": 90,
+    "open_todos": [],
+    "handoff": "All 5 TODOs resolved. Mark TODOs as resolved in-app. Next: SproutLab Today So Far build, Codex SproutLab chapter backfill.",
+    "screenshots": []
+  },
+  "canon_updates": [
+    {
+      "id": "canon-0009-post-build-qa",
+      "patch": {
+        "status": "superseded",
+        "superseded_by": "canon-0014-multi-round-qa"
+      }
+    }
+  ],
+  "new_chapters": [
+    {
+      "volume": "codex",
+      "chapter": {
+        "id": "todo-cleanup",
+        "name": "TODO Cleanup",
+        "status": "complete",
+        "started": "2026-04-14",
+        "completed": "2026-04-14",
+        "summary": "Resolved all 5 open Codex TODOs in one session. Code fixes: renderStorageUsage prefix scan (views.js), trash apocrypha section with restore/delete handlers (views.js + start.js), canon_updates in snippet pipeline (forms.js). Docs fixes: QUICK_REFERENCE reconciled with actual codebase (font tokens, KEYS, routes, store API, snippet format, build phases). Data fix: canon-0009 superseded by canon-0014 via canon_updates snippet.",
+        "order": 8
+      }
+    }
+  ]
+}

@@ -110,7 +110,10 @@
   "canons": [{ ... }],
   "rejections": [{ ... }],
   "todos": [{ "volume": "sproutlab", "todo": { ... } }],
-  "chapter_updates": [{ "volume": "sproutlab", "chapter": "caretickets", "patch": { "status": "complete" } }]
+  "new_chapters": [{ "volume": "codex", "chapter": { "id": "...", "name": "...", ... } }],
+  "chapter_updates": [{ "volume": "sproutlab", "chapter": "caretickets", "patch": { "status": "complete" } }],
+  "canon_updates": [{ "id": "canon-0009-post-build-qa", "patch": { "status": "superseded" } }],
+  "apocrypha": [{ "id": "apo-0001-...", "title": "...", ... }]
 }
 ```
 
@@ -154,6 +157,7 @@ All numbers 4-digit zero-padded (except session suffix: 2-digit). IDs never reus
 ```javascript
 const KEYS = {
   THEME: 'codex-theme',
+  TEXT_SIZE: 'codex-textSize',
   TOKEN: 'codex-token',
   REPO_URL: 'codex-repo-url',
   DISPLAY_NAME: 'codex-display-name',
@@ -169,11 +173,14 @@ const KEYS = {
   ERROR_LOG: 'codex-errorlog',
   VISIT_COUNT: 'codex-visits',
   WIZARD_DONE: 'codex-wizard-done',
-  GLOBAL_SCHEMA: 'codex-global-schema-version',
 };
 ```
 
 Draft keys: `codex-draft:{entity}:{mode}:{id?}`
+
+Additional `codex-` keys (not in KEYS constant):
+- `codex-seed-version` — tracks which seed version has been applied
+- `codex-migrations` — JSON array of applied migration IDs
 
 ---
 
@@ -186,6 +193,7 @@ Draft keys: `codex-draft:{entity}:{mode}:{id?}`
 | `#/canons` | Canons | canons |
 | `#/todos` | TODOs | todos |
 | `#/volume/:id` | Volume Detail | dashboard |
+| `#/chapter/:volId/:chId` | Chapter Detail | dashboard |
 | `#/canon/:id` | Canon Detail | canons |
 | `#/settings` | Settings | none |
 
@@ -220,9 +228,20 @@ Sub-settings views (storage, trash, error log) render directly without hash rout
 --sp-2: 2px; --sp-4: 4px; --sp-6: 6px; --sp-8: 8px; --sp-10: 10px;
 --sp-12: 12px; --sp-16: 16px; --sp-20: 20px; --sp-24: 24px; --sp-32: 32px;
 
-/* Font sizes */
---fs-2xs: 10px; --fs-xs: 12px; --fs-sm: 14px; --fs-base: 16px;
---fs-lg: 18px; --fs-xl: 20px; --fs-2xl: 24px; --fs-3xl: 30px;
+/* Font sizes — dynamic system driven by --fs-base */
+/* --fs-base default: 14px. Changed by text size presets (see below). */
+--fs-2xs: calc(var(--fs-base) - 4px);   /* 10px at med */
+--fs-xs:  calc(var(--fs-base) - 2px);   /* 12px at med */
+--fs-sm:  var(--fs-base);               /* 14px at med */
+--fs-md:  calc(var(--fs-base) + 2px);   /* 16px at med */
+--fs-lg:  calc(var(--fs-base) + 4px);   /* 18px at med */
+--fs-xl:  calc(var(--fs-base) + 6px);   /* 20px at med */
+--fs-2xl: calc(var(--fs-base) + 10px);  /* 24px at med */
+--fs-3xl: calc(var(--fs-base) + 16px);  /* 30px at med */
+
+/* Text size presets (Settings slider, stored in codex-textSize) */
+/* LOW: --fs-base = 12px | MED: 14px (default) | HIGH: 17px */
+/* Applied via applyTextSize() in views.js. Icons remain 24px at all sizes. */
 
 /* Radius */
 --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-2xl: 20px; --r-full: 9999px;
@@ -261,10 +280,14 @@ store.deleteVolume(id)                    // blocks if linked data
 store.addChapter(volumeId, chapter)
 store.updateChapter(volumeId, chapterId, patch)  // auto-fills completed/ended dates
 store.deleteChapter(volumeId, chapterId)  // soft-delete
+store.getSortedChapters(volume)           // sorts by order field with array-index fallback
 store.addCanon(canon)
 store.updateCanon(id, patch)
 store.deleteCanon(id)                     // soft-delete
-store.addRejection(rejection)
+store.addSchism(schism)
+store.addApocryphon(apocryphon)
+store.updateApocryphon(id, patch)
+store.deleteApocryphon(id)               // soft-delete
 store.addTodo(volumeId, todo)
 store.updateTodo(volumeId, todoId, patch)
 store.deleteTodo(volumeId, todoId)        // hard delete
@@ -336,6 +359,7 @@ Post: purge old WAL, render sync indicator + tab badge, increment visit count
 | 2 — Persistence | GitHub sync, WAL, Onboarding wizard, Token validation |
 | 3 — Content | Journal, Canons, TODOs, Rejections, Snippet import |
 | 4 — Polish | Search, Heatmap, Stats, Pagination, Export, SW, Error log, Trash, Sync panel |
+| 5 — Content depth | Chapter Detail, Apocrypha, Schisms rename, Auto-migration |
 
 ---
 

@@ -807,13 +807,14 @@ function renderTrashView() {
       if (ch._deleted) deletedChapters.push({ volume: v, chapter: ch });
     });
   });
+  var deletedApocrypha = store.apocrypha.filter(function(a) { return a._deleted; });
 
   var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
   html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
   html += '<h2 class="cx-page-title" style="margin:0">Trash</h2></div>';
 
-  if (deletedCanons.length === 0 && deletedChapters.length === 0) {
-    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons and chapters appear here');
+  if (deletedCanons.length === 0 && deletedChapters.length === 0 && deletedApocrypha.length === 0) {
+    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons, chapters, and apocrypha appear here');
     vc.innerHTML = html;
     return;
   }
@@ -828,6 +829,21 @@ function renderTrashView() {
       html += '<div class="cx-trash-actions">';
       html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreCanon" data-id="' + escAttr(c.id) + '">Restore</button>';
       html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteCanon" data-id="' + escAttr(c.id) + '">' + cx('trash') + '</button>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  if (deletedApocrypha.length > 0) {
+    html += '<div class="cx-section-title">' + cx('scroll') + ' Apocrypha (' + deletedApocrypha.length + ')</div>';
+    html += '<div class="cx-card">';
+    deletedApocrypha.forEach(function(a) {
+      html += '<div class="cx-trash-item">';
+      html += '<div class="cx-trash-info"><div class="cx-trash-name">' + escHtml(a.title || a.id) + '</div>';
+      html += '<div class="cx-trash-meta">Deleted ' + escHtml(formatRelativeTime(a._deleted_date)) + '</div></div>';
+      html += '<div class="cx-trash-actions">';
+      html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreApocryphon" data-id="' + escAttr(a.id) + '">Restore</button>';
+      html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteApocryphon" data-id="' + escAttr(a.id) + '">' + cx('trash') + '</button>';
       html += '</div></div>';
     });
     html += '</div>';
@@ -895,18 +911,20 @@ function renderErrorLogView() {
 
 function renderStorageUsage() {
   var vc = document.getElementById('viewContainer');
-  var keys = Object.values(KEYS);
   var rows = [];
   var total = 0;
 
-  keys.forEach(function(key) {
-    var val = localStorage.getItem(key);
-    if (val !== null) {
-      var size = val.length * 2; // rough byte estimate (UTF-16)
-      rows.push({ key: key, size: size });
-      total += size;
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    if (key && key.indexOf('codex-') === 0) {
+      var val = localStorage.getItem(key);
+      if (val !== null) {
+        var size = val.length * 2; // rough byte estimate (UTF-16)
+        rows.push({ key: key, size: size });
+        total += size;
+      }
     }
-  });
+  }
   rows.sort(function(a, b) { return b.size - a.size; });
 
   function formatBytes(bytes) {

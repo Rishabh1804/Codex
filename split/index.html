@@ -721,12 +721,12 @@ body {
   transform: rotate(90deg);
 }
 
-/* --- Rejection Card --- */
-.cx-rejection-card {
+/* --- Schism Card --- */
+.cx-schism-card {
   border-left: 3px solid var(--warning);
   margin-bottom: var(--sp-8);
 }
-.cx-rejection-title {
+.cx-schism-title {
   font-weight: 600;
 }
 
@@ -837,7 +837,7 @@ body {
 .cx-heatmap-scroll::-webkit-scrollbar{display:none}
 .cx-heatmap{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:2px;min-width:min-content}
 .cx-heatmap-cell{width:12px;height:12px;border-radius:2px;cursor:pointer;background:var(--bg-secondary)}
-.cx-heatmap-cell:hover{outline:1px solid var(--accent-light)}
+@media(hover:hover){.cx-heatmap-cell:hover{outline:1px solid var(--accent-light)}}
 .cx-heatmap-cell[data-level="1"]{background:var(--accent-light);opacity:0.5}
 .cx-heatmap-cell[data-level="2"]{background:var(--accent);opacity:0.7}
 .cx-heatmap-cell[data-level="3"]{background:var(--accent);opacity:1}
@@ -878,11 +878,36 @@ body {
 .cx-storage-row{display:flex;justify-content:space-between;padding:var(--sp-6) 0;border-bottom:1px solid var(--border);font-size:var(--fs-xs);color:var(--text-secondary)}
 .cx-storage-row:last-child{border-bottom:none}
 .cx-storage-total{font-weight:600;color:var(--text-primary);border-top:2px solid var(--border);padding-top:var(--sp-8);margin-top:var(--sp-4)}
+
+/* ============================================================
+   PHASE 5: Chapter Detail + Apocrypha
+   ============================================================ */
+
+/* --- Chapter Detail --- */
+.cx-chapter-prose{font-size:var(--fs-sm);line-height:1.7;color:var(--text-secondary)}
+.cx-chapter-prose p{margin-bottom:var(--sp-16)}
+.cx-chapter-section-heading{font-family:var(--ff-heading);font-size:var(--fs-lg);color:var(--text-primary);margin:var(--sp-24) 0 var(--sp-8);font-weight:700}
+.cx-chapter-empty{text-align:center;padding:var(--sp-32) var(--sp-16);color:var(--text-tertiary)}
+.cx-chapter-empty svg{width:32px;height:32px;opacity:0.3;margin-bottom:var(--sp-8)}
+.cx-chapter-empty p{margin-bottom:var(--sp-12)}
+.cx-chapter-nav{display:flex;justify-content:space-between;gap:var(--sp-16);border-top:1px solid var(--border);padding-top:var(--sp-16);margin-top:var(--sp-24)}
+.cx-chapter-nav-btn{cursor:pointer;display:flex;flex-direction:column;gap:var(--sp-2);max-width:45%}
+.cx-chapter-nav-btn:active{opacity:0.7}
+.cx-chapter-nav-btn svg{width:14px;height:14px;display:inline}
+.cx-mini-card{background:var(--bg-card);border-radius:var(--r-md);padding:var(--sp-10) var(--sp-12);margin-bottom:var(--sp-6);cursor:pointer;box-shadow:var(--card-shadow)}
+.cx-mini-card:active{opacity:0.8}
+
+/* --- Apocrypha --- */
+.cx-apocrypha-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:var(--sp-8) 0}
+.cx-apocrypha-header .cx-expand-toggle{color:var(--text-tertiary);font-size:var(--fs-xs)}
+.cx-apocrypha-card{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-16);margin-bottom:var(--sp-8);border-left:3px solid var(--accent);box-shadow:var(--card-shadow)}
+.cx-apocrypha-title{font-family:var(--ff-heading);font-size:var(--fs-base);font-weight:700;color:var(--text-primary);margin-bottom:var(--sp-6)}
+.cx-apocrypha-narrative{font-size:var(--fs-sm);line-height:1.7;color:var(--text-secondary);margin-top:var(--sp-10);font-style:italic}
 </style>
 <script>
-/* CODEX — Data Layer (Phase 2: WAL + GitHub sync support) */
+/* CODEX — Data Layer (Phase 5: Chapter Detail + Apocrypha) */
 
-var CODEX_VERSION = '1.0.0';
+var CODEX_VERSION = '1.1.0';
 var CODEX_SCHEMA_VERSION = 1;
 var OVERLAY_ANIM_MS = 300;
 var TEXT_SIZES = { low: '12px', med: '14px', high: '17px' };
@@ -892,6 +917,7 @@ var SHELF_LABELS = { active: 'Active', paused: 'Paused', archived: 'Archived', a
 var CHAPTER_STATUSES = ['planned', 'in-progress', 'paused', 'complete', 'abandoned'];
 var CANON_CATEGORIES = ['design', 'architecture', 'process'];
 var TODO_STATUSES = ['open', 'resolved'];
+var APOCRYPHA_STATUSES = ['fulfilled', 'foretold', 'forgotten'];
 
 /* Phase 2 globals */
 var _isOffline = false;
@@ -944,6 +970,7 @@ function formatAbsoluteDate(dateStr) {
   if (!dateStr) return '';
   var parts = dateStr.split('-').map(Number);
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if (parts.length < 3 || !parts[2]) return months[parts[1]-1] + ' ' + parts[0];
   return months[parts[1]-1] + ' ' + parts[2] + ', ' + parts[0];
 }
 
@@ -1073,7 +1100,8 @@ function safeParseLocalStorage(key) {
 var store = {
   volumes: [],
   canons: [],
-  rejections: [],
+  schisms: [],
+  apocrypha: [],
   journal: [],
   _wal: [],
   _meta: {
@@ -1140,12 +1168,12 @@ var store = {
   _cacheToLocalStorage: function() {
     try {
       localStorage.setItem(KEYS.CACHE_VOLUMES, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }));
-      localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, rejected_alternatives: store.rejections }));
+      localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha }));
       localStorage.setItem(KEYS.CACHE_JOURNAL, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }));
     } catch(e) { logError('cache', 'Cache write failed', e.message); }
   },
 
-  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, rejections: store.rejections, journal: store.journal }); },
+  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, journal: store.journal }); },
 
   /* --- Volume --- */
   addVolume: function(vol) {
@@ -1196,9 +1224,12 @@ var store = {
     if (!ch.id || !ch.name) throw new Error('Chapter requires id and name');
     if ((vol.chapters || []).some(function(c) { return c.id === ch.id; })) throw new Error('Duplicate chapter');
     var entry = { id: ch.id, name: ch.name, status: ch.status || 'planned', started: ch.started || null,
-      completed: null, ended: null, summary: ch.summary || '', spec_url: ch.spec_url || null, _deleted: false, _deleted_date: null };
+      completed: ch.completed || null, ended: ch.ended || null, summary: ch.summary || '',
+      spec_url: ch.spec_url || null, content: ch.content || '',
+      order: ch.order != null ? ch.order : filterActive(vol.chapters || []).length,
+      _deleted: false, _deleted_date: null };
     if (entry.status === 'in-progress' && !entry.started) entry.started = localDateStr();
-    if (entry.status === 'complete') entry.completed = localDateStr();
+    if (entry.status === 'complete' && !entry.completed) entry.completed = localDateStr();
     if (!vol.chapters) vol.chapters = [];
     vol.chapters.push(entry);
     store._createWalEntry('create', 'chapter', entry.id, 'volumes.json', entry, volumeId);
@@ -1210,7 +1241,7 @@ var store = {
     if (!vol) throw new Error('Volume not found');
     var ch = (vol.chapters || []).find(function(c) { return c.id === chapterId; });
     if (!ch) throw new Error('Chapter not found');
-    ['name','status','started','summary','spec_url'].forEach(function(k) { if (patch.hasOwnProperty(k)) ch[k] = patch[k]; });
+    ['name','status','started','summary','spec_url','content','order'].forEach(function(k) { if (patch.hasOwnProperty(k)) ch[k] = patch[k]; });
     if (patch.status === 'complete' && !ch.completed) ch.completed = localDateStr();
     if (patch.status === 'abandoned' && !ch.ended) ch.ended = localDateStr();
     if (patch.status === 'in-progress' && !ch.started) ch.started = localDateStr();
@@ -1289,11 +1320,38 @@ var store = {
     store._fireChange();
   },
 
-  /* --- Rejection --- */
-  addRejection: function(r) {
-    if (!r.id) throw new Error('Rejection requires id');
-    store.rejections.push(r);
-    store._createWalEntry('create', 'rejection', r.id, 'canons.json', r);
+  /* --- Schism --- */
+  addSchism: function(r) {
+    if (!r.id) throw new Error('Schism requires id');
+    store.schisms.push(r);
+    store._createWalEntry('create', 'schism', r.id, 'canons.json', r);
+    store._fireChange();
+  },
+
+  /* --- Apocrypha --- */
+  addApocryphon: function(a) {
+    if (!a.id || !a.title) throw new Error('Apocryphon requires id and title');
+    if (store.apocrypha.some(function(x) { return x.id === a.id; })) throw new Error('Duplicate apocryphon');
+    var entry = { id: a.id, title: a.title, narrative: a.narrative || '', volumes: a.volumes || [],
+      date: a.date || localDateStr(), status: a.status || 'foretold', _deleted: false, _deleted_date: null };
+    store.apocrypha.push(entry);
+    store._createWalEntry('create', 'apocryphon', entry.id, 'canons.json', entry);
+    store._fireChange();
+    return entry;
+  },
+  updateApocryphon: function(id, patch) {
+    var a = store.apocrypha.find(function(x) { return x.id === id; });
+    if (!a) throw new Error('Apocryphon not found');
+    delete patch.id;
+    ['title','narrative','volumes','date','status'].forEach(function(k) { if (patch.hasOwnProperty(k)) a[k] = patch[k]; });
+    store._createWalEntry('update', 'apocryphon', id, 'canons.json', patch);
+    store._fireChange();
+  },
+  deleteApocryphon: function(id) {
+    var a = store.apocrypha.find(function(x) { return x.id === id; });
+    if (!a) throw new Error('Apocryphon not found');
+    a._deleted = true; a._deleted_date = localDateStr();
+    store._createWalEntry('delete', 'apocryphon', id, 'canons.json', null);
     store._fireChange();
   },
 
@@ -1343,9 +1401,10 @@ function populateStore(volResult, canonResult, journalResult) {
   store._meta.schemaVersions.volumes = vData._schema_version || 1;
   store._meta.shas.volumes = (volResult && volResult.sha) || null;
 
-  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], rejected_alternatives: [] };
+  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], schisms: [], apocrypha: [] };
   store.canons = cData.canons || [];
-  store.rejections = cData.rejected_alternatives || [];
+  store.schisms = cData.schisms || cData.rejected_alternatives || [];
+  store.apocrypha = cData.apocrypha || [];
   store._meta.schemaVersions.canons = cData._schema_version || 1;
   store._meta.shas.canons = (canonResult && canonResult.sha) || null;
 
@@ -1371,27 +1430,100 @@ function populateStore(volResult, canonResult, journalResult) {
 function getStoreSnapshot() {
   return JSON.parse(JSON.stringify({
     volumes: store.volumes, canons: store.canons,
-    rejections: store.rejections, journal: store.journal
+    schisms: store.schisms, apocrypha: store.apocrypha, journal: store.journal
   }));
 }
 
-/* CODEX — Seed Data (updated 12 Apr 2026, Phase 2) */
+/* CODEX — Seed Data (updated 13 Apr 2026, Phase 5) */
 
 var SEED_VERSION = 3;
+
+/* --- Migrations (Phase 5) --- */
+var CODEX_MIGRATIONS = [
+  {
+    id: 'phase-5-chapter-backfill-v1',
+    run: function() {
+      var vol = store.volumes.find(function(v) { return v.id === 'codex'; });
+      if (!vol) return;
+
+      // Update volume current_phase
+      store.updateVolume('codex', { current_phase: 'Phase 5 complete — Chapter Detail, Apocrypha, auto-migration' });
+
+      // Create Phase 3 chapter if missing
+      if (!(vol.chapters || []).some(function(c) { return c.id === 'phase-3-content-views'; })) {
+        store.addChapter('codex', {
+          id: 'phase-3-content-views', name: 'Phase 3 \u2014 Content Views', status: 'complete',
+          started: '2026-04-12', completed: '2026-04-12', order: 5,
+          summary: 'Journal view, Canons view, Canon Detail, Schisms, Snippet Import. All content rendering against existing store data.',
+          content: '## What Was Built\n\nPhase 3 turned Codex from an administrative shell into a readable knowledge base. Four major views were added: the Journal (session timeline with date grouping, volume filters, expandable detail), the Canons list (filterable by scope, category, status, with pagination and sort controls), Canon Detail (full rationale, references, supersession chains, linked schisms), and Schisms (inline below canons).\n\nThe Aurelius Snippet Import system was the pipeline breakthrough \u2014 a textarea-based JSON import with preview validation, enabling Claude sessions to push structured data (sessions, canons, schisms, TODOs, chapter updates) directly into the store.\n\n## Key Decisions\n\nRendering against existing store data rather than fetching separately. Snippet import as the primary data ingestion path. Schisms rendered inline with canons rather than as a separate tab. Truncated text with expand/collapse rather than navigating to detail views for schisms.\n\n## What Broke\n\n7 bugs found during QA: store method validation gaps, expand animation glitches, escHtml missing on user-data innerHTML, supersession chain guard for circular references. All fixed in a dedicated QA round.\n\n## State of the World After\n\nCodex became a working knowledge base. Every session, canon, schism, and TODO was now readable and navigable. The snippet import pipeline meant each Claude session could export its institutional memory into Codex with a single paste.'
+        });
+      }
+
+      // Create Phase 4 chapter if missing
+      if (!(vol.chapters || []).some(function(c) { return c.id === 'phase-4-polish'; })) {
+        store.addChapter('codex', {
+          id: 'phase-4-polish', name: 'Phase 4 \u2014 Polish', status: 'complete',
+          started: '2026-04-13', completed: '2026-04-13', order: 6,
+          summary: 'Search, Heatmap, Stats, Trash, Error Log, Sync Detail Panel, Canon Sort. 4-round QA audit, 8 bugs fixed. Codex v1.0 feature-complete.',
+          content: '## What Was Built\n\nSix polish features completing Codex v1.0. Search with weighted scoring (canons 4x, schisms 3x, sessions 2x, volumes 1x) and 300ms debounce. A 90-day GitHub-style activity heatmap on the dashboard. Stats bar with horizontal scroll chips. Trash view for soft-deleted canons and chapters with restore and permanent delete. Error log viewer. Sync detail panel showing WAL breakdown and connection status. Canon sort controls (newest, oldest, title, scope) were added during QA when their absence became obvious.\n\n## Key Decisions\n\nMulti-round QA was formalized as canon-0014-multi-round-qa: four layers (Mechanical, Structural, Logic, Cosmetic), continue until layers 1\u20133 are zero-defect, layer 4 allows at most 2 items as documented debt. This superseded the SproutLab-scoped canon-0009.\n\n## What Broke\n\n8 bugs across 4 QA rounds. The critical one: replayUpdate blocked restore operations because the _deleted guard rejected payloads setting _deleted to false. Fixed by adding an exception for restore payloads. Other notable: heatmap showing oldest dates on screen (fixed with auto-scroll to scrollWidth), search overlay staying open on navigation (fixed with closeSearch at top of handleRouteChange), canon dates showing wrong months (YYYY-MM format forced to day 01, fixed in formatAbsoluteDate).\n\n## State of the World After\n\nCodex v1.0 was feature-complete. 4,758 lines across 8 modules. Dashboard, Volume Detail, Journal, Canons, Canon Detail, TODOs, Settings, Search, Heatmap, Stats, Trash, Error Log, Sync Panel. All deployed and live.'
+        });
+      }
+
+      // Create Phase 5 chapter if missing
+      if (!(vol.chapters || []).some(function(c) { return c.id === 'phase-5-chapter-detail'; })) {
+        store.addChapter('codex', {
+          id: 'phase-5-chapter-detail', name: 'Phase 5 \u2014 Chapter Detail + Apocrypha', status: 'complete',
+          started: '2026-04-13', completed: '2026-04-13', order: 7,
+          summary: 'Chapter Detail view with prose rendering, linked entities, prev/next navigation. Apocrypha section in Canons tab. Auto-migration system for zero-interaction backfill. Single-zip delivery. Self-contained repos canon.',
+          content: '## What Was Built\n\nChapters evolved from metadata stubs to readable narratives. Tapping a chapter now opens a detail view with rendered prose (## headings become section titles, paragraphs preserve line breaks), auto-derived linked canons and sessions, linked TODOs, and previous/next chapter navigation. The data model gained content and order fields, with addChapter fixed to accept historical dates for backfill accuracy.\n\nApocrypha \u2014 the hidden texts. A collapsed section beneath Schisms in the Canons tab, holding dramatic retellings of legendary builds and visionary ideas. Three statuses: fulfilled, foretold, forgotten. Named after the tradition of texts too visionary for the official canon but preserved because someone believed they mattered.\n\nThe auto-migration system replaced snippet-based backfill for bulk data operations. CODEX_MIGRATIONS array in seed.js, runner at Step 11.5 in the boot sequence (after WAL replay, before listener registration). Data-guarded for idempotency across multiple devices.\n\n## Key Decisions\n\nEight design passes refined the approach from a textarea-based editing model to a reader-first architecture. Content arrives via migrations and snippets \u2014 the app is a reader, not a writer. No content textarea in the edit form. Single-zip delivery eliminated 40 manual taps per session. Self-contained repos (docs/ directory alongside code) eliminated file uploads.\n\nThe snippet format gained new_chapters for creating chapters via import, closing a pipeline gap where chapters could only be updated, not created. Preview validation now checks for duplicates and missing targets.\n\n## State of the World After\n\nCodex chapters read like chapters in a book. The Codex volume itself now has 7 chapters with full narratives, navigable in sequence. The Apocrypha hold the first legendary retelling. Every future session delivers a single zip \u2014 one download, one unzip, deploy.'
+        });
+      }
+
+      // Update existing chapters with content + order (only if content is empty)
+      var updates = [
+        { id: 'spec', order: 1, content: '## What Was Built\n\nThe founding document. CODEX_SPEC_v1.md defined the complete system \u2014 data shapes for volumes, chapters, canons, rejected alternatives, TODOs, and journal sessions. The WAL (Write-Ahead Log) architecture was specified for offline-first persistence with GitHub sync. Four build phases were scoped. The Aurelius snippet format was designed as the bridge between Claude sessions and the Codex store.\n\nCODEX_QUICK_REFERENCE.md distilled the spec into a builder\u2019s cheat sheet: data shapes, ID formats, localStorage keys, routes, z-index hierarchy, CSS tokens, store mutation API, and build phases.\n\n## Key Decisions\n\nGitHub JSON storage over any backend. WAL-based sync over direct API writes. Library metaphor throughout \u2014 volumes, chapters, canons, shelves. Split architecture from day one (8 modules). The cx- CSS prefix to avoid collision with SproutLab\u2019s zi- namespace.\n\n## State of the World After\n\nA complete blueprint existed. Every data shape, every route, every interaction pattern was specified before a single line of code was written.' },
+        { id: 'design-session', order: 2, content: '## What Was Built\n\nThree pre-build blockers were resolved in a single session. Font pairing: Playfair Display for headings, Work Sans for body, loaded via Google Fonts CDN with fallback stacks. Icon set: Style C (thin stroke 1.5px with accent fills), 19 icons in the cx() function, brass-embossed library aesthetic. Text size system: LOW/MED/HIGH presets driven by a --fs-base CSS variable, icons fixed at 24px, persisted via localStorage.\n\nThe initial data backfill was generated \u2014 three JSON files seeding 5 volumes, 23 canons (including SproutLab\u2019s HR-1 through HR-12), and 7 rejected alternatives.\n\n## Key Decisions\n\nPlayfair Display + Work Sans over other pairings. Style C icons (thin + accent fill) over Style A (pure stroke) and Style B (solid fill). Three-preset text size over a continuous slider. The --fs-base approach means all font sizes scale proportionally.\n\n## What Broke\n\nA spec delta was identified: the QUICK_REFERENCE document had static --fs-* tokens that conflicted with the dynamic --fs-base system. Noted as a TODO, carried forward.\n\n## State of the World After\n\nAll visual decisions were locked. The aesthetic identity \u2014 warm parchment tones, brass accents, serif headings, thin-stroke icons \u2014 was established. Ready for Phase 1 build.' },
+        { id: 'phase-1-build', order: 3, content: '## What Was Built\n\nThe first working Codex. Dashboard with volume cards sorted by last activity. Volume Detail with chapters, TODOs, shelf history, and danger zone. Settings with theme toggle and text size slider. Overlay, confirm dialog, and toast systems. Hash routing with breadcrumb navigation. Tab bar with icon labels. FAB with context-aware actions. All form renderers (text, textarea, select, date). 8-module split architecture with build.sh concat.\n\nDeployed to rishabh1804.github.io/Codex/ with PWA manifest and generated book icons. Seeded with 5 volumes, 23 canons, 7 schisms.\n\n## Key Decisions\n\nThe first build attempt diverged from spec \u2014 wrong element IDs, wrong action names, missing features. Rather than patching, the entire build was scrapped and rebuilt from the spec files. This established a principle: always build from the spec, never from memory.\n\nSplit architecture from day one rather than monolith-then-refactor. Natural page scroll over flex column layout (later reversed in Phase 2). mv over cp for the downloads workflow in Termux.\n\n## What Broke\n\n3 bugs: SVGs rendering at container size (fixed with explicit width/height), slider blue flash on tap (tap-highlight suppression), Chrome localhost scroll broken by flex column (removed flex, used natural scroll).\n\n## State of the World After\n\n4,827 lines across 10 files. A working, installable PWA with local-only storage. Ready for GitHub sync.' },
+        { id: 'phase-2-build', order: 4, content: '## What Was Built\n\nThe persistence layer. GitHub sync pipeline: fetchFile, pushFile, fetchAll, validateToken, flushQueue. WAL (Write-Ahead Log) with replay on startup \u2014 every store mutation creates a WAL entry, pending entries sync to GitHub when online. 4-step onboarding wizard with GitHub connect or skip-local flow. Service worker v2 (network-first strategy). Settings upgraded with live GitHub connect/disconnect/sync controls.\n\nSwipe navigation (adapted from SproutLab\u2019s canon pattern) and Chrome-style pull-to-refresh with a visual spinner indicator. build.sh updated to include seed.js in the concat.\n\n## Key Decisions\n\n_initializing and _isRendering flags moved to data.js so all modules could access them. :where() CSS selector for zero-specificity SVG fallback sizing. Network-first service worker over stale-while-revalidate. Body flex column layout (reversing Phase 1\u2019s natural scroll decision). Gear icon for settings over lock. No breadcrumb on settings view. Pull indicator inserted before viewContainer so it survives re-renders.\n\n## What Broke\n\n8 bugs across multiple hotfix rounds: SVG sizing inconsistencies (global :where() fallback), flex scroll layout issues, breadcrumb hidden attribute not applied, slider tap-highlight persisting, tab badge positioning, gear icon missing from the cx() set, breadcrumb incorrectly showing on settings, dashboard sort regression.\n\n## State of the World After\n\nCodex data persisted to GitHub. Changes synced automatically. The WAL ensured no data loss even when offline. ~2,400 lines across 8 modules. Phase 3 was pure UI rendering \u2014 all plumbing was in place.' }
+      ];
+
+      updates.forEach(function(u) {
+        var ch = (vol.chapters || []).find(function(c) { return c.id === u.id; });
+        if (ch && !ch.content) {
+          store.updateChapter('codex', u.id, { content: u.content, order: u.order });
+        } else if (ch && ch.order == null) {
+          store.updateChapter('codex', u.id, { order: u.order });
+        }
+      });
+
+      // First apocryphon
+      if (!store.apocrypha.some(function(a) { return a.id === 'apo-0001-the-sleepless-guardian'; })) {
+        store.addApocryphon({
+          id: 'apo-0001-the-sleepless-guardian',
+          title: 'The Sleepless Guardian',
+          narrative: 'In the spring of 2026, a man built a guardian for his sleeping daughter.\n\nIt began as a concern \u2014 a note in a tracking app that a tooth might be coming in, that sleep had been restless, that a vitamin dose was overdue. But the system grew. Twenty-one fields to describe a worry. Seven templates for common fears. Six state transitions to track a concern from first suspicion through active monitoring to quiet resolution.\n\nThe guardian needed to remember when the man might forget. So it learned to schedule notifications on the main thread, because service workers \u2014 the usual messengers \u2014 could not be trusted with a child\'s health. They slept when the phone slept. The guardian did not.\n\nWhen illness came, the guardian paused all other metrics. Growth tracking, feeding analysis, activity scoring \u2014 all suspended. Only the active concern mattered. When the concern resolved, the numbers resumed as if waking from a held breath.\n\nThe specification alone ran to 1,089 lines. Fifteen rounds of testing. Three hundred and ten scenarios verified. Four build sessions across four days.\n\nThe man named it CareTickets. But what he built was a vigil.',
+          volumes: ['sproutlab'],
+          date: '2026-04-10',
+          status: 'fulfilled'
+        });
+      }
+    }
+  }
+];
 
 function getSeedVolumes() {
   return {"_schema_version": 1, "volumes": [{"id": "sproutlab", "name": "SproutLab", "shelf": "active", "description": "Single-file PWA tracking feeding, sleep, growth, milestones, and medical data for Ziva. Wife Mode default. Hosted at rishabh1804.github.io/sproutlab/.", "domain_color": "#E8B4B8", "tags": ["pwa", "health", "parenting"], "repo": "rishabh1804/sproutlab", "current_phase": "CareTickets Phase D complete — notifications, integration, polish done", "chapters": [{"id": "v1-v2-builds", "name": "v1–v2 Iterative Builds", "status": "complete", "started": "2024-10-01", "completed": "2026-03-15", "ended": null, "summary": "Single-file HTML PWA built iteratively from v1.x through v2.38+. Core tracking: feeding, sleep, poop, growth, milestones, medical. Wife Mode, localStorage persistence, GitHub Pages hosting.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "architecture-split", "name": "Architecture Split", "status": "complete", "started": "2026-04-07", "completed": "2026-04-09", "ended": null, "summary": "Split monolith into 9 modules (data, core, home, diet, medical, intelligence, start + styles.css, template.html). Concat build via build.sh. Phases 1–3 complete.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "diet", "name": "Diet Module", "status": "complete", "started": "2026-03-01", "completed": "2026-04-01", "ended": null, "summary": "Food logging, Smart Quick Log, Food Favorites, nutrient intelligence, ingredient picker.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "medical", "name": "Medical Module", "status": "complete", "started": "2026-03-01", "completed": "2026-04-01", "ended": null, "summary": "Vaccination intelligence with reaction tracking and timeline visualization. Growth tracking, medical records.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "intelligence", "name": "Intelligence Module", "status": "complete", "started": "2026-03-15", "completed": "2026-04-05", "ended": null, "summary": "Cross-Domain Intelligence (6 cards), Smart Q&A Phase 2 (22 intents, 24 handlers).", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "smart-qa", "name": "Smart Q&A", "status": "complete", "started": "2026-03-20", "completed": "2026-04-05", "ended": null, "summary": "Phase 2: 22 intents, 24 dedicated handlers, natural language query processing for baby data.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "search-bar", "name": "Search Bar Upgrade", "status": "complete", "started": "2026-04-01", "completed": "2026-04-05", "ended": null, "summary": "ISL generateRangeSummary(), lookback/pattern/planning query modes, nutrient intelligence cards, ingredient picker.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "today-so-far", "name": "Today So Far", "status": "complete", "started": "2026-04-05", "completed": "2026-04-06", "ended": null, "summary": "Smart card with vertical chronological list, warmth gradient bar, pattern-based nudges, 12 functions with _tsf* prefix.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "caretickets", "name": "CareTickets", "status": "complete", "started": "2026-04-06", "completed": "2026-04-10", "ended": null, "summary": "21-field data model, 7 templates, 6-transition state machine, main-thread notifications, illness-aware metric pausing, TSF integration, share summary. Spec v5 (~1,089 lines). 15 QA rounds, 310 scenarios.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "bug-capture", "name": "Bug Capture System", "status": "complete", "started": "2026-04-08", "completed": "2026-04-09", "ended": null, "summary": "Three capture paths, WhatsApp/clipboard delivery.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "cross-domain", "name": "Cross-Domain Intelligence", "status": "complete", "started": "2026-04-04", "completed": "2026-04-05", "ended": null, "summary": "6 intelligence cards spanning feeding, sleep, growth, and medical domains.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "migration-m1-m2-m3", "name": "Migration M1–M3", "status": "complete", "started": "2026-04-03", "completed": "2026-04-07", "ended": null, "summary": "M3: emoji→SVG, inline style extraction, onclick→delegation. Full codebase modernization.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "design-principles-v3", "name": "Design Principles v3", "status": "complete", "started": "2026-04-01", "completed": "2026-04-05", "ended": null, "summary": "2,011 lines locked. Overlay/Chip/Card/Answer Card/Form systems plus Animation Tokens, Touch Targets, data-action naming.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [{"id": "todo-0001-fix-id-mismatch", "text": "Fix ctStorageWarning div ID mismatch — template.html uses ctStorageWarning but JS references ctStorageWarn", "status": "open", "chapter": "caretickets", "created": "2026-04-10", "resolved": null, "source_session": "s-2026-04-10-01"}], "shelf_history": [{"shelf": "active", "date": "2024-10-01", "reason": "Project started — Ziva's Dashboard v1"}]}, {"id": "sep-dashboard", "name": "SEP Dashboard", "shelf": "active", "description": "Single-file PWA for SEP workforce management — attendance, production, stock, payroll. 7-principle design system, 21-worker roster, full wage calculation engine.", "domain_color": "#7A9E7E", "tags": ["pwa", "manufacturing", "workforce"], "repo": null, "current_phase": "v2.0 stable, restructuring data reconciliation in progress", "chapters": [{"id": "v1-v2-builds", "name": "v1–v2 Builds", "status": "complete", "started": "2024-01-01", "completed": "2026-03-01", "ended": null, "summary": "Iterative build from v1.x through v2.0. Attendance, production logging, stock tracking, payroll with wage calculation engine.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "restructuring", "name": "SEP Restructuring", "status": "in-progress", "started": "2026-04-01", "completed": null, "ended": null, "summary": "Effective 1 Apr 2026. DIGITAL-001 v5, KB-006 AppSheet spec, KPI-001–007 binders done. Salary confirmations complete. Data reconciliation in progress.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [], "shelf_history": [{"shelf": "active", "date": "2024-01-01", "reason": null}]}, {"id": "sep-invoicing", "name": "SEP Invoicing", "shelf": "active", "description": "Standalone PWA for SEP invoicing — 21 clients, full rate cards, three billing modes, GST export.", "domain_color": "#6B8EAD", "tags": ["pwa", "invoicing", "gst"], "repo": null, "current_phase": "Phase 1 complete (Client Master, Create Invoice, Settings). Phase 2: Invoice Register + GST Export.", "chapters": [{"id": "spec", "name": "Spec & Design", "status": "complete", "started": "2026-04-01", "completed": "2026-04-03", "ended": null, "summary": "SEP_INVOICING_SPEC_v1.md — 21 clients, rate cards, weight/piece-challan/NOS-to-weight billing, Sales Register + GSTR1 CSV, five tabs.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "phase-1", "name": "Phase 1 Build", "status": "complete", "started": "2026-04-03", "completed": "2026-04-06", "ended": null, "summary": "Client Master, Create Invoice, Settings. 21 bugs found and fixed across three QA rounds.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "phase-2", "name": "Phase 2 Build", "status": "planned", "started": null, "completed": null, "ended": null, "summary": "Invoice Register and GST Export tabs.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [], "shelf_history": [{"shelf": "active", "date": "2026-04-01", "reason": "New project — SEP billing digitization"}]}, {"id": "codex", "name": "Codex", "shelf": "active", "description": "Library-themed PWA tracking projects, sessions, design decisions, and progress across Claude conversations. GitHub JSON storage. Shared design system roots with SproutLab but distinct icon set and library-themed tokens.", "domain_color": "#C4A87A", "tags": ["pwa", "meta", "knowledge-management"], "repo": "Rishabh1804/Codex", "current_phase": "Phase 2 complete — GitHub sync, WAL, wizard, SW deployed", "chapters": [{"id": "spec", "name": "Spec & Design Session", "status": "complete", "started": "2026-04-11", "completed": "2026-04-11", "ended": null, "summary": "CODEX_SPEC_v1.md and CODEX_QUICK_REFERENCE.md written. Design session resolved all 3 blockers: Playfair Display + Work Sans fonts, Style C icons (19 cx() SVGs), text size system (LOW/MED/HIGH). Initial data backfill generated.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "design-session", "name": "Design Session", "status": "complete", "started": "2026-04-11", "completed": "2026-04-12", "ended": null, "summary": "Pre-build design session resolving fonts (Playfair Display + Work Sans), icons (Style C thin + accent fill, 19 icons), text size system (3-preset --fs-base driven), and initial data backfill (3 JSONs).", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "phase-1-build", "name": "Phase 1 — Core Build", "status": "complete", "started": "2026-04-12", "completed": "2026-04-12", "ended": null, "summary": "Built and deployed Phase 1. 8-module split architecture (template, styles, data, seed, core, views, forms, start). Dashboard, Volume Detail, TODOs, Settings views. Overlay/confirm/toast systems. Theme toggle, text size slider. Seed data with 5 volumes, 23 canons. PWA manifest + icons. Deployed to GitHub Pages.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "phase-2-build", "name": "Phase 2 — Persistence Layer", "status": "complete", "started": "2026-04-12", "completed": "2026-04-12", "ended": null, "summary": "GitHub sync (fetchFile/pushFile/fetchAll/validateToken/flushQueue), WAL with replay, 4-step onboarding wizard, SW v2 (network-first), Settings GitHub connect/disconnect/sync, swipe navigation (canon pattern), Chrome-style pull-to-refresh. 8 hotfix rounds. ~2,400 lines across 8 modules.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [{"id": "todo-0001-reconcile-fs-tokens", "text": "Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system", "status": "open", "chapter": "design-session", "created": "2026-04-11", "resolved": null, "source_session": "s-2026-04-11-01"}, {"id": "todo-0002-phase-2-github-sync", "text": "Phase 2: GitHub sync, WAL, onboarding wizard, token validation", "status": "resolved", "chapter": "phase-1-build", "created": "2026-04-12", "resolved": "2026-04-12", "source_session": "s-2026-04-12-01"}, {"id": "todo-0003-service-worker", "text": "Add service worker for offline caching", "status": "resolved", "chapter": "phase-1-build", "created": "2026-04-12", "resolved": "2026-04-12", "source_session": "s-2026-04-12-01"}, {"id": "todo-0004-chapter-handoff-docs", "text": "Chapter handoff docs — generate structured markdowns in docs/{volume-id}/, link via spec_url, Phase 4 in-app viewer", "status": "open", "chapter": "phase-2-build", "created": "2026-04-12", "resolved": null, "source_session": "s-2026-04-12-02"}], "shelf_history": [{"shelf": "active", "date": "2026-04-11", "reason": "Project started — institutional memory system"}]}, {"id": "businessai-simulation", "name": "BusinessAI Simulation", "shelf": "paused", "description": "Business simulation addressed as BAI. ~₹30 crore/year business, 14 members, four entities (trading, industry, logistics). Objective: organize from informal to structured.", "domain_color": "#A08870", "tags": ["simulation", "business", "strategy"], "repo": null, "current_phase": "Agenda-setting meeting planned, Shyam ops+culture discussion guide TODO", "chapters": [{"id": "kickoff", "name": "Kickoff & Agenda Setting", "status": "in-progress", "started": "2026-03-01", "completed": null, "ended": null, "summary": "Initial informal discussion to set meeting agendas and lay organizational foundations. Shyam ops+culture discussion guide still pending.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [{"id": "todo-0001-shyam-guide", "text": "Prep Shyam ops+culture discussion guide for follow-up meeting", "status": "open", "chapter": "kickoff", "created": "2026-04-01", "resolved": null, "source_session": null}], "shelf_history": [{"shelf": "active", "date": "2026-03-01", "reason": null}, {"shelf": "paused", "date": "2026-04-01", "reason": "Focus shifted to SproutLab feature builds and SEP restructuring"}]}]};
 }
 
 function getSeedCanons() {
-  return {"_schema_version": 1, "canons": [{"id": "canon-0001-no-emojis", "scope": "sproutlab", "category": "design", "title": "HR-1: No Emojis", "rationale": "All iconography uses the zi() SVG icon system. No emoji characters in application-rendered UI. Emoji in user-supplied text is passthrough only.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-1"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0002-no-inline-styles", "scope": "sproutlab", "category": "design", "title": "HR-2: No Inline Styles", "rationale": "All styling through CSS classes and CSS custom properties. Never style= attributes. Ensures consistency and theme-ability.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-2"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0003-no-inline-handlers", "scope": "sproutlab", "category": "architecture", "title": "HR-3: No Inline Event Handlers", "rationale": "All interactivity via data-action delegation. Never onclick= attributes. Single delegation root ensures consistent behavior and easier debugging.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-3"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0004-eschtml-boundary", "scope": "sproutlab", "category": "architecture", "title": "HR-4: escHtml at All Render Boundaries", "rationale": "All user-supplied text passes through escHtml() before innerHTML. Prevents XSS and ensures safe rendering of arbitrary input.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-4"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0005-css-tokens", "scope": "sproutlab", "category": "design", "title": "HR-5: All Spacing/Font/Radius via CSS Tokens", "rationale": "Use --sp-*, --fs-*, --r-* tokens exclusively. No magic numbers. Ensures design consistency and enables theme/text-size scaling.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-5"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0006-data-action-delegation", "scope": "sproutlab", "category": "architecture", "title": "HR-6: data-action Delegation Universal", "rationale": "Every interactive element uses data-action attributes. Single event delegation root. Naming convention: verb-noun or domain-verb-noun.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-6"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0007-zi-innerhtml", "scope": "sproutlab", "category": "architecture", "title": "HR-7: zi() Returns SVG HTML, Set via innerHTML", "rationale": "zi() returns SVG HTML strings. Always set via .innerHTML, never .textContent. Ensures icons render as SVG elements, not escaped text.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-7"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0008-coming-soon-toast", "scope": "sproutlab", "category": "design", "title": "HR-8: Stub Features Show Coming Soon Toast", "rationale": "Incomplete or stub features show 'Coming soon' via showQLToast(). Never leave dead buttons or silent no-ops.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-8"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0009-post-build-qa", "scope": "sproutlab", "category": "process", "title": "HR-9: Post-Build Multi-Round QA Audit", "rationale": "After every build session: multi-round QA continuing until only cosmetic bugs remain. List cosmetic bugs at end. Check all HRs, functional flows, null guards, class coverage, overlay close, escHtml/escAttr.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-9"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0010-no-text-overflow-ellipsis", "scope": "sproutlab", "category": "design", "title": "HR-10: No text-overflow Ellipsis", "rationale": "Truncated text hides meaning. Wrap, resize, or restructure — never truncate with ellipsis.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-10"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0011-math-floor-currency", "scope": "sproutlab", "category": "architecture", "title": "HR-11: Math.floor for Currency", "rationale": "All currency values use Math.floor(). Never round up on money — always in the user's favor.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-11"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0012-timezone-safe-dates", "scope": "sproutlab", "category": "architecture", "title": "HR-12: Timezone-Safe Dates via localDateStr()", "rationale": "All date operations use localDateStr() to avoid timezone offset bugs. Never raw new Date().toISOString().slice(0,10).", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-12"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0013-no-ellipsis", "scope": "global", "category": "design", "title": "No text-overflow Ellipsis (Global)", "rationale": "Promoted from SproutLab HR-10 to global canon. Applies across all projects. Truncation hides meaning — always find a layout solution.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["canon-0010-no-text-overflow-ellipsis"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0014-eschtml-boundary-global", "scope": "global", "category": "architecture", "title": "escHtml at All Render Boundaries (Global)", "rationale": "All user-supplied text sanitized before innerHTML in every project. Non-negotiable security practice.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["canon-0004-eschtml-boundary"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0015-data-action-delegation-global", "scope": "global", "category": "architecture", "title": "data-action Delegation (Global)", "rationale": "Event delegation via data-action attributes across all projects. Never inline onclick handlers.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["canon-0006-data-action-delegation"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0016-defensive-depth", "scope": "global", "category": "architecture", "title": "Defensive Depth", "rationale": "Null guards, fallback defaults, and graceful degradation at every layer. Never assume upstream data is clean. Check before access, fallback before crash.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0017-exhaustive-pass4", "scope": "global", "category": "process", "title": "Exhaustive Pass 4 (Bugs Today)", "rationale": "In the 8-pass SPEC_ITERATION_PROCESS, Pass 4 (Bugs Today) must be exhaustive — enumerate every edge case, null state, overflow, and boundary. Never skim.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["SPEC_ITERATION_PROCESS.md"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0018-shelf-definitions", "scope": "global", "category": "process", "title": "Shelf Definitions", "rationale": "Active = currently being built or maintained. Paused = intentionally on hold, will resume. Archived = complete, read-only reference. Abandoned = stopped, no intent to resume.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0019-token-naming", "scope": "global", "category": "design", "title": "Token Naming Convention", "rationale": "CSS tokens: --{prefix}-{category}-{variant}. SproutLab: --sp-*, Codex: --cx-*. Spacing: --sp-N. Font size: --fs-*. Radius: --r-*. Animation: --anim-*. Consistent across all projects.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0020-micro-label-deprecated", "scope": "sproutlab", "category": "design", "title": ".micro-label Deprecated", "rationale": "Replaced by .form-label. All instances migrated. Do not reintroduce .micro-label.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0021-overlay-anim-sync", "scope": "sproutlab", "category": "design", "title": "OVERLAY_ANIM_MS Must Mirror --anim-overlay", "rationale": "JS constant OVERLAY_ANIM_MS = 300 must always match CSS --anim-overlay: 300ms. Mismatch causes visual glitches on overlay close.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0022-keys-constants", "scope": "sproutlab", "category": "architecture", "title": "KEYS Constants for All localStorage Keys", "rationale": "Every localStorage key accessed through the KEYS object. Never bare string keys. Prevents typos and enables easy refactoring.", "created": "2026-03", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0023-build-sh-only", "scope": "sproutlab", "category": "process", "title": "Never Raw Cat — Always build.sh", "rationale": "Concat order matters (data→core→home→diet→medical→intelligence→start). Always use build.sh, never manual cat. Prevents module ordering bugs.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0024-svg-explicit-dimensions", "scope": "global", "category": "design", "title": "SVG Icons Require Explicit width/height Attributes", "rationale": "Inline SVGs without width/height expand to fill their container. All cx() and zi() icons must include width=\"24\" height=\"24\" on the SVG element. CSS constraints alone are insufficient — the attribute is the primary size control.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0025-split-from-day-one", "scope": "global", "category": "architecture", "title": "Split Architecture From Day One", "rationale": "SproutLab's Migration M1-M3 (emoji→SVG, inline style extraction, onclick→delegation) proved that splitting a monolith later is a full chapter of work. New projects start with split modules and build.sh concat from the first commit.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["migration-m1-m2-m3"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0026-natural-page-scroll", "scope": "global", "category": "design", "title": "Natural Page Scroll Over Flex Column Layout", "rationale": "Flex column body with overflow:hidden + scrollable child container creates mobile browser incompatibilities (Chrome localhost scroll bug). Simpler: let body scroll naturally, sticky header, fixed tab bar, padding-bottom on content for tab clearance.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0027-mv-over-cp", "scope": "global", "category": "process", "title": "mv Over cp for Downloads → Project", "rationale": "When moving files from ~/storage/downloads/ to project directories, use mv not cp. Keeps downloads clean, prevents stale file confusion, one source of truth.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0028-network-first-sw", "scope": "global", "category": "architecture", "title": "Network-First Service Worker for App Shell", "rationale": "Stale-while-revalidate serves cached old versions, requiring manual cache clears after every deploy. Network-first always fetches latest, falls back to cache only when offline. Instant deploys.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0029-where-svg-fallback", "scope": "global", "category": "design", "title": ":where() for Zero-Specificity SVG Fallback", "rationale": "Global SVG sizing via :where(#container) svg gives zero specificity, so any class-based rule (.cx-card-title svg, .cx-fab svg) automatically wins. Catches all unconstrained icons without breaking specific overrides.", "created": "2026-04", "status": "active", "superseded_by": "canon-0024-svg-explicit-dimensions", "references": ["canon-0024-svg-explicit-dimensions"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0030-hidden-attr-override", "scope": "global", "category": "design", "title": "CSS display Overrides [hidden] — Always Add [hidden] Rule", "rationale": "HTML hidden attribute sets display:none, but any CSS rule setting display:flex/grid/block overrides it. Always add #element[hidden] { display: none !important } when using display-based layouts on hideable elements.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}], "rejected_alternatives": [{"id": "rej-0001-horizontal-timeline", "context": "Today So Far card design", "volumes": ["sproutlab"], "rejected": "Horizontal scrolling timeline", "chosen": "Vertical chronological list with warmth gradient bar", "reason": "375px screen width makes horizontal scroll unusable for dense data. Vertical list scans naturally on mobile.", "date": "2026-04-06", "canon_id": null}, {"id": "rej-0002-service-worker-notifications", "context": "CareTickets notification architecture", "volumes": ["sproutlab"], "rejected": "Service Worker push notifications", "chosen": "Main-thread notification architecture with in-app alerts", "reason": "Push notifications require a backend server and VAPID keys. Main-thread approach works offline, no server dependency, simpler permission model.", "date": "2026-04-08", "canon_id": null}, {"id": "rej-0003-multi-file-architecture", "context": "SproutLab architecture split approach", "volumes": ["sproutlab"], "rejected": "ES modules with import/export", "chosen": "Concat build via build.sh — single output file", "reason": "GitHub Pages serves static files. ES modules add complexity (CORS, load order, bundler dependency). Concat keeps single-file PWA simplicity with module organization benefits.", "date": "2026-04-07", "canon_id": null}, {"id": "rej-0004-libre-baskerville", "context": "Codex font selection", "volumes": ["codex"], "rejected": "Libre Baskerville + Source Sans 3", "chosen": "Playfair Display + Work Sans", "reason": "Playfair's high-contrast thick/thin strokes read as library spine lettering. Work Sans has warmer geometry than Source Sans 3, fitting the parchment/leather palette better.", "date": "2026-04-11", "canon_id": null}, {"id": "rej-0005-icon-style-a", "context": "Codex icon set style", "volumes": ["codex"], "rejected": "Style A (thin rounded, stroke 1.5, no fills)", "chosen": "Style C (thin + accent fill — stroke 1.5 with small filled accents)", "reason": "Style C adds subtle filled accents on key icons (bookmark, lock, alert, info, moon) giving a brass-embossed quality that matches the library theme without losing the thin line elegance.", "date": "2026-04-11", "canon_id": null}, {"id": "rej-0006-icon-style-b", "context": "Codex icon set style", "volumes": ["codex"], "rejected": "Style B (medium rounded, stroke 2)", "chosen": "Style C (thin + accent fill)", "reason": "Stroke 2 felt too heavy for the library aesthetic. Style C maintains elegance while improving visual anchoring through selective fills.", "date": "2026-04-11", "canon_id": null}, {"id": "rej-0007-scaling-icons", "context": "Codex text size system — icon behavior", "volumes": ["codex"], "rejected": "Icons scale with text size", "chosen": "Icons stay fixed at 24×24", "reason": "Scaling SVGs with text creates alignment headaches. Fixed icons provide consistent touch targets and layout stability across all text size presets.", "date": "2026-04-11", "canon_id": null}, {"id": "rej-0008-single-file-first", "context": "Codex architecture approach", "volumes": ["codex"], "rejected": "Single file first, split later", "chosen": "Split architecture from day one with build.sh concat", "reason": "SproutLab Migration M1-M3 proved splitting later is painful. Starting split is free since the build.sh workflow is already familiar.", "date": "2026-04-12", "canon_id": "canon-0025-split-from-day-one"}, {"id": "rej-0009-flex-column-body", "context": "Codex page scroll strategy", "volumes": ["codex"], "rejected": "Flex column body with overflow:hidden + scrollable viewContainer", "chosen": "Natural page scroll with sticky header and fixed tab bar", "reason": "Flex column approach broke scrolling on Chrome mobile (localhost). Natural scroll is simpler, works everywhere, matches how most PWAs work.", "date": "2026-04-12", "canon_id": "canon-0026-natural-page-scroll"}, {"id": "rej-0010-first-build-from-memory", "context": "Phase 1 build approach", "volumes": ["codex"], "rejected": "Building from spec memory (Aurelius's first attempt)", "chosen": "Rebuilding from spec codebase reference files", "reason": "First build had wrong element IDs, action names, store field names, and was missing scroll preservation, dirty form detection, escape handlers, error logging, and localStorage test. The 452-bug spec existed for a reason.", "date": "2026-04-12", "canon_id": null}, {"id": "rej-0011-stale-while-revalidate-sw", "context": "Codex service worker caching strategy", "volumes": ["codex"], "rejected": "Stale-while-revalidate for app shell", "chosen": "Network-first with cache fallback", "reason": "SWR serves cached old version first, requiring manual cache clears after every deploy. Network-first always gets latest, only uses cache when offline.", "date": "2026-04-12", "canon_id": "canon-0028-network-first-sw"}, {"id": "rej-0012-natural-scroll-reversed", "context": "Codex scroll strategy (Phase 2 reversal)", "volumes": ["codex"], "rejected": "Natural page scroll (Phase 1 decision)", "chosen": "Flex column body with overflow:hidden + scrollable viewContainer", "reason": "Phase 1 used natural scroll to avoid Chrome localhost bug. Phase 2 needed body as flex container for viewContainer flex:1 to work. The original Chrome bug was environment-specific; flex layout is the correct pattern for app-shell PWAs with fixed header/tab bar.", "date": "2026-04-12", "canon_id": null}]};
+  return {"_schema_version": 1, "canons": [{"id": "canon-0001-no-emojis", "scope": "sproutlab", "category": "design", "title": "HR-1: No Emojis", "rationale": "All iconography uses the zi() SVG icon system. No emoji characters in application-rendered UI. Emoji in user-supplied text is passthrough only.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-1"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0002-no-inline-styles", "scope": "sproutlab", "category": "design", "title": "HR-2: No Inline Styles", "rationale": "All styling through CSS classes and CSS custom properties. Never style= attributes. Ensures consistency and theme-ability.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-2"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0003-no-inline-handlers", "scope": "sproutlab", "category": "architecture", "title": "HR-3: No Inline Event Handlers", "rationale": "All interactivity via data-action delegation. Never onclick= attributes. Single delegation root ensures consistent behavior and easier debugging.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-3"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0004-eschtml-boundary", "scope": "sproutlab", "category": "architecture", "title": "HR-4: escHtml at All Render Boundaries", "rationale": "All user-supplied text passes through escHtml() before innerHTML. Prevents XSS and ensures safe rendering of arbitrary input.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-4"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0005-css-tokens", "scope": "sproutlab", "category": "design", "title": "HR-5: All Spacing/Font/Radius via CSS Tokens", "rationale": "Use --sp-*, --fs-*, --r-* tokens exclusively. No magic numbers. Ensures design consistency and enables theme/text-size scaling.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-5"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0006-data-action-delegation", "scope": "sproutlab", "category": "architecture", "title": "HR-6: data-action Delegation Universal", "rationale": "Every interactive element uses data-action attributes. Single event delegation root. Naming convention: verb-noun or domain-verb-noun.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-6"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0007-zi-innerhtml", "scope": "sproutlab", "category": "architecture", "title": "HR-7: zi() Returns SVG HTML, Set via innerHTML", "rationale": "zi() returns SVG HTML strings. Always set via .innerHTML, never .textContent. Ensures icons render as SVG elements, not escaped text.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-7"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0008-coming-soon-toast", "scope": "sproutlab", "category": "design", "title": "HR-8: Stub Features Show Coming Soon Toast", "rationale": "Incomplete or stub features show 'Coming soon' via showQLToast(). Never leave dead buttons or silent no-ops.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-8"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0009-post-build-qa", "scope": "sproutlab", "category": "process", "title": "HR-9: Post-Build Multi-Round QA Audit", "rationale": "After every build session: multi-round QA continuing until only cosmetic bugs remain. List cosmetic bugs at end. Check all HRs, functional flows, null guards, class coverage, overlay close, escHtml/escAttr.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-9"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0010-no-text-overflow-ellipsis", "scope": "sproutlab", "category": "design", "title": "HR-10: No text-overflow Ellipsis", "rationale": "Truncated text hides meaning. Wrap, resize, or restructure — never truncate with ellipsis.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-10"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0011-math-floor-currency", "scope": "sproutlab", "category": "architecture", "title": "HR-11: Math.floor for Currency", "rationale": "All currency values use Math.floor(). Never round up on money — always in the user's favor.", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-11"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0012-timezone-safe-dates", "scope": "sproutlab", "category": "architecture", "title": "HR-12: Timezone-Safe Dates via localDateStr()", "rationale": "All date operations use localDateStr() to avoid timezone offset bugs. Never raw new Date().toISOString().slice(0,10).", "created": "2026-03", "status": "active", "superseded_by": null, "references": ["HR-12"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0013-no-ellipsis", "scope": "global", "category": "design", "title": "No text-overflow Ellipsis (Global)", "rationale": "Promoted from SproutLab HR-10 to global canon. Applies across all projects. Truncation hides meaning — always find a layout solution.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["canon-0010-no-text-overflow-ellipsis"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0014-eschtml-boundary-global", "scope": "global", "category": "architecture", "title": "escHtml at All Render Boundaries (Global)", "rationale": "All user-supplied text sanitized before innerHTML in every project. Non-negotiable security practice.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["canon-0004-eschtml-boundary"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0015-data-action-delegation-global", "scope": "global", "category": "architecture", "title": "data-action Delegation (Global)", "rationale": "Event delegation via data-action attributes across all projects. Never inline onclick handlers.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["canon-0006-data-action-delegation"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0016-defensive-depth", "scope": "global", "category": "architecture", "title": "Defensive Depth", "rationale": "Null guards, fallback defaults, and graceful degradation at every layer. Never assume upstream data is clean. Check before access, fallback before crash.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0017-exhaustive-pass4", "scope": "global", "category": "process", "title": "Exhaustive Pass 4 (Bugs Today)", "rationale": "In the 8-pass SPEC_ITERATION_PROCESS, Pass 4 (Bugs Today) must be exhaustive — enumerate every edge case, null state, overflow, and boundary. Never skim.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["SPEC_ITERATION_PROCESS.md"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0018-shelf-definitions", "scope": "global", "category": "process", "title": "Shelf Definitions", "rationale": "Active = currently being built or maintained. Paused = intentionally on hold, will resume. Archived = complete, read-only reference. Abandoned = stopped, no intent to resume.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0019-token-naming", "scope": "global", "category": "design", "title": "Token Naming Convention", "rationale": "CSS tokens: --{prefix}-{category}-{variant}. SproutLab: --sp-*, Codex: --cx-*. Spacing: --sp-N. Font size: --fs-*. Radius: --r-*. Animation: --anim-*. Consistent across all projects.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0020-micro-label-deprecated", "scope": "sproutlab", "category": "design", "title": ".micro-label Deprecated", "rationale": "Replaced by .form-label. All instances migrated. Do not reintroduce .micro-label.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0021-overlay-anim-sync", "scope": "sproutlab", "category": "design", "title": "OVERLAY_ANIM_MS Must Mirror --anim-overlay", "rationale": "JS constant OVERLAY_ANIM_MS = 300 must always match CSS --anim-overlay: 300ms. Mismatch causes visual glitches on overlay close.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0022-keys-constants", "scope": "sproutlab", "category": "architecture", "title": "KEYS Constants for All localStorage Keys", "rationale": "Every localStorage key accessed through the KEYS object. Never bare string keys. Prevents typos and enables easy refactoring.", "created": "2026-03", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0023-build-sh-only", "scope": "sproutlab", "category": "process", "title": "Never Raw Cat — Always build.sh", "rationale": "Concat order matters (data→core→home→diet→medical→intelligence→start). Always use build.sh, never manual cat. Prevents module ordering bugs.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0024-svg-explicit-dimensions", "scope": "global", "category": "design", "title": "SVG Icons Require Explicit width/height Attributes", "rationale": "Inline SVGs without width/height expand to fill their container. All cx() and zi() icons must include width=\"24\" height=\"24\" on the SVG element. CSS constraints alone are insufficient — the attribute is the primary size control.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0025-split-from-day-one", "scope": "global", "category": "architecture", "title": "Split Architecture From Day One", "rationale": "SproutLab's Migration M1-M3 (emoji→SVG, inline style extraction, onclick→delegation) proved that splitting a monolith later is a full chapter of work. New projects start with split modules and build.sh concat from the first commit.", "created": "2026-04", "status": "active", "superseded_by": null, "references": ["migration-m1-m2-m3"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0026-natural-page-scroll", "scope": "global", "category": "design", "title": "Natural Page Scroll Over Flex Column Layout", "rationale": "Flex column body with overflow:hidden + scrollable child container creates mobile browser incompatibilities (Chrome localhost scroll bug). Simpler: let body scroll naturally, sticky header, fixed tab bar, padding-bottom on content for tab clearance.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0027-mv-over-cp", "scope": "global", "category": "process", "title": "mv Over cp for Downloads → Project", "rationale": "When moving files from ~/storage/downloads/ to project directories, use mv not cp. Keeps downloads clean, prevents stale file confusion, one source of truth.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0028-network-first-sw", "scope": "global", "category": "architecture", "title": "Network-First Service Worker for App Shell", "rationale": "Stale-while-revalidate serves cached old versions, requiring manual cache clears after every deploy. Network-first always fetches latest, falls back to cache only when offline. Instant deploys.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}, {"id": "canon-0029-where-svg-fallback", "scope": "global", "category": "design", "title": ":where() for Zero-Specificity SVG Fallback", "rationale": "Global SVG sizing via :where(#container) svg gives zero specificity, so any class-based rule (.cx-card-title svg, .cx-fab svg) automatically wins. Catches all unconstrained icons without breaking specific overrides.", "created": "2026-04", "status": "active", "superseded_by": "canon-0024-svg-explicit-dimensions", "references": ["canon-0024-svg-explicit-dimensions"], "_deleted": false, "_deleted_date": null}, {"id": "canon-0030-hidden-attr-override", "scope": "global", "category": "design", "title": "CSS display Overrides [hidden] — Always Add [hidden] Rule", "rationale": "HTML hidden attribute sets display:none, but any CSS rule setting display:flex/grid/block overrides it. Always add #element[hidden] { display: none !important } when using display-based layouts on hideable elements.", "created": "2026-04", "status": "active", "superseded_by": null, "references": [], "_deleted": false, "_deleted_date": null}], "rejected_alternatives": [{"id": "rej-0001-horizontal-timeline", "context": "Today So Far card design", "volumes": ["sproutlab"], "rejected": "Horizontal scrolling timeline", "chosen": "Vertical chronological list with warmth gradient bar", "reason": "375px screen width makes horizontal scroll unusable for dense data. Vertical list scans naturally on mobile.", "date": "2026-04-06", "canon_id": null}, {"id": "rej-0002-service-worker-notifications", "context": "CareTickets notification architecture", "volumes": ["sproutlab"], "rejected": "Service Worker push notifications", "chosen": "Main-thread notification architecture with in-app alerts", "reason": "Push notifications require a backend server and VAPID keys. Main-thread approach works offline, no server dependency, simpler permission model.", "date": "2026-04-08", "canon_id": null}, {"id": "rej-0003-multi-file-architecture", "context": "SproutLab architecture split approach", "volumes": ["sproutlab"], "rejected": "ES modules with import/export", "chosen": "Concat build via build.sh — single output file", "reason": "GitHub Pages serves static files. ES modules add complexity (CORS, load order, bundler dependency). Concat keeps single-file PWA simplicity with module organization benefits.", "date": "2026-04-07", "canon_id": null}, {"id": "rej-0004-libre-baskerville", "context": "Codex font selection", "volumes": ["codex"], "rejected": "Libre Baskerville + Source Sans 3", "chosen": "Playfair Display + Work Sans", "reason": "Playfair's high-contrast thick/thin strokes read as library spine lettering. Work Sans has warmer geometry than Source Sans 3, fitting the parchment/leather palette better.", "date": "2026-04-11", "canon_id": null}, {"id": "rej-0005-icon-style-a", "context": "Codex icon set style", "volumes": ["codex"], "rejected": "Style A (thin rounded, stroke 1.5, no fills)", "chosen": "Style C (thin + accent fill — stroke 1.5 with small filled accents)", "reason": "Style C adds subtle filled accents on key icons (bookmark, lock, alert, info, moon) giving a brass-embossed quality that matches the library theme without losing the thin line elegance.", "date": "2026-04-11", "canon_id": null}, {"id": "rej-0006-icon-style-b", "context": "Codex icon set style", "volumes": ["codex"], "rejected": "Style B (medium rounded, stroke 2)", "chosen": "Style C (thin + accent fill)", "reason": "Stroke 2 felt too heavy for the library aesthetic. Style C maintains elegance while improving visual anchoring through selective fills.", "date": "2026-04-11", "canon_id": null}, {"id": "rej-0007-scaling-icons", "context": "Codex text size system — icon behavior", "volumes": ["codex"], "rejected": "Icons scale with text size", "chosen": "Icons stay fixed at 24×24", "reason": "Scaling SVGs with text creates alignment headaches. Fixed icons provide consistent touch targets and layout stability across all text size presets.", "date": "2026-04-11", "canon_id": null}, {"id": "rej-0008-single-file-first", "context": "Codex architecture approach", "volumes": ["codex"], "rejected": "Single file first, split later", "chosen": "Split architecture from day one with build.sh concat", "reason": "SproutLab Migration M1-M3 proved splitting later is painful. Starting split is free since the build.sh workflow is already familiar.", "date": "2026-04-12", "canon_id": "canon-0025-split-from-day-one"}, {"id": "rej-0009-flex-column-body", "context": "Codex page scroll strategy", "volumes": ["codex"], "rejected": "Flex column body with overflow:hidden + scrollable viewContainer", "chosen": "Natural page scroll with sticky header and fixed tab bar", "reason": "Flex column approach broke scrolling on Chrome mobile (localhost). Natural scroll is simpler, works everywhere, matches how most PWAs work.", "date": "2026-04-12", "canon_id": "canon-0026-natural-page-scroll"}, {"id": "rej-0010-first-build-from-memory", "context": "Phase 1 build approach", "volumes": ["codex"], "rejected": "Building from spec memory (Aurelius's first attempt)", "chosen": "Rebuilding from spec codebase reference files", "reason": "First build had wrong element IDs, action names, store field names, and was missing scroll preservation, dirty form detection, escape handlers, error logging, and localStorage test. The 452-bug spec existed for a reason.", "date": "2026-04-12", "canon_id": null}, {"id": "rej-0011-stale-while-revalidate-sw", "context": "Codex service worker caching strategy", "volumes": ["codex"], "rejected": "Stale-while-revalidate for app shell", "chosen": "Network-first with cache fallback", "reason": "SWR serves cached old version first, requiring manual cache clears after every deploy. Network-first always gets latest, only uses cache when offline.", "date": "2026-04-12", "canon_id": "canon-0028-network-first-sw"}, {"id": "rej-0012-natural-scroll-reversed", "context": "Codex scroll strategy (Phase 2 reversal)", "volumes": ["codex"], "rejected": "Natural page scroll (Phase 1 decision)", "chosen": "Flex column body with overflow:hidden + scrollable viewContainer", "reason": "Phase 1 used natural scroll to avoid Chrome localhost bug. Phase 2 needed body as flex container for viewContainer flex:1 to work. The original Chrome bug was environment-specific; flex layout is the correct pattern for app-shell PWAs with fixed header/tab bar.", "date": "2026-04-12", "canon_id": null}], "apocrypha": []};
 }
 
 function getSeedJournal() {
-  return {"_schema_version": 1, "journal": [{"date": "2026-04-11", "sessions": [{"id": "s-2026-04-11-01", "summary": "Codex pre-build design session. Resolved all three blockers: (1) Font pairing locked — Playfair Display (headings) + Work Sans (body) with Google Fonts CDN import and fallback stacks. (2) Icon set locked — Style C (thin stroke 1.5 + accent fills), 19 icons in cx() function, brass-embossed library aesthetic. (3) Text size system designed — LOW/MED/HIGH presets driven by --fs-base CSS variable, icons fixed 24px, localStorage persistence via cx_textSize key. (4) Initial data backfill JSONs generated — volumes.json (5 volumes, 13 SproutLab chapters), canons.json (23 canons including HR-1–HR-12 + globals, 7 rejected alternatives), journal.json (this session). Also identified spec delta: QUICK_REFERENCE static --fs-* tokens need reconciliation with dynamic --fs-base system.", "volumes_touched": ["codex"], "chapters_touched": ["spec"], "decisions": ["Playfair Display + Work Sans font pairing", "Style C icon set (thin + accent fill)", "Text size: 3-preset system, --fs-base driven, icons fixed 24px", "cx_textSize localStorage key for persistence"], "bugs_found": 0, "bugs_fixed": 0, "duration_minutes": null, "open_todos": ["Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system", "Generate complete cx() function code for build"], "handoff": "All three pre-build blockers resolved. Ready for Phase 1 build: Core (utilities, store, settings, shell, dashboard, volume detail, edit overlays, theme).", "screenshots": []}]}, {"date": "2026-04-12", "sessions": [{"id": "s-2026-04-12-01", "summary": "Phase 1 build and deploy. First build attempt from memory diverged from spec (wrong IDs, action names, missing features). Rebuilt from CODEBASE_REFERENCE, CODEBASE_SHELL, CODEBASE_VIEWS, CODEBASE_CSS spec files — matching exact element IDs, action names, routing patterns, form renderers, and initialization sequence. Fixed 3 bugs: (1) SVGs rendering at container size — added explicit width/height, (2) slider blue flash — tap-highlight suppression, (3) Chrome localhost scroll — removed flex column, used natural scroll. Set up GitHub repo, pushed 10 files (4,827 lines). Added PWA manifest + generated book icons. Deployed to rishabh1804.github.io/Codex/. Seeded 5 volumes, 23 canons, 7 rejections.", "volumes_touched": ["codex"], "chapters_touched": ["design-session", "phase-1-build"], "decisions": ["Split architecture from day one (8 modules + build.sh)", "Rebuild from spec over patching first attempt", "Natural page scroll over flex column layout", "SVG icons require explicit width/height attributes", "mv over cp for downloads workflow", "Python http.server for local testing", "GitHub Pages for deployment"], "bugs_found": 3, "bugs_fixed": 3, "open_todos": ["Reconcile QUICK_REFERENCE --fs-* tokens with dynamic --fs-base", "Phase 2: GitHub sync, WAL, wizard", "Service worker for offline"], "handoff": "Phase 1 complete and deployed. App is installable PWA. Next: Phase 2 (GitHub sync, WAL, onboarding wizard) or QA pass on Phase 1 flows.", "screenshots": []}, {"id": "s-2026-04-12-02", "summary": "Phase 2 build and deploy — GitHub sync, WAL, onboarding wizard, service worker. Full persistence layer added across 4 modules (data.js, core.js, views.js, start.js). WAL entries on every store mutation. fetchFile/pushFile/fetchAll/validateToken/flushQueue pipeline. 4-step onboarding wizard with GitHub connect or skip-local flow. SW v2 (network-first). Settings upgraded with live GitHub connect/disconnect/sync. 8 hotfix rounds: SVG sizing (global :where() fallback), flex scroll layout, breadcrumb hidden fix, slider tap-highlight, tab badge position, gear icon, breadcrumb removal from settings. Swipe navigation (canon pattern from SproutLab) and Chrome-style pull-to-refresh with visual indicator. build.sh updated to include seed.js. Dashboard sort by last-active date restored.", "volumes_touched": ["codex"], "chapters_touched": ["phase-2-build"], "decisions": ["_initializing/_isRendering moved to data.js (available to all modules)", ":where() CSS for zero-specificity SVG fallback", "Network-first SW over stale-while-revalidate", "body flex column layout (Phase 1 natural scroll reversed)", "Gear icon for settings over lock", "No breadcrumb on settings", "Pull indicator inserted before viewContainer (survives re-renders)"], "bugs_found": 8, "bugs_fixed": 8, "duration_minutes": 240, "open_todos": ["Reconcile QUICK_REFERENCE --fs-* tokens with dynamic --fs-base", "Chapter handoff docs — generate markdowns, link via spec_url"], "handoff": "Phase 2 complete. Phase 3 scope: Journal view, Canons view, Rejections, Snippet import. All persistence plumbing in place — Phase 3 is pure UI rendering against existing store data.", "screenshots": []}]}]};
+  return {"_schema_version": 1, "journal": [{"date": "2026-04-11", "sessions": [{"id": "s-2026-04-11-01", "summary": "Codex pre-build design session. Resolved all three blockers: (1) Font pairing locked — Playfair Display (headings) + Work Sans (body) with Google Fonts CDN import and fallback stacks. (2) Icon set locked — Style C (thin stroke 1.5 + accent fills), 19 icons in cx() function, brass-embossed library aesthetic. (3) Text size system designed — LOW/MED/HIGH presets driven by --fs-base CSS variable, icons fixed 24px, localStorage persistence via cx_textSize key. (4) Initial data backfill JSONs generated — volumes.json (5 volumes, 13 SproutLab chapters), canons.json (23 canons including HR-1–HR-12 + globals, 7 rejected alternatives), journal.json (this session). Also identified spec delta: QUICK_REFERENCE static --fs-* tokens need reconciliation with dynamic --fs-base system.", "volumes_touched": ["codex"], "chapters_touched": ["spec"], "decisions": ["Playfair Display + Work Sans font pairing", "Style C icon set (thin + accent fill)", "Text size: 3-preset system, --fs-base driven, icons fixed 24px", "cx_textSize localStorage key for persistence"], "bugs_found": 0, "bugs_fixed": 0, "duration_minutes": null, "open_todos": ["Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system", "Generate complete cx() function code for build"], "handoff": "All three pre-build blockers resolved. Ready for Phase 1 build: Core (utilities, store, settings, shell, dashboard, volume detail, edit overlays, theme).", "screenshots": []}]}, {"date": "2026-04-12", "sessions": [{"id": "s-2026-04-12-01", "summary": "Phase 1 build and deploy. First build attempt from memory diverged from spec (wrong IDs, action names, missing features). Rebuilt from CODEBASE_REFERENCE, CODEBASE_SHELL, CODEBASE_VIEWS, CODEBASE_CSS spec files — matching exact element IDs, action names, routing patterns, form renderers, and initialization sequence. Fixed 3 bugs: (1) SVGs rendering at container size — added explicit width/height, (2) slider blue flash — tap-highlight suppression, (3) Chrome localhost scroll — removed flex column, used natural scroll. Set up GitHub repo, pushed 10 files (4,827 lines). Added PWA manifest + generated book icons. Deployed to rishabh1804.github.io/Codex/. Seeded 5 volumes, 23 canons, 7 schisms.", "volumes_touched": ["codex"], "chapters_touched": ["design-session", "phase-1-build"], "decisions": ["Split architecture from day one (8 modules + build.sh)", "Rebuild from spec over patching first attempt", "Natural page scroll over flex column layout", "SVG icons require explicit width/height attributes", "mv over cp for downloads workflow", "Python http.server for local testing", "GitHub Pages for deployment"], "bugs_found": 3, "bugs_fixed": 3, "open_todos": ["Reconcile QUICK_REFERENCE --fs-* tokens with dynamic --fs-base", "Phase 2: GitHub sync, WAL, wizard", "Service worker for offline"], "handoff": "Phase 1 complete and deployed. App is installable PWA. Next: Phase 2 (GitHub sync, WAL, onboarding wizard) or QA pass on Phase 1 flows.", "screenshots": []}, {"id": "s-2026-04-12-02", "summary": "Phase 2 build and deploy — GitHub sync, WAL, onboarding wizard, service worker. Full persistence layer added across 4 modules (data.js, core.js, views.js, start.js). WAL entries on every store mutation. fetchFile/pushFile/fetchAll/validateToken/flushQueue pipeline. 4-step onboarding wizard with GitHub connect or skip-local flow. SW v2 (network-first). Settings upgraded with live GitHub connect/disconnect/sync. 8 hotfix rounds: SVG sizing (global :where() fallback), flex scroll layout, breadcrumb hidden fix, slider tap-highlight, tab badge position, gear icon, breadcrumb removal from settings. Swipe navigation (canon pattern from SproutLab) and Chrome-style pull-to-refresh with visual indicator. build.sh updated to include seed.js. Dashboard sort by last-active date restored.", "volumes_touched": ["codex"], "chapters_touched": ["phase-2-build"], "decisions": ["_initializing/_isRendering moved to data.js (available to all modules)", ":where() CSS for zero-specificity SVG fallback", "Network-first SW over stale-while-revalidate", "body flex column layout (Phase 1 natural scroll reversed)", "Gear icon for settings over lock", "No breadcrumb on settings", "Pull indicator inserted before viewContainer (survives re-renders)"], "bugs_found": 8, "bugs_fixed": 8, "duration_minutes": 240, "open_todos": ["Reconcile QUICK_REFERENCE --fs-* tokens with dynamic --fs-base", "Chapter handoff docs — generate markdowns, link via spec_url"], "handoff": "Phase 2 complete. Phase 3 scope: Journal view, Canons view, Rejections, Snippet import. All persistence plumbing in place — Phase 3 is pure UI rendering against existing store data.", "screenshots": []}]}]};
 }
 
-/* CODEX — Core (Phase 2: GitHub sync + WAL replay) */
+/* CODEX — Core (Phase 5: Chapter Detail + Apocrypha) */
 
 /* --- cx() Icons — Style C (design session locked) --- */
 function cx(name) {
@@ -1504,6 +1636,7 @@ function parseRoute(hash) {
   var parts = (hash || '#/').replace('#/', '').split('/');
   if (parts[0] === 'volume' && parts[1]) return { view: 'volume-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'canon' && parts[1]) return { view: 'canon-detail', id: decodeURIComponent(parts[1]) };
+  if (parts[0] === 'chapter' && parts[1] && parts[2]) return { view: 'chapter-detail', volumeId: decodeURIComponent(parts[1]), chapterId: decodeURIComponent(parts[2]) };
   if (['dashboard','journal','canons','todos','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
   return { view: 'dashboard' };
 }
@@ -1516,6 +1649,8 @@ function navigate(hash) {
 }
 
 function handleRouteChange(hash, scrollToTop) {
+  // Phase 4: Close search if open during navigation
+  if (!document.getElementById('searchOverlay').hidden) closeSearch();
   var route = parseRoute(hash);
   _scrollPositions[_currentView] = (document.getElementById('viewContainer') || {}).scrollTop || 0;
   _currentView = route.view;
@@ -1535,7 +1670,7 @@ function handleSwitchTab(tabName) {
 }
 
 function updateTabBarActive(view) {
-  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', 'volume-detail':'dashboard', 'canon-detail':'canons', settings:null };
+  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', settings:null };
   var active = map[view];
   var btns = document.querySelectorAll('.cx-tab-btn');
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
@@ -1550,6 +1685,10 @@ function renderBreadcrumbForRoute(route) {
   } else if (route.view === 'canon-detail') {
     var canon = store.canons.find(function(c) { return c.id === route.id; });
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Canons', route: '#/canons' }, { label: canon ? canon.title : route.id, route: null }];
+  } else if (route.view === 'chapter-detail') {
+    var cvol = store.volumes.find(function(v) { return v.id === route.volumeId; });
+    var cch = cvol ? (cvol.chapters || []).find(function(c) { return c.id === route.chapterId; }) : null;
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: cvol ? cvol.name : route.volumeId, route: '#/volume/' + encodeURIComponent(route.volumeId) }, { label: cch ? cch.name : route.chapterId, route: null }];
   }
   renderBreadcrumb(segments);
 }
@@ -1572,12 +1711,13 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail')) {
-    var title = route.view === 'settings' ? 'Settings' : route.view === 'canon-detail' ? 'Canon' : (function() { var v = store.volumes.find(function(x) { return x.id === route.id; }); return v ? v.name : 'Volume'; })();
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail')) {
+    var title = route.view === 'settings' ? 'Settings' : route.view === 'canon-detail' ? 'Canon' : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
       + '<div class="cx-header-actions">'
       + (route.view === 'volume-detail' ? '<button data-action="editVolume" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
+      + (route.view === 'chapter-detail' ? '<button data-action="editChapterDetail" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
       + '</div>';
   } else {
     header.innerHTML = '<span class="cx-app-title">Codex</span>'
@@ -1621,9 +1761,10 @@ function closeSearch() {
 function search(query) {
   var q = query.toLowerCase().trim();
   var results = [];
-  var w = { canon: 4, rejection: 3, session: 2, volume: 1 };
+  var w = { canon: 4, schism: 3, apocryphon: 3, session: 2, volume: 1 };
   filterActive(store.canons).forEach(function(c) { var s = matchScore(q, [c.title, c.rationale, c.id].concat(c.references || [])); if (s > 0) results.push({ type: 'canon', entity: c, score: s * w.canon }); });
-  filterActive(store.rejections).forEach(function(r) { var s = matchScore(q, [r.rejected, r.chosen, r.reason, r.context || '']); if (s > 0) results.push({ type: 'rejection', entity: r, score: s * w.rejection }); });
+  filterActive(store.schisms).forEach(function(r) { var s = matchScore(q, [r.rejected, r.chosen, r.reason, r.context || '']); if (s > 0) results.push({ type: 'schism', entity: r, score: s * w.schism }); });
+  filterActive(store.apocrypha).forEach(function(a) { var s = matchScore(q, [a.title, a.narrative || '']); if (s > 0) results.push({ type: 'apocryphon', entity: a, score: s * w.apocryphon }); });
   store.journal.forEach(function(day) { (day.sessions || []).forEach(function(sess) { var sc = matchScore(q, [sess.summary, sess.handoff || ''].concat(sess.open_todos || [])); if (sc > 0) results.push({ type: 'session', entity: { id: sess.id, date: day.date, summary: sess.summary, handoff: sess.handoff }, score: sc * w.session }); }); });
   filterActive(store.volumes).forEach(function(v) { var s = matchScore(q, [v.name, v.description || '', v.current_phase || ''].concat(v.tags || [])); if (s > 0) results.push({ type: 'volume', entity: v, score: s * w.volume }); });
   return results.sort(function(a, b) { return b.score - a.score; });
@@ -1672,7 +1813,7 @@ function renderCurrentView() {
       dashboard: renderDashboard, 'volume-detail': renderVolumeDetail,
       settings: renderSettings, todos: renderTodos,
       journal: renderJournal, canons: renderCanons,
-      'canon-detail': renderCanonDetail
+      'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);
@@ -1888,7 +2029,7 @@ function setOfflineStatus(offline) {
 
 /* --- File Builders (rebuild entire file from current store) --- */
 function buildVolumesFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }, null, 2); }
-function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, rejected_alternatives: store.rejections }, null, 2); }
+function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha }, null, 2); }
 function buildJournalFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }, null, 2); }
 
 /* --- Flush Queue (push pending WAL entries to GitHub) --- */
@@ -1995,7 +2136,8 @@ function replayCreate(entry) {
 function replayUpdate(entry) {
   var existing = findEntity(entry.entity_type, entry.entity_id, entry.parent_id);
   if (!existing) { entry.status = 'resolved'; return; }
-  if (existing._deleted) { entry.status = 'resolved'; return; }
+  // Allow restore operations (payload._deleted === false) through even if entity is deleted
+  if (existing._deleted && !(entry.payload && entry.payload._deleted === false)) { entry.status = 'resolved'; return; }
   Object.assign(existing, entry.payload);
 }
 
@@ -2026,7 +2168,8 @@ function findEntity(type, id, parentId) {
   switch (type) {
     case 'volume': return store.volumes.find(function(v) { return v.id === id; });
     case 'canon': return store.canons.find(function(c) { return c.id === id; });
-    case 'rejection': return store.rejections.find(function(r) { return r.id === id; });
+    case 'schism': case 'rejection': return store.schisms.find(function(r) { return r.id === id; });
+    case 'apocryphon': return store.apocrypha.find(function(a) { return a.id === id; });
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); return vc ? (vc.chapters || []).find(function(c) { return c.id === id; }) : undefined;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); return vt ? (vt.todos || []).find(function(t) { return t.id === id; }) : undefined;
     case 'session': var d = store.journal.find(function(d) { return d.date === parentId; }); return d ? (d.sessions || []).find(function(s) { return s.id === id; }) : undefined;
@@ -2037,7 +2180,8 @@ function insertEntity(type, payload, parentId) {
   switch (type) {
     case 'volume': store.volumes.push(payload); break;
     case 'canon': store.canons.push(payload); break;
-    case 'rejection': store.rejections.push(payload); break;
+    case 'schism': case 'rejection': store.schisms.push(payload); break;
+    case 'apocryphon': store.apocrypha.push(payload); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) { if (!vc.chapters) vc.chapters = []; vc.chapters.push(payload); } break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) { if (!vt.todos) vt.todos = []; vt.todos.push(payload); } break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (!d) { d = { date: parentId, sessions: [] }; store.journal.push(d); } d.sessions.push(payload); break;
@@ -2048,7 +2192,8 @@ function removeEntity(type, id, parentId) {
   switch (type) {
     case 'volume': store.volumes = store.volumes.filter(function(v) { return v.id !== id; }); break;
     case 'canon': store.canons = store.canons.filter(function(c) { return c.id !== id; }); break;
-    case 'rejection': store.rejections = store.rejections.filter(function(r) { return r.id !== id; }); break;
+    case 'schism': case 'rejection': store.schisms = store.schisms.filter(function(r) { return r.id !== id; }); break;
+    case 'apocryphon': store.apocrypha = store.apocrypha.filter(function(a) { return a.id !== id; }); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) vc.chapters = (vc.chapters || []).filter(function(c) { return c.id !== id; }); break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) vt.todos = (vt.todos || []).filter(function(t) { return t.id !== id; }); break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (d) { d.sessions = (d.sessions || []).filter(function(s) { return s.id !== id; }); if (d.sessions.length === 0) store.journal = store.journal.filter(function(x) { return x.date !== parentId; }); } break;
@@ -2117,6 +2262,7 @@ var _journalFilters = { range: '30d', volume: null };
 var _journalLoadMoreCount = 30;
 var _canonPage = 1;
 var _canonFilters = { scope: null, category: null, status: null };
+var _canonSort = 'newest';
 var CANONS_PER_PAGE = 10;
 
 /* --- Shared Helpers --- */
@@ -2139,8 +2285,8 @@ function getEntityFieldText(id, field) {
   // Search canons
   var canon = store.canons.find(function(c) { return c.id === id; });
   if (canon) return canon[field] || '';
-  // Search rejections
-  var rej = store.rejections.find(function(r) { return r.id === id; });
+  // Search schisms
+  var rej = store.schisms.find(function(r) { return r.id === id; });
   if (rej) return rej[field] || '';
   return '';
 }
@@ -2422,6 +2568,21 @@ function renderCanons() {
   });
   html += '</div>';
 
+  // Sort bar
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Sort:</span>';
+  var sortOptions = [
+    { value: 'newest', label: 'Newest' },
+    { value: 'oldest', label: 'Oldest' },
+    { value: 'title', label: 'Title' },
+    { value: 'scope', label: 'Scope' }
+  ];
+  sortOptions.forEach(function(s) {
+    var active = _canonSort === s.value ? ' cx-chip-active' : '';
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="setCanonSort" data-value="' + escAttr(s.value) + '">' + escHtml(s.label) + '</button>';
+  });
+  html += '</div>';
+
   // Apply filters (intersection)
   var canons = filterActive(store.canons).filter(function(c) {
     if (_canonFilters.scope && c.scope !== _canonFilters.scope) return false;
@@ -2430,8 +2591,16 @@ function renderCanons() {
     return true;
   });
 
-  // Sort by ID descending (newest first)
-  canons.sort(function(a, b) { return b.id.localeCompare(a.id); });
+  // Sort
+  if (_canonSort === 'oldest') {
+    canons.sort(function(a, b) { return a.id.localeCompare(b.id); });
+  } else if (_canonSort === 'title') {
+    canons.sort(function(a, b) { return (a.title || '').localeCompare(b.title || ''); });
+  } else if (_canonSort === 'scope') {
+    canons.sort(function(a, b) { return (a.scope || '').localeCompare(b.scope || '') || b.id.localeCompare(a.id); });
+  } else {
+    canons.sort(function(a, b) { return b.id.localeCompare(a.id); });
+  }
 
   // Paginate
   var totalPages = Math.max(1, Math.ceil(canons.length / CANONS_PER_PAGE));
@@ -2457,20 +2626,46 @@ function renderCanons() {
     html += renderPaginationHtml(_canonPage, totalPages);
   }
 
-  // Rejections section (inline at bottom, not paginated)
-  var rejections = filterActive(store.rejections);
+  // Schisms section (inline at bottom, not paginated)
+  var schisms = filterActive(store.schisms);
   if (_canonFilters.scope) {
-    rejections = rejections.filter(function(r) {
+    schisms = schisms.filter(function(r) {
       return (r.volumes || []).indexOf(_canonFilters.scope) !== -1 || _canonFilters.scope === 'global';
     });
   }
 
-  if (rejections.length > 0) {
+  if (schisms.length > 0) {
     html += '<div class="cx-divider"></div>';
-    html += '<div class="cx-section-title">' + cx('alert') + ' Rejected Alternatives (' + rejections.length + ')</div>';
-    rejections.forEach(function(rej) {
-      html += renderRejectionCard(rej);
+    html += '<div class="cx-section-title">' + cx('alert') + ' Schisms (' + schisms.length + ')</div>';
+    schisms.forEach(function(rej) {
+      html += renderSchismCard(rej);
     });
+  }
+
+  // Apocrypha (Phase 5) — collapsed by default
+  var apocryphon = filterActive(store.apocrypha);
+  if (apocryphon.length > 0) {
+    html += '<div class="cx-divider"></div>';
+    html += '<div class="cx-apocrypha-header" data-action="toggleApocrypha">';
+    html += '<span class="cx-section-title" style="margin:0;cursor:pointer">' + cx('scroll') + ' Apocrypha (' + apocryphon.length + ')</span>';
+    html += '<span class="cx-expand-toggle" id="apocryphaToggle">\u25B6</span>';
+    html += '</div>';
+    html += '<div id="apocryphaSection" hidden>';
+    apocryphon.forEach(function(a) {
+      var statusCls = a.status === 'fulfilled' ? 'cx-status-complete' : a.status === 'foretold' ? 'cx-status-in-progress' : 'cx-status-abandoned';
+      html += '<div class="cx-apocrypha-card">';
+      html += '<div class="cx-apocrypha-title">' + escHtml(a.title) + '</div>';
+      html += '<span class="cx-chip cx-chip-sm ' + statusCls + '">' + escHtml(a.status) + '</span>';
+      if (a.narrative) html += '<div class="cx-apocrypha-narrative">' + escHtml(a.narrative).replace(/\n/g, '<br>') + '</div>';
+      var ameta = [];
+      if (a.volumes && a.volumes.length > 0) {
+        a.volumes.forEach(function(vid) { var v = store.volumes.find(function(x) { return x.id === vid; }); ameta.push(v ? v.name : vid); });
+      }
+      if (a.date) ameta.push(formatAbsoluteDate(a.date));
+      if (ameta.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-8)">' + escHtml(ameta.join(' \u00B7 ')) + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
   }
 
   vc.innerHTML = html;
@@ -2513,16 +2708,16 @@ function renderCanonCard(canon) {
 
   // Created date
   if (canon.created) {
-    html += '<div class="cx-card-meta">' + escHtml(formatAbsoluteDate(canon.created.length >= 10 ? canon.created : canon.created + '-01')) + '</div>';
+    html += '<div class="cx-card-meta">' + escHtml(formatAbsoluteDate(canon.created)) + '</div>';
   }
 
   html += '</div>';
   return html;
 }
 
-function renderRejectionCard(rej) {
-  var html = '<div class="cx-card cx-rejection-card">';
-  html += '<div class="cx-card-header"><div class="cx-card-meta cx-rejection-title">Rejected: ' + escHtml(rej.rejected) + '</div></div>';
+function renderSchismCard(rej) {
+  var html = '<div class="cx-card cx-schism-card">';
+  html += '<div class="cx-card-header"><div class="cx-card-meta cx-schism-title">Rejected: ' + escHtml(rej.rejected) + '</div></div>';
   html += '<div class="cx-card-body" style="font-size:var(--fs-xs)"><span style="color:var(--success)">Chosen:</span> ' + escHtml(rej.chosen) + '</div>';
   if (rej.reason) {
     html += '<div class="cx-card-body" style="font-size:var(--fs-xs);color:var(--text-secondary)">' + renderTruncated(rej.reason, 120, rej.id, 'reason') + '</div>';
@@ -2577,7 +2772,7 @@ function renderCanonDetail(route) {
   html += '<span class="cx-chip cx-chip-sm">' + escHtml(canon.category) + '</span>';
   html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(canon.status) + '">' + escHtml(canon.status) + '</span>';
   if (canon.created) {
-    html += '<span class="cx-chip cx-chip-sm">' + escHtml(formatAbsoluteDate(canon.created.length >= 10 ? canon.created : canon.created + '-01')) + '</span>';
+    html += '<span class="cx-chip cx-chip-sm">' + escHtml(formatAbsoluteDate(canon.created)) + '</span>';
   }
   html += '</div>';
 
@@ -2603,11 +2798,11 @@ function renderCanonDetail(route) {
     html += '<div class="cx-card"><button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(canon.superseded_by) + '">' + escHtml(canon.superseded_by) + '</button></div>';
   }
 
-  // Linked Rejections
-  var linkedRejs = filterActive(store.rejections).filter(function(r) { return r.canon_id === canon.id; });
-  if (linkedRejs.length > 0) {
-    html += '<div class="cx-section-title">Linked Rejections (' + linkedRejs.length + ')</div>';
-    linkedRejs.forEach(function(rej) { html += renderRejectionCard(rej); });
+  // Linked Schisms
+  var linkedSchisms = filterActive(store.schisms).filter(function(r) { return r.canon_id === canon.id; });
+  if (linkedSchisms.length > 0) {
+    html += '<div class="cx-section-title">Linked Schisms (' + linkedSchisms.length + ')</div>';
+    linkedSchisms.forEach(function(rej) { html += renderSchismCard(rej); });
   }
 
   // Action bar
@@ -2690,13 +2885,13 @@ function renderSearchResults(results, query) {
     return;
   }
 
-  var groups = { canon: [], rejection: [], session: [], volume: [] };
-  var labels = { canon: 'Canons', rejection: 'Rejected Alternatives', session: 'Sessions', volume: 'Volumes' };
-  var icons = { canon: 'bookmark', rejection: 'alert', session: 'scroll', volume: 'book' };
+  var groups = { canon: [], schism: [], apocryphon: [], session: [], volume: [] };
+  var labels = { canon: 'Canons', schism: 'Schisms', apocryphon: 'Apocrypha', session: 'Sessions', volume: 'Volumes' };
+  var icons = { canon: 'bookmark', schism: 'alert', apocryphon: 'scroll', session: 'scroll', volume: 'book' };
   results.forEach(function(r) { if (groups[r.type]) groups[r.type].push(r); });
 
   var html = '';
-  ['canon', 'session', 'rejection', 'volume'].forEach(function(type) {
+  ['canon', 'session', 'schism', 'apocryphon', 'volume'].forEach(function(type) {
     var items = groups[type];
     if (items.length === 0) return;
     html += '<div class="cx-search-group-header">' + cx(icons[type]) + ' ' + escHtml(labels[type]) + ' (' + items.length + ')</div>';
@@ -2709,9 +2904,14 @@ function renderSearchResults(results, query) {
           snippet = buildSnippet(e.rationale || '', query);
           route = '#/canon/' + encodeURIComponent(e.id);
           break;
-        case 'rejection':
+        case 'schism':
           title = 'Rejected: ' + (e.rejected || e.id);
           snippet = buildSnippet(e.reason || e.chosen || '', query);
+          route = '#/canons';
+          break;
+        case 'apocryphon':
+          title = e.title || e.id;
+          snippet = buildSnippet(e.narrative || '', query);
           route = '#/canons';
           break;
         case 'session':
@@ -2864,13 +3064,14 @@ function renderTrashView() {
       if (ch._deleted) deletedChapters.push({ volume: v, chapter: ch });
     });
   });
+  var deletedApocrypha = store.apocrypha.filter(function(a) { return a._deleted; });
 
   var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
   html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
   html += '<h2 class="cx-page-title" style="margin:0">Trash</h2></div>';
 
-  if (deletedCanons.length === 0 && deletedChapters.length === 0) {
-    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons and chapters appear here');
+  if (deletedCanons.length === 0 && deletedChapters.length === 0 && deletedApocrypha.length === 0) {
+    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons, chapters, and apocrypha appear here');
     vc.innerHTML = html;
     return;
   }
@@ -2885,6 +3086,21 @@ function renderTrashView() {
       html += '<div class="cx-trash-actions">';
       html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreCanon" data-id="' + escAttr(c.id) + '">Restore</button>';
       html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteCanon" data-id="' + escAttr(c.id) + '">' + cx('trash') + '</button>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  if (deletedApocrypha.length > 0) {
+    html += '<div class="cx-section-title">' + cx('scroll') + ' Apocrypha (' + deletedApocrypha.length + ')</div>';
+    html += '<div class="cx-card">';
+    deletedApocrypha.forEach(function(a) {
+      html += '<div class="cx-trash-item">';
+      html += '<div class="cx-trash-info"><div class="cx-trash-name">' + escHtml(a.title || a.id) + '</div>';
+      html += '<div class="cx-trash-meta">Deleted ' + escHtml(formatRelativeTime(a._deleted_date)) + '</div></div>';
+      html += '<div class="cx-trash-actions">';
+      html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreApocryphon" data-id="' + escAttr(a.id) + '">Restore</button>';
+      html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteApocryphon" data-id="' + escAttr(a.id) + '">' + cx('trash') + '</button>';
       html += '</div></div>';
     });
     html += '</div>';
@@ -2952,18 +3168,20 @@ function renderErrorLogView() {
 
 function renderStorageUsage() {
   var vc = document.getElementById('viewContainer');
-  var keys = Object.values(KEYS);
   var rows = [];
   var total = 0;
 
-  keys.forEach(function(key) {
-    var val = localStorage.getItem(key);
-    if (val !== null) {
-      var size = val.length * 2; // rough byte estimate (UTF-16)
-      rows.push({ key: key, size: size });
-      total += size;
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    if (key && key.indexOf('codex-') === 0) {
+      var val = localStorage.getItem(key);
+      if (val !== null) {
+        var size = val.length * 2; // rough byte estimate (UTF-16)
+        rows.push({ key: key, size: size });
+        total += size;
+      }
     }
-  });
+  }
   rows.sort(function(a, b) { return b.size - a.size; });
 
   function formatBytes(bytes) {
@@ -2994,11 +3212,12 @@ function renderDashboard() {
   var snap = store.getSnapshot();
   var html = renderConnectGitHubCta();
 
-  // Phase 4: Stats bar
-  html += renderStatsBar();
-
-  // Phase 4: Heatmap
-  html += renderHeatmap();
+  // Phase 4: Stats bar + Heatmap (only when library has content)
+  var hasVolumes = snap.volumes.length > 0;
+  if (hasVolumes) {
+    html += renderStatsBar();
+    html += renderHeatmap();
+  }
 
   var hasAny = false;
   SHELF_ORDER.forEach(function(shelf) {
@@ -3040,6 +3259,65 @@ function renderDashboard() {
     html += renderEmptyState('book', 'The library is empty', 'Tap + to add your first volume', 'New Volume', 'fabAction');
   }
   vc.innerHTML = html;
+
+  // Phase 4: Auto-scroll heatmap to show most recent dates
+  var heatScroll = vc.querySelector('.cx-heatmap-scroll');
+  if (heatScroll) heatScroll.scrollLeft = heatScroll.scrollWidth;
+}
+
+/* --- Chapter Helpers (Phase 5) --- */
+function getSortedChapters(vol) {
+  var chs = filterActive(vol.chapters || []);
+  return chs.sort(function(a, b) {
+    var oa = a.order != null ? a.order : 9999;
+    var ob = b.order != null ? b.order : 9999;
+    return oa - ob;
+  });
+}
+
+function getChapterLinkedSessions(chapterId) {
+  var results = [];
+  store.journal.forEach(function(day) {
+    (day.sessions || []).forEach(function(s) {
+      if ((s.chapters_touched || []).indexOf(chapterId) !== -1) {
+        results.push({ date: day.date, session: s });
+      }
+    });
+  });
+  return results;
+}
+
+function getChapterLinkedCanons(chapterId) {
+  var linked = getChapterLinkedSessions(chapterId);
+  var canonIds = {};
+  linked.forEach(function(ls) {
+    (ls.session.decisions || []).forEach(function(d) {
+      if (!canonIds[d]) {
+        var canon = store.canons.find(function(c) { return c.id === d && !c._deleted; });
+        if (canon) canonIds[d] = canon;
+      }
+    });
+  });
+  var result = [];
+  Object.keys(canonIds).forEach(function(k) { result.push(canonIds[k]); });
+  return result;
+}
+
+function renderChapterContent(content) {
+  if (!content || !content.trim()) return '';
+  var blocks = content.split(/\n\n+/);
+  var html = '<div class="cx-chapter-prose">';
+  blocks.forEach(function(block) {
+    block = block.trim();
+    if (!block) return;
+    if (block.indexOf('## ') === 0) {
+      html += '<div class="cx-chapter-section-heading">' + escHtml(block.substring(3)) + '</div>';
+    } else {
+      html += '<p>' + escHtml(block).replace(/\n/g, '<br>') + '</p>';
+    }
+  });
+  html += '</div>';
+  return html;
 }
 
 /* --- Volume Detail (from Phase 1) --- */
@@ -3091,7 +3369,7 @@ function renderVolumeDetail(route) {
   }
 
   // Chapters
-  var chapters = filterActive(vol.chapters || []);
+  var chapters = getSortedChapters(vol);
   html += '<div class="cx-section-title">' + cx('bookmark') + ' Chapters (' + chapters.length + ')</div>';
   if (chapters.length === 0) {
     html += '<p style="color:var(--text-tertiary);font-size:var(--fs-xs);margin-bottom:var(--sp-16)">No chapters yet</p>';
@@ -3103,7 +3381,7 @@ function renderVolumeDetail(route) {
       if (ch.started) meta.push('Started ' + formatRelativeTime(ch.started));
       if (ch.completed) meta.push('Done ' + formatRelativeTime(ch.completed));
 
-      html += '<div class="cx-chapter-item" data-action="editChapter" data-vol="' + escAttr(vol.id) + '" data-id="' + escAttr(ch.id) + '">';
+      html += '<div class="cx-chapter-item" data-action="navigate" data-route="#/chapter/' + encodeURIComponent(vol.id) + '/' + encodeURIComponent(ch.id) + '">';
       html += '<span class="cx-status-' + escAttr(ch.status) + '">' + cx(icon) + '</span>';
       html += '<div><div class="cx-chapter-name">' + escHtml(ch.name) + '</div>';
       if (ch.summary) html += '<div class="cx-chapter-summary">' + escHtml(ch.summary) + '</div>';
@@ -3132,6 +3410,110 @@ function renderVolumeDetail(route) {
   html += '<div class="cx-divider"></div>';
   html += '<div class="cx-section-title">Danger Zone</div>';
   html += '<button class="cx-btn-danger cx-full-width" data-action="deleteVolume" data-id="' + escAttr(vol.id) + '">' + cx('trash') + ' Delete Volume</button>';
+
+  vc.innerHTML = html;
+}
+
+/* --- Chapter Detail (Phase 5) --- */
+function renderChapterDetail(route) {
+  var vc = document.getElementById('viewContainer');
+  var vol = store.volumes.find(function(v) { return v.id === route.volumeId; });
+  if (!vol) { vc.innerHTML = renderEmptyState('alert', 'Volume not found', 'This volume may have been deleted'); return; }
+  var ch = (vol.chapters || []).find(function(c) { return c.id === route.chapterId && !c._deleted; });
+  if (!ch) { vc.innerHTML = renderEmptyState('alert', 'Chapter not found', 'This chapter may have been deleted'); return; }
+
+  var html = '';
+
+  // Title + status
+  var statusIcon = ch.status === 'complete' ? 'check' : ch.status === 'in-progress' ? 'clock' : ch.status === 'abandoned' ? 'alert' : ch.status === 'paused' ? 'clock' : 'bookmark';
+  html += '<h1 class="cx-page-title">' + escHtml(ch.name) + '</h1>';
+
+  // Badges
+  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-12)">';
+  html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(ch.status) + '">' + cx(statusIcon) + ' ' + escHtml(ch.status) + '</span>';
+  if (ch.started) html += '<span class="cx-chip cx-chip-sm">Started ' + escHtml(formatAbsoluteDate(ch.started)) + '</span>';
+  if (ch.completed) html += '<span class="cx-chip cx-chip-sm">Done ' + escHtml(formatAbsoluteDate(ch.completed)) + '</span>';
+  html += '</div>';
+
+  // Summary
+  if (ch.summary) html += '<p style="color:var(--text-secondary);font-size:var(--fs-sm);line-height:1.6;margin-bottom:var(--sp-16)">' + escHtml(ch.summary) + '</p>';
+
+  // Spec URL
+  if (ch.spec_url) html += '<p style="margin-bottom:var(--sp-16)"><a href="' + escAttr(ch.spec_url) + '" target="_blank" rel="noopener" class="cx-link-btn">' + cx('link') + ' View Spec</a></p>';
+
+  // Content
+  var contentHtml = renderChapterContent(ch.content);
+  if (contentHtml) {
+    html += '<div class="cx-divider"></div>';
+    html += contentHtml;
+  } else {
+    html += '<div class="cx-chapter-empty">' + cx('scroll') + '<p>No narrative yet.</p><button data-action="editChapterDetail" class="cx-btn-secondary cx-btn-sm">' + cx('quill') + ' Edit Chapter</button></div>';
+  }
+
+  // Linked canons
+  var linkedCanons = getChapterLinkedCanons(ch.id);
+  if (linkedCanons.length > 0) {
+    html += '<div class="cx-divider"></div>';
+    html += '<div class="cx-section-title">' + cx('bookmark') + ' Linked Canons (' + linkedCanons.length + ')</div>';
+    linkedCanons.forEach(function(canon) {
+      html += '<div class="cx-mini-card" data-action="navigate" data-route="#/canon/' + encodeURIComponent(canon.id) + '">';
+      html += '<div style="font-size:var(--fs-sm);font-weight:500">' + escHtml(canon.title) + '</div>';
+      html += '<div style="font-size:var(--fs-xs);color:var(--text-tertiary)">' + escHtml(canon.id) + '</div>';
+      html += '</div>';
+    });
+  }
+
+  // Linked sessions
+  var linkedSessions = getChapterLinkedSessions(ch.id);
+  if (linkedSessions.length > 0) {
+    html += '<div class="cx-divider"></div>';
+    html += '<div class="cx-section-title">' + cx('scroll') + ' Sessions (' + linkedSessions.length + ')</div>';
+    linkedSessions.forEach(function(ls) {
+      var s = ls.session;
+      var dur = s.duration_minutes ? s.duration_minutes + 'm' : '';
+      html += '<div class="cx-mini-card">';
+      html += '<div style="font-size:var(--fs-sm);font-weight:500">' + escHtml(s.id) + ' \u00B7 ' + escHtml(formatAbsoluteDate(ls.date)) + (dur ? ' \u00B7 ' + escHtml(dur) : '') + '</div>';
+      if (s.summary) html += '<div style="font-size:var(--fs-xs);color:var(--text-secondary);margin-top:var(--sp-4);line-height:1.5">' + escHtml(s.summary.length > 150 ? s.summary.substring(0, 150) + '\u2026' : s.summary) + '</div>';
+      html += '</div>';
+    });
+  }
+
+  // Linked TODOs
+  var todos = (vol.todos || []).filter(function(t) { return t.chapter === ch.id; });
+  if (todos.length > 0) {
+    var openTodos = todos.filter(function(t) { return t.status === 'open'; });
+    html += '<div class="cx-divider"></div>';
+    html += '<div class="cx-section-title">' + cx('check') + ' TODOs (' + openTodos.length + ' open)</div>';
+    html += '<div class="cx-card">';
+    todos.forEach(function(t) { html += renderTodoItem(vol.id, t); });
+    html += '</div>';
+  }
+
+  // Prev / Next navigation
+  var sorted = getSortedChapters(vol);
+  var curIdx = -1;
+  for (var i = 0; i < sorted.length; i++) { if (sorted[i].id === ch.id) { curIdx = i; break; } }
+  var prev = curIdx > 0 ? sorted[curIdx - 1] : null;
+  var next = curIdx < sorted.length - 1 ? sorted[curIdx + 1] : null;
+
+  if (prev || next) {
+    html += '<div class="cx-chapter-nav">';
+    if (prev) {
+      html += '<div class="cx-chapter-nav-btn" data-action="navigate" data-route="#/chapter/' + encodeURIComponent(vol.id) + '/' + encodeURIComponent(prev.id) + '">';
+      html += '<span style="font-size:var(--fs-xs);color:var(--text-tertiary)">' + cx('arrow-left') + ' Previous</span>';
+      html += '<span style="font-size:var(--fs-sm);font-weight:500">' + escHtml(prev.name) + '</span>';
+      html += '</div>';
+    } else {
+      html += '<div></div>';
+    }
+    if (next) {
+      html += '<div class="cx-chapter-nav-btn" style="text-align:right" data-action="navigate" data-route="#/chapter/' + encodeURIComponent(vol.id) + '/' + encodeURIComponent(next.id) + '">';
+      html += '<span style="font-size:var(--fs-xs);color:var(--text-tertiary)">Next <span style="display:inline-block;transform:scaleX(-1)">' + cx('arrow-left') + '</span></span>';
+      html += '<span style="font-size:var(--fs-sm);font-weight:500">' + escHtml(next.name) + '</span>';
+      html += '</div>';
+    }
+    html += '</div>';
+  }
 
   vc.innerHTML = html;
 }
@@ -3480,7 +3862,10 @@ function handleDeleteChapter(volumeId, chapterId) {
   var ch = vol ? (vol.chapters || []).find(function(c) { return c.id === chapterId; }) : null;
   if (!ch) return;
   showConfirmDialog('Delete Chapter', 'Delete "' + ch.name + '"? This is a soft delete.', function() {
-    try { store.deleteChapter(volumeId, chapterId); showToast('Chapter deleted', 'success'); closeOverlay(); closeConfirmDialog(); renderCurrentView(); }
+    try {
+      store.deleteChapter(volumeId, chapterId); showToast('Chapter deleted', 'success'); closeOverlay(); closeConfirmDialog();
+      if (_currentView === 'chapter-detail') { navigate('#/volume/' + encodeURIComponent(volumeId)); } else { renderCurrentView(); }
+    }
     catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
   }, { danger: true, label: 'Delete' });
 }
@@ -3698,7 +4083,7 @@ function handleDeleteSession(date, sessionId) {
 function openCanonFabChoice() {
   var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateCanon">' + cx('bookmark') + ' New Canon</button>';
-  body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateRejection">' + cx('alert') + ' New Rejection</button>';
+  body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateSchism">' + cx('alert') + ' New Schism</button>';
   body += '</div>';
   openOverlay('Add to Canons', body, '');
 }
@@ -3806,10 +4191,10 @@ function handleDeleteCanon(canonId) {
 }
 
 /* ============================================================
-   PHASE 3: Rejection Create
+   PHASE 3: Schism Create
    ============================================================ */
 
-function openCreateRejection() {
+function openCreateSchism() {
   closeOverlay();
   setTimeout(function() {
     var vols = filterActive(store.volumes);
@@ -3823,13 +4208,13 @@ function openCreateRejection() {
     body += renderTextField('rej_canon_id', 'Linked Canon (optional)', '', { placeholder: 'canon-NNNN-slug' });
 
     var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-      + '<button data-action="handleSaveRejection" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
-    openOverlay('New Rejected Alternative', body, footer);
+      + '<button data-action="handleSaveSchism" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
+    openOverlay('New Schism', body, footer);
     setTimeout(function() { var el = document.getElementById('field-rej_rejected'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
   }, OVERLAY_ANIM_MS + 50);
 }
 
-function handleSaveRejection() {
+function handleSaveSchism() {
   var rejected = (document.getElementById('field-rej_rejected') || {}).value || '';
   var chosen = (document.getElementById('field-rej_chosen') || {}).value || '';
   var reason = (document.getElementById('field-rej_reason') || {}).value || '';
@@ -3846,14 +4231,14 @@ function handleSaveRejection() {
   var volumes = volumesStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
 
   try {
-    var allIds = store.rejections.map(function(r) { return r.id; });
+    var allIds = store.schisms.map(function(r) { return r.id; });
     var id = generateId('rej', allIds) + '-' + autoSlug(rejected).substring(0, 20);
-    store.addRejection({
+    store.addSchism({
       id: id, context: context.trim() || null, volumes: volumes,
       rejected: rejected, chosen: chosen, reason: reason,
       date: date, canon_id: (canonId && canonId.trim()) || null
     });
-    showToast('Rejection recorded', 'success');
+    showToast('Schism recorded', 'success');
     closeOverlay();
     renderCurrentView();
   } catch(e) { showToast(e.message, 'error'); }
@@ -3938,11 +4323,12 @@ function handlePreviewSnippet() {
     });
   }
 
-  // Preview rejections
-  if (_snippetParsed.rejections && _snippetParsed.rejections.length > 0) {
-    _snippetParsed.rejections.forEach(function(r) {
-      var exists = store.rejections.some(function(x) { return x.id === r.id; });
-      html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Rejection ' + escHtml(r.id) + ' (exists)' : '<span class="cx-preview-ok">\u2713</span> Rejection: ' + escHtml(r.rejected || r.id)) + '</div>';
+  // Preview schisms
+  var _previewSchisms = _snippetParsed.schisms || _snippetParsed.rejections;
+  if (_previewSchisms && _previewSchisms.length > 0) {
+    _previewSchisms.forEach(function(r) {
+      var exists = store.schisms.some(function(x) { return x.id === r.id; });
+      html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Schism ' + escHtml(r.id) + ' (exists)' : '<span class="cx-preview-ok">\u2713</span> Schism: ' + escHtml(r.rejected || r.id)) + '</div>';
     });
   }
 
@@ -3955,10 +4341,45 @@ function handlePreviewSnippet() {
     });
   }
 
+  // Preview new_chapters (Phase 5)
+  if (_snippetParsed.new_chapters && _snippetParsed.new_chapters.length > 0) {
+    _snippetParsed.new_chapters.forEach(function(nc) {
+      var pvol = store.volumes.find(function(v) { return v.id === nc.volume; });
+      var exists = pvol && (pvol.chapters || []).some(function(c) { return c.id === nc.chapter.id; });
+      html += '<div class="cx-preview-item">' + (exists
+        ? '<span class="cx-preview-skip">\u2717</span> Chapter ' + escHtml(nc.chapter.name) + ' (exists)'
+        : '<span class="cx-preview-ok">\u2713</span> New chapter: ' + escHtml(nc.chapter.name)) + '</div>';
+    });
+  }
+
   // Preview chapter_updates
   if (_snippetParsed.chapter_updates && _snippetParsed.chapter_updates.length > 0) {
     _snippetParsed.chapter_updates.forEach(function(cu) {
-      html += '<div class="cx-preview-item"><span class="cx-preview-ok">\u2713</span> Chapter update: ' + escHtml(cu.volume + '/' + cu.chapter) + '</div>';
+      var pvol = store.volumes.find(function(v) { return v.id === cu.volume; });
+      var pch = pvol ? (pvol.chapters || []).find(function(c) { return c.id === cu.chapter; }) : null;
+      html += '<div class="cx-preview-item">' + (pch
+        ? '<span class="cx-preview-ok">\u2713</span> Update: ' + escHtml(pch.name)
+        : '<span class="cx-preview-skip">\u2717</span> ' + escHtml(cu.chapter) + ' (not found)') + '</div>';
+    });
+  }
+
+  // Preview canon_updates
+  if (_snippetParsed.canon_updates && _snippetParsed.canon_updates.length > 0) {
+    _snippetParsed.canon_updates.forEach(function(cu) {
+      var pc = store.canons.find(function(c) { return c.id === cu.id; });
+      html += '<div class="cx-preview-item">' + (pc
+        ? '<span class="cx-preview-ok">\u2713</span> Update canon: ' + escHtml(pc.title || cu.id)
+        : '<span class="cx-preview-skip">\u2717</span> Canon ' + escHtml(cu.id) + ' (not found)') + '</div>';
+    });
+  }
+
+  // Preview apocrypha (Phase 5)
+  if (_snippetParsed.apocrypha && _snippetParsed.apocrypha.length > 0) {
+    _snippetParsed.apocrypha.forEach(function(a) {
+      var exists = store.apocrypha.some(function(x) { return x.id === a.id; });
+      html += '<div class="cx-preview-item">' + (exists
+        ? '<span class="cx-preview-skip">\u2717</span> Apocryphon ' + escHtml(a.title) + ' (exists)'
+        : '<span class="cx-preview-ok">\u2713</span> Apocryphon: ' + escHtml(a.title)) + '</div>';
     });
   }
 
@@ -3969,7 +4390,7 @@ function handlePreviewSnippet() {
 
 function handleImportSnippet() {
   if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
-  var counts = { sessions: 0, canons: 0, rejections: 0, todos: 0, chapters: 0 };
+  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, apocrypha: 0 };
 
   try {
     // 1. Session
@@ -3997,13 +4418,14 @@ function handleImportSnippet() {
       });
     }
 
-    // 3. Rejections
-    if (_snippetParsed.rejections) {
-      _snippetParsed.rejections.forEach(function(r) {
-        var exists = store.rejections.some(function(x) { return x.id === r.id; });
+    // 3. Schisms
+    var _importSchisms = _snippetParsed.schisms || _snippetParsed.rejections;
+    if (_importSchisms) {
+      _importSchisms.forEach(function(r) {
+        var exists = store.schisms.some(function(x) { return x.id === r.id; });
         if (!exists) {
-          store.addRejection(r);
-          counts.rejections++;
+          store.addSchism(r);
+          counts.schisms++;
         }
       });
     }
@@ -4018,22 +4440,58 @@ function handleImportSnippet() {
       });
     }
 
-    // 5. Chapter updates
+    // 5. New chapters (Phase 5 — before chapter_updates)
+    if (_snippetParsed.new_chapters) {
+      _snippetParsed.new_chapters.forEach(function(nc) {
+        try {
+          store.addChapter(nc.volume, nc.chapter);
+          counts.newChapters++;
+        } catch(e) { /* skip if volume not found or duplicate */ }
+      });
+    }
+
+    // 6. Chapter updates
     if (_snippetParsed.chapter_updates) {
       _snippetParsed.chapter_updates.forEach(function(cu) {
         try {
           store.updateChapter(cu.volume, cu.chapter, cu.patch);
-          counts.chapters++;
+          counts.chapterUpdates++;
         } catch(e) { /* skip if not found */ }
+      });
+    }
+
+    // 6b. Canon updates
+    if (_snippetParsed.canon_updates) {
+      _snippetParsed.canon_updates.forEach(function(cu) {
+        try {
+          store.updateCanon(cu.id, cu.patch);
+          counts.canonUpdates++;
+        } catch(e) { /* skip if not found */ }
+      });
+    }
+
+    // 7. Apocrypha (Phase 5)
+    if (_snippetParsed.apocrypha) {
+      _snippetParsed.apocrypha.forEach(function(a) {
+        var exists = store.apocrypha.some(function(x) { return x.id === a.id; });
+        if (!exists) {
+          try {
+            store.addApocryphon(a);
+            counts.apocrypha++;
+          } catch(e) { /* skip */ }
+        }
       });
     }
 
     var parts = [];
     if (counts.sessions) parts.push(counts.sessions + ' session');
     if (counts.canons) parts.push(counts.canons + ' canon' + (counts.canons > 1 ? 's' : ''));
-    if (counts.rejections) parts.push(counts.rejections + ' rejection' + (counts.rejections > 1 ? 's' : ''));
+    if (counts.schisms) parts.push(counts.schisms + ' schism' + (counts.schisms > 1 ? 's' : ''));
     if (counts.todos) parts.push(counts.todos + ' TODO' + (counts.todos > 1 ? 's' : ''));
-    if (counts.chapters) parts.push(counts.chapters + ' chapter update' + (counts.chapters > 1 ? 's' : ''));
+    if (counts.newChapters) parts.push(counts.newChapters + ' new chapter' + (counts.newChapters > 1 ? 's' : ''));
+    if (counts.chapterUpdates) parts.push(counts.chapterUpdates + ' chapter update' + (counts.chapterUpdates > 1 ? 's' : ''));
+    if (counts.canonUpdates) parts.push(counts.canonUpdates + ' canon update' + (counts.canonUpdates > 1 ? 's' : ''));
+    if (counts.apocrypha) parts.push(counts.apocrypha + ' apocryphon' + (counts.apocrypha > 1 ? ' entries' : ''));
 
     showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');
     _snippetParsed = null;
@@ -4042,7 +4500,7 @@ function handleImportSnippet() {
   } catch(e) { showToast('Import error: ' + e.message, 'error'); }
 }
 
-/* CODEX — Start (Phase 2: Full lifecycle with GitHub sync) */
+/* CODEX — Start (Phase 5: Chapter Detail + Apocrypha) */
 
 (function() {
 
@@ -4052,6 +4510,12 @@ function setupDelegation() {
   if (_delegationReady) return;
   _delegationReady = true;
   document.addEventListener('click', function(e) {
+    // Phase 4: Dismiss sync panel on outside click
+    var syncPanel = document.getElementById('syncDetailPanel');
+    if (syncPanel && !syncPanel.contains(e.target) && !e.target.closest('#syncIndicator')) {
+      syncPanel.remove();
+    }
+
     var el = e.target.closest('[data-action]');
     if (!el) return;
     var action = el.dataset.action;
@@ -4085,6 +4549,7 @@ function setupDelegation() {
 
       // Chapter
       case 'editChapter': openEditChapter(vol, id); break;
+      case 'editChapterDetail': openEditChapter(_currentViewParams.volumeId, _currentViewParams.chapterId); break;
       case 'handleSaveChapter': handleSaveChapter(vol, id || null); break;
       case 'handleDeleteChapter': handleDeleteChapter(vol, id); break;
 
@@ -4192,6 +4657,20 @@ function setupDelegation() {
           renderTrashView();
         }, { danger: true, label: 'Delete Forever' });
         break;
+      case 'restoreApocryphon':
+        var ra = store.apocrypha.find(function(a) { return a.id === id; });
+        if (ra) { ra._deleted = false; ra._deleted_date = null; store._createWalEntry('update', 'apocryphon', id, 'canons.json', { _deleted: false, _deleted_date: null }); store._fireChange(); showToast('Apocryphon restored', 'success'); renderTrashView(); }
+        break;
+      case 'permanentDeleteApocryphon':
+        showConfirmDialog('Permanently Delete', 'This cannot be undone. Are you sure?', function() {
+          store.apocrypha = store.apocrypha.filter(function(a) { return a.id !== id; });
+          store._createWalEntry('delete', 'apocryphon', id, 'canons.json', { _permanent: true });
+          store._fireChange();
+          showToast('Permanently deleted', 'success');
+          closeConfirmDialog();
+          renderTrashView();
+        }, { danger: true, label: 'Delete Forever' });
+        break;
 
       // Phase 4: Sync panel
       case 'closeSyncPanel':
@@ -4225,7 +4704,20 @@ function setupDelegation() {
         _canonPage = 1;
         renderCurrentView();
         break;
+      case 'setCanonSort':
+        _canonSort = el.dataset.value || 'newest';
+        _canonPage = 1;
+        renderCurrentView();
+        break;
       case 'changePage': _canonPage = parseInt(el.dataset.page, 10) || 1; renderCurrentView(); document.getElementById('viewContainer').scrollTop = 0; break;
+
+      // Phase 5: Apocrypha
+      case 'toggleApocrypha':
+        var apoSec = document.getElementById('apocryphaSection');
+        var apoToggle = document.getElementById('apocryphaToggle');
+        if (apoSec) { apoSec.hidden = !apoSec.hidden; if (apoToggle) apoToggle.textContent = apoSec.hidden ? '\u25B6' : '\u25BC'; }
+        break;
+
       case 'openCreateCanon': openCreateCanon(); break;
       case 'editCanon': openEditCanon(id); break;
       case 'handleSaveCanon': handleSaveCanon(id || null); break;
@@ -4233,9 +4725,9 @@ function setupDelegation() {
       case 'copyCanonId': handleCopyCanonId(id); break;
       case 'copyCanonJson': handleCopyCanonJson(id); break;
 
-      // Phase 3: Rejections
-      case 'openCreateRejection': openCreateRejection(); break;
-      case 'handleSaveRejection': handleSaveRejection(); break;
+      // Phase 3: Schisms
+      case 'openCreateSchism': openCreateSchism(); break;
+      case 'handleSaveSchism': handleSaveSchism(); break;
 
       // Phase 3: Snippet Import
       case 'openSnippetImport': openSnippetImport(); break;
@@ -4677,6 +5169,18 @@ function initializeApp() {
 
     // Step 11: Replay WAL
     replayWal(store._wal);
+
+    // Step 11.5: Run migrations (Phase 5)
+    if (typeof CODEX_MIGRATIONS !== 'undefined') {
+      var _applied = JSON.parse(localStorage.getItem('codex-migrations') || '[]');
+      CODEX_MIGRATIONS.forEach(function(m) {
+        if (_applied.indexOf(m.id) !== -1) return;
+        try { m.run(); _applied.push(m.id); }
+        catch(e) { logError('migration', m.id, e.message); }
+      });
+      localStorage.setItem('codex-migrations', JSON.stringify(_applied));
+      store._cacheToLocalStorage();
+    }
 
     // Step 12: Register listeners
     store.onChange(function() {
