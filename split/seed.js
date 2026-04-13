@@ -74,7 +74,7 @@ var CODEX_MIGRATIONS = [
     }
   },
   {
-    id: 'sproutlab-chapter-backfill-v2',
+    id: 'sproutlab-chapter-backfill-v3',
     run: function() {
       var sl = store.volumes.find(function(v) { return v.id === 'sproutlab'; });
       if (!sl) return;

@@ -1510,7 +1510,7 @@ var CODEX_MIGRATIONS = [
     }
   },
   {
-    id: 'sproutlab-chapter-backfill-v2',
+    id: 'sproutlab-chapter-backfill-v3',
     run: function() {
       var sl = store.volumes.find(function(v) { return v.id === 'sproutlab'; });
       if (!sl) return;
@@ -4868,7 +4868,7 @@ function testLocalStorage() {
 /* --- Phase 2: Service Worker --- */
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('sw.js?v=3', { scope: './' })
+  navigator.serviceWorker.register('sw.js?v=4', { scope: './' })
     .then(function(reg) {
       reg.addEventListener('updatefound', function() {
         var nw = reg.installing;
