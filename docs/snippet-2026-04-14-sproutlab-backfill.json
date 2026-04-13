@@ -3,175 +3,90 @@
   "session": {
     "date": "2026-04-14",
     "id": "s-2026-04-14-02",
-    "summary": "SproutLab Codex backfill — wrote narratives for all 13 chapters, added order fields, resolved open TODO, added 3 apocrypha and 4 schisms. Also added todo_updates to snippet pipeline and fixed Codex TODO Cleanup chapter content.",
-    "volumes_touched": ["sproutlab", "codex"],
-    "chapters_touched": ["v1-v2-builds", "diet", "medical", "intelligence", "smart-qa", "design-principles-v3", "search-bar", "migration-m1-m2-m3", "cross-domain", "today-so-far", "caretickets", "architecture-split", "bug-capture", "todo-cleanup"],
+    "summary": "SproutLab Codex backfill. 13 chapter narratives + order fields via auto-migration. 4 schisms, 3 apocrypha, TODO resolved. Added todo_updates to snippet pipeline. Fixed Codex TODO Cleanup chapter content.",
+    "volumes_touched": [
+      "sproutlab",
+      "codex"
+    ],
+    "chapters_touched": [
+      "v1-v2-builds",
+      "diet",
+      "medical",
+      "intelligence",
+      "smart-qa",
+      "design-principles-v3",
+      "search-bar",
+      "migration-m1-m2-m3",
+      "cross-domain",
+      "today-so-far",
+      "caretickets",
+      "architecture-split",
+      "bug-capture",
+      "todo-cleanup"
+    ],
     "decisions": [],
-    "bugs_found": 0,
-    "bugs_fixed": 0,
+    "bugs_found": 1,
+    "bugs_fixed": 1,
     "duration_minutes": 120,
     "open_todos": [],
-    "handoff": "SproutLab volume fully fleshed out. Next: Today So Far build, SEP Dashboard chapter backfill.",
+    "handoff": "SproutLab volume fully fleshed out. Next: Today So Far build, SEP chapter backfill.",
     "screenshots": []
   },
-  "chapter_updates": [
-    {
-      "volume": "sproutlab",
-      "chapter": "v1-v2-builds",
-      "patch": {
-        "order": 1,
-        "content": "## The Origin\nSproutLab began in October 2024, a few weeks after Ziva was born. The first version was simple — a single HTML file with a few forms to log feeding times and diaper changes. No framework, no build tools, just a father's instinct to track what mattered.\n\nThe early versions grew organically. Each week brought a new need: sleep tracking when the nights blurred together, growth measurements when the pediatrician asked for trends, poop logging when the colors and consistencies started mattering diagnostically. Every feature was born from a real moment — a 3 AM feeding where Rishabh couldn't remember when the last one was, a doctor's visit where he wished he had the data.\n\n## The Monolith Era\nBy early 2026, SproutLab had grown into a monolithic single-file PWA exceeding 55,000 lines. It tracked feeding, sleep, poop, growth, milestones, medical records, and more. Wife Mode made it accessible to Ziva's mother as the primary daily user. localStorage kept everything offline-first. GitHub Pages made it free to host.\n\nThe architecture was simple by necessity — everything in one file meant no build step, no dependencies, no deployment complexity. Just edit, save, and push. This simplicity was a feature, not a bug, until the file became too large for any single session to hold in context.\n\n## What Was Built\nCore tracking across seven domains. A theming system. Data export. Offline-first PWA with service worker. The foundation that every subsequent chapter built upon. The monolith was never elegant, but it worked — and for a solo developer building between zinc plating shifts and midnight feedings, that was enough."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "diet",
-      "patch": {
-        "order": 2,
-        "content": "## From Breast to Bowl\nZiva was exclusively breastfed until March 6, 2026. The diet module was built in anticipation of the transition to solids — khichdi first, then gradually expanding. The module needed to track not just what she ate, but how she responded to each new food.\n\n## Smart Quick Log\nThe signature feature. Instead of navigating through forms, a parent could log a meal in three taps: food, quantity, done. Food Favorites learned from history — if Ziva had khichdi every day at noon, it appeared first. The Quick Log reduced a 30-second interaction to under 5 seconds, which matters when you're holding a baby in one arm.\n\n## Food Intelligence\nBeyond logging, the diet module built intelligence: nutrient heatmaps showing gaps across days, combo frequency analysis (which foods are always paired), synergy detection (which combinations correlate with good sleep or digestion), and an adoption tracker for newly introduced foods. The ingredient picker made food entry precise without being tedious."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "medical",
-      "patch": {
-        "order": 3,
-        "content": "## Vaccination Intelligence\nThe medical module started as a simple vaccine log but evolved into a full intelligence system across Sessions A and B. Reaction tracking captures post-vaccination symptoms with severity and duration. Pattern analysis detects whether Ziva consistently reacts to certain vaccine types. Timeline visualization shows the full vaccination history with upcoming doses highlighted.\n\n## Growth Tracking\nWeight and height measurements plotted against time. Growth velocity calculations detect acceleration and deceleration periods. The module integrates with Doctor Visit Prep — a card that assembles relevant recent data (growth trends, vaccine reactions, active CareTickets) into a summary ready for the pediatrician.\n\n## Supplement Adherence\nZiva takes Vitamin D3 daily. The module tracks not just whether it was given, but the exact administration time — because timing relative to feeding affects absorption. Adherence scoring shows streaks and gaps, nudging consistency without guilt."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "intelligence",
-      "patch": {
-        "order": 4,
-        "content": "## The Intelligence Layer\nThe intelligence module is SproutLab's analytical brain. While individual domain modules (diet, sleep, medical) track raw data, the intelligence module finds patterns across all of them.\n\n## Intelligence-Aware Scoring\nEvery day gets a score — but not a simple average. The system uses an 80/20 base-modifier split: 80% comes from five domain scores (feeding, sleep, poop, activity, medical), and 20% from modifiers like consistency, trend direction, and cross-domain correlations. A day where Ziva slept well, ate consistently, and had normal digestion scores higher than a day with one spectacular nap but erratic everything else.\n\n## Cross-Domain Intelligence\nSix cards that span domains: sleep-feeding correlation (do late feeds cause night wakes?), diet-digestion patterns (which foods affect poop quality?), growth-feeding alignment (is caloric intake matching growth velocity?), activity-sleep impact, vaccination recovery tracking, and a holistic daily rhythm analysis. These cards surface insights that no single domain could reveal alone.\n\n## Evidence-Based Milestones\n506 classification patterns across motor, cognitive, language, and social domains. The auto-promotion engine watches activity logs and suggests milestone transitions — when Ziva started pulling to stand consistently, the system promoted the milestone from emerging to achieved without manual intervention."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "smart-qa",
-      "patch": {
-        "order": 5,
-        "content": "## Asking Ziva's Data Questions\nSmart Q&A lets parents ask natural-language questions about their baby's data. Phase 1 introduced basic queries; Phase 2 expanded to 22 intents with 24 dedicated handlers.\n\n## How It Works\nThe system parses queries into intent categories: lookback (\"how did Ziva sleep last week?\"), pattern (\"what's her feeding pattern on weekdays?\"), planning (\"when should her next vaccine be?\"), and comparison (\"is she eating more than last month?\"). Each intent maps to a handler that queries the relevant data store and formats a human-readable answer.\n\n## The 22 Intents\nFrom simple factual queries (\"when was her last feed?\") to complex analytical ones (\"what foods correlate with her best sleep nights?\"). The handlers don't just return data — they add context. Ask about sleep and you'll get duration, wake count, and how it compares to her 7-day average. Ask about feeding and you'll see the day's caloric estimate alongside the weekly trend.\n\nThe system degrades gracefully — if a query doesn't match any intent, it says so honestly rather than guessing. Partial matches get clarification prompts."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "design-principles-v3",
-      "patch": {
-        "order": 6,
-        "content": "## The Lockdown\nAt 2,011 lines, Design Principles v3 is the most exhaustive design document in the project. It locks down every visual and interaction pattern: overlays, chips, cards, answer cards, form fields, animation tokens, touch targets, and the data-action naming convention.\n\n## The Hard Rules\nTwelve non-negotiable rules (HR-1 through HR-12) govern every line of SproutLab code:\n\nNo emojis — zi() SVG icons only. No inline styles — CSS design tokens only. No inline onclick — data-action delegation. No raw pixel values — spacing and sizing tokens. No text-overflow ellipsis, ever. Domain color system (rose, indigo, peach, amber, sage, lavender, sky). Dark mode coverage for every component. escHtml() on all user-data innerHTML. escAttr() where needed. Stub features show Coming Soon via showQLToast(). Multi-round QA after every build.\n\n## Why It Matters\nThe design principles aren't bureaucracy — they're the reason a solo developer can maintain a 55K-line codebase without it collapsing into inconsistency. Every new session starts by reading the design principles. Every build ends by auditing against them. They are the constitution of SproutLab."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "search-bar",
-      "patch": {
-        "order": 7,
-        "content": "## Beyond Text Matching\nThe Search Bar Upgrade across Sessions A and B transformed search from a simple text filter into an intelligent query system. ISL's generateRangeSummary() powers range-based queries. Three query modes — lookback, pattern, and planning — route queries to specialized handlers.\n\n## Nutrient Intelligence Cards\nSearch results include nutrient intelligence cards when queries touch diet data. Ask about iron intake and you'll see a heatmap of iron-rich food frequency over the past two weeks, not just a list of matching entries.\n\n## The Ingredient Picker\nA typeahead component that knows every food Ziva has ever eaten, ranked by frequency. It powers both the diet logging form and search suggestions. The picker is fast because it indexes on first load and filters in memory — no async lookups, no perceived delay."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "migration-m1-m2-m3",
-      "patch": {
-        "order": 8,
-        "content": "## The Great Modernization\nMigrations M1 through M3 were a systematic sweep through the entire codebase, enforcing the Hard Rules retroactively on code written before they existed.\n\n## M1: Emoji Purge\nEvery emoji in the codebase — hundreds of them — replaced with zi() SVG icon calls. This wasn't cosmetic. Emojis render differently across devices and OS versions. A baby bottle emoji on Android looks nothing like the same emoji on iOS. zi() icons render identically everywhere, scale cleanly, and respect the domain color system.\n\n## M2: Inline Style Extraction\nHundreds of inline style attributes extracted into CSS classes using design tokens. Every raw pixel value replaced with a spacing or sizing token. This made the codebase themeable and consistent — changing --sp-8 in one place updates every 8px gap in the app.\n\n## M3: Event Delegation\nEvery onclick attribute replaced with data-action delegation. A single event listener on the document body routes all clicks. This eliminated scattered event binding, made the code greppable (search for any action name), and prevented memory leaks from listeners on dynamically created elements.\n\nThe migration was unglamorous work — three sessions of find-and-replace with manual verification. But it transformed SproutLab from a codebase that happened to work into one that was designed to last."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "cross-domain",
-      "patch": {
-        "order": 9,
-        "content": "## Connecting the Dots\nCross-Domain Intelligence represents the insight that baby care data is most valuable when domains talk to each other. Six cards surface correlations that parents sense intuitively but can't prove without data.\n\n## The Six Cards\nSleep-Feeding Correlation: Does a late evening feed predict night wakes? The card tracks feed timing against sleep onset latency and wake frequency. Diet-Digestion Patterns: Which foods correlate with changes in poop consistency or frequency? Growth-Feeding Alignment: Is caloric intake tracking with growth velocity, or is there a gap forming? Activity-Sleep Impact: Do high-activity days produce longer sleep or more restless nights? Vaccination Recovery: How do post-vaccine days differ from baseline across all domains? Daily Rhythm Analysis: A holistic view of the day's pattern — when does Ziva's energy peak, when does she need rest?\n\n## Design Philosophy\nEach card shows a headline insight, a supporting data visualization, and a one-sentence interpretation. No card requires scrolling to understand. No card uses jargon. The audience is a tired parent at 2 AM who needs signal, not noise."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "today-so-far",
-      "patch": {
-        "order": 10,
-        "content": "## The Daily Briefing\nToday So Far is SproutLab's signature smart card — a real-time summary of everything that's happened today, designed to answer the question every parent asks: how's the day going?\n\n## The Vertical Timeline\nA chronological list of today's events — feeds, sleeps, diaper changes, activities, medications — rendered as a warm vertical flow. Each entry shows the time, the domain icon, and a brief description. A warmth gradient bar at the top gives an at-a-glance quality score for the day so far.\n\n## Pattern-Based Nudges\nThe card doesn't just report — it nudges. If Ziva hasn't eaten in 3 hours and her usual interval is 2.5, a gentle prompt appears. If her nap is running long relative to her pattern, the card notes it. These nudges are pattern-based, not rule-based — they learn from Ziva's actual rhythms rather than imposing textbook schedules.\n\n## The Spec Journey\nThe Today So Far spec went through 4 review rounds and reached 533 lines before it was declared build-ready. The horizontal timeline was rejected early (375px screen width made it unreadable), and the vertical chronological list won on readability and scannability.\n\n12 functions carry the _tsf prefix. The card rebuilds on every data change. It was one of the most specified features in SproutLab history, because getting a daily summary wrong means parents distrust the whole app."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "caretickets",
-      "patch": {
-        "order": 11,
-        "content": "## The Biggest Build\nCareTickets was SproutLab's most ambitious feature — a concern-tracking system that took four build phases (A through D), a 1,089-line spec at v5, and 15 QA rounds covering 310 test scenarios. It exists because baby care concerns don't fit neatly into feeding or sleep logs. When Ziva has a fever, runs a rash, or starts teething, parents need a way to track the concern itself — its lifecycle, its symptoms, its resolution.\n\n## The Data Model\n21 fields per ticket. 7 templates (fever, rash, teething, digestive, respiratory, injury, general). A 6-transition state machine: draft to active to monitoring to resolved, with paused and escalated branches. Each ticket captures symptoms, severity, onset time, associated domains (which feeds or sleeps were affected), notes, and resolution details.\n\n## Notification Architecture\nPhase D introduced notification-driven follow-ups. A main-thread notification system (not Service Worker — that path was rejected for reliability reasons) schedules check-in prompts. If a fever ticket is active, the system nudges every 4 hours to log a temperature update. The architecture decision to keep notifications on the main thread became canon-0045.\n\n## Illness-Aware Metrics\nWhen a CareTicket is active, the intelligence system adjusts its expectations. A sick day's sleep score isn't compared against healthy baselines. Feeding drops during illness don't trigger deficit alerts. The Today So Far card shows active tickets prominently. Share Summary generates a WhatsApp-ready text for sending to the pediatrician.\n\n## The Personal Dimension\nCareTickets was built during a week when Ziva had her first real illness. The spec was written from lived experience — every field exists because a real conversation with a doctor needed that data point. It's the feature where SproutLab stopped being a tracker and became a care tool."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "architecture-split",
-      "patch": {
-        "order": 12,
-        "content": "## Breaking the Monolith\nBy April 2026, the single-file monolith had grown past what any AI session could hold in context. The architecture split was inevitable — not for performance or user experience, but for developer experience. The split happened across Phases 1 through 3 in three days.\n\n## The Nine Modules\nThe monolith was divided into: data.js (state and storage), core.js (routing, rendering framework), home.js (dashboard and daily views), diet.js (food logging and intelligence), medical.js (vaccines, growth, supplements), intelligence.js (cross-domain analysis, Smart Q&A), start.js (event delegation, initialization), styles.css (all styling), and template.html (HTML shell). Concatenation order matters — data before core before domain modules before start.\n\n## Build System\nbuild.sh concatenates the modules in the correct order, wraps them in the HTML template, and outputs sproutlab.html. A critical workflow rule: after building, cp sproutlab.html index.html before pushing to GitHub Pages. This step is easy to forget and breaks the live site when missed.\n\n## What Changed, What Didn't\nThe split changed the developer workflow but not the user experience. The built output is still a single HTML file. The app still runs offline-first from localStorage. No dependencies were added, no framework introduced. The split was pure separation of concerns — making it possible to work on diet intelligence without scrolling past 10,000 lines of unrelated code.\n\nChart.js guards were added to prevent double-initialization when modules load in sequence. The concat order is enforced by build.sh, not by convention."
-      }
-    },
-    {
-      "volume": "sproutlab",
-      "chapter": "bug-capture",
-      "patch": {
-        "order": 13,
-        "content": "## Three Paths to a Bug Report\nThe Bug Capture System gives users three ways to report issues: a button in Settings (for deliberate reports), a long-press on the FAB (for quick captures mid-workflow), and automatic prompts via window.onerror (for crashes). All three paths converge on the same form.\n\n## Delivery\nBug reports are formatted for WhatsApp or clipboard — the two channels Rishabh actually uses to track issues. The report includes the error message, a timestamp, the current view state, and device info. No server, no database, no ticket system — just a text message to the developer.\n\n## Why It Exists\nSproutLab's primary user is Rishabh's wife, who uses the app dozens of times daily. When something breaks, the feedback loop needs to be instant and frictionless. A formal bug tracker would never get used. A WhatsApp message lands in the conversation they already have open."
-      }
-    },
-    {
-      "volume": "codex",
-      "chapter": "todo-cleanup",
-      "patch": {
-        "content": "## The Session\nFive open TODOs had accumulated across Codex's build phases — the kind of small debts that individually seem trivial but collectively signal a project losing track of itself. This session resolved all five in one pass.\n\n## The Fixes\nTODO 1 was a documentation drift: the QUICK_REFERENCE listed static font size tokens, but the actual codebase uses a dynamic calc-based system driven by --fs-base. The fix reconciled the docs with reality — and while in there, updated the KEYS section, routes table, store API, snippet format, and build phases to match the post-Phase-5 codebase.\n\nTODO 3 was a real bug: the Storage Usage view only counted keys in the KEYS constant, missing draft keys, seed version, and migration tracking. The fix scans all localStorage keys with the codex- prefix.\n\nTODO 4 added deleted apocrypha to the Trash view, positioned between canons and chapters, with restore and permanent delete handlers matching the existing patterns exactly.\n\nTODO 5 extended the snippet pipeline with canon_updates — the same {id, patch} pattern as chapter_updates, enabling data corrections via snippet import instead of manual editing. The first use: superseding canon-0009 with canon-0014.\n\n## The Method\nThree QA rounds, zero bugs. Every data-action verified as wired. The session demonstrated that Codex's patterns are stable enough that new features slot in without surprises — a good sign for a young codebase."
-      }
-    }
-  ],
   "todo_updates": [
     {
       "volume": "sproutlab",
       "todo": "todo-0001-fix-id-mismatch",
-      "patch": { "status": "resolved" }
+      "patch": {
+        "status": "resolved"
+      }
     }
   ],
   "schisms": [
     {
       "id": "rej-0013-react-vs-vanilla",
       "context": "SproutLab architecture decision",
-      "volumes": ["sproutlab"],
+      "volumes": [
+        "sproutlab"
+      ],
       "rejected": "React or Vue framework",
       "chosen": "Vanilla JavaScript with data-action delegation",
-      "reason": "Zero dependencies means zero build step, zero bundle size concerns, and guaranteed offline behavior. A PWA that a father edits at midnight between feedings cannot afford a toolchain that might break. Vanilla JS with structured patterns (delegation, CSS tokens, module concat) provides 90% of framework benefits with none of the complexity tax.",
+      "reason": "Zero dependencies means zero build step, zero bundle size, guaranteed offline. Vanilla JS with structured patterns provides 90% of framework benefits with none of the complexity tax.",
       "date": "2024-10",
       "canon_id": null
     },
     {
       "id": "rej-0014-backend-database",
       "context": "SproutLab data persistence",
-      "volumes": ["sproutlab"],
+      "volumes": [
+        "sproutlab"
+      ],
       "rejected": "Backend server with database (Firebase, Supabase, or custom)",
       "chosen": "localStorage-only with JSON export",
-      "reason": "A backend introduces latency, cost, authentication complexity, and a single point of failure. Baby data is sensitive and personal — keeping it entirely on-device means no privacy concerns, no server to maintain, no monthly bills. The tradeoff is no cross-device sync, accepted deliberately. Data export to JSON provides the escape hatch.",
+      "reason": "No latency, no cost, no auth complexity, no privacy concerns. Data stays on-device. The tradeoff is no cross-device sync, accepted deliberately.",
       "date": "2024-10",
       "canon_id": null
     },
     {
-      "id": "rej-0015-notification-api-serviceworker",
+      "id": "rej-0015-notification-api-sw",
       "context": "CareTickets follow-up reminders",
-      "volumes": ["sproutlab"],
+      "volumes": [
+        "sproutlab"
+      ],
       "rejected": "Service Worker push notifications",
       "chosen": "Main-thread notification architecture with setTimeout scheduling",
-      "reason": "Service Worker notifications are unreliable on mobile browsers — they get killed by OS battery optimization, require VAPID keys and a push server, and fail silently. Main-thread notifications via setTimeout are simple, predictable, and work as long as the tab is open (which it is — SproutLab runs as an installed PWA). Reliability over elegance.",
+      "reason": "SW notifications are unreliable on mobile — killed by battery optimization, require VAPID keys and push server. Main-thread setTimeout is simple, predictable, works while tab is open.",
       "date": "2026-04-09",
-      "canon_id": "canon-0045-notification-arch"
+      "canon_id": null
     },
     {
       "id": "rej-0016-per-domain-pages",
       "context": "SproutLab navigation architecture",
-      "volumes": ["sproutlab"],
-      "rejected": "Separate page/route per domain (diet page, sleep page, medical page)",
-      "chosen": "Single scrollable home view with domain cards and expandable sections",
-      "reason": "Parents don't think in domains. They think in time — what happened today, what's coming next. A home view that shows all domains chronologically matches the mental model. Separate pages force the user to remember which domain a piece of data belongs to. The home view lets them scan everything at once, which is what you want at 3 AM.",
+      "volumes": [
+        "sproutlab"
+      ],
+      "rejected": "Separate page per domain (diet page, sleep page, medical page)",
+      "chosen": "Single scrollable home view with domain cards",
+      "reason": "Parents think in time, not domains. A home view showing all domains chronologically matches the mental model. Separate pages force remembering which domain data belongs to.",
       "date": "2025-01",
       "canon_id": null
     }
@@ -180,24 +95,30 @@
     {
       "id": "apo-0002-the-second-child",
       "title": "The Second Child",
-      "narrative": "It is foretold that SproutLab will one day need to track more than one child. The data model will fork — shared food databases but separate growth curves, independent sleep patterns but correlated illness tracking (because siblings infect each other with clockwork regularity). The architecture split was the first preparation, though its builders did not know it at the time. The single-child assumption runs deep: localStorage keys, daily summaries, milestone scoring. When the second child comes, much will break. But the design principles will hold.",
-      "volumes": ["sproutlab"],
+      "narrative": "It is foretold that SproutLab will one day need to track more than one child. The data model will fork — shared food databases but separate growth curves, independent sleep patterns but correlated illness tracking. The single-child assumption runs deep: localStorage keys, daily summaries, milestone scoring. When the second child comes, much will break. But the design principles will hold.",
+      "volumes": [
+        "sproutlab"
+      ],
       "date": "2026-04-14",
       "status": "foretold"
     },
     {
       "id": "apo-0003-the-machine-that-remembers",
       "title": "The Machine That Remembers",
-      "narrative": "There exists a vision — not yet built, perhaps never built — of SproutLab as a time capsule. Every feeding logged, every milestone celebrated, every sleepless night recorded. Years from now, when Ziva is old enough to be curious about her own beginning, the data will be there. Not as numbers in a spreadsheet, but as a story: the night she first slept through, the week she discovered bananas, the afternoon she pulled herself to standing and laughed. The father who built this app at midnight between factory shifts did not build it for efficiency. He built it so nothing would be forgotten.",
-      "volumes": ["sproutlab"],
+      "narrative": "There exists a vision of SproutLab as a time capsule. Every feeding logged, every milestone celebrated, every sleepless night recorded. Years from now, when Ziva is old enough to be curious about her own beginning, the data will be there. Not as numbers in a spreadsheet, but as a story: the night she first slept through, the week she discovered bananas, the afternoon she pulled herself to standing and laughed. The father who built this app at midnight between factory shifts did not build it for efficiency. He built it so nothing would be forgotten.",
+      "volumes": [
+        "sproutlab"
+      ],
       "date": "2026-04-14",
       "status": "foretold"
     },
     {
       "id": "apo-0004-the-predictive-engine",
       "title": "The Predictive Engine",
-      "narrative": "A prophecy whispered in the intelligence module: that one day, SproutLab will not merely track what happened but anticipate what comes next. Regression detection is the seed — recognizing when sleep patterns deteriorate before the parent notices. Growth velocity is another — flagging a slowdown before the pediatrician's next visit. The 506 milestone classification patterns already encode developmental expectations. The engine that predicts is half-built, disguised as the engine that analyzes. When sufficient data accumulates — a year, perhaps two — the predictions will emerge from the patterns like constellations from scattered stars.",
-      "volumes": ["sproutlab"],
+      "narrative": "A prophecy whispered in the intelligence module: that one day, SproutLab will not merely track what happened but anticipate what comes next. Regression detection is the seed. Growth velocity is another. The 506 milestone classification patterns already encode developmental expectations. The engine that predicts is half-built, disguised as the engine that analyzes. When sufficient data accumulates, the predictions will emerge from the patterns like constellations from scattered stars.",
+      "volumes": [
+        "sproutlab"
+      ],
       "date": "2026-04-14",
       "status": "foretold"
     }
