@@ -107,7 +107,10 @@ function handleDeleteChapter(volumeId, chapterId) {
   var ch = vol ? (vol.chapters || []).find(function(c) { return c.id === chapterId; }) : null;
   if (!ch) return;
   showConfirmDialog('Delete Chapter', 'Delete "' + ch.name + '"? This is a soft delete.', function() {
-    try { store.deleteChapter(volumeId, chapterId); showToast('Chapter deleted', 'success'); closeOverlay(); closeConfirmDialog(); renderCurrentView(); }
+    try {
+      store.deleteChapter(volumeId, chapterId); showToast('Chapter deleted', 'success'); closeOverlay(); closeConfirmDialog();
+      if (_currentView === 'chapter-detail') { navigate('#/volume/' + encodeURIComponent(volumeId)); } else { renderCurrentView(); }
+    }
     catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
   }, { danger: true, label: 'Delete' });
 }
@@ -325,7 +328,7 @@ function handleDeleteSession(date, sessionId) {
 function openCanonFabChoice() {
   var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateCanon">' + cx('bookmark') + ' New Canon</button>';
-  body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateRejection">' + cx('alert') + ' New Rejection</button>';
+  body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateSchism">' + cx('alert') + ' New Schism</button>';
   body += '</div>';
   openOverlay('Add to Canons', body, '');
 }
@@ -433,10 +436,10 @@ function handleDeleteCanon(canonId) {
 }
 
 /* ============================================================
-   PHASE 3: Rejection Create
+   PHASE 3: Schism Create
    ============================================================ */
 
-function openCreateRejection() {
+function openCreateSchism() {
   closeOverlay();
   setTimeout(function() {
     var vols = filterActive(store.volumes);
@@ -450,13 +453,13 @@ function openCreateRejection() {
     body += renderTextField('rej_canon_id', 'Linked Canon (optional)', '', { placeholder: 'canon-NNNN-slug' });
 
     var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-      + '<button data-action="handleSaveRejection" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
-    openOverlay('New Rejected Alternative', body, footer);
+      + '<button data-action="handleSaveSchism" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
+    openOverlay('New Schism', body, footer);
     setTimeout(function() { var el = document.getElementById('field-rej_rejected'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
   }, OVERLAY_ANIM_MS + 50);
 }
 
-function handleSaveRejection() {
+function handleSaveSchism() {
   var rejected = (document.getElementById('field-rej_rejected') || {}).value || '';
   var chosen = (document.getElementById('field-rej_chosen') || {}).value || '';
   var reason = (document.getElementById('field-rej_reason') || {}).value || '';
@@ -473,14 +476,14 @@ function handleSaveRejection() {
   var volumes = volumesStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
 
   try {
-    var allIds = store.rejections.map(function(r) { return r.id; });
+    var allIds = store.schisms.map(function(r) { return r.id; });
     var id = generateId('rej', allIds) + '-' + autoSlug(rejected).substring(0, 20);
-    store.addRejection({
+    store.addSchism({
       id: id, context: context.trim() || null, volumes: volumes,
       rejected: rejected, chosen: chosen, reason: reason,
       date: date, canon_id: (canonId && canonId.trim()) || null
     });
-    showToast('Rejection recorded', 'success');
+    showToast('Schism recorded', 'success');
     closeOverlay();
     renderCurrentView();
   } catch(e) { showToast(e.message, 'error'); }
@@ -565,11 +568,12 @@ function handlePreviewSnippet() {
     });
   }
 
-  // Preview rejections
-  if (_snippetParsed.rejections && _snippetParsed.rejections.length > 0) {
-    _snippetParsed.rejections.forEach(function(r) {
-      var exists = store.rejections.some(function(x) { return x.id === r.id; });
-      html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Rejection ' + escHtml(r.id) + ' (exists)' : '<span class="cx-preview-ok">\u2713</span> Rejection: ' + escHtml(r.rejected || r.id)) + '</div>';
+  // Preview schisms
+  var _previewSchisms = _snippetParsed.schisms || _snippetParsed.rejections;
+  if (_previewSchisms && _previewSchisms.length > 0) {
+    _previewSchisms.forEach(function(r) {
+      var exists = store.schisms.some(function(x) { return x.id === r.id; });
+      html += '<div class="cx-preview-item">' + (exists ? '<span class="cx-preview-skip">\u2717</span> Schism ' + escHtml(r.id) + ' (exists)' : '<span class="cx-preview-ok">\u2713</span> Schism: ' + escHtml(r.rejected || r.id)) + '</div>';
     });
   }
 
@@ -582,10 +586,35 @@ function handlePreviewSnippet() {
     });
   }
 
+  // Preview new_chapters (Phase 5)
+  if (_snippetParsed.new_chapters && _snippetParsed.new_chapters.length > 0) {
+    _snippetParsed.new_chapters.forEach(function(nc) {
+      var pvol = store.volumes.find(function(v) { return v.id === nc.volume; });
+      var exists = pvol && (pvol.chapters || []).some(function(c) { return c.id === nc.chapter.id; });
+      html += '<div class="cx-preview-item">' + (exists
+        ? '<span class="cx-preview-skip">\u2717</span> Chapter ' + escHtml(nc.chapter.name) + ' (exists)'
+        : '<span class="cx-preview-ok">\u2713</span> New chapter: ' + escHtml(nc.chapter.name)) + '</div>';
+    });
+  }
+
   // Preview chapter_updates
   if (_snippetParsed.chapter_updates && _snippetParsed.chapter_updates.length > 0) {
     _snippetParsed.chapter_updates.forEach(function(cu) {
-      html += '<div class="cx-preview-item"><span class="cx-preview-ok">\u2713</span> Chapter update: ' + escHtml(cu.volume + '/' + cu.chapter) + '</div>';
+      var pvol = store.volumes.find(function(v) { return v.id === cu.volume; });
+      var pch = pvol ? (pvol.chapters || []).find(function(c) { return c.id === cu.chapter; }) : null;
+      html += '<div class="cx-preview-item">' + (pch
+        ? '<span class="cx-preview-ok">\u2713</span> Update: ' + escHtml(pch.name)
+        : '<span class="cx-preview-skip">\u2717</span> ' + escHtml(cu.chapter) + ' (not found)') + '</div>';
+    });
+  }
+
+  // Preview apocrypha (Phase 5)
+  if (_snippetParsed.apocrypha && _snippetParsed.apocrypha.length > 0) {
+    _snippetParsed.apocrypha.forEach(function(a) {
+      var exists = store.apocrypha.some(function(x) { return x.id === a.id; });
+      html += '<div class="cx-preview-item">' + (exists
+        ? '<span class="cx-preview-skip">\u2717</span> Apocryphon ' + escHtml(a.title) + ' (exists)'
+        : '<span class="cx-preview-ok">\u2713</span> Apocryphon: ' + escHtml(a.title)) + '</div>';
     });
   }
 
@@ -596,7 +625,7 @@ function handlePreviewSnippet() {
 
 function handleImportSnippet() {
   if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
-  var counts = { sessions: 0, canons: 0, rejections: 0, todos: 0, chapters: 0 };
+  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, apocrypha: 0 };
 
   try {
     // 1. Session
@@ -624,13 +653,14 @@ function handleImportSnippet() {
       });
     }
 
-    // 3. Rejections
-    if (_snippetParsed.rejections) {
-      _snippetParsed.rejections.forEach(function(r) {
-        var exists = store.rejections.some(function(x) { return x.id === r.id; });
+    // 3. Schisms
+    var _importSchisms = _snippetParsed.schisms || _snippetParsed.rejections;
+    if (_importSchisms) {
+      _importSchisms.forEach(function(r) {
+        var exists = store.schisms.some(function(x) { return x.id === r.id; });
         if (!exists) {
-          store.addRejection(r);
-          counts.rejections++;
+          store.addSchism(r);
+          counts.schisms++;
         }
       });
     }
@@ -645,22 +675,47 @@ function handleImportSnippet() {
       });
     }
 
-    // 5. Chapter updates
+    // 5. New chapters (Phase 5 — before chapter_updates)
+    if (_snippetParsed.new_chapters) {
+      _snippetParsed.new_chapters.forEach(function(nc) {
+        try {
+          store.addChapter(nc.volume, nc.chapter);
+          counts.newChapters++;
+        } catch(e) { /* skip if volume not found or duplicate */ }
+      });
+    }
+
+    // 6. Chapter updates
     if (_snippetParsed.chapter_updates) {
       _snippetParsed.chapter_updates.forEach(function(cu) {
         try {
           store.updateChapter(cu.volume, cu.chapter, cu.patch);
-          counts.chapters++;
+          counts.chapterUpdates++;
         } catch(e) { /* skip if not found */ }
+      });
+    }
+
+    // 7. Apocrypha (Phase 5)
+    if (_snippetParsed.apocrypha) {
+      _snippetParsed.apocrypha.forEach(function(a) {
+        var exists = store.apocrypha.some(function(x) { return x.id === a.id; });
+        if (!exists) {
+          try {
+            store.addApocryphon(a);
+            counts.apocrypha++;
+          } catch(e) { /* skip */ }
+        }
       });
     }
 
     var parts = [];
     if (counts.sessions) parts.push(counts.sessions + ' session');
     if (counts.canons) parts.push(counts.canons + ' canon' + (counts.canons > 1 ? 's' : ''));
-    if (counts.rejections) parts.push(counts.rejections + ' rejection' + (counts.rejections > 1 ? 's' : ''));
+    if (counts.schisms) parts.push(counts.schisms + ' schism' + (counts.schisms > 1 ? 's' : ''));
     if (counts.todos) parts.push(counts.todos + ' TODO' + (counts.todos > 1 ? 's' : ''));
-    if (counts.chapters) parts.push(counts.chapters + ' chapter update' + (counts.chapters > 1 ? 's' : ''));
+    if (counts.newChapters) parts.push(counts.newChapters + ' new chapter' + (counts.newChapters > 1 ? 's' : ''));
+    if (counts.chapterUpdates) parts.push(counts.chapterUpdates + ' chapter update' + (counts.chapterUpdates > 1 ? 's' : ''));
+    if (counts.apocrypha) parts.push(counts.apocrypha + ' apocryphon' + (counts.apocrypha > 1 ? ' entries' : ''));
 
     showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');
     _snippetParsed = null;

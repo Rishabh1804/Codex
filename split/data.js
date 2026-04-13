@@ -1,6 +1,6 @@
-/* CODEX — Data Layer (Phase 2: WAL + GitHub sync support) */
+/* CODEX — Data Layer (Phase 5: Chapter Detail + Apocrypha) */
 
-var CODEX_VERSION = '1.0.0';
+var CODEX_VERSION = '1.1.0';
 var CODEX_SCHEMA_VERSION = 1;
 var OVERLAY_ANIM_MS = 300;
 var TEXT_SIZES = { low: '12px', med: '14px', high: '17px' };
@@ -10,6 +10,7 @@ var SHELF_LABELS = { active: 'Active', paused: 'Paused', archived: 'Archived', a
 var CHAPTER_STATUSES = ['planned', 'in-progress', 'paused', 'complete', 'abandoned'];
 var CANON_CATEGORIES = ['design', 'architecture', 'process'];
 var TODO_STATUSES = ['open', 'resolved'];
+var APOCRYPHA_STATUSES = ['fulfilled', 'foretold', 'forgotten'];
 
 /* Phase 2 globals */
 var _isOffline = false;
@@ -192,7 +193,8 @@ function safeParseLocalStorage(key) {
 var store = {
   volumes: [],
   canons: [],
-  rejections: [],
+  schisms: [],
+  apocrypha: [],
   journal: [],
   _wal: [],
   _meta: {
@@ -259,12 +261,12 @@ var store = {
   _cacheToLocalStorage: function() {
     try {
       localStorage.setItem(KEYS.CACHE_VOLUMES, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }));
-      localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, rejected_alternatives: store.rejections }));
+      localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha }));
       localStorage.setItem(KEYS.CACHE_JOURNAL, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }));
     } catch(e) { logError('cache', 'Cache write failed', e.message); }
   },
 
-  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, rejections: store.rejections, journal: store.journal }); },
+  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, journal: store.journal }); },
 
   /* --- Volume --- */
   addVolume: function(vol) {
@@ -315,9 +317,12 @@ var store = {
     if (!ch.id || !ch.name) throw new Error('Chapter requires id and name');
     if ((vol.chapters || []).some(function(c) { return c.id === ch.id; })) throw new Error('Duplicate chapter');
     var entry = { id: ch.id, name: ch.name, status: ch.status || 'planned', started: ch.started || null,
-      completed: null, ended: null, summary: ch.summary || '', spec_url: ch.spec_url || null, _deleted: false, _deleted_date: null };
+      completed: ch.completed || null, ended: ch.ended || null, summary: ch.summary || '',
+      spec_url: ch.spec_url || null, content: ch.content || '',
+      order: ch.order != null ? ch.order : filterActive(vol.chapters || []).length,
+      _deleted: false, _deleted_date: null };
     if (entry.status === 'in-progress' && !entry.started) entry.started = localDateStr();
-    if (entry.status === 'complete') entry.completed = localDateStr();
+    if (entry.status === 'complete' && !entry.completed) entry.completed = localDateStr();
     if (!vol.chapters) vol.chapters = [];
     vol.chapters.push(entry);
     store._createWalEntry('create', 'chapter', entry.id, 'volumes.json', entry, volumeId);
@@ -329,7 +334,7 @@ var store = {
     if (!vol) throw new Error('Volume not found');
     var ch = (vol.chapters || []).find(function(c) { return c.id === chapterId; });
     if (!ch) throw new Error('Chapter not found');
-    ['name','status','started','summary','spec_url'].forEach(function(k) { if (patch.hasOwnProperty(k)) ch[k] = patch[k]; });
+    ['name','status','started','summary','spec_url','content','order'].forEach(function(k) { if (patch.hasOwnProperty(k)) ch[k] = patch[k]; });
     if (patch.status === 'complete' && !ch.completed) ch.completed = localDateStr();
     if (patch.status === 'abandoned' && !ch.ended) ch.ended = localDateStr();
     if (patch.status === 'in-progress' && !ch.started) ch.started = localDateStr();
@@ -408,11 +413,38 @@ var store = {
     store._fireChange();
   },
 
-  /* --- Rejection --- */
-  addRejection: function(r) {
-    if (!r.id) throw new Error('Rejection requires id');
-    store.rejections.push(r);
-    store._createWalEntry('create', 'rejection', r.id, 'canons.json', r);
+  /* --- Schism --- */
+  addSchism: function(r) {
+    if (!r.id) throw new Error('Schism requires id');
+    store.schisms.push(r);
+    store._createWalEntry('create', 'schism', r.id, 'canons.json', r);
+    store._fireChange();
+  },
+
+  /* --- Apocrypha --- */
+  addApocryphon: function(a) {
+    if (!a.id || !a.title) throw new Error('Apocryphon requires id and title');
+    if (store.apocrypha.some(function(x) { return x.id === a.id; })) throw new Error('Duplicate apocryphon');
+    var entry = { id: a.id, title: a.title, narrative: a.narrative || '', volumes: a.volumes || [],
+      date: a.date || localDateStr(), status: a.status || 'foretold', _deleted: false, _deleted_date: null };
+    store.apocrypha.push(entry);
+    store._createWalEntry('create', 'apocryphon', entry.id, 'canons.json', entry);
+    store._fireChange();
+    return entry;
+  },
+  updateApocryphon: function(id, patch) {
+    var a = store.apocrypha.find(function(x) { return x.id === id; });
+    if (!a) throw new Error('Apocryphon not found');
+    delete patch.id;
+    ['title','narrative','volumes','date','status'].forEach(function(k) { if (patch.hasOwnProperty(k)) a[k] = patch[k]; });
+    store._createWalEntry('update', 'apocryphon', id, 'canons.json', patch);
+    store._fireChange();
+  },
+  deleteApocryphon: function(id) {
+    var a = store.apocrypha.find(function(x) { return x.id === id; });
+    if (!a) throw new Error('Apocryphon not found');
+    a._deleted = true; a._deleted_date = localDateStr();
+    store._createWalEntry('delete', 'apocryphon', id, 'canons.json', null);
     store._fireChange();
   },
 
@@ -462,9 +494,10 @@ function populateStore(volResult, canonResult, journalResult) {
   store._meta.schemaVersions.volumes = vData._schema_version || 1;
   store._meta.shas.volumes = (volResult && volResult.sha) || null;
 
-  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], rejected_alternatives: [] };
+  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], schisms: [], apocrypha: [] };
   store.canons = cData.canons || [];
-  store.rejections = cData.rejected_alternatives || [];
+  store.schisms = cData.schisms || cData.rejected_alternatives || [];
+  store.apocrypha = cData.apocrypha || [];
   store._meta.schemaVersions.canons = cData._schema_version || 1;
   store._meta.shas.canons = (canonResult && canonResult.sha) || null;
 
@@ -490,6 +523,6 @@ function populateStore(volResult, canonResult, journalResult) {
 function getStoreSnapshot() {
   return JSON.parse(JSON.stringify({
     volumes: store.volumes, canons: store.canons,
-    rejections: store.rejections, journal: store.journal
+    schisms: store.schisms, apocrypha: store.apocrypha, journal: store.journal
   }));
 }

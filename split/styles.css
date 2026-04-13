@@ -663,12 +663,12 @@ body {
   transform: rotate(90deg);
 }
 
-/* --- Rejection Card --- */
-.cx-rejection-card {
+/* --- Schism Card --- */
+.cx-schism-card {
   border-left: 3px solid var(--warning);
   margin-bottom: var(--sp-8);
 }
-.cx-rejection-title {
+.cx-schism-title {
   font-weight: 600;
 }
 
@@ -820,3 +820,28 @@ body {
 .cx-storage-row{display:flex;justify-content:space-between;padding:var(--sp-6) 0;border-bottom:1px solid var(--border);font-size:var(--fs-xs);color:var(--text-secondary)}
 .cx-storage-row:last-child{border-bottom:none}
 .cx-storage-total{font-weight:600;color:var(--text-primary);border-top:2px solid var(--border);padding-top:var(--sp-8);margin-top:var(--sp-4)}
+
+/* ============================================================
+   PHASE 5: Chapter Detail + Apocrypha
+   ============================================================ */
+
+/* --- Chapter Detail --- */
+.cx-chapter-prose{font-size:var(--fs-sm);line-height:1.7;color:var(--text-secondary)}
+.cx-chapter-prose p{margin-bottom:var(--sp-16)}
+.cx-chapter-section-heading{font-family:var(--ff-heading);font-size:var(--fs-lg);color:var(--text-primary);margin:var(--sp-24) 0 var(--sp-8);font-weight:700}
+.cx-chapter-empty{text-align:center;padding:var(--sp-32) var(--sp-16);color:var(--text-tertiary)}
+.cx-chapter-empty svg{width:32px;height:32px;opacity:0.3;margin-bottom:var(--sp-8)}
+.cx-chapter-empty p{margin-bottom:var(--sp-12)}
+.cx-chapter-nav{display:flex;justify-content:space-between;gap:var(--sp-16);border-top:1px solid var(--border);padding-top:var(--sp-16);margin-top:var(--sp-24)}
+.cx-chapter-nav-btn{cursor:pointer;display:flex;flex-direction:column;gap:var(--sp-2);max-width:45%}
+.cx-chapter-nav-btn:active{opacity:0.7}
+.cx-chapter-nav-btn svg{width:14px;height:14px;display:inline}
+.cx-mini-card{background:var(--bg-card);border-radius:var(--r-md);padding:var(--sp-10) var(--sp-12);margin-bottom:var(--sp-6);cursor:pointer;box-shadow:var(--card-shadow)}
+.cx-mini-card:active{opacity:0.8}
+
+/* --- Apocrypha --- */
+.cx-apocrypha-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:var(--sp-8) 0}
+.cx-apocrypha-header .cx-expand-toggle{color:var(--text-tertiary);font-size:var(--fs-xs)}
+.cx-apocrypha-card{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-16);margin-bottom:var(--sp-8);border-left:3px solid var(--accent);box-shadow:var(--card-shadow)}
+.cx-apocrypha-title{font-family:var(--ff-heading);font-size:var(--fs-base);font-weight:700;color:var(--text-primary);margin-bottom:var(--sp-6)}
+.cx-apocrypha-narrative{font-size:var(--fs-sm);line-height:1.7;color:var(--text-secondary);margin-top:var(--sp-10);font-style:italic}

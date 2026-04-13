@@ -1,4 +1,4 @@
-/* CODEX — Core (Phase 2: GitHub sync + WAL replay) */
+/* CODEX — Core (Phase 5: Chapter Detail + Apocrypha) */
 
 /* --- cx() Icons — Style C (design session locked) --- */
 function cx(name) {
@@ -111,6 +111,7 @@ function parseRoute(hash) {
   var parts = (hash || '#/').replace('#/', '').split('/');
   if (parts[0] === 'volume' && parts[1]) return { view: 'volume-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'canon' && parts[1]) return { view: 'canon-detail', id: decodeURIComponent(parts[1]) };
+  if (parts[0] === 'chapter' && parts[1] && parts[2]) return { view: 'chapter-detail', volumeId: decodeURIComponent(parts[1]), chapterId: decodeURIComponent(parts[2]) };
   if (['dashboard','journal','canons','todos','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
   return { view: 'dashboard' };
 }
@@ -144,7 +145,7 @@ function handleSwitchTab(tabName) {
 }
 
 function updateTabBarActive(view) {
-  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', 'volume-detail':'dashboard', 'canon-detail':'canons', settings:null };
+  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', settings:null };
   var active = map[view];
   var btns = document.querySelectorAll('.cx-tab-btn');
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
@@ -159,6 +160,10 @@ function renderBreadcrumbForRoute(route) {
   } else if (route.view === 'canon-detail') {
     var canon = store.canons.find(function(c) { return c.id === route.id; });
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Canons', route: '#/canons' }, { label: canon ? canon.title : route.id, route: null }];
+  } else if (route.view === 'chapter-detail') {
+    var cvol = store.volumes.find(function(v) { return v.id === route.volumeId; });
+    var cch = cvol ? (cvol.chapters || []).find(function(c) { return c.id === route.chapterId; }) : null;
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: cvol ? cvol.name : route.volumeId, route: '#/volume/' + encodeURIComponent(route.volumeId) }, { label: cch ? cch.name : route.chapterId, route: null }];
   }
   renderBreadcrumb(segments);
 }
@@ -181,12 +186,13 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail')) {
-    var title = route.view === 'settings' ? 'Settings' : route.view === 'canon-detail' ? 'Canon' : (function() { var v = store.volumes.find(function(x) { return x.id === route.id; }); return v ? v.name : 'Volume'; })();
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail')) {
+    var title = route.view === 'settings' ? 'Settings' : route.view === 'canon-detail' ? 'Canon' : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
       + '<div class="cx-header-actions">'
       + (route.view === 'volume-detail' ? '<button data-action="editVolume" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
+      + (route.view === 'chapter-detail' ? '<button data-action="editChapterDetail" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
       + '</div>';
   } else {
     header.innerHTML = '<span class="cx-app-title">Codex</span>'
@@ -230,9 +236,10 @@ function closeSearch() {
 function search(query) {
   var q = query.toLowerCase().trim();
   var results = [];
-  var w = { canon: 4, rejection: 3, session: 2, volume: 1 };
+  var w = { canon: 4, schism: 3, apocryphon: 3, session: 2, volume: 1 };
   filterActive(store.canons).forEach(function(c) { var s = matchScore(q, [c.title, c.rationale, c.id].concat(c.references || [])); if (s > 0) results.push({ type: 'canon', entity: c, score: s * w.canon }); });
-  filterActive(store.rejections).forEach(function(r) { var s = matchScore(q, [r.rejected, r.chosen, r.reason, r.context || '']); if (s > 0) results.push({ type: 'rejection', entity: r, score: s * w.rejection }); });
+  filterActive(store.schisms).forEach(function(r) { var s = matchScore(q, [r.rejected, r.chosen, r.reason, r.context || '']); if (s > 0) results.push({ type: 'schism', entity: r, score: s * w.schism }); });
+  filterActive(store.apocrypha).forEach(function(a) { var s = matchScore(q, [a.title, a.narrative || '']); if (s > 0) results.push({ type: 'apocryphon', entity: a, score: s * w.apocryphon }); });
   store.journal.forEach(function(day) { (day.sessions || []).forEach(function(sess) { var sc = matchScore(q, [sess.summary, sess.handoff || ''].concat(sess.open_todos || [])); if (sc > 0) results.push({ type: 'session', entity: { id: sess.id, date: day.date, summary: sess.summary, handoff: sess.handoff }, score: sc * w.session }); }); });
   filterActive(store.volumes).forEach(function(v) { var s = matchScore(q, [v.name, v.description || '', v.current_phase || ''].concat(v.tags || [])); if (s > 0) results.push({ type: 'volume', entity: v, score: s * w.volume }); });
   return results.sort(function(a, b) { return b.score - a.score; });
@@ -281,7 +288,7 @@ function renderCurrentView() {
       dashboard: renderDashboard, 'volume-detail': renderVolumeDetail,
       settings: renderSettings, todos: renderTodos,
       journal: renderJournal, canons: renderCanons,
-      'canon-detail': renderCanonDetail
+      'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);
@@ -497,7 +504,7 @@ function setOfflineStatus(offline) {
 
 /* --- File Builders (rebuild entire file from current store) --- */
 function buildVolumesFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }, null, 2); }
-function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, rejected_alternatives: store.rejections }, null, 2); }
+function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha }, null, 2); }
 function buildJournalFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }, null, 2); }
 
 /* --- Flush Queue (push pending WAL entries to GitHub) --- */
@@ -636,7 +643,8 @@ function findEntity(type, id, parentId) {
   switch (type) {
     case 'volume': return store.volumes.find(function(v) { return v.id === id; });
     case 'canon': return store.canons.find(function(c) { return c.id === id; });
-    case 'rejection': return store.rejections.find(function(r) { return r.id === id; });
+    case 'schism': case 'rejection': return store.schisms.find(function(r) { return r.id === id; });
+    case 'apocryphon': return store.apocrypha.find(function(a) { return a.id === id; });
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); return vc ? (vc.chapters || []).find(function(c) { return c.id === id; }) : undefined;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); return vt ? (vt.todos || []).find(function(t) { return t.id === id; }) : undefined;
     case 'session': var d = store.journal.find(function(d) { return d.date === parentId; }); return d ? (d.sessions || []).find(function(s) { return s.id === id; }) : undefined;
@@ -647,7 +655,8 @@ function insertEntity(type, payload, parentId) {
   switch (type) {
     case 'volume': store.volumes.push(payload); break;
     case 'canon': store.canons.push(payload); break;
-    case 'rejection': store.rejections.push(payload); break;
+    case 'schism': case 'rejection': store.schisms.push(payload); break;
+    case 'apocryphon': store.apocrypha.push(payload); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) { if (!vc.chapters) vc.chapters = []; vc.chapters.push(payload); } break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) { if (!vt.todos) vt.todos = []; vt.todos.push(payload); } break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (!d) { d = { date: parentId, sessions: [] }; store.journal.push(d); } d.sessions.push(payload); break;
@@ -658,7 +667,8 @@ function removeEntity(type, id, parentId) {
   switch (type) {
     case 'volume': store.volumes = store.volumes.filter(function(v) { return v.id !== id; }); break;
     case 'canon': store.canons = store.canons.filter(function(c) { return c.id !== id; }); break;
-    case 'rejection': store.rejections = store.rejections.filter(function(r) { return r.id !== id; }); break;
+    case 'schism': case 'rejection': store.schisms = store.schisms.filter(function(r) { return r.id !== id; }); break;
+    case 'apocryphon': store.apocrypha = store.apocrypha.filter(function(a) { return a.id !== id; }); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) vc.chapters = (vc.chapters || []).filter(function(c) { return c.id !== id; }); break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) vt.todos = (vt.todos || []).filter(function(t) { return t.id !== id; }); break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (d) { d.sessions = (d.sessions || []).filter(function(s) { return s.id !== id; }); if (d.sessions.length === 0) store.journal = store.journal.filter(function(x) { return x.date !== parentId; }); } break;

@@ -1,4 +1,4 @@
-/* CODEX — Start (Phase 2: Full lifecycle with GitHub sync) */
+/* CODEX — Start (Phase 5: Chapter Detail + Apocrypha) */
 
 (function() {
 
@@ -47,6 +47,7 @@ function setupDelegation() {
 
       // Chapter
       case 'editChapter': openEditChapter(vol, id); break;
+      case 'editChapterDetail': openEditChapter(_currentViewParams.volumeId, _currentViewParams.chapterId); break;
       case 'handleSaveChapter': handleSaveChapter(vol, id || null); break;
       case 'handleDeleteChapter': handleDeleteChapter(vol, id); break;
 
@@ -193,6 +194,14 @@ function setupDelegation() {
         renderCurrentView();
         break;
       case 'changePage': _canonPage = parseInt(el.dataset.page, 10) || 1; renderCurrentView(); document.getElementById('viewContainer').scrollTop = 0; break;
+
+      // Phase 5: Apocrypha
+      case 'toggleApocrypha':
+        var apoSec = document.getElementById('apocryphaSection');
+        var apoToggle = document.getElementById('apocryphaToggle');
+        if (apoSec) { apoSec.hidden = !apoSec.hidden; if (apoToggle) apoToggle.textContent = apoSec.hidden ? '\u25B6' : '\u25BC'; }
+        break;
+
       case 'openCreateCanon': openCreateCanon(); break;
       case 'editCanon': openEditCanon(id); break;
       case 'handleSaveCanon': handleSaveCanon(id || null); break;
@@ -200,9 +209,9 @@ function setupDelegation() {
       case 'copyCanonId': handleCopyCanonId(id); break;
       case 'copyCanonJson': handleCopyCanonJson(id); break;
 
-      // Phase 3: Rejections
-      case 'openCreateRejection': openCreateRejection(); break;
-      case 'handleSaveRejection': handleSaveRejection(); break;
+      // Phase 3: Schisms
+      case 'openCreateSchism': openCreateSchism(); break;
+      case 'handleSaveSchism': handleSaveSchism(); break;
 
       // Phase 3: Snippet Import
       case 'openSnippetImport': openSnippetImport(); break;
@@ -644,6 +653,18 @@ function initializeApp() {
 
     // Step 11: Replay WAL
     replayWal(store._wal);
+
+    // Step 11.5: Run migrations (Phase 5)
+    if (typeof CODEX_MIGRATIONS !== 'undefined') {
+      var _applied = JSON.parse(localStorage.getItem('codex-migrations') || '[]');
+      CODEX_MIGRATIONS.forEach(function(m) {
+        if (_applied.indexOf(m.id) !== -1) return;
+        try { m.run(); _applied.push(m.id); }
+        catch(e) { logError('migration', m.id, e.message); }
+      });
+      localStorage.setItem('codex-migrations', JSON.stringify(_applied));
+      store._cacheToLocalStorage();
+    }
 
     // Step 12: Register listeners
     store.onChange(function() {
