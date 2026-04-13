@@ -618,6 +618,17 @@ function handlePreviewSnippet() {
     });
   }
 
+  // Preview todo_updates
+  if (_snippetParsed.todo_updates && _snippetParsed.todo_updates.length > 0) {
+    _snippetParsed.todo_updates.forEach(function(tu) {
+      var tvol = store.volumes.find(function(v) { return v.id === tu.volume; });
+      var ttodo = tvol ? (tvol.todos || []).find(function(t) { return t.id === tu.todo; }) : null;
+      html += '<div class="cx-preview-item">' + (ttodo
+        ? '<span class="cx-preview-ok">\u2713</span> Update TODO: ' + escHtml(ttodo.text || tu.todo)
+        : '<span class="cx-preview-skip">\u2717</span> TODO ' + escHtml(tu.todo) + ' (not found)') + '</div>';
+    });
+  }
+
   // Preview apocrypha (Phase 5)
   if (_snippetParsed.apocrypha && _snippetParsed.apocrypha.length > 0) {
     _snippetParsed.apocrypha.forEach(function(a) {
@@ -635,7 +646,7 @@ function handlePreviewSnippet() {
 
 function handleImportSnippet() {
   if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
-  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, apocrypha: 0 };
+  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, apocrypha: 0 };
 
   try {
     // 1. Session
@@ -715,6 +726,16 @@ function handleImportSnippet() {
       });
     }
 
+    // 6c. TODO updates
+    if (_snippetParsed.todo_updates) {
+      _snippetParsed.todo_updates.forEach(function(tu) {
+        try {
+          store.updateTodo(tu.volume, tu.todo, tu.patch);
+          counts.todoUpdates++;
+        } catch(e) { /* skip if not found */ }
+      });
+    }
+
     // 7. Apocrypha (Phase 5)
     if (_snippetParsed.apocrypha) {
       _snippetParsed.apocrypha.forEach(function(a) {
@@ -736,6 +757,7 @@ function handleImportSnippet() {
     if (counts.newChapters) parts.push(counts.newChapters + ' new chapter' + (counts.newChapters > 1 ? 's' : ''));
     if (counts.chapterUpdates) parts.push(counts.chapterUpdates + ' chapter update' + (counts.chapterUpdates > 1 ? 's' : ''));
     if (counts.canonUpdates) parts.push(counts.canonUpdates + ' canon update' + (counts.canonUpdates > 1 ? 's' : ''));
+    if (counts.todoUpdates) parts.push(counts.todoUpdates + ' TODO update' + (counts.todoUpdates > 1 ? 's' : ''));
     if (counts.apocrypha) parts.push(counts.apocrypha + ' apocryphon' + (counts.apocrypha > 1 ? ' entries' : ''));
 
     showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');

@@ -113,6 +113,7 @@
   "new_chapters": [{ "volume": "codex", "chapter": { "id": "...", "name": "...", ... } }],
   "chapter_updates": [{ "volume": "sproutlab", "chapter": "caretickets", "patch": { "status": "complete" } }],
   "canon_updates": [{ "id": "canon-0009-post-build-qa", "patch": { "status": "superseded" } }],
+  "todo_updates": [{ "volume": "sproutlab", "todo": "todo-0001-fix-id", "patch": { "status": "resolved" } }],
   "apocrypha": [{ "id": "apo-0001-...", "title": "...", ... }]
 }
 ```
