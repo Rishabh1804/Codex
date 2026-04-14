@@ -1508,6 +1508,50 @@ var CODEX_MIGRATIONS = [
         });
       }
     }
+  },
+  {
+    id: 'sproutlab-chapter-backfill-v3',
+    run: function() {
+      var sl = store.volumes.find(function(v) { return v.id === 'sproutlab'; });
+      if (!sl) return;
+      var count = 0;
+
+      var updates = [
+        { id: 'v1-v2-builds', order: 1, content: '## The Origin\nSproutLab began in October 2024, a few weeks after Ziva was born. The first version was simple — a single HTML file with a few forms to log feeding times and diaper changes. No framework, no build tools, just a father\'s instinct to track what mattered.\n\nThe early versions grew organically. Each week brought a new need: sleep tracking when the nights blurred together, growth measurements when the pediatrician asked for trends, poop logging when the colors and consistencies started mattering diagnostically. Every feature was born from a real moment.\n\n## The Monolith Era\nBy early 2026, SproutLab had grown into a monolithic single-file PWA exceeding 55,000 lines. It tracked feeding, sleep, poop, growth, milestones, medical records, and more. Wife Mode made it accessible to Ziva\'s mother as the primary daily user. localStorage kept everything offline-first. GitHub Pages made it free to host.\n\nThe architecture was simple by necessity — everything in one file meant no build step, no dependencies, no deployment complexity. Just edit, save, and push.\n\n## What Was Built\nCore tracking across seven domains. A theming system. Data export. Offline-first PWA with service worker. The foundation that every subsequent chapter built upon.' },
+        { id: 'diet', order: 2, content: '## From Breast to Bowl\nZiva was exclusively breastfed until March 6, 2026. The diet module was built in anticipation of the transition to solids — khichdi first, then gradually expanding.\n\n## Smart Quick Log\nThe signature feature. Instead of navigating through forms, a parent could log a meal in three taps: food, quantity, done. Food Favorites learned from history. The Quick Log reduced a 30-second interaction to under 5 seconds.\n\n## Food Intelligence\nBeyond logging: nutrient heatmaps showing gaps across days, combo frequency analysis, synergy detection, and an adoption tracker for newly introduced foods.' },
+        { id: 'medical', order: 3, content: '## Vaccination Intelligence\nThe medical module started as a simple vaccine log but evolved into a full intelligence system across Sessions A and B. Reaction tracking captures post-vaccination symptoms with severity and duration. Pattern analysis detects consistent reactions to certain vaccine types. Timeline visualization shows the full history with upcoming doses highlighted.\n\n## Growth Tracking\nWeight and height measurements plotted against time. Growth velocity calculations detect acceleration and deceleration. The module integrates with Doctor Visit Prep.\n\n## Supplement Adherence\nZiva takes Vitamin D3 daily. The module tracks not just whether it was given, but the exact administration time — because timing relative to feeding affects absorption.' },
+        { id: 'intelligence', order: 4, content: '## The Intelligence Layer\nThe intelligence module is SproutLab\'s analytical brain. While individual domain modules track raw data, the intelligence module finds patterns across all of them.\n\n## Intelligence-Aware Scoring\nEvery day gets a score using an 80/20 base-modifier split: 80% from five domain scores, 20% from modifiers like consistency, trend direction, and cross-domain correlations.\n\n## Evidence-Based Milestones\n506 classification patterns across motor, cognitive, language, and social domains. The auto-promotion engine watches activity logs and suggests milestone transitions automatically.' },
+        { id: 'smart-qa', order: 5, content: '## Asking Ziva\'s Data Questions\nSmart Q&A lets parents ask natural-language questions about their baby\'s data. Phase 2 expanded to 22 intents with 24 dedicated handlers.\n\n## How It Works\nQueries parse into intent categories: lookback, pattern, planning, and comparison. Each intent maps to a handler that queries the relevant data store and formats a human-readable answer with context.\n\nThe system degrades gracefully — if a query doesn\'t match any intent, it says so honestly rather than guessing.' },
+        { id: 'design-principles-v3', order: 6, content: '## The Lockdown\nAt 2,011 lines, Design Principles v3 is the most exhaustive design document in the project. It locks down every visual and interaction pattern.\n\n## The Hard Rules\nTwelve non-negotiable rules (HR-1 through HR-12): No emojis (zi() SVG icons only). No inline styles. No inline onclick. No raw pixel values. No text-overflow ellipsis. Domain color system. Dark mode coverage. escHtml() on all user-data innerHTML. Multi-round QA after every build.\n\n## Why It Matters\nThe design principles are the reason a solo developer can maintain a 55K-line codebase without it collapsing into inconsistency. Every session starts by reading them. Every build ends by auditing against them.' },
+        { id: 'search-bar', order: 7, content: '## Beyond Text Matching\nThe Search Bar Upgrade transformed search from a simple text filter into an intelligent query system. Three query modes — lookback, pattern, and planning — route queries to specialized handlers.\n\n## Nutrient Intelligence Cards\nSearch results include nutrient intelligence cards when queries touch diet data. Ask about iron intake and you\'ll see a heatmap of iron-rich food frequency.\n\n## The Ingredient Picker\nA typeahead component that knows every food Ziva has ever eaten, ranked by frequency. Fast because it indexes on first load and filters in memory.' },
+        { id: 'migration-m1-m2-m3', order: 8, content: '## The Great Modernization\nMigrations M1 through M3 were a systematic sweep through the entire codebase, enforcing the Hard Rules retroactively on code written before they existed.\n\n## M1: Emoji Purge\nEvery emoji replaced with zi() SVG icon calls. Emojis render differently across devices; zi() icons render identically everywhere.\n\n## M2: Inline Style Extraction\nHundreds of inline style attributes extracted into CSS classes using design tokens. This made the codebase themeable and consistent.\n\n## M3: Event Delegation\nEvery onclick attribute replaced with data-action delegation. A single event listener on the document body routes all clicks. The migration was unglamorous work but transformed SproutLab from a codebase that happened to work into one designed to last.' },
+        { id: 'cross-domain', order: 9, content: '## Connecting the Dots\nCross-Domain Intelligence surfaces correlations that parents sense intuitively but can\'t prove without data.\n\n## The Six Cards\nSleep-Feeding Correlation. Diet-Digestion Patterns. Growth-Feeding Alignment. Activity-Sleep Impact. Vaccination Recovery. Daily Rhythm Analysis.\n\n## Design Philosophy\nEach card shows a headline insight, a supporting visualization, and a one-sentence interpretation. No card requires scrolling to understand. The audience is a tired parent at 2 AM who needs signal, not noise.' },
+        { id: 'today-so-far', order: 10, content: '## The Daily Briefing\nToday So Far is SproutLab\'s signature smart card — a real-time summary of everything that\'s happened today.\n\n## The Vertical Timeline\nA chronological list of today\'s events rendered as a warm vertical flow. A warmth gradient bar at the top gives an at-a-glance quality score.\n\n## Pattern-Based Nudges\nThe card nudges based on Ziva\'s actual rhythms rather than imposing textbook schedules. 12 functions carry the _tsf prefix. The card rebuilds on every data change.\n\nThe spec went through 4 review rounds and reached 533 lines before it was declared build-ready.' },
+        { id: 'caretickets', order: 11, content: '## The Biggest Build\nCareTickets was SproutLab\'s most ambitious feature — four build phases, a 1,089-line spec, 15 QA rounds, 310 test scenarios. It exists because baby care concerns don\'t fit neatly into feeding or sleep logs.\n\n## The Data Model\n21 fields per ticket. 7 templates. A 6-transition state machine: draft to active to monitoring to resolved, with paused and escalated branches.\n\n## Notification Architecture\nMain-thread notification system schedules check-in prompts. The architecture decision became canon-0045.\n\n## Illness-Aware Metrics\nWhen a CareTicket is active, the intelligence system adjusts expectations. A sick day\'s sleep score isn\'t compared against healthy baselines.\n\n## The Personal Dimension\nCareTickets was built during a week when Ziva had her first real illness. Every field exists because a real conversation with a doctor needed that data point.' },
+        { id: 'architecture-split', order: 12, content: '## Breaking the Monolith\nBy April 2026, the single-file monolith had grown past what any AI session could hold in context. The split happened across Phases 1 through 3 in three days.\n\n## The Nine Modules\ndata.js, core.js, home.js, diet.js, medical.js, intelligence.js, start.js, styles.css, and template.html. Concatenation order matters.\n\n## Build System\nbuild.sh concatenates the modules and outputs sproutlab.html. Critical workflow rule: cp sproutlab.html index.html before pushing to GitHub Pages.\n\n## What Changed, What Didn\'t\nThe split changed the developer workflow but not the user experience. The built output is still a single HTML file. No dependencies were added.' },
+        { id: 'bug-capture', order: 13, content: '## Three Paths to a Bug Report\nA button in Settings for deliberate reports, a long-press on the FAB for quick captures, and automatic prompts via window.onerror for crashes.\n\n## Delivery\nBug reports formatted for WhatsApp or clipboard. The report includes error message, timestamp, current view state, and device info.\n\n## Why It Exists\nSproutLab\'s primary user is Rishabh\'s wife. When something breaks, the feedback loop needs to be instant and frictionless. A WhatsApp message lands in the conversation they already have open.' }
+      ];
+
+      updates.forEach(function(u) {
+        var ch = (sl.chapters || []).find(function(c) { return c.id === u.id; });
+        if (ch && !ch.content) {
+          ch.content = u.content;
+          ch.order = u.order;
+          count++;
+        } else if (ch && ch.order == null) {
+          ch.order = u.order;
+        }
+      });
+
+      // Codex todo-cleanup chapter content
+      var cx = store.volumes.find(function(v) { return v.id === 'codex'; });
+      if (cx) {
+        var tc = (cx.chapters || []).find(function(c) { return c.id === 'todo-cleanup'; });
+        if (tc && !tc.content) { tc.content = '## The Session\nFive open TODOs had accumulated across Codex\'s build phases. This session resolved all five in one pass.\n\n## The Fixes\nTODO 1: documentation drift in QUICK_REFERENCE (static font tokens vs dynamic calc-based system). TODO 3: Storage Usage view only counted KEYS entries, missing draft/seed/migration keys. TODO 4: Trash view missing deleted apocrypha section. TODO 5: Added canon_updates to snippet pipeline for data corrections.\n\n## The Method\nThree QA rounds, zero bugs. The session demonstrated that Codex\'s patterns are stable enough that new features slot in without surprises.'; count++; }
+      }
+
+      if (count > 0) showToast(count + ' narratives loaded', 'success');
+    }
   }
 ];
 
@@ -2654,7 +2698,12 @@ function renderCanons() {
     apocryphon.forEach(function(a) {
       var statusCls = a.status === 'fulfilled' ? 'cx-status-complete' : a.status === 'foretold' ? 'cx-status-in-progress' : 'cx-status-abandoned';
       html += '<div class="cx-apocrypha-card">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-8)">';
       html += '<div class="cx-apocrypha-title">' + escHtml(a.title) + '</div>';
+      html += '<div style="display:flex;gap:var(--sp-4);flex-shrink:0">';
+      html += '<button class="cx-btn-icon" data-action="editApocryphon" data-id="' + escAttr(a.id) + '" title="Edit">' + cx('quill') + '</button>';
+      html += '<button class="cx-btn-icon" data-action="deleteApocryphonAction" data-id="' + escAttr(a.id) + '" title="Delete">' + cx('trash') + '</button>';
+      html += '</div></div>';
       html += '<span class="cx-chip cx-chip-sm ' + statusCls + '">' + escHtml(a.status) + '</span>';
       if (a.narrative) html += '<div class="cx-apocrypha-narrative">' + escHtml(a.narrative).replace(/\n/g, '<br>') + '</div>';
       var ameta = [];
@@ -3064,13 +3113,14 @@ function renderTrashView() {
       if (ch._deleted) deletedChapters.push({ volume: v, chapter: ch });
     });
   });
+  var deletedApocrypha = store.apocrypha.filter(function(a) { return a._deleted; });
 
   var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
   html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
   html += '<h2 class="cx-page-title" style="margin:0">Trash</h2></div>';
 
-  if (deletedCanons.length === 0 && deletedChapters.length === 0) {
-    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons and chapters appear here');
+  if (deletedCanons.length === 0 && deletedChapters.length === 0 && deletedApocrypha.length === 0) {
+    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons, chapters, and apocrypha appear here');
     vc.innerHTML = html;
     return;
   }
@@ -3085,6 +3135,21 @@ function renderTrashView() {
       html += '<div class="cx-trash-actions">';
       html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreCanon" data-id="' + escAttr(c.id) + '">Restore</button>';
       html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteCanon" data-id="' + escAttr(c.id) + '">' + cx('trash') + '</button>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  if (deletedApocrypha.length > 0) {
+    html += '<div class="cx-section-title">' + cx('scroll') + ' Apocrypha (' + deletedApocrypha.length + ')</div>';
+    html += '<div class="cx-card">';
+    deletedApocrypha.forEach(function(a) {
+      html += '<div class="cx-trash-item">';
+      html += '<div class="cx-trash-info"><div class="cx-trash-name">' + escHtml(a.title || a.id) + '</div>';
+      html += '<div class="cx-trash-meta">Deleted ' + escHtml(formatRelativeTime(a._deleted_date)) + '</div></div>';
+      html += '<div class="cx-trash-actions">';
+      html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreApocryphon" data-id="' + escAttr(a.id) + '">Restore</button>';
+      html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteApocryphon" data-id="' + escAttr(a.id) + '">' + cx('trash') + '</button>';
       html += '</div></div>';
     });
     html += '</div>';
@@ -3152,18 +3217,20 @@ function renderErrorLogView() {
 
 function renderStorageUsage() {
   var vc = document.getElementById('viewContainer');
-  var keys = Object.values(KEYS);
   var rows = [];
   var total = 0;
 
-  keys.forEach(function(key) {
-    var val = localStorage.getItem(key);
-    if (val !== null) {
-      var size = val.length * 2; // rough byte estimate (UTF-16)
-      rows.push({ key: key, size: size });
-      total += size;
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    if (key && key.indexOf('codex-') === 0) {
+      var val = localStorage.getItem(key);
+      if (val !== null) {
+        var size = val.length * 2; // rough byte estimate (UTF-16)
+        rows.push({ key: key, size: size });
+        total += size;
+      }
     }
-  });
+  }
   rows.sort(function(a, b) { return b.size - a.size; });
 
   function formatBytes(bytes) {
@@ -3615,6 +3682,7 @@ function renderSettings() {
   html += '<div class="cx-settings-section"><div class="cx-section-title">Data</div><div class="cx-card">';
   html += '<div class="cx-settings-row" data-action="openSnippetImport"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Import Aurelius Snippet</div><div class="cx-settings-hint">Paste JSON from build sessions</div></div></div></div>';
   html += '<div class="cx-settings-row" data-action="exportData"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Export Data</div><div class="cx-settings-hint">Download as JSON</div></div></div></div>';
+  html += '<div class="cx-settings-row" data-action="restoreData"><div class="cx-settings-left">' + cx('refresh') + '<div><div class="cx-settings-label">Restore from Backup</div><div class="cx-settings-hint">Paste exported JSON to restore</div></div></div></div>';
   html += '</div></div>';
 
   // Advanced (Phase 4)
@@ -3970,6 +4038,79 @@ function handleExportData() {
   showToast('Exported', 'success');
 }
 
+/* --- Restore from Backup --- */
+function openRestoreData() {
+  var body = '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12)">Select a Codex JSON export to restore all data. This replaces your current library.</p>';
+  body += '<input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none">';
+  body += '<button data-action="triggerRestoreFile" class="cx-btn-secondary" style="width:100%;padding:var(--sp-16);margin-bottom:var(--sp-12)">' + cx('download') + ' Choose Backup File</button>';
+  body += '<div id="restoreFileStatus" style="color:var(--text-secondary);font-size:var(--fs-sm)"></div>';
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleRestoreData" class="cx-btn-primary" style="flex:1" id="restoreBtn" disabled>' + cx('check') + ' Restore</button>';
+
+  openOverlay('Restore from Backup', body, footer);
+  setTimeout(function() {
+    var input = document.getElementById('restoreFileInput');
+    if (input) input.addEventListener('change', handleRestoreFileSelect);
+  }, 50);
+}
+
+var _restoreParsed = null;
+
+function triggerRestoreFile() {
+  var input = document.getElementById('restoreFileInput');
+  if (input) input.click();
+}
+
+function handleRestoreFileSelect(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var status = document.getElementById('restoreFileStatus');
+  var btn = document.getElementById('restoreBtn');
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      var data = JSON.parse(ev.target.result);
+      if (!data.volumes || !Array.isArray(data.volumes)) {
+        if (status) status.innerHTML = '<span style="color:var(--error)">Invalid backup: missing volumes array</span>';
+        _restoreParsed = null;
+        if (btn) btn.disabled = true;
+        return;
+      }
+      _restoreParsed = data;
+      var summary = data.volumes.length + ' volumes, ' + (data.canons || []).length + ' canons, '
+        + (data.apocrypha || []).length + ' apocrypha, ' + (data.journal || []).flatMap(function(d) { return d.sessions || []; }).length + ' sessions';
+      if (status) status.innerHTML = '<span style="color:var(--success)">' + cx('check') + ' ' + escHtml(file.name) + '</span><br><span style="color:var(--text-tertiary)">' + escHtml(summary) + '</span>';
+      if (btn) btn.disabled = false;
+    } catch(err) {
+      if (status) status.innerHTML = '<span style="color:var(--error)">Invalid JSON: ' + escHtml(err.message) + '</span>';
+      _restoreParsed = null;
+      if (btn) btn.disabled = true;
+    }
+  };
+  reader.readAsText(file);
+}
+
+function handleRestoreData() {
+  if (!_restoreParsed) { showToast('Select a backup file first', 'warning'); return; }
+
+  showConfirmDialog('Restore Data', 'This will replace ALL current data with the backup. Are you sure?', function() {
+    try {
+      store.volumes = _restoreParsed.volumes || [];
+      store.canons = _restoreParsed.canons || [];
+      store.schisms = _restoreParsed.schisms || [];
+      store.apocrypha = _restoreParsed.apocrypha || [];
+      store.journal = _restoreParsed.journal || [];
+      store._cacheToLocalStorage();
+      _restoreParsed = null;
+      showToast('Data restored', 'success');
+      closeConfirmDialog();
+      closeOverlay();
+      renderCurrentView();
+    } catch(e) { showToast('Restore failed: ' + e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Restore' });
+}
+
 /* ============================================================
    PHASE 3: Session Create
    ============================================================ */
@@ -4173,6 +4314,68 @@ function handleDeleteCanon(canonId) {
 }
 
 /* ============================================================
+   Apocrypha Edit / Delete
+   ============================================================ */
+
+function openEditApocryphon(apoId) {
+  var apo = store.apocrypha.find(function(a) { return a.id === apoId; });
+  if (!apo) { showToast('Apocryphon not found', 'error'); return; }
+
+  var statusOpts = [
+    { value: 'foretold', label: 'Foretold' },
+    { value: 'fulfilled', label: 'Fulfilled' },
+    { value: 'forgotten', label: 'Forgotten' }
+  ];
+
+  var body = '';
+  body += renderTextField('apo_title', 'Title', apo.title, { required: true });
+  body += renderSelect('apo_status', 'Status', apo.status, statusOpts);
+  body += renderTextarea('apo_narrative', 'Narrative', apo.narrative || '', { rows: 10, placeholder: 'The myth, the prophecy, the legend...' });
+  body += renderTextField('apo_volumes', 'Volumes', (apo.volumes || []).join(', '), { placeholder: 'Comma-separated volume IDs' });
+  body += renderTextField('apo_date', 'Date', apo.date || '', { placeholder: 'YYYY-MM-DD' });
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveApocryphon" data-id="' + escAttr(apoId) + '" class="cx-btn-primary" style="flex:1">'
+    + cx('check') + ' Save</button>';
+
+  openOverlay('Edit Apocryphon', body, footer);
+  setTimeout(function() { var el = document.getElementById('field-apo_title'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+}
+
+function handleSaveApocryphon(apoId) {
+  var title = (document.getElementById('field-apo_title') || {}).value || '';
+  var status = (document.getElementById('field-apo_status') || {}).value || 'foretold';
+  var narrative = (document.getElementById('field-apo_narrative') || {}).value || '';
+  var volsStr = (document.getElementById('field-apo_volumes') || {}).value || '';
+  var date = (document.getElementById('field-apo_date') || {}).value || '';
+
+  title = title.trim();
+  if (!title) { showToast('Title is required', 'error'); return; }
+
+  var volumes = volsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    store.updateApocryphon(apoId, { title: title, status: status, narrative: narrative.trim(), volumes: volumes, date: date || localDateStr() });
+    showToast('Apocryphon updated', 'success');
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+function handleDeleteApocryphon(apoId) {
+  var apo = store.apocrypha.find(function(a) { return a.id === apoId; });
+  if (!apo) return;
+  showConfirmDialog('Delete Apocryphon', 'Soft-delete "' + apo.title + '"? It will appear in Trash.', function() {
+    try {
+      store.deleteApocryphon(apoId);
+      showToast('Apocryphon deleted', 'success');
+      closeConfirmDialog();
+      renderCurrentView();
+    } catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+/* ============================================================
    PHASE 3: Schism Create
    ============================================================ */
 
@@ -4345,12 +4548,33 @@ function handlePreviewSnippet() {
     });
   }
 
-  // Preview apocrypha (Phase 5)
+  // Preview canon_updates
+  if (_snippetParsed.canon_updates && _snippetParsed.canon_updates.length > 0) {
+    _snippetParsed.canon_updates.forEach(function(cu) {
+      var pc = store.canons.find(function(c) { return c.id === cu.id; });
+      html += '<div class="cx-preview-item">' + (pc
+        ? '<span class="cx-preview-ok">\u2713</span> Update canon: ' + escHtml(pc.title || cu.id)
+        : '<span class="cx-preview-skip">\u2717</span> Canon ' + escHtml(cu.id) + ' (not found)') + '</div>';
+    });
+  }
+
+  // Preview todo_updates
+  if (_snippetParsed.todo_updates && _snippetParsed.todo_updates.length > 0) {
+    _snippetParsed.todo_updates.forEach(function(tu) {
+      var tvol = store.volumes.find(function(v) { return v.id === tu.volume; });
+      var ttodo = tvol ? (tvol.todos || []).find(function(t) { return t.id === tu.todo; }) : null;
+      html += '<div class="cx-preview-item">' + (ttodo
+        ? '<span class="cx-preview-ok">\u2713</span> Update TODO: ' + escHtml(ttodo.text || tu.todo)
+        : '<span class="cx-preview-skip">\u2717</span> TODO ' + escHtml(tu.todo) + ' (not found)') + '</div>';
+    });
+  }
+
+  // Preview apocrypha (Phase 5 — upsert)
   if (_snippetParsed.apocrypha && _snippetParsed.apocrypha.length > 0) {
     _snippetParsed.apocrypha.forEach(function(a) {
       var exists = store.apocrypha.some(function(x) { return x.id === a.id; });
       html += '<div class="cx-preview-item">' + (exists
-        ? '<span class="cx-preview-skip">\u2717</span> Apocryphon ' + escHtml(a.title) + ' (exists)'
+        ? '<span class="cx-preview-ok">\u2713</span> Update apocryphon: ' + escHtml(a.title)
         : '<span class="cx-preview-ok">\u2713</span> Apocryphon: ' + escHtml(a.title)) + '</div>';
     });
   }
@@ -4362,7 +4586,7 @@ function handlePreviewSnippet() {
 
 function handleImportSnippet() {
   if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
-  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, apocrypha: 0 };
+  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, apocrypha: 0 };
 
   try {
     // 1. Session
@@ -4432,16 +4656,38 @@ function handleImportSnippet() {
       });
     }
 
-    // 7. Apocrypha (Phase 5)
+    // 6b. Canon updates
+    if (_snippetParsed.canon_updates) {
+      _snippetParsed.canon_updates.forEach(function(cu) {
+        try {
+          store.updateCanon(cu.id, cu.patch);
+          counts.canonUpdates++;
+        } catch(e) { /* skip if not found */ }
+      });
+    }
+
+    // 6c. TODO updates
+    if (_snippetParsed.todo_updates) {
+      _snippetParsed.todo_updates.forEach(function(tu) {
+        try {
+          store.updateTodo(tu.volume, tu.todo, tu.patch);
+          counts.todoUpdates++;
+        } catch(e) { /* skip if not found */ }
+      });
+    }
+
+    // 7. Apocrypha (Phase 5 — upsert: update if exists, create if not)
     if (_snippetParsed.apocrypha) {
       _snippetParsed.apocrypha.forEach(function(a) {
         var exists = store.apocrypha.some(function(x) { return x.id === a.id; });
-        if (!exists) {
-          try {
+        try {
+          if (!exists) {
             store.addApocryphon(a);
-            counts.apocrypha++;
-          } catch(e) { /* skip */ }
-        }
+          } else {
+            store.updateApocryphon(a.id, a);
+          }
+          counts.apocrypha++;
+        } catch(e) { /* skip */ }
       });
     }
 
@@ -4452,6 +4698,8 @@ function handleImportSnippet() {
     if (counts.todos) parts.push(counts.todos + ' TODO' + (counts.todos > 1 ? 's' : ''));
     if (counts.newChapters) parts.push(counts.newChapters + ' new chapter' + (counts.newChapters > 1 ? 's' : ''));
     if (counts.chapterUpdates) parts.push(counts.chapterUpdates + ' chapter update' + (counts.chapterUpdates > 1 ? 's' : ''));
+    if (counts.canonUpdates) parts.push(counts.canonUpdates + ' canon update' + (counts.canonUpdates > 1 ? 's' : ''));
+    if (counts.todoUpdates) parts.push(counts.todoUpdates + ' TODO update' + (counts.todoUpdates > 1 ? 's' : ''));
     if (counts.apocrypha) parts.push(counts.apocrypha + ' apocryphon' + (counts.apocrypha > 1 ? ' entries' : ''));
 
     showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');
@@ -4531,6 +4779,9 @@ function setupDelegation() {
         break;
       case 'setTextSize': applyTextSize(el.dataset.size); break;
       case 'exportData': handleExportData(); break;
+      case 'restoreData': openRestoreData(); break;
+      case 'triggerRestoreFile': triggerRestoreFile(); break;
+      case 'handleRestoreData': handleRestoreData(); break;
 
       // Phase 2: GitHub Settings
       case 'validateAndSaveGitHub': handleSettingsGitHubSave(); break;
@@ -4618,6 +4869,20 @@ function setupDelegation() {
           renderTrashView();
         }, { danger: true, label: 'Delete Forever' });
         break;
+      case 'restoreApocryphon':
+        var ra = store.apocrypha.find(function(a) { return a.id === id; });
+        if (ra) { ra._deleted = false; ra._deleted_date = null; store._createWalEntry('update', 'apocryphon', id, 'canons.json', { _deleted: false, _deleted_date: null }); store._fireChange(); showToast('Apocryphon restored', 'success'); renderTrashView(); }
+        break;
+      case 'permanentDeleteApocryphon':
+        showConfirmDialog('Permanently Delete', 'This cannot be undone. Are you sure?', function() {
+          store.apocrypha = store.apocrypha.filter(function(a) { return a.id !== id; });
+          store._createWalEntry('delete', 'apocryphon', id, 'canons.json', { _permanent: true });
+          store._fireChange();
+          showToast('Permanently deleted', 'success');
+          closeConfirmDialog();
+          renderTrashView();
+        }, { danger: true, label: 'Delete Forever' });
+        break;
 
       // Phase 4: Sync panel
       case 'closeSyncPanel':
@@ -4671,6 +4936,11 @@ function setupDelegation() {
       case 'deleteCanon': handleDeleteCanon(id); break;
       case 'copyCanonId': handleCopyCanonId(id); break;
       case 'copyCanonJson': handleCopyCanonJson(id); break;
+
+      // Apocrypha edit/delete
+      case 'editApocryphon': openEditApocryphon(id); break;
+      case 'handleSaveApocryphon': handleSaveApocryphon(id); break;
+      case 'deleteApocryphonAction': handleDeleteApocryphon(id); break;
 
       // Phase 3: Schisms
       case 'openCreateSchism': openCreateSchism(); break;
@@ -4749,7 +5019,7 @@ function testLocalStorage() {
 /* --- Phase 2: Service Worker --- */
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('sw.js', { scope: './' })
+  navigator.serviceWorker.register('sw.js?v=7', { scope: './' })
     .then(function(reg) {
       reg.addEventListener('updatefound', function() {
         var nw = reg.installing;
