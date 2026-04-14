@@ -1,18 +1,16 @@
-/* CODEX — Service Worker v2 (network-first for app shell) */
-var CACHE_NAME = 'codex-v6';
-var APP_SHELL = [
-  './',
-  './index.html',
+/* CODEX — Service Worker v7 (HTML never cached by SW) */
+var CACHE_NAME = 'codex-v7';
+var STATIC_ASSETS = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
 ];
 
-/* Install: cache app shell */
+/* Install: cache only static assets, never HTML */
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(APP_SHELL);
+      return cache.addAll(STATIC_ASSETS);
     }).then(function() {
       return self.skipWaiting();
     })
@@ -38,9 +36,12 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('fetch', function(event) {
   var url = event.request.url;
 
-  // GitHub API: network only
-  if (url.indexOf('api.github.com') !== -1) {
-    event.respondWith(fetch(event.request));
+  // GitHub API: network only, no interception
+  if (url.indexOf('api.github.com') !== -1) return;
+
+  // HTML / app shell: always network, never cache via SW
+  // Browser's own HTTP cache handles offline scenarios
+  if (event.request.mode === 'navigate' || url.indexOf('index.html') !== -1 || url.endsWith('/Codex/')) {
     return;
   }
 
@@ -61,16 +62,17 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // App shell: network-first (always get latest, cache as fallback for offline)
+  // Static assets (icons, manifest): cache-first
   event.respondWith(
-    fetch(event.request).then(function(response) {
-      if (response.ok) {
-        var clone = response.clone();
-        caches.open(CACHE_NAME).then(function(cache) { cache.put(event.request, clone); });
-      }
-      return response;
-    }).catch(function() {
-      return caches.match(event.request);
+    caches.match(event.request).then(function(cached) {
+      if (cached) return cached;
+      return fetch(event.request).then(function(response) {
+        if (response.ok) {
+          var clone = response.clone();
+          caches.open(CACHE_NAME).then(function(cache) { cache.put(event.request, clone); });
+        }
+        return response;
+      });
     })
   );
 });
