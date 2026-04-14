@@ -233,6 +233,46 @@ function handleExportData() {
   showToast('Exported', 'success');
 }
 
+/* --- Restore from Backup --- */
+function openRestoreData() {
+  var body = '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12)">Paste a Codex JSON export to restore all data. This replaces your current library.</p>';
+  body += renderTextarea('restore_json', 'Backup JSON', '', { rows: 8, placeholder: 'Paste exported JSON here...' });
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleRestoreData" class="cx-btn-primary" style="flex:1">' + cx('download') + ' Restore</button>';
+
+  openOverlay('Restore from Backup', body, footer);
+}
+
+function handleRestoreData() {
+  var jsonStr = (document.getElementById('field-restore_json') || {}).value || '';
+  if (!jsonStr.trim()) { showToast('Paste backup JSON first', 'warning'); return; }
+
+  var data;
+  try { data = JSON.parse(jsonStr); } catch(e) {
+    showToast('Invalid JSON: ' + e.message, 'error'); return;
+  }
+
+  if (!data.volumes || !Array.isArray(data.volumes)) {
+    showToast('Invalid backup: missing volumes array', 'error'); return;
+  }
+
+  showConfirmDialog('Restore Data', 'This will replace ALL current data with the backup. Are you sure?', function() {
+    try {
+      store.volumes = data.volumes || [];
+      store.canons = data.canons || [];
+      store.schisms = data.schisms || [];
+      store.apocrypha = data.apocrypha || [];
+      store.journal = data.journal || [];
+      store._cacheToLocalStorage();
+      showToast('Data restored', 'success');
+      closeConfirmDialog();
+      closeOverlay();
+      renderCurrentView();
+    } catch(e) { showToast('Restore failed: ' + e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Restore' });
+}
+
 /* ============================================================
    PHASE 3: Session Create
    ============================================================ */

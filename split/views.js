@@ -1381,6 +1381,7 @@ function renderSettings() {
   html += '<div class="cx-settings-section"><div class="cx-section-title">Data</div><div class="cx-card">';
   html += '<div class="cx-settings-row" data-action="openSnippetImport"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Import Aurelius Snippet</div><div class="cx-settings-hint">Paste JSON from build sessions</div></div></div></div>';
   html += '<div class="cx-settings-row" data-action="exportData"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Export Data</div><div class="cx-settings-hint">Download as JSON</div></div></div></div>';
+  html += '<div class="cx-settings-row" data-action="restoreData"><div class="cx-settings-left">' + cx('refresh') + '<div><div class="cx-settings-label">Restore from Backup</div><div class="cx-settings-hint">Paste exported JSON to restore</div></div></div></div>';
   html += '</div></div>';
 
   // Advanced (Phase 4)

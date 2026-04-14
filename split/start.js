@@ -68,6 +68,8 @@ function setupDelegation() {
         break;
       case 'setTextSize': applyTextSize(el.dataset.size); break;
       case 'exportData': handleExportData(); break;
+      case 'restoreData': openRestoreData(); break;
+      case 'handleRestoreData': handleRestoreData(); break;
 
       // Phase 2: GitHub Settings
       case 'validateAndSaveGitHub': handleSettingsGitHubSave(); break;
