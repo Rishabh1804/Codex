@@ -1,38 +1,34 @@
 #!/bin/bash
-# SEP Invoicing — Build Script
-# Concatenates split modules into sep-invoicing.html
-# Usage: cd split && bash build.sh > ../sep-invoicing.html
+# Codex Build Script — concat order: data → seed → core → views → forms → start
+# Output: split/codex.html + split/index.html + repo root index.html
+SPLIT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$SPLIT_DIR/.."
+OUTPUT="$SPLIT_DIR/codex.html"
 
-set -e
-
-DIR="$(cd "$(dirname "$0")" && pwd)"
-
-cat "$DIR/head.html"
+{
+cat "$SPLIT_DIR/template.html"
 echo '<style>'
-cat "$DIR/styles.css"
+cat "$SPLIT_DIR/styles.css"
 echo '</style>'
-cat "$DIR/body.html"
 echo '<script>'
-cat \
-  "$DIR/data.js" \
-  "$DIR/state.js" \
-  "$DIR/tabs.js" \
-  "$DIR/clients.js" \
-  "$DIR/items.js" \
-  "$DIR/create.js" \
-  "$DIR/settings.js" \
-  "$DIR/invoice-ops.js" \
-  "$DIR/exports.js" \
-  "$DIR/im.js" \
-  "$DIR/autocomplete.js" \
-  "$DIR/print.js" \
-  "$DIR/stats.js" \
-  "$DIR/im-form.js" \
-  "$DIR/scanner.js" \
-  "$DIR/events.js" \
-  "$DIR/swipe.js" \
-  "$DIR/seed.js" \
-  "$DIR/init.js"
+cat "$SPLIT_DIR/data.js"
+echo ''
+cat "$SPLIT_DIR/seed.js"
+echo ''
+cat "$SPLIT_DIR/core.js"
+echo ''
+cat "$SPLIT_DIR/views.js"
+echo ''
+cat "$SPLIT_DIR/forms.js"
+echo ''
+cat "$SPLIT_DIR/start.js"
 echo '</script>'
 echo '</body>'
 echo '</html>'
+} > "$OUTPUT"
+
+# canon-0033: root index.html must always be the build output
+cp "$OUTPUT" "$SPLIT_DIR/index.html"
+cp "$OUTPUT" "$REPO_ROOT/index.html"
+
+echo "Built: $(wc -l < "$OUTPUT") lines → codex.html + index.html + root/index.html"
