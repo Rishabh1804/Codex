@@ -342,6 +342,20 @@
           "order": 8,
           "_deleted": false,
           "_deleted_date": null
+        },
+        {
+          "id": "phase-8-desktop",
+          "name": "Phase 8 — Desktop Mode",
+          "status": "in-progress",
+          "started": "2026-04-14",
+          "completed": null,
+          "ended": null,
+          "summary": "Full desktop compatibility across 7 sub-phases. 8A: layout detection + sidebar + overlay split. 8B: master-detail containers. 8C-8D: desktop tables for Register and IM. 8E: Clients desktop. 8F: Home grid + Create density. 8G: keyboard shortcuts.",
+          "spec_url": "docs/PHASE8_DESKTOP_SPEC.md",
+          "content": "## The Desktop Problem\n\nSEP Invoicing was built mobile-first for a zinc electroplating factory floor. But invoicing happens at a desk too — Rishabh reviewing a month of challans, preparing GST returns, cross-referencing IM records against invoices. A 520px-wide card view on a 1920px monitor wastes 73% of the screen.\n\n## The Strategy Decision\n\nThree options: responsive CSS only, adaptive hybrid, or full separate rendering. Chose full separate rendering — desktop tables, sidebar navigation, master-detail panels, and keyboard shortcuts are fundamentally different DOM structures. CSS tweaks cannot transform a mobile card into a sortable table with a resizable detail panel.\n\n## Phase 8A — Layout Foundation\n\nBreakpoint detection via ResizeObserver (debounced 150ms). Three modes: mobile (<768px), tablet (768-1023px), desktop (≥1024px). Tablet is a big phone — bottom tabs stay, cards get wider, max-width cap removed. Desktop gets a 64px icon sidebar that hover-expands to 240px with labels.\n\nThe hardest problem: what happens when the user resizes across 1024px with an overlay open? Deferred mode switch — _pendingModeSwitch flag queues the transition until closeOverlay() or cancelAddChallan() drains it. No DOM destruction mid-interaction.\n\nOverlays split: bottom sheet on mobile (unchanged), centered modal on desktop with scale-in animation. Touch-desktop fallback on sidebar for devices where hover events don't exist but screen width exceeds 1024px.\n\n## QA Catches\n\nFive bugs caught before deploy: header double margin-left (128px instead of 64px), event listener leak on mode switch cycles, print CSS specificity losing to desktop margin, sidebar missing from print hide list, dark mode selectors inconsistent with codebase pattern.",
+          "order": 8,
+          "_deleted": false,
+          "_deleted_date": null
         }
       ],
       "todos": [
