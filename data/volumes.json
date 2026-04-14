@@ -328,6 +328,20 @@
           "order": 4,
           "_deleted": false,
           "_deleted_date": null
+        },
+        {
+          "id": "phase-7",
+          "name": "Phase 7 — Stats + History Rework",
+          "status": "complete",
+          "started": "2026-04-14",
+          "completed": "2026-04-14",
+          "ended": null,
+          "summary": "Stats tab rewrite: period chips, 7-card dashboard grid, inline SVG charts (bar + trend line), flippable card client drill-down with actionable insights. History tab: filter fix + date range + day headers + tappable navigation + load-more. 6,047 lines total.",
+          "spec_url": null,
+          "content": "## What Was Built\n\nThe Stats tab went from six static HTML cards to an interactive analytics dashboard. Period filtering via chip buttons (MTD/QTD/YTD/All) with Indian FY-aware YTD calculation. Seven cards in a responsive 2-column grid: Revenue Overview, Invoice States, Revenue by Client (inline SVG horizontal bar chart with tappable bars), Pending Revenue, Monthly Revenue Trend (SVG line chart with area fill), Dispatch Cycle averages, and Top Items by Volume (ranked table).\n\nThe signature feature: a flippable card overlay for client drill-down. Tapping any client bar opens a bottom-sheet overlay with a CSS 3D flip animation. Front face shows a 2x2 KPI grid (revenue, invoice count, share %, unbilled amount), state badges, and billing mode. Back face shows recent invoices, pending challans, and three action buttons — Create Invoice (pre-selects client in form), View in Register (filters to client), View in IM (filters and scrolls to challan). The flip uses a two-stage animation (rotateY 0→90° then -90°→0°) rather than true CSS 3D backface-visibility, avoiding overflow clipping issues in the overlay.\n\nHistory tab got four improvements alongside the filter bug fix: from/to date range inputs, day-level group headers, tappable entries that navigate to the referenced invoice in Register or challan in IM, and a load-more button showing 50 events per batch.\n\n## Key Decisions\n\nInline SVG chosen over Chart.js (zero dependencies, full CSS variable integration for dark mode) and CSS bars (insufficient control for labels and interactivity). Two-stage flip animation over true CSS 3D (overlay's overflow-y:auto and max-height clip backface-visibility content). Period filter uses createdAt timestamps, not invoice dates — consistent with 'when did we book this' rather than 'when was this dated'. Monthly trend always shows all-time data regardless of period filter — the trend needs multi-month context. Pending Revenue card is never period-filtered — unbilled material is always current state.\n\n## What Broke\n\nSix bugs caught during spec verification before build. The critical one: IM filtering uses _imFilter.clientId (module-level in im.js), not regFilter.imClientFilter which doesn't exist. The Jump to IM action would have silently failed. Also caught: clientId integer/string type mismatch between S.clients[].id (number) and btn.dataset.clientId (string), requiring parseInt() at the openClientDrillOverlay entry point.\n\n## State of the World After\n\n6,047 lines across 21 modules. Stats tab is now the operational intelligence center — period-aware metrics, visual charts, and one-tap client drill-down with actionable follow-through. History tab is a navigable activity log with filtering and cross-tab linking. The flippable card pattern is reusable for future drill-down UIs.",
+          "order": 8,
+          "_deleted": false,
+          "_deleted_date": null
         }
       ],
       "todos": [
