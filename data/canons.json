@@ -524,6 +524,21 @@
       ],
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "canon-0046",
+      "scope": "global",
+      "category": "process",
+      "title": "Clone Codex as Read-Only Reference in Every Build Session",
+      "rationale": "Codex is the central project registry. Every build session clones the Codex repo alongside the target project for: snippet import schema (forms.js), canon registry (seed.js), architectural patterns (split-file, overlay, delegation). Prevents guessing at field names and ensures cross-project consistency. Read-only — never modify Codex from another project's session.",
+      "created": "2026-04-14",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-0025"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
     }
   ],
   "schisms": [
