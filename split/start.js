@@ -300,7 +300,7 @@ function testLocalStorage() {
 /* --- Phase 2: Service Worker --- */
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('sw.js?v=4', { scope: './' })
+  navigator.serviceWorker.register('sw.js?v=5', { scope: './' })
     .then(function(reg) {
       reg.addEventListener('updatefound', function() {
         var nw = reg.installing;

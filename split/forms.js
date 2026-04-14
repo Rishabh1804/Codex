@@ -629,12 +629,12 @@ function handlePreviewSnippet() {
     });
   }
 
-  // Preview apocrypha (Phase 5)
+  // Preview apocrypha (Phase 5 — upsert)
   if (_snippetParsed.apocrypha && _snippetParsed.apocrypha.length > 0) {
     _snippetParsed.apocrypha.forEach(function(a) {
       var exists = store.apocrypha.some(function(x) { return x.id === a.id; });
       html += '<div class="cx-preview-item">' + (exists
-        ? '<span class="cx-preview-skip">\u2717</span> Apocryphon ' + escHtml(a.title) + ' (exists)'
+        ? '<span class="cx-preview-ok">\u2713</span> Update apocryphon: ' + escHtml(a.title)
         : '<span class="cx-preview-ok">\u2713</span> Apocryphon: ' + escHtml(a.title)) + '</div>';
     });
   }
@@ -736,16 +736,18 @@ function handleImportSnippet() {
       });
     }
 
-    // 7. Apocrypha (Phase 5)
+    // 7. Apocrypha (Phase 5 — upsert: update if exists, create if not)
     if (_snippetParsed.apocrypha) {
       _snippetParsed.apocrypha.forEach(function(a) {
         var exists = store.apocrypha.some(function(x) { return x.id === a.id; });
-        if (!exists) {
-          try {
+        try {
+          if (!exists) {
             store.addApocryphon(a);
-            counts.apocrypha++;
-          } catch(e) { /* skip */ }
-        }
+          } else {
+            store.updateApocryphon(a.id, a);
+          }
+          counts.apocrypha++;
+        } catch(e) { /* skip */ }
       });
     }
 
