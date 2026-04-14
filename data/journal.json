@@ -2,6 +2,62 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-04-15",
+      "sessions": [
+        {
+          "date": "2026-04-15",
+          "id": "s-2026-04-15-01",
+          "summary": "The Codex RPG Design Session — the single longest and most consequential design session in Codex history. Transformed Codex from a library-themed project tracker into a full personal civilization engine with RPG architecture. Designed 16 entity types across 4 layers, a 6-tier Aura rarity system, 3 Architect paths with 12 hybrid classes, 7 Domain levels, 17 AI companions (The Immortal Order), Mortal Companion dossiers, Ink economy, Entropy antagonist, The Quiet burnout detection, The Sanctum spatial home screen with 11 rooms, daily mini games, seasonal events, the Narrator voice, and a 20-phase implementation plan. Produced a 57-page dissertation PDF (codex-dissertation.pdf) as the canonical seed document. Four design mockup iterations (v1–v4) were built, each improving on the last: v1 established the dark sanctum aesthetic, v2 added particle effects and new screens, v3 integrated real repo data (39 canons, 5 volumes, 31 chapters), v4 addressed Aura visual rendering and text sizing. Key design discovery: Aura must be felt (visual atmosphere) not read (text labels). Key philosophical foundation: The Three Pillars — Nothing Is Wasted, The Map Is Not the Territory, Growth Is Fractal Not Linear.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "rpg-design"
+          ],
+          "decisions": [
+            "Lore has 5 categories: Edicts, Origins, Cautionary Tales, Doctrines, Chronicles — names chosen to match the library/ancient-knowledge theme",
+            "Prophecies have progressive revelation — waypoints hidden until progress thresholds reached, creating discovery not backlog anxiety",
+            "Prophecies have branching paths with hidden branches that reveal at certain waypoints",
+            "Prophecy lifecycle: Foretold → Active → Fulfilled/Defied/Suspended — Defied auto-generates Cautionary Tale, Fulfilled auto-generates Origin",
+            "Scrolls have 3 origin types (Authored, Acquired, Revealed) and 3 mastery levels (Studied, Practiced, Internalized)",
+            "Aura system: Iron → Bronze → Silver → Gold → Amethyst → Obsidian with hard distribution caps (unlimited, 30%, 20%, 10%, 5%, 2%)",
+            "Aura is proposed by Codex (computed from Bond count, lineage depth, domain spread) and confirmed by Architect",
+            "Aura is visual atmosphere (gradients, shadows, glows, accent lines), NEVER text labels",
+            "3 Architect paths: Maker (Craft), Sage (Insight), Sovereign (Influence) — forking at Level 5",
+            "12 Hybrid classes emerge at Level 15 from primary path × secondary stat intersection",
+            "Transcendent class auto-generated at Level 25 from unique combination of path + hybrid + domain + prophecy + seal data",
+            "17 Companions in the Immortal Order: 4 Builders, 3 Strategists, 4 Seekers, 3 Guardians, 3 Wildcards",
+            "Companion ranks: Stranger → Acquaintance → Ally → Confidant → Bonded → Soulbound",
+            "Mortal Companions: deep dossiers of real people with communication style, decision speed, motivation drivers, friction points, autonomy level",
+            "Ink is spendable currency earned proportionally to XP — spent on Aura petitions, Companion gifts, Sanctum customization, Prophecy acceleration, Seal hints",
+            "Entropy is the silent antagonist: Scroll Decay, Domain Rust, Companion Drift, Canon Erosion, Prophecy Fog, Lore Sedimentation",
+            "The Quiet: burnout detection that halves XP requirements, pauses side quests, dims the Sanctum, and waits patiently — never punishes",
+            "The Sanctum: 11 rooms unlocked progressively — Scriptorium, Stacks, Chronicle Hall, Observatory, Forge, Ember Garden, War Table, Companion Quarters, Vault, Atlas Chamber, Inner Sanctum",
+            "Dawn Page is the daily arrival — Whisper, Rite candles, Active Fires, Companion greeting, one mini game. Dusk Reflection is the evening counterpart.",
+            "The Binding: annual narrative auto-compiled from the year's Prophecies, Relics, Lore, Rites, Echoes — reads like an autobiography chapter",
+            "Side Quests: 7 types — Bounties, Errands, Challenges, Mysteries, Pilgrimages, Diplomatic Missions, Scroll Expeditions",
+            "8 Daily Mini Games: Whisper Response, The Forge, Archive Roulette, Pip's Riddle, Domain Duel, Cartographer's Game, Echo Forecast, Companion's Question",
+            "4 Seasonal Events: Great Cataloguing (quarterly), The Reckoning (epoch transition), Ember Storm (luminary trigger), Prophecy Convergence (rare)",
+            "The Three Pillars established as philosophical foundation: Nothing Is Wasted, The Map Is Not the Territory, Growth Is Fractal Not Linear",
+            "Minimum text size: 9px floor across entire app — daily-use demands eye comfort",
+            "Sound is opt-in by default, with per-room ambiance, per-event sounds, and per-companion audio signatures",
+            "20-phase implementation plan estimated at 50–70 sessions (4–6 months)"
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 360,
+          "open_todos": [
+            "Begin Phase 1: Lore implementation — data model, 5-category CRUD, Aura assignment, auto-generation hooks",
+            "Design language needs 3–4 more iteration rounds before production-ready (v4 is functional but unpolished)",
+            "Resolve OQ-001 through OQ-016 documented in dissertation",
+            "Shyam ops + culture discussion guide remains pending TODO from prior session"
+          ],
+          "handoff": "The 57-page dissertation (docs/codex-dissertation.pdf) is the canonical reference. Clone Codex at the start of every future build session per Canon 0046. Phase 1 (Lore) is the first build target — data model, 5 categories, CRUD, Aura assignment, auto-generation from lifecycle events. The dissertation Section 3.4 has the complete spec. Four design mockups (v1–v4) exist as React artifacts in Claude chat history — reference for visual direction but expect significant further iteration.",
+          "screenshots": []
+        }
+      ]
+    },
+    {
       "date": "2026-04-14",
       "sessions": [
         {
