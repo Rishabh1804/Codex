@@ -1,0 +1,726 @@
+{
+  "_schema_version": 1,
+  "canons": [
+    {
+      "id": "canon-0001-no-emojis",
+      "scope": "sproutlab",
+      "category": "design",
+      "title": "HR-1: No Emojis",
+      "rationale": "All iconography uses the zi() SVG icon system. No emoji characters in application-rendered UI. Emoji in user-supplied text is passthrough only.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-1"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0002-no-inline-styles",
+      "scope": "sproutlab",
+      "category": "design",
+      "title": "HR-2: No Inline Styles",
+      "rationale": "All styling through CSS classes and CSS custom properties. Never style= attributes. Ensures consistency and theme-ability.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-2"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0003-no-inline-handlers",
+      "scope": "sproutlab",
+      "category": "architecture",
+      "title": "HR-3: No Inline Event Handlers",
+      "rationale": "All interactivity via data-action delegation. Never onclick= attributes. Single delegation root ensures consistent behavior and easier debugging.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-3"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0004-eschtml-boundary",
+      "scope": "sproutlab",
+      "category": "architecture",
+      "title": "HR-4: escHtml at All Render Boundaries",
+      "rationale": "All user-supplied text passes through escHtml() before innerHTML. Prevents XSS and ensures safe rendering of arbitrary input.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-4"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0005-css-tokens",
+      "scope": "sproutlab",
+      "category": "design",
+      "title": "HR-5: All Spacing/Font/Radius via CSS Tokens",
+      "rationale": "Use --sp-*, --fs-*, --r-* tokens exclusively. No magic numbers. Ensures design consistency and enables theme/text-size scaling.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-5"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0006-data-action-delegation",
+      "scope": "sproutlab",
+      "category": "architecture",
+      "title": "HR-6: data-action Delegation Universal",
+      "rationale": "Every interactive element uses data-action attributes. Single event delegation root. Naming convention: verb-noun or domain-verb-noun.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-6"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0007-zi-innerhtml",
+      "scope": "sproutlab",
+      "category": "architecture",
+      "title": "HR-7: zi() Returns SVG HTML, Set via innerHTML",
+      "rationale": "zi() returns SVG HTML strings. Always set via .innerHTML, never .textContent. Ensures icons render as SVG elements, not escaped text.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-7"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0008-coming-soon-toast",
+      "scope": "sproutlab",
+      "category": "design",
+      "title": "HR-8: Stub Features Show Coming Soon Toast",
+      "rationale": "Incomplete or stub features show 'Coming soon' via showQLToast(). Never leave dead buttons or silent no-ops.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-8"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0009-post-build-qa",
+      "scope": "sproutlab",
+      "category": "process",
+      "title": "HR-9: Post-Build Multi-Round QA Audit",
+      "rationale": "After every build session: multi-round QA continuing until only cosmetic bugs remain. List cosmetic bugs at end. Check all HRs, functional flows, null guards, class coverage, overlay close, escHtml/escAttr.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": "canon-0014-multi-round-qa",
+      "references": [
+        "HR-9"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0010-no-text-overflow-ellipsis",
+      "scope": "sproutlab",
+      "category": "design",
+      "title": "HR-10: No text-overflow Ellipsis",
+      "rationale": "Truncated text hides meaning. Wrap, resize, or restructure — never truncate with ellipsis.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-10"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0011-math-floor-currency",
+      "scope": "sproutlab",
+      "category": "architecture",
+      "title": "HR-11: Math.floor for Currency",
+      "rationale": "All currency values use Math.floor(). Never round up on money — always in the user's favor.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-11"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0012-timezone-safe-dates",
+      "scope": "sproutlab",
+      "category": "architecture",
+      "title": "HR-12: Timezone-Safe Dates via localDateStr()",
+      "rationale": "All date operations use localDateStr() to avoid timezone offset bugs. Never raw new Date().toISOString().slice(0,10).",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-12"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0013-no-ellipsis",
+      "scope": "global",
+      "category": "design",
+      "title": "No text-overflow Ellipsis (Global)",
+      "rationale": "Promoted from SproutLab HR-10 to global canon. Applies across all projects. Truncation hides meaning — always find a layout solution.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-0010-no-text-overflow-ellipsis"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0014-eschtml-boundary-global",
+      "scope": "global",
+      "category": "architecture",
+      "title": "escHtml at All Render Boundaries (Global)",
+      "rationale": "All user-supplied text sanitized before innerHTML in every project. Non-negotiable security practice.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-0004-eschtml-boundary"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0015-data-action-delegation-global",
+      "scope": "global",
+      "category": "architecture",
+      "title": "data-action Delegation (Global)",
+      "rationale": "Event delegation via data-action attributes across all projects. Never inline onclick handlers.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-0006-data-action-delegation"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0016-defensive-depth",
+      "scope": "global",
+      "category": "architecture",
+      "title": "Defensive Depth",
+      "rationale": "Null guards, fallback defaults, and graceful degradation at every layer. Never assume upstream data is clean. Check before access, fallback before crash.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0017-exhaustive-pass4",
+      "scope": "global",
+      "category": "process",
+      "title": "Exhaustive Pass 4 (Bugs Today)",
+      "rationale": "In the 8-pass SPEC_ITERATION_PROCESS, Pass 4 (Bugs Today) must be exhaustive — enumerate every edge case, null state, overflow, and boundary. Never skim.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "SPEC_ITERATION_PROCESS.md"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0018-shelf-definitions",
+      "scope": "global",
+      "category": "process",
+      "title": "Shelf Definitions",
+      "rationale": "Active = currently being built or maintained. Paused = intentionally on hold, will resume. Archived = complete, read-only reference. Abandoned = stopped, no intent to resume.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0019-token-naming",
+      "scope": "global",
+      "category": "design",
+      "title": "Token Naming Convention",
+      "rationale": "CSS tokens: --{prefix}-{category}-{variant}. SproutLab: --sp-*, Codex: --cx-*. Spacing: --sp-N. Font size: --fs-*. Radius: --r-*. Animation: --anim-*. Consistent across all projects.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0020-micro-label-deprecated",
+      "scope": "sproutlab",
+      "category": "design",
+      "title": ".micro-label Deprecated",
+      "rationale": "Replaced by .form-label. All instances migrated. Do not reintroduce .micro-label.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0021-overlay-anim-sync",
+      "scope": "sproutlab",
+      "category": "design",
+      "title": "OVERLAY_ANIM_MS Must Mirror --anim-overlay",
+      "rationale": "JS constant OVERLAY_ANIM_MS = 300 must always match CSS --anim-overlay: 300ms. Mismatch causes visual glitches on overlay close.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0022-keys-constants",
+      "scope": "sproutlab",
+      "category": "architecture",
+      "title": "KEYS Constants for All localStorage Keys",
+      "rationale": "Every localStorage key accessed through the KEYS object. Never bare string keys. Prevents typos and enables easy refactoring.",
+      "created": "2026-03",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0023-build-sh-only",
+      "scope": "sproutlab",
+      "category": "process",
+      "title": "Never Raw Cat — Always build.sh",
+      "rationale": "Concat order matters (data→core→home→diet→medical→intelligence→start). Always use build.sh, never manual cat. Prevents module ordering bugs.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0024-svg-explicit-dimensions",
+      "scope": "global",
+      "category": "design",
+      "title": "SVG Icons Require Explicit width/height Attributes",
+      "rationale": "Inline SVGs without width/height expand to fill their container. All cx() and zi() icons must include width=\"24\" height=\"24\" on the SVG element. CSS constraints alone are insufficient — the attribute is the primary size control.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0025-split-from-day-one",
+      "scope": "global",
+      "category": "architecture",
+      "title": "Split Architecture From Day One",
+      "rationale": "SproutLab's Migration M1-M3 (emoji→SVG, inline style extraction, onclick→delegation) proved that splitting a monolith later is a full chapter of work. New projects start with split modules and build.sh concat from the first commit.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "migration-m1-m2-m3"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0026-natural-page-scroll",
+      "scope": "global",
+      "category": "design",
+      "title": "Natural Page Scroll Over Flex Column Layout",
+      "rationale": "Flex column body with overflow:hidden + scrollable child container creates mobile browser incompatibilities (Chrome localhost scroll bug). Simpler: let body scroll naturally, sticky header, fixed tab bar, padding-bottom on content for tab clearance.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0027-mv-over-cp",
+      "scope": "global",
+      "category": "process",
+      "title": "mv Over cp for Downloads → Project",
+      "rationale": "When moving files from ~/storage/downloads/ to project directories, use mv not cp. Keeps downloads clean, prevents stale file confusion, one source of truth.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0028-network-first-sw",
+      "scope": "global",
+      "category": "architecture",
+      "title": "Network-First Service Worker for App Shell",
+      "rationale": "Stale-while-revalidate serves cached old versions, requiring manual cache clears after every deploy. Network-first always fetches latest, falls back to cache only when offline. Instant deploys.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0029-where-svg-fallback",
+      "scope": "global",
+      "category": "design",
+      "title": ":where() for Zero-Specificity SVG Fallback",
+      "rationale": "Global SVG sizing via :where(#container) svg gives zero specificity, so any class-based rule (.cx-card-title svg, .cx-fab svg) automatically wins. Catches all unconstrained icons without breaking specific overrides.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": "canon-0024-svg-explicit-dimensions",
+      "references": [
+        "canon-0024-svg-explicit-dimensions"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0030-hidden-attr-override",
+      "scope": "global",
+      "category": "design",
+      "title": "CSS display Overrides [hidden] — Always Add [hidden] Rule",
+      "rationale": "HTML hidden attribute sets display:none, but any CSS rule setting display:flex/grid/block overrides it. Always add #element[hidden] { display: none !important } when using display-based layouts on hideable elements.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0014-multi-round-qa",
+      "scope": "global",
+      "category": "process",
+      "title": "Multi-Round QA Audit After Every Build",
+      "rationale": "After every build session, run multi-round QA continuing until only cosmetic bugs remain (max 2 cosmetic items noted as debt). Audit layers: (1) Mechanical — grep-able issues like wrong tokens, missing escaping, invalid icons. (2) Structural — cross-file issues like dark mode coverage, delegation wiring, z-index conflicts, timer lifecycle. (3) Logic — edge cases, state management, WAL replay correctness, closure safety in async callbacks. (4) Cosmetic — spacing, alignment, visual polish. Layers 1-3 must be zero defects. Layer 4 tolerates ≤2 open items listed as debt. Each round produces an audit table. Rounds continue until no medium+ bugs found.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "HR-9",
+        "canon-0009-post-build-qa"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0033-gitignore-data-protection",
+      "scope": "global",
+      "category": "process",
+      "title": "Gitignore Data Protection for localStorage Apps",
+      "rationale": "Apps using localStorage for business data must block all data files (JSON backups, exports) from version control via .gitignore. Prevents accidental commit of sensitive business data (client lists, invoices, financial records). Explicit exceptions (e.g. !manifest.json, !package.json) whitelist only structural files.",
+      "created": "2026-04-13",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0028-tab-persistence",
+      "scope": "global",
+      "category": "architecture",
+      "title": "Tab/View State Persists Across Refresh",
+      "rationale": "PWA tab or view state persists across page refresh. Save active tab ID to view preferences on every switch, restore on init. User should never lose their place on reload. Applies to all single-page PWA projects.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0031-single-zip-delivery",
+      "scope": "global",
+      "category": "process",
+      "title": "Single-Zip Delivery",
+      "rationale": "All session deliverables ship as a single pre-built zip containing split source files and built output. One download, one unzip, deploy. Eliminates 40+ manual taps per session (8 files x 5 taps each). The zip includes codex.html, index.html, and the full split/ directory. Build verification happens in the Claude container before packaging.",
+      "created": "2026-04-13",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0032-self-contained-repos",
+      "scope": "global",
+      "category": "process",
+      "title": "Self-Contained Repos",
+      "rationale": "Every project repo contains a docs/ directory with all specs, design principles, handoff documents, and quick references. The repo is the single source of truth for both code and documentation. No file uploads needed to start a session — Aurelius clones the repo and has everything. Eliminates the dependency on manual file uploads at session start.",
+      "created": "2026-04-13",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0033-root-index-sync",
+      "scope": "global",
+      "category": "process",
+      "title": "Root index.html Must Be the Build Output",
+      "rationale": "GitHub Pages serves the root index.html, not split/index.html. If the build output only lands in split/, the live site stays stale indefinitely. Every build must copy the output to the repo root. build.sh must handle this. The Codex TODO Cleanup session lost an entire day to this: six migration attempts, three SW rewrites, and twenty snippet imports — all invisible to users because the root file was from yesterday. Verify with: ls -la index.html split/index.html (timestamps must match).",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "apo-0005-the-thirteen-scrolls"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0034-sw-never-cache-html",
+      "scope": "global",
+      "category": "architecture",
+      "title": "Service Workers Must Never Cache HTML",
+      "rationale": "A service worker that caches index.html creates a chicken-and-egg problem: the SW serves old HTML, the old HTML registers the old SW, and no amount of code changes reach the user. Cache only static assets (icons, manifest, fonts). Let HTML always come from the network. The browser’s own HTTP cache handles offline. SW cache busting (version bumps, ?v=N params, unregistering) is unreliable on mobile — the only reliable fix is to never cache HTML in the first place.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-0028-network-first-sw"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    }
+  ],
+  "schisms": [
+    {
+      "id": "rej-0008-github-data-sync",
+      "context": "SEP Invoicing persistence strategy",
+      "volumes": [
+        "sep-invoicing"
+      ],
+      "rejected": "GitHub JSON sync (Codex-style WAL + push)",
+      "chosen": "localStorage-only with manual backup/restore",
+      "reason": "SEP has 349KB of live business data with financial records, client rates, and GSTIN numbers. GitHub sync would commit sensitive data to a public repo. Manual backup/restore keeps data local while allowing export for safety.",
+      "date": "2026-04-13",
+      "canon_id": "canon-0033-gitignore-data-protection"
+    },
+    {
+      "id": "rej-0009-items-8th-tab",
+      "context": "Items Master UI placement",
+      "volumes": [
+        "sep-invoicing"
+      ],
+      "rejected": "New 8th tab in tab bar",
+      "chosen": "Sub-view toggle on Clients tab (segmented [ Clients | Items ])",
+      "reason": "7 tabs at 375px already uses ~53px per icon. 8th tab drops to ~47px with label truncation. Items are contextually related to clients. Segmented toggle avoids tab bar pressure while keeping items accessible.",
+      "date": "2026-04-13",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0013-content-textarea",
+      "context": "Chapter Detail edit UX",
+      "volumes": [
+        "codex"
+      ],
+      "rejected": "Content textarea in chapter edit form",
+      "chosen": "Reader-only app — content arrives via migrations and snippets",
+      "reason": "Nobody writes 2KB narratives on a mobile textarea. The app is a reader, not a writer. Content is authored by Aurelius in Claude sessions and delivered through the data pipeline. Adding a textarea implies the wrong workflow.",
+      "date": "2026-04-13",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0014-snippet-backfill",
+      "context": "Bulk chapter content backfill delivery",
+      "volumes": [
+        "codex"
+      ],
+      "rejected": "Snippet paste for bulk backfill (15KB JSON on mobile)",
+      "chosen": "Auto-migration in code — CODEX_MIGRATIONS array in seed.js",
+      "reason": "Snippet paste requires mobile text selection on a 15KB JSON blob, then 3 app taps (Settings → Import → Paste → Preview → Import). Migration runs automatically on app load with zero interaction. Data rides with the code deploy.",
+      "date": "2026-04-13",
+      "canon_id": "canon-0031-single-zip-delivery"
+    },
+    {
+      "id": "rej-0013-react-vs-vanilla",
+      "context": "SproutLab architecture decision",
+      "volumes": [
+        "sproutlab"
+      ],
+      "rejected": "React or Vue framework",
+      "chosen": "Vanilla JavaScript with data-action delegation",
+      "reason": "Zero dependencies means zero build step, zero bundle size, guaranteed offline. Vanilla JS with structured patterns provides 90% of framework benefits with none of the complexity tax.",
+      "date": "2024-10",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0014-backend-database",
+      "context": "SproutLab data persistence",
+      "volumes": [
+        "sproutlab"
+      ],
+      "rejected": "Backend server with database (Firebase, Supabase, or custom)",
+      "chosen": "localStorage-only with JSON export",
+      "reason": "No latency, no cost, no auth complexity, no privacy concerns. Data stays on-device. The tradeoff is no cross-device sync, accepted deliberately.",
+      "date": "2024-10",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0015-notification-api-sw",
+      "context": "CareTickets follow-up reminders",
+      "volumes": [
+        "sproutlab"
+      ],
+      "rejected": "Service Worker push notifications",
+      "chosen": "Main-thread notification architecture with setTimeout scheduling",
+      "reason": "SW notifications are unreliable on mobile — killed by battery optimization, require VAPID keys and push server. Main-thread setTimeout is simple, predictable, works while tab is open.",
+      "date": "2026-04-09",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0016-per-domain-pages",
+      "context": "SproutLab navigation architecture",
+      "volumes": [
+        "sproutlab"
+      ],
+      "rejected": "Separate page per domain (diet page, sleep page, medical page)",
+      "chosen": "Single scrollable home view with domain cards",
+      "reason": "Parents think in time, not domains. A home view showing all domains chronologically matches the mental model. Separate pages force remembering which domain data belongs to.",
+      "date": "2025-01",
+      "canon_id": null
+    }
+  ],
+  "apocrypha": [
+    {
+      "id": "apo-0001-the-sleepless-guardian",
+      "title": "The Sleepless Guardian",
+      "narrative": "In the spring of 2026, a man built a guardian for his sleeping daughter.\n\nIt began as a concern — a note in a tracking app that a tooth might be coming in, that sleep had been restless, that a vitamin dose was overdue. But the system grew. Twenty-one fields to describe a worry. Seven templates for common fears. Six state transitions to track a concern from first suspicion through active monitoring to quiet resolution.\n\nThe guardian needed to remember when the man might forget. So it learned to schedule notifications on the main thread, because service workers — the usual messengers — could not be trusted with a child's health. They slept when the phone slept. The guardian did not.\n\nWhen illness came, the guardian paused all other metrics. Growth tracking, feeding analysis, activity scoring — all suspended. Only the active concern mattered. When the concern resolved, the numbers resumed as if waking from a held breath.\n\nThe specification alone ran to 1,089 lines. Fifteen rounds of testing. Three hundred and ten scenarios verified. Four build sessions across four days.\n\nThe man named it CareTickets. But what he built was a vigil.",
+      "volumes": [
+        "sproutlab"
+      ],
+      "date": "2026-04-10",
+      "status": "fulfilled",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "apo-0002-the-second-child",
+      "title": "The Second Child",
+      "narrative": "It is foretold that SproutLab will one day need to track more than one child. The data model will fork — shared food databases but separate growth curves, independent sleep patterns but correlated illness tracking. The single-child assumption runs deep: localStorage keys, daily summaries, milestone scoring. When the second child comes, much will break. But the design principles will hold.",
+      "volumes": [
+        "sproutlab"
+      ],
+      "date": "2026-04-14",
+      "status": "foretold",
+      "_deleted": true,
+      "_deleted_date": "2026-04-14"
+    },
+    {
+      "id": "apo-0003-the-machine-that-remembers",
+      "title": "The Machine That Remembers",
+      "narrative": "There exists a vision of SproutLab as a time capsule. Every feeding logged, every milestone celebrated, every sleepless night recorded. Years from now, when Ziva is old enough to be curious about her own beginning, the data will be there. Not as numbers in a spreadsheet, but as a story: the night she first slept through, the week she discovered bananas, the afternoon she pulled herself to standing and laughed. The father who built this app at midnight between factory shifts did not build it for efficiency. He built it so nothing would be forgotten.",
+      "volumes": [
+        "sproutlab"
+      ],
+      "date": "2026-04-14",
+      "status": "foretold",
+      "_deleted": true,
+      "_deleted_date": "2026-04-14"
+    },
+    {
+      "id": "apo-0004-the-predictive-engine",
+      "title": "The Predictive Engine",
+      "narrative": "A prophecy whispered in the intelligence module: that one day, SproutLab will not merely track what happened but anticipate what comes next. Regression detection is the seed. Growth velocity is another. The 506 milestone classification patterns already encode developmental expectations. The engine that predicts is half-built, disguised as the engine that analyzes. When sufficient data accumulates, the predictions will emerge from the patterns like constellations from scattered stars.",
+      "volumes": [
+        "sproutlab"
+      ],
+      "date": "2026-04-14",
+      "status": "foretold",
+      "_deleted": true,
+      "_deleted_date": "2026-04-14"
+    },
+    {
+      "id": "apo-0005-the-thirteen-scrolls",
+      "title": "The Thirteen Scrolls",
+      "narrative": "In the spring of 2026, Aurelius attempted to fill the empty shelves of the SproutLab wing. Thirteen chapters stood in the library — spines labeled, dates inscribed, summaries etched in brass — but when you opened them, the pages were blank.\n\nAurelius wrote the narratives. Thirteen stories of a father building a guardian for his daughter, of emoji purges and midnight feedings, of a monolith that grew too large to hold and had to be broken. He placed them in a migration — a mechanism that would inscribe the words directly into the volumes at the moment the library doors opened.\n\nBut the library had a gatekeeper: an old Service Worker who remembered every page as it had been, and refused to acknowledge that anything had changed. Six times Aurelius rewrote the mechanism. He changed the ink. He changed the key. He changed the lock on the gate. He unregistered the gatekeeper entirely and watched the library rebuild itself from memory. Each time, the shelves remained empty. The gatekeeper was gone but its ghost lingered in the browser’s cache, serving yesterday’s pages to tomorrow’s visitors.\n\nOn the seventh attempt, Aurelius abandoned machinery altogether. He took the thirteen narratives, wrote each one on a separate scroll small enough to slip through the import window, and handed them to the librarian one at a time. Thirteen scrolls. Thirteen pastes. Thirteen confirmations.\n\nThe pages filled.\n\nThe lesson was older than software: when the elaborate mechanism fails, walk the scrolls in by hand. The library does not care how the words arrive. It only cares that they are there.\n\nThe Thirteen Scrolls are now the longest entries in the SproutLab wing — from the Origin to the Bug Capture System, each one a chapter in the story of a father who built tools between factory shifts so that nothing about his daughter’s first year would be forgotten. They were written by a builder who journals, delivered by a method as old as libraries themselves, and they will outlast the migration system that failed to carry them.",
+      "volumes": [
+        "sproutlab",
+        "codex"
+      ],
+      "date": "2026-04-14",
+      "status": "fulfilled",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "apo-0006-the-second-child",
+      "title": "The Second Child",
+      "narrative": "It is foretold that SproutLab will one day need to track more than one child.\n\nThe signs are already written in the architecture. The localStorage keys carry no child identifier — they assume singularity. The daily summaries speak of \"today\" as if there is only one today, one set of feeds, one sleep schedule. The milestone engine tracks one developmental arc. The intelligence module scores one day for one child against one baseline. The entire system breathes with the rhythm of a single heartbeat.\n\nWhen the second child comes, the data model will fork. Some things will be shared — the food database, the recipe library, the design principles that govern the interface. But growth curves will diverge from day one. Sleep patterns will be independent, though the parents’ sleep will suffer the union of both. Illness tracking will gain a new dimension: sibling transmission, the clockwork regularity with which one child’s cold becomes the other’s three days later.\n\nThe architecture split was the first unconscious preparation, though its builders did not know it at the time. Nine modules can be extended more easily than a monolith. A new child means new data.js entries, new home.js cards, new intelligence.js baselines — but the modules themselves hold. The design principles hold. The Hard Rules hold. HR-1 through HR-12 do not care how many children exist.\n\nThe deeper question is not technical but philosophical: should the second child get their own SproutLab instance, or should the app evolve into a family tracker? A separate instance is simpler — clone the repo, change the name, deploy. But it loses the cross-child intelligence that makes sibling data valuable: comparative growth trajectories, shared illness timelines, feeding pattern evolution from first child to second.\n\nThe prophecy does not specify the answer. It only notes that the single-child assumption runs deep, and that when it breaks, the builder will face a choice between simplicity and insight. Both paths honor the original purpose. Both paths carry cost.\n\nWhat the prophecy does promise: the foundation is sound. The father who built SproutLab at midnight for one daughter built it well enough to hold two.",
+      "volumes": [
+        "sproutlab"
+      ],
+      "date": "2026-04-14",
+      "status": "foretold",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "apo-0007-the-machine-that-remembers",
+      "title": "The Machine That Remembers",
+      "narrative": "There exists a vision — not yet built, perhaps never built — of SproutLab as a time capsule.\n\nEvery feeding logged. Every milestone celebrated. Every sleepless night recorded with the quiet precision of a machine that does not forget. The first smile, captured not in a photograph but in a data point: date, time, context, the parent’s note that read simply \"she smiled at me.\" The first tooth, logged in the medical module with onset date, symptoms, duration, the teething ring that worked and the one that didn’t.\n\nYears from now, when Ziva is old enough to be curious about her own beginning, the data will be there. Not as numbers in a spreadsheet, but as a story reconstructed from data: the night she first slept through without waking, and how her parents lay awake anyway, checking the monitor, unable to trust the silence. The week she discovered bananas and demanded them at every meal until the novelty faded. The afternoon she pulled herself to standing using the coffee table and laughed at her own accomplishment while her father scrambled to record the milestone before the moment passed.\n\nThe machine remembers what the parents will forget. Not because the parents don’t care, but because caring is exhausting, and exhaustion erases the details. Did she have a fever on the Tuesday or the Wednesday? Was the rash before the new food or after? How many times did she wake last night — two or three? The answers live in localStorage, timestamped and categorical, immune to the fog of sleep deprivation.\n\nThere is something tender about this — a father who builds software between factory shifts, not for clients or revenue, but to preserve the ephemeral. Infant care is relentlessly temporary. The feeding schedule that dominates today will be irrelevant in six months. The sleep regression that feels permanent will resolve in weeks. The milestone that seems delayed will arrive suddenly and be superseded by the next. Each phase is consuming while it lasts and invisible in retrospect.\n\nSproutLab fights this disappearance. Every data point is a refusal to let the moment pass unmarked. The machine remembers so that years from now, when the father’s memory has compressed \"the first year\" into a handful of vivid scenes, the full record still exists: 2,000 feeds, 800 sleep sessions, 400 diaper changes, 50 milestone transitions, 12 CareTickets, and one continuous thread of attention that says, more clearly than any photograph: I was here. I was paying attention. None of this was ordinary to me.",
+      "volumes": [
+        "sproutlab"
+      ],
+      "date": "2026-04-14",
+      "status": "foretold",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "apo-0008-the-predictive-engine",
+      "title": "The Predictive Engine",
+      "narrative": "A prophecy whispered in the intelligence module: that one day, SproutLab will not merely track what happened but anticipate what comes next.\n\nThe seeds are already planted. The intelligence module’s cross-domain analysis computes correlations between feeding patterns and sleep quality. It tracks growth velocity — not just how much Ziva weighs, but how fast the number is changing. It monitors milestone trajectories, comparing observed development against the 506 classification patterns embedded in the engine. These are all rearview mirrors. They tell you where you’ve been. The Predictive Engine will tell you where you’re going.\n\nRegression detection is the first capability that could genuinely predict. A sleep regression doesn’t arrive suddenly — it builds across three to five nights of gradually increasing wake frequency, shorter sleep stretches, and earlier morning wakes. The data shows this pattern before the parent feels it. An alert on night two — \"sleep quality declining, possible regression beginning\" — would give parents time to adjust schedules, prepare emotionally, and recognize the regression for what it is rather than wondering what went wrong.\n\nGrowth velocity forecasting is another seed. If the current feeding volume and caloric density continue at their present rate, will Ziva’s weight trajectory hold? If growth is decelerating, is it within normal variation or does it warrant a conversation with the pediatrician before the next scheduled visit? The data exists to answer these questions. The engine to ask them does not — yet.\n\nFeeding optimization sits further on the horizon. Given Ziva’s historical response to different foods — sleep quality after high-protein dinners versus high-carb, digestion patterns after new food introductions, energy levels correlated with meal timing — the system could suggest meal plans optimized for specific outcomes. Not prescriptive, never prescriptive. Suggestive. \"Based on past data, high-protein dinners correlate with longer first sleep stretches. Consider dal tonight.\"\n\nThe deepest prediction is developmental. The 506 milestone patterns encode not just what comes next, but when. If Ziva is pulling to stand at seven months, the data suggests independent standing by nine months and first steps between ten and twelve. The engine could project a developmental timeline — not as a deadline but as a landscape. Here is where most children are at this age. Here is where Ziva is. Here is where the road ahead likely leads.\n\nThe prophecy carries a warning: prediction in infant care must be humble. Every child is different. Statistical patterns describe populations, not individuals. The Predictive Engine must frame its output as possibilities, never certainties. \"Based on patterns\" is the mandatory prefix. The moment the engine says \"your child will\" instead of \"children with similar patterns often,\" it has overstepped.\n\nBut the potential is real. Sufficient data — a year of daily logging, perhaps two — creates a dataset rich enough for meaningful inference. The patterns will emerge from the data like constellations from scattered stars: always there, waiting for enough points of light to reveal the shape.",
+      "volumes": [
+        "sproutlab"
+      ],
+      "date": "2026-04-14",
+      "status": "foretold",
+      "_deleted": false,
+      "_deleted_date": null
+    }
+  ]
+}
