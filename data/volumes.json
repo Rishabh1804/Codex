@@ -1,0 +1,636 @@
+{
+  "_schema_version": 1,
+  "volumes": [
+    {
+      "id": "sproutlab",
+      "name": "SproutLab",
+      "shelf": "active",
+      "description": "Single-file PWA tracking feeding, sleep, growth, milestones, and medical data for Ziva. Wife Mode default. Hosted at rishabh1804.github.io/sproutlab/.",
+      "domain_color": "#E8B4B8",
+      "tags": [
+        "pwa",
+        "health",
+        "parenting"
+      ],
+      "repo": "rishabh1804/sproutlab",
+      "current_phase": "CareTickets Phase D complete — notifications, integration, polish done",
+      "chapters": [
+        {
+          "id": "v1-v2-builds",
+          "name": "v1–v2 Iterative Builds",
+          "status": "complete",
+          "started": "2024-10-01",
+          "completed": "2026-03-15",
+          "ended": null,
+          "summary": "Single-file HTML PWA built iteratively from v1.x through v2.38+. Core tracking: feeding, sleep, poop, growth, milestones, medical. Wife Mode, localStorage persistence, GitHub Pages hosting.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## The Origin\n\nSproutLab began in October 2025, a few weeks after Ziva was born on September 4th. The first version was a single HTML file — no framework, no build tools, no design system. Just a father’s instinct that if he didn’t start tracking now, the early months would blur into a fog of midnight feedings and half-remembered milestones.\n\nThe first feature was feeding tracking. Breast or bottle, which side, how long, what time. Simple forms, localStorage persistence, a table view. It worked. Within days, patterns emerged that weren’t visible to sleep-deprived intuition: Ziva fed more frequently in the evenings, her longest stretches between feeds were mid-morning, and the total daily intake was remarkably consistent even when individual feeds varied wildly.\n\n## Growth Through Need\n\nEach new feature was born from a real moment. Sleep tracking arrived when Rishabh couldn’t remember whether last night had two wakes or three — and the pediatrician asked. Poop logging started when the colors and consistencies began mattering diagnostically during a digestive concern. Growth measurements came before every doctor visit, because plotting weight and height over time told a story that a single measurement couldn’t.\n\nBy version 2.0, SproutLab tracked seven domains: feeding, sleep, poop, growth, milestones, activity, and medical. Wife Mode made it the daily driver for Ziva’s mother — a simplified interface optimized for the person who used the app forty times a day, not the person who built it.\n\n## The Monolith Era\n\nThe architecture was simple by necessity. Everything in one HTML file meant no build step, no dependencies, no deployment complexity. Edit in any text editor, save, push to GitHub Pages. For a solo developer building between zinc plating shifts at the factory and midnight feedings at home, this simplicity was a feature, not a limitation.\n\nBut by early 2026, the monolith had grown past 55,000 lines. Adding a feature meant scrolling through thousands of lines of unrelated code. Debugging required holding the entire file’s structure in mental context. AI sessions could no longer fit the whole file — the context window wasn’t large enough. The architecture that enabled rapid early growth was now constraining it.\n\n## What Survived\n\nThe core decisions of the v1–v2 era proved durable: localStorage over a backend (privacy, simplicity, offline-first), single-file PWA (zero deployment complexity), GitHub Pages hosting (free, reliable), and the principle that every feature must earn its place by solving a real problem that happened in the last 48 hours. These weren’t design principles yet — they were instincts. The design principles came later, when the instincts needed to be written down so they could survive beyond one person’s memory.",
+          "order": 1
+        },
+        {
+          "id": "architecture-split",
+          "name": "Architecture Split",
+          "status": "complete",
+          "started": "2026-04-07",
+          "completed": "2026-04-09",
+          "ended": null,
+          "summary": "Split monolith into 9 modules (data, core, home, diet, medical, intelligence, start + styles.css, template.html). Concat build via build.sh. Phases 1–3 complete.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## The Breaking Point\n\nBy April 2026, the SproutLab monolith had crossed 55,000 lines in a single HTML file. The breaking point wasn’t performance — the app ran fine. It wasn’t user experience — users never saw the code. The breaking point was developer experience, specifically the AI-assisted development workflow.\n\nClaude’s context window couldn’t hold the entire file. Each session required uploading the file, but only a portion could be processed at a time. Making changes to the diet module required scrolling past 10,000 lines of unrelated sleep and medical code. A bug in the intelligence module meant searching through a haystack of 55,000 lines to find the relevant 2,000. The monolith that had enabled rapid early development was now the primary bottleneck to continued development.\n\n## The Nine Modules\n\nThe split was surgical. The monolith was divided along domain boundaries into nine modules:\n\ndata.js: State management, localStorage persistence, data accessors. The foundation that every other module depends on.\ncore.js: Routing, rendering framework, navigation, header/tab bar. The application shell.\nhome.js: Dashboard, daily views, Today So Far. The landing experience.\ndiet.js: Food logging, Smart Quick Log, Food Favorites, nutrient intelligence. Everything about what Ziva eats.\nmedical.js: Vaccines, growth tracking, supplement adherence, Doctor Visit Prep. Everything about Ziva’s health.\nintelligence.js: Cross-domain analysis, ISL, Smart Q&A, milestone tracking. The analytical brain.\nstart.js: Event delegation root, initialization sequence, gesture handlers. The boot code.\nstyles.css: All styling, design tokens, theme variables, component classes.\ntemplate.html: HTML shell, meta tags, manifest link.\n\nConcatenation order matters — data before core before domain modules before start — because later modules reference functions and constants defined in earlier ones. build.sh enforces this order.\n\n## The Build System\n\nbuild.sh is a simple bash script that concatenates the nine modules in the correct order, wraps them in the HTML template with style and script tags, and outputs sproutlab.html. The workflow:\n\n1. Edit module files in split/ directory\n2. Run bash build.sh > sproutlab.html\n3. Preview in browser\n4. cp sproutlab.html index.html (GitHub Pages serves index.html)\n5. git add, commit, push\n\nA critical workflow rule, learned the hard way: always copy sproutlab.html to index.html before pushing. Forgetting this step means the live site stays on the old version while the source files update — a confusing state that has caused at least two debugging sessions.\n\n## Chart.js Guards\n\nThe split introduced a subtle initialization issue: Chart.js was loaded once in template.html but referenced in multiple modules. If two modules both tried to initialize Chart.js on the same canvas, the library would throw. Guards were added to prevent double-initialization when modules load in sequence. The concat order is enforced by build.sh, not by convention, precisely because convention is fragile and the build system is not.\n\n## What Changed, What Didn’t\n\nThe split changed the developer workflow fundamentally. Each session now uploads only the relevant module(s), not the entire codebase. Changes are scoped to the module that owns the feature. AI sessions can hold an entire module in context with room to spare.\n\nWhat didn’t change: the user experience. The built output is still a single HTML file. The app still runs offline-first from localStorage. No dependencies were added, no framework introduced, no bundler required. The split was pure separation of concerns — the same code, organized for maintainability.",
+          "order": 12
+        },
+        {
+          "id": "diet",
+          "name": "Diet Module",
+          "status": "complete",
+          "started": "2026-03-01",
+          "completed": "2026-04-01",
+          "ended": null,
+          "summary": "Food logging, Smart Quick Log, Food Favorites, nutrient intelligence, ingredient picker.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## From Breast to Bowl\n\nZiva was exclusively breastfed for her first six months. The diet module was built in February 2026, in anticipation of the transition to solids that began on March 6th with her first taste of khichdi. The module needed to solve a specific problem: tracking not just what Ziva ate, but how she responded to each new food — because food introduction in the first year is as much about monitoring reactions as it is about nutrition.\n\nThe food database started empty and grew with Ziva. Every new food was logged with its first introduction date, creating an adoption timeline. The system knew which foods were established (eaten multiple times with no reaction), which were in trial (introduced recently, still monitoring), and which were upcoming (recommended for her age but not yet tried).\n\n## Smart Quick Log\n\nThe Smart Quick Log was the feature that made the diet module usable in practice. Before it, logging a meal required navigating through a form: select food, enter quantity, choose unit, set time, save. Seven taps minimum. For a parent who logs 6–8 meals a day while simultaneously feeding a squirming baby, seven taps per entry was a barrier to consistency.\n\nQuick Log reduced it to three taps: food (from a ranked favorites list), quantity (pre-filled from history), done. The Food Favorites system learned from frequency — if Ziva had dal-rice at lunch every day, it appeared first in the list at lunchtime. Time was auto-filled to now. Quantity defaulted to the most common amount for that food. The result: under 5 seconds per log, which meant logs actually got made during the chaos of mealtime.\n\n## Nutrient Intelligence\n\nBeyond logging, the diet module built an intelligence layer. Nutrient heatmaps showed gaps across days — not just whether Ziva ate today, but whether her iron-rich food intake was consistent across the week. Combo frequency analysis identified which foods were always paired together (rice + dal, banana + yogurt) and which were never combined. Synergy detection correlated food combinations with outcomes in other domains — did high-protein dinners correlate with longer sleep stretches?\n\nThe ingredient picker made food entry precise without being tedious. A typeahead component indexed every food Ziva had ever eaten, ranked by frequency, with fuzzy matching. Type \"kh\" and khichdi appeared instantly. The picker powered both the logging form and search suggestions, making the entire diet interface feel responsive and personal.\n\n## The Adoption Tracker\n\nOne of the quieter but most useful features: the food adoption tracker. It maintained a timeline of when each food was introduced, how many times it had been offered, and whether any reactions were noted. This answered the pediatrician’s most common question during the solid food phase: \"What has she tried, and how did she do with each one?\" Instead of guessing from memory, Rishabh could pull up a complete, timestamped history.",
+          "order": 2
+        },
+        {
+          "id": "medical",
+          "name": "Medical Module",
+          "status": "complete",
+          "started": "2026-03-01",
+          "completed": "2026-04-01",
+          "ended": null,
+          "summary": "Vaccination intelligence with reaction tracking and timeline visualization. Growth tracking, medical records.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## Vaccination Intelligence\n\nThe medical module started as a simple vaccine log — date, vaccine name, done. But it evolved across Sessions A and B into a full intelligence system because vaccinations turned out to be one of the most anxiety-producing aspects of infant care, and data was the antidote to anxiety.\n\nReaction tracking captures post-vaccination symptoms with severity ratings (mild, moderate, concerning), duration in hours, and specific symptom types (fever, fussiness, injection site redness, sleep disruption). Over time, patterns emerged: Ziva consistently showed mild fussiness for 12–18 hours after combination vaccines but had no reaction to isolated ones. This data gave the parents confidence and gave the pediatrician actionable history.\n\nThe vaccination timeline visualization shows the complete history with upcoming doses highlighted based on the Indian immunization schedule. Each vaccine entry is color-coded by reaction severity. The timeline answers at a glance: what’s been given, what’s coming next, and what to expect based on past reactions.\n\n## Growth Tracking\n\nGrowth measurements — weight and height — are plotted against time with growth velocity calculations. Velocity matters more than absolute values: a baby who’s consistently at the 25th percentile is healthy, but a baby who drops from the 50th to the 25th in two months needs attention. The velocity calculations detect acceleration and deceleration, flagging changes before they become clinically significant.\n\nThe module integrates with Doctor Visit Prep — a card that assembles relevant recent data into a summary ready for the pediatrician. Growth trends, vaccine reactions, active CareTickets, recent diet changes, and sleep pattern shifts, all in one view. No more scrambling to remember details in the doctor’s office.\n\n## Supplement Adherence\n\nZiva takes Vitamin D3 supplements daily — standard for breastfed infants in India. The module tracks not just whether the dose was given (a binary that’s easy to forget by afternoon), but the exact administration time. Timing matters because D3 absorption is affected by proximity to feeding. The adherence view shows streaks and gaps, nudging consistency without guilt. A missed day is a data point, not a judgment.\n\n## Why Medical Matters\n\nThe medical module represents something deeper than feature tracking. It’s the domain where data directly affects health decisions. Every other module — feeding, sleep, activity — is about optimization and awareness. Medical is about safety. The code reflects this: more validation, more null guards, more careful date handling than any other module. When the data is about a child’s health, there is no acceptable error rate.",
+          "order": 3
+        },
+        {
+          "id": "intelligence",
+          "name": "Intelligence Module",
+          "status": "complete",
+          "started": "2026-03-15",
+          "completed": "2026-04-05",
+          "ended": null,
+          "summary": "Cross-Domain Intelligence (6 cards), Smart Q&A Phase 2 (22 intents, 24 handlers).",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## The Analytical Brain\n\nThe intelligence module is where SproutLab stops being a logger and becomes an analyst. Individual domain modules — diet, sleep, medical — each track raw data in their own context. The intelligence module sits above all of them, finding patterns that no single domain could reveal.\n\nThe core insight driving the module’s design: baby care data is most valuable when domains talk to each other. A parent can see that Ziva slept badly last night. They can see that she ate less than usual yesterday. But without the intelligence module, they can’t easily see that she consistently sleeps worse on days when her protein intake is below a threshold — a correlation that only emerges when feeding and sleep data are analyzed together.\n\n## Intelligence-Aware Scoring\n\nEvery day receives a composite score using an 80/20 base-modifier architecture. The 80% base comes from five domain scores: feeding consistency, sleep quality, digestion health, activity level, and medical status. Each domain score is normalized to 0–100 based on domain-specific criteria — feeding consistency rewards regular intervals and adequate volume, sleep quality measures total duration and wake frequency against age-appropriate baselines.\n\nThe 20% modifier adjusts for factors that span domains: trend direction (is this week better or worse than last week?), consistency (are the patterns stable or erratic?), and cross-domain correlations (does a change in one domain explain a change in another?). The modifier can boost a mediocre day that’s part of an improving trend, or flag a seemingly good day that breaks a concerning pattern.\n\nA day where Ziva slept well, ate consistently, and had normal digestion scores higher than a day with one spectacular nap but erratic everything else. The system rewards stability over peaks because infant development thrives on predictable rhythms.\n\n## The Intelligence Service Layer\n\nThe ISL is the computational engine behind the intelligence module. It provides temporal query parsing (understanding \"last week\" vs \"the past 3 days\"), domain data accessors (uniform interfaces to each module’s data), and day summary generation. The ISL powers both the intelligence cards on the home screen and the Smart Q&A system.\n\nKey functions include generateRangeSummary() for multi-day analysis, getDomainScore() for individual domain evaluation, and detectCorrelations() for cross-domain pattern mining. The ISL was designed to be extended — adding a new analysis type means writing a new accessor function, not restructuring the pipeline.\n\n## Evidence-Based Milestones\n\n506 classification patterns across four developmental domains: motor (gross and fine), cognitive, language, and social-emotional. Each milestone has three states: upcoming (age-appropriate but not yet observed), emerging (partially demonstrated), and achieved (consistently demonstrated).\n\nThe auto-promotion engine watches activity logs and suggests milestone transitions. When Ziva started pulling to stand using furniture consistently, the motor milestone was promoted from emerging to achieved without manual intervention. The engine uses frequency thresholds — a behavior observed once might be a fluke, but observed five times across three days is a milestone.\n\nThe milestone system doesn’t diagnose or raise alarms. It tracks and visualizes. The interpretation belongs to parents and pediatricians. SproutLab provides the data; humans provide the judgment.",
+          "order": 4
+        },
+        {
+          "id": "smart-qa",
+          "name": "Smart Q&A",
+          "status": "complete",
+          "started": "2026-03-20",
+          "completed": "2026-04-05",
+          "ended": null,
+          "summary": "Phase 2: 22 intents, 24 dedicated handlers, natural language query processing for baby data.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## Natural Language for Baby Data\n\nSmart Q&A exists because data is only useful if you can ask it questions. The intelligence module generates insights proactively, but parents also need to ask specific questions: \"When was her last feed?\" or \"How has her sleep been this week?\" or \"What foods correlate with good naps?\"\n\nPhase 1 introduced basic query parsing. Phase 2, built across Sessions A and B, expanded to 22 intents with 24 dedicated handlers, transforming Smart Q&A from a search feature into a conversational data interface.\n\n## The 22 Intents\n\nQueries are classified into four categories. Lookback intents retrieve historical data: \"How did Ziva sleep last week?\" triggers a range summary with duration averages, wake counts, and trend direction. Pattern intents find recurring behaviors: \"What’s her feeding pattern on weekdays?\" analyzes interval regularity and volume consistency across weekday data. Planning intents project forward: \"When should her next vaccine be?\" checks the immunization schedule against completed doses. Comparison intents evaluate change: \"Is she eating more than last month?\" computes period-over-period deltas with statistical context.\n\nEach intent maps to a dedicated handler. The handler doesn’t just return data — it adds context. Ask about sleep duration and you get the raw hours, but also how it compares to her 7-day average, whether the trend is improving or declining, and what the age-appropriate benchmark is. Ask about feeding and you see today’s total alongside the weekly pattern, with any significant deviations highlighted.\n\n## Query Parsing\n\nThe temporal query parser understands relative time references: \"yesterday,\" \"last week,\" \"the past 3 days,\" \"since Monday,\" \"this month.\" It also handles domain-specific vocabulary: \"feeds\" maps to the diet module, \"naps\" maps to daytime sleep entries, \"shots\" maps to vaccinations. Compound queries like \"how many times did she wake last night?\" are decomposed into domain (sleep), metric (wake count), and timeframe (last night = previous sleep session).\n\nThe parser uses a keyword-matching approach rather than NLP — no model, no API calls, everything runs locally in the browser. This keeps it fast and offline-capable. The tradeoff is that creative phrasings sometimes miss, but the system handles the 90% case well and degrades gracefully on the rest.\n\n## Graceful Degradation\n\nWhen a query doesn’t match any intent, the system says so honestly rather than guessing. The response includes a suggestion of similar queries that would work, helping the user learn the system’s vocabulary organically. Partial matches get clarification prompts: \"Did you mean sleep duration or sleep quality?\" This approach builds trust — parents learn to rely on the answers because the system never fabricates one.",
+          "order": 5
+        },
+        {
+          "id": "search-bar",
+          "name": "Search Bar Upgrade",
+          "status": "complete",
+          "started": "2026-04-01",
+          "completed": "2026-04-05",
+          "ended": null,
+          "summary": "ISL generateRangeSummary(), lookback/pattern/planning query modes, nutrient intelligence cards, ingredient picker.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## From Filter to Intelligence\n\nThe Search Bar Upgrade, built across Sessions A and B, transformed search from a simple text-matching filter into an intelligent query routing system. Before the upgrade, search was a text input that filtered visible list items. After, it became the primary entry point for the Intelligence Service Layer.\n\n## Three Query Modes\n\nThe upgraded search bar routes queries into three modes based on intent analysis. Lookback mode handles historical queries: \"How did Ziva sleep last week?\" triggers ISL’s generateRangeSummary() to produce a structured analysis of the requested time range. Pattern mode handles recurring behavior queries: \"What’s her usual morning routine?\" aggregates data across multiple days to find regularities. Planning mode handles forward-looking queries: \"When is the next vaccine due?\" checks schedules and projections.\n\nEach mode produces a different response format. Lookback returns a summary card with metrics and trend arrows. Pattern returns a rhythm visualization showing typical daily sequences. Planning returns a timeline with upcoming events and recommended actions.\n\n## Nutrient Intelligence Cards\n\nWhen search queries touch diet data, the results include nutrient intelligence cards. Ask about iron intake and you see a heatmap of iron-rich food frequency over the past two weeks, not just a list of matching log entries. Ask about \"new foods\" and you get the adoption tracker view showing recently introduced foods with their reaction status. The search bar becomes a lens into whatever domain the query touches.\n\n## The Ingredient Picker\n\nThe ingredient picker is a typeahead component that powers both the diet logging form and search suggestions. It knows every food Ziva has ever eaten, ranked by frequency and recency. The ranking is contextual — at 8 AM, breakfast foods rank higher; at noon, lunch foods rise. The picker indexes on first load and filters entirely in memory, so there is no perceived delay even on slower devices.\n\nFuzzy matching handles misspellings and abbreviations. Type \"daal\" or \"dal\" or \"dhal\" and the same item appears. The picker also understands food categories: searching \"fruit\" surfaces all logged fruits even if the exact term \"fruit\" was never used as a food name.\n\n## ISL Integration\n\nThe search bar is the user-facing surface of the Intelligence Service Layer. Behind the scenes, ISL’s temporal query parser decomposes queries into timeframes, domains, and metrics. The domain data accessors pull data from the appropriate module. The day summary generator compiles cross-domain overviews. The search bar simply presents the results — the intelligence runs deeper.",
+          "order": 7
+        },
+        {
+          "id": "today-so-far",
+          "name": "Today So Far",
+          "status": "complete",
+          "started": "2026-04-05",
+          "completed": "2026-04-06",
+          "ended": null,
+          "summary": "Smart card with vertical chronological list, warmth gradient bar, pattern-based nudges, 12 functions with _tsf* prefix.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## The Question Every Parent Asks\n\nToday So Far exists to answer the question every parent asks a dozen times a day: \"How’s the day going?\" Not how did the last feed go. Not how long was the nap. The holistic question: taking everything together — feeding, sleep, activity, digestion, mood — is today a good day or a hard day?\n\nThe smart card renders a real-time summary of everything that has happened since midnight, designed to be understood in a single scroll on a phone screen.\n\n## The Vertical Timeline\n\nThe card’s core is a chronological list of today’s events: feeds, sleeps, diaper changes, activities, medications, milestone observations. Each entry shows the time, a domain-colored icon, and a brief description. The list reads like a diary of the day, written in data rather than words.\n\nA warmth gradient bar at the top gives an at-a-glance quality score. The gradient shifts from cool (blue-gray) through warm (amber) to vibrant (gold) based on the composite day score from the intelligence module. Parents learn to read the bar intuitively: a quick glance at the color tells them whether the day is tracking well before they read any details.\n\n## The Horizontal Timeline Rejection\n\nThe original design proposed a horizontal scrolling timeline with events plotted along a time axis. This was rejected decisively (documented as rej-0001) because a 375px phone screen made horizontal scroll unusable for dense data. The timeline would show 3–4 hours at a time, requiring constant scrolling to see the full day. The vertical chronological list won on readability, scannability, and the simple fact that vertical scrolling is the natural gesture on a phone.\n\n## Pattern-Based Nudges\n\nThe card doesn’t just report — it nudges. If Ziva hasn’t eaten in 3 hours and her usual interval is 2.5, a gentle prompt appears: \"It’s been a while since the last feed.\" If her nap is running 30 minutes longer than her average, the card notes it neutrally: \"Nap running long today.\" If the daily feeding volume is tracking below her weekly average, a soft flag appears.\n\nThese nudges are pattern-based, not rule-based. They learn from Ziva’s actual rhythms rather than imposing textbook schedules. A baby who naturally feeds every 3.5 hours doesn’t get nudged at 2.5 hours just because a chart says so. The system adapts to the child, not the other way around.\n\n## The Spec Journey\n\nThe Today So Far spec went through 4 review rounds and reached 533 lines before it was declared build-ready. 12 functions carry the _tsf prefix. The card rebuilds on every data change via the onChange listener. It was one of the most heavily specified features in SproutLab history, because getting a daily summary wrong means parents distrust the whole app. If the card says \"good day\" when the day feels hard, or flags a concern when everything is fine, it loses credibility permanently.",
+          "order": 10
+        },
+        {
+          "id": "caretickets",
+          "name": "CareTickets",
+          "status": "complete",
+          "started": "2026-04-06",
+          "completed": "2026-04-10",
+          "ended": null,
+          "summary": "21-field data model, 7 templates, 6-transition state machine, main-thread notifications, illness-aware metric pausing, TSF integration, share summary. Spec v5 (~1,089 lines). 15 QA rounds, 310 scenarios.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## The Biggest Build\n\nCareTickets was SproutLab’s most ambitious feature. Four build phases (A through D), a 1,089-line spec refined through five versions, 15 QA rounds covering 310 test scenarios, and an 8-pass SPEC_ITERATION_PROCESS that caught 8 critical bugs before a single line of code was written. It exists because baby care concerns don’t fit neatly into feeding logs or sleep charts.\n\nWhen Ziva runs a fever, the question isn’t \"how much did she eat today?\" — it’s \"how is the fever progressing, what other symptoms are appearing, when should we call the doctor, and what happened last time she was sick?\" CareTickets tracks the concern itself: its lifecycle, its symptoms, its trajectory, its resolution.\n\n## The Data Model\n\n21 fields per ticket capture the full anatomy of a concern. The core fields: type (from 7 templates: fever, rash, teething, digestive, respiratory, injury, general), severity (mild/moderate/concerning/urgent), onset time, primary symptoms, secondary symptoms, associated domains (which feeds or sleeps were affected), temperature readings (for fever tickets), medication administered, notes, and resolution details.\n\nThe 6-transition state machine governs the ticket lifecycle: Draft (capturing initial observations) → Active (concern confirmed, monitoring initiated) → Monitoring (stable but watching) → Resolved (concern passed). Two branches: Paused (temporarily set aside, e.g., during travel) and Escalated (severity increased, doctor contacted). Each transition is timestamped, creating a complete audit trail.\n\n## The Spec Process\n\nThe CareTickets spec went through the full 8-pass SPEC_ITERATION_PROCESS. Pass 1 (Concept) defined the problem space. Pass 2 (Data Flow) mapped every data path. Pass 3 (Integration) identified touchpoints with other modules. Pass 4 (Bugs Today) enumerated every edge case — what happens when two tickets are active simultaneously? What if a ticket spans midnight? What if the user creates a ticket, closes the app, and returns three hours later?\n\nPass 5 (Drift Bugs) caught the subtle ones: what if a future module change breaks a CareTickets assumption? Pass 6 (Builder Questions) listed every decision the implementation would need to make. Pass 7 (Consistency) verified the spec aligned with the design principles. Pass 8 (Completion) confirmed the spec was build-ready — meaning a builder could implement it without making a single undocumented decision.\n\n8 critical bugs were caught in the spec process before coding began. This validated the entire SPEC_ITERATION_PROCESS methodology.\n\n## Notification Architecture\n\nPhase D introduced notification-driven follow-ups. When a fever ticket is active, the system nudges every 4 hours to log a temperature update. When a rash ticket is monitoring, it prompts daily for a progress photo comparison.\n\nThe notification architecture decision was significant enough to become canon-0045. Service Worker push notifications were rejected (documented as rej-0002) because they require a backend server, VAPID keys, are unreliable on mobile browsers due to battery optimization, and fail silently. The chosen approach: main-thread notification scheduling via setTimeout. Simple, predictable, works as long as the PWA tab is open — which it always is, since SproutLab runs as an installed PWA.\n\n## Illness-Aware Metrics\n\nWhen a CareTicket is active, the entire intelligence system adjusts its expectations. A sick day’s sleep score isn’t compared against healthy baselines — it’s compared against illness baselines. Feeding drops during illness don’t trigger deficit alerts. Activity scoring suspends. The Today So Far card shows active tickets prominently at the top, reframing the entire day around the active concern.\n\nShare Summary generates a WhatsApp-ready text for the pediatrician: ticket type, duration, symptom timeline, temperature readings, medications given, and current status. One tap to compose, one tap to send. Because when your child is sick, the last thing you want is to type a medical history into a chat window.\n\n## The Personal Dimension\n\nCareTickets was built during the week Ziva had her first real illness — a combination of teething pain and a mild respiratory infection that disrupted sleep, reduced appetite, and produced a low-grade fever. The spec was written from lived experience. Every field exists because a real conversation with a pediatrician needed that data point. The state machine mirrors how a parent’s concern actually evolves: initial worry, active monitoring, gradual improvement, cautious resolution.\n\nIt’s the feature where SproutLab stopped being a tracker and became a care tool.",
+          "order": 11
+        },
+        {
+          "id": "bug-capture",
+          "name": "Bug Capture System",
+          "status": "complete",
+          "started": "2026-04-08",
+          "completed": "2026-04-09",
+          "ended": null,
+          "summary": "Three capture paths, WhatsApp/clipboard delivery.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## The Feedback Loop Problem\n\nSproutLab’s primary daily user is Rishabh’s wife. She uses the app dozens of times a day — logging feeds during nursing, checking sleep duration during naps, updating the diet log at mealtimes. When something breaks, the feedback loop needs to be instant and frictionless. A formal bug tracking system (Jira, GitHub Issues, even a simple form that posts to a server) would never be used. The cognitive cost of switching contexts, describing the bug in a structured format, and submitting it through a formal channel is too high when you’re holding a baby in one arm.\n\nThe Bug Capture System was built to match how bug reports actually happen in a family: a quick message on WhatsApp.\n\n## Three Capture Paths\n\nPath 1 — Deliberate Report: A button in Settings opens a bug report form. Title, description, steps to reproduce (optional), current view, device info. This is for bugs noticed during calm moments — \"that chart looked wrong earlier\" or \"the date picker shows the wrong month.\"\n\nPath 2 — Quick Capture: A long-press on the FAB (Floating Action Button) triggers an immediate capture. The form pre-fills with the current view, timestamp, and device info. The user just needs to type what went wrong. This is for bugs caught in the moment — \"I just tapped this button and nothing happened.\"\n\nPath 3 — Automatic Capture: window.onerror catches JavaScript errors and presents a pre-filled bug report with the error message, stack trace, and current state. The user can add context (\"I was trying to log a feed when this happened\") and submit. This catches the bugs the user didn’t even notice — silent failures, uncaught exceptions, rendering errors.\n\n## Delivery Channels\n\nBug reports are formatted for two delivery channels: WhatsApp and clipboard. The WhatsApp format generates a pre-composed message with the bug details, ready to send to the developer. The clipboard format copies a structured text that can be pasted anywhere — a message, a note, an email.\n\nNo server is involved. No database stores the bugs. No ticket system tracks their lifecycle. The entire bug pipeline is: capture on device → format as text → deliver to WhatsApp. The developer (Rishabh) receives the bug report in the same conversation where he already talks to his wife about Ziva. The bug becomes part of the family’s daily communication, not a separate workflow.\n\n## Why This Matters\n\nThe Bug Capture System embodies a design philosophy that runs through all of SproutLab: tools should match the user’s actual behavior, not impose an idealized workflow. Bug tracking systems are designed for engineering teams. SproutLab’s bug reporter is designed for a mother who noticed something odd while nursing at 2 AM. The right tool for that context is a WhatsApp message, and the system respects that reality.",
+          "order": 13
+        },
+        {
+          "id": "cross-domain",
+          "name": "Cross-Domain Intelligence",
+          "status": "complete",
+          "started": "2026-04-04",
+          "completed": "2026-04-05",
+          "ended": null,
+          "summary": "6 intelligence cards spanning feeding, sleep, growth, and medical domains.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## The Connective Tissue\n\nCross-Domain Intelligence represents a fundamental insight about baby care data: the most valuable patterns live between domains, not within them. A parent can look at the feeding log and see what Ziva ate. They can look at the sleep log and see how she slept. But the question they actually want answered — \"did what she ate affect how she slept?\" — requires connecting the two.\n\nThe six cross-domain intelligence cards were designed to surface these connections automatically, presenting correlations that parents sense intuitively but cannot prove without systematic data.\n\n## The Six Cards\n\nSleep-Feeding Correlation tracks the relationship between feeding timing and sleep quality. Does a late evening feed predict night wakes? Does feed volume correlate with sleep duration? The card computes lagged correlations between feeding events and subsequent sleep sessions, highlighting statistically meaningful patterns.\n\nDiet-Digestion Patterns connects food intake to digestive outcomes. Which foods correlate with changes in poop consistency or frequency? This is particularly important during the solid food introduction phase, when each new food is a potential digestive experiment. The card maintains a food-reaction matrix that updates with every new data point.\n\nGrowth-Feeding Alignment compares caloric intake trends against growth velocity. Is Ziva eating enough to sustain her current growth rate? Is there a gap forming between intake and growth that might indicate a feeding issue or a growth spurt that needs more calories? The card shows both curves on a shared timeline.\n\nActivity-Sleep Impact examines whether high-activity days produce different sleep patterns. Do days with more physical activity (tummy time, crawling practice, standing attempts) correlate with longer total sleep, more consolidated sleep, or more restless sleep? The answer varies by age and developmental stage.\n\nVaccination Recovery tracking shows how post-vaccine days differ from baseline across all domains. Feeding often dips, sleep may be disrupted, fussiness increases. The card quantifies the recovery curve: how many days until all domains return to baseline after each vaccine type?\n\nDaily Rhythm Analysis presents a holistic view of the day’s pattern — when does Ziva’s energy peak, when does she need rest, when are the optimal windows for solid food introduction? The rhythm evolves as she ages, and the card tracks this evolution.\n\n## Design Philosophy\n\nEvery card follows the same design contract: a headline insight in plain language, a supporting data visualization (chart, heatmap, or trend line), and a one-sentence interpretation. No card requires scrolling to understand its main point. No card uses statistical jargon. The audience is a tired parent at 2 AM who needs signal, not noise. The cards are glanceable because glanceability is a form of respect for the user’s time and cognitive load.",
+          "order": 9
+        },
+        {
+          "id": "migration-m1-m2-m3",
+          "name": "Migration M1–M3",
+          "status": "complete",
+          "started": "2026-04-03",
+          "completed": "2026-04-07",
+          "ended": null,
+          "summary": "M3: emoji→SVG, inline style extraction, onclick→delegation. Full codebase modernization.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## The Debt Collector\n\nMigrations M1 through M3 were the unglamorous but essential work of paying off technical debt. The SproutLab codebase had grown organically through v1 and v2, with conventions evolving over time. Code written in October 2025 followed different patterns than code written in March 2026. The design principles existed in v3, but the code predated them. Migrations enforced the Hard Rules retroactively on every line.\n\n## M1: The Emoji Purge\n\nEvery emoji in the codebase — hundreds of them scattered across buttons, headers, status indicators, and labels — was replaced with a zi() SVG icon call. This was not a cosmetic preference. Emojis render differently across Android versions, iOS versions, and browsers. A baby bottle emoji on a Samsung Galaxy looks nothing like the same emoji on an iPhone, and both look different in Chrome versus Firefox. zi() icons render identically everywhere because they are inline SVGs defined in the codebase itself.\n\nThe purge required creating new zi() icons for every emoji use case, mapping each emoji to its semantic equivalent, and verifying that no emoji survived in any string literal, comment, or data constant. The result: a visually consistent application regardless of device.\n\n## M2: Inline Style Extraction\n\nHundreds of inline style attributes — the accumulated shortcuts of a fast-moving solo developer — were extracted into CSS classes using the design token system. Every `style=\"padding: 8px\"` became `class=\"sp-8\"`. Every `style=\"font-size: 14px\"` became a reference to `--fs-sm`. Every `style=\"border-radius: 12px\"` became `class=\"r-lg\"`.\n\nThe extraction was mechanical but required judgment. Some inline styles were one-offs that legitimately didn’t warrant a class. These were evaluated case by case: does this style represent a pattern? If yes, extract. If it’s truly unique, document why it remains inline. In the end, fewer than ten inline styles survived, each with a comment explaining its exception.\n\nThe payoff was immediate: changing `--sp-8` in the :root now updated every 8px gap in the application. Theme switching became trivial. Text size scaling worked uniformly. The codebase was no longer a collection of independent styling decisions but a system.\n\n## M3: Event Delegation\n\nEvery onclick attribute in the HTML — every `onclick=\"handleFeedLog()\"` and `onclick=\"toggleMenu()\"` — was replaced with data-action delegation. A single event listener on the document body catches all clicks, reads the `data-action` attribute, and routes to the appropriate handler. This pattern, borrowed from modern frameworks but implemented in vanilla JS, gave three benefits.\n\nFirst, greppability: searching for an action name in the codebase finds every place it’s used and the single place it’s handled. Second, no memory leaks: dynamically created elements don’t need individually attached listeners. Third, consistency: every interactive element follows the same pattern, making the codebase predictable.\n\n## What Changed\n\nThe three migrations took multiple sessions of careful find-and-replace with manual verification. No feature was added. No UI changed. No user noticed. But the codebase was transformed from code that happened to work into code that was designed to be maintained. The migrations proved the principle that later became canon-0025: split architecture from day one. SproutLab’s monolith migration was painful enough that every subsequent project (SEP Dashboard, SEP Invoicing, Codex) started with split modules and build.sh from the first commit.",
+          "order": 8
+        },
+        {
+          "id": "design-principles-v3",
+          "name": "Design Principles v3",
+          "status": "complete",
+          "started": "2026-04-01",
+          "completed": "2026-04-05",
+          "ended": null,
+          "summary": "2,011 lines locked. Overlay/Chip/Card/Answer Card/Form systems plus Animation Tokens, Touch Targets, data-action naming.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## The Constitution\n\nAt 2,011 lines, Design Principles v3 is not a style guide — it is a constitution. It codifies every visual pattern, interaction paradigm, component specification, and naming convention that governs SproutLab’s codebase. It was written not as an aspirational document but as a retroactive lockdown: after the codebase reached sufficient maturity, the principles were extracted from what worked and declared law.\n\nThe document covers overlay mechanics (open/close animations, backdrop behavior, escape key handling, scroll lock), chip component specs (height, padding, border radius, active states, domain color integration), card layouts (header/body/footer structure, meta-line patterns, expandable sections), answer card templates (for intelligence module results), form field specifications (label positioning, validation states, error messages), animation tokens, touch targets (minimum 44px), and the data-action delegation naming convention.\n\n## The Twelve Hard Rules\n\nHR-1 through HR-12 are the non-negotiable rules that every line of SproutLab code must satisfy:\n\nHR-1: No emojis. All iconography uses the zi() SVG icon system. Emojis render inconsistently across devices and cannot be themed.\nHR-2: No inline styles. All styling through CSS classes and custom properties. This ensures consistency and theme-ability.\nHR-3: No inline event handlers. All interactivity via data-action delegation. A single delegation root makes behavior predictable and debuggable.\nHR-4: escHtml() at all render boundaries. Every user-supplied string is sanitized before innerHTML insertion. Non-negotiable security practice.\nHR-5: All spacing, font sizes, and radii via CSS tokens. No magic numbers. --sp-*, --fs-*, --r-* tokens exclusively.\nHR-6: data-action naming follows verb-noun or domain-verb-noun convention. Every action name is greppable.\nHR-7: zi() returns SVG HTML strings, set via innerHTML. Never textContent (which would render SVG as text).\nHR-8: Stub features show \"Coming soon\" via showQLToast(). No dead buttons, no silent no-ops.\nHR-9: Post-build multi-round QA audit. Continue until only cosmetic bugs remain.\nHR-10: No text-overflow ellipsis. Truncation hides meaning. Always find a layout solution.\nHR-11: Math.floor for all currency values. Never round up on money.\nHR-12: Timezone-safe dates via localDateStr(). Never raw ISO date slicing.\n\n## Why Constitutions Matter\n\nThe Hard Rules are not bureaucracy. They are the reason a solo developer can maintain a 55,000-line codebase built across hundreds of AI sessions without it collapsing into inconsistency. Every new session starts by reading the design principles. Every build ends by auditing against them. Every QA round checks HR compliance.\n\nThe rules also serve as institutional memory. When Aurelius starts a new session with incomplete context, the design principles document tells it exactly how SproutLab code should look, behave, and be structured. Without this document, each session would reinvent conventions, introduce subtle inconsistencies, and slowly erode the codebase’s coherence.\n\n## The Domain Color System\n\nSproutLab uses a six-color domain system: rose (feeding), indigo (sleep), peach (poop/digestion), amber (activity/milestones), sage (medical/growth), lavender (intelligence). Each domain color has light and dark mode variants, is used in chips, status indicators, chart series, and section headers. The domain colors are the visual language that lets a parent glance at a screen and immediately know which aspect of Ziva’s care they’re looking at.",
+          "order": 6
+        }
+      ],
+      "todos": [
+        {
+          "id": "todo-0001-fix-id-mismatch",
+          "text": "Fix ctStorageWarning div ID mismatch — template.html uses ctStorageWarning but JS references ctStorageWarn",
+          "status": "open",
+          "chapter": "caretickets",
+          "created": "2026-04-10",
+          "resolved": null,
+          "source_session": "s-2026-04-10-01"
+        }
+      ],
+      "shelf_history": [
+        {
+          "shelf": "active",
+          "date": "2024-10-01",
+          "reason": "Project started — Ziva's Dashboard v1"
+        }
+      ]
+    },
+    {
+      "id": "sep-dashboard",
+      "name": "SEP Dashboard",
+      "shelf": "active",
+      "description": "Single-file PWA for SEP workforce management — attendance, production, stock, payroll. 7-principle design system, 21-worker roster, full wage calculation engine.",
+      "domain_color": "#7A9E7E",
+      "tags": [
+        "pwa",
+        "manufacturing",
+        "workforce"
+      ],
+      "repo": null,
+      "current_phase": "v2.0 stable, restructuring data reconciliation in progress",
+      "chapters": [
+        {
+          "id": "v1-v2-builds",
+          "name": "v1–v2 Builds",
+          "status": "complete",
+          "started": "2024-01-01",
+          "completed": "2026-03-01",
+          "ended": null,
+          "summary": "Iterative build from v1.x through v2.0. Attendance, production logging, stock tracking, payroll with wage calculation engine.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "restructuring",
+          "name": "SEP Restructuring",
+          "status": "in-progress",
+          "started": "2026-04-01",
+          "completed": null,
+          "ended": null,
+          "summary": "Effective 1 Apr 2026. DIGITAL-001 v5, KB-006 AppSheet spec, KPI-001–007 binders done. Salary confirmations complete. Data reconciliation in progress.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null
+        }
+      ],
+      "todos": [],
+      "shelf_history": [
+        {
+          "shelf": "active",
+          "date": "2024-01-01",
+          "reason": null
+        }
+      ]
+    },
+    {
+      "id": "sep-invoicing",
+      "name": "SEP Invoicing",
+      "shelf": "active",
+      "description": "Standalone PWA for SEP invoicing — 21 clients, full rate cards, three billing modes, GST export.",
+      "domain_color": "#6B8EAD",
+      "tags": [
+        "pwa",
+        "invoicing",
+        "gst"
+      ],
+      "repo": null,
+      "current_phase": "Phase 1 complete (Client Master, Create Invoice, Settings). Phase 2: Invoice Register + GST Export.",
+      "chapters": [
+        {
+          "id": "spec",
+          "name": "Spec & Design",
+          "status": "complete",
+          "started": "2026-04-01",
+          "completed": "2026-04-03",
+          "ended": null,
+          "summary": "SEP_INVOICING_SPEC_v1.md — 21 clients, rate cards, weight/piece-challan/NOS-to-weight billing, Sales Register + GSTR1 CSV, five tabs.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "phase-1",
+          "name": "Phase 1 Build",
+          "status": "complete",
+          "started": "2026-04-03",
+          "completed": "2026-04-06",
+          "ended": null,
+          "summary": "Client Master, Create Invoice, Settings. 21 bugs found and fixed across three QA rounds.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "phase-2",
+          "name": "Phase 2 Build",
+          "status": "complete",
+          "started": "2026-04-13",
+          "completed": "2026-04-13",
+          "ended": null,
+          "summary": "Invoice Register and GST Export tabs.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "github-deploy",
+          "name": "GitHub Deploy & PWA",
+          "status": "complete",
+          "started": "2026-04-13",
+          "completed": "2026-04-13",
+          "ended": null,
+          "summary": "GitHub deploy + PWA + design principles doc (436 lines, 4-round QA). Items Master spec drafted.",
+          "spec_url": null,
+          "content": "## What Was Built\nMoved SEP Invoicing from local-only to GitHub Pages at rishabh1804.github.io/sep-invoicing/. Single-file architecture — sep-invoicing.html as source, index.html as deploy copy. cp + push workflow matching SproutLab and Codex conventions.\n\n## Data Protection\nBusiness data (21 clients, 52 invoices, 83 incoming materials, ~349KB) stays in localStorage only. .gitignore blocks all JSON files with explicit !manifest.json exception. Schism documented: GitHub JSON sync rejected in favor of manual backup/restore.\n\n## PWA Setup\nAdded manifest.json (standalone display, portrait, SEP accent theme), sw.js (network-first for HTML — always get latest; cache-first for assets), generated 192/512 placeholder icons. App installable on Android.\n\n## What Broke\n1. Termux dubious-ownership fatal — git safe.directory config fix\n2. manifest.json blocked by .gitignore — added !manifest.json exception\n\n## State of the World After\nSEP Invoicing has a home on GitHub. Same deploy workflow as SproutLab and Codex. Placeholder icons need replacement. docs/ directory empty — design principles doc pending.",
+          "order": 4,
+          "_deleted": false,
+          "_deleted_date": null
+        }
+      ],
+      "todos": [
+        {
+          "id": "todo-0010-sep-placeholder-icons",
+          "text": "Replace placeholder PWA icons with branded SEP icons",
+          "status": "open",
+          "chapter": "github-deploy",
+          "created": "2026-04-13",
+          "resolved": null,
+          "source_session": "s-2026-04-13-03"
+        },
+        {
+          "id": "todo-0011-sep-design-principles",
+          "text": "Draft SEP_INVOICING_DESIGN_PRINCIPLES.md for docs/ — document inv- CSS prefix, 9-domain color system, hard rules",
+          "status": "resolved",
+          "chapter": "github-deploy",
+          "created": "2026-04-13",
+          "resolved": null,
+          "source_session": "s-2026-04-13-03"
+        },
+        {
+          "id": "todo-0012-items-master-build",
+          "text": "Build Items Master Phase 6: sub-view toggle, CRUD overlay, merge duplicates tool, stdWeightKg calculator (~650 lines)",
+          "status": "open",
+          "chapter": "github-deploy",
+          "created": "2026-04-13",
+          "resolved": null,
+          "source_session": "s-2026-04-13-04"
+        }
+      ],
+      "shelf_history": [
+        {
+          "shelf": "active",
+          "date": "2026-04-01",
+          "reason": "New project — SEP billing digitization"
+        }
+      ]
+    },
+    {
+      "id": "codex",
+      "name": "Codex",
+      "shelf": "active",
+      "description": "Library-themed PWA tracking projects, sessions, design decisions, and progress across Claude conversations. GitHub JSON storage. Shared design system roots with SproutLab but distinct icon set and library-themed tokens.",
+      "domain_color": "#C4A87A",
+      "tags": [
+        "pwa",
+        "meta",
+        "knowledge-management"
+      ],
+      "repo": "Rishabh1804/Codex",
+      "current_phase": "Phase 5 complete — Chapter Detail, Apocrypha, auto-migration",
+      "chapters": [
+        {
+          "id": "spec",
+          "name": "Spec & Design Session",
+          "status": "complete",
+          "started": "2026-04-11",
+          "completed": "2026-04-11",
+          "ended": null,
+          "summary": "CODEX_SPEC_v1.md and CODEX_QUICK_REFERENCE.md written. Design session resolved all 3 blockers: Playfair Display + Work Sans fonts, Style C icons (19 cx() SVGs), text size system (LOW/MED/HIGH). Initial data backfill generated.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## What Was Built\n\nThe founding document. CODEX_SPEC_v1.md defined the complete system — data shapes for volumes, chapters, canons, rejected alternatives, TODOs, and journal sessions. The WAL (Write-Ahead Log) architecture was specified for offline-first persistence with GitHub sync. Four build phases were scoped. The Aurelius snippet format was designed as the bridge between Claude sessions and the Codex store.\n\nCODEX_QUICK_REFERENCE.md distilled the spec into a builder’s cheat sheet: data shapes, ID formats, localStorage keys, routes, z-index hierarchy, CSS tokens, store mutation API, and build phases.\n\n## Key Decisions\n\nGitHub JSON storage over any backend. WAL-based sync over direct API writes. Library metaphor throughout — volumes, chapters, canons, shelves. Split architecture from day one (8 modules). The cx- CSS prefix to avoid collision with SproutLab’s zi- namespace.\n\n## State of the World After\n\nA complete blueprint existed. Every data shape, every route, every interaction pattern was specified before a single line of code was written.",
+          "order": 1
+        },
+        {
+          "id": "design-session",
+          "name": "Design Session",
+          "status": "complete",
+          "started": "2026-04-11",
+          "completed": "2026-04-12",
+          "ended": null,
+          "summary": "Pre-build design session resolving fonts (Playfair Display + Work Sans), icons (Style C thin + accent fill, 19 icons), text size system (3-preset --fs-base driven), and initial data backfill (3 JSONs).",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## What Was Built\n\nThree pre-build blockers were resolved in a single session. Font pairing: Playfair Display for headings, Work Sans for body, loaded via Google Fonts CDN with fallback stacks. Icon set: Style C (thin stroke 1.5px with accent fills), 19 icons in the cx() function, brass-embossed library aesthetic. Text size system: LOW/MED/HIGH presets driven by a --fs-base CSS variable, icons fixed at 24px, persisted via localStorage.\n\nThe initial data backfill was generated — three JSON files seeding 5 volumes, 23 canons (including SproutLab’s HR-1 through HR-12), and 7 rejected alternatives.\n\n## Key Decisions\n\nPlayfair Display + Work Sans over other pairings. Style C icons (thin + accent fill) over Style A (pure stroke) and Style B (solid fill). Three-preset text size over a continuous slider. The --fs-base approach means all font sizes scale proportionally.\n\n## What Broke\n\nA spec delta was identified: the QUICK_REFERENCE document had static --fs-* tokens that conflicted with the dynamic --fs-base system. Noted as a TODO, carried forward.\n\n## State of the World After\n\nAll visual decisions were locked. The aesthetic identity — warm parchment tones, brass accents, serif headings, thin-stroke icons — was established. Ready for Phase 1 build.",
+          "order": 2
+        },
+        {
+          "id": "phase-1-build",
+          "name": "Phase 1 — Core Build",
+          "status": "complete",
+          "started": "2026-04-12",
+          "completed": "2026-04-12",
+          "ended": null,
+          "summary": "Built and deployed Phase 1. 8-module split architecture (template, styles, data, seed, core, views, forms, start). Dashboard, Volume Detail, TODOs, Settings views. Overlay/confirm/toast systems. Theme toggle, text size slider. Seed data with 5 volumes, 23 canons. PWA manifest + icons. Deployed to GitHub Pages.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## What Was Built\n\nThe first working Codex. Dashboard with volume cards sorted by last activity. Volume Detail with chapters, TODOs, shelf history, and danger zone. Settings with theme toggle and text size slider. Overlay, confirm dialog, and toast systems. Hash routing with breadcrumb navigation. Tab bar with icon labels. FAB with context-aware actions. All form renderers (text, textarea, select, date). 8-module split architecture with build.sh concat.\n\nDeployed to rishabh1804.github.io/Codex/ with PWA manifest and generated book icons. Seeded with 5 volumes, 23 canons, 7 schisms.\n\n## Key Decisions\n\nThe first build attempt diverged from spec — wrong element IDs, wrong action names, missing features. Rather than patching, the entire build was scrapped and rebuilt from the spec files. This established a principle: always build from the spec, never from memory.\n\nSplit architecture from day one rather than monolith-then-refactor. Natural page scroll over flex column layout (later reversed in Phase 2). mv over cp for the downloads workflow in Termux.\n\n## What Broke\n\n3 bugs: SVGs rendering at container size (fixed with explicit width/height), slider blue flash on tap (tap-highlight suppression), Chrome localhost scroll broken by flex column (removed flex, used natural scroll).\n\n## State of the World After\n\n4,827 lines across 10 files. A working, installable PWA with local-only storage. Ready for GitHub sync.",
+          "order": 3
+        },
+        {
+          "id": "phase-2-build",
+          "name": "Phase 2 — Persistence Layer",
+          "status": "complete",
+          "started": "2026-04-12",
+          "completed": "2026-04-12",
+          "ended": null,
+          "summary": "GitHub sync (fetchFile/pushFile/fetchAll/validateToken/flushQueue), WAL with replay, 4-step onboarding wizard, SW v2 (network-first), Settings GitHub connect/disconnect/sync, swipe navigation (canon pattern), Chrome-style pull-to-refresh. 8 hotfix rounds. ~2,400 lines across 8 modules.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null,
+          "content": "## What Was Built\n\nThe persistence layer. GitHub sync pipeline: fetchFile, pushFile, fetchAll, validateToken, flushQueue. WAL (Write-Ahead Log) with replay on startup — every store mutation creates a WAL entry, pending entries sync to GitHub when online. 4-step onboarding wizard with GitHub connect or skip-local flow. Service worker v2 (network-first strategy). Settings upgraded with live GitHub connect/disconnect/sync controls.\n\nSwipe navigation (adapted from SproutLab’s canon pattern) and Chrome-style pull-to-refresh with a visual spinner indicator. build.sh updated to include seed.js in the concat.\n\n## Key Decisions\n\n_initializing and _isRendering flags moved to data.js so all modules could access them. :where() CSS selector for zero-specificity SVG fallback sizing. Network-first service worker over stale-while-revalidate. Body flex column layout (reversing Phase 1’s natural scroll decision). Gear icon for settings over lock. No breadcrumb on settings view. Pull indicator inserted before viewContainer so it survives re-renders.\n\n## What Broke\n\n8 bugs across multiple hotfix rounds: SVG sizing inconsistencies (global :where() fallback), flex scroll layout issues, breadcrumb hidden attribute not applied, slider tap-highlight persisting, tab badge positioning, gear icon missing from the cx() set, breadcrumb incorrectly showing on settings, dashboard sort regression.\n\n## State of the World After\n\nCodex data persisted to GitHub. Changes synced automatically. The WAL ensured no data loss even when offline. ~2,400 lines across 8 modules. Phase 3 was pure UI rendering — all plumbing was in place.",
+          "order": 4
+        },
+        {
+          "id": "phase-3-content-views",
+          "name": "Phase 3 — Content Views",
+          "status": "complete",
+          "started": "2026-04-12",
+          "completed": "2026-04-12",
+          "ended": null,
+          "summary": "Journal view, Canons view, Canon Detail, Schisms, Snippet Import. All content rendering against existing store data.",
+          "spec_url": null,
+          "content": "## What Was Built\n\nPhase 3 turned Codex from an administrative shell into a readable knowledge base. Four major views were added: the Journal (session timeline with date grouping, volume filters, expandable detail), the Canons list (filterable by scope, category, status, with pagination and sort controls), Canon Detail (full rationale, references, supersession chains, linked schisms), and Schisms (inline below canons).\n\nThe Aurelius Snippet Import system was the pipeline breakthrough — a textarea-based JSON import with preview validation, enabling Claude sessions to push structured data (sessions, canons, schisms, TODOs, chapter updates) directly into the store.\n\n## Key Decisions\n\nRendering against existing store data rather than fetching separately. Snippet import as the primary data ingestion path. Schisms rendered inline with canons rather than as a separate tab. Truncated text with expand/collapse rather than navigating to detail views for schisms.\n\n## What Broke\n\n7 bugs found during QA: store method validation gaps, expand animation glitches, escHtml missing on user-data innerHTML, supersession chain guard for circular references. All fixed in a dedicated QA round.\n\n## State of the World After\n\nCodex became a working knowledge base. Every session, canon, schism, and TODO was now readable and navigable. The snippet import pipeline meant each Claude session could export its institutional memory into Codex with a single paste.",
+          "order": 5,
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "phase-4-polish",
+          "name": "Phase 4 — Polish",
+          "status": "complete",
+          "started": "2026-04-13",
+          "completed": "2026-04-13",
+          "ended": null,
+          "summary": "Search, Heatmap, Stats, Trash, Error Log, Sync Detail Panel, Canon Sort. 4-round QA audit, 8 bugs fixed. Codex v1.0 feature-complete.",
+          "spec_url": null,
+          "content": "## What Was Built\n\nSix polish features completing Codex v1.0. Search with weighted scoring (canons 4x, schisms 3x, sessions 2x, volumes 1x) and 300ms debounce. A 90-day GitHub-style activity heatmap on the dashboard. Stats bar with horizontal scroll chips. Trash view for soft-deleted canons and chapters with restore and permanent delete. Error log viewer. Sync detail panel showing WAL breakdown and connection status. Canon sort controls (newest, oldest, title, scope) were added during QA when their absence became obvious.\n\n## Key Decisions\n\nMulti-round QA was formalized as canon-0014-multi-round-qa: four layers (Mechanical, Structural, Logic, Cosmetic), continue until layers 1–3 are zero-defect, layer 4 allows at most 2 items as documented debt. This superseded the SproutLab-scoped canon-0009.\n\n## What Broke\n\n8 bugs across 4 QA rounds. The critical one: replayUpdate blocked restore operations because the _deleted guard rejected payloads setting _deleted to false. Fixed by adding an exception for restore payloads. Other notable: heatmap showing oldest dates on screen (fixed with auto-scroll to scrollWidth), search overlay staying open on navigation (fixed with closeSearch at top of handleRouteChange), canon dates showing wrong months (YYYY-MM format forced to day 01, fixed in formatAbsoluteDate).\n\n## State of the World After\n\nCodex v1.0 was feature-complete. 4,758 lines across 8 modules. Dashboard, Volume Detail, Journal, Canons, Canon Detail, TODOs, Settings, Search, Heatmap, Stats, Trash, Error Log, Sync Panel. All deployed and live.",
+          "order": 6,
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "phase-5-chapter-detail",
+          "name": "Phase 5 — Chapter Detail + Apocrypha",
+          "status": "complete",
+          "started": "2026-04-13",
+          "completed": "2026-04-13",
+          "ended": null,
+          "summary": "Chapter Detail view with prose rendering, linked entities, prev/next navigation. Apocrypha section in Canons tab. Auto-migration system for zero-interaction backfill. Single-zip delivery. Self-contained repos canon.",
+          "spec_url": null,
+          "content": "## What Was Built\n\nChapters evolved from metadata stubs to readable narratives. Tapping a chapter now opens a detail view with rendered prose (## headings become section titles, paragraphs preserve line breaks), auto-derived linked canons and sessions, linked TODOs, and previous/next chapter navigation. The data model gained content and order fields, with addChapter fixed to accept historical dates for backfill accuracy.\n\nApocrypha — the hidden texts. A collapsed section beneath Schisms in the Canons tab, holding dramatic retellings of legendary builds and visionary ideas. Three statuses: fulfilled, foretold, forgotten. Named after the tradition of texts too visionary for the official canon but preserved because someone believed they mattered.\n\nThe auto-migration system replaced snippet-based backfill for bulk data operations. CODEX_MIGRATIONS array in seed.js, runner at Step 11.5 in the boot sequence (after WAL replay, before listener registration). Data-guarded for idempotency across multiple devices.\n\n## Key Decisions\n\nEight design passes refined the approach from a textarea-based editing model to a reader-first architecture. Content arrives via migrations and snippets — the app is a reader, not a writer. No content textarea in the edit form. Single-zip delivery eliminated 40 manual taps per session. Self-contained repos (docs/ directory alongside code) eliminated file uploads.\n\nThe snippet format gained new_chapters for creating chapters via import, closing a pipeline gap where chapters could only be updated, not created. Preview validation now checks for duplicates and missing targets.\n\n## State of the World After\n\nCodex chapters read like chapters in a book. The Codex volume itself now has 7 chapters with full narratives, navigable in sequence. The Apocrypha hold the first legendary retelling. Every future session delivers a single zip — one download, one unzip, deploy.",
+          "order": 7,
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "todo-cleanup",
+          "name": "TODO Cleanup",
+          "status": "complete",
+          "started": "2026-04-14",
+          "completed": "2026-04-14",
+          "ended": null,
+          "summary": "Resolved all 5 open Codex TODOs in one session. Code fixes: renderStorageUsage prefix scan (views.js), trash apocrypha section with restore/delete handlers (views.js + start.js), canon_updates in snippet pipeline (forms.js). Docs fixes: QUICK_REFERENCE reconciled with actual codebase (font tokens, KEYS, routes, store API, snippet format, build phases). Data fix: canon-0009 superseded by canon-0014 via canon_updates snippet.",
+          "spec_url": null,
+          "content": "## The Session\n\nFive open TODOs had accumulated across Codex’s build phases — the kind of small debts that individually seem trivial but collectively signal a project losing track of itself. This session resolved all five in one pass.\n\n## The Fixes\n\nTODO 1 was a documentation drift: the QUICK_REFERENCE listed static font size tokens, but the actual codebase uses a dynamic calc-based system driven by --fs-base. The fix reconciled the docs with reality and updated the KEYS section, routes table, store API, snippet format, and build phases to match the post-Phase-5 codebase.\n\nTODO 3 was a real bug: the Storage Usage view only counted keys in the KEYS constant, missing draft keys, seed version, and migration tracking. The fix scans all localStorage keys with the codex- prefix.\n\nTODO 4 added deleted apocrypha to the Trash view with restore and permanent delete handlers matching the existing patterns.\n\nTODO 5 extended the snippet pipeline with canon_updates and todo_updates — enabling data corrections via snippet import instead of manual editing.\n\n## The Method\n\nThree QA rounds, zero bugs. Every data-action verified as wired. The session demonstrated that Codex’s patterns are stable enough that new features slot in without surprises — a good sign for a young codebase.",
+          "order": 8,
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "todo-cleanup-and-backfill",
+          "name": "The Thirteen Scrolls Session",
+          "status": "complete",
+          "started": "2026-04-14",
+          "completed": "2026-04-14",
+          "ended": null,
+          "summary": "TODO cleanup + SproutLab backfill session that became a 6-hour battle with service worker caching and a stale root index.html. 20+ snippet imports, 6 failed migration attempts, 3 SW rewrites. Root cause: build output never copied to repo root.",
+          "spec_url": null,
+          "content": "## What Was Planned\n\nA straightforward session: resolve five open Codex TODOs, backfill SproutLab chapter narratives, and generate a session snippet. Estimated time: 90 minutes.\n\n## What Actually Happened\n\nThe TODO cleanup went smoothly — five fixes across views.js, forms.js, start.js, and docs. Storage usage now scans all codex-* keys. Trash view shows deleted apocrypha. canon_updates and todo_updates added to the snippet pipeline. QUICK_REFERENCE reconciled. Total time: 45 minutes. No bugs.\n\nThen came the SproutLab backfill.\n\n## The Snippet That Was Too Large\n\nThe first attempt was a single 26KB snippet containing all 13 chapter narratives. It failed on mobile paste — the JSON was truncated at position 20,000, producing an unterminated string error. The content strings with their escaped newlines were fragile at that size.\n\n## The Migration That Couldn’t Be Seen\n\nPlan B: put the narratives in a migration in seed.js. The migration used store.updateChapter(), which creates WAL entries and calls _fireChange(). But _fireChange() is suppressed during initialization (_initializing flag), and the WAL entries complicated the sync cycle. The narratives were written to memory but never persisted reliably.\n\nPlan C: direct mutation. ch.content = u.content instead of store.updateChapter(). Bypasses the WAL entirely. Simulation confirmed it worked — all 13 chapters got content. Deployed. No change on the live site.\n\n## The Service Worker War\n\nThe SW was caching index.html. Every code change — migration fixes, SW version bumps, registration query params — was invisible because the browser kept serving the cached old code.\n\nAttempt 1: Bump SW cache name from v2 to v3. No effect — the browser cached sw.js itself.\nAttempt 2: Add ?v=3 to SW registration URL. Chicken-and-egg — the old SW serves the old code that has the old registration URL.\nAttempt 3: Unregister SW via chrome://serviceworker-internals/. Appeared to work but the old code persisted.\nAttempt 4: Bump migration ID to v3 to force rerun. Still no toast.\nAttempt 5: Rewrite SW entirely to never cache HTML (v7). Still invisible.\nAttempt 6: Clear site data via Chrome settings. Nuclear option. Cleared everything including SproutLab data.\n\nSix attempts. None worked. The session was now three hours old.\n\n## The Thirteen Scrolls\n\nPlan D: abandon all machinery. Split the narratives into small individual snippets under 5KB each and import them by hand. 13 scrolls, 13 pastes, 13 confirmations.\n\nFirst batch had a formatting bug — single \\n after headings instead of \\n\\n, so renderChapterContent() merged headings with paragraphs. Everything rendered as bold headings. Regenerated all 13 with double newlines.\n\nThe user then asked for more depth — 13 individual comprehensive snippets, each one a proper narrative. Written with the weight the SproutLab journey deserved. CareTickets alone was 4.9KB of prose about a father tracking his daughter’s first illness.\n\nDate correction caught: October 2024 should have been October 2025 (Ziva was born September 2025). Found in ch01 and ch08. Fixed.\n\n## The Root Cause\n\nAfter all narratives were imported, the user requested apocrypha edit/delete UI and a restore-from-backup feature. Both were built. Both deployed. Neither appeared on the live site.\n\nFinally: ls -la ~/codex/index.html ~/codex/split/index.html\n\nRoot index.html: 290,888 bytes, dated April 13.\nSplit index.html: 313,972 bytes, dated April 14.\n\nThe zip extracted all files into split/. The build output lived in split/codex.html and split/index.html. But GitHub Pages serves the ROOT index.html. Every code change in the session — every migration, every SW rewrite, every new feature — was correctly built and committed, but the root file was never updated. The live site was running yesterday’s code the entire time.\n\nOne cp command. That was the entire problem.\n\n## The Cost\n\nPlanned session: 90 minutes for TODO cleanup + backfill.\nActual session: approximately 6 hours across 30+ turns.\n\nDeliverables that worked on first attempt: TODO cleanup (5 fixes), todo_updates pipeline, canon_updates pipeline. Total: 45 minutes.\n\nTime lost to the root index.html + SW caching cascade: approximately 5 hours.\n\nArtifacts generated and discarded: 4 migration versions (v1 through v3 plus direct mutation), 6 SW versions (v2 through v7), 3 zip deliveries that changed nothing on the live site, 8 snippet batches (first 4 with bad formatting, replaced by 4 corrected, then replaced by 13 individual comprehensive ones).\n\nSnippet imports performed by the user on a phone: 20+. Each one required: open file, select all, copy, navigate to Settings, open Import Snippet, paste, tap Preview, tap Import, close overlay. At approximately 30 seconds each: 10+ minutes of manual work that should have been zero.\n\n## The Fixes\n\nbuild.sh rewritten to output directly to files and auto-copy to root. Running bash build.sh now produces split/codex.html, split/index.html, AND repo root index.html. No manual cp, no forgetting.\n\nSW v7 never caches HTML. Only static assets (icons, manifest) and fonts. Every page load fetches HTML from the network. Future deploys are push + reload.\n\nRestore from Backup added to Settings with a file picker — no copy-paste needed for large JSON files on mobile.\n\nApocrypha edit/delete UI added — quill and trash icons on every myth card.\n\nTwo canons enshrined: canon-0033 (root index.html must be the build output) and canon-0034 (SWs must never cache HTML). Both added to Aurelius’s permanent memory.\n\n## The Lesson\n\nThe elaborate mechanism fails when the simple plumbing is wrong. Check the pipes before building the cathedral. A migration system, a WAL, a service worker, a snippet pipeline, an 8-pass spec process — none of it matters if the file the server reads is from yesterday.",
+          "order": 9,
+          "_deleted": false,
+          "_deleted_date": null
+        }
+      ],
+      "todos": [
+        {
+          "id": "todo-0001-reconcile-fs-tokens",
+          "text": "Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system",
+          "status": "resolved",
+          "chapter": "design-session",
+          "created": "2026-04-11",
+          "resolved": "2026-04-14",
+          "source_session": "s-2026-04-11-01"
+        },
+        {
+          "id": "todo-0002-phase-2-github-sync",
+          "text": "Phase 2: GitHub sync, WAL, onboarding wizard, token validation",
+          "status": "resolved",
+          "chapter": "phase-1-build",
+          "created": "2026-04-12",
+          "resolved": "2026-04-12",
+          "source_session": "s-2026-04-12-01"
+        },
+        {
+          "id": "todo-0003-service-worker",
+          "text": "Add service worker for offline caching",
+          "status": "resolved",
+          "chapter": "phase-1-build",
+          "created": "2026-04-12",
+          "resolved": "2026-04-12",
+          "source_session": "s-2026-04-12-01"
+        },
+        {
+          "id": "todo-0004-chapter-handoff-docs",
+          "text": "Chapter handoff docs — generate structured markdowns in docs/{volume-id}/, link via spec_url, Phase 4 in-app viewer",
+          "status": "resolved",
+          "chapter": "phase-1-build",
+          "created": "2026-04-12",
+          "resolved": "2026-04-14",
+          "source_session": null
+        },
+        {
+          "id": "todo-0001-storage-draft-keys",
+          "text": "Storage usage view only counts KEYS entries — misses codex-draft:* and codex-seed-version keys (total understated)",
+          "status": "resolved",
+          "chapter": "phase-4-polish",
+          "created": "2026-04-13",
+          "resolved": "2026-04-14",
+          "source_session": "s-2026-04-13-01"
+        },
+        {
+          "id": "todo-0005-trash-apocrypha",
+          "text": "Trash view: add deleted apocrypha listing alongside deleted canons and chapters",
+          "status": "resolved",
+          "chapter": "phase-5-chapter-detail",
+          "created": "2026-04-13",
+          "resolved": null,
+          "source_session": "s-2026-04-13-02"
+        },
+        {
+          "id": "todo-0006-canon-0009-supersede",
+          "text": "Update canon-0009-post-build-qa: status → superseded, superseded_by → canon-0014-multi-round-qa",
+          "status": "resolved",
+          "chapter": "phase-4-polish",
+          "created": "2026-04-13",
+          "resolved": null,
+          "source_session": "s-2026-04-13-02"
+        }
+      ],
+      "shelf_history": [
+        {
+          "shelf": "active",
+          "date": "2026-04-11",
+          "reason": "Project started — institutional memory system"
+        }
+      ]
+    },
+    {
+      "id": "businessai-simulation",
+      "name": "BusinessAI Simulation",
+      "shelf": "paused",
+      "description": "Business simulation addressed as BAI. ~₹30 crore/year business, 14 members, four entities (trading, industry, logistics). Objective: organize from informal to structured.",
+      "domain_color": "#A08870",
+      "tags": [
+        "simulation",
+        "business",
+        "strategy"
+      ],
+      "repo": null,
+      "current_phase": "Agenda-setting meeting planned, Shyam ops+culture discussion guide TODO",
+      "chapters": [
+        {
+          "id": "kickoff",
+          "name": "Kickoff & Agenda Setting",
+          "status": "in-progress",
+          "started": "2026-03-01",
+          "completed": null,
+          "ended": null,
+          "summary": "Initial informal discussion to set meeting agendas and lay organizational foundations. Shyam ops+culture discussion guide still pending.",
+          "spec_url": null,
+          "_deleted": false,
+          "_deleted_date": null
+        }
+      ],
+      "todos": [
+        {
+          "id": "todo-0001-shyam-guide",
+          "text": "Prep Shyam ops+culture discussion guide for follow-up meeting",
+          "status": "open",
+          "chapter": "kickoff",
+          "created": "2026-04-01",
+          "resolved": null,
+          "source_session": null
+        }
+      ],
+      "shelf_history": [
+        {
+          "shelf": "active",
+          "date": "2026-03-01",
+          "reason": null
+        },
+        {
+          "shelf": "paused",
+          "date": "2026-04-01",
+          "reason": "Focus shifted to SproutLab feature builds and SEP restructuring"
+        }
+      ]
+    }
+  ]
+}
