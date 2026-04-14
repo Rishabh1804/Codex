@@ -599,6 +599,33 @@
           "created": "2026-04-13",
           "resolved": null,
           "source_session": "s-2026-04-13-02"
+        },
+        {
+          "id": "todo-0008-lore-phase1",
+          "text": "Phase 1: Implement Lore — 5 categories (Edicts, Origins, Cautionary Tales, Doctrines, Chronicles), CRUD, Aura assignment, auto-generation hooks from lifecycle events. Spec in dissertation Section 3.4.",
+          "status": "open",
+          "chapter": "rpg-design",
+          "created": "2026-04-15",
+          "resolved": null,
+          "source_session": "s-2026-04-15-01"
+        },
+        {
+          "id": "todo-0009-design-iteration",
+          "text": "Design language needs 3–4 more iteration rounds. Focus: Aura rendering refinement, card density, Observatory star field, Sanctum room transitions, typography hierarchy. v4 is functional but unpolished.",
+          "status": "open",
+          "chapter": "rpg-design",
+          "created": "2026-04-15",
+          "resolved": null,
+          "source_session": "s-2026-04-15-01"
+        },
+        {
+          "id": "todo-0010-resolve-open-questions",
+          "text": "Resolve OQ-001 through OQ-016 from dissertation. Key items: Transcendent title generation (OQ-001), waypoint re-hiding (OQ-002), data repo strategy (OQ-003), Atlas rendering tech (OQ-011).",
+          "status": "open",
+          "chapter": "rpg-design",
+          "created": "2026-04-15",
+          "resolved": null,
+          "source_session": "s-2026-04-15-01"
         }
       ],
       "shelf_history": [
