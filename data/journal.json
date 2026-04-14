@@ -24,6 +24,30 @@
           "handoff": "All 5 TODOs resolved. Mark TODOs as resolved in-app. Next: SproutLab Today So Far build, Codex SproutLab chapter backfill.",
           "screenshots": [],
           "id": "s-2026-04-14-01"
+        },
+        {
+          "date": "2026-04-14",
+          "id": "s-2026-04-14-sep-8a",
+          "summary": "SEP Invoicing Phase 8A: Desktop Layout Foundation. Added breakpoint detection (_isDesktop/_isTablet/_pendingModeSwitch), icon sidebar with hover-expand and touch fallback, debounced ResizeObserver, deferred mode switch (overlay/form-safe), desktop overlay as centered modal, tablet wider cards. 6 files modified, +215 lines (6041 to 6256). 6 QA rounds caught 5 bugs before deploy.",
+          "volumes_touched": [
+            "sep-invoicing"
+          ],
+          "chapters_touched": [
+            "phase-8-desktop"
+          ],
+          "decisions": [
+            "ResizeObserver over matchMedia — catches all resize triggers including browser chrome, split-screen, DevTools",
+            "Deferred mode switch — _pendingModeSwitch flag prevents DOM destruction mid-overlay/form interaction",
+            "Touch sidebar fallback — tap-to-expand on non-hover devices instead of CSS :hover",
+            "Tablet = big phone — bottom tabs stay, wider cards, no max-width cap",
+            "Separate rendering strategy — desktop will use dedicated render functions (8C-8F), not CSS-only responsive"
+          ],
+          "bugs_found": 5,
+          "bugs_fixed": 5,
+          "duration_minutes": 90,
+          "open_todos": [],
+          "handoff": "Phase 8A deployed. Foundation is live: sidebar navigation, breakpoint detection, overlay split, tablet overrides. Next: Phase 8B (master-detail containers + drag handle + persistence).",
+          "screenshots": []
         }
       ]
     }
