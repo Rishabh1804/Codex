@@ -235,36 +235,69 @@ function handleExportData() {
 
 /* --- Restore from Backup --- */
 function openRestoreData() {
-  var body = '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12)">Paste a Codex JSON export to restore all data. This replaces your current library.</p>';
-  body += renderTextarea('restore_json', 'Backup JSON', '', { rows: 8, placeholder: 'Paste exported JSON here...' });
+  var body = '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12)">Select a Codex JSON export to restore all data. This replaces your current library.</p>';
+  body += '<input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none">';
+  body += '<button data-action="triggerRestoreFile" class="cx-btn-secondary" style="width:100%;padding:var(--sp-16);margin-bottom:var(--sp-12)">' + cx('download') + ' Choose Backup File</button>';
+  body += '<div id="restoreFileStatus" style="color:var(--text-secondary);font-size:var(--fs-sm)"></div>';
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleRestoreData" class="cx-btn-primary" style="flex:1">' + cx('download') + ' Restore</button>';
+    + '<button data-action="handleRestoreData" class="cx-btn-primary" style="flex:1" id="restoreBtn" disabled>' + cx('check') + ' Restore</button>';
 
   openOverlay('Restore from Backup', body, footer);
+  setTimeout(function() {
+    var input = document.getElementById('restoreFileInput');
+    if (input) input.addEventListener('change', handleRestoreFileSelect);
+  }, 50);
+}
+
+var _restoreParsed = null;
+
+function triggerRestoreFile() {
+  var input = document.getElementById('restoreFileInput');
+  if (input) input.click();
+}
+
+function handleRestoreFileSelect(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var status = document.getElementById('restoreFileStatus');
+  var btn = document.getElementById('restoreBtn');
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      var data = JSON.parse(ev.target.result);
+      if (!data.volumes || !Array.isArray(data.volumes)) {
+        if (status) status.innerHTML = '<span style="color:var(--error)">Invalid backup: missing volumes array</span>';
+        _restoreParsed = null;
+        if (btn) btn.disabled = true;
+        return;
+      }
+      _restoreParsed = data;
+      var summary = data.volumes.length + ' volumes, ' + (data.canons || []).length + ' canons, '
+        + (data.apocrypha || []).length + ' apocrypha, ' + (data.journal || []).flatMap(function(d) { return d.sessions || []; }).length + ' sessions';
+      if (status) status.innerHTML = '<span style="color:var(--success)">' + cx('check') + ' ' + escHtml(file.name) + '</span><br><span style="color:var(--text-tertiary)">' + escHtml(summary) + '</span>';
+      if (btn) btn.disabled = false;
+    } catch(err) {
+      if (status) status.innerHTML = '<span style="color:var(--error)">Invalid JSON: ' + escHtml(err.message) + '</span>';
+      _restoreParsed = null;
+      if (btn) btn.disabled = true;
+    }
+  };
+  reader.readAsText(file);
 }
 
 function handleRestoreData() {
-  var jsonStr = (document.getElementById('field-restore_json') || {}).value || '';
-  if (!jsonStr.trim()) { showToast('Paste backup JSON first', 'warning'); return; }
-
-  var data;
-  try { data = JSON.parse(jsonStr); } catch(e) {
-    showToast('Invalid JSON: ' + e.message, 'error'); return;
-  }
-
-  if (!data.volumes || !Array.isArray(data.volumes)) {
-    showToast('Invalid backup: missing volumes array', 'error'); return;
-  }
+  if (!_restoreParsed) { showToast('Select a backup file first', 'warning'); return; }
 
   showConfirmDialog('Restore Data', 'This will replace ALL current data with the backup. Are you sure?', function() {
     try {
-      store.volumes = data.volumes || [];
-      store.canons = data.canons || [];
-      store.schisms = data.schisms || [];
-      store.apocrypha = data.apocrypha || [];
-      store.journal = data.journal || [];
+      store.volumes = _restoreParsed.volumes || [];
+      store.canons = _restoreParsed.canons || [];
+      store.schisms = _restoreParsed.schisms || [];
+      store.apocrypha = _restoreParsed.apocrypha || [];
+      store.journal = _restoreParsed.journal || [];
       store._cacheToLocalStorage();
+      _restoreParsed = null;
       showToast('Data restored', 'success');
       closeConfirmDialog();
       closeOverlay();

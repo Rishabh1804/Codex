@@ -69,6 +69,7 @@ function setupDelegation() {
       case 'setTextSize': applyTextSize(el.dataset.size); break;
       case 'exportData': handleExportData(); break;
       case 'restoreData': openRestoreData(); break;
+      case 'triggerRestoreFile': triggerRestoreFile(); break;
       case 'handleRestoreData': handleRestoreData(); break;
 
       // Phase 2: GitHub Settings
