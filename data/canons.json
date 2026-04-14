@@ -539,6 +539,19 @@
       ],
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "canon-sep-0001-deploy-workflow",
+      "scope": "sep-invoicing",
+      "category": "process",
+      "title": "SEP Invoicing Deploy Workflow: Structured Zip + unzip -o",
+      "rationale": "Zip contains split/ files + built sep-invoicing.html + index.html with directory structure preserved. Deploy: cd ~/storage/shared/sep-invoicing → unzip -o ~/storage/downloads/<zip> → cp sep-invoicing.html index.html → git add -A → git commit → git --no-pager push. No manual mv of individual files, no running build.sh on device. The zip ships pre-built HTML so Termux never needs to run the build pipeline.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
     }
   ],
   "schisms": [
@@ -636,6 +649,30 @@
       "chosen": "Single scrollable home view with domain cards",
       "reason": "Parents think in time, not domains. A home view showing all domains chronologically matches the mental model. Separate pages force remembering which domain data belongs to.",
       "date": "2025-01",
+      "canon_id": null
+    },
+    {
+      "id": "rej-sep-0001-responsive-css-only",
+      "context": "SEP Invoicing desktop compatibility strategy",
+      "volumes": [
+        "sep-invoicing"
+      ],
+      "rejected": "Responsive CSS only (media queries reshaping existing cards into wider layouts)",
+      "chosen": "Full separate rendering with dedicated desktop render functions dispatched by layout flag",
+      "reason": "Tables, sidebar navigation, master-detail panels, and keyboard shortcuts are fundamentally different DOM structures. CSS cannot transform a mobile card accordion into a sortable table with a resizable detail panel. The ₹30L/month operational tool needs to feel native on desktop, not stretched-mobile.",
+      "date": "2026-04-14",
+      "canon_id": null
+    },
+    {
+      "id": "rej-sep-0002-matchmedia-detection",
+      "context": "Desktop breakpoint detection mechanism",
+      "volumes": [
+        "sep-invoicing"
+      ],
+      "rejected": "window.matchMedia('(min-width: 1024px)') listener",
+      "chosen": "Debounced ResizeObserver on document.documentElement",
+      "reason": "ResizeObserver catches all resize triggers — browser chrome changes, split-screen, DevTools resize, virtual keyboard. matchMedia only fires on threshold crossing. ResizeObserver at 150ms debounce is more reliable for detecting the exact moment to switch modes.",
+      "date": "2026-04-14",
       "canon_id": null
     }
   ],
