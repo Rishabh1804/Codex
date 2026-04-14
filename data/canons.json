@@ -128,7 +128,7 @@
       "title": "HR-9: Post-Build Multi-Round QA Audit",
       "rationale": "After every build session: multi-round QA continuing until only cosmetic bugs remain. List cosmetic bugs at end. Check all HRs, functional flows, null guards, class coverage, overlay close, escHtml/escAttr.",
       "created": "2026-03",
-      "status": "active",
+      "status": "superseded",
       "superseded_by": "canon-0014-multi-round-qa",
       "references": [
         "HR-9"
