@@ -223,6 +223,11 @@ function setupDelegation() {
       case 'copyCanonId': handleCopyCanonId(id); break;
       case 'copyCanonJson': handleCopyCanonJson(id); break;
 
+      // Apocrypha edit/delete
+      case 'editApocryphon': openEditApocryphon(id); break;
+      case 'handleSaveApocryphon': handleSaveApocryphon(id); break;
+      case 'deleteApocryphonAction': handleDeleteApocryphon(id); break;
+
       // Phase 3: Schisms
       case 'openCreateSchism': openCreateSchism(); break;
       case 'handleSaveSchism': handleSaveSchism(); break;
@@ -300,7 +305,7 @@ function testLocalStorage() {
 /* --- Phase 2: Service Worker --- */
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('sw.js?v=5', { scope: './' })
+  navigator.serviceWorker.register('sw.js?v=6', { scope: './' })
     .then(function(reg) {
       reg.addEventListener('updatefound', function() {
         var nw = reg.installing;

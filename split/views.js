@@ -397,7 +397,12 @@ function renderCanons() {
     apocryphon.forEach(function(a) {
       var statusCls = a.status === 'fulfilled' ? 'cx-status-complete' : a.status === 'foretold' ? 'cx-status-in-progress' : 'cx-status-abandoned';
       html += '<div class="cx-apocrypha-card">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-8)">';
       html += '<div class="cx-apocrypha-title">' + escHtml(a.title) + '</div>';
+      html += '<div style="display:flex;gap:var(--sp-4);flex-shrink:0">';
+      html += '<button class="cx-btn-icon" data-action="editApocryphon" data-id="' + escAttr(a.id) + '" title="Edit">' + cx('quill') + '</button>';
+      html += '<button class="cx-btn-icon" data-action="deleteApocryphonAction" data-id="' + escAttr(a.id) + '" title="Delete">' + cx('trash') + '</button>';
+      html += '</div></div>';
       html += '<span class="cx-chip cx-chip-sm ' + statusCls + '">' + escHtml(a.status) + '</span>';
       if (a.narrative) html += '<div class="cx-apocrypha-narrative">' + escHtml(a.narrative).replace(/\n/g, '<br>') + '</div>';
       var ameta = [];

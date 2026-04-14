@@ -436,6 +436,68 @@ function handleDeleteCanon(canonId) {
 }
 
 /* ============================================================
+   Apocrypha Edit / Delete
+   ============================================================ */
+
+function openEditApocryphon(apoId) {
+  var apo = store.apocrypha.find(function(a) { return a.id === apoId; });
+  if (!apo) { showToast('Apocryphon not found', 'error'); return; }
+
+  var statusOpts = [
+    { value: 'foretold', label: 'Foretold' },
+    { value: 'fulfilled', label: 'Fulfilled' },
+    { value: 'forgotten', label: 'Forgotten' }
+  ];
+
+  var body = '';
+  body += renderTextField('apo_title', 'Title', apo.title, { required: true });
+  body += renderSelect('apo_status', 'Status', apo.status, statusOpts);
+  body += renderTextarea('apo_narrative', 'Narrative', apo.narrative || '', { rows: 10, placeholder: 'The myth, the prophecy, the legend...' });
+  body += renderTextField('apo_volumes', 'Volumes', (apo.volumes || []).join(', '), { placeholder: 'Comma-separated volume IDs' });
+  body += renderTextField('apo_date', 'Date', apo.date || '', { placeholder: 'YYYY-MM-DD' });
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveApocryphon" data-id="' + escAttr(apoId) + '" class="cx-btn-primary" style="flex:1">'
+    + cx('check') + ' Save</button>';
+
+  openOverlay('Edit Apocryphon', body, footer);
+  setTimeout(function() { var el = document.getElementById('field-apo_title'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+}
+
+function handleSaveApocryphon(apoId) {
+  var title = (document.getElementById('field-apo_title') || {}).value || '';
+  var status = (document.getElementById('field-apo_status') || {}).value || 'foretold';
+  var narrative = (document.getElementById('field-apo_narrative') || {}).value || '';
+  var volsStr = (document.getElementById('field-apo_volumes') || {}).value || '';
+  var date = (document.getElementById('field-apo_date') || {}).value || '';
+
+  title = title.trim();
+  if (!title) { showToast('Title is required', 'error'); return; }
+
+  var volumes = volsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    store.updateApocryphon(apoId, { title: title, status: status, narrative: narrative.trim(), volumes: volumes, date: date || localDateStr() });
+    showToast('Apocryphon updated', 'success');
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+function handleDeleteApocryphon(apoId) {
+  var apo = store.apocrypha.find(function(a) { return a.id === apoId; });
+  if (!apo) return;
+  showConfirmDialog('Delete Apocryphon', 'Soft-delete "' + apo.title + '"? It will appear in Trash.', function() {
+    try {
+      store.deleteApocryphon(apoId);
+      showToast('Apocryphon deleted', 'success');
+      closeConfirmDialog();
+      renderCurrentView();
+    } catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+/* ============================================================
    PHASE 3: Schism Create
    ============================================================ */
 
