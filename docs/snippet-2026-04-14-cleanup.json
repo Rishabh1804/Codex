@@ -1,0 +1,45 @@
+{
+  "_snippet_version": 1,
+  "session": {
+    "date": "2026-04-14",
+    "id": "s-2026-04-14-01",
+    "summary": "Post-Thirteen-Scrolls cleanup. Removed 110 lines of dead migration code from seed.js (phase-5-chapter-backfill-v1 and sproutlab-chapter-backfill-v3 — all data now live via snippets + GitHub sync). Updated Codex current_phase in seed data from 'Phase 2 complete' to 'Phase 5 complete — content depth, 13 SproutLab chapters, 5 apocrypha, SW v7'. Confirmed old apocrypha stubs (apo-0002/0003/0004) already soft-deleted. Confirmed all Codex TODOs (0001–0006) already resolved in live data. Discovered canon number collision: canon-0033-gitignore-data-protection and canon-0033-root-index-sync share the 0033 prefix. Logged as known debt.",
+    "volumes_touched": ["codex"],
+    "chapters_touched": ["todo-cleanup-and-backfill"],
+    "decisions": [
+      "Dead migrations removed — CODEX_MIGRATIONS array cleared, runner infra preserved in start.js",
+      "Canon 0033 number collision logged as known debt (full string IDs are unique, no system breakage)"
+    ],
+    "bugs_found": 0,
+    "bugs_fixed": 0,
+    "duration_minutes": 30,
+    "open_todos": [
+      "Canon number collision: canon-0033-gitignore-data-protection and canon-0033-root-index-sync share 0033 prefix"
+    ],
+    "handoff": "seed.js cleaned. Next major item: SproutLab GitHub Sync — porting Codex WAL + GitHub API sync to protect Ziva's data from browser resets.",
+    "screenshots": []
+  },
+  "todos": [
+    {
+      "volume": "codex",
+      "todo": {
+        "id": "todo-0007-canon-0033-collision",
+        "text": "Fix canon number collision: canon-0033-gitignore-data-protection and canon-0033-root-index-sync both use 0033. Renumber root-index-sync to 0035 and sw-never-cache-html to 0036. Requires delete+create (ID rename not patchable).",
+        "status": "open",
+        "chapter": "todo-cleanup-and-backfill",
+        "created": "2026-04-14",
+        "resolved": null,
+        "source_session": "s-2026-04-14-01"
+      }
+    }
+  ],
+  "chapter_updates": [
+    {
+      "volume": "codex",
+      "chapter": "todo-cleanup-and-backfill",
+      "patch": {
+        "summary": "Two cleanup sessions: (1) TODO cleanup — resolved 5 open TODOs, added renderStorageUsage prefix scan, trash apocrypha section, canon_updates + todo_updates in snippet pipeline. (2) Post-Thirteen-Scrolls cleanup — removed 110 lines of dead migration code from seed.js, updated Codex current_phase in seed, logged canon-0033 number collision as known debt."
+      }
+    }
+  ]
+}
