@@ -1344,6 +1344,33 @@
       "sourceId": null,
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "lore-006-seed-through-sync",
+      "title": "Seed Data Must Flow Through the Sync Pipeline",
+      "category": "doctrines",
+      "body": "A migration that populates the in-memory store without creating sync-layer entries is not a migration — it is a rehearsal. The data appears to ship. It renders. It survives a single session. Then the next fetch overwrites it, and the migration's idempotency flag prevents recovery.\n\nThe rule: seed data must move through the same pipeline real data flows through. In Codex today, that means store.addLore (not store.lore.push), store.addChapter (not vol.chapters.push), store.addCanon (not store.canons.push). Each of these creates a WAL entry that flushQueue will push to GitHub. Without that WAL entry, the seeded data exists only in localStorage cache — the most volatile storage in the system, wiped by every populateStore call.\n\nThis rule is not about convenience. It is about treating the sync pipeline as the authoritative path to persistence. Any shortcut around it accumulates architecture debt — expensive to fake and corrosive to the schema (see lore-005).\n\nThe test: after running a migration locally, refresh the app. If the seeded data disappears, the migration was a rehearsal, not a shipment. The WAL must carry what the migration intends to preserve.\n\nThis applies beyond migrations. Any write to the in-memory store that skips the sync layer — for performance, for convenience, for 'just this once' — is the same bug waiting to happen.",
+      "domain": [
+        "codex"
+      ],
+      "tags": [
+        "sync",
+        "seed-data",
+        "migration",
+        "wal",
+        "architecture-debt",
+        "doctrine"
+      ],
+      "references": [
+        "lore-005-two-shortcuts",
+        "phase-1-lore"
+      ],
+      "created": "2026-04-15",
+      "updated": "2026-04-15",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null
     }
   ]
 }
