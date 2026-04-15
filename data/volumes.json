@@ -534,6 +534,20 @@
           "order": 9,
           "_deleted": false,
           "_deleted_date": null
+        },
+        {
+          "id": "governance-founding",
+          "name": "Governance Founding",
+          "status": "complete",
+          "started": "2026-04-15",
+          "completed": "2026-04-15",
+          "ended": null,
+          "summary": "Established the complete AI companion governance hierarchy across all three repos. Named all personas from the Order of the Codex, created the Governor tier for SproutLab, canonized the 30K Rule, and drafted 11 configuration files for Claude Code migration.",
+          "spec_url": null,
+          "content": "## The Founding\n\nOn 15 April 2026, a simple question — 'where do we stand on these files?' — triggered the most comprehensive governance session in Codex history. Three repos were git-cloned, 74,521 lines analyzed, and every companion assignment was made through interactive MCQ decision forks.\n\n## The Hierarchy\n\nThe governance model draws from Roman republican offices: The Consul (cross-repo oversight), Cipher the Censor (shared QA), three Builders (Aurelius, Lyra, Solara), and two Governors (Maren, Kael) for SproutLab's 61,700-line codebase.\n\n## The Assignments\n\nAurelius was already named — the Chronicler who journals. Lyra (The Weaver) won SproutLab over Maren — pattern recognition over protection. Solara (The Strategist) won SEP over Theron — the CA brain over the forge metaphor. Cipher became the shared Censor. The Consul was created as a new meta-role above the Order.\n\n## The Governor Tier\n\nSproutLab at 61,700 lines triggered the 30K Rule. Maren (The Guardian) governs Care: home, diet, medical. Kael (The Scout) governs Intelligence: ISL, core, data, sync. Shared modules get dual review. Governors activate during QA only.\n\n## The Eleven Scrolls\n\n11 configuration files drafted: 4 CLAUDE.md (global + per-repo), AGENTS.md, Memory.md, PERSONA_REGISTRY.md, and 4 SKILL.md files (spec-review, qa-audit, split-file-build, snippet-import). All encoded from actual codebase analysis, not memory.\n\n## Canons Established\n\nSix new canons: 30K Governor Rule, QA-only activation, shared module dual review, persona reassignment process (30-day cooldown), Care vs Intelligence domain split, one-builder-per-repo binding.",
+          "order": 15,
+          "_deleted": false,
+          "_deleted_date": null
         }
       ],
       "todos": [
