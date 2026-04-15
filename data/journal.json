@@ -101,6 +101,30 @@
           "open_todos": [],
           "handoff": "8C deployed. Next: Phase 8D — IM desktop table + challan detail panel.",
           "screenshots": []
+        },
+        {
+          "date": "2026-04-15",
+          "id": "s-2026-04-15-sep-8d",
+          "summary": "Phase 8D: IM desktop table + detail panel. 290 new lines.",
+          "volumes_touched": [
+            "sep-invoicing"
+          ],
+          "chapters_touched": [
+            "phase-8-desktop"
+          ],
+          "decisions": [
+            "No getIMStatusBadgeHtml helper — status badge rendered inline, matching mobile pattern",
+            "Desktop FAB bar gets separate ID (imFabBarDesktop) from mobile (imFabBar) since both can exist in different render paths",
+            "_imFilter.desktopSort is ephemeral (resets on reload) — consistent with _imFilter being non-persisted",
+            "Audit found 2 false bugs (G: IM selection bar gate, H: IM data ops refresh) — neither needed fixing",
+            "Only real bug #3 confirmed and fixed: renderIMTable must call renderIMSelBar at end"
+          ],
+          "bugs_found": 1,
+          "bugs_fixed": 1,
+          "duration_minutes": 90,
+          "open_todos": [],
+          "handoff": "8D deployed. Next: Phase 8E (Clients desktop master-detail), then 8F (Home/Create desktop), then 8G (keyboard shortcuts + final QA).",
+          "screenshots": []
         }
       ]
     },
