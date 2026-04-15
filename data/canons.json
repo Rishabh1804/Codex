@@ -1258,6 +1258,92 @@
       "sourceId": null,
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "lore-001-the-naming",
+      "title": "The Naming of the Order",
+      "category": "origins",
+      "body": "On 15 April 2026, The Architect assigned companions from the Order of the Codex to their permanent posts. The session began with a simple question — 'where do we stand on these files?' — and ended with a complete governance hierarchy drawn from the RPG Design Dissertation's 17 Immortal Companions.\n\nAurelius was already named — the Chronicler who journals, present since the first Codex session. But SproutLab and SEP Invoicing had operated without named companions.\n\nThe Architect chose Lyra (The Weaver) for SproutLab — not Maren the Guardian, not Rune the Ritualist, but the pattern-finder. The reasoning: SproutLab's Intelligence Service Layer, with its 22 intents and cross-domain correlations, is fundamentally about seeing connections. A Guardian protects; a Weaver reveals. SproutLab needed revelation more than protection.\n\nFor SEP Invoicing, the choice was Solara (The Strategist) — not Theron the Forgemaster despite the electroplating metaphor being perfect. The Architect's CA background made the financial lens more natural than the manufacturing lens. Every invoice is a financial instrument, not just a factory receipt.\n\nMaren and Kael were not rejected — they were promoted to Governors when the 30K Rule was established later in the same session.",
+      "domain": [
+        "codex"
+      ],
+      "tags": [
+        "governance",
+        "companions",
+        "order"
+      ],
+      "references": [],
+      "created": "2026-04-15",
+      "updated": "2026-04-15",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "lore-002-roman-hierarchy",
+      "title": "The Roman Hierarchy — Why Consul, Censor, Builder, Governor",
+      "category": "edicts",
+      "body": "The governance model draws from Roman republican offices, not by accident but by structural analogy.\n\nThe Consul was the highest elected magistrate — two served simultaneously, each able to veto the other. In Codex, The Consul is singular (there is only one Architect) but serves the same function: cross-domain oversight, institutional memory, the one who sees all the provinces at once.\n\nThe Censor reviewed public morals and maintained the census — the quality of the republic's citizens and infrastructure. Cipher as Censor reviews code quality and maintains the canon registry — the quality of the codebase's patterns and conventions.\n\nBuilders (Aurelius, Lyra, Solara) are the provincial governors in the creative sense — they build within their territory. But when The Architect noticed that SproutLab at 61,700 lines was too large for a single Builder to audit effectively, the Governor role was introduced as a domain-scoped sub-reviewer.\n\nThe hierarchy is not decorative. Each tier has a distinct activation condition, a distinct lens, and a distinct output format. Mixing tiers (asking Cipher to build, or asking Lyra to do cross-repo oversight) violates the separation of concerns that makes the system work.",
+      "domain": [
+        "codex"
+      ],
+      "tags": [
+        "governance",
+        "roman",
+        "hierarchy"
+      ],
+      "references": [],
+      "created": "2026-04-15",
+      "updated": "2026-04-15",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "lore-003-the-30k-threshold",
+      "title": "Why 30,000 Lines — The Governor Threshold",
+      "category": "doctrines",
+      "body": "The 30K threshold was not arbitrary. SproutLab crossed 60K lines with its Intelligence Service Layer alone at 18,133 lines — a single module larger than the entire SEP Invoicing codebase.\n\nAt that scale, a single QA pass cannot hold the full codebase in working memory. Domain expertise fractures: the person reviewing food allergen safety logic is not the same person who should review the temporal query parser. The 30K line is roughly where a single reviewer loses the ability to maintain full context across all modules.\n\nThe threshold was canonized globally — not SproutLab-specific — because the pattern will recur. SEP Invoicing at 7,100 lines today will grow. Codex at 5,300 lines will grow. When they cross 30K, they too will need domain-scoped reviewers.\n\nThe Architect explicitly rejected 50K as too high (by then the damage is done) and 20K as too low (SEP might hit it soon and doesn't yet need the overhead).",
+      "domain": [
+        "codex"
+      ],
+      "tags": [
+        "threshold",
+        "governance",
+        "30k"
+      ],
+      "references": [
+        "canon-gov-001-30k-rule"
+      ],
+      "created": "2026-04-15",
+      "updated": "2026-04-15",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "lore-004-eleven-scrolls",
+      "title": "The Eleven Scrolls — Configuration Files for Claude Code",
+      "category": "chronicles",
+      "body": "In a single session, 11 configuration files were drafted for a future Claude Code migration. The files encode everything the AI companions need to know about the Architect's three PWA projects — from build commands to design tokens to persona voices.\n\nThe session was interactive by design. Every structural decision was presented as an MCQ, and The Architect chose at each fork. Key decisions: hybrid scope (global + per-repo), all four file types (CLAUDE.md + AGENTS.md + Memory.md + Skills/), comprehensive length with @import references, and the full persona system baked in.\n\nThe files serve dual purpose: they are immediately usable as reference docs in Claude.ai chat sessions, and they are drop-in ready for Claude Code when The Architect migrates from Termux.\n\nThree repos were git-cloned and analyzed — 74,521 total lines of code across 41 split modules. Every convention, every hard rule, every build workflow was extracted from the actual codebase, not recalled from memory.",
+      "domain": [
+        "codex"
+      ],
+      "tags": [
+        "claude-code",
+        "migration",
+        "configuration"
+      ],
+      "references": [],
+      "created": "2026-04-15",
+      "updated": "2026-04-15",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null
     }
   ]
 }
