@@ -281,7 +281,7 @@
         "gst"
       ],
       "repo": null,
-      "current_phase": "Phase 1 complete (Client Master, Create Invoice, Settings). Phase 2: Invoice Register + GST Export.",
+      "current_phase": "Phase 8D in progress — Desktop mode. Stats + History rework complete.",
       "chapters": [
         {
           "id": "spec",
@@ -417,7 +417,7 @@
         "knowledge-management"
       ],
       "repo": "Rishabh1804/Codex",
-      "current_phase": "Phase 5 complete — Chapter Detail, Apocrypha, auto-migration",
+      "current_phase": "Post-Phase 5. BN cleanup done. All content backfilled.",
       "chapters": [
         {
           "id": "spec",
