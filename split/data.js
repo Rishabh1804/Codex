@@ -1,4 +1,4 @@
-/* CODEX — Data Layer (Phase 5: Chapter Detail + Apocrypha) */
+/* CODEX — Data Layer (Phase 5: Chapter Detail + Apocrypha; Phase 1 Lore) */
 
 var CODEX_VERSION = '1.1.0';
 var CODEX_SCHEMA_VERSION = 1;
@@ -11,6 +11,16 @@ var CHAPTER_STATUSES = ['planned', 'in-progress', 'paused', 'complete', 'abandon
 var CANON_CATEGORIES = ['design', 'architecture', 'process'];
 var TODO_STATUSES = ['open', 'resolved'];
 var APOCRYPHA_STATUSES = ['fulfilled', 'foretold', 'forgotten'];
+var LORE_CATEGORIES = ['edicts', 'origins', 'cautionary_tales', 'doctrines', 'chronicles'];
+var LORE_CATEGORY_LABELS = { edicts: 'Edicts', origins: 'Origins', cautionary_tales: 'Cautionary Tales', doctrines: 'Doctrines', chronicles: 'Chronicles' };
+var LORE_CATEGORY_VOICES = {
+  edicts: 'We decree X because Y',
+  origins: 'This is how it began',
+  cautionary_tales: 'This is what went wrong',
+  doctrines: 'This is what always works',
+  chronicles: 'This is the context you need'
+};
+var LORE_SOURCE_TYPES = ['manual', 'prophecy_fulfilled', 'prophecy_defied', 'rite_released', 'ember_snuffed', 'socratic_response', 'chapter_abandoned', 'volume_archived', 'canon_superseded'];
 
 /* Phase 2 globals */
 var _isOffline = false;
@@ -195,6 +205,7 @@ var store = {
   canons: [],
   schisms: [],
   apocrypha: [],
+  lore: [],
   journal: [],
   _wal: [],
   _meta: {
@@ -261,12 +272,12 @@ var store = {
   _cacheToLocalStorage: function() {
     try {
       localStorage.setItem(KEYS.CACHE_VOLUMES, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }));
-      localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha }));
+      localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore }));
       localStorage.setItem(KEYS.CACHE_JOURNAL, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }));
     } catch(e) { logError('cache', 'Cache write failed', e.message); }
   },
 
-  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, journal: store.journal }); },
+  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore, journal: store.journal }); },
 
   /* --- Volume --- */
   addVolume: function(vol) {
@@ -448,6 +459,46 @@ var store = {
     store._fireChange();
   },
 
+  /* --- Lore (Phase 1: dissertation §3.4) --- */
+  addLore: function(l) {
+    if (!l.id || !l.title) throw new Error('Lore requires id and title');
+    if (!l.category || LORE_CATEGORIES.indexOf(l.category) === -1) throw new Error('Lore category invalid');
+    if (store.lore.some(function(x) { return x.id === l.id; })) throw new Error('Duplicate lore id: ' + l.id);
+    var now = localDateStr();
+    var entry = {
+      id: l.id, title: l.title, category: l.category,
+      body: l.body || '',
+      domain: Array.isArray(l.domain) ? l.domain : [],
+      tags: Array.isArray(l.tags) ? l.tags : [],
+      references: Array.isArray(l.references) ? l.references : [],
+      created: l.created || now,
+      updated: l.updated || now,
+      sourceType: l.sourceType || 'manual',
+      sourceId: l.sourceId || null,
+      _deleted: false, _deleted_date: null
+    };
+    store.lore.push(entry);
+    store._createWalEntry('create', 'lore', entry.id, 'canons.json', entry);
+    store._fireChange();
+    return entry;
+  },
+  updateLore: function(id, patch) {
+    var l = store.lore.find(function(x) { return x.id === id; });
+    if (!l) throw new Error('Lore not found: ' + id);
+    delete patch.id;
+    ['title','category','body','domain','tags','references','sourceType','sourceId','created'].forEach(function(k) { if (patch.hasOwnProperty(k)) l[k] = patch[k]; });
+    l.updated = localDateStr();
+    store._createWalEntry('update', 'lore', id, 'canons.json', patch);
+    store._fireChange();
+  },
+  deleteLore: function(id) {
+    var l = store.lore.find(function(x) { return x.id === id; });
+    if (!l) throw new Error('Lore not found');
+    l._deleted = true; l._deleted_date = localDateStr();
+    store._createWalEntry('delete', 'lore', id, 'canons.json', null);
+    store._fireChange();
+  },
+
   /* --- Journal --- */
   addJournalSession: function(date, session) {
     var day = store.journal.find(function(d) { return d.date === date; });
@@ -494,10 +545,11 @@ function populateStore(volResult, canonResult, journalResult) {
   store._meta.schemaVersions.volumes = vData._schema_version || 1;
   store._meta.shas.volumes = (volResult && volResult.sha) || null;
 
-  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], schisms: [], apocrypha: [] };
+  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], schisms: [], apocrypha: [], lore: [] };
   store.canons = cData.canons || [];
   store.schisms = cData.schisms || cData.rejected_alternatives || [];
   store.apocrypha = cData.apocrypha || [];
+  store.lore = cData.lore || [];
   store._meta.schemaVersions.canons = cData._schema_version || 1;
   store._meta.shas.canons = (canonResult && canonResult.sha) || null;
 
@@ -523,6 +575,7 @@ function populateStore(volResult, canonResult, journalResult) {
 function getStoreSnapshot() {
   return JSON.parse(JSON.stringify({
     volumes: store.volumes, canons: store.canons,
-    schisms: store.schisms, apocrypha: store.apocrypha, journal: store.journal
+    schisms: store.schisms, apocrypha: store.apocrypha,
+    lore: store.lore, journal: store.journal
   }));
 }

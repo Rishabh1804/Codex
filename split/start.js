@@ -231,6 +231,41 @@ function setupDelegation() {
       case 'handleSaveApocryphon': handleSaveApocryphon(id); break;
       case 'deleteApocryphonAction': handleDeleteApocryphon(id); break;
 
+      // Phase 1 Lore
+      case 'goToLore': navigate('#/lore/' + encodeURIComponent(id)); break;
+      case 'openCreateLore': openCreateLore(); break;
+      case 'editLore': openEditLore(id); break;
+      case 'editLoreDetail': openEditLore(_currentViewParams.id); break;
+      case 'handleSaveLore': handleSaveLore(id || null); break;
+      case 'deleteLoreAction': handleDeleteLore(id); break;
+      case 'copyLoreJson': handleCopyLoreJson(id); break;
+      case 'toggleLoreFilter':
+        var lkey = el.dataset.key;
+        var lval = el.dataset.value;
+        _loreFilters[lkey] = lval || null;
+        renderCurrentView();
+        break;
+      case 'setLoreSort':
+        _loreSort = el.dataset.value || 'newest';
+        renderCurrentView();
+        break;
+      case 'restoreLore':
+        var rl = store.lore.find(function(x) { return x.id === id; });
+        if (rl) { rl._deleted = false; rl._deleted_date = null; store._createWalEntry('update', 'lore', id, 'canons.json', { _deleted: false, _deleted_date: null }); store._fireChange(); showToast('Lore restored', 'success'); renderTrashView(); }
+        break;
+      case 'permanentDeleteLore':
+        showConfirmDialog('Permanently Delete', 'This cannot be undone. Are you sure?', function() {
+          store.lore = store.lore.filter(function(x) { return x.id !== id; });
+          store._createWalEntry('delete', 'lore', id, 'canons.json', { _permanent: true });
+          store._fireChange();
+          showToast('Permanently deleted', 'success');
+          closeConfirmDialog();
+          renderTrashView();
+        }, { danger: true, label: 'Delete Forever' });
+        break;
+      case 'acceptAutoLore': handleAcceptAutoLore(id); break;
+      case 'dismissAutoLore': handleDismissAutoLore(id); break;
+
       // Phase 3: Schisms
       case 'openCreateSchism': openCreateSchism(); break;
       case 'handleSaveSchism': handleSaveSchism(); break;
@@ -458,7 +493,7 @@ function handleDisconnectGitHub() {
 /* ============================================================
    Swipe Navigation (canon from SproutLab SWIPE_NAVIGATION_REFERENCE)
    ============================================================ */
-var TAB_ORDER = ['dashboard', 'journal', 'canons', 'todos'];
+var TAB_ORDER = ['dashboard', 'journal', 'canons', 'lore', 'todos'];
 var _swipeStartX = 0, _swipeStartY = 0, _swipeTarget = null;
 
 function setupSwipeNavigation() {
@@ -610,6 +645,125 @@ function setupGestures() {
   setupPullToRefresh();
 }
 
+/* ============================================================
+   PHASE 1 LORE — Auto-Generation Hooks
+   Dissertation §3.4: "Every major lifecycle event MUST auto-generate
+   a Lore entry. The Architect confirms/edits but the system proposes."
+
+   Available lifecycle events in today's Codex (analogs to RPG events):
+     - Chapter status → abandoned   (Ember snuffed analog)   → Cautionary Tale
+     - Volume shelf → archived/abandoned (Rite released analog) → Chronicle
+     - Canon status → superseded    (Socratic response analog) → Doctrine
+
+   We wrap store mutations to capture the transition, then present the
+   Architect with a proposed Lore entry (prefill form). Nothing auto-commits.
+   ============================================================ */
+
+var _autoLorePending = {}; // keyed by proposal id → prefill object
+var _loreHooksInstalled = false;
+
+function installLoreAutoHooks() {
+  if (_loreHooksInstalled) return;
+  _loreHooksInstalled = true;
+
+  var origUpdateChapter = store.updateChapter;
+  store.updateChapter = function(volumeId, chapterId, patch) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    var before = vol ? (vol.chapters || []).find(function(c) { return c.id === chapterId; }) : null;
+    var beforeStatus = before ? before.status : null;
+    var result = origUpdateChapter.call(store, volumeId, chapterId, patch);
+    if (before && patch && patch.status === 'abandoned' && beforeStatus !== 'abandoned') {
+      proposeAutoLore({
+        sourceType: 'chapter_abandoned',
+        sourceId: chapterId,
+        category: 'cautionary_tales',
+        title: 'Abandoned: ' + (before.name || chapterId),
+        body: 'The chapter "' + (before.name || chapterId) + '" in ' + (vol ? vol.name : volumeId) + ' was abandoned. Document the lesson.',
+        domain: [volumeId],
+        references: [chapterId, volumeId]
+      });
+    }
+    return result;
+  };
+
+  var origTransitionShelf = store.transitionShelf;
+  store.transitionShelf = function(volumeId, newShelf, reason) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    var beforeShelf = vol ? vol.shelf : null;
+    var result = origTransitionShelf.call(store, volumeId, newShelf, reason);
+    if (vol && (newShelf === 'archived' || newShelf === 'abandoned') && beforeShelf !== newShelf) {
+      proposeAutoLore({
+        sourceType: 'volume_archived',
+        sourceId: volumeId,
+        category: 'chronicles',
+        title: (newShelf === 'abandoned' ? 'Abandoned: ' : 'Archived: ') + vol.name,
+        body: 'The volume "' + vol.name + '" was moved to ' + newShelf + '.' + (reason ? ' Reason: ' + reason : '') + ' What did this chapter of work teach?',
+        domain: [volumeId],
+        references: [volumeId],
+        tags: [newShelf]
+      });
+    }
+    return result;
+  };
+
+  var origUpdateCanon = store.updateCanon;
+  store.updateCanon = function(id, patch) {
+    var before = store.canons.find(function(c) { return c.id === id; });
+    var beforeStatus = before ? before.status : null;
+    var result = origUpdateCanon.call(store, id, patch);
+    if (before && patch && patch.status === 'superseded' && beforeStatus !== 'superseded') {
+      proposeAutoLore({
+        sourceType: 'canon_superseded',
+        sourceId: id,
+        category: 'doctrines',
+        title: 'Superseded: ' + (before.title || id),
+        body: 'Canon "' + (before.title || id) + '" was superseded' + (patch.superseded_by ? ' by ' + patch.superseded_by : '') + '. The doctrine that replaces it, and why the shift.',
+        references: [id].concat(patch.superseded_by ? [patch.superseded_by] : [])
+      });
+    }
+    return result;
+  };
+}
+
+function proposeAutoLore(prefill) {
+  var pid = 'autolore-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
+  _autoLorePending[pid] = prefill;
+  // Toast with action to accept; passive dismissal possible via X on toast/banner
+  var banner = document.createElement('div');
+  banner.className = 'cx-autolore-banner';
+  banner.id = pid;
+  banner.innerHTML =
+    '<div class="cx-autolore-title">' + cx('tome') + ' Propose Lore entry?</div>'
+    + '<div class="cx-autolore-meta">' + escHtml(LORE_CATEGORY_LABELS[prefill.category] || prefill.category) + ' \u00B7 from ' + escHtml((prefill.sourceType || '').replace(/_/g, ' ')) + '</div>'
+    + '<div class="cx-autolore-actions">'
+    + '<button class="cx-btn-secondary cx-btn-sm" data-action="dismissAutoLore" data-id="' + escAttr(pid) + '">Dismiss</button>'
+    + '<button class="cx-btn-primary cx-btn-sm" data-action="acceptAutoLore" data-id="' + escAttr(pid) + '">Compose</button>'
+    + '</div>';
+  document.body.appendChild(banner);
+  requestAnimationFrame(function() { banner.classList.add('cx-autolore-visible'); });
+  // Auto-dismiss after 20s
+  setTimeout(function() {
+    if (_autoLorePending[pid]) handleDismissAutoLore(pid);
+  }, 20000);
+}
+
+function handleAcceptAutoLore(pid) {
+  var prefill = _autoLorePending[pid];
+  if (!prefill) return;
+  delete _autoLorePending[pid];
+  var banner = document.getElementById(pid);
+  if (banner && banner.parentNode) banner.parentNode.removeChild(banner);
+  openCreateLore(prefill);
+}
+
+function handleDismissAutoLore(pid) {
+  delete _autoLorePending[pid];
+  var banner = document.getElementById(pid);
+  if (!banner) return;
+  banner.classList.remove('cx-autolore-visible');
+  setTimeout(function() { if (banner.parentNode) banner.parentNode.removeChild(banner); }, 200);
+}
+
 /* --- Initialize (Phase 2: full 15-step lifecycle) --- */
 function initializeApp() {
   if (!testLocalStorage()) {
@@ -687,6 +841,9 @@ function initializeApp() {
       localStorage.setItem('codex-migrations', JSON.stringify(_applied));
       store._cacheToLocalStorage();
     }
+
+    // Phase 1 Lore: install auto-gen lifecycle hooks once store is populated
+    installLoreAutoHooks();
 
     // Step 12: Register listeners
     store.onChange(function() {
