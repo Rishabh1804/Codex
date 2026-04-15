@@ -198,6 +198,7 @@ function handleFabAction() {
   else if (_currentView === 'todos') { openTodoVolumeChoice(); }
   else if (_currentView === 'journal') { openCreateSession(); }
   else if (_currentView === 'canons') { openCanonFabChoice(); }
+  else if (_currentView === 'lore') { openCreateLore(); }
 }
 
 function openFabChoice(volumeId) {
@@ -274,7 +275,8 @@ function handleRestoreFileSelect(e) {
       }
       _restoreParsed = data;
       var summary = data.volumes.length + ' volumes, ' + (data.canons || []).length + ' canons, '
-        + (data.apocrypha || []).length + ' apocrypha, ' + (data.journal || []).flatMap(function(d) { return d.sessions || []; }).length + ' sessions';
+        + (data.apocrypha || []).length + ' apocrypha, ' + (data.lore || []).length + ' lore, '
+        + (data.journal || []).flatMap(function(d) { return d.sessions || []; }).length + ' sessions';
       if (status) status.innerHTML = '<span style="color:var(--success)">' + cx('check') + ' ' + escHtml(file.name) + '</span><br><span style="color:var(--text-tertiary)">' + escHtml(summary) + '</span>';
       if (btn) btn.disabled = false;
     } catch(err) {
@@ -295,6 +297,7 @@ function handleRestoreData() {
       store.canons = _restoreParsed.canons || [];
       store.schisms = _restoreParsed.schisms || [];
       store.apocrypha = _restoreParsed.apocrypha || [];
+      store.lore = _restoreParsed.lore || [];
       store.journal = _restoreParsed.journal || [];
       store._cacheToLocalStorage();
       _restoreParsed = null;
@@ -571,6 +574,122 @@ function handleDeleteApocryphon(apoId) {
 }
 
 /* ============================================================
+   PHASE 1 LORE — Create / Edit / Delete / Copy
+   ============================================================ */
+
+function openCreateLore(prefill) {
+  closeOverlay();
+  setTimeout(function() { openLoreForm(null, prefill || null); }, OVERLAY_ANIM_MS + 50);
+}
+
+function openEditLore(loreId) { openLoreForm(loreId, null); }
+
+function openLoreForm(loreId, prefill) {
+  var isEdit = !!loreId;
+  var l = isEdit ? store.lore.find(function(x) { return x.id === loreId; }) : null;
+  var seed = l || prefill || {};
+
+  var catOpts = LORE_CATEGORIES.map(function(c) { return { value: c, label: LORE_CATEGORY_LABELS[c] }; });
+
+  // Domain multi-select: render as checkbox group over active volumes
+  var activeVols = filterActive(store.volumes);
+  var selectedDomains = (seed.domain && Array.isArray(seed.domain)) ? seed.domain : [];
+
+  var body = '';
+  body += renderTextField('lore_title', 'Title', seed.title || '', { required: true, placeholder: 'e.g. The Naming of the Order' });
+  body += renderSelect('lore_category', 'Category', seed.category || 'origins', catOpts, { required: true });
+  body += renderTextarea('lore_body', 'Narrative', seed.body || '', { required: true, rows: 10, placeholder: 'Backward-looking knowledge. The why behind the what.' });
+
+  // Domain checkboxes
+  if (activeVols.length > 0) {
+    body += '<div class="cx-form-group"><label class="cx-form-label">Domain</label><div class="cx-checkbox-group">';
+    activeVols.forEach(function(v) {
+      var checked = selectedDomains.indexOf(v.id) !== -1 ? ' checked' : '';
+      body += '<label class="cx-checkbox-item"><input type="checkbox" name="lore_domain" value="' + escAttr(v.id) + '"' + checked + '><span>' + escHtml(v.name) + '</span></label>';
+    });
+    body += '</div></div>';
+  }
+
+  body += renderTextField('lore_tags', 'Tags (comma-separated)', (seed.tags || []).join(', '), { placeholder: 'e.g. governance, roman, hierarchy' });
+  body += renderTextField('lore_references', 'References (comma-separated IDs)', (seed.references || []).join(', '), { placeholder: 'canon-NNNN-slug, volume-id, chapter-slug' });
+  if (isEdit) {
+    body += renderTextField('lore_created', 'Created', seed.created || '', { placeholder: 'YYYY-MM-DD' });
+  }
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveLore" data-id="' + escAttr(loreId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
+
+  openOverlay(isEdit ? 'Edit Lore' : 'New Lore', body, footer);
+  setTimeout(function() { var el = document.getElementById('field-lore_title'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+}
+
+function handleSaveLore(loreId) {
+  var title = (document.getElementById('field-lore_title') || {}).value || '';
+  var category = (document.getElementById('field-lore_category') || {}).value || 'origins';
+  var body = (document.getElementById('field-lore_body') || {}).value || '';
+  var tagsStr = (document.getElementById('field-lore_tags') || {}).value || '';
+  var refsStr = (document.getElementById('field-lore_references') || {}).value || '';
+
+  title = title.trim();
+  body = body.trim();
+  if (!title) { showToast('Title is required', 'error'); return; }
+  if (!body) { showToast('Narrative is required', 'error'); return; }
+  if (LORE_CATEGORIES.indexOf(category) === -1) { showToast('Invalid category', 'error'); return; }
+
+  var domainBoxes = document.querySelectorAll('input[name="lore_domain"]:checked');
+  var domain = [];
+  for (var i = 0; i < domainBoxes.length; i++) domain.push(domainBoxes[i].value);
+
+  var tags = tagsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+  var refs = refsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    if (loreId) {
+      var createdField = (document.getElementById('field-lore_created') || {}).value || null;
+      var patch = { title: title, category: category, body: body, domain: domain, tags: tags, references: refs };
+      if (createdField) patch.created = createdField;
+      store.updateLore(loreId, patch);
+      showToast('Lore updated', 'success');
+    } else {
+      var allIds = store.lore.map(function(x) { return x.id; });
+      var id = generateId('lore', allIds) + '-' + autoSlug(title).substring(0, 20);
+      store.addLore({
+        id: id, title: title, category: category, body: body,
+        domain: domain, tags: tags, references: refs,
+        sourceType: 'manual', sourceId: null
+      });
+      showToast('Lore created', 'success');
+    }
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+function handleDeleteLore(loreId) {
+  var l = store.lore.find(function(x) { return x.id === loreId; });
+  if (!l) return;
+  showConfirmDialog('Delete Lore', 'Soft-delete "' + l.title + '"? It will appear in Trash.', function() {
+    try {
+      store.deleteLore(loreId);
+      showToast('Lore deleted', 'success');
+      closeConfirmDialog();
+      if (_currentView === 'lore-detail') navigate('#/lore');
+      else renderCurrentView();
+    } catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+function handleCopyLoreJson(loreId) {
+  var l = store.lore.find(function(x) { return x.id === loreId; });
+  if (!l) return;
+  var copy = deepClone(l);
+  delete copy._deleted;
+  delete copy._deleted_date;
+  copyToClipboard(JSON.stringify(copy, null, 2), 'Lore JSON copied');
+}
+
+/* ============================================================
    PHASE 3: Schism Create
    ============================================================ */
 
@@ -784,6 +903,27 @@ function handlePreviewSnippet() {
     });
   }
 
+  // Preview lore (Phase 1 — upsert). Accept both `lore` and legacy `new_lore` shapes.
+  var _previewLore = _snippetParsed.lore || [];
+  if (_snippetParsed.new_lore && Array.isArray(_snippetParsed.new_lore)) {
+    _snippetParsed.new_lore.forEach(function(op) {
+      var d = op.data || op;
+      if (d && d.id) _previewLore.push(d);
+    });
+  }
+  if (_previewLore.length > 0) {
+    _previewLore.forEach(function(l) {
+      var catOk = l.category && LORE_CATEGORIES.indexOf(l.category) !== -1;
+      var exists = store.lore.some(function(x) { return x.id === l.id; });
+      var catLbl = catOk ? LORE_CATEGORY_LABELS[l.category] : (l.category || 'uncategorized');
+      html += '<div class="cx-preview-item">' + (!catOk
+        ? '<span class="cx-preview-skip">\u2717</span> Lore ' + escHtml(l.id) + ' (invalid category: ' + escHtml(l.category || '?') + ')'
+        : exists
+          ? '<span class="cx-preview-ok">\u2713</span> Update lore: ' + escHtml(l.title) + ' <span class="cx-card-meta">(' + escHtml(catLbl) + ')</span>'
+          : '<span class="cx-preview-ok">\u2713</span> Lore: ' + escHtml(l.title) + ' <span class="cx-card-meta">(' + escHtml(catLbl) + ')</span>') + '</div>';
+    });
+  }
+
   html += '</div>';
   preview.innerHTML = html;
   if (importBtn) importBtn.disabled = false;
@@ -791,7 +931,7 @@ function handlePreviewSnippet() {
 
 function handleImportSnippet() {
   if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
-  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, volumeUpdates: 0, apocrypha: 0 };
+  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, volumeUpdates: 0, apocrypha: 0, lore: 0 };
 
   try {
     // 1. Session
@@ -906,6 +1046,52 @@ function handleImportSnippet() {
       });
     }
 
+    // 8. Lore (Phase 1 — upsert). Accept both shapes:
+    //    { lore: [ { ... } ] }  and  { new_lore: [ { op, data: { ... } } ] }
+    var _importLore = [];
+    if (_snippetParsed.lore && Array.isArray(_snippetParsed.lore)) {
+      _importLore = _importLore.concat(_snippetParsed.lore);
+    }
+    if (_snippetParsed.new_lore && Array.isArray(_snippetParsed.new_lore)) {
+      _snippetParsed.new_lore.forEach(function(op) {
+        var d = op.data || op;
+        if (d && d.id) _importLore.push(d);
+      });
+    }
+    if (_importLore.length > 0) {
+      _importLore.forEach(function(l) {
+        if (!l.category || LORE_CATEGORIES.indexOf(l.category) === -1) return;
+        var exists = store.lore.some(function(x) { return x.id === l.id; });
+        try {
+          if (!exists) {
+            // Back-compat: governance-lore snippets use `volumes`, dissertation uses `domain`
+            var entry = {
+              id: l.id, title: l.title, category: l.category,
+              body: l.body || '',
+              domain: Array.isArray(l.domain) ? l.domain : (Array.isArray(l.volumes) ? l.volumes : []),
+              tags: Array.isArray(l.tags) ? l.tags : [],
+              references: Array.isArray(l.references) ? l.references : (l.canon_id ? [l.canon_id] : []),
+              created: l.created || l.date || localDateStr(),
+              updated: l.updated || l.date || localDateStr(),
+              sourceType: l.sourceType || 'manual',
+              sourceId: l.sourceId || null
+            };
+            store.addLore(entry);
+          } else {
+            var patch = {};
+            ['title','category','body','domain','tags','references','sourceType','sourceId','created'].forEach(function(k) {
+              if (l.hasOwnProperty(k)) patch[k] = l[k];
+            });
+            // Back-compat field translation on update
+            if (!patch.domain && Array.isArray(l.volumes)) patch.domain = l.volumes;
+            if (!patch.references && l.canon_id) patch.references = [l.canon_id];
+            store.updateLore(l.id, patch);
+          }
+          counts.lore++;
+        } catch(e) { /* skip */ }
+      });
+    }
+
     var parts = [];
     if (counts.sessions) parts.push(counts.sessions + ' session');
     if (counts.canons) parts.push(counts.canons + ' canon' + (counts.canons > 1 ? 's' : ''));
@@ -917,6 +1103,7 @@ function handleImportSnippet() {
     if (counts.todoUpdates) parts.push(counts.todoUpdates + ' TODO update' + (counts.todoUpdates > 1 ? 's' : ''));
     if (counts.volumeUpdates) parts.push(counts.volumeUpdates + ' volume update' + (counts.volumeUpdates > 1 ? 's' : ''));
     if (counts.apocrypha) parts.push(counts.apocrypha + ' apocryphon' + (counts.apocrypha > 1 ? ' entries' : ''));
+    if (counts.lore) parts.push(counts.lore + ' lore entr' + (counts.lore > 1 ? 'ies' : 'y'));
 
     showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');
     _snippetParsed = null;

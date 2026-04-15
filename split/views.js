@@ -8,6 +8,10 @@ var _canonFilters = { scope: null, category: null, status: null };
 var _canonSort = 'newest';
 var CANONS_PER_PAGE = 10;
 
+/* --- Phase 1 Lore State --- */
+var _loreFilters = { category: null, domain: null };
+var _loreSort = 'newest';
+
 /* --- Shared Helpers --- */
 
 function renderTruncated(text, maxChars, entityId, field) {
@@ -31,6 +35,9 @@ function getEntityFieldText(id, field) {
   // Search schisms
   var rej = store.schisms.find(function(r) { return r.id === id; });
   if (rej) return rej[field] || '';
+  // Search lore
+  var lentry = store.lore.find(function(l) { return l.id === id; });
+  if (lentry) return lentry[field] || '';
   return '';
 }
 
@@ -622,6 +629,234 @@ function renderSupersessionChain(chain, currentId) {
 
 
 /* ============================================================
+   PHASE 1 LORE — Top-level tab, detail view, card
+   Spec: dissertation §3.4 — Narrative Wisdom
+   ============================================================ */
+
+function renderLore() {
+  var vc = document.getElementById('viewContainer');
+  var html = '';
+
+  // Category filter bar
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Category:</span>';
+  html += '<button class="cx-chip cx-chip-sm' + (!_loreFilters.category ? ' cx-chip-active' : '') + '" data-action="toggleLoreFilter" data-key="category" data-value="">All</button>';
+  LORE_CATEGORIES.forEach(function(c) {
+    var active = _loreFilters.category === c ? ' cx-chip-active' : '';
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleLoreFilter" data-key="category" data-value="' + escAttr(c) + '">' + escHtml(LORE_CATEGORY_LABELS[c]) + '</button>';
+  });
+  html += '</div>';
+
+  // Domain filter bar (from volume ids present in lore)
+  var domainSet = {};
+  filterActive(store.lore).forEach(function(l) { (l.domain || []).forEach(function(d) { domainSet[d] = true; }); });
+  var domainOpts = Object.keys(domainSet);
+  if (domainOpts.length > 0) {
+    html += '<div class="cx-filter-bar">';
+    html += '<span class="cx-filter-label">Domain:</span>';
+    html += '<button class="cx-chip cx-chip-sm' + (!_loreFilters.domain ? ' cx-chip-active' : '') + '" data-action="toggleLoreFilter" data-key="domain" data-value="">All</button>';
+    domainOpts.forEach(function(d) {
+      var active = _loreFilters.domain === d ? ' cx-chip-active' : '';
+      var vol = store.volumes.find(function(v) { return v.id === d; });
+      var label = vol ? vol.name : d;
+      html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleLoreFilter" data-key="domain" data-value="' + escAttr(d) + '">' + escHtml(label) + '</button>';
+    });
+    html += '</div>';
+  }
+
+  // Sort
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Sort:</span>';
+  var sortOpts = [
+    { value: 'newest', label: 'Newest' },
+    { value: 'oldest', label: 'Oldest' },
+    { value: 'title', label: 'Title' },
+    { value: 'category', label: 'Category' }
+  ];
+  sortOpts.forEach(function(s) {
+    var active = _loreSort === s.value ? ' cx-chip-active' : '';
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="setLoreSort" data-value="' + escAttr(s.value) + '">' + escHtml(s.label) + '</button>';
+  });
+  html += '</div>';
+
+  // Apply filters
+  var lore = filterActive(store.lore).filter(function(l) {
+    if (_loreFilters.category && l.category !== _loreFilters.category) return false;
+    if (_loreFilters.domain && (l.domain || []).indexOf(_loreFilters.domain) === -1) return false;
+    return true;
+  });
+
+  if (lore.length === 0) {
+    html += renderEmptyState('tome', 'No lore yet', 'Lore is backward-looking narrative wisdom \u2014 decrees, origins, cautionary tales, doctrines, and chronicles.', 'New Lore', 'openCreateLore');
+    vc.innerHTML = html;
+    return;
+  }
+
+  // Sort
+  if (_loreSort === 'oldest') {
+    lore.sort(function(a, b) { return (a.created || '').localeCompare(b.created || ''); });
+  } else if (_loreSort === 'title') {
+    lore.sort(function(a, b) { return (a.title || '').localeCompare(b.title || ''); });
+  } else if (_loreSort === 'category') {
+    var catOrder = {};
+    LORE_CATEGORIES.forEach(function(c, i) { catOrder[c] = i; });
+    lore.sort(function(a, b) {
+      var ao = catOrder[a.category] != null ? catOrder[a.category] : 99;
+      var bo = catOrder[b.category] != null ? catOrder[b.category] : 99;
+      if (ao !== bo) return ao - bo;
+      return (b.created || '').localeCompare(a.created || '');
+    });
+  } else {
+    // newest
+    lore.sort(function(a, b) { return (b.created || '').localeCompare(a.created || ''); });
+  }
+
+  html += '<div class="cx-card-meta" style="margin-bottom:var(--sp-8)">' + lore.length + ' lore entr' + (lore.length === 1 ? 'y' : 'ies') + '</div>';
+
+  // If sorted by category, group with headers; else flat list
+  if (_loreSort === 'category') {
+    var grouped = {};
+    LORE_CATEGORIES.forEach(function(c) { grouped[c] = []; });
+    lore.forEach(function(l) { if (grouped[l.category]) grouped[l.category].push(l); });
+    LORE_CATEGORIES.forEach(function(c) {
+      if (grouped[c].length === 0) return;
+      html += '<div class="cx-section-title">' + escHtml(LORE_CATEGORY_LABELS[c]) + ' (' + grouped[c].length + ')</div>';
+      grouped[c].forEach(function(l) { html += renderLoreCard(l); });
+    });
+  } else {
+    lore.forEach(function(l) { html += renderLoreCard(l); });
+  }
+
+  vc.innerHTML = html;
+}
+
+function renderLoreCard(l) {
+  var catClass = 'cx-lore-cat-' + escAttr(l.category);
+  var html = '<div class="cx-card cx-card-clickable cx-lore-card ' + catClass + '" data-action="goToLore" data-id="' + escAttr(l.id) + '">';
+  html += '<div class="cx-card-header">';
+  html += '<div class="cx-card-title">' + cx('tome') + escHtml(l.title) + '</div>';
+  html += '</div>';
+
+  // Badges: category + domains
+  html += '<div class="cx-chip-row">';
+  html += '<span class="cx-chip cx-chip-sm cx-lore-cat-chip ' + catClass + '-chip">' + escHtml(LORE_CATEGORY_LABELS[l.category] || l.category) + '</span>';
+  if (l.domain && l.domain.length > 0) {
+    l.domain.forEach(function(d) {
+      var vol = store.volumes.find(function(v) { return v.id === d; });
+      html += '<span class="cx-chip cx-chip-sm">' + escHtml(vol ? vol.name : d) + '</span>';
+    });
+  }
+  if (l.sourceType && l.sourceType !== 'manual') {
+    html += '<span class="cx-chip cx-chip-sm cx-lore-source-chip">' + escHtml(l.sourceType.replace(/_/g, ' ')) + '</span>';
+  }
+  html += '</div>';
+
+  // Body preview (italic, truncated)
+  if (l.body) {
+    html += '<div class="cx-lore-body">' + renderTruncated(l.body, 160, l.id, 'body') + '</div>';
+  }
+
+  // Meta: tags + date
+  var meta = [];
+  if (l.tags && l.tags.length > 0) meta.push('#' + l.tags.join(' #'));
+  if (l.created) meta.push(formatAbsoluteDate(l.created));
+  if (meta.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
+
+  html += '</div>';
+  return html;
+}
+
+function renderLoreDetail(route) {
+  var vc = document.getElementById('viewContainer');
+  var l = store.lore.find(function(x) { return x.id === route.id; });
+  if (!l) {
+    vc.innerHTML = renderEmptyState('alert', 'Lore not found', 'This lore entry may have been deleted');
+    return;
+  }
+
+  var catClass = 'cx-lore-cat-' + escAttr(l.category);
+  var html = '';
+
+  // Title
+  html += '<h1 class="cx-page-title">' + cx('tome') + ' ' + escHtml(l.title) + '</h1>';
+
+  // Voice subtitle (from dissertation table)
+  var voice = LORE_CATEGORY_VOICES[l.category];
+  if (voice) {
+    html += '<div class="cx-lore-voice">\u201C' + escHtml(voice) + '\u201D</div>';
+  }
+
+  // Badges row
+  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-16)">';
+  html += '<span class="cx-chip cx-chip-sm cx-lore-cat-chip ' + catClass + '-chip">' + escHtml(LORE_CATEGORY_LABELS[l.category] || l.category) + '</span>';
+  if (l.domain && l.domain.length > 0) {
+    l.domain.forEach(function(d) {
+      var vol = store.volumes.find(function(v) { return v.id === d; });
+      html += '<span class="cx-chip cx-chip-sm">' + escHtml(vol ? vol.name : d) + '</span>';
+    });
+  }
+  if (l.sourceType && l.sourceType !== 'manual') {
+    html += '<span class="cx-chip cx-chip-sm cx-lore-source-chip">' + escHtml(l.sourceType.replace(/_/g, ' ')) + '</span>';
+  }
+  if (l.created) {
+    html += '<span class="cx-chip cx-chip-sm">' + escHtml(formatAbsoluteDate(l.created)) + '</span>';
+  }
+  html += '</div>';
+
+  // Body (full narrative)
+  if (l.body) {
+    html += '<div class="cx-section-title">Narrative</div>';
+    html += '<div class="cx-card cx-lore-body-full">' + escHtml(l.body).replace(/\n/g, '<br>') + '</div>';
+  }
+
+  // Tags
+  if (l.tags && l.tags.length > 0) {
+    html += '<div class="cx-section-title">Tags</div>';
+    html += '<div class="cx-chip-row">';
+    l.tags.forEach(function(t) { html += '<span class="cx-chip cx-chip-sm">#' + escHtml(t) + '</span>'; });
+    html += '</div>';
+  }
+
+  // References — may point to canons, chapters, volumes, or any ID
+  if (l.references && l.references.length > 0) {
+    html += '<div class="cx-section-title">References</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    l.references.forEach(function(refId, idx) {
+      var canon = store.canons.find(function(c) { return c.id === refId; });
+      var vol = store.volumes.find(function(v) { return v.id === refId; });
+      if (idx > 0) html += ', ';
+      if (canon) {
+        html += '<button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(refId) + '">' + escHtml(canon.title || refId) + '</button>';
+      } else if (vol) {
+        html += '<button class="cx-link-btn" data-action="goToVolume" data-id="' + escAttr(refId) + '">' + escHtml(vol.name) + '</button>';
+      } else {
+        html += '<span>' + escHtml(refId) + '</span>';
+      }
+    });
+    html += '</div></div>';
+  }
+
+  // Source (if auto-generated)
+  if (l.sourceType && l.sourceType !== 'manual' && l.sourceId) {
+    html += '<div class="cx-section-title">Auto-Generated From</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    html += '<span class="cx-card-meta">' + escHtml(l.sourceType.replace(/_/g, ' ')) + ':</span> ';
+    html += '<span>' + escHtml(l.sourceId) + '</span>';
+    html += '</div></div>';
+  }
+
+  // Action bar
+  html += '<div class="cx-action-bar">';
+  html += '<button class="cx-btn-secondary cx-btn-sm" data-action="copyLoreJson" data-id="' + escAttr(l.id) + '">' + cx('download') + ' Copy JSON</button>';
+  html += '<button class="cx-btn-secondary cx-btn-sm" data-action="editLore" data-id="' + escAttr(l.id) + '">' + cx('quill') + ' Edit</button>';
+  html += '<button class="cx-btn-danger cx-btn-sm" data-action="deleteLoreAction" data-id="' + escAttr(l.id) + '">' + cx('trash') + ' Delete</button>';
+  html += '</div>';
+
+  vc.innerHTML = html;
+}
+
+
+/* ============================================================
    PHASE 4: Search Results
    ============================================================ */
 
@@ -633,13 +868,13 @@ function renderSearchResults(results, query) {
     return;
   }
 
-  var groups = { canon: [], schism: [], apocryphon: [], session: [], volume: [] };
-  var labels = { canon: 'Canons', schism: 'Schisms', apocryphon: 'Apocrypha', session: 'Sessions', volume: 'Volumes' };
-  var icons = { canon: 'bookmark', schism: 'alert', apocryphon: 'scroll', session: 'scroll', volume: 'book' };
+  var groups = { canon: [], lore: [], schism: [], apocryphon: [], session: [], volume: [] };
+  var labels = { canon: 'Canons', lore: 'Lore', schism: 'Schisms', apocryphon: 'Apocrypha', session: 'Sessions', volume: 'Volumes' };
+  var icons = { canon: 'bookmark', lore: 'tome', schism: 'alert', apocryphon: 'scroll', session: 'scroll', volume: 'book' };
   results.forEach(function(r) { if (groups[r.type]) groups[r.type].push(r); });
 
   var html = '';
-  ['canon', 'session', 'schism', 'apocryphon', 'volume'].forEach(function(type) {
+  ['canon', 'lore', 'session', 'schism', 'apocryphon', 'volume'].forEach(function(type) {
     var items = groups[type];
     if (items.length === 0) return;
     html += '<div class="cx-search-group-header">' + cx(icons[type]) + ' ' + escHtml(labels[type]) + ' (' + items.length + ')</div>';
@@ -661,6 +896,11 @@ function renderSearchResults(results, query) {
           title = e.title || e.id;
           snippet = buildSnippet(e.narrative || '', query);
           route = '#/canons';
+          break;
+        case 'lore':
+          title = e.title || e.id;
+          snippet = buildSnippet(e.body || '', query);
+          route = '#/lore/' + encodeURIComponent(e.id);
           break;
         case 'session':
           title = e.id + (e.date ? ' \u00B7 ' + formatAbsoluteDate(e.date) : '');
@@ -706,6 +946,7 @@ function renderStatsBar() {
     if (day.date.substring(0, 7) === monthStr) sessionsThisMonth += (day.sessions || []).length;
   });
   var canonCount = filterActive(store.canons).length;
+  var loreCount = filterActive(store.lore).length;
 
   var html = '<div class="cx-stats-bar">';
   html += '<div class="cx-stat-item"><span class="cx-stat-value">' + totalVols + '</span>volumes</div>';
@@ -713,6 +954,7 @@ function renderStatsBar() {
   html += '<div class="cx-stat-item"><span class="cx-stat-value">' + openTodos + '</span>TODOs</div>';
   html += '<div class="cx-stat-item"><span class="cx-stat-value">' + sessionsThisMonth + '</span>sessions/mo</div>';
   html += '<div class="cx-stat-item"><span class="cx-stat-value">' + canonCount + '</span>canons</div>';
+  if (loreCount > 0) html += '<div class="cx-stat-item"><span class="cx-stat-value">' + loreCount + '</span>lore</div>';
   html += '</div>';
   return html;
 }
@@ -813,13 +1055,14 @@ function renderTrashView() {
     });
   });
   var deletedApocrypha = store.apocrypha.filter(function(a) { return a._deleted; });
+  var deletedLore = store.lore.filter(function(l) { return l._deleted; });
 
   var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
   html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
   html += '<h2 class="cx-page-title" style="margin:0">Trash</h2></div>';
 
-  if (deletedCanons.length === 0 && deletedChapters.length === 0 && deletedApocrypha.length === 0) {
-    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons, chapters, and apocrypha appear here');
+  if (deletedCanons.length === 0 && deletedChapters.length === 0 && deletedApocrypha.length === 0 && deletedLore.length === 0) {
+    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons, chapters, apocrypha, and lore appear here');
     vc.innerHTML = html;
     return;
   }
@@ -864,6 +1107,21 @@ function renderTrashView() {
       html += '<div class="cx-trash-actions">';
       html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreChapter" data-id="' + escAttr(item.chapter.id) + '" data-vol="' + escAttr(item.volume.id) + '">Restore</button>';
       html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteChapter" data-id="' + escAttr(item.chapter.id) + '" data-vol="' + escAttr(item.volume.id) + '">' + cx('trash') + '</button>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  if (deletedLore.length > 0) {
+    html += '<div class="cx-section-title">' + cx('tome') + ' Lore (' + deletedLore.length + ')</div>';
+    html += '<div class="cx-card">';
+    deletedLore.forEach(function(l) {
+      html += '<div class="cx-trash-item">';
+      html += '<div class="cx-trash-info"><div class="cx-trash-name">' + escHtml(l.title || l.id) + '</div>';
+      html += '<div class="cx-trash-meta">' + escHtml(LORE_CATEGORY_LABELS[l.category] || l.category) + ' \u00B7 Deleted ' + escHtml(formatRelativeTime(l._deleted_date)) + '</div></div>';
+      html += '<div class="cx-trash-actions">';
+      html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreLore" data-id="' + escAttr(l.id) + '">Restore</button>';
+      html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteLore" data-id="' + escAttr(l.id) + '">' + cx('trash') + '</button>';
       html += '</div></div>';
     });
     html += '</div>';

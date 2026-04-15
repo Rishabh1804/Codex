@@ -50,6 +50,7 @@
   <button data-action="switchTab" data-tab="dashboard" class="cx-tab-btn cx-tab-active"></button>
   <button data-action="switchTab" data-tab="journal" class="cx-tab-btn"></button>
   <button data-action="switchTab" data-tab="canons" class="cx-tab-btn"></button>
+  <button data-action="switchTab" data-tab="lore" class="cx-tab-btn"></button>
   <button data-action="switchTab" data-tab="todos" class="cx-tab-btn"></button>
 </nav>
 
@@ -906,9 +907,38 @@ body {
 .cx-apocrypha-card{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-16);margin-bottom:var(--sp-8);border-left:3px solid var(--accent);box-shadow:var(--card-shadow)}
 .cx-apocrypha-title{font-family:var(--ff-heading);font-size:var(--fs-base);font-weight:700;color:var(--text-primary);margin-bottom:var(--sp-6)}
 .cx-apocrypha-narrative{font-size:var(--fs-sm);line-height:1.7;color:var(--text-secondary);margin-top:var(--sp-10);font-style:italic}
+
+/* --- Phase 1 Lore --- */
+.cx-lore-card{border-left:3px solid var(--accent);transition:border-color 0.2s}
+.cx-lore-card .cx-card-title{font-family:var(--ff-heading);font-weight:700}
+.cx-lore-body{font-size:var(--fs-sm);line-height:1.7;color:var(--text-secondary);margin-top:var(--sp-10);font-style:italic}
+.cx-lore-body-full{font-size:var(--fs-sm);line-height:1.75;color:var(--text-primary);font-style:italic;padding:var(--sp-16);white-space:pre-wrap}
+.cx-lore-voice{font-family:var(--ff-heading);font-style:italic;color:var(--text-tertiary);font-size:var(--fs-sm);margin:calc(-1 * var(--sp-8)) 0 var(--sp-16)}
+.cx-lore-cat-chip{font-weight:600}
+.cx-lore-source-chip{background:var(--bg-secondary);color:var(--text-tertiary);font-style:italic}
+
+/* Category accents — borrow existing tokens, tint left border */
+.cx-lore-cat-edicts{border-left-color:var(--accent)}
+.cx-lore-cat-edicts-chip{background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)}
+.cx-lore-cat-origins{border-left-color:var(--success)}
+.cx-lore-cat-origins-chip{background:color-mix(in srgb,var(--success) 15%,transparent);color:var(--success)}
+.cx-lore-cat-cautionary_tales{border-left-color:var(--error)}
+.cx-lore-cat-cautionary_tales-chip{background:color-mix(in srgb,var(--error) 15%,transparent);color:var(--error)}
+.cx-lore-cat-doctrines{border-left-color:var(--warning)}
+.cx-lore-cat-doctrines-chip{background:color-mix(in srgb,var(--warning) 15%,transparent);color:var(--warning)}
+.cx-lore-cat-chronicles{border-left-color:var(--accent-light)}
+.cx-lore-cat-chronicles-chip{background:color-mix(in srgb,var(--accent-light) 15%,transparent);color:var(--accent-light)}
+
+/* Auto-lore proposal banner (bottom of screen, above tab bar) */
+.cx-autolore-banner{position:fixed;left:var(--sp-16);right:var(--sp-16);bottom:calc(70px + env(safe-area-inset-bottom));z-index:900;background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--r-lg);padding:var(--sp-12) var(--sp-16);box-shadow:0 6px 24px rgba(0,0,0,0.18);opacity:0;transform:translateY(12px);transition:opacity 0.25s,transform 0.25s;max-width:600px;margin:0 auto}
+.cx-autolore-banner.cx-autolore-visible{opacity:1;transform:translateY(0)}
+.cx-autolore-title{font-family:var(--ff-heading);font-weight:700;font-size:var(--fs-sm);display:flex;align-items:center;gap:var(--sp-8)}
+.cx-autolore-title svg{width:18px;height:18px;color:var(--accent)}
+.cx-autolore-meta{font-size:var(--fs-xs);color:var(--text-tertiary);margin:var(--sp-4) 0 var(--sp-10)}
+.cx-autolore-actions{display:flex;gap:var(--sp-8);justify-content:flex-end}
 </style>
 <script>
-/* CODEX — Data Layer (Phase 5: Chapter Detail + Apocrypha) */
+/* CODEX — Data Layer (Phase 5: Chapter Detail + Apocrypha; Phase 1 Lore) */
 
 var CODEX_VERSION = '1.1.0';
 var CODEX_SCHEMA_VERSION = 1;
@@ -921,6 +951,16 @@ var CHAPTER_STATUSES = ['planned', 'in-progress', 'paused', 'complete', 'abandon
 var CANON_CATEGORIES = ['design', 'architecture', 'process'];
 var TODO_STATUSES = ['open', 'resolved'];
 var APOCRYPHA_STATUSES = ['fulfilled', 'foretold', 'forgotten'];
+var LORE_CATEGORIES = ['edicts', 'origins', 'cautionary_tales', 'doctrines', 'chronicles'];
+var LORE_CATEGORY_LABELS = { edicts: 'Edicts', origins: 'Origins', cautionary_tales: 'Cautionary Tales', doctrines: 'Doctrines', chronicles: 'Chronicles' };
+var LORE_CATEGORY_VOICES = {
+  edicts: 'We decree X because Y',
+  origins: 'This is how it began',
+  cautionary_tales: 'This is what went wrong',
+  doctrines: 'This is what always works',
+  chronicles: 'This is the context you need'
+};
+var LORE_SOURCE_TYPES = ['manual', 'prophecy_fulfilled', 'prophecy_defied', 'rite_released', 'ember_snuffed', 'socratic_response', 'chapter_abandoned', 'volume_archived', 'canon_superseded'];
 
 /* Phase 2 globals */
 var _isOffline = false;
@@ -1105,6 +1145,7 @@ var store = {
   canons: [],
   schisms: [],
   apocrypha: [],
+  lore: [],
   journal: [],
   _wal: [],
   _meta: {
@@ -1171,12 +1212,12 @@ var store = {
   _cacheToLocalStorage: function() {
     try {
       localStorage.setItem(KEYS.CACHE_VOLUMES, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }));
-      localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha }));
+      localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore }));
       localStorage.setItem(KEYS.CACHE_JOURNAL, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }));
     } catch(e) { logError('cache', 'Cache write failed', e.message); }
   },
 
-  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, journal: store.journal }); },
+  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore, journal: store.journal }); },
 
   /* --- Volume --- */
   addVolume: function(vol) {
@@ -1358,6 +1399,46 @@ var store = {
     store._fireChange();
   },
 
+  /* --- Lore (Phase 1: dissertation §3.4) --- */
+  addLore: function(l) {
+    if (!l.id || !l.title) throw new Error('Lore requires id and title');
+    if (!l.category || LORE_CATEGORIES.indexOf(l.category) === -1) throw new Error('Lore category invalid');
+    if (store.lore.some(function(x) { return x.id === l.id; })) throw new Error('Duplicate lore id: ' + l.id);
+    var now = localDateStr();
+    var entry = {
+      id: l.id, title: l.title, category: l.category,
+      body: l.body || '',
+      domain: Array.isArray(l.domain) ? l.domain : [],
+      tags: Array.isArray(l.tags) ? l.tags : [],
+      references: Array.isArray(l.references) ? l.references : [],
+      created: l.created || now,
+      updated: l.updated || now,
+      sourceType: l.sourceType || 'manual',
+      sourceId: l.sourceId || null,
+      _deleted: false, _deleted_date: null
+    };
+    store.lore.push(entry);
+    store._createWalEntry('create', 'lore', entry.id, 'canons.json', entry);
+    store._fireChange();
+    return entry;
+  },
+  updateLore: function(id, patch) {
+    var l = store.lore.find(function(x) { return x.id === id; });
+    if (!l) throw new Error('Lore not found: ' + id);
+    delete patch.id;
+    ['title','category','body','domain','tags','references','sourceType','sourceId','created'].forEach(function(k) { if (patch.hasOwnProperty(k)) l[k] = patch[k]; });
+    l.updated = localDateStr();
+    store._createWalEntry('update', 'lore', id, 'canons.json', patch);
+    store._fireChange();
+  },
+  deleteLore: function(id) {
+    var l = store.lore.find(function(x) { return x.id === id; });
+    if (!l) throw new Error('Lore not found');
+    l._deleted = true; l._deleted_date = localDateStr();
+    store._createWalEntry('delete', 'lore', id, 'canons.json', null);
+    store._fireChange();
+  },
+
   /* --- Journal --- */
   addJournalSession: function(date, session) {
     var day = store.journal.find(function(d) { return d.date === date; });
@@ -1404,10 +1485,11 @@ function populateStore(volResult, canonResult, journalResult) {
   store._meta.schemaVersions.volumes = vData._schema_version || 1;
   store._meta.shas.volumes = (volResult && volResult.sha) || null;
 
-  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], schisms: [], apocrypha: [] };
+  var cData = (canonResult && canonResult.data) || { _schema_version: 1, canons: [], schisms: [], apocrypha: [], lore: [] };
   store.canons = cData.canons || [];
   store.schisms = cData.schisms || cData.rejected_alternatives || [];
   store.apocrypha = cData.apocrypha || [];
+  store.lore = cData.lore || [];
   store._meta.schemaVersions.canons = cData._schema_version || 1;
   store._meta.shas.canons = (canonResult && canonResult.sha) || null;
 
@@ -1433,7 +1515,8 @@ function populateStore(volResult, canonResult, journalResult) {
 function getStoreSnapshot() {
   return JSON.parse(JSON.stringify({
     volumes: store.volumes, canons: store.canons,
-    schisms: store.schisms, apocrypha: store.apocrypha, journal: store.journal
+    schisms: store.schisms, apocrypha: store.apocrypha,
+    lore: store.lore, journal: store.journal
   }));
 }
 
@@ -1445,9 +1528,74 @@ var SEED_VERSION = 3;
 
 /* --- Migrations --- */
 /* Migration runner in start.js (Step 11.5) reads this array. */
-/* Previously held 2 backfill migrations; data is live, so cleared. */
 /* To add a future migration: push { id: 'migration-id', run: function() { ... } } */
-var CODEX_MIGRATIONS = [];
+var CODEX_MIGRATIONS = [
+  /* Phase 1 Lore: seed the 4 pre-written governance lore entries from
+     docs/snippet-2026-04-15-governance-lore.json, retrofitted from the
+     draft shape (volumes[], canon_id) to dissertation-faithful
+     (domain[], references[]). Idempotent via ID check. */
+  {
+    id: 'phase-1-lore-governance-seed-v1',
+    run: function() {
+      if (!store.lore) store.lore = [];
+      var entries = [
+        {
+          id: 'lore-001-the-naming',
+          title: 'The Naming of the Order',
+          category: 'origins',
+          body: "On 15 April 2026, The Architect assigned companions from the Order of the Codex to their permanent posts. The session began with a simple question \u2014 'where do we stand on these files?' \u2014 and ended with a complete governance hierarchy drawn from the RPG Design Dissertation's 17 Immortal Companions.\n\nAurelius was already named \u2014 the Chronicler who journals, present since the first Codex session. But SproutLab and SEP Invoicing had operated without named companions.\n\nThe Architect chose Lyra (The Weaver) for SproutLab \u2014 not Maren the Guardian, not Rune the Ritualist, but the pattern-finder. The reasoning: SproutLab's Intelligence Service Layer, with its 22 intents and cross-domain correlations, is fundamentally about seeing connections. A Guardian protects; a Weaver reveals. SproutLab needed revelation more than protection.\n\nFor SEP Invoicing, the choice was Solara (The Strategist) \u2014 not Theron the Forgemaster despite the electroplating metaphor being perfect. The Architect's CA background made the financial lens more natural than the manufacturing lens. Every invoice is a financial instrument, not just a factory receipt.\n\nMaren and Kael were not rejected \u2014 they were promoted to Governors when the 30K Rule was established later in the same session.",
+          domain: ['codex'],
+          tags: ['governance', 'companions', 'order'],
+          references: [],
+          created: '2026-04-15', updated: '2026-04-15',
+          sourceType: 'manual', sourceId: null,
+          _deleted: false, _deleted_date: null
+        },
+        {
+          id: 'lore-002-roman-hierarchy',
+          title: 'The Roman Hierarchy \u2014 Why Consul, Censor, Builder, Governor',
+          category: 'edicts',
+          body: "The governance model draws from Roman republican offices, not by accident but by structural analogy.\n\nThe Consul was the highest elected magistrate \u2014 two served simultaneously, each able to veto the other. In Codex, The Consul is singular (there is only one Architect) but serves the same function: cross-domain oversight, institutional memory, the one who sees all the provinces at once.\n\nThe Censor reviewed public morals and maintained the census \u2014 the quality of the republic's citizens and infrastructure. Cipher as Censor reviews code quality and maintains the canon registry \u2014 the quality of the codebase's patterns and conventions.\n\nBuilders (Aurelius, Lyra, Solara) are the provincial governors in the creative sense \u2014 they build within their territory. But when The Architect noticed that SproutLab at 61,700 lines was too large for a single Builder to audit effectively, the Governor role was introduced as a domain-scoped sub-reviewer.\n\nThe hierarchy is not decorative. Each tier has a distinct activation condition, a distinct lens, and a distinct output format. Mixing tiers (asking Cipher to build, or asking Lyra to do cross-repo oversight) violates the separation of concerns that makes the system work.",
+          domain: ['codex'],
+          tags: ['governance', 'roman', 'hierarchy'],
+          references: [],
+          created: '2026-04-15', updated: '2026-04-15',
+          sourceType: 'manual', sourceId: null,
+          _deleted: false, _deleted_date: null
+        },
+        {
+          id: 'lore-003-the-30k-threshold',
+          title: 'Why 30,000 Lines \u2014 The Governor Threshold',
+          category: 'doctrines',
+          body: "The 30K threshold was not arbitrary. SproutLab crossed 60K lines with its Intelligence Service Layer alone at 18,133 lines \u2014 a single module larger than the entire SEP Invoicing codebase.\n\nAt that scale, a single QA pass cannot hold the full codebase in working memory. Domain expertise fractures: the person reviewing food allergen safety logic is not the same person who should review the temporal query parser. The 30K line is roughly where a single reviewer loses the ability to maintain full context across all modules.\n\nThe threshold was canonized globally \u2014 not SproutLab-specific \u2014 because the pattern will recur. SEP Invoicing at 7,100 lines today will grow. Codex at 5,300 lines will grow. When they cross 30K, they too will need domain-scoped reviewers.\n\nThe Architect explicitly rejected 50K as too high (by then the damage is done) and 20K as too low (SEP might hit it soon and doesn't yet need the overhead).",
+          domain: ['codex'],
+          tags: ['threshold', 'governance', '30k'],
+          references: ['canon-gov-001-30k-rule'],
+          created: '2026-04-15', updated: '2026-04-15',
+          sourceType: 'manual', sourceId: null,
+          _deleted: false, _deleted_date: null
+        },
+        {
+          id: 'lore-004-eleven-scrolls',
+          title: 'The Eleven Scrolls \u2014 Configuration Files for Claude Code',
+          category: 'chronicles',
+          body: "In a single session, 11 configuration files were drafted for a future Claude Code migration. The files encode everything the AI companions need to know about the Architect's three PWA projects \u2014 from build commands to design tokens to persona voices.\n\nThe session was interactive by design. Every structural decision was presented as an MCQ, and The Architect chose at each fork. Key decisions: hybrid scope (global + per-repo), all four file types (CLAUDE.md + AGENTS.md + Memory.md + Skills/), comprehensive length with @import references, and the full persona system baked in.\n\nThe files serve dual purpose: they are immediately usable as reference docs in Claude.ai chat sessions, and they are drop-in ready for Claude Code when The Architect migrates from Termux.\n\nThree repos were git-cloned and analyzed \u2014 74,521 total lines of code across 41 split modules. Every convention, every hard rule, every build workflow was extracted from the actual codebase, not recalled from memory.",
+          domain: ['codex'],
+          tags: ['claude-code', 'migration', 'configuration'],
+          references: [],
+          created: '2026-04-15', updated: '2026-04-15',
+          sourceType: 'manual', sourceId: null,
+          _deleted: false, _deleted_date: null
+        }
+      ];
+      entries.forEach(function(e) {
+        if (!store.lore.some(function(x) { return x.id === e.id; })) {
+          store.lore.push(e);
+        }
+      });
+    }
+  }
+];
 
 function getSeedVolumes() {
   return {"_schema_version": 1, "volumes": [{"id": "sproutlab", "name": "SproutLab", "shelf": "active", "description": "Single-file PWA tracking feeding, sleep, growth, milestones, and medical data for Ziva. Wife Mode default. Hosted at rishabh1804.github.io/sproutlab/.", "domain_color": "#E8B4B8", "tags": ["pwa", "health", "parenting"], "repo": "rishabh1804/sproutlab", "current_phase": "CareTickets Phase D complete — notifications, integration, polish done", "chapters": [{"id": "v1-v2-builds", "name": "v1–v2 Iterative Builds", "status": "complete", "started": "2024-10-01", "completed": "2026-03-15", "ended": null, "summary": "Single-file HTML PWA built iteratively from v1.x through v2.38+. Core tracking: feeding, sleep, poop, growth, milestones, medical. Wife Mode, localStorage persistence, GitHub Pages hosting.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "architecture-split", "name": "Architecture Split", "status": "complete", "started": "2026-04-07", "completed": "2026-04-09", "ended": null, "summary": "Split monolith into 9 modules (data, core, home, diet, medical, intelligence, start + styles.css, template.html). Concat build via build.sh. Phases 1–3 complete.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "diet", "name": "Diet Module", "status": "complete", "started": "2026-03-01", "completed": "2026-04-01", "ended": null, "summary": "Food logging, Smart Quick Log, Food Favorites, nutrient intelligence, ingredient picker.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "medical", "name": "Medical Module", "status": "complete", "started": "2026-03-01", "completed": "2026-04-01", "ended": null, "summary": "Vaccination intelligence with reaction tracking and timeline visualization. Growth tracking, medical records.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "intelligence", "name": "Intelligence Module", "status": "complete", "started": "2026-03-15", "completed": "2026-04-05", "ended": null, "summary": "Cross-Domain Intelligence (6 cards), Smart Q&A Phase 2 (22 intents, 24 handlers).", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "smart-qa", "name": "Smart Q&A", "status": "complete", "started": "2026-03-20", "completed": "2026-04-05", "ended": null, "summary": "Phase 2: 22 intents, 24 dedicated handlers, natural language query processing for baby data.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "search-bar", "name": "Search Bar Upgrade", "status": "complete", "started": "2026-04-01", "completed": "2026-04-05", "ended": null, "summary": "ISL generateRangeSummary(), lookback/pattern/planning query modes, nutrient intelligence cards, ingredient picker.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "today-so-far", "name": "Today So Far", "status": "complete", "started": "2026-04-05", "completed": "2026-04-06", "ended": null, "summary": "Smart card with vertical chronological list, warmth gradient bar, pattern-based nudges, 12 functions with _tsf* prefix.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "caretickets", "name": "CareTickets", "status": "complete", "started": "2026-04-06", "completed": "2026-04-10", "ended": null, "summary": "21-field data model, 7 templates, 6-transition state machine, main-thread notifications, illness-aware metric pausing, TSF integration, share summary. Spec v5 (~1,089 lines). 15 QA rounds, 310 scenarios.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "bug-capture", "name": "Bug Capture System", "status": "complete", "started": "2026-04-08", "completed": "2026-04-09", "ended": null, "summary": "Three capture paths, WhatsApp/clipboard delivery.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "cross-domain", "name": "Cross-Domain Intelligence", "status": "complete", "started": "2026-04-04", "completed": "2026-04-05", "ended": null, "summary": "6 intelligence cards spanning feeding, sleep, growth, and medical domains.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "migration-m1-m2-m3", "name": "Migration M1–M3", "status": "complete", "started": "2026-04-03", "completed": "2026-04-07", "ended": null, "summary": "M3: emoji→SVG, inline style extraction, onclick→delegation. Full codebase modernization.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "design-principles-v3", "name": "Design Principles v3", "status": "complete", "started": "2026-04-01", "completed": "2026-04-05", "ended": null, "summary": "2,011 lines locked. Overlay/Chip/Card/Answer Card/Form systems plus Animation Tokens, Touch Targets, data-action naming.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [{"id": "todo-0001-fix-id-mismatch", "text": "Fix ctStorageWarning div ID mismatch — template.html uses ctStorageWarning but JS references ctStorageWarn", "status": "open", "chapter": "caretickets", "created": "2026-04-10", "resolved": null, "source_session": "s-2026-04-10-01"}], "shelf_history": [{"shelf": "active", "date": "2024-10-01", "reason": "Project started — Ziva's Dashboard v1"}]}, {"id": "sep-dashboard", "name": "SEP Dashboard", "shelf": "active", "description": "Single-file PWA for SEP workforce management — attendance, production, stock, payroll. 7-principle design system, 21-worker roster, full wage calculation engine.", "domain_color": "#7A9E7E", "tags": ["pwa", "manufacturing", "workforce"], "repo": null, "current_phase": "v2.0 stable, restructuring data reconciliation in progress", "chapters": [{"id": "v1-v2-builds", "name": "v1–v2 Builds", "status": "complete", "started": "2024-01-01", "completed": "2026-03-01", "ended": null, "summary": "Iterative build from v1.x through v2.0. Attendance, production logging, stock tracking, payroll with wage calculation engine.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "restructuring", "name": "SEP Restructuring", "status": "in-progress", "started": "2026-04-01", "completed": null, "ended": null, "summary": "Effective 1 Apr 2026. DIGITAL-001 v5, KB-006 AppSheet spec, KPI-001–007 binders done. Salary confirmations complete. Data reconciliation in progress.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [], "shelf_history": [{"shelf": "active", "date": "2024-01-01", "reason": null}]}, {"id": "sep-invoicing", "name": "SEP Invoicing", "shelf": "active", "description": "Standalone PWA for SEP invoicing — 21 clients, full rate cards, three billing modes, GST export.", "domain_color": "#6B8EAD", "tags": ["pwa", "invoicing", "gst"], "repo": null, "current_phase": "Phase 1 complete (Client Master, Create Invoice, Settings). Phase 2: Invoice Register + GST Export.", "chapters": [{"id": "spec", "name": "Spec & Design", "status": "complete", "started": "2026-04-01", "completed": "2026-04-03", "ended": null, "summary": "SEP_INVOICING_SPEC_v1.md — 21 clients, rate cards, weight/piece-challan/NOS-to-weight billing, Sales Register + GSTR1 CSV, five tabs.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "phase-1", "name": "Phase 1 Build", "status": "complete", "started": "2026-04-03", "completed": "2026-04-06", "ended": null, "summary": "Client Master, Create Invoice, Settings. 21 bugs found and fixed across three QA rounds.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "phase-2", "name": "Phase 2 Build", "status": "planned", "started": null, "completed": null, "ended": null, "summary": "Invoice Register and GST Export tabs.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [], "shelf_history": [{"shelf": "active", "date": "2026-04-01", "reason": "New project — SEP billing digitization"}]}, {"id": "codex", "name": "Codex", "shelf": "active", "description": "Library-themed PWA tracking projects, sessions, design decisions, and progress across Claude conversations. GitHub JSON storage. Shared design system roots with SproutLab but distinct icon set and library-themed tokens.", "domain_color": "#C4A87A", "tags": ["pwa", "meta", "knowledge-management"], "repo": "Rishabh1804/Codex", "current_phase": "Phase 5 complete — content depth, 13 SproutLab chapters, 5 apocrypha, SW v7", "chapters": [{"id": "spec", "name": "Spec & Design Session", "status": "complete", "started": "2026-04-11", "completed": "2026-04-11", "ended": null, "summary": "CODEX_SPEC_v1.md and CODEX_QUICK_REFERENCE.md written. Design session resolved all 3 blockers: Playfair Display + Work Sans fonts, Style C icons (19 cx() SVGs), text size system (LOW/MED/HIGH). Initial data backfill generated.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "design-session", "name": "Design Session", "status": "complete", "started": "2026-04-11", "completed": "2026-04-12", "ended": null, "summary": "Pre-build design session resolving fonts (Playfair Display + Work Sans), icons (Style C thin + accent fill, 19 icons), text size system (3-preset --fs-base driven), and initial data backfill (3 JSONs).", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "phase-1-build", "name": "Phase 1 — Core Build", "status": "complete", "started": "2026-04-12", "completed": "2026-04-12", "ended": null, "summary": "Built and deployed Phase 1. 8-module split architecture (template, styles, data, seed, core, views, forms, start). Dashboard, Volume Detail, TODOs, Settings views. Overlay/confirm/toast systems. Theme toggle, text size slider. Seed data with 5 volumes, 23 canons. PWA manifest + icons. Deployed to GitHub Pages.", "spec_url": null, "_deleted": false, "_deleted_date": null}, {"id": "phase-2-build", "name": "Phase 2 — Persistence Layer", "status": "complete", "started": "2026-04-12", "completed": "2026-04-12", "ended": null, "summary": "GitHub sync (fetchFile/pushFile/fetchAll/validateToken/flushQueue), WAL with replay, 4-step onboarding wizard, SW v2 (network-first), Settings GitHub connect/disconnect/sync, swipe navigation (canon pattern), Chrome-style pull-to-refresh. 8 hotfix rounds. ~2,400 lines across 8 modules.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [{"id": "todo-0001-reconcile-fs-tokens", "text": "Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system", "status": "open", "chapter": "design-session", "created": "2026-04-11", "resolved": null, "source_session": "s-2026-04-11-01"}, {"id": "todo-0002-phase-2-github-sync", "text": "Phase 2: GitHub sync, WAL, onboarding wizard, token validation", "status": "resolved", "chapter": "phase-1-build", "created": "2026-04-12", "resolved": "2026-04-12", "source_session": "s-2026-04-12-01"}, {"id": "todo-0003-service-worker", "text": "Add service worker for offline caching", "status": "resolved", "chapter": "phase-1-build", "created": "2026-04-12", "resolved": "2026-04-12", "source_session": "s-2026-04-12-01"}, {"id": "todo-0004-chapter-handoff-docs", "text": "Chapter handoff docs — generate structured markdowns in docs/{volume-id}/, link via spec_url, Phase 4 in-app viewer", "status": "open", "chapter": "phase-2-build", "created": "2026-04-12", "resolved": null, "source_session": "s-2026-04-12-02"}], "shelf_history": [{"shelf": "active", "date": "2026-04-11", "reason": "Project started — institutional memory system"}]}, {"id": "businessai-simulation", "name": "BusinessAI Simulation", "shelf": "paused", "description": "Business simulation addressed as BAI. ~₹30 crore/year business, 14 members, four entities (trading, industry, logistics). Objective: organize from informal to structured.", "domain_color": "#A08870", "tags": ["simulation", "business", "strategy"], "repo": null, "current_phase": "Agenda-setting meeting planned, Shyam ops+culture discussion guide TODO", "chapters": [{"id": "kickoff", "name": "Kickoff & Agenda Setting", "status": "in-progress", "started": "2026-03-01", "completed": null, "ended": null, "summary": "Initial informal discussion to set meeting agendas and lay organizational foundations. Shyam ops+culture discussion guide still pending.", "spec_url": null, "_deleted": false, "_deleted_date": null}], "todos": [{"id": "todo-0001-shyam-guide", "text": "Prep Shyam ops+culture discussion guide for follow-up meeting", "status": "open", "chapter": "kickoff", "created": "2026-04-01", "resolved": null, "source_session": null}], "shelf_history": [{"shelf": "active", "date": "2026-03-01", "reason": null}, {"shelf": "paused", "date": "2026-04-01", "reason": "Focus shifted to SproutLab feature builds and SEP restructuring"}]}]};
@@ -1461,7 +1609,7 @@ function getSeedJournal() {
   return {"_schema_version": 1, "journal": [{"date": "2026-04-11", "sessions": [{"id": "s-2026-04-11-01", "summary": "Codex pre-build design session. Resolved all three blockers: (1) Font pairing locked — Playfair Display (headings) + Work Sans (body) with Google Fonts CDN import and fallback stacks. (2) Icon set locked — Style C (thin stroke 1.5 + accent fills), 19 icons in cx() function, brass-embossed library aesthetic. (3) Text size system designed — LOW/MED/HIGH presets driven by --fs-base CSS variable, icons fixed 24px, localStorage persistence via cx_textSize key. (4) Initial data backfill JSONs generated — volumes.json (5 volumes, 13 SproutLab chapters), canons.json (23 canons including HR-1–HR-12 + globals, 7 rejected alternatives), journal.json (this session). Also identified spec delta: QUICK_REFERENCE static --fs-* tokens need reconciliation with dynamic --fs-base system.", "volumes_touched": ["codex"], "chapters_touched": ["spec"], "decisions": ["Playfair Display + Work Sans font pairing", "Style C icon set (thin + accent fill)", "Text size: 3-preset system, --fs-base driven, icons fixed 24px", "cx_textSize localStorage key for persistence"], "bugs_found": 0, "bugs_fixed": 0, "duration_minutes": null, "open_todos": ["Reconcile QUICK_REFERENCE static --fs-* tokens with dynamic --fs-base system", "Generate complete cx() function code for build"], "handoff": "All three pre-build blockers resolved. Ready for Phase 1 build: Core (utilities, store, settings, shell, dashboard, volume detail, edit overlays, theme).", "screenshots": []}]}, {"date": "2026-04-12", "sessions": [{"id": "s-2026-04-12-01", "summary": "Phase 1 build and deploy. First build attempt from memory diverged from spec (wrong IDs, action names, missing features). Rebuilt from CODEBASE_REFERENCE, CODEBASE_SHELL, CODEBASE_VIEWS, CODEBASE_CSS spec files — matching exact element IDs, action names, routing patterns, form renderers, and initialization sequence. Fixed 3 bugs: (1) SVGs rendering at container size — added explicit width/height, (2) slider blue flash — tap-highlight suppression, (3) Chrome localhost scroll — removed flex column, used natural scroll. Set up GitHub repo, pushed 10 files (4,827 lines). Added PWA manifest + generated book icons. Deployed to rishabh1804.github.io/Codex/. Seeded 5 volumes, 23 canons, 7 schisms.", "volumes_touched": ["codex"], "chapters_touched": ["design-session", "phase-1-build"], "decisions": ["Split architecture from day one (8 modules + build.sh)", "Rebuild from spec over patching first attempt", "Natural page scroll over flex column layout", "SVG icons require explicit width/height attributes", "mv over cp for downloads workflow", "Python http.server for local testing", "GitHub Pages for deployment"], "bugs_found": 3, "bugs_fixed": 3, "open_todos": ["Reconcile QUICK_REFERENCE --fs-* tokens with dynamic --fs-base", "Phase 2: GitHub sync, WAL, wizard", "Service worker for offline"], "handoff": "Phase 1 complete and deployed. App is installable PWA. Next: Phase 2 (GitHub sync, WAL, onboarding wizard) or QA pass on Phase 1 flows.", "screenshots": []}, {"id": "s-2026-04-12-02", "summary": "Phase 2 build and deploy — GitHub sync, WAL, onboarding wizard, service worker. Full persistence layer added across 4 modules (data.js, core.js, views.js, start.js). WAL entries on every store mutation. fetchFile/pushFile/fetchAll/validateToken/flushQueue pipeline. 4-step onboarding wizard with GitHub connect or skip-local flow. SW v2 (network-first). Settings upgraded with live GitHub connect/disconnect/sync. 8 hotfix rounds: SVG sizing (global :where() fallback), flex scroll layout, breadcrumb hidden fix, slider tap-highlight, tab badge position, gear icon, breadcrumb removal from settings. Swipe navigation (canon pattern from SproutLab) and Chrome-style pull-to-refresh with visual indicator. build.sh updated to include seed.js. Dashboard sort by last-active date restored.", "volumes_touched": ["codex"], "chapters_touched": ["phase-2-build"], "decisions": ["_initializing/_isRendering moved to data.js (available to all modules)", ":where() CSS for zero-specificity SVG fallback", "Network-first SW over stale-while-revalidate", "body flex column layout (Phase 1 natural scroll reversed)", "Gear icon for settings over lock", "No breadcrumb on settings", "Pull indicator inserted before viewContainer (survives re-renders)"], "bugs_found": 8, "bugs_fixed": 8, "duration_minutes": 240, "open_todos": ["Reconcile QUICK_REFERENCE --fs-* tokens with dynamic --fs-base", "Chapter handoff docs — generate markdowns, link via spec_url"], "handoff": "Phase 2 complete. Phase 3 scope: Journal view, Canons view, Rejections, Snippet import. All persistence plumbing in place — Phase 3 is pure UI rendering against existing store data.", "screenshots": []}]}]};
 }
 
-/* CODEX — Core (Phase 5: Chapter Detail + Apocrypha) */
+/* CODEX — Core (Phase 5: Chapter Detail + Apocrypha; Phase 1 Lore) */
 
 /* --- cx() Icons — Style C (design session locked) --- */
 function cx(name) {
@@ -1487,7 +1635,8 @@ function cx(name) {
     'info':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>',
     'github':'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>',
     'refresh':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
-    'gear':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
+    'gear':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+    'tome':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13a3 3 0 0 1 3 3v13a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V4z"/><path d="M4 17.5A2.5 2.5 0 0 1 6.5 15H20"/><path d="M9 8h7M9 11h5" opacity="0.6"/></svg>'
   };
   return icons[name] || '<span class="cx-missing"></span>';
 }
@@ -1575,7 +1724,8 @@ function parseRoute(hash) {
   if (parts[0] === 'volume' && parts[1]) return { view: 'volume-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'canon' && parts[1]) return { view: 'canon-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'chapter' && parts[1] && parts[2]) return { view: 'chapter-detail', volumeId: decodeURIComponent(parts[1]), chapterId: decodeURIComponent(parts[2]) };
-  if (['dashboard','journal','canons','todos','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
+  if (parts[0] === 'lore' && parts[1]) return { view: 'lore-detail', id: decodeURIComponent(parts[1]) };
+  if (['dashboard','journal','canons','todos','lore','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
   return { view: 'dashboard' };
 }
 
@@ -1603,12 +1753,12 @@ function handleRouteChange(hash, scrollToTop) {
 
 function handleSwitchTab(tabName) {
   _pendingFilter = null;
-  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos' };
+  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore' };
   navigate(map[tabName] || '#/dashboard');
 }
 
 function updateTabBarActive(view) {
-  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', settings:null };
+  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', settings:null };
   var active = map[view];
   var btns = document.querySelectorAll('.cx-tab-btn');
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
@@ -1627,6 +1777,9 @@ function renderBreadcrumbForRoute(route) {
     var cvol = store.volumes.find(function(v) { return v.id === route.volumeId; });
     var cch = cvol ? (cvol.chapters || []).find(function(c) { return c.id === route.chapterId; }) : null;
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: cvol ? cvol.name : route.volumeId, route: '#/volume/' + encodeURIComponent(route.volumeId) }, { label: cch ? cch.name : route.chapterId, route: null }];
+  } else if (route.view === 'lore-detail') {
+    var lentry = store.lore.find(function(x) { return x.id === route.id; });
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Lore', route: '#/lore' }, { label: lentry ? lentry.title : route.id, route: null }];
   }
   renderBreadcrumb(segments);
 }
@@ -1649,13 +1802,17 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail')) {
-    var title = route.view === 'settings' ? 'Settings' : route.view === 'canon-detail' ? 'Canon' : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail')) {
+    var title = route.view === 'settings' ? 'Settings'
+      : route.view === 'canon-detail' ? 'Canon'
+      : route.view === 'lore-detail' ? 'Lore'
+      : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
       + '<div class="cx-header-actions">'
       + (route.view === 'volume-detail' ? '<button data-action="editVolume" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
       + (route.view === 'chapter-detail' ? '<button data-action="editChapterDetail" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
+      + (route.view === 'lore-detail' ? '<button data-action="editLoreDetail" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
       + '</div>';
   } else {
     header.innerHTML = '<span class="cx-app-title">Codex</span>'
@@ -1699,8 +1856,9 @@ function closeSearch() {
 function search(query) {
   var q = query.toLowerCase().trim();
   var results = [];
-  var w = { canon: 4, schism: 3, apocryphon: 3, session: 2, volume: 1 };
+  var w = { canon: 4, lore: 4, schism: 3, apocryphon: 3, session: 2, volume: 1 };
   filterActive(store.canons).forEach(function(c) { var s = matchScore(q, [c.title, c.rationale, c.id].concat(c.references || [])); if (s > 0) results.push({ type: 'canon', entity: c, score: s * w.canon }); });
+  filterActive(store.lore).forEach(function(l) { var titleScore = matchScore(q, [l.title]) * 3; var tagScore = matchScore(q, l.tags || []) * 2; var bodyScore = matchScore(q, [l.body || '']); var s = titleScore + tagScore + bodyScore; if (s > 0) results.push({ type: 'lore', entity: l, score: s * w.lore }); });
   filterActive(store.schisms).forEach(function(r) { var s = matchScore(q, [r.rejected, r.chosen, r.reason, r.context || '']); if (s > 0) results.push({ type: 'schism', entity: r, score: s * w.schism }); });
   filterActive(store.apocrypha).forEach(function(a) { var s = matchScore(q, [a.title, a.narrative || '']); if (s > 0) results.push({ type: 'apocryphon', entity: a, score: s * w.apocryphon }); });
   store.journal.forEach(function(day) { (day.sessions || []).forEach(function(sess) { var sc = matchScore(q, [sess.summary, sess.handoff || ''].concat(sess.open_todos || [])); if (sc > 0) results.push({ type: 'session', entity: { id: sess.id, date: day.date, summary: sess.summary, handoff: sess.handoff }, score: sc * w.session }); }); });
@@ -1726,7 +1884,7 @@ function matchScore(query, fields) {
 function updateFab(view) {
   var fab = document.getElementById('fabButton');
   if (!fab) return;
-  var show = ['dashboard', 'volume-detail', 'todos', 'journal', 'canons'].indexOf(view) !== -1;
+  var show = ['dashboard', 'volume-detail', 'todos', 'journal', 'canons', 'lore'].indexOf(view) !== -1;
   fab.classList.toggle('cx-fab-hidden', !show);
   fab.innerHTML = cx('plus');
 }
@@ -1734,8 +1892,8 @@ function updateFab(view) {
 /* --- Tab Icons --- */
 function initTabIcons() {
   var btns = document.querySelectorAll('.cx-tab-btn');
-  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', todos: 'check' };
-  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', todos: 'TODOs' };
+  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check' };
+  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs' };
   for (var i = 0; i < btns.length; i++) {
     var tab = btns[i].dataset.tab;
     btns[i].innerHTML = cx(icons[tab] || 'book') + '<span class="cx-tab-label">' + (labels[tab] || tab) + '</span>';
@@ -1751,7 +1909,8 @@ function renderCurrentView() {
       dashboard: renderDashboard, 'volume-detail': renderVolumeDetail,
       settings: renderSettings, todos: renderTodos,
       journal: renderJournal, canons: renderCanons,
-      'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail
+      'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail,
+      lore: renderLore, 'lore-detail': renderLoreDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);
@@ -1969,7 +2128,7 @@ function setOfflineStatus(offline) {
 
 /* --- File Builders (rebuild entire file from current store) --- */
 function buildVolumesFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }, null, 2); }
-function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha }, null, 2); }
+function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore }, null, 2); }
 function buildJournalFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }, null, 2); }
 
 /* --- Flush Queue (push pending WAL entries to GitHub) --- */
@@ -2110,6 +2269,7 @@ function findEntity(type, id, parentId) {
     case 'canon': return store.canons.find(function(c) { return c.id === id; });
     case 'schism': case 'rejection': return store.schisms.find(function(r) { return r.id === id; });
     case 'apocryphon': return store.apocrypha.find(function(a) { return a.id === id; });
+    case 'lore': return store.lore.find(function(l) { return l.id === id; });
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); return vc ? (vc.chapters || []).find(function(c) { return c.id === id; }) : undefined;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); return vt ? (vt.todos || []).find(function(t) { return t.id === id; }) : undefined;
     case 'session': var d = store.journal.find(function(d) { return d.date === parentId; }); return d ? (d.sessions || []).find(function(s) { return s.id === id; }) : undefined;
@@ -2122,6 +2282,7 @@ function insertEntity(type, payload, parentId) {
     case 'canon': store.canons.push(payload); break;
     case 'schism': case 'rejection': store.schisms.push(payload); break;
     case 'apocryphon': store.apocrypha.push(payload); break;
+    case 'lore': store.lore.push(payload); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) { if (!vc.chapters) vc.chapters = []; vc.chapters.push(payload); } break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) { if (!vt.todos) vt.todos = []; vt.todos.push(payload); } break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (!d) { d = { date: parentId, sessions: [] }; store.journal.push(d); } d.sessions.push(payload); break;
@@ -2134,6 +2295,7 @@ function removeEntity(type, id, parentId) {
     case 'canon': store.canons = store.canons.filter(function(c) { return c.id !== id; }); break;
     case 'schism': case 'rejection': store.schisms = store.schisms.filter(function(r) { return r.id !== id; }); break;
     case 'apocryphon': store.apocrypha = store.apocrypha.filter(function(a) { return a.id !== id; }); break;
+    case 'lore': store.lore = store.lore.filter(function(l) { return l.id !== id; }); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) vc.chapters = (vc.chapters || []).filter(function(c) { return c.id !== id; }); break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) vt.todos = (vt.todos || []).filter(function(t) { return t.id !== id; }); break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (d) { d.sessions = (d.sessions || []).filter(function(s) { return s.id !== id; }); if (d.sessions.length === 0) store.journal = store.journal.filter(function(x) { return x.date !== parentId; }); } break;
@@ -2205,6 +2367,10 @@ var _canonFilters = { scope: null, category: null, status: null };
 var _canonSort = 'newest';
 var CANONS_PER_PAGE = 10;
 
+/* --- Phase 1 Lore State --- */
+var _loreFilters = { category: null, domain: null };
+var _loreSort = 'newest';
+
 /* --- Shared Helpers --- */
 
 function renderTruncated(text, maxChars, entityId, field) {
@@ -2228,6 +2394,9 @@ function getEntityFieldText(id, field) {
   // Search schisms
   var rej = store.schisms.find(function(r) { return r.id === id; });
   if (rej) return rej[field] || '';
+  // Search lore
+  var lentry = store.lore.find(function(l) { return l.id === id; });
+  if (lentry) return lentry[field] || '';
   return '';
 }
 
@@ -2819,6 +2988,234 @@ function renderSupersessionChain(chain, currentId) {
 
 
 /* ============================================================
+   PHASE 1 LORE — Top-level tab, detail view, card
+   Spec: dissertation §3.4 — Narrative Wisdom
+   ============================================================ */
+
+function renderLore() {
+  var vc = document.getElementById('viewContainer');
+  var html = '';
+
+  // Category filter bar
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Category:</span>';
+  html += '<button class="cx-chip cx-chip-sm' + (!_loreFilters.category ? ' cx-chip-active' : '') + '" data-action="toggleLoreFilter" data-key="category" data-value="">All</button>';
+  LORE_CATEGORIES.forEach(function(c) {
+    var active = _loreFilters.category === c ? ' cx-chip-active' : '';
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleLoreFilter" data-key="category" data-value="' + escAttr(c) + '">' + escHtml(LORE_CATEGORY_LABELS[c]) + '</button>';
+  });
+  html += '</div>';
+
+  // Domain filter bar (from volume ids present in lore)
+  var domainSet = {};
+  filterActive(store.lore).forEach(function(l) { (l.domain || []).forEach(function(d) { domainSet[d] = true; }); });
+  var domainOpts = Object.keys(domainSet);
+  if (domainOpts.length > 0) {
+    html += '<div class="cx-filter-bar">';
+    html += '<span class="cx-filter-label">Domain:</span>';
+    html += '<button class="cx-chip cx-chip-sm' + (!_loreFilters.domain ? ' cx-chip-active' : '') + '" data-action="toggleLoreFilter" data-key="domain" data-value="">All</button>';
+    domainOpts.forEach(function(d) {
+      var active = _loreFilters.domain === d ? ' cx-chip-active' : '';
+      var vol = store.volumes.find(function(v) { return v.id === d; });
+      var label = vol ? vol.name : d;
+      html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleLoreFilter" data-key="domain" data-value="' + escAttr(d) + '">' + escHtml(label) + '</button>';
+    });
+    html += '</div>';
+  }
+
+  // Sort
+  html += '<div class="cx-filter-bar">';
+  html += '<span class="cx-filter-label">Sort:</span>';
+  var sortOpts = [
+    { value: 'newest', label: 'Newest' },
+    { value: 'oldest', label: 'Oldest' },
+    { value: 'title', label: 'Title' },
+    { value: 'category', label: 'Category' }
+  ];
+  sortOpts.forEach(function(s) {
+    var active = _loreSort === s.value ? ' cx-chip-active' : '';
+    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="setLoreSort" data-value="' + escAttr(s.value) + '">' + escHtml(s.label) + '</button>';
+  });
+  html += '</div>';
+
+  // Apply filters
+  var lore = filterActive(store.lore).filter(function(l) {
+    if (_loreFilters.category && l.category !== _loreFilters.category) return false;
+    if (_loreFilters.domain && (l.domain || []).indexOf(_loreFilters.domain) === -1) return false;
+    return true;
+  });
+
+  if (lore.length === 0) {
+    html += renderEmptyState('tome', 'No lore yet', 'Lore is backward-looking narrative wisdom \u2014 decrees, origins, cautionary tales, doctrines, and chronicles.', 'New Lore', 'openCreateLore');
+    vc.innerHTML = html;
+    return;
+  }
+
+  // Sort
+  if (_loreSort === 'oldest') {
+    lore.sort(function(a, b) { return (a.created || '').localeCompare(b.created || ''); });
+  } else if (_loreSort === 'title') {
+    lore.sort(function(a, b) { return (a.title || '').localeCompare(b.title || ''); });
+  } else if (_loreSort === 'category') {
+    var catOrder = {};
+    LORE_CATEGORIES.forEach(function(c, i) { catOrder[c] = i; });
+    lore.sort(function(a, b) {
+      var ao = catOrder[a.category] != null ? catOrder[a.category] : 99;
+      var bo = catOrder[b.category] != null ? catOrder[b.category] : 99;
+      if (ao !== bo) return ao - bo;
+      return (b.created || '').localeCompare(a.created || '');
+    });
+  } else {
+    // newest
+    lore.sort(function(a, b) { return (b.created || '').localeCompare(a.created || ''); });
+  }
+
+  html += '<div class="cx-card-meta" style="margin-bottom:var(--sp-8)">' + lore.length + ' lore entr' + (lore.length === 1 ? 'y' : 'ies') + '</div>';
+
+  // If sorted by category, group with headers; else flat list
+  if (_loreSort === 'category') {
+    var grouped = {};
+    LORE_CATEGORIES.forEach(function(c) { grouped[c] = []; });
+    lore.forEach(function(l) { if (grouped[l.category]) grouped[l.category].push(l); });
+    LORE_CATEGORIES.forEach(function(c) {
+      if (grouped[c].length === 0) return;
+      html += '<div class="cx-section-title">' + escHtml(LORE_CATEGORY_LABELS[c]) + ' (' + grouped[c].length + ')</div>';
+      grouped[c].forEach(function(l) { html += renderLoreCard(l); });
+    });
+  } else {
+    lore.forEach(function(l) { html += renderLoreCard(l); });
+  }
+
+  vc.innerHTML = html;
+}
+
+function renderLoreCard(l) {
+  var catClass = 'cx-lore-cat-' + escAttr(l.category);
+  var html = '<div class="cx-card cx-card-clickable cx-lore-card ' + catClass + '" data-action="goToLore" data-id="' + escAttr(l.id) + '">';
+  html += '<div class="cx-card-header">';
+  html += '<div class="cx-card-title">' + cx('tome') + escHtml(l.title) + '</div>';
+  html += '</div>';
+
+  // Badges: category + domains
+  html += '<div class="cx-chip-row">';
+  html += '<span class="cx-chip cx-chip-sm cx-lore-cat-chip ' + catClass + '-chip">' + escHtml(LORE_CATEGORY_LABELS[l.category] || l.category) + '</span>';
+  if (l.domain && l.domain.length > 0) {
+    l.domain.forEach(function(d) {
+      var vol = store.volumes.find(function(v) { return v.id === d; });
+      html += '<span class="cx-chip cx-chip-sm">' + escHtml(vol ? vol.name : d) + '</span>';
+    });
+  }
+  if (l.sourceType && l.sourceType !== 'manual') {
+    html += '<span class="cx-chip cx-chip-sm cx-lore-source-chip">' + escHtml(l.sourceType.replace(/_/g, ' ')) + '</span>';
+  }
+  html += '</div>';
+
+  // Body preview (italic, truncated)
+  if (l.body) {
+    html += '<div class="cx-lore-body">' + renderTruncated(l.body, 160, l.id, 'body') + '</div>';
+  }
+
+  // Meta: tags + date
+  var meta = [];
+  if (l.tags && l.tags.length > 0) meta.push('#' + l.tags.join(' #'));
+  if (l.created) meta.push(formatAbsoluteDate(l.created));
+  if (meta.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
+
+  html += '</div>';
+  return html;
+}
+
+function renderLoreDetail(route) {
+  var vc = document.getElementById('viewContainer');
+  var l = store.lore.find(function(x) { return x.id === route.id; });
+  if (!l) {
+    vc.innerHTML = renderEmptyState('alert', 'Lore not found', 'This lore entry may have been deleted');
+    return;
+  }
+
+  var catClass = 'cx-lore-cat-' + escAttr(l.category);
+  var html = '';
+
+  // Title
+  html += '<h1 class="cx-page-title">' + cx('tome') + ' ' + escHtml(l.title) + '</h1>';
+
+  // Voice subtitle (from dissertation table)
+  var voice = LORE_CATEGORY_VOICES[l.category];
+  if (voice) {
+    html += '<div class="cx-lore-voice">\u201C' + escHtml(voice) + '\u201D</div>';
+  }
+
+  // Badges row
+  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-16)">';
+  html += '<span class="cx-chip cx-chip-sm cx-lore-cat-chip ' + catClass + '-chip">' + escHtml(LORE_CATEGORY_LABELS[l.category] || l.category) + '</span>';
+  if (l.domain && l.domain.length > 0) {
+    l.domain.forEach(function(d) {
+      var vol = store.volumes.find(function(v) { return v.id === d; });
+      html += '<span class="cx-chip cx-chip-sm">' + escHtml(vol ? vol.name : d) + '</span>';
+    });
+  }
+  if (l.sourceType && l.sourceType !== 'manual') {
+    html += '<span class="cx-chip cx-chip-sm cx-lore-source-chip">' + escHtml(l.sourceType.replace(/_/g, ' ')) + '</span>';
+  }
+  if (l.created) {
+    html += '<span class="cx-chip cx-chip-sm">' + escHtml(formatAbsoluteDate(l.created)) + '</span>';
+  }
+  html += '</div>';
+
+  // Body (full narrative)
+  if (l.body) {
+    html += '<div class="cx-section-title">Narrative</div>';
+    html += '<div class="cx-card cx-lore-body-full">' + escHtml(l.body).replace(/\n/g, '<br>') + '</div>';
+  }
+
+  // Tags
+  if (l.tags && l.tags.length > 0) {
+    html += '<div class="cx-section-title">Tags</div>';
+    html += '<div class="cx-chip-row">';
+    l.tags.forEach(function(t) { html += '<span class="cx-chip cx-chip-sm">#' + escHtml(t) + '</span>'; });
+    html += '</div>';
+  }
+
+  // References — may point to canons, chapters, volumes, or any ID
+  if (l.references && l.references.length > 0) {
+    html += '<div class="cx-section-title">References</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    l.references.forEach(function(refId, idx) {
+      var canon = store.canons.find(function(c) { return c.id === refId; });
+      var vol = store.volumes.find(function(v) { return v.id === refId; });
+      if (idx > 0) html += ', ';
+      if (canon) {
+        html += '<button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(refId) + '">' + escHtml(canon.title || refId) + '</button>';
+      } else if (vol) {
+        html += '<button class="cx-link-btn" data-action="goToVolume" data-id="' + escAttr(refId) + '">' + escHtml(vol.name) + '</button>';
+      } else {
+        html += '<span>' + escHtml(refId) + '</span>';
+      }
+    });
+    html += '</div></div>';
+  }
+
+  // Source (if auto-generated)
+  if (l.sourceType && l.sourceType !== 'manual' && l.sourceId) {
+    html += '<div class="cx-section-title">Auto-Generated From</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    html += '<span class="cx-card-meta">' + escHtml(l.sourceType.replace(/_/g, ' ')) + ':</span> ';
+    html += '<span>' + escHtml(l.sourceId) + '</span>';
+    html += '</div></div>';
+  }
+
+  // Action bar
+  html += '<div class="cx-action-bar">';
+  html += '<button class="cx-btn-secondary cx-btn-sm" data-action="copyLoreJson" data-id="' + escAttr(l.id) + '">' + cx('download') + ' Copy JSON</button>';
+  html += '<button class="cx-btn-secondary cx-btn-sm" data-action="editLore" data-id="' + escAttr(l.id) + '">' + cx('quill') + ' Edit</button>';
+  html += '<button class="cx-btn-danger cx-btn-sm" data-action="deleteLoreAction" data-id="' + escAttr(l.id) + '">' + cx('trash') + ' Delete</button>';
+  html += '</div>';
+
+  vc.innerHTML = html;
+}
+
+
+/* ============================================================
    PHASE 4: Search Results
    ============================================================ */
 
@@ -2830,13 +3227,13 @@ function renderSearchResults(results, query) {
     return;
   }
 
-  var groups = { canon: [], schism: [], apocryphon: [], session: [], volume: [] };
-  var labels = { canon: 'Canons', schism: 'Schisms', apocryphon: 'Apocrypha', session: 'Sessions', volume: 'Volumes' };
-  var icons = { canon: 'bookmark', schism: 'alert', apocryphon: 'scroll', session: 'scroll', volume: 'book' };
+  var groups = { canon: [], lore: [], schism: [], apocryphon: [], session: [], volume: [] };
+  var labels = { canon: 'Canons', lore: 'Lore', schism: 'Schisms', apocryphon: 'Apocrypha', session: 'Sessions', volume: 'Volumes' };
+  var icons = { canon: 'bookmark', lore: 'tome', schism: 'alert', apocryphon: 'scroll', session: 'scroll', volume: 'book' };
   results.forEach(function(r) { if (groups[r.type]) groups[r.type].push(r); });
 
   var html = '';
-  ['canon', 'session', 'schism', 'apocryphon', 'volume'].forEach(function(type) {
+  ['canon', 'lore', 'session', 'schism', 'apocryphon', 'volume'].forEach(function(type) {
     var items = groups[type];
     if (items.length === 0) return;
     html += '<div class="cx-search-group-header">' + cx(icons[type]) + ' ' + escHtml(labels[type]) + ' (' + items.length + ')</div>';
@@ -2858,6 +3255,11 @@ function renderSearchResults(results, query) {
           title = e.title || e.id;
           snippet = buildSnippet(e.narrative || '', query);
           route = '#/canons';
+          break;
+        case 'lore':
+          title = e.title || e.id;
+          snippet = buildSnippet(e.body || '', query);
+          route = '#/lore/' + encodeURIComponent(e.id);
           break;
         case 'session':
           title = e.id + (e.date ? ' \u00B7 ' + formatAbsoluteDate(e.date) : '');
@@ -2903,6 +3305,7 @@ function renderStatsBar() {
     if (day.date.substring(0, 7) === monthStr) sessionsThisMonth += (day.sessions || []).length;
   });
   var canonCount = filterActive(store.canons).length;
+  var loreCount = filterActive(store.lore).length;
 
   var html = '<div class="cx-stats-bar">';
   html += '<div class="cx-stat-item"><span class="cx-stat-value">' + totalVols + '</span>volumes</div>';
@@ -2910,6 +3313,7 @@ function renderStatsBar() {
   html += '<div class="cx-stat-item"><span class="cx-stat-value">' + openTodos + '</span>TODOs</div>';
   html += '<div class="cx-stat-item"><span class="cx-stat-value">' + sessionsThisMonth + '</span>sessions/mo</div>';
   html += '<div class="cx-stat-item"><span class="cx-stat-value">' + canonCount + '</span>canons</div>';
+  if (loreCount > 0) html += '<div class="cx-stat-item"><span class="cx-stat-value">' + loreCount + '</span>lore</div>';
   html += '</div>';
   return html;
 }
@@ -3010,13 +3414,14 @@ function renderTrashView() {
     });
   });
   var deletedApocrypha = store.apocrypha.filter(function(a) { return a._deleted; });
+  var deletedLore = store.lore.filter(function(l) { return l._deleted; });
 
   var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
   html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
   html += '<h2 class="cx-page-title" style="margin:0">Trash</h2></div>';
 
-  if (deletedCanons.length === 0 && deletedChapters.length === 0 && deletedApocrypha.length === 0) {
-    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons, chapters, and apocrypha appear here');
+  if (deletedCanons.length === 0 && deletedChapters.length === 0 && deletedApocrypha.length === 0 && deletedLore.length === 0) {
+    html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons, chapters, apocrypha, and lore appear here');
     vc.innerHTML = html;
     return;
   }
@@ -3061,6 +3466,21 @@ function renderTrashView() {
       html += '<div class="cx-trash-actions">';
       html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreChapter" data-id="' + escAttr(item.chapter.id) + '" data-vol="' + escAttr(item.volume.id) + '">Restore</button>';
       html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteChapter" data-id="' + escAttr(item.chapter.id) + '" data-vol="' + escAttr(item.volume.id) + '">' + cx('trash') + '</button>';
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  if (deletedLore.length > 0) {
+    html += '<div class="cx-section-title">' + cx('tome') + ' Lore (' + deletedLore.length + ')</div>';
+    html += '<div class="cx-card">';
+    deletedLore.forEach(function(l) {
+      html += '<div class="cx-trash-item">';
+      html += '<div class="cx-trash-info"><div class="cx-trash-name">' + escHtml(l.title || l.id) + '</div>';
+      html += '<div class="cx-trash-meta">' + escHtml(LORE_CATEGORY_LABELS[l.category] || l.category) + ' \u00B7 Deleted ' + escHtml(formatRelativeTime(l._deleted_date)) + '</div></div>';
+      html += '<div class="cx-trash-actions">';
+      html += '<button class="cx-btn-secondary cx-btn-sm" data-action="restoreLore" data-id="' + escAttr(l.id) + '">Restore</button>';
+      html += '<button class="cx-btn-danger cx-btn-sm" data-action="permanentDeleteLore" data-id="' + escAttr(l.id) + '">' + cx('trash') + '</button>';
       html += '</div></div>';
     });
     html += '</div>';
@@ -3899,6 +4319,7 @@ function handleFabAction() {
   else if (_currentView === 'todos') { openTodoVolumeChoice(); }
   else if (_currentView === 'journal') { openCreateSession(); }
   else if (_currentView === 'canons') { openCanonFabChoice(); }
+  else if (_currentView === 'lore') { openCreateLore(); }
 }
 
 function openFabChoice(volumeId) {
@@ -3975,7 +4396,8 @@ function handleRestoreFileSelect(e) {
       }
       _restoreParsed = data;
       var summary = data.volumes.length + ' volumes, ' + (data.canons || []).length + ' canons, '
-        + (data.apocrypha || []).length + ' apocrypha, ' + (data.journal || []).flatMap(function(d) { return d.sessions || []; }).length + ' sessions';
+        + (data.apocrypha || []).length + ' apocrypha, ' + (data.lore || []).length + ' lore, '
+        + (data.journal || []).flatMap(function(d) { return d.sessions || []; }).length + ' sessions';
       if (status) status.innerHTML = '<span style="color:var(--success)">' + cx('check') + ' ' + escHtml(file.name) + '</span><br><span style="color:var(--text-tertiary)">' + escHtml(summary) + '</span>';
       if (btn) btn.disabled = false;
     } catch(err) {
@@ -3996,6 +4418,7 @@ function handleRestoreData() {
       store.canons = _restoreParsed.canons || [];
       store.schisms = _restoreParsed.schisms || [];
       store.apocrypha = _restoreParsed.apocrypha || [];
+      store.lore = _restoreParsed.lore || [];
       store.journal = _restoreParsed.journal || [];
       store._cacheToLocalStorage();
       _restoreParsed = null;
@@ -4272,6 +4695,122 @@ function handleDeleteApocryphon(apoId) {
 }
 
 /* ============================================================
+   PHASE 1 LORE — Create / Edit / Delete / Copy
+   ============================================================ */
+
+function openCreateLore(prefill) {
+  closeOverlay();
+  setTimeout(function() { openLoreForm(null, prefill || null); }, OVERLAY_ANIM_MS + 50);
+}
+
+function openEditLore(loreId) { openLoreForm(loreId, null); }
+
+function openLoreForm(loreId, prefill) {
+  var isEdit = !!loreId;
+  var l = isEdit ? store.lore.find(function(x) { return x.id === loreId; }) : null;
+  var seed = l || prefill || {};
+
+  var catOpts = LORE_CATEGORIES.map(function(c) { return { value: c, label: LORE_CATEGORY_LABELS[c] }; });
+
+  // Domain multi-select: render as checkbox group over active volumes
+  var activeVols = filterActive(store.volumes);
+  var selectedDomains = (seed.domain && Array.isArray(seed.domain)) ? seed.domain : [];
+
+  var body = '';
+  body += renderTextField('lore_title', 'Title', seed.title || '', { required: true, placeholder: 'e.g. The Naming of the Order' });
+  body += renderSelect('lore_category', 'Category', seed.category || 'origins', catOpts, { required: true });
+  body += renderTextarea('lore_body', 'Narrative', seed.body || '', { required: true, rows: 10, placeholder: 'Backward-looking knowledge. The why behind the what.' });
+
+  // Domain checkboxes
+  if (activeVols.length > 0) {
+    body += '<div class="cx-form-group"><label class="cx-form-label">Domain</label><div class="cx-checkbox-group">';
+    activeVols.forEach(function(v) {
+      var checked = selectedDomains.indexOf(v.id) !== -1 ? ' checked' : '';
+      body += '<label class="cx-checkbox-item"><input type="checkbox" name="lore_domain" value="' + escAttr(v.id) + '"' + checked + '><span>' + escHtml(v.name) + '</span></label>';
+    });
+    body += '</div></div>';
+  }
+
+  body += renderTextField('lore_tags', 'Tags (comma-separated)', (seed.tags || []).join(', '), { placeholder: 'e.g. governance, roman, hierarchy' });
+  body += renderTextField('lore_references', 'References (comma-separated IDs)', (seed.references || []).join(', '), { placeholder: 'canon-NNNN-slug, volume-id, chapter-slug' });
+  if (isEdit) {
+    body += renderTextField('lore_created', 'Created', seed.created || '', { placeholder: 'YYYY-MM-DD' });
+  }
+
+  var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
+    + '<button data-action="handleSaveLore" data-id="' + escAttr(loreId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
+
+  openOverlay(isEdit ? 'Edit Lore' : 'New Lore', body, footer);
+  setTimeout(function() { var el = document.getElementById('field-lore_title'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
+}
+
+function handleSaveLore(loreId) {
+  var title = (document.getElementById('field-lore_title') || {}).value || '';
+  var category = (document.getElementById('field-lore_category') || {}).value || 'origins';
+  var body = (document.getElementById('field-lore_body') || {}).value || '';
+  var tagsStr = (document.getElementById('field-lore_tags') || {}).value || '';
+  var refsStr = (document.getElementById('field-lore_references') || {}).value || '';
+
+  title = title.trim();
+  body = body.trim();
+  if (!title) { showToast('Title is required', 'error'); return; }
+  if (!body) { showToast('Narrative is required', 'error'); return; }
+  if (LORE_CATEGORIES.indexOf(category) === -1) { showToast('Invalid category', 'error'); return; }
+
+  var domainBoxes = document.querySelectorAll('input[name="lore_domain"]:checked');
+  var domain = [];
+  for (var i = 0; i < domainBoxes.length; i++) domain.push(domainBoxes[i].value);
+
+  var tags = tagsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+  var refs = refsStr.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+  try {
+    if (loreId) {
+      var createdField = (document.getElementById('field-lore_created') || {}).value || null;
+      var patch = { title: title, category: category, body: body, domain: domain, tags: tags, references: refs };
+      if (createdField) patch.created = createdField;
+      store.updateLore(loreId, patch);
+      showToast('Lore updated', 'success');
+    } else {
+      var allIds = store.lore.map(function(x) { return x.id; });
+      var id = generateId('lore', allIds) + '-' + autoSlug(title).substring(0, 20);
+      store.addLore({
+        id: id, title: title, category: category, body: body,
+        domain: domain, tags: tags, references: refs,
+        sourceType: 'manual', sourceId: null
+      });
+      showToast('Lore created', 'success');
+    }
+    closeOverlay();
+    renderCurrentView();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+function handleDeleteLore(loreId) {
+  var l = store.lore.find(function(x) { return x.id === loreId; });
+  if (!l) return;
+  showConfirmDialog('Delete Lore', 'Soft-delete "' + l.title + '"? It will appear in Trash.', function() {
+    try {
+      store.deleteLore(loreId);
+      showToast('Lore deleted', 'success');
+      closeConfirmDialog();
+      if (_currentView === 'lore-detail') navigate('#/lore');
+      else renderCurrentView();
+    } catch(e) { showToast(e.message, 'error'); closeConfirmDialog(); }
+  }, { danger: true, label: 'Delete' });
+}
+
+function handleCopyLoreJson(loreId) {
+  var l = store.lore.find(function(x) { return x.id === loreId; });
+  if (!l) return;
+  var copy = deepClone(l);
+  delete copy._deleted;
+  delete copy._deleted_date;
+  copyToClipboard(JSON.stringify(copy, null, 2), 'Lore JSON copied');
+}
+
+/* ============================================================
    PHASE 3: Schism Create
    ============================================================ */
 
@@ -4485,6 +5024,27 @@ function handlePreviewSnippet() {
     });
   }
 
+  // Preview lore (Phase 1 — upsert). Accept both `lore` and legacy `new_lore` shapes.
+  var _previewLore = _snippetParsed.lore || [];
+  if (_snippetParsed.new_lore && Array.isArray(_snippetParsed.new_lore)) {
+    _snippetParsed.new_lore.forEach(function(op) {
+      var d = op.data || op;
+      if (d && d.id) _previewLore.push(d);
+    });
+  }
+  if (_previewLore.length > 0) {
+    _previewLore.forEach(function(l) {
+      var catOk = l.category && LORE_CATEGORIES.indexOf(l.category) !== -1;
+      var exists = store.lore.some(function(x) { return x.id === l.id; });
+      var catLbl = catOk ? LORE_CATEGORY_LABELS[l.category] : (l.category || 'uncategorized');
+      html += '<div class="cx-preview-item">' + (!catOk
+        ? '<span class="cx-preview-skip">\u2717</span> Lore ' + escHtml(l.id) + ' (invalid category: ' + escHtml(l.category || '?') + ')'
+        : exists
+          ? '<span class="cx-preview-ok">\u2713</span> Update lore: ' + escHtml(l.title) + ' <span class="cx-card-meta">(' + escHtml(catLbl) + ')</span>'
+          : '<span class="cx-preview-ok">\u2713</span> Lore: ' + escHtml(l.title) + ' <span class="cx-card-meta">(' + escHtml(catLbl) + ')</span>') + '</div>';
+    });
+  }
+
   html += '</div>';
   preview.innerHTML = html;
   if (importBtn) importBtn.disabled = false;
@@ -4492,7 +5052,7 @@ function handlePreviewSnippet() {
 
 function handleImportSnippet() {
   if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
-  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, volumeUpdates: 0, apocrypha: 0 };
+  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, volumeUpdates: 0, apocrypha: 0, lore: 0 };
 
   try {
     // 1. Session
@@ -4607,6 +5167,52 @@ function handleImportSnippet() {
       });
     }
 
+    // 8. Lore (Phase 1 — upsert). Accept both shapes:
+    //    { lore: [ { ... } ] }  and  { new_lore: [ { op, data: { ... } } ] }
+    var _importLore = [];
+    if (_snippetParsed.lore && Array.isArray(_snippetParsed.lore)) {
+      _importLore = _importLore.concat(_snippetParsed.lore);
+    }
+    if (_snippetParsed.new_lore && Array.isArray(_snippetParsed.new_lore)) {
+      _snippetParsed.new_lore.forEach(function(op) {
+        var d = op.data || op;
+        if (d && d.id) _importLore.push(d);
+      });
+    }
+    if (_importLore.length > 0) {
+      _importLore.forEach(function(l) {
+        if (!l.category || LORE_CATEGORIES.indexOf(l.category) === -1) return;
+        var exists = store.lore.some(function(x) { return x.id === l.id; });
+        try {
+          if (!exists) {
+            // Back-compat: governance-lore snippets use `volumes`, dissertation uses `domain`
+            var entry = {
+              id: l.id, title: l.title, category: l.category,
+              body: l.body || '',
+              domain: Array.isArray(l.domain) ? l.domain : (Array.isArray(l.volumes) ? l.volumes : []),
+              tags: Array.isArray(l.tags) ? l.tags : [],
+              references: Array.isArray(l.references) ? l.references : (l.canon_id ? [l.canon_id] : []),
+              created: l.created || l.date || localDateStr(),
+              updated: l.updated || l.date || localDateStr(),
+              sourceType: l.sourceType || 'manual',
+              sourceId: l.sourceId || null
+            };
+            store.addLore(entry);
+          } else {
+            var patch = {};
+            ['title','category','body','domain','tags','references','sourceType','sourceId','created'].forEach(function(k) {
+              if (l.hasOwnProperty(k)) patch[k] = l[k];
+            });
+            // Back-compat field translation on update
+            if (!patch.domain && Array.isArray(l.volumes)) patch.domain = l.volumes;
+            if (!patch.references && l.canon_id) patch.references = [l.canon_id];
+            store.updateLore(l.id, patch);
+          }
+          counts.lore++;
+        } catch(e) { /* skip */ }
+      });
+    }
+
     var parts = [];
     if (counts.sessions) parts.push(counts.sessions + ' session');
     if (counts.canons) parts.push(counts.canons + ' canon' + (counts.canons > 1 ? 's' : ''));
@@ -4618,6 +5224,7 @@ function handleImportSnippet() {
     if (counts.todoUpdates) parts.push(counts.todoUpdates + ' TODO update' + (counts.todoUpdates > 1 ? 's' : ''));
     if (counts.volumeUpdates) parts.push(counts.volumeUpdates + ' volume update' + (counts.volumeUpdates > 1 ? 's' : ''));
     if (counts.apocrypha) parts.push(counts.apocrypha + ' apocryphon' + (counts.apocrypha > 1 ? ' entries' : ''));
+    if (counts.lore) parts.push(counts.lore + ' lore entr' + (counts.lore > 1 ? 'ies' : 'y'));
 
     showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');
     _snippetParsed = null;
@@ -4859,6 +5466,41 @@ function setupDelegation() {
       case 'handleSaveApocryphon': handleSaveApocryphon(id); break;
       case 'deleteApocryphonAction': handleDeleteApocryphon(id); break;
 
+      // Phase 1 Lore
+      case 'goToLore': navigate('#/lore/' + encodeURIComponent(id)); break;
+      case 'openCreateLore': openCreateLore(); break;
+      case 'editLore': openEditLore(id); break;
+      case 'editLoreDetail': openEditLore(_currentViewParams.id); break;
+      case 'handleSaveLore': handleSaveLore(id || null); break;
+      case 'deleteLoreAction': handleDeleteLore(id); break;
+      case 'copyLoreJson': handleCopyLoreJson(id); break;
+      case 'toggleLoreFilter':
+        var lkey = el.dataset.key;
+        var lval = el.dataset.value;
+        _loreFilters[lkey] = lval || null;
+        renderCurrentView();
+        break;
+      case 'setLoreSort':
+        _loreSort = el.dataset.value || 'newest';
+        renderCurrentView();
+        break;
+      case 'restoreLore':
+        var rl = store.lore.find(function(x) { return x.id === id; });
+        if (rl) { rl._deleted = false; rl._deleted_date = null; store._createWalEntry('update', 'lore', id, 'canons.json', { _deleted: false, _deleted_date: null }); store._fireChange(); showToast('Lore restored', 'success'); renderTrashView(); }
+        break;
+      case 'permanentDeleteLore':
+        showConfirmDialog('Permanently Delete', 'This cannot be undone. Are you sure?', function() {
+          store.lore = store.lore.filter(function(x) { return x.id !== id; });
+          store._createWalEntry('delete', 'lore', id, 'canons.json', { _permanent: true });
+          store._fireChange();
+          showToast('Permanently deleted', 'success');
+          closeConfirmDialog();
+          renderTrashView();
+        }, { danger: true, label: 'Delete Forever' });
+        break;
+      case 'acceptAutoLore': handleAcceptAutoLore(id); break;
+      case 'dismissAutoLore': handleDismissAutoLore(id); break;
+
       // Phase 3: Schisms
       case 'openCreateSchism': openCreateSchism(); break;
       case 'handleSaveSchism': handleSaveSchism(); break;
@@ -5086,7 +5728,7 @@ function handleDisconnectGitHub() {
 /* ============================================================
    Swipe Navigation (canon from SproutLab SWIPE_NAVIGATION_REFERENCE)
    ============================================================ */
-var TAB_ORDER = ['dashboard', 'journal', 'canons', 'todos'];
+var TAB_ORDER = ['dashboard', 'journal', 'canons', 'lore', 'todos'];
 var _swipeStartX = 0, _swipeStartY = 0, _swipeTarget = null;
 
 function setupSwipeNavigation() {
@@ -5238,6 +5880,125 @@ function setupGestures() {
   setupPullToRefresh();
 }
 
+/* ============================================================
+   PHASE 1 LORE — Auto-Generation Hooks
+   Dissertation §3.4: "Every major lifecycle event MUST auto-generate
+   a Lore entry. The Architect confirms/edits but the system proposes."
+
+   Available lifecycle events in today's Codex (analogs to RPG events):
+     - Chapter status → abandoned   (Ember snuffed analog)   → Cautionary Tale
+     - Volume shelf → archived/abandoned (Rite released analog) → Chronicle
+     - Canon status → superseded    (Socratic response analog) → Doctrine
+
+   We wrap store mutations to capture the transition, then present the
+   Architect with a proposed Lore entry (prefill form). Nothing auto-commits.
+   ============================================================ */
+
+var _autoLorePending = {}; // keyed by proposal id → prefill object
+var _loreHooksInstalled = false;
+
+function installLoreAutoHooks() {
+  if (_loreHooksInstalled) return;
+  _loreHooksInstalled = true;
+
+  var origUpdateChapter = store.updateChapter;
+  store.updateChapter = function(volumeId, chapterId, patch) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    var before = vol ? (vol.chapters || []).find(function(c) { return c.id === chapterId; }) : null;
+    var beforeStatus = before ? before.status : null;
+    var result = origUpdateChapter.call(store, volumeId, chapterId, patch);
+    if (before && patch && patch.status === 'abandoned' && beforeStatus !== 'abandoned') {
+      proposeAutoLore({
+        sourceType: 'chapter_abandoned',
+        sourceId: chapterId,
+        category: 'cautionary_tales',
+        title: 'Abandoned: ' + (before.name || chapterId),
+        body: 'The chapter "' + (before.name || chapterId) + '" in ' + (vol ? vol.name : volumeId) + ' was abandoned. Document the lesson.',
+        domain: [volumeId],
+        references: [chapterId, volumeId]
+      });
+    }
+    return result;
+  };
+
+  var origTransitionShelf = store.transitionShelf;
+  store.transitionShelf = function(volumeId, newShelf, reason) {
+    var vol = store.volumes.find(function(v) { return v.id === volumeId; });
+    var beforeShelf = vol ? vol.shelf : null;
+    var result = origTransitionShelf.call(store, volumeId, newShelf, reason);
+    if (vol && (newShelf === 'archived' || newShelf === 'abandoned') && beforeShelf !== newShelf) {
+      proposeAutoLore({
+        sourceType: 'volume_archived',
+        sourceId: volumeId,
+        category: 'chronicles',
+        title: (newShelf === 'abandoned' ? 'Abandoned: ' : 'Archived: ') + vol.name,
+        body: 'The volume "' + vol.name + '" was moved to ' + newShelf + '.' + (reason ? ' Reason: ' + reason : '') + ' What did this chapter of work teach?',
+        domain: [volumeId],
+        references: [volumeId],
+        tags: [newShelf]
+      });
+    }
+    return result;
+  };
+
+  var origUpdateCanon = store.updateCanon;
+  store.updateCanon = function(id, patch) {
+    var before = store.canons.find(function(c) { return c.id === id; });
+    var beforeStatus = before ? before.status : null;
+    var result = origUpdateCanon.call(store, id, patch);
+    if (before && patch && patch.status === 'superseded' && beforeStatus !== 'superseded') {
+      proposeAutoLore({
+        sourceType: 'canon_superseded',
+        sourceId: id,
+        category: 'doctrines',
+        title: 'Superseded: ' + (before.title || id),
+        body: 'Canon "' + (before.title || id) + '" was superseded' + (patch.superseded_by ? ' by ' + patch.superseded_by : '') + '. The doctrine that replaces it, and why the shift.',
+        references: [id].concat(patch.superseded_by ? [patch.superseded_by] : [])
+      });
+    }
+    return result;
+  };
+}
+
+function proposeAutoLore(prefill) {
+  var pid = 'autolore-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
+  _autoLorePending[pid] = prefill;
+  // Toast with action to accept; passive dismissal possible via X on toast/banner
+  var banner = document.createElement('div');
+  banner.className = 'cx-autolore-banner';
+  banner.id = pid;
+  banner.innerHTML =
+    '<div class="cx-autolore-title">' + cx('tome') + ' Propose Lore entry?</div>'
+    + '<div class="cx-autolore-meta">' + escHtml(LORE_CATEGORY_LABELS[prefill.category] || prefill.category) + ' \u00B7 from ' + escHtml((prefill.sourceType || '').replace(/_/g, ' ')) + '</div>'
+    + '<div class="cx-autolore-actions">'
+    + '<button class="cx-btn-secondary cx-btn-sm" data-action="dismissAutoLore" data-id="' + escAttr(pid) + '">Dismiss</button>'
+    + '<button class="cx-btn-primary cx-btn-sm" data-action="acceptAutoLore" data-id="' + escAttr(pid) + '">Compose</button>'
+    + '</div>';
+  document.body.appendChild(banner);
+  requestAnimationFrame(function() { banner.classList.add('cx-autolore-visible'); });
+  // Auto-dismiss after 20s
+  setTimeout(function() {
+    if (_autoLorePending[pid]) handleDismissAutoLore(pid);
+  }, 20000);
+}
+
+function handleAcceptAutoLore(pid) {
+  var prefill = _autoLorePending[pid];
+  if (!prefill) return;
+  delete _autoLorePending[pid];
+  var banner = document.getElementById(pid);
+  if (banner && banner.parentNode) banner.parentNode.removeChild(banner);
+  openCreateLore(prefill);
+}
+
+function handleDismissAutoLore(pid) {
+  delete _autoLorePending[pid];
+  var banner = document.getElementById(pid);
+  if (!banner) return;
+  banner.classList.remove('cx-autolore-visible');
+  setTimeout(function() { if (banner.parentNode) banner.parentNode.removeChild(banner); }, 200);
+}
+
 /* --- Initialize (Phase 2: full 15-step lifecycle) --- */
 function initializeApp() {
   if (!testLocalStorage()) {
@@ -5315,6 +6076,9 @@ function initializeApp() {
       localStorage.setItem('codex-migrations', JSON.stringify(_applied));
       store._cacheToLocalStorage();
     }
+
+    // Phase 1 Lore: install auto-gen lifecycle hooks once store is populated
+    installLoreAutoHooks();
 
     // Step 12: Register listeners
     store.onChange(function() {

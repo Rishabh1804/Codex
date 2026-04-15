@@ -1,4 +1,4 @@
-/* CODEX — Core (Phase 5: Chapter Detail + Apocrypha) */
+/* CODEX — Core (Phase 5: Chapter Detail + Apocrypha; Phase 1 Lore) */
 
 /* --- cx() Icons — Style C (design session locked) --- */
 function cx(name) {
@@ -24,7 +24,8 @@ function cx(name) {
     'info':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>',
     'github':'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>',
     'refresh':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
-    'gear':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
+    'gear':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+    'tome':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13a3 3 0 0 1 3 3v13a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V4z"/><path d="M4 17.5A2.5 2.5 0 0 1 6.5 15H20"/><path d="M9 8h7M9 11h5" opacity="0.6"/></svg>'
   };
   return icons[name] || '<span class="cx-missing"></span>';
 }
@@ -112,7 +113,8 @@ function parseRoute(hash) {
   if (parts[0] === 'volume' && parts[1]) return { view: 'volume-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'canon' && parts[1]) return { view: 'canon-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'chapter' && parts[1] && parts[2]) return { view: 'chapter-detail', volumeId: decodeURIComponent(parts[1]), chapterId: decodeURIComponent(parts[2]) };
-  if (['dashboard','journal','canons','todos','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
+  if (parts[0] === 'lore' && parts[1]) return { view: 'lore-detail', id: decodeURIComponent(parts[1]) };
+  if (['dashboard','journal','canons','todos','lore','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
   return { view: 'dashboard' };
 }
 
@@ -140,12 +142,12 @@ function handleRouteChange(hash, scrollToTop) {
 
 function handleSwitchTab(tabName) {
   _pendingFilter = null;
-  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos' };
+  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore' };
   navigate(map[tabName] || '#/dashboard');
 }
 
 function updateTabBarActive(view) {
-  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', settings:null };
+  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', settings:null };
   var active = map[view];
   var btns = document.querySelectorAll('.cx-tab-btn');
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
@@ -164,6 +166,9 @@ function renderBreadcrumbForRoute(route) {
     var cvol = store.volumes.find(function(v) { return v.id === route.volumeId; });
     var cch = cvol ? (cvol.chapters || []).find(function(c) { return c.id === route.chapterId; }) : null;
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: cvol ? cvol.name : route.volumeId, route: '#/volume/' + encodeURIComponent(route.volumeId) }, { label: cch ? cch.name : route.chapterId, route: null }];
+  } else if (route.view === 'lore-detail') {
+    var lentry = store.lore.find(function(x) { return x.id === route.id; });
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Lore', route: '#/lore' }, { label: lentry ? lentry.title : route.id, route: null }];
   }
   renderBreadcrumb(segments);
 }
@@ -186,13 +191,17 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail')) {
-    var title = route.view === 'settings' ? 'Settings' : route.view === 'canon-detail' ? 'Canon' : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail')) {
+    var title = route.view === 'settings' ? 'Settings'
+      : route.view === 'canon-detail' ? 'Canon'
+      : route.view === 'lore-detail' ? 'Lore'
+      : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
       + '<div class="cx-header-actions">'
       + (route.view === 'volume-detail' ? '<button data-action="editVolume" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
       + (route.view === 'chapter-detail' ? '<button data-action="editChapterDetail" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
+      + (route.view === 'lore-detail' ? '<button data-action="editLoreDetail" class="cx-btn-icon">' + cx('quill') + '</button>' : '')
       + '</div>';
   } else {
     header.innerHTML = '<span class="cx-app-title">Codex</span>'
@@ -236,8 +245,9 @@ function closeSearch() {
 function search(query) {
   var q = query.toLowerCase().trim();
   var results = [];
-  var w = { canon: 4, schism: 3, apocryphon: 3, session: 2, volume: 1 };
+  var w = { canon: 4, lore: 4, schism: 3, apocryphon: 3, session: 2, volume: 1 };
   filterActive(store.canons).forEach(function(c) { var s = matchScore(q, [c.title, c.rationale, c.id].concat(c.references || [])); if (s > 0) results.push({ type: 'canon', entity: c, score: s * w.canon }); });
+  filterActive(store.lore).forEach(function(l) { var titleScore = matchScore(q, [l.title]) * 3; var tagScore = matchScore(q, l.tags || []) * 2; var bodyScore = matchScore(q, [l.body || '']); var s = titleScore + tagScore + bodyScore; if (s > 0) results.push({ type: 'lore', entity: l, score: s * w.lore }); });
   filterActive(store.schisms).forEach(function(r) { var s = matchScore(q, [r.rejected, r.chosen, r.reason, r.context || '']); if (s > 0) results.push({ type: 'schism', entity: r, score: s * w.schism }); });
   filterActive(store.apocrypha).forEach(function(a) { var s = matchScore(q, [a.title, a.narrative || '']); if (s > 0) results.push({ type: 'apocryphon', entity: a, score: s * w.apocryphon }); });
   store.journal.forEach(function(day) { (day.sessions || []).forEach(function(sess) { var sc = matchScore(q, [sess.summary, sess.handoff || ''].concat(sess.open_todos || [])); if (sc > 0) results.push({ type: 'session', entity: { id: sess.id, date: day.date, summary: sess.summary, handoff: sess.handoff }, score: sc * w.session }); }); });
@@ -263,7 +273,7 @@ function matchScore(query, fields) {
 function updateFab(view) {
   var fab = document.getElementById('fabButton');
   if (!fab) return;
-  var show = ['dashboard', 'volume-detail', 'todos', 'journal', 'canons'].indexOf(view) !== -1;
+  var show = ['dashboard', 'volume-detail', 'todos', 'journal', 'canons', 'lore'].indexOf(view) !== -1;
   fab.classList.toggle('cx-fab-hidden', !show);
   fab.innerHTML = cx('plus');
 }
@@ -271,8 +281,8 @@ function updateFab(view) {
 /* --- Tab Icons --- */
 function initTabIcons() {
   var btns = document.querySelectorAll('.cx-tab-btn');
-  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', todos: 'check' };
-  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', todos: 'TODOs' };
+  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check' };
+  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs' };
   for (var i = 0; i < btns.length; i++) {
     var tab = btns[i].dataset.tab;
     btns[i].innerHTML = cx(icons[tab] || 'book') + '<span class="cx-tab-label">' + (labels[tab] || tab) + '</span>';
@@ -288,7 +298,8 @@ function renderCurrentView() {
       dashboard: renderDashboard, 'volume-detail': renderVolumeDetail,
       settings: renderSettings, todos: renderTodos,
       journal: renderJournal, canons: renderCanons,
-      'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail
+      'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail,
+      lore: renderLore, 'lore-detail': renderLoreDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);
@@ -506,7 +517,7 @@ function setOfflineStatus(offline) {
 
 /* --- File Builders (rebuild entire file from current store) --- */
 function buildVolumesFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }, null, 2); }
-function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha }, null, 2); }
+function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore }, null, 2); }
 function buildJournalFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }, null, 2); }
 
 /* --- Flush Queue (push pending WAL entries to GitHub) --- */
@@ -647,6 +658,7 @@ function findEntity(type, id, parentId) {
     case 'canon': return store.canons.find(function(c) { return c.id === id; });
     case 'schism': case 'rejection': return store.schisms.find(function(r) { return r.id === id; });
     case 'apocryphon': return store.apocrypha.find(function(a) { return a.id === id; });
+    case 'lore': return store.lore.find(function(l) { return l.id === id; });
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); return vc ? (vc.chapters || []).find(function(c) { return c.id === id; }) : undefined;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); return vt ? (vt.todos || []).find(function(t) { return t.id === id; }) : undefined;
     case 'session': var d = store.journal.find(function(d) { return d.date === parentId; }); return d ? (d.sessions || []).find(function(s) { return s.id === id; }) : undefined;
@@ -659,6 +671,7 @@ function insertEntity(type, payload, parentId) {
     case 'canon': store.canons.push(payload); break;
     case 'schism': case 'rejection': store.schisms.push(payload); break;
     case 'apocryphon': store.apocrypha.push(payload); break;
+    case 'lore': store.lore.push(payload); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) { if (!vc.chapters) vc.chapters = []; vc.chapters.push(payload); } break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) { if (!vt.todos) vt.todos = []; vt.todos.push(payload); } break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (!d) { d = { date: parentId, sessions: [] }; store.journal.push(d); } d.sessions.push(payload); break;
@@ -671,6 +684,7 @@ function removeEntity(type, id, parentId) {
     case 'canon': store.canons = store.canons.filter(function(c) { return c.id !== id; }); break;
     case 'schism': case 'rejection': store.schisms = store.schisms.filter(function(r) { return r.id !== id; }); break;
     case 'apocryphon': store.apocrypha = store.apocrypha.filter(function(a) { return a.id !== id; }); break;
+    case 'lore': store.lore = store.lore.filter(function(l) { return l.id !== id; }); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) vc.chapters = (vc.chapters || []).filter(function(c) { return c.id !== id; }); break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) vt.todos = (vt.todos || []).filter(function(t) { return t.id !== id; }); break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (d) { d.sessions = (d.sessions || []).filter(function(s) { return s.id !== id; }); if (d.sessions.length === 0) store.journal = store.journal.filter(function(x) { return x.date !== parentId; }); } break;
