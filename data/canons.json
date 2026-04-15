@@ -1231,5 +1231,33 @@
       "_deleted": false,
       "_deleted_date": null
     }
+  ],
+  "lore": [
+    {
+      "id": "lore-005-two-shortcuts",
+      "title": "The Two Shortcuts We Didn't Take",
+      "category": "cautionary_tales",
+      "body": "When we sat down to implement Phase 1 Lore, the dissertation called for reading §3.4 in full. But pdftoppm wasn't installed, and the PDF refused to open. Path 1 — inferring the spec from the four pre-written governance lore entries and the snippet format — was visible and tempting. It would have shipped an hour sooner.\n\nWe didn't take it. We installed poppler-utils, read the 57 pages, and found that the draft entries used volumes[] and canon_id while the dissertation canonized domain[] and references[]. Had we shortcut, we would have baked the estimate into the schema and spent a future session unbaking it.\n\nThe second shortcut was quieter. The Phase 1 TODO specified 'Aura assignment.' But Aura's scoring depends on Bonds, Lineage, and reference counts — primitives that don't exist in Codex yet. We could have shipped a manual Aura dropdown and called the field done. Path 1 again, in different clothes. We deferred Aura to Phase 1.5 and named the dependency.\n\nWhat crystallized from the two pauses is a vocabulary. Environment debt is cheap to pay and unlocks work downstream — install the tool, read the spec. Architecture debt is expensive to fake and corrodes the schema if papered over — defer the feature, name the dependency. The heuristic is not 'never shortcut.' It is: know which kind of debt you are facing. Environment debt: pay now. Architecture debt: defer honestly.",
+      "domain": [
+        "codex"
+      ],
+      "tags": [
+        "debt",
+        "shortcut",
+        "environment-debt",
+        "architecture-debt",
+        "phase-1-lore"
+      ],
+      "references": [
+        "lore-003-the-30k-threshold",
+        "phase-1-lore"
+      ],
+      "created": "2026-04-15",
+      "updated": "2026-04-15",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null
+    }
   ]
 }
