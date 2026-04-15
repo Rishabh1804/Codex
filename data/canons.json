@@ -765,6 +765,19 @@
       "references": [],
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "canon-0035-pull-before-unzip",
+      "scope": "sep-invoicing",
+      "category": "process",
+      "title": "Always git pull before unzipping build artifacts",
+      "rationale": "The zip replaces all files. If the local repo is behind remote, the commit lands on a stale base and creates divergent history requiring force-push. Discovered in 8E deploy when 8D was on remote but not local.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
     }
   ],
   "schisms": [
@@ -886,6 +899,66 @@
       "chosen": "Debounced ResizeObserver on document.documentElement",
       "reason": "ResizeObserver catches all resize triggers — browser chrome changes, split-screen, DevTools resize, virtual keyboard. matchMedia only fires on threshold crossing. ResizeObserver at 150ms debounce is more reliable for detecting the exact moment to switch modes.",
       "date": "2026-04-14",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0001-responsive-css-only",
+      "context": "Phase 8A desktop strategy",
+      "volumes": [
+        "sep-invoicing"
+      ],
+      "rejected": "Responsive CSS only (media queries, no separate render functions)",
+      "chosen": "Full separate rendering with dedicated desktop render functions",
+      "reason": "Tables, master-detail panels, and sidebar navigation are fundamentally different DOM structures. CSS cannot transform a card list into a sortable table or inject a drag handle. Separate rendering keeps mobile code untouched.",
+      "date": "2026-04-14",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0002-auto-select-first-row",
+      "context": "Phase 8B detail panel default state",
+      "volumes": [
+        "sep-invoicing"
+      ],
+      "rejected": "Auto-select first row to populate detail panel on tab switch",
+      "chosen": "Empty state with document icon illustration",
+      "reason": "Auto-select forces a detail render on every tab switch. Empty state is cheaper, avoids jarring content changes, and communicates that no selection has been made.",
+      "date": "2026-04-14",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0003-row-level-action",
+      "context": "Phase 8C Register table row interaction",
+      "volumes": [
+        "sep-invoicing"
+      ],
+      "rejected": "Row-level data-action (entire row is one click target)",
+      "chosen": "Cell-level data-action (checkbox td vs content tds have different actions)",
+      "reason": "Checkbox selection and detail viewing are independent gestures. Row-level action makes it impossible to click a checkbox without also triggering detail panel update. Cell-level separation preserves both interaction paths.",
+      "date": "2026-04-14",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0004-detail-as-edit-form",
+      "context": "Phase 8E Clients/Items detail panel design",
+      "volumes": [
+        "sep-invoicing"
+      ],
+      "rejected": "Detail panel as inline edit form (edit directly in the right panel)",
+      "chosen": "Read-only detail view + edit via existing overlay",
+      "reason": "Overlays already work on both platforms. Duplicating the full edit form (inputs, validation, save logic) in the detail panel doubles the maintenance surface for zero UX gain — the overlay is two clicks away and already tested.",
+      "date": "2026-04-15",
+      "canon_id": null
+    },
+    {
+      "id": "rej-0005-toggle-inside-master",
+      "context": "Phase 8E Clients/Items sub-view toggle placement",
+      "volumes": [
+        "sep-invoicing"
+      ],
+      "rejected": "Sub-view toggle inside the master panel",
+      "chosen": "Toggle above the master-detail wrapper in a separate div",
+      "reason": "The toggle controls which sub-view renders into the master. Placing it inside the master means it gets destroyed on master innerHTML replacement, causing a flash and losing toggle state. Above the wrapper, it survives re-renders.",
+      "date": "2026-04-15",
       "canon_id": null
     }
   ],
