@@ -177,6 +177,29 @@
           ],
           "handoff": "11 config files + 3 snippets + 1 HTML artifact delivered as zip. Governance hierarchy fully established. Next: import snippets into Codex, then resume Codex Phase 4 content backfill.",
           "screenshots": []
+        },
+        {
+          "id": "s-2026-04-15-02",
+          "date": "2026-04-15",
+          "title": "BN Cleanup + Phase Updates + volume_updates Pipeline",
+          "summary": "Fixed BN-14 (renderTextField min/step), BN-15 (3 missing CSS classes). Added volume_updates to snippet pipeline. Updated current_phase for SEP Invoicing and Codex. Confirmed BN-4 and BN-6 already resolved.",
+          "volumes_touched": [
+            "codex",
+            "sep-invoicing"
+          ],
+          "chapters_touched": [],
+          "decisions": [
+            "BN-4 resolved — all status CSS classes already exist",
+            "BN-6 resolved — renderCurrentView has renderDashboard() fallback",
+            "BN-14 fixed — renderTextField renders min and step from options",
+            "BN-15 fixed — 3 missing CSS classes: cx-error-message, cx-missing, cx-search-results",
+            "volume_updates added to snippet pipeline — same pattern as canon_updates/todo_updates"
+          ],
+          "bugs_found": 2,
+          "bugs_fixed": 2,
+          "duration_minutes": 45,
+          "open_todos": [],
+          "handoff": "All BN items resolved. Snippet pipeline now supports volume_updates. Next: feature work or cross-project docs push."
         }
       ]
     },
