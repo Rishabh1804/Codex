@@ -222,6 +222,29 @@
           "open_todos": [],
           "handoff": "Audit existing migrations and any future seed/backfill code for this anti-pattern. The Phase 5 apocryphon backfill used addApocryphon (safe); our v1 Lore migration did not. If any future migration directly pushes to store arrays, it is a rehearsal, not a shipment. Stale remote branches claude/fix-lore-migration and claude/initial-setup-MmPPI remain on GitHub pending UI delete — harmless.",
           "screenshots": []
+        },
+        {
+          "id": "s-2026-04-15-04",
+          "date": "2026-04-15",
+          "summary": "Phase 1.5 Lore QoL pass: three quality-of-life items landing as PR #3. B1 reference resolver now handles canon/volume/chapter/lore IDs in renderLoreDetail (fixes the caveat flagged in Phase 1's handoff; goToChapter action wired). B2 Lore tab health strip shows total count, per-category colored-dot distribution, and orphan counter above the filter bar — archive becomes self-diagnostic. B3 markdown export via download button in the health strip, respects active filters, outputs codex-lore-YYYY-MM-DD.md with dissertation-ordered sections, voice subtitles, blockquoted prose, and metadata footers. Intentionally deferred: auto-lore banner silent-queue mode (waiting for real-use spam signal), Aura (Phase 1.5 A, separate session), Bonds and crystallization (Phase 2 territory). Merged a2f7cdb to main.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "phase-1-lore"
+          ],
+          "decisions": [
+            "defer-aura-to-phase-1.5-A-separate-session",
+            "defer-auto-lore-banner-UX-pending-real-use-data",
+            "markdown-export-respects-active-filters",
+            "health-strip-shows-orphan-count-as-archive-health-signal"
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 35,
+          "open_todos": [],
+          "handoff": "Phase 1 Lore is now fully shipped and polished. Archive is self-diagnostic (orphan count visible) and shareable (markdown export). Natural next moves: (1) Phase 1.5 A — manual Aura selector with full §4.4 visual atmosphere, 6-tier distribution cap enforcement; (2) Phase 2 primitives — Bonds as first-class cross-entity references (would unlock real Aura scoring + §8.1 crystallization detection); (3) observe auto-lore banner in real use — first Chapter abandonment or Canon supersession will trigger a proposal, reveals whether UX needs silent-queue mode; (4) export-as-markdown is one-shot — future idea is a 'publish to gist' button for truly shareable institutional memory. Also housekeeping: stale remote branches claude/initial-setup-MmPPI and claude/fix-lore-migration still on GitHub pending UI delete.",
+          "screenshots": []
         }
       ]
     },
