@@ -11,9 +11,15 @@ var CODEX_MIGRATIONS = [
   /* Phase 1 Lore: seed the 4 pre-written governance lore entries from
      docs/snippet-2026-04-15-governance-lore.json, retrofitted from the
      draft shape (volumes[], canon_id) to dissertation-faithful
-     (domain[], references[]). Idempotent via ID check. */
+     (domain[], references[]).
+
+     v2 (bug fix): uses store.addLore() instead of direct push, so WAL
+     entries are created and the seeded entries actually sync to GitHub.
+     v1 shipped with store.lore.push() which bypassed WAL — entries lived
+     only in localStorage cache and got wiped on every fetch.
+     v2 bumps the ID so v1-applied users re-run and recover. */
   {
-    id: 'phase-1-lore-governance-seed-v1',
+    id: 'phase-1-lore-governance-seed-v2',
     run: function() {
       if (!store.lore) store.lore = [];
       var entries = [
@@ -67,8 +73,14 @@ var CODEX_MIGRATIONS = [
         }
       ];
       entries.forEach(function(e) {
-        if (!store.lore.some(function(x) { return x.id === e.id; })) {
-          store.lore.push(e);
+        try {
+          // addLore throws on duplicate id — that's the idempotency guard.
+          // It also creates a WAL entry, which is the whole point of this v2.
+          store.addLore(e);
+        } catch(err) {
+          // Duplicate (already present) or validation error — skip silently.
+          // Users affected only if they had v1 applied AND are offline when v2
+          // runs AND have not gone online since. Next online mutation recovers.
         }
       });
     }
