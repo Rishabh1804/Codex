@@ -54,6 +54,30 @@
           ],
           "handoff": "The 57-page dissertation (docs/codex-dissertation.pdf) is the canonical reference. Clone Codex at the start of every future build session per Canon 0046. Phase 1 (Lore) is the first build target — data model, 5 categories, CRUD, Aura assignment, auto-generation from lifecycle events. The dissertation Section 3.4 has the complete spec. Four design mockups (v1–v4) exist as React artifacts in Claude chat history — reference for visual direction but expect significant further iteration.",
           "screenshots": []
+        },
+        {
+          "date": "2026-04-15",
+          "id": "s-2026-04-15-sep-8b",
+          "summary": "SEP Invoicing Phase 8B: Master-detail containers + drag handle. Built the desktop split-panel infrastructure for Register and IM tabs. Added 9 new functions: _renderDetailEmpty() (shared empty-state HTML), _restorePanelWidth() (per-tab width persistence via regFilter.desktopPanelWidths), _initDragHandle() (mousedown+touchstart with double-bind guard via dataset.dragInit), renderRegisterTable() (first-render wrapper injection + re-render master-only update), renderIMTable() (same pattern for IM), _renderRegView()/_renderIMView() (dispatchers: desktop→table, mobile→list), _onDragMove() (clamp 280px master/320px detail), _onDragEnd() (persist ratio, reset cursor). Replaced 19 call sites across 6 files (events.js, invoice-ops.js, state.js, im-form.js, im.js, tabs.js) — all renderRegisterList()/renderIMList() calls now route through dispatchers, except switchTab which uses explicit desktop/mobile branches. renderRegister() top-level entry point gets desktop shortcut. 4 global drag listeners (mousemove/mouseup/touchmove/touchend) registered once in init.js. Master-detail CSS uses design tokens exclusively (4px drag handle and 1px border are HR-6 known exceptions). Dark mode coverage for all new elements. ~205 new lines (6,461 total).",
+          "volumes_touched": [
+            "sep-invoicing"
+          ],
+          "chapters_touched": [
+            "phase-8-desktop"
+          ],
+          "decisions": [
+            "Drag handle width (master.style.width) is the acknowledged HR-1 inline style exception — dynamic drag widths cannot be class-based",
+            "desktopPanelWidths NOT added to getDefaultState or regFilter initializer — lazy init in _onDragEnd with guard in _restorePanelWidth",
+            "switchTab uses explicit desktop/mobile branches (not simple dispatcher) to preserve toolbar render guards and dirty flag logic",
+            "Global drag listeners registered at module level in init.js (before ResizeObserver), not inside _initDragHandle — avoids per-handle listener multiplication",
+            "Touch drag uses passive:false on touchmove with e.preventDefault() only when _dragState is active — no scroll interference when idle"
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 45,
+          "open_todos": [],
+          "handoff": "8B deployed. Master-detail containers show placeholder content ('Desktop table view — Phase 8C/8D'). Detail panels show empty state with file icon. Drag handle functional with per-tab width persistence. Next: Phase 8C — Register desktop table HTML, rows, headers, sort, row-click→detail, invoice preview in detail panel.",
+          "screenshots": []
         }
       ]
     },
