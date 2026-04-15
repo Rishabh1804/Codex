@@ -78,6 +78,29 @@
           "open_todos": [],
           "handoff": "8B deployed. Master-detail containers show placeholder content ('Desktop table view — Phase 8C/8D'). Detail panels show empty state with file icon. Drag handle functional with per-tab width persistence. Next: Phase 8C — Register desktop table HTML, rows, headers, sort, row-click→detail, invoice preview in detail panel.",
           "screenshots": []
+        },
+        {
+          "date": "2026-04-15",
+          "id": "s-2026-04-15-sep-8c",
+          "summary": "SEP Invoicing Phase 8C: Register desktop table (7 sortable columns) + inline detail panel + 3 bug fixes. +313 lines, 6,806 total.",
+          "volumes_touched": [
+            "sep-invoicing"
+          ],
+          "chapters_touched": [
+            "phase-8-desktop"
+          ],
+          "decisions": [
+            "Desktop multi-column sort isolated from mobile — mobile preserves createdAt sort, desktop uses getRegSortConfig() with per-column sorting via regFilter.desktopSort",
+            "_renderRegDetail accepts skipMasterRefresh parameter to prevent double-render when called from renderRegisterTable()",
+            "Table column widths (40/60/100/110/90px) are acknowledged HR-6 exceptions — structural layout, not reusable spacing tokens",
+            "advanceInvoiceState fix also resolves pre-existing mobile bug where register list was stale after state advance from overlay"
+          ],
+          "bugs_found": 3,
+          "bugs_fixed": 3,
+          "duration_minutes": 90,
+          "open_todos": [],
+          "handoff": "8C deployed. Next: Phase 8D — IM desktop table + challan detail panel.",
+          "screenshots": []
         }
       ]
     },
