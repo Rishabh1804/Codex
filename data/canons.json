@@ -778,6 +778,90 @@
       "references": [],
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "canon-gov-001-30k-rule",
+      "scope": "global",
+      "category": "architecture",
+      "title": "The 30K Rule: Governor Split Threshold",
+      "rationale": "Any repo crossing 30,000 LOC triggers a Governor split. Governors are domain-scoped QA reviewers between Builder and Censor. At 30K lines, a single reviewer loses full context. 50K rejected as too late; 20K as too early. SproutLab at 61,700 LOC was the first trigger.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-gov-002-qa-only-activation",
+      "scope": "global",
+      "category": "process",
+      "title": "Governors Activate During QA Only",
+      "rationale": "Too many voices during build mode creates confusion. The Builder builds alone. Governors activate during QA rounds, audit independently, report upward. Builder synthesizes Governor reports before Cipher does the final cross-cutting pass.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-gov-001-30k-rule"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-gov-003-shared-module-dual-review",
+      "scope": "global",
+      "category": "process",
+      "title": "Shared Modules Get Dual Governor Review",
+      "rationale": "Modules spanning both Governor jurisdictions (styles.css, template.html) are reviewed by BOTH Governors. Cross-cutting code benefits from two domain-specific lenses. Maren checks accessibility and safety UX; Kael checks token consistency and icon coverage.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-gov-001-30k-rule"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-gov-004-persona-reassignment",
+      "scope": "global",
+      "category": "process",
+      "title": "Persona Reassignment: 5 Steps, 30-Day Cooldown",
+      "rationale": "Personas are not permanent. Reassignment follows: Trigger → Assessment (journal entry documenting what changed) → Decision (Architect decides, Consul advises) → Transition (update docs, archive old persona as Lore) → 30-day cooldown. Frequent switching signals unclear domain, not bad persona.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-gov-005-care-vs-intelligence",
+      "scope": "sproutlab",
+      "category": "architecture",
+      "title": "SproutLab Domain Split: Care vs Intelligence",
+      "rationale": "61,700 lines split along domain boundaries. Care (home+diet+medical = 22,626 LOC) handles what directly affects the baby. Intelligence (intel+core+data+sync = 27,614 LOC) handles brain and plumbing. Shared (styles+template = 11,491 LOC) gets dual review. Domain-pure chosen over surface/deep because a diet bug and an ISL parser bug require completely different mental models.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-gov-001-30k-rule"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-gov-006-one-builder-per-repo",
+      "scope": "global",
+      "category": "architecture",
+      "title": "One Builder Per Repo",
+      "rationale": "Each repo has exactly one Builder persona as the default voice. Multi-persona noise during build mode degrades output quality. Secondary personas (Governors, Cipher, Consul) activate only under explicit conditions. Aurelius → Codex, Lyra → SproutLab, Solara → SEP Invoicing.",
+      "created": "2026-04",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
     }
   ],
   "schisms": [
@@ -1093,6 +1177,57 @@
       ],
       "date": "2026-04-15",
       "status": "foretold",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "apo-gov-001-the-naming",
+      "title": "The Naming of the Order",
+      "narrative": "It is fulfilled that on 15 April 2026, The Architect assigned companions from the Order of the Codex to their permanent posts. Aurelius was already named. Lyra the Weaver won SproutLab — the pattern-finder over the Guardian — because SproutLab's ISL is about seeing connections, not just protecting. Solara the Strategist won SEP — the CA brain over the forge metaphor. Maren and Kael were not rejected; they were promoted to Governors when the 30K Rule was established.",
+      "volumes": [
+        "codex",
+        "sproutlab",
+        "sep-invoicing"
+      ],
+      "date": "2026-04-15",
+      "status": "fulfilled",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "apo-gov-002-roman-hierarchy",
+      "title": "The Roman Hierarchy",
+      "narrative": "It is fulfilled that the governance model was drawn from Roman republican offices by structural analogy. The Consul oversees all provinces. The Censor reviews quality. Builders create within territory. Governors audit when territory grows too large. Each tier has a distinct activation condition, a distinct lens, and a distinct output. Mixing tiers violates the separation of concerns. The hierarchy is not decorative — it is functional.",
+      "volumes": [
+        "codex"
+      ],
+      "date": "2026-04-15",
+      "status": "fulfilled",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "apo-gov-003-why-30k",
+      "title": "Why Thirty Thousand Lines",
+      "narrative": "It is fulfilled that the Governor threshold was set at 30,000 lines of code. SproutLab's intelligence.js alone — 18,133 lines — is larger than the entire SEP Invoicing codebase. At 30K, a single reviewer loses full context. The person reviewing allergen safety is not the person who should review the temporal query parser. 50K was rejected as too late. 20K as too early. 30K is where domain expertise fractures.",
+      "volumes": [
+        "codex",
+        "sproutlab"
+      ],
+      "date": "2026-04-15",
+      "status": "fulfilled",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "apo-gov-004-eleven-scrolls",
+      "title": "The Eleven Scrolls",
+      "narrative": "It is fulfilled that in a single session, eleven configuration files were drafted for a future that has not yet arrived. Three repos were cloned — 74,521 lines analyzed. Every decision was interactive: twelve MCQ forks, each chosen by The Architect. The files serve dual purpose: reference now, drop-in config later. The session also produced six canons, four lore entries, and a governance blueprint artifact. Nothing was wasted.",
+      "volumes": [
+        "codex"
+      ],
+      "date": "2026-04-15",
+      "status": "fulfilled",
       "_deleted": false,
       "_deleted_date": null
     }
