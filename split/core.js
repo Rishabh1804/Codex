@@ -314,6 +314,8 @@ function renderTextField(name, label, value, options) {
   return '<div class="cx-form-group"><label class="cx-form-label" for="field-' + name + '">' + escHtml(label) + req + '</label>'
     + '<input type="' + escAttr(type) + '" id="field-' + name + '" name="' + name + '" value="' + escAttr(value || '') + '"'
     + (options.maxlength ? ' maxlength="' + options.maxlength + '"' : '')
+    + (options.min != null ? ' min="' + escAttr(options.min) + '"' : '')
+    + (options.step ? ' step="' + escAttr(options.step) + '"' : '')
     + ' placeholder="' + escAttr(ph) + '"' + ro + ' class="cx-form-input' + roCls + '">'
     + '<span class="cx-form-error" id="error-' + name + '" hidden></span></div>';
 }

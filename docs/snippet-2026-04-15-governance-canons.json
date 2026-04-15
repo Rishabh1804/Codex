@@ -1,0 +1,89 @@
+{
+  "snippet_type": "canons",
+  "operations": [
+    {
+      "op": "new_canon",
+      "data": {
+        "id": "canon-gov-001-30k-rule",
+        "scope": "global",
+        "category": "architecture",
+        "title": "The 30K Rule: Governor Split Threshold",
+        "rationale": "Any repo crossing 30,000 LOC triggers a Governor split. Governors are domain-scoped QA reviewers who sit between the Builder and the Censor. At 30K lines, a single reviewer loses the ability to maintain full context across all modules. 50K was rejected as too late; 20K as too early.",
+        "created": "2026-04-15",
+        "status": "active",
+        "superseded_by": null,
+        "references": ["lore-003-the-30k-threshold"]
+      }
+    },
+    {
+      "op": "new_canon",
+      "data": {
+        "id": "canon-gov-002-qa-only-activation",
+        "scope": "global",
+        "category": "process",
+        "title": "Governors Activate During QA Only",
+        "rationale": "Governors do not participate during build mode — too many voices creates confusion. The Builder builds alone. Governors activate during QA rounds, audit their jurisdiction independently, and report upward. The Builder synthesizes Governor reports before Cipher does the final cross-cutting pass.",
+        "created": "2026-04-15",
+        "status": "active",
+        "superseded_by": null,
+        "references": ["canon-gov-001-30k-rule"]
+      }
+    },
+    {
+      "op": "new_canon",
+      "data": {
+        "id": "canon-gov-003-shared-module-dual-review",
+        "scope": "global",
+        "category": "process",
+        "title": "Shared Modules Get Dual Governor Review",
+        "rationale": "Modules that span both Governor jurisdictions (styles.css, template.html) are reviewed by BOTH Governors. This is a feature, not overhead — cross-cutting code benefits from two sets of domain-specific eyes. Each Governor reviews shared modules through their own lens (Maren checks accessibility and safety UX; Kael checks token consistency and icon coverage).",
+        "created": "2026-04-15",
+        "status": "active",
+        "superseded_by": null,
+        "references": ["canon-gov-001-30k-rule"]
+      }
+    },
+    {
+      "op": "new_canon",
+      "data": {
+        "id": "canon-gov-004-persona-reassignment",
+        "scope": "global",
+        "category": "process",
+        "title": "Persona Reassignment Process — 5 Steps, 30-Day Cooldown",
+        "rationale": "Personas are not permanent. As a repo evolves, its primary work may shift domains. Reassignment follows: Trigger → Assessment (journal entry) → Decision (Architect decides, Consul advises) → Transition (update all docs, archive old persona as Lore) → 30-day cooldown. Frequent switching signals unclear domain, not bad persona.",
+        "created": "2026-04-15",
+        "status": "active",
+        "superseded_by": null,
+        "references": []
+      }
+    },
+    {
+      "op": "new_canon",
+      "data": {
+        "id": "canon-gov-005-care-vs-intelligence-split",
+        "scope": "sproutlab",
+        "category": "architecture",
+        "title": "SproutLab Domain Split: Care (22,626 LOC) vs Intelligence (27,614 LOC)",
+        "rationale": "SproutLab's 61,700 lines split into two Governor jurisdictions along domain boundaries, not code layers. Care domain (home.js + diet.js + medical.js) handles what directly affects the baby. Intelligence domain (intelligence.js + core.js + data.js + sync.js) handles the brain and plumbing. Shared modules (styles.css + template.html = 11,491 lines) get dual review. Domain-pure split chosen over surface/deep or body/mind because a diet bug and an ISL parser bug require completely different mental models.",
+        "created": "2026-04-15",
+        "status": "active",
+        "superseded_by": null,
+        "references": ["canon-gov-001-30k-rule"]
+      }
+    },
+    {
+      "op": "new_canon",
+      "data": {
+        "id": "canon-gov-006-one-builder-per-repo",
+        "scope": "global",
+        "category": "architecture",
+        "title": "One Builder Per Repo — Persona-to-Repo Binding",
+        "rationale": "Each repo has exactly one Builder persona. The Builder is the default voice for all sessions in that repo. Aurelius builds Codex. Lyra builds SproutLab. Solara builds SEP Invoicing. Multi-persona noise during build mode degrades output quality. Secondary personas (Governors, Cipher) activate only under explicit conditions.",
+        "created": "2026-04-15",
+        "status": "active",
+        "superseded_by": null,
+        "references": []
+      }
+    }
+  ]
+}

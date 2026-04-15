@@ -266,6 +266,9 @@ a{color:inherit;text-decoration:none}
 .cx-empty-title{font-family:var(--ff-heading);font-size:var(--fs-md);margin:var(--sp-8) 0;color:var(--text-secondary)}
 .cx-empty-subtitle{font-size:var(--fs-sm);color:var(--text-tertiary);margin-bottom:var(--sp-16)}
 .cx-error-state{text-align:center;padding:var(--sp-32) var(--sp-16)}
+.cx-error-message{font-size:var(--fs-sm);color:var(--error);margin-top:var(--sp-8);line-height:1.5}
+.cx-missing{display:inline-block;width:24px;height:24px}
+.cx-search-results{padding:var(--sp-8) var(--sp-16)}
 .cx-blocker{text-align:center;padding:var(--sp-32)}
 
 /* --- Settings rows --- */
@@ -1774,6 +1777,8 @@ function renderTextField(name, label, value, options) {
   return '<div class="cx-form-group"><label class="cx-form-label" for="field-' + name + '">' + escHtml(label) + req + '</label>'
     + '<input type="' + escAttr(type) + '" id="field-' + name + '" name="' + name + '" value="' + escAttr(value || '') + '"'
     + (options.maxlength ? ' maxlength="' + options.maxlength + '"' : '')
+    + (options.min != null ? ' min="' + escAttr(options.min) + '"' : '')
+    + (options.step ? ' step="' + escAttr(options.step) + '"' : '')
     + ' placeholder="' + escAttr(ph) + '"' + ro + ' class="cx-form-input' + roCls + '">'
     + '<span class="cx-form-error" id="error-' + name + '" hidden></span></div>';
 }
@@ -4460,6 +4465,16 @@ function handlePreviewSnippet() {
     });
   }
 
+  // Preview volume_updates
+  if (_snippetParsed.volume_updates && _snippetParsed.volume_updates.length > 0) {
+    _snippetParsed.volume_updates.forEach(function(vu) {
+      var tvol = store.volumes.find(function(v) { return v.id === vu.id; });
+      html += '<div class="cx-preview-item">' + (tvol
+        ? '<span class="cx-preview-ok">\u2713</span> Update volume: ' + escHtml(tvol.name) + (vu.patch.current_phase ? ' \u2192 ' + escHtml(vu.patch.current_phase) : '')
+        : '<span class="cx-preview-skip">\u2717</span> Volume ' + escHtml(vu.id) + ' (not found)') + '</div>';
+    });
+  }
+
   // Preview apocrypha (Phase 5 — upsert)
   if (_snippetParsed.apocrypha && _snippetParsed.apocrypha.length > 0) {
     _snippetParsed.apocrypha.forEach(function(a) {
@@ -4477,7 +4492,7 @@ function handlePreviewSnippet() {
 
 function handleImportSnippet() {
   if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
-  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, apocrypha: 0 };
+  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, volumeUpdates: 0, apocrypha: 0 };
 
   try {
     // 1. Session
@@ -4567,6 +4582,16 @@ function handleImportSnippet() {
       });
     }
 
+    // 6d. Volume updates
+    if (_snippetParsed.volume_updates) {
+      _snippetParsed.volume_updates.forEach(function(vu) {
+        try {
+          store.updateVolume(vu.id, vu.patch);
+          counts.volumeUpdates++;
+        } catch(e) { /* skip if not found */ }
+      });
+    }
+
     // 7. Apocrypha (Phase 5 — upsert: update if exists, create if not)
     if (_snippetParsed.apocrypha) {
       _snippetParsed.apocrypha.forEach(function(a) {
@@ -4591,6 +4616,7 @@ function handleImportSnippet() {
     if (counts.chapterUpdates) parts.push(counts.chapterUpdates + ' chapter update' + (counts.chapterUpdates > 1 ? 's' : ''));
     if (counts.canonUpdates) parts.push(counts.canonUpdates + ' canon update' + (counts.canonUpdates > 1 ? 's' : ''));
     if (counts.todoUpdates) parts.push(counts.todoUpdates + ' TODO update' + (counts.todoUpdates > 1 ? 's' : ''));
+    if (counts.volumeUpdates) parts.push(counts.volumeUpdates + ' volume update' + (counts.volumeUpdates > 1 ? 's' : ''));
     if (counts.apocrypha) parts.push(counts.apocrypha + ' apocryphon' + (counts.apocrypha > 1 ? ' entries' : ''));
 
     showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');

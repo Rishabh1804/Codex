@@ -764,6 +764,16 @@ function handlePreviewSnippet() {
     });
   }
 
+  // Preview volume_updates
+  if (_snippetParsed.volume_updates && _snippetParsed.volume_updates.length > 0) {
+    _snippetParsed.volume_updates.forEach(function(vu) {
+      var tvol = store.volumes.find(function(v) { return v.id === vu.id; });
+      html += '<div class="cx-preview-item">' + (tvol
+        ? '<span class="cx-preview-ok">\u2713</span> Update volume: ' + escHtml(tvol.name) + (vu.patch.current_phase ? ' \u2192 ' + escHtml(vu.patch.current_phase) : '')
+        : '<span class="cx-preview-skip">\u2717</span> Volume ' + escHtml(vu.id) + ' (not found)') + '</div>';
+    });
+  }
+
   // Preview apocrypha (Phase 5 — upsert)
   if (_snippetParsed.apocrypha && _snippetParsed.apocrypha.length > 0) {
     _snippetParsed.apocrypha.forEach(function(a) {
@@ -781,7 +791,7 @@ function handlePreviewSnippet() {
 
 function handleImportSnippet() {
   if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
-  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, apocrypha: 0 };
+  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, volumeUpdates: 0, apocrypha: 0 };
 
   try {
     // 1. Session
@@ -871,6 +881,16 @@ function handleImportSnippet() {
       });
     }
 
+    // 6d. Volume updates
+    if (_snippetParsed.volume_updates) {
+      _snippetParsed.volume_updates.forEach(function(vu) {
+        try {
+          store.updateVolume(vu.id, vu.patch);
+          counts.volumeUpdates++;
+        } catch(e) { /* skip if not found */ }
+      });
+    }
+
     // 7. Apocrypha (Phase 5 — upsert: update if exists, create if not)
     if (_snippetParsed.apocrypha) {
       _snippetParsed.apocrypha.forEach(function(a) {
@@ -895,6 +915,7 @@ function handleImportSnippet() {
     if (counts.chapterUpdates) parts.push(counts.chapterUpdates + ' chapter update' + (counts.chapterUpdates > 1 ? 's' : ''));
     if (counts.canonUpdates) parts.push(counts.canonUpdates + ' canon update' + (counts.canonUpdates > 1 ? 's' : ''));
     if (counts.todoUpdates) parts.push(counts.todoUpdates + ' TODO update' + (counts.todoUpdates > 1 ? 's' : ''));
+    if (counts.volumeUpdates) parts.push(counts.volumeUpdates + ' volume update' + (counts.volumeUpdates > 1 ? 's' : ''));
     if (counts.apocrypha) parts.push(counts.apocrypha + ' apocryphon' + (counts.apocrypha > 1 ? ' entries' : ''));
 
     showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');

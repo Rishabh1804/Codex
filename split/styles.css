@@ -208,6 +208,9 @@ a{color:inherit;text-decoration:none}
 .cx-empty-title{font-family:var(--ff-heading);font-size:var(--fs-md);margin:var(--sp-8) 0;color:var(--text-secondary)}
 .cx-empty-subtitle{font-size:var(--fs-sm);color:var(--text-tertiary);margin-bottom:var(--sp-16)}
 .cx-error-state{text-align:center;padding:var(--sp-32) var(--sp-16)}
+.cx-error-message{font-size:var(--fs-sm);color:var(--error);margin-top:var(--sp-8);line-height:1.5}
+.cx-missing{display:inline-block;width:24px;height:24px}
+.cx-search-results{padding:var(--sp-8) var(--sp-16)}
 .cx-blocker{text-align:center;padding:var(--sp-32)}
 
 /* --- Settings rows --- */
