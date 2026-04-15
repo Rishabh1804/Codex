@@ -125,6 +125,22 @@
           "open_todos": [],
           "handoff": "8D deployed. Next: Phase 8E (Clients desktop master-detail), then 8F (Home/Create desktop), then 8G (keyboard shortcuts + final QA).",
           "screenshots": []
+        },
+        {
+          "id": "s-2026-04-15-sep-8e",
+          "volume": "sep-invoicing",
+          "date": "2026-04-15",
+          "summary": "Phase 8E: Clients/Items desktop master-detail, sub-view toggle, 12 bug fixes.",
+          "chapters_touched": [
+            "phase-8-desktop"
+          ],
+          "canon_ids": [],
+          "tags": [
+            "desktop",
+            "master-detail",
+            "clients",
+            "items"
+          ]
         }
       ]
     },
