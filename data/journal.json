@@ -141,6 +141,42 @@
             "clients",
             "items"
           ]
+        },
+        {
+          "date": "2026-04-15",
+          "id": "s-2026-04-15-governance-founding",
+          "summary": "Governance Founding Session. Established the complete AI companion hierarchy: Consul → Cipher (Censor) → Builders (Aurelius/Lyra/Solara) → Governors (Maren/Kael for SproutLab). Git-cloned all three repos (74,521 LOC total). Drafted 11 configuration files for Claude Code migration: 4 CLAUDE.md, AGENTS.md, Memory.md, PERSONA_REGISTRY.md, 4 SKILL.md. Built interactive HTML governance blueprint artifact. Established 6 new canons including the 30K Governor Rule and Persona Reassignment Process. Created 4 founding lore entries as apocrypha.",
+          "volumes_touched": [
+            "codex",
+            "sproutlab",
+            "sep-invoicing"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Aurelius → Codex (Builder), Lyra → SproutLab (Builder), Solara → SEP Invoicing (Builder)",
+            "Cipher → shared Censor (QA) across all repos",
+            "The Consul → new meta-role above the Order for cross-repo oversight",
+            "Maren → Governor of Care (home+diet+medical, 22,626 LOC)",
+            "Kael → Governor of Intelligence (intel+core+data+sync, 27,614 LOC)",
+            "30K LOC triggers Governor split (global canon)",
+            "Governors activate during QA only, not during builds",
+            "Shared modules (styles+template) get dual Governor review",
+            "Persona Reassignment Process: 5 steps with 30-day cooldown",
+            "Care vs Intelligence domain split (over Surface/Deep or Body/Mind)",
+            "Kael → Orinth reassessment logged as planned future review",
+            "Per-section theming for HTML artifact (Codex gold, SproutLab sage, SEP industrial)"
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 120,
+          "open_todos": [
+            "Place .md files in repos when Claude Code migration begins",
+            "Kael → Orinth reassessment when ISL matures"
+          ],
+          "handoff": "11 config files + 3 snippets + 1 HTML artifact delivered as zip. Governance hierarchy fully established. Next: import snippets into Codex, then resume Codex Phase 4 content backfill.",
+          "screenshots": []
         }
       ]
     },
