@@ -200,6 +200,28 @@
           "duration_minutes": 45,
           "open_todos": [],
           "handoff": "All BN items resolved. Snippet pipeline now supports volume_updates. Next: feature work or cross-project docs push."
+        },
+        {
+          "id": "s-2026-04-15-03",
+          "date": "2026-04-15",
+          "summary": "Hotfix: Phase 1 Lore seed migration bypassed WAL, so the 4 seeded entries never synced to GitHub. Root cause: migration used store.lore.push() instead of store.addLore(). Only the manually-imported Cautionary Tale (lore-005) survived because it went through addLore which creates WAL entries. Fix: bumped migration ID to v2, now uses addLore. Verified via dry-run. PR #2 merged to main as d451c7e. All 5 lore entries now live and permanent in canons.json. Authored companion Doctrine lore-006 crystallizing the lesson: seed data must flow through the sync pipeline.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "phase-1-lore"
+          ],
+          "decisions": [
+            "seed-data-via-addLore-not-direct-push",
+            "bump-migration-id-for-recovery",
+            "companion-doctrine-not-inline-tale-append"
+          ],
+          "bugs_found": 1,
+          "bugs_fixed": 1,
+          "duration_minutes": 25,
+          "open_todos": [],
+          "handoff": "Audit existing migrations and any future seed/backfill code for this anti-pattern. The Phase 5 apocryphon backfill used addApocryphon (safe); our v1 Lore migration did not. If any future migration directly pushes to store arrays, it is a rehearsal, not a shipment. Stale remote branches claude/fix-lore-migration and claude/initial-setup-MmPPI remain on GitHub pending UI delete — harmless.",
+          "screenshots": []
         }
       ]
     },
