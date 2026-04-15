@@ -558,6 +558,20 @@
           "order": 15,
           "_deleted": false,
           "_deleted_date": null
+        },
+        {
+          "id": "phase-1-lore",
+          "name": "Phase 1 — Lore Implementation",
+          "status": "complete",
+          "started": "2026-04-15",
+          "completed": "2026-04-15",
+          "ended": null,
+          "summary": "Built dissertation §3.4 Lore layer — 5 categories, top-level tab, CRUD, snippet pipeline with back-compat, 3 auto-gen lifecycle hooks, trash, search. 4 governance lore entries seeded via migration. Aura deferred to Phase 1.5. +3,172 lines across 10 files.",
+          "spec_url": null,
+          "content": "## Scope\n\nImplement dissertation §3.4 Lore as a first-class knowledge entity, peer to Canons and Apocrypha. Backward-looking narrative wisdom in five categories.\n\n## What Shipped\n\nData model is dissertation-faithful: domain[], references[], tags[], sourceType, sourceId. All 5 categories present — Edicts, Origins, Cautionary Tales, Doctrines, Chronicles — with distinct voice per category rendered in detail view.\n\nTop-level Lore tab (5th in tab bar) with category and domain filters, category-grouped sort option, italic narrative cards with per-category color-tinted left border.\n\nFull CRUD via overlay form. Snippet pipeline accepts both {lore:[...]} and legacy {new_lore:[{op,data}]} shapes with volumes→domain and canon_id→references back-compat.\n\nAuto-gen lifecycle hooks (proposal-only, Architect confirms): chapter abandoned → Cautionary Tale, volume archived → Chronicle, canon superseded → Doctrine. Bottom banner prompt, auto-dismisses after 20s if ignored.\n\nTrash, search weighting (title 3x / tags 2x / body 1x, type weight 4), WAL entity_type 'lore', canons.json sync, stats bar count, autolore CSS banner.\n\nMigration 'phase-1-lore-governance-seed-v1' seeds the 4 pre-written governance lore entries from docs/snippet-2026-04-15-governance-lore.json, retrofitted from the draft shape (volumes[], canon_id) to the dissertation shape (domain[], references[]).\n\n## What Was Deferred\n\nAura: the 6-tier rarity system's scoring depends on Bonds, Lineage, and referenced-by counts — none of these exist as Codex primitives today. Manual dropdown was rejected as architecture debt. Deferred to Phase 1.5.\n\nCrystallization detection (§8.1 Whisper events) — needs Whisper system.\n\nRPG-native lifecycle hooks (Prophecy fulfilled/defied, Rite released, Ember snuffed) — need those entities to exist first.\n\n## First Cautionary Tale\n\nThis session authored 'The Two Shortcuts We Didn't Take' (lore-005) — the first Cautionary Tale in the archive. Named the distinction between environment debt (cheap, pay now) and architecture debt (expensive, defer honestly). Echoes lore-003 (30K Threshold) on the theme of knowing when something is ready.",
+          "order": 11,
+          "_deleted": false,
+          "_deleted_date": null
         }
       ],
       "todos": [
@@ -627,10 +641,10 @@
         {
           "id": "todo-0008-lore-phase1",
           "text": "Phase 1: Implement Lore — 5 categories (Edicts, Origins, Cautionary Tales, Doctrines, Chronicles), CRUD, Aura assignment, auto-generation hooks from lifecycle events. Spec in dissertation Section 3.4.",
-          "status": "open",
+          "status": "resolved",
           "chapter": "rpg-design",
           "created": "2026-04-15",
-          "resolved": null,
+          "resolved": "2026-04-15",
           "source_session": "s-2026-04-15-01"
         },
         {
