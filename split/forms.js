@@ -689,6 +689,74 @@ function handleCopyLoreJson(loreId) {
   copyToClipboard(JSON.stringify(copy, null, 2), 'Lore JSON copied');
 }
 
+/* Export Lore as markdown. Respects active filters (_loreFilters) so the
+   user can export just Doctrines, or just codex-domain lore. Phase 1.5 B3. */
+function handleExportLoreMarkdown() {
+  var all = filterActive(store.lore);
+  var filtered = all.filter(function(l) {
+    if (_loreFilters.category && l.category !== _loreFilters.category) return false;
+    if (_loreFilters.domain && (l.domain || []).indexOf(_loreFilters.domain) === -1) return false;
+    return true;
+  });
+
+  if (filtered.length === 0) { showToast('No lore to export', 'info'); return; }
+
+  var lines = [];
+  lines.push('# Codex Lore');
+  lines.push('');
+  lines.push('_Exported ' + localDateStr() + ' \u00B7 ' + filtered.length + ' entr' + (filtered.length === 1 ? 'y' : 'ies') + (all.length !== filtered.length ? ' (filtered from ' + all.length + ')' : '') + '_');
+  lines.push('');
+
+  // Group by category in canonical dissertation order
+  LORE_CATEGORIES.forEach(function(cat) {
+    var inCat = filtered.filter(function(l) { return l.category === cat; });
+    if (inCat.length === 0) return;
+    // Sort within category by created descending
+    inCat.sort(function(a, b) { return (b.created || '').localeCompare(a.created || ''); });
+
+    lines.push('## ' + LORE_CATEGORY_LABELS[cat]);
+    var voice = LORE_CATEGORY_VOICES[cat];
+    if (voice) lines.push('_"' + voice + '"_');
+    lines.push('');
+
+    inCat.forEach(function(l) {
+      lines.push('### ' + l.title);
+      lines.push('');
+      // Body as blockquoted prose, preserving paragraph breaks
+      var bodyLines = (l.body || '').split('\n');
+      bodyLines.forEach(function(bl) {
+        lines.push('> ' + bl);
+      });
+      lines.push('');
+
+      // Metadata footer
+      var meta = [];
+      if (l.domain && l.domain.length > 0) meta.push('**Domain:** ' + l.domain.join(', '));
+      if (l.tags && l.tags.length > 0) meta.push('**Tags:** ' + l.tags.map(function(t) { return '#' + t; }).join(' '));
+      if (l.references && l.references.length > 0) meta.push('**References:** ' + l.references.join(', '));
+      if (l.sourceType && l.sourceType !== 'manual') meta.push('**Source:** ' + l.sourceType.replace(/_/g, ' ') + (l.sourceId ? ' (' + l.sourceId + ')' : ''));
+      if (l.created) meta.push('**Created:** ' + l.created);
+      if (l.updated && l.updated !== l.created) meta.push('**Updated:** ' + l.updated);
+      if (meta.length > 0) {
+        lines.push(meta.join('  \u00B7  '));
+        lines.push('');
+      }
+      lines.push('---');
+      lines.push('');
+    });
+  });
+
+  var md = lines.join('\n');
+  var blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'codex-lore-' + localDateStr() + '.md';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Exported ' + filtered.length + ' lore entr' + (filtered.length === 1 ? 'y' : 'ies'), 'success');
+}
+
 /* ============================================================
    PHASE 3: Schism Create
    ============================================================ */

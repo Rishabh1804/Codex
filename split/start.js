@@ -24,6 +24,7 @@ function setupDelegation() {
       // Navigation
       case 'switchTab': handleSwitchTab(el.dataset.tab); break;
       case 'goToVolume': navigate('#/volume/' + encodeURIComponent(id)); break;
+      case 'goToChapter': navigate('#/chapter/' + encodeURIComponent(vol) + '/' + encodeURIComponent(id)); break;
       case 'goBack': window.history.back(); break;
       case 'navigate': navigate(el.dataset.route); break;
       case 'openSettings': navigate('#/settings'); break;
@@ -265,6 +266,7 @@ function setupDelegation() {
         break;
       case 'acceptAutoLore': handleAcceptAutoLore(id); break;
       case 'dismissAutoLore': handleDismissAutoLore(id); break;
+      case 'exportLoreMarkdown': handleExportLoreMarkdown(); break;
 
       // Phase 3: Schisms
       case 'openCreateSchism': openCreateSchism(); break;

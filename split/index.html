@@ -929,6 +929,25 @@ body {
 .cx-lore-cat-chronicles{border-left-color:var(--accent-light)}
 .cx-lore-cat-chronicles-chip{background:color-mix(in srgb,var(--accent-light) 15%,transparent);color:var(--accent-light)}
 
+/* Lore health strip (Phase 1.5 B2) */
+.cx-lore-health{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-10) var(--sp-12);margin-bottom:var(--sp-12)}
+.cx-lore-health-row{display:flex;align-items:center;gap:var(--sp-12);flex-wrap:wrap}
+.cx-lore-health-total{font-size:var(--fs-xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px;flex-shrink:0}
+.cx-lore-health-num{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--text-primary);margin-right:var(--sp-4)}
+.cx-lore-health-dots{display:flex;flex-wrap:wrap;gap:var(--sp-8);flex:1;min-width:0}
+.cx-lore-health-dot{display:inline-flex;align-items:center;gap:var(--sp-4);font-size:var(--fs-xs);color:var(--text-secondary)}
+.cx-lore-health-dot-mark{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:currentColor}
+.cx-lore-health-dot-label{white-space:nowrap}
+/* Per-category dot colors — use the same tints as the category chips */
+.cx-lore-health-dot.cx-lore-cat-edicts{color:var(--accent)}
+.cx-lore-health-dot.cx-lore-cat-origins{color:var(--success)}
+.cx-lore-health-dot.cx-lore-cat-cautionary_tales{color:var(--error)}
+.cx-lore-health-dot.cx-lore-cat-doctrines{color:var(--warning)}
+.cx-lore-health-dot.cx-lore-cat-chronicles{color:var(--accent-light)}
+.cx-lore-export-btn{min-width:32px;min-height:32px;padding:var(--sp-4);margin-left:auto;flex-shrink:0}
+.cx-lore-export-btn svg{width:16px;height:16px}
+.cx-lore-health-orphans{margin-top:var(--sp-6);font-size:var(--fs-xs);color:var(--text-tertiary);font-style:italic}
+
 /* Auto-lore proposal banner (bottom of screen, above tab bar) */
 .cx-autolore-banner{position:fixed;left:var(--sp-16);right:var(--sp-16);bottom:calc(70px + env(safe-area-inset-bottom));z-index:900;background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--r-lg);padding:var(--sp-12) var(--sp-16);box-shadow:0 6px 24px rgba(0,0,0,0.18);opacity:0;transform:translateY(12px);transition:opacity 0.25s,transform 0.25s;max-width:600px;margin:0 auto}
 .cx-autolore-banner.cx-autolore-visible{opacity:1;transform:translateY(0)}
@@ -3008,6 +3027,12 @@ function renderLore() {
   var vc = document.getElementById('viewContainer');
   var html = '';
 
+  // Phase 1.5 B2: Health strip + B3: Export button
+  var allLore = filterActive(store.lore);
+  if (allLore.length > 0) {
+    html += renderLoreHealthStrip(allLore);
+  }
+
   // Category filter bar
   html += '<div class="cx-filter-bar">';
   html += '<span class="cx-filter-label">Category:</span>';
@@ -3101,6 +3126,39 @@ function renderLore() {
   vc.innerHTML = html;
 }
 
+/* Lore tab health strip — total count, per-category distribution, orphan count.
+   Also hosts the markdown export button. Phase 1.5 B2 + B3. */
+function renderLoreHealthStrip(allLore) {
+  var byCat = {};
+  LORE_CATEGORIES.forEach(function(c) { byCat[c] = 0; });
+  var orphans = 0;
+  allLore.forEach(function(l) {
+    if (byCat.hasOwnProperty(l.category)) byCat[l.category]++;
+    if (!l.references || l.references.length === 0) orphans++;
+  });
+
+  var html = '<div class="cx-lore-health">';
+  html += '<div class="cx-lore-health-row">';
+  html += '<span class="cx-lore-health-total"><span class="cx-lore-health-num">' + allLore.length + '</span> lore</span>';
+  html += '<div class="cx-lore-health-dots">';
+  LORE_CATEGORIES.forEach(function(c) {
+    var n = byCat[c];
+    if (n === 0) return;
+    html += '<span class="cx-lore-health-dot cx-lore-cat-' + escAttr(c) + '" title="' + escAttr(n + ' ' + LORE_CATEGORY_LABELS[c]) + '">'
+      + '<span class="cx-lore-health-dot-mark"></span>'
+      + '<span class="cx-lore-health-dot-label">' + n + ' ' + escHtml(LORE_CATEGORY_LABELS[c]) + '</span>'
+      + '</span>';
+  });
+  html += '</div>';
+  html += '<button class="cx-btn-icon cx-lore-export-btn" data-action="exportLoreMarkdown" title="Export Lore as markdown">' + cx('download') + '</button>';
+  html += '</div>';
+  if (orphans > 0) {
+    html += '<div class="cx-lore-health-orphans">' + orphans + ' orphan' + (orphans !== 1 ? 's' : '') + ' \u00B7 lore without references</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
 function renderLoreCard(l) {
   var catClass = 'cx-lore-cat-' + escAttr(l.category);
   var html = '<div class="cx-card cx-card-clickable cx-lore-card ' + catClass + '" data-action="goToLore" data-id="' + escAttr(l.id) + '">';
@@ -3135,6 +3193,36 @@ function renderLoreCard(l) {
 
   html += '</div>';
   return html;
+}
+
+/* Resolve a lore reference ID against any known entity type and return
+   a clickable link (or plain text fallback). Phase 1.5 B1 polish. */
+function renderLoreReferenceLink(refId) {
+  // Canon
+  var canon = store.canons.find(function(c) { return c.id === refId; });
+  if (canon) return '<button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(refId) + '">' + escHtml(canon.title || refId) + '</button>';
+  // Volume
+  var vol = store.volumes.find(function(v) { return v.id === refId; });
+  if (vol) return '<button class="cx-link-btn" data-action="goToVolume" data-id="' + escAttr(refId) + '">' + escHtml(vol.name) + '</button>';
+  // Lore (peer reference)
+  var lentry = store.lore.find(function(x) { return x.id === refId; });
+  if (lentry) return '<button class="cx-link-btn" data-action="goToLore" data-id="' + escAttr(refId) + '">' + escHtml(lentry.title || refId) + '</button>';
+  // Chapter — requires parent volume lookup
+  for (var i = 0; i < store.volumes.length; i++) {
+    var v = store.volumes[i];
+    var ch = (v.chapters || []).find(function(c) { return c.id === refId; });
+    if (ch) {
+      return '<button class="cx-link-btn" data-action="goToChapter" data-vol="' + escAttr(v.id) + '" data-id="' + escAttr(refId) + '">' + escHtml(ch.name || refId) + '</button>';
+    }
+  }
+  // Apocryphon (no detail route — bounce to Canons tab where Apocrypha section lives)
+  var apo = store.apocrypha.find(function(a) { return a.id === refId; });
+  if (apo) return '<button class="cx-link-btn" data-action="navigate" data-route="#/canons">\u201C' + escHtml(apo.title || refId) + '\u201D</button>';
+  // Schism — same bounce pattern
+  var schism = store.schisms.find(function(s) { return s.id === refId; });
+  if (schism) return '<button class="cx-link-btn" data-action="navigate" data-route="#/canons">' + escHtml((schism.rejected ? 'Rejected: ' + schism.rejected : refId)) + '</button>';
+  // Unresolved — plain text
+  return '<span>' + escHtml(refId) + '</span>';
 }
 
 function renderLoreDetail(route) {
@@ -3188,21 +3276,13 @@ function renderLoreDetail(route) {
     html += '</div>';
   }
 
-  // References — may point to canons, chapters, volumes, or any ID
+  // References — resolve against all known entity types (Phase 1.5 B1)
   if (l.references && l.references.length > 0) {
     html += '<div class="cx-section-title">References</div>';
     html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
     l.references.forEach(function(refId, idx) {
-      var canon = store.canons.find(function(c) { return c.id === refId; });
-      var vol = store.volumes.find(function(v) { return v.id === refId; });
       if (idx > 0) html += ', ';
-      if (canon) {
-        html += '<button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(refId) + '">' + escHtml(canon.title || refId) + '</button>';
-      } else if (vol) {
-        html += '<button class="cx-link-btn" data-action="goToVolume" data-id="' + escAttr(refId) + '">' + escHtml(vol.name) + '</button>';
-      } else {
-        html += '<span>' + escHtml(refId) + '</span>';
-      }
+      html += renderLoreReferenceLink(refId);
     });
     html += '</div></div>';
   }
@@ -4822,6 +4902,74 @@ function handleCopyLoreJson(loreId) {
   copyToClipboard(JSON.stringify(copy, null, 2), 'Lore JSON copied');
 }
 
+/* Export Lore as markdown. Respects active filters (_loreFilters) so the
+   user can export just Doctrines, or just codex-domain lore. Phase 1.5 B3. */
+function handleExportLoreMarkdown() {
+  var all = filterActive(store.lore);
+  var filtered = all.filter(function(l) {
+    if (_loreFilters.category && l.category !== _loreFilters.category) return false;
+    if (_loreFilters.domain && (l.domain || []).indexOf(_loreFilters.domain) === -1) return false;
+    return true;
+  });
+
+  if (filtered.length === 0) { showToast('No lore to export', 'info'); return; }
+
+  var lines = [];
+  lines.push('# Codex Lore');
+  lines.push('');
+  lines.push('_Exported ' + localDateStr() + ' \u00B7 ' + filtered.length + ' entr' + (filtered.length === 1 ? 'y' : 'ies') + (all.length !== filtered.length ? ' (filtered from ' + all.length + ')' : '') + '_');
+  lines.push('');
+
+  // Group by category in canonical dissertation order
+  LORE_CATEGORIES.forEach(function(cat) {
+    var inCat = filtered.filter(function(l) { return l.category === cat; });
+    if (inCat.length === 0) return;
+    // Sort within category by created descending
+    inCat.sort(function(a, b) { return (b.created || '').localeCompare(a.created || ''); });
+
+    lines.push('## ' + LORE_CATEGORY_LABELS[cat]);
+    var voice = LORE_CATEGORY_VOICES[cat];
+    if (voice) lines.push('_"' + voice + '"_');
+    lines.push('');
+
+    inCat.forEach(function(l) {
+      lines.push('### ' + l.title);
+      lines.push('');
+      // Body as blockquoted prose, preserving paragraph breaks
+      var bodyLines = (l.body || '').split('\n');
+      bodyLines.forEach(function(bl) {
+        lines.push('> ' + bl);
+      });
+      lines.push('');
+
+      // Metadata footer
+      var meta = [];
+      if (l.domain && l.domain.length > 0) meta.push('**Domain:** ' + l.domain.join(', '));
+      if (l.tags && l.tags.length > 0) meta.push('**Tags:** ' + l.tags.map(function(t) { return '#' + t; }).join(' '));
+      if (l.references && l.references.length > 0) meta.push('**References:** ' + l.references.join(', '));
+      if (l.sourceType && l.sourceType !== 'manual') meta.push('**Source:** ' + l.sourceType.replace(/_/g, ' ') + (l.sourceId ? ' (' + l.sourceId + ')' : ''));
+      if (l.created) meta.push('**Created:** ' + l.created);
+      if (l.updated && l.updated !== l.created) meta.push('**Updated:** ' + l.updated);
+      if (meta.length > 0) {
+        lines.push(meta.join('  \u00B7  '));
+        lines.push('');
+      }
+      lines.push('---');
+      lines.push('');
+    });
+  });
+
+  var md = lines.join('\n');
+  var blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'codex-lore-' + localDateStr() + '.md';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Exported ' + filtered.length + ' lore entr' + (filtered.length === 1 ? 'y' : 'ies'), 'success');
+}
+
 /* ============================================================
    PHASE 3: Schism Create
    ============================================================ */
@@ -5271,6 +5419,7 @@ function setupDelegation() {
       // Navigation
       case 'switchTab': handleSwitchTab(el.dataset.tab); break;
       case 'goToVolume': navigate('#/volume/' + encodeURIComponent(id)); break;
+      case 'goToChapter': navigate('#/chapter/' + encodeURIComponent(vol) + '/' + encodeURIComponent(id)); break;
       case 'goBack': window.history.back(); break;
       case 'navigate': navigate(el.dataset.route); break;
       case 'openSettings': navigate('#/settings'); break;
@@ -5512,6 +5661,7 @@ function setupDelegation() {
         break;
       case 'acceptAutoLore': handleAcceptAutoLore(id); break;
       case 'dismissAutoLore': handleDismissAutoLore(id); break;
+      case 'exportLoreMarkdown': handleExportLoreMarkdown(); break;
 
       // Phase 3: Schisms
       case 'openCreateSchism': openCreateSchism(); break;
