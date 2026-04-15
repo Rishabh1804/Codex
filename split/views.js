@@ -637,6 +637,12 @@ function renderLore() {
   var vc = document.getElementById('viewContainer');
   var html = '';
 
+  // Phase 1.5 B2: Health strip + B3: Export button
+  var allLore = filterActive(store.lore);
+  if (allLore.length > 0) {
+    html += renderLoreHealthStrip(allLore);
+  }
+
   // Category filter bar
   html += '<div class="cx-filter-bar">';
   html += '<span class="cx-filter-label">Category:</span>';
@@ -730,6 +736,39 @@ function renderLore() {
   vc.innerHTML = html;
 }
 
+/* Lore tab health strip — total count, per-category distribution, orphan count.
+   Also hosts the markdown export button. Phase 1.5 B2 + B3. */
+function renderLoreHealthStrip(allLore) {
+  var byCat = {};
+  LORE_CATEGORIES.forEach(function(c) { byCat[c] = 0; });
+  var orphans = 0;
+  allLore.forEach(function(l) {
+    if (byCat.hasOwnProperty(l.category)) byCat[l.category]++;
+    if (!l.references || l.references.length === 0) orphans++;
+  });
+
+  var html = '<div class="cx-lore-health">';
+  html += '<div class="cx-lore-health-row">';
+  html += '<span class="cx-lore-health-total"><span class="cx-lore-health-num">' + allLore.length + '</span> lore</span>';
+  html += '<div class="cx-lore-health-dots">';
+  LORE_CATEGORIES.forEach(function(c) {
+    var n = byCat[c];
+    if (n === 0) return;
+    html += '<span class="cx-lore-health-dot cx-lore-cat-' + escAttr(c) + '" title="' + escAttr(n + ' ' + LORE_CATEGORY_LABELS[c]) + '">'
+      + '<span class="cx-lore-health-dot-mark"></span>'
+      + '<span class="cx-lore-health-dot-label">' + n + ' ' + escHtml(LORE_CATEGORY_LABELS[c]) + '</span>'
+      + '</span>';
+  });
+  html += '</div>';
+  html += '<button class="cx-btn-icon cx-lore-export-btn" data-action="exportLoreMarkdown" title="Export Lore as markdown">' + cx('download') + '</button>';
+  html += '</div>';
+  if (orphans > 0) {
+    html += '<div class="cx-lore-health-orphans">' + orphans + ' orphan' + (orphans !== 1 ? 's' : '') + ' \u00B7 lore without references</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
 function renderLoreCard(l) {
   var catClass = 'cx-lore-cat-' + escAttr(l.category);
   var html = '<div class="cx-card cx-card-clickable cx-lore-card ' + catClass + '" data-action="goToLore" data-id="' + escAttr(l.id) + '">';
@@ -764,6 +803,36 @@ function renderLoreCard(l) {
 
   html += '</div>';
   return html;
+}
+
+/* Resolve a lore reference ID against any known entity type and return
+   a clickable link (or plain text fallback). Phase 1.5 B1 polish. */
+function renderLoreReferenceLink(refId) {
+  // Canon
+  var canon = store.canons.find(function(c) { return c.id === refId; });
+  if (canon) return '<button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(refId) + '">' + escHtml(canon.title || refId) + '</button>';
+  // Volume
+  var vol = store.volumes.find(function(v) { return v.id === refId; });
+  if (vol) return '<button class="cx-link-btn" data-action="goToVolume" data-id="' + escAttr(refId) + '">' + escHtml(vol.name) + '</button>';
+  // Lore (peer reference)
+  var lentry = store.lore.find(function(x) { return x.id === refId; });
+  if (lentry) return '<button class="cx-link-btn" data-action="goToLore" data-id="' + escAttr(refId) + '">' + escHtml(lentry.title || refId) + '</button>';
+  // Chapter — requires parent volume lookup
+  for (var i = 0; i < store.volumes.length; i++) {
+    var v = store.volumes[i];
+    var ch = (v.chapters || []).find(function(c) { return c.id === refId; });
+    if (ch) {
+      return '<button class="cx-link-btn" data-action="goToChapter" data-vol="' + escAttr(v.id) + '" data-id="' + escAttr(refId) + '">' + escHtml(ch.name || refId) + '</button>';
+    }
+  }
+  // Apocryphon (no detail route — bounce to Canons tab where Apocrypha section lives)
+  var apo = store.apocrypha.find(function(a) { return a.id === refId; });
+  if (apo) return '<button class="cx-link-btn" data-action="navigate" data-route="#/canons">\u201C' + escHtml(apo.title || refId) + '\u201D</button>';
+  // Schism — same bounce pattern
+  var schism = store.schisms.find(function(s) { return s.id === refId; });
+  if (schism) return '<button class="cx-link-btn" data-action="navigate" data-route="#/canons">' + escHtml((schism.rejected ? 'Rejected: ' + schism.rejected : refId)) + '</button>';
+  // Unresolved — plain text
+  return '<span>' + escHtml(refId) + '</span>';
 }
 
 function renderLoreDetail(route) {
@@ -817,21 +886,13 @@ function renderLoreDetail(route) {
     html += '</div>';
   }
 
-  // References — may point to canons, chapters, volumes, or any ID
+  // References — resolve against all known entity types (Phase 1.5 B1)
   if (l.references && l.references.length > 0) {
     html += '<div class="cx-section-title">References</div>';
     html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
     l.references.forEach(function(refId, idx) {
-      var canon = store.canons.find(function(c) { return c.id === refId; });
-      var vol = store.volumes.find(function(v) { return v.id === refId; });
       if (idx > 0) html += ', ';
-      if (canon) {
-        html += '<button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(refId) + '">' + escHtml(canon.title || refId) + '</button>';
-      } else if (vol) {
-        html += '<button class="cx-link-btn" data-action="goToVolume" data-id="' + escAttr(refId) + '">' + escHtml(vol.name) + '</button>';
-      } else {
-        html += '<span>' + escHtml(refId) + '</span>';
-      }
+      html += renderLoreReferenceLink(refId);
     });
     html += '</div></div>';
   }
