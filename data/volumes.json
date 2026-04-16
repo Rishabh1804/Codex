@@ -724,6 +724,30 @@
           "reason": "Focus shifted to SproutLab feature builds and SEP restructuring"
         }
       ]
+    },
+    {
+      "id": "command-center",
+      "name": "Command Center",
+      "shelf": "active",
+      "description": "The Capital Province of the Republic. Seat of governance — Senate, Cabinet, Ministers' offices, Temple, Archives, Gates. Sister Province to Codex (Ostia). Built by Ashara + Petra. Foundation stage.",
+      "domain_color": "#8b7355",
+      "tags": [
+        "pwa",
+        "governance",
+        "capital",
+        "monument"
+      ],
+      "repo": "rishabh1804/Command-Center",
+      "current_phase": "Foundation stage — all 14 rooms scaffolded, no functions active",
+      "chapters": [],
+      "todos": [],
+      "shelf_history": [
+        {
+          "shelf": "active",
+          "date": "2026-04-16",
+          "reason": "Created"
+        }
+      ]
     }
   ]
 }
