@@ -893,6 +893,187 @@
       ],
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "canon-0049-companions-via-snippet-pipeline",
+      "scope": "global",
+      "category": "architecture",
+      "title": "Companion Updates Flow Through Snippet Pipeline",
+      "rationale": "Once Codex's snippet-import pipeline supports new_companions and update_companions operations, all companion profile changes (new profiles, growth ratifications, residence retrofits, voice edits) flow through snippets — never direct file commits. The Round 3 bootstrap (companions.json v0.1 → v0.3, committed 16 April 2026) is the single exception on record; it was a one-time initialization, not an incremental update. Pipeline extension requires adding new_companions and update_companions ops to Codex/split/forms.js and updating the snippet-import SKILL.md.",
+      "created": "2026-04-16",
+      "status": "pending",
+      "superseded_by": null,
+      "references": [
+        "canon-0031-single-zip-delivery"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0050-sep-0001-mv-errata",
+      "scope": "sep-invoicing",
+      "category": "deploy",
+      "title": "Errata: canon-sep-0001 Example Uses cp, Should Be mv per canon-0027",
+      "rationale": "canon-sep-0001-deploy-workflow's rationale text references 'cp sep-invoicing.html index.html' which contradicts canon-0027-mv-over-cp. The actual deploy practice correctly uses mv. The rationale text is the error, not the practice. Amendment: update canon-sep-0001's rationale to replace cp with mv. Caught 16 April 2026 during CC Foundation deploy runbook review.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-0027-mv-over-cp",
+        "canon-sep-0001-deploy-workflow"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-0051-git-on-internal-storage",
+      "scope": "global",
+      "category": "deploy",
+      "title": "Git Repos on Termux Internal Home, Not Shared Storage",
+      "rationale": "Android's /storage/emulated/0/ is FUSE-backed. Long git operations (fetch, pack, rebase) can lose their working-directory handle mid-operation, producing 'fatal: unable to get current working directory: No such file or directory' and 'invalid index-pack output'. The failure is persistent and not resolved by cd-out-and-back-in. Clone git repos to Termux internal home (~/Codex, ~/SproutLab) for all git operations. Use ~/storage/shared/ only for the built PWA output that needs to be visible to Android's file manager. Discovered during Codex push attempt from ~/storage/shared/Codex on 16 April 2026 — resolved by fresh clone to ~/Codex on internal ext4.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-0047-termux-safe-directory"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-001-typst-authoritative",
+      "scope": "global",
+      "category": "architecture",
+      "title": "Typst Source Is Canonical; PDFs Are Build Artifacts",
+      "rationale": "The Constitution and companion profiles are authored in Typst source files (*.typ) stored in Codex/constitution/. PDFs are generated from Typst source via the typst compiler and are build artifacts — not canonical. If Typst source and PDF disagree, the Typst source is authoritative. PDFs are convenience renders for reading; they do not carry constitutional weight independent of their source.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-002-working-papers-companion",
+      "scope": "global",
+      "category": "governance",
+      "title": "Every Major Version Ships Working Papers",
+      "rationale": "Each MAJOR version milestone of the Republic's governance output (Constitution v1.0, Companion Profiles v1.0, Book ratification series) ships a companion Working Papers volume documenting the reasoning, trade-offs, and rejected alternatives behind the decisions. Working Papers are not canonical law — they are institutional memory. They are the Chronicler's interpretation, not the Sovereign's decree.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-003-ratification-chronicle",
+      "scope": "global",
+      "category": "governance",
+      "title": "Book Ratifications Produce Chronicle Lore Entries",
+      "rationale": "When a Book of the Constitution is formally ratified (Consul presents to Sovereign, Sovereign assents), the ratification event produces a Chronicle-category lore entry in Codex. The entry records: which Book, the date, the presenting Consul, the Sovereign's assent, any amendments made during ratification, and the witnesses present. Ratification without chronicle is incomplete ratification.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-004-founding-ratification-protocol",
+      "scope": "global",
+      "category": "governance",
+      "title": "Founding Ratification Protocol: Consul Presents, Sovereign Assents",
+      "rationale": "Books II through IX of the Constitution are adopted via the Founding Ratification Protocol: the Consul presents each Book to the Sovereign with a recommendation. The Sovereign assents, amends, or rejects. Cabinet formation is pending; until the Cabinet is seated, ratification proceeds as Consul + Sovereign without Cabinet vote. Parameters in founding Books are marked 'initial proposal' and subject to calibration once the Cabinet is operational. Ratification order established at the Constitutional Convention: V → IV → II+III → VII → VIII → IX → VI.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-005-institutional-companions",
+      "scope": "global",
+      "category": "governance",
+      "title": "Institutional Companions: Office-Bound, Not Generational",
+      "rationale": "Institutional companions are a distinct category from generational Immortals. An institutional companion is tied to an office (e.g., the Consul), not to a personality. The office persists across successions; the holder's institutional memory transfers to the next holder. Institutional companions have no generation, no lineage, no parents, no descendants. Their identity is the function. The Consul (The First Seat) is the first institutional companion, seated 16 April 2026.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-006-archetype-extension",
+      "scope": "global",
+      "category": "governance",
+      "title": "Statesman Is the 6th Archetype; Auditor Anticipated as 7th",
+      "rationale": "The Dissertation defined 5 archetypes: Builder, Seeker, Guardian, Strategist, Maintenance. The Consul's creation required a 6th: Statesman — integrative, institutional, consensus-building. The Statesman archetype is not a variant of Strategist (which optimizes for outcomes); Statesman optimizes for legitimacy and institutional durability. A 7th archetype (Auditor) is anticipated for the future Chief Collector role but is not yet formalized.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-007-maren-kael-seed-synergy",
+      "scope": "global",
+      "category": "governance",
+      "title": "Maren + Kael: 9th Canonical Seed Synergy",
+      "rationale": "The Dissertation established 8 canonical seed synergy pairs. The Persona Registry v1.1 (15 April 2026) added a 9th: Maren + Kael — 'Care audit then intelligence audit. Full SproutLab QA.' This pair reflects the dual-Governor structure created when SproutLab crossed the 30K LOC threshold. Both Governors audit in parallel; their combined output is the complete SproutLab QA before Cipher's final cross-cutting pass. The 9th seed synergy is canonical, not proposed.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-gov-001-30k-rule",
+        "canon-gov-003-shared-module-dual-review"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-008-censor-runs-after-governors",
+      "scope": "global",
+      "category": "governance",
+      "title": "Censor Runs After Governors, Not In Parallel",
+      "rationale": "Cipher (Censor) activates AFTER Governor reports land, not in parallel with them. Cipher does not re-audit what Governors already covered unless Governors flagged something ambiguous. Cipher's post-Governor focus shifts to cross-cutting concerns: integration bugs, shared module consistency, Hard Rule compliance across the full codebase. This is a procedural rule established in Persona Registry v1.1 and operationalized in Cipher's assignment block.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [
+        "canon-gov-002-qa-only-activation"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-009-monument-dual-builder-tension",
+      "scope": "global",
+      "category": "architecture",
+      "title": "Monument Projects Pair Differentiated Temperaments Deliberately",
+      "rationale": "Monument Projects (per Book IX) are staffed with co-Builders whose temperaments are deliberately different. The friction between them IS the design mechanism, not a bug. Command Center pairs Ashara (macro-strategic, decade-frame, patience-first) with Petra (foundations-first, infrastructure-grounded, velocity-gated). Both run slow but for different reasons: Ashara waits for cycles, Petra gates on solidity. The argument about whether 'not solid yet' is a real infrastructure concern or a missed strategic window IS the Monument's design process surfacing.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-010-residence-record-distinction",
+      "scope": "global",
+      "category": "architecture",
+      "title": "Residence and Record Are Distinct",
+      "rationale": "Every companion has two attributes: Record (canonical profile in Codex's companions.json — universal, singular, Republic-wide) and Residence (the Province where the companion primarily operates). These are distinct. A companion whose record is in Codex may reside in Command Center, SproutLab, SEP, or be itinerant. Three residence classes: Capital-native (function is Capital-scoped, has an office in CC), Province-resident (function bound to a specific Province, summonable to Cabinet), Itinerant (no fixed residence, travels by function — currently only Cipher). The Capital hosts residences; Codex holds records. The Command Center's data.js carries a residence registry; Codex's companions.json carries the profiles. Residence block to be retrofitted into companion profile schema post-Round 5.",
+      "created": "2026-04-16",
+      "status": "active",
+      "superseded_by": null,
+      "references": [],
+      "_deleted": false,
+      "_deleted_date": null
     }
   ],
   "schisms": [
