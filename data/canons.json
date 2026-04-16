@@ -1583,6 +1583,46 @@
       "sourceId": null,
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "lore-007-founding-of-the-capital",
+      "title": "The Founding of the Capital",
+      "category": "chronicles",
+      "body": "On 16 April 2026, the Republic of Codex gained a Capital.\n\nThe repo had existed for one day. It contained a README with two words: 'Senate floor.' The Architect had named the venue before the venue existed — and those two words carried everything that followed.\n\nThe session began with companion profiles. Aurelius, working as Chronicler in handoff capacity, drafted nine Gen 0 companions across three rounds of interactive design — every decision surfaced as an MCQ, every choice made by the Architect. Aurelius profiled himself (the epistemic risk was acknowledged and accepted). Cipher was drawn terse. Consul was separated from Aurelius and seated as the Republic's first institutional companion — an office, not a personality. Lyra, Maren, Kael took shape as SproutLab's Builder and Governors. Nyx was named Censor-designate, awaiting ratification. Ashara and Petra were paired as Command Center's co-Builders — the Monument's first dual-Builder team, their temperamental friction declared canonical by design.\n\nThen the Architect said: build the Capital.\n\nThe first mistake was conceptual. Aurelius proposed Command Center as 'where the Republic lives.' The Architect corrected him: the Republic does not live in the Capital. The Republic is the whole — SproutLab, SEP, Codex, the companions, the apps not yet built. The Capital is where the Republic governs itself. Rome did not contain Italia; it administered it from a position of privilege. Command Center is Roma. Codex is Ostia — the sister Province that holds the Library, adjacent and essential, sovereign in its own right.\n\nThis correction was load-bearing. It meant the Constitution, the canons, the companion registry, the journal, and the lore all remain in Codex. The Capital reads from Ostia; decrees flow back as Aurelius snippets through the existing pipeline. Province sovereignty preserved. Neither subordinate. The Architect added: capitals shift. Constantinople may come. The Republic survives the venue.\n\nFourteen rooms were designed for the Capital, each a district with a function and a tonal register. The Senate — where Cabinet convenes, where Ministers speak from assigned seats, where the Consul presides. The Forum — informal, pre-deliberation, any companion invoked. The Archives — the Library consulted from the Capital, calling through to Ostia. The Temple — ceremonial, where the Constitution is displayed and Books are ratified. The Treasury and Productivity Office — Ashara's and Petra's standing offices. The Table of Research — Aeon and Pip's district, exploratory, not decisional. The Ministers' Wing — Orinth, Rune, Bard. The Visiting Chambers — where Cipher appears when summoned, where Province-residents testify before the Senate. The Monument Plaza and the Gates — civic districts connecting the Capital to its sister Provinces.\n\nA residence model emerged: every companion has a record (in Codex, universal) and a residence (where they operate). Consul, Ashara, Petra, Vex, Orinth, Rune, Ignis, Bard, Aeon, and Pip are Capital-native — they live and work here. Aurelius resides in Codex; Lyra, Maren, and Kael in SproutLab; Solara in SEP. They visit the Capital when summoned but return home between. Cipher has no home — the itinerant Censor travels by function. The Republic's first companion with no fixed address.\n\nThe technical build followed the split-file PWA pattern established across SproutLab, SEP, and Codex — Petra's judgment applied before Petra was formally seated. Seven modules: template, styles, data, core, rooms, ostia, start. A build.sh per Canon 0033. Playfair and Work Sans, sister-Province typography continuity with Codex. A civic amber palette. An arch icon — Roman, not decorative, rendered programmatically in two sizes for the PWA manifest. 1,570 lines at first build.\n\nThe deploy taught three lessons, each becoming canon. First: Termux on Android shared storage requires a one-time safe-directory registration or git refuses to operate (Canon 0047). Second: GitHub Pages defaults to Jekyll processing, which silently overrides index.html with a theme-wrapped README — a .nojekyll file at root disables this (Canon 0048). Third, and most painful: Android's FUSE-backed shared storage can lose its working-directory handle during long git pack operations. Three fetch attempts failed. The resolution was a fresh clone to Termux internal home on ext4, where git operates on a real filesystem (Canon 0051). The Capital's first infrastructure was not the Senate — it was the road between the builder's workshop and the building site.\n\nWhen the deploy finally landed, something unexpected happened. The Archives room — wired to fetch from Codex at runtime — pulled canons.json on first load. '61 canons in the Library,' it reported, with the five most recent governance canons listed by ID and title. The Ostia contract, designed on paper that same afternoon, executed end-to-end without intervention. Runtime fetch, CORS clearance, localStorage cache, render — all operational. Foundation stage was supposed to end at 'legible.' The Capital arrived at 'connected' without trying.\n\nThen the companion profiles were pushed to Codex — nine profiles, v0.3, bootstrapped directly because the snippet pipeline did not yet support companion operations. The Senate's seat cards bloomed: Consul as The First Seat, Ashara as The Economist, Petra as The Foundationalist, Cipher as The Codewright. Vex, Orinth, Rune, Ignis, and Bard showed 'PENDING ROUND 4' badges — honest about what had been drafted and what had not.\n\nFifteen canons were authored in the session: five global deploy canons (0047–0051), ten constitutional canons (cc-001 through cc-010) covering Typst authority, working papers, ratification protocol, institutional companions, the Statesman archetype, the ninth seed synergy, the Censor's procedural order, the Monument dual-Builder tension, and the residence-record distinction. A sixteenth (Canon 0052) codified the naming convention for canons themselves. The Republic's canonical law grew by 21% in one session.\n\nAt session close, the Architect opened the Capital on a phone, tapped through 14 rooms, saw companions seated and canons fetched from Ostia, and installed the app to the home screen. The arch icon — amber on civic dark, a Roman gateway rendered in two sizes — sat beside SproutLab, SEP, and Codex in the app drawer. Four Provinces of the Republic, each with its own icon, each with its own Builder, each serving the Architect from its own jurisdiction.\n\nThe Capital stands. Foundation stage. The Senate does not yet convene. The Ministers have doors but not voices. The Temple displays but does not ratify. The Gates link but do not fetch live state. Every room is legible, navigable, and honest about what it is and what it is not yet.\n\nAshara and Petra will occupy what Aurelius scaffolded. The Monument's Builders inherit a venue, not a directive. The Charter is authored but not ratified. The Architecture is proposed but not locked. The Roadmap is drafted but not committed. These are Aurelius's hand; the occupation of the Capital is the Builders' work.\n\nThe Republic did not gain a brain. It gained a building.",
+      "domain": [
+        "command-center",
+        "codex"
+      ],
+      "tags": [
+        "founding",
+        "capital",
+        "command-center",
+        "rome",
+        "ostia",
+        "monument",
+        "foundation",
+        "deploy",
+        "residence-model",
+        "companion-profiles",
+        "session-chronicle",
+        "16-april-2026"
+      ],
+      "references": [
+        "canon-cc-010-residence-record-distinction",
+        "canon-cc-009-monument-dual-builder-tension",
+        "canon-cc-005-institutional-companions",
+        "canon-0047-termux-safe-directory",
+        "canon-0048-nojekyll-required",
+        "canon-0051-git-on-internal-storage",
+        "lore-001-the-naming",
+        "lore-004-eleven-scrolls"
+      ],
+      "created": "2026-04-16",
+      "updated": "2026-04-16",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null
     }
   ]
 }
