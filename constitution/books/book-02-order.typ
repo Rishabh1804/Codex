@@ -162,7 +162,7 @@ The four domains cover the Republic's operational health:
   ),
   [*Financial Health*], [Ashara (Treasury)], [Vex (Budget)], [Treasury reserves, monthly allocations, burn rates, revenue tracking, cost optimization],
   [*Productivity*], [Ignis (Output)], [Petra (Efficiency)], [Ship rates, session quality, throughput, token-efficiency, process improvement],
-  [*Maintenance*], [Rune (Stability)], [Theron (Debt)], [Bug rates, uptime, technical debt, refactoring priority, code health],
+  [*Maintenance*], [Rune (Stability)], [— (Debt seat vacant, canon-cc-011)], [Bug rates, uptime, technical debt, refactoring priority, code health],
   [*Growth*], [Orinth (Expansion)], [Bard (Innovation)], [Combined Initiative proposals, adjacency mapping, R\&D, frontier scouting],
 )
 

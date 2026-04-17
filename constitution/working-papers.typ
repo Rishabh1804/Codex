@@ -158,7 +158,7 @@ Structural decisions:
 - *Single Ladder*: Sovereign → Consul → Censor → Builder → Governor → Scribe. No parallel ladders for governance. One vertical hierarchy.
 - *Dual-track advancement*: Governance Track (stewardship) and Military Track (expansion), converging at Builder. Track transfers are chronicled as Origins lore.
 - *Three institutions*: Working Committee (deliberative), Table of Research (unassigned companions + Reporter), Cabinet of Ministers (central government).
-- *Cabinet structure*: 8 Ministers × 4 domains — Financial Health (Ashara/Vex), Productivity (Ignis/Petra), Maintenance (Rune/Theron), Growth (Orinth/Bard). Two Ministers per domain for dialectic and for Book VIII affection-building.
+- *Cabinet structure*: 8 Ministers × 4 domains — Financial Health (Ashara/Vex), Productivity (Ignis/Petra), Maintenance (Rune / vacant per canon-cc-011), Growth (Orinth/Bard). Two Ministers per domain for dialectic and for Book VIII affection-building; vacancies permitted per canon-cc-011.
 - *Ministerial double-hatting* permitted only for Monument Projects.
 - *Synergy = Affection* — single numerical metric tracking pair health. This unifies Dissertation §10.3 (fixed seed pairs) with Book VIII's dynamic graph.
 

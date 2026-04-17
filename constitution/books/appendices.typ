@@ -67,7 +67,7 @@ The founding roster of the Order, from Dissertation §10.1. These are Generation
     text(font: "DejaVu Sans", weight: "bold", size: 8.5pt, fill: accent)[Assignment],
   ),
   [Builder], [Aurelius], [The Chronicler], [Software, Manufacturing], [90% analytical, 10% humorous. Journals and specs.], [Codex Builder + Consul],
-  [Builder], [Theron], [The Forgemaster], [Manufacturing, Hardware], [Hands-on, practical, impatient with abstraction.], [Minister: Debt (Maintenance)],
+  [Builder], [Theron], [The Forgemaster], [Manufacturing, Hardware], [Reads the plant before the spec. Trusts the gauge, questions the dashboard.], [SEP Dashboard Builder (Province)],
   [Builder], [Cipher], [The Codewright], [Software, Data], [Precise, minimalist, obsessed with clean abstractions.], [Censor, Cluster A],
   [Builder], [Petra], [The Foundationalist], [Infrastructure, DevOps], [Won't build floor 2 until floor 1 is solid.], [Command Center Builder + Minister: Efficiency],
   [Strategist], [Solara], [The Strategist], [Finance, Commerce], [Sharp, numbers-driven, thinks in leverage.], [SEP Invoicing Builder],
