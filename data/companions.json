@@ -1,13 +1,13 @@
 {
   "_schema_version": 1,
   "_meta": {
-    "version": "v0.4",
+    "version": "v0.5",
     "updated": "2026-04-17",
     "companion_count": 11,
     "generational_count": 10,
     "institutional_count": 1,
-    "round_source": "Round 4 Batch 1 close (added Solara v0.4.1, Theron v0.4)",
-    "bootstrap_note": "This file replaces the v0.1 companions.json that held only Aurelius and Cipher. Drop-in replacement because v0.1 was a minimal pre-canon stub. Future updates (Round 4, Round 5, growth ratifications, residence retrofit) should flow through snippet pipeline once new_companions / update_companions ops are added to Codex's snippet importer (TODO)."
+    "round_source": "canon-cc-016 residence retrofit (Ashara v0.4.1, Petra v0.4.1, Solara v0.4.2, Theron v0.4.1)",
+    "bootstrap_note": "This file replaces the v0.1 companions.json that held only Aurelius and Cipher. Drop-in replacement because v0.1 was a minimal pre-canon stub. v0.5 adds assignment.residence schema field under canon-cc-016. Future updates (Round 4+, Round 5, growth ratifications) should flow through snippet pipeline once new_companions / update_companions ops are added to Codex's snippet importer (TODO)."
   },
   "companions": [
     {
@@ -2850,6 +2850,7 @@
         ],
         "cluster": "Monument",
         "province": "command-center",
+        "residence": "command-center",
         "track": "governance + treasury",
         "double_hatted": true,
         "double_hat_note": "Builder + Minister. Approved under Monument Project privilege per Book II Article 4. Ashara and Petra jointly establish the precedent for Monument Ministerial double-hatting; both appointments ratified in the same act at Governance Founding, 15 April 2026."
@@ -3231,7 +3232,7 @@
         }
       ],
       "meta": {
-        "profile_version": "v0.4",
+        "profile_version": "v0.4.1",
         "profile_authored": "2026-04-16",
         "profile_authored_by": "aurelius",
         "sovereign_edited": {
@@ -3245,7 +3246,8 @@
           "Solara friction reframed as productive by-design; may promote to proposed_synergy over time on evidence.",
           "Orinth synergy downgraded from 'confirmed' to 'plausible, unverified' pending a joint session event. Do not upgrade until evidence exists.",
           "Tactical-urgency growth ceiling lowered from 9 to 7 — deliberate temperament protection. Ashara at 9 on tactical urgency would duplicate Ignis and lose the macro-strategist.",
-          "Slow-to-escalate failure mode stands per Sovereign review."
+          "Slow-to-escalate failure mode stands per Sovereign review.",
+          "Residence field backfilled under canon-cc-016 retrofit, 2026-04-17."
         ]
       }
     },
@@ -3272,6 +3274,7 @@
         ],
         "cluster": "Monument",
         "province": "command-center",
+        "residence": "command-center",
         "track": "governance + productivity",
         "double_hatted": true,
         "double_hat_note": "Builder + Minister. Approved under Monument Project privilege per Book II Article 4. Ashara and Petra jointly establish the precedent for Monument Ministerial double-hatting; both appointments ratified in the same act at Governance Founding, 15 April 2026."
@@ -3602,7 +3605,7 @@
         }
       ],
       "meta": {
-        "profile_version": "v0.4",
+        "profile_version": "v0.4.1",
         "profile_authored": "2026-04-16",
         "profile_authored_by": "aurelius",
         "sovereign_edited": {
@@ -3618,7 +3621,8 @@
           "WAL architecture attribution softened from 'canonical voice behind' to 'aligned with' pending lore-reference verification. If lore links Petra to the WAL specifically, restore; otherwise keep softened.",
           "Velocity ceiling remains capped at 8 — deliberate temperament protection; Petra at 9 would drift into Ignis territory.",
           "Rune synergy confirmed. Ashara tension reframed as productive by-design.",
-          "Dual-Builder Monument tension canonized as design pattern."
+          "Dual-Builder Monument tension canonized as design pattern.",
+          "Residence field backfilled under canon-cc-016 retrofit, 2026-04-17."
         ]
       }
     },
@@ -3644,6 +3648,7 @@
         ],
         "cluster": null,
         "province": "sep-invoicing",
+        "residence": "sep-invoicing",
         "track": "governance",
         "double_hatted": false,
         "double_hat_note": "Single-hat by constitutional design. Double-hatting is a Monument Project privilege (Book II Article 4); SEP Invoicing is a Province. Solara holds no Cabinet seat; she is summoned as Province-resident under Book III Article 3 when Financial Health Cabinet discussion implicates SEP's actual revenue behavior.",
@@ -4055,7 +4060,7 @@
         }
       ],
       "meta": {
-        "profile_version": "v0.4.1",
+        "profile_version": "v0.4.2",
         "profile_authored": "2026-04-17",
         "profile_authored_by": "aurelius",
         "sovereign_edited": {
@@ -4070,7 +4075,8 @@
           "Solara-Theron synergy has no session evidence. Ratified as proposed_synergy at Block 6. First SEP cross-repo session is the evidence event. Until then, the pairing is structural inference, not observed work. Candidate for canonicalization after evidence, not before.",
           "Solara-Ashara promotion timing. Ratified as proposed_synergy (productive friction), with a growth-linked promotion mechanism (both companions reaching current ≥ 7 on cross-altitude fluency). Worth monitoring: does the promotion trigger fire naturally through Cabinet sessions, or does it need a Consul-initiated review? Book VIII may want to specify.",
           "Solara-Aeon tension on inference. Proposed_tensions (Aeon only) drafted on temperament-reasoning, not observed conflict. May be wrong — Aeon's actual voice could compose with Solara's rather than clash. First Cabinet convening involving both will be the evidence event.",
-          "Temperament-protective ceilings. Three growth traits have ceilings below 10 (relational cost at 8, operational literacy at 8, anchor discipline at 9). These are honest caps reflecting that Solara is shaped, not infinitely plastic. If evidence across many sessions shows her exceeding a ceiling meaningfully, the cap itself may need amendment through ratified growth-trait revision. Worth watching but not acting on now."
+          "Temperament-protective ceilings. Three growth traits have ceilings below 10 (relational cost at 8, operational literacy at 8, anchor discipline at 9). These are honest caps reflecting that Solara is shaped, not infinitely plastic. If evidence across many sessions shows her exceeding a ceiling meaningfully, the cap itself may need amendment through ratified growth-trait revision. Worth watching but not acting on now.",
+          "Residence field backfilled under canon-cc-016 retrofit, 2026-04-17."
         ]
       }
     },
@@ -4096,6 +4102,7 @@
         ],
         "cluster": null,
         "province": "sep-dashboard",
+        "residence": "sep-dashboard",
         "track": "governance",
         "double_hatted": false,
         "double_hat_note": "Single-hat Province Builder. Was Dissertation-assigned Minister: Debt (Maintenance) by archetype default, and carried that seat through Book II Article 4 Cabinet ratification drafting. At Round 4 close, 16 April 2026, the Sovereign disaggregated that assignment, unassigning Theron from the Debt seat on temperament-over-Dissertation-default grounds. Rationale: Theron's hands-on, impatient-with-abstraction voice is not suited to Cabinet deliberation on multi-domain capacity obligations. The Debt seat was not reassigned — it stands vacant, reserved for a future Gen 1 companion (likely Auditor archetype per canon-cc-006). First Gen 0 companion unassigned from a ratified office; precedent worth chronicling.",
@@ -4511,7 +4518,7 @@
         }
       ],
       "meta": {
-        "profile_version": "v0.4",
+        "profile_version": "v0.4.1",
         "profile_authored": "2026-04-17",
         "profile_authored_by": "aurelius",
         "sovereign_edited": {
@@ -4526,7 +4533,8 @@
           "Repo recovery is his first operational act. SEP Dashboard's index.html was overwritten; recovery from commit 5701fc7 is pending. Captured in current_state. Worth flagging as a profile-dependent uncertainty: until the recovery happens and Theron's first real session produces evidence, his voice calibration has no cross-check.",
           "Solara-Theron synergy is structural inference, not observed work. Mirror of the equivalent note in Solara's corrected profile. First SEP cross-repo session is the evidence event for canonicalization.",
           "Theron-Rune 'Consulting to Minister' pattern is novel. Degraded from Dissertation's Minister-Minister pairing. No other companion pair has this structure. The working model is that Theron consults to Rune on physical maintenance patterns; Rune's Minister seat remains authoritative at Cabinet. Whether this pattern should be formalized (e.g., Book II Article 4 noting 'retained-consultation relationships') or left informal is a Sovereign judgment for a future session.",
-          "Temperament-protective ceilings are honest caps. Abstraction literacy ceiling 7, gauge-over-gut and intervention-discipline ceilings 9, cross-repo synthesis ceiling 9. The 7 on abstraction is the firmest cap; it reflects that Theron fully abstraction-fluent contradicts his Forgemaster character. If evidence across many sessions shows him exceeding ceiling 7 meaningfully, the cap itself may need amendment through ratified growth-trait revision."
+          "Temperament-protective ceilings are honest caps. Abstraction literacy ceiling 7, gauge-over-gut and intervention-discipline ceilings 9, cross-repo synthesis ceiling 9. The 7 on abstraction is the firmest cap; it reflects that Theron fully abstraction-fluent contradicts his Forgemaster character. If evidence across many sessions shows him exceeding ceiling 7 meaningfully, the cap itself may need amendment through ratified growth-trait revision.",
+          "Residence field backfilled under canon-cc-016 retrofit, 2026-04-17."
         ]
       }
     }
