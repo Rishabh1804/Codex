@@ -971,6 +971,27 @@ function handlePreviewSnippet() {
     });
   }
 
+  // Preview new_companions
+  if (_snippetParsed.new_companions && _snippetParsed.new_companions.length > 0) {
+    _snippetParsed.new_companions.forEach(function(nc) {
+      var c = nc.companion || nc;
+      var exists = store.companions.some(function(x) { return x.id === c.id; });
+      html += '<div class="cx-preview-item">' + (exists
+        ? '<span class="cx-preview-skip">\u2717</span> Companion ' + escHtml(c.id) + ' (exists)'
+        : '<span class="cx-preview-ok">\u2713</span> New companion: ' + escHtml(c.identity ? c.identity.name : c.id) + ' (' + escHtml(c.identity ? c.identity.archetype || '' : '') + ')') + '</div>';
+    });
+  }
+
+  // Preview update_companions
+  if (_snippetParsed.update_companions && _snippetParsed.update_companions.length > 0) {
+    _snippetParsed.update_companions.forEach(function(uc) {
+      var exists = store.companions.some(function(x) { return x.id === uc.id; });
+      html += '<div class="cx-preview-item">' + (exists
+        ? '<span class="cx-preview-ok">\u2713</span> Update companion: ' + escHtml(uc.id)
+        : '<span class="cx-preview-skip">\u2717</span> Companion ' + escHtml(uc.id) + ' (not found)') + '</div>';
+    });
+  }
+
   // Preview lore (Phase 1 — upsert). Accept both `lore` and legacy `new_lore` shapes.
   var _previewLore = _snippetParsed.lore || [];
   if (_snippetParsed.new_lore && Array.isArray(_snippetParsed.new_lore)) {
@@ -999,7 +1020,7 @@ function handlePreviewSnippet() {
 
 function handleImportSnippet() {
   if (!_snippetParsed) { showToast('Preview first', 'warning'); return; }
-  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, volumeUpdates: 0, apocrypha: 0, lore: 0 };
+  var counts = { sessions: 0, canons: 0, schisms: 0, todos: 0, newChapters: 0, chapterUpdates: 0, canonUpdates: 0, todoUpdates: 0, volumeUpdates: 0, apocrypha: 0, lore: 0, newCompanions: 0, companionUpdates: 0 };
 
   try {
     // 1. Session
@@ -1114,7 +1135,31 @@ function handleImportSnippet() {
       });
     }
 
-    // 8. Lore (Phase 1 — upsert). Accept both shapes:
+    // 8. New companions
+    if (_snippetParsed.new_companions) {
+      _snippetParsed.new_companions.forEach(function(nc) {
+        var c = nc.companion || nc;
+        var exists = store.companions.some(function(x) { return x.id === c.id; });
+        if (!exists) {
+          try {
+            store.addCompanion(c);
+            counts.newCompanions++;
+          } catch(e) { /* skip */ }
+        }
+      });
+    }
+
+    // 8b. Update companions
+    if (_snippetParsed.update_companions) {
+      _snippetParsed.update_companions.forEach(function(uc) {
+        try {
+          store.updateCompanion(uc.id, uc.patch);
+          counts.companionUpdates++;
+        } catch(e) { /* skip if not found */ }
+      });
+    }
+
+    // 9. Lore (Phase 1 — upsert). Accept both shapes:
     //    { lore: [ { ... } ] }  and  { new_lore: [ { op, data: { ... } } ] }
     var _importLore = [];
     if (_snippetParsed.lore && Array.isArray(_snippetParsed.lore)) {
@@ -1172,6 +1217,8 @@ function handleImportSnippet() {
     if (counts.volumeUpdates) parts.push(counts.volumeUpdates + ' volume update' + (counts.volumeUpdates > 1 ? 's' : ''));
     if (counts.apocrypha) parts.push(counts.apocrypha + ' apocryphon' + (counts.apocrypha > 1 ? ' entries' : ''));
     if (counts.lore) parts.push(counts.lore + ' lore entr' + (counts.lore > 1 ? 'ies' : 'y'));
+    if (counts.newCompanions) parts.push(counts.newCompanions + ' companion' + (counts.newCompanions > 1 ? 's' : ''));
+    if (counts.companionUpdates) parts.push(counts.companionUpdates + ' companion update' + (counts.companionUpdates > 1 ? 's' : ''));
 
     showToast('Imported: ' + (parts.length > 0 ? parts.join(', ') : 'nothing new'), 'success');
     _snippetParsed = null;

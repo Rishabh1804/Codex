@@ -32,8 +32,10 @@ var KEYS = {
   REPO_URL: 'codex-repo-url', DISPLAY_NAME: 'codex-display-name',
   DEFAULT_SHELF: 'codex-default-shelf', DEFAULT_BRANCH: 'codex-default-branch',
   CACHE_VOLUMES: 'codex-cache-volumes', CACHE_CANONS: 'codex-cache-canons',
-  CACHE_JOURNAL: 'codex-cache-journal', SHA_VOLUMES: 'codex-sha-volumes',
+  CACHE_JOURNAL: 'codex-cache-journal', CACHE_COMPANIONS: 'codex-cache-companions',
+  SHA_VOLUMES: 'codex-sha-volumes',
   SHA_CANONS: 'codex-sha-canons', SHA_JOURNAL: 'codex-sha-journal',
+  SHA_COMPANIONS: 'codex-sha-companions',
   WAL: 'codex-wal', ERROR_LOG: 'codex-errorlog',
   VISIT_COUNT: 'codex-visits', WIZARD_DONE: 'codex-wizard-done'
 };
@@ -207,9 +209,11 @@ var store = {
   apocrypha: [],
   lore: [],
   journal: [],
+  companions: [],
+  companions_meta: {},
   _wal: [],
   _meta: {
-    shas: { volumes: null, canons: null, journal: null },
+    shas: { volumes: null, canons: null, journal: null, companions: null },
     lastFetch: null,
     schemaVersions: { volumes: 1, canons: 1, journal: 1 }
   },
@@ -274,10 +278,11 @@ var store = {
       localStorage.setItem(KEYS.CACHE_VOLUMES, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }));
       localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore }));
       localStorage.setItem(KEYS.CACHE_JOURNAL, JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }));
+      localStorage.setItem(KEYS.CACHE_COMPANIONS, JSON.stringify({ _schema_version: 1, _meta: store.companions_meta, companions: store.companions }));
     } catch(e) { logError('cache', 'Cache write failed', e.message); }
   },
 
-  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore, journal: store.journal }); },
+  getSnapshot: function() { return deepClone({ volumes: store.volumes, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore, journal: store.journal, companions: store.companions }); },
 
   /* --- Volume --- */
   addVolume: function(vol) {
@@ -499,6 +504,29 @@ var store = {
     store._fireChange();
   },
 
+  /* --- Companions (Phase 5: full pipeline) --- */
+  addCompanion: function(c) {
+    if (!c.id || !c.identity || !c.identity.name) throw new Error('Companion requires id and identity.name');
+    if (store.companions.some(function(x) { return x.id === c.id; })) throw new Error('Duplicate companion id: ' + c.id);
+    store.companions.push(c);
+    // Update meta counts
+    store.companions_meta.companion_count = store.companions.length;
+    store.companions_meta.generational_count = store.companions.filter(function(x) { return x.companion_class === 'generational'; }).length;
+    store.companions_meta.institutional_count = store.companions.filter(function(x) { return x.companion_class === 'institutional'; }).length;
+    store.companions_meta.updated = localDateStr();
+    store._createWalEntry('create', 'companion', c.id, 'companions.json', c);
+    store._fireChange();
+  },
+  updateCompanion: function(id, patch) {
+    var c = store.companions.find(function(x) { return x.id === id; });
+    if (!c) throw new Error('Companion not found: ' + id);
+    delete patch.id;
+    Object.keys(patch).forEach(function(k) { c[k] = patch[k]; });
+    store.companions_meta.updated = localDateStr();
+    store._createWalEntry('update', 'companion', id, 'companions.json', patch);
+    store._fireChange();
+  },
+
   /* --- Journal --- */
   addJournalSession: function(date, session) {
     var day = store.journal.find(function(d) { return d.date === date; });
@@ -539,7 +567,7 @@ var store = {
 };
 
 /* --- Store Population (Phase 2: tracks _meta SHAs) --- */
-function populateStore(volResult, canonResult, journalResult) {
+function populateStore(volResult, canonResult, journalResult, companionsResult) {
   var vData = (volResult && volResult.data) || { _schema_version: 1, volumes: [] };
   store.volumes = vData.volumes || [];
   store._meta.schemaVersions.volumes = vData._schema_version || 1;
@@ -558,15 +586,23 @@ function populateStore(volResult, canonResult, journalResult) {
   store._meta.schemaVersions.journal = jData._schema_version || 1;
   store._meta.shas.journal = (journalResult && journalResult.sha) || null;
 
+  var cpData = (companionsResult && companionsResult.data) || { _schema_version: 1, _meta: {}, companions: [] };
+  store.companions = cpData.companions || [];
+  store.companions_meta = cpData._meta || {};
+  store._meta.schemaVersions.companions = cpData._schema_version || 1;
+  store._meta.shas.companions = (companionsResult && companionsResult.sha) || null;
+
   store.journal.sort(function(a, b) { return b.date.localeCompare(a.date); });
 
   try {
     localStorage.setItem(KEYS.CACHE_VOLUMES, JSON.stringify(vData));
     localStorage.setItem(KEYS.CACHE_CANONS, JSON.stringify(cData));
     localStorage.setItem(KEYS.CACHE_JOURNAL, JSON.stringify(jData));
+    localStorage.setItem(KEYS.CACHE_COMPANIONS, JSON.stringify(cpData));
     if (volResult && volResult.sha) localStorage.setItem(KEYS.SHA_VOLUMES, volResult.sha);
     if (canonResult && canonResult.sha) localStorage.setItem(KEYS.SHA_CANONS, canonResult.sha);
     if (journalResult && journalResult.sha) localStorage.setItem(KEYS.SHA_JOURNAL, journalResult.sha);
+    if (companionsResult && companionsResult.sha) localStorage.setItem(KEYS.SHA_COMPANIONS, companionsResult.sha);
   } catch(e) { logError('cache', 'Failed to cache', e.message); }
 
   store._meta.lastFetch = new Date().toISOString();
@@ -576,6 +612,7 @@ function getStoreSnapshot() {
   return JSON.parse(JSON.stringify({
     volumes: store.volumes, canons: store.canons,
     schisms: store.schisms, apocrypha: store.apocrypha,
-    lore: store.lore, journal: store.journal
+    lore: store.lore, journal: store.journal,
+    companions: store.companions
   }));
 }

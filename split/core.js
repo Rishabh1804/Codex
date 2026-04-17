@@ -455,7 +455,8 @@ function fetchAll() {
   var files = [
     { name: 'volumes.json', cacheKey: KEYS.CACHE_VOLUMES, shaKey: KEYS.SHA_VOLUMES },
     { name: 'canons.json', cacheKey: KEYS.CACHE_CANONS, shaKey: KEYS.SHA_CANONS },
-    { name: 'journal.json', cacheKey: KEYS.CACHE_JOURNAL, shaKey: KEYS.SHA_JOURNAL }
+    { name: 'journal.json', cacheKey: KEYS.CACHE_JOURNAL, shaKey: KEYS.SHA_JOURNAL },
+    { name: 'companions.json', cacheKey: KEYS.CACHE_COMPANIONS, shaKey: KEYS.SHA_COMPANIONS }
   ];
 
   return Promise.allSettled(files.map(function(f) { return fetchFile(f.name, signal); }))
@@ -519,6 +520,7 @@ function setOfflineStatus(offline) {
 function buildVolumesFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, volumes: store.volumes }, null, 2); }
 function buildCanonsFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, canons: store.canons, schisms: store.schisms, apocrypha: store.apocrypha, lore: store.lore }, null, 2); }
 function buildJournalFile() { return JSON.stringify({ _schema_version: CODEX_SCHEMA_VERSION, journal: store.journal }, null, 2); }
+function buildCompanionsFile() { return JSON.stringify({ _schema_version: 1, _meta: store.companions_meta, companions: store.companions }, null, 2); }
 
 /* --- Flush Queue (push pending WAL entries to GitHub) --- */
 var _flushing = false;
@@ -538,10 +540,10 @@ function flushQueue() {
   var dirtyFiles = {};
   pending.forEach(function(e) { dirtyFiles[e.target_file] = true; });
 
-  var pushOrder = ['volumes.json', 'canons.json', 'journal.json'];
-  var shaKeyMap = { 'volumes.json': 'volumes', 'canons.json': 'canons', 'journal.json': 'journal' };
-  var lsKeyMap = { 'volumes.json': KEYS.SHA_VOLUMES, 'canons.json': KEYS.SHA_CANONS, 'journal.json': KEYS.SHA_JOURNAL };
-  var builderMap = { 'volumes.json': buildVolumesFile, 'canons.json': buildCanonsFile, 'journal.json': buildJournalFile };
+  var pushOrder = ['volumes.json', 'canons.json', 'journal.json', 'companions.json'];
+  var shaKeyMap = { 'volumes.json': 'volumes', 'canons.json': 'canons', 'journal.json': 'journal', 'companions.json': 'companions' };
+  var lsKeyMap = { 'volumes.json': KEYS.SHA_VOLUMES, 'canons.json': KEYS.SHA_CANONS, 'journal.json': KEYS.SHA_JOURNAL, 'companions.json': KEYS.SHA_COMPANIONS };
+  var builderMap = { 'volumes.json': buildVolumesFile, 'canons.json': buildCanonsFile, 'journal.json': buildJournalFile, 'companions.json': buildCompanionsFile };
 
   var chain = Promise.resolve();
   pushOrder.forEach(function(file) {
@@ -659,6 +661,7 @@ function findEntity(type, id, parentId) {
     case 'schism': case 'rejection': return store.schisms.find(function(r) { return r.id === id; });
     case 'apocryphon': return store.apocrypha.find(function(a) { return a.id === id; });
     case 'lore': return store.lore.find(function(l) { return l.id === id; });
+    case 'companion': return store.companions.find(function(c) { return c.id === id; });
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); return vc ? (vc.chapters || []).find(function(c) { return c.id === id; }) : undefined;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); return vt ? (vt.todos || []).find(function(t) { return t.id === id; }) : undefined;
     case 'session': var d = store.journal.find(function(d) { return d.date === parentId; }); return d ? (d.sessions || []).find(function(s) { return s.id === id; }) : undefined;
@@ -672,6 +675,7 @@ function insertEntity(type, payload, parentId) {
     case 'schism': case 'rejection': store.schisms.push(payload); break;
     case 'apocryphon': store.apocrypha.push(payload); break;
     case 'lore': store.lore.push(payload); break;
+    case 'companion': store.companions.push(payload); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) { if (!vc.chapters) vc.chapters = []; vc.chapters.push(payload); } break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) { if (!vt.todos) vt.todos = []; vt.todos.push(payload); } break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (!d) { d = { date: parentId, sessions: [] }; store.journal.push(d); } d.sessions.push(payload); break;
@@ -685,6 +689,7 @@ function removeEntity(type, id, parentId) {
     case 'schism': case 'rejection': store.schisms = store.schisms.filter(function(r) { return r.id !== id; }); break;
     case 'apocryphon': store.apocrypha = store.apocrypha.filter(function(a) { return a.id !== id; }); break;
     case 'lore': store.lore = store.lore.filter(function(l) { return l.id !== id; }); break;
+    case 'companion': store.companions = store.companions.filter(function(c) { return c.id !== id; }); break;
     case 'chapter': var vc = store.volumes.find(function(v) { return v.id === parentId; }); if (vc) vc.chapters = (vc.chapters || []).filter(function(c) { return c.id !== id; }); break;
     case 'todo': var vt = store.volumes.find(function(v) { return v.id === parentId; }); if (vt) vt.todos = (vt.todos || []).filter(function(t) { return t.id !== id; }); break;
     case 'session': var d = store.journal.find(function(x) { return x.date === parentId; }); if (d) { d.sessions = (d.sessions || []).filter(function(s) { return s.id !== id; }); if (d.sessions.length === 0) store.journal = store.journal.filter(function(x) { return x.date !== parentId; }); } break;

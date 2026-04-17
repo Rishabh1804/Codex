@@ -366,7 +366,7 @@ function handlePageShow(event) {
   var repoUrl = localStorage.getItem(KEYS.REPO_URL);
   if (repoUrl) {
     fetchAll().then(function(f) {
-      populateStore(f['volumes.json'], f['canons.json'], f['journal.json']);
+      populateStore(f['volumes.json'], f['canons.json'], f['journal.json'], f['companions.json']);
       replayWal(store._wal);
       renderCurrentView();
     });
@@ -456,7 +456,7 @@ function handleSyncNow() {
   }
   showToast('Syncing\u2026', 'info');
   fetchAll().then(function(fetched) {
-    populateStore(fetched['volumes.json'], fetched['canons.json'], fetched['journal.json']);
+    populateStore(fetched['volumes.json'], fetched['canons.json'], fetched['journal.json'], fetched['companions.json']);
     replayWal(store._wal);
     return flushQueue();
   }).then(function() {
@@ -630,7 +630,7 @@ function handlePullRefresh() {
     return Promise.resolve();
   }
   return fetchAll().then(function(f) {
-    populateStore(f['volumes.json'], f['canons.json'], f['journal.json']);
+    populateStore(f['volumes.json'], f['canons.json'], f['journal.json'], f['companions.json']);
     replayWal(store._wal);
     renderCurrentView();
     showToast('Synced', 'success');
@@ -804,7 +804,8 @@ function initializeApp() {
     bootPromise = Promise.resolve({
       'volumes.json': { data: safeParseLocalStorage(KEYS.CACHE_VOLUMES), sha: null, fromCache: true },
       'canons.json': { data: safeParseLocalStorage(KEYS.CACHE_CANONS), sha: null, fromCache: true },
-      'journal.json': { data: safeParseLocalStorage(KEYS.CACHE_JOURNAL), sha: null, fromCache: true }
+      'journal.json': { data: safeParseLocalStorage(KEYS.CACHE_JOURNAL), sha: null, fromCache: true },
+      'companions.json': { data: safeParseLocalStorage(KEYS.CACHE_COMPANIONS), sha: null, fromCache: true }
     });
   }
 
@@ -827,7 +828,7 @@ function initializeApp() {
     }
 
     // Step 10: Populate store
-    populateStore(fetched['volumes.json'], fetched['canons.json'], fetched['journal.json']);
+    populateStore(fetched['volumes.json'], fetched['canons.json'], fetched['journal.json'], fetched['companions.json']);
 
     // Step 11: Replay WAL
     replayWal(store._wal);
@@ -884,7 +885,8 @@ function initializeApp() {
     populateStore(
       { data: safeParseLocalStorage(KEYS.CACHE_VOLUMES), sha: null },
       { data: safeParseLocalStorage(KEYS.CACHE_CANONS), sha: null },
-      { data: safeParseLocalStorage(KEYS.CACHE_JOURNAL), sha: null }
+      { data: safeParseLocalStorage(KEYS.CACHE_JOURNAL), sha: null },
+      { data: safeParseLocalStorage(KEYS.CACHE_COMPANIONS), sha: null }
     );
     renderCurrentView();
     showToast('Loaded from cache \u2014 some data may be stale', 'warning');
