@@ -2,6 +2,38 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-04-17",
+      "sessions": [
+        {
+          "id": "s-2026-04-17-03",
+          "date": "2026-04-17",
+          "title": "Device Sync Reconcile — R3 Compose Pass + Spec Lock",
+          "summary": "Ran R3 composition pass on the device-sync Session 1 spec. Surfaced three findings that reshaped scope: (1) two of four 'real bugs' target greenfield reconcile code that hasn't been built, (2) the undefined cluster is two roots not one — egress normalization and ingress discrimination are asymmetric, (3) Edict III reduces to a latency question once _syncSetDocMerge becomes the architectural normalization boundary. Traced seven scenarios (listener-echo × reconcile intersection); two initial race findings (S3, S6) resolved by HR-14 sync invariant (event-loop-is-the-lock); one residual (S7 concurrent-write last-writer-wins) accepted as known limitation. Rishabh chose Option B (rebase framing) which collapsed to the event-loop lock — no explicit queue, no rebase loop needed. Spec locked at ~211 LOC net surface, filed at docs/spec-2026-04-17-aurelius-device-sync-reconcile.md in SproutLab. Handoff §4/§5 are now factually stale; spec §15 documents the delta for Lyra.",
+          "volumes_touched": [
+            "sproutlab",
+            "codex"
+          ],
+          "chapters_touched": [],
+          "decisions": [
+            "Adopt _syncSetDocMerge architectural wrapper — collapses P1R2-2 and P3R4-4 into one structural fix; Edict III reduces to debounce-vs-immediate (chose immediate)",
+            "_syncNormalizeOut deletes undefined rather than coercing to null — preserves absent-vs-present-null invariant so ingress discrimination at P4R5-7 works cleanly",
+            "MEANINGFUL_NULL_KEYS scoped single-doc only — per-entry model does not have the per-key decision point that the P4R5-7 bug class targets; tombstone semantics deferred",
+            "Month partitioning deferred from Session 1 — P7R2-2 race guard dropped; no month-doc architecture to hang it on",
+            "Reconcile isolation via HR-14 sync invariant — no await / no yield between _syncReconcileWriting set and clear; event loop is the lock",
+            "Rejected Option A (reconcile lock with explicit listener queue) in favor of Option B (event-loop-is-the-lock) — no queue needed because JS single-threading already isolates sync code from listener callbacks",
+            "S7 (concurrent-write last-writer-wins) accepted as known limitation, user-facing mitigation text drafted for future user docs",
+            "L529 per-entry update uses inline _syncNormalizeOut rather than separate _syncUpdate wrapper — .update() semantics already merge; one wrapper covers set({merge:true}) correctness",
+            "Spec filename convention adopts author-in-filename (spec-YYYY-MM-DD-author-subject.md) following the handoff naming pattern"
+          ],
+          "bugs_found": 2,
+          "bugs_fixed": 0,
+          "duration_minutes": 120,
+          "open_todos": [],
+          "handoff": "Spec R3-locked and filed. Handoff letter §4/§5 need rewrite before Lyra opens it — current framing describes four bugs as patches but two target unbuilt code. §15 of new spec documents the delta. Next action: Lyra reads spec §1/§2/§3/§6, executes commit sequence C1–C6 per §12. FieldValue sentinel detection (§11) must be empirically verified against compat SDK before merging C3."
+        }
+      ]
+    },
+    {
       "date": "2026-04-15",
       "sessions": [
         {
