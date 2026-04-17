@@ -1322,6 +1322,18 @@
       "reason": "The toggle controls which sub-view renders into the master. Placing it inside the master means it gets destroyed on master innerHTML replacement, causing a flash and losing toggle state. Above the wrapper, it survives re-renders.",
       "date": "2026-04-15",
       "canon_id": null
+    },
+    {
+      "id": "rej-0017-reconcile-listener-queue",
+      "context": "Reconcile isolation from listener callbacks during merge — how to prevent a listener firing during reconcile from clobbering state reconcile is about to read or overwrite",
+      "volumes": [
+        "sproutlab"
+      ],
+      "rejected": "Option A — Explicit listener queue with drain-on-exit. While _syncReconcileWriting === true, listener callbacks enqueue their snapshots; reconcile's finally block drains the queue on exit. Requires queue data structure, drain logic, bounded-size considerations, crash-recovery semantics.",
+      "chosen": "Option B — Event-loop-is-the-lock, formalized as HR-14 Reconcile Sync Invariant. Keep reconcile's read-compute-write-kickoff sequence fully synchronous; JavaScript's single-threaded execution model already prevents listener callbacks from interposing. No queue data structure, no drain logic. Listener callbacks queue naturally at the task-queue layer and fire after reconcile clears its flag.",
+      "reason": "The event loop provides the isolation Option A constructs explicitly. Option A's complexity (queue, drain, crash-recovery) is mechanism to simulate what JavaScript's single-threaded model gives for free if reconcile doesn't yield. Option B's cost is a Hard Rule (no await / no yield inside the locked region) that is enforceable via grep. Option A's cost is permanent code volume and edge cases around queue state during crashes. Net trade: one discipline rule versus ~40 LOC of queue machinery plus the cognitive load of reasoning about queue state alongside reconcile state.",
+      "date": "2026-04-17",
+      "canon_id": null
     }
   ],
   "apocrypha": [
