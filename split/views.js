@@ -797,12 +797,14 @@ function renderCanonsSubTab() {
   var stats = computeCanonsStats();
 
   // ROSTRA — total + derived category dots + status dots + scope-coverage.
+  // Category dots use the per-category color class, matching the Lore
+  // Rostra's visual language (canon-0052 cross-cutting discipline).
   var html = '<div class="cx-rostra">';
   html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">canons</span></div>';
   if (stats.byCategory.length > 0) {
     html += '<div class="cx-rostra-dots">';
     stats.byCategory.forEach(function(c) {
-      html += '<span class="cx-rostra-dot" title="' + escAttr(c.key + ' \u2014 ' + c.count) + '" style="background:var(--accent)"></span>';
+      html += '<span class="cx-rostra-dot cx-canon-cat-dot cx-canon-cat-' + escAttr(c.key) + '" title="' + escAttr(c.key + ' \u2014 ' + c.count) + '"></span>';
       html += '<span class="cx-rostra-dot-label">' + escHtml(c.key) + ' ' + c.count + '</span>';
     });
     html += '</div>';
@@ -820,16 +822,17 @@ function renderCanonsSubTab() {
   html += '</div>';
 
   // NOTICE BOARDS — derived from data (canon-0052 §Canons rules out
-  // hard-coded enums). Scope / Category / Status / Sort.
-  html += renderDerivedFilterRow('canonScope', _canonFilters.scope, stats.byScope.map(function(s) { return { key: s.key, label: lookupVolumeName(s.key) }; }), 'All');
-  html += renderDerivedFilterRow('canonCategory', _canonFilters.category, stats.byCategory.map(function(c) { return { key: c.key, label: c.key }; }), 'All');
-  html += renderDerivedFilterRow('canonStatus', _canonFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All');
+  // hard-coded enums). Scope / Category / Status / Sort with Lore-style
+  // small-caps row labels for visual orientation.
+  html += renderDerivedFilterRow('canonScope', _canonFilters.scope, stats.byScope.map(function(s) { return { key: s.key, label: lookupVolumeName(s.key) }; }), 'All', 'Scope:');
+  html += renderDerivedFilterRow('canonCategory', _canonFilters.category, stats.byCategory.map(function(c) { return { key: c.key, label: c.key }; }), 'All', 'Category:');
+  html += renderDerivedFilterRow('canonStatus', _canonFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All', 'Status:');
   html += renderSortRow('canonSort', _canonSort, [
     { key: 'newest', label: 'Newest' },
     { key: 'oldest', label: 'Oldest' },
     { key: 'title', label: 'Title' },
     { key: 'scope', label: 'Scope' }
-  ]);
+  ], 'Sort:');
 
   // Apply filters.
   var canons = filterActive(store.canons).filter(function(c) {
@@ -881,11 +884,11 @@ function renderSchismsSubTab() {
   }
   html += '</div>';
 
-  html += renderDerivedFilterRow('schismVolume', _schismFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All');
+  html += renderDerivedFilterRow('schismVolume', _schismFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All', 'Volume:');
   html += renderSortRow('schismSort', _schismSort, [
     { key: 'newest', label: 'Newest' },
     { key: 'oldest', label: 'Oldest' }
-  ]);
+  ], 'Sort:');
 
   var schisms = filterActive(store.schisms);
   if (_schismFilters.volume) schisms = schisms.filter(function(s) { return (s.volumes || []).indexOf(_schismFilters.volume) !== -1; });
@@ -927,12 +930,12 @@ function renderApocryphaSubTab() {
   }
   html += '</div>';
 
-  html += renderDerivedFilterRow('apocryphaStatus', _apocryphaFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All');
-  html += renderDerivedFilterRow('apocryphaVolume', _apocryphaFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All');
+  html += renderDerivedFilterRow('apocryphaStatus', _apocryphaFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All', 'Status:');
+  html += renderDerivedFilterRow('apocryphaVolume', _apocryphaFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All', 'Volume:');
   html += renderSortRow('apocryphaSort', _apocryphaSort, [
     { key: 'newest', label: 'Newest' },
     { key: 'oldest', label: 'Oldest' }
-  ]);
+  ], 'Sort:');
 
   var apocryphon = filterActive(store.apocrypha);
   if (_apocryphaFilters.status) apocryphon = apocryphon.filter(function(a) { return a.status === _apocryphaFilters.status; });
@@ -976,9 +979,11 @@ function renderApocryphaSubTab() {
    is applied so the action handler is the conventional set<Filter>Filter
    name. `current` is the currently-selected key (null = All). `options`
    is [{ key, label }]. `allLabel` is the leftmost pill label (typically
-   "All") which clears the filter when clicked. */
-function renderDerivedFilterRow(filterKey, current, options, allLabel) {
+   "All") which clears the filter when clicked. `rowLabel` is the optional
+   SMALL-CAPS prefix label (e.g. "Category:") matching Lore's convention. */
+function renderDerivedFilterRow(filterKey, current, options, allLabel, rowLabel) {
   var html = '<div class="cx-filter-row">';
+  if (rowLabel) html += '<span class="cx-filter-label">' + escHtml(rowLabel) + '</span>';
   var actionName = 'set' + filterKey.charAt(0).toUpperCase() + filterKey.slice(1) + 'Filter';
   html += '<button class="cx-filter-pill' + (current ? '' : ' cx-filter-pill-active') + '" data-action="' + actionName + '" data-key="">' + escHtml(allLabel || 'All') + '</button>';
   options.forEach(function(opt) {
@@ -988,8 +993,9 @@ function renderDerivedFilterRow(filterKey, current, options, allLabel) {
   html += '</div>';
   return html;
 }
-function renderSortRow(sortKey, current, options) {
+function renderSortRow(sortKey, current, options, rowLabel) {
   var html = '<div class="cx-filter-row">';
+  if (rowLabel) html += '<span class="cx-filter-label">' + escHtml(rowLabel) + '</span>';
   var actionName = 'set' + sortKey.charAt(0).toUpperCase() + sortKey.slice(1);
   options.forEach(function(opt) {
     var active = current === opt.key;
@@ -1008,33 +1014,37 @@ function renderPaginationHtml(current, total) {
 }
 
 function renderCanonCard(canon) {
-  var html = '<div class="cx-card cx-card-clickable" data-action="goToCanon" data-id="' + escAttr(canon.id) + '">';
+  var catClass = 'cx-canon-cat-' + escAttr(canon.category || 'unknown');
+  var html = '<div class="cx-card cx-card-clickable cx-canon-card ' + catClass + '" data-action="goToCanon" data-id="' + escAttr(canon.id) + '">';
   html += '<div class="cx-card-header">';
   html += '<div class="cx-card-title">' + cx('bookmark') + escHtml(canon.title) + '</div>';
   html += '</div>';
 
-  // Badges
+  // Badges — category takes the colored-chip slot (primary classification);
+  // scope + status follow as neutral outline chips.
   html += '<div class="cx-chip-row">';
-  // Scope badge
-  var scopeLabel = canon.scope === 'global' ? 'Global' : (function() { var v = store.volumes.find(function(x) { return x.id === canon.scope; }); return v ? v.name : canon.scope; })();
+  html += '<span class="cx-chip cx-chip-sm cx-canon-cat-chip ' + catClass + '-chip">' + escHtml(canon.category || '') + '</span>';
+  var scopeLabel = canon.scope === 'global' ? 'Global' : lookupVolumeName(canon.scope);
   html += '<span class="cx-chip cx-chip-sm">' + escHtml(scopeLabel) + '</span>';
-  // Category badge
-  html += '<span class="cx-chip cx-chip-sm">' + escHtml(canon.category) + '</span>';
-  // Status badge
   html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(canon.status) + '">' + escHtml(canon.status) + '</span>';
   html += '</div>';
 
-  // Rationale (truncated)
   if (canon.rationale) {
     html += '<div class="cx-card-body">' + renderTruncated(canon.rationale, 100, canon.id, 'rationale') + '</div>';
   }
 
-  // References
+  // References — resolved via the cross-cutting utility per canon-0052
+  // §Cross-Cutting Discipline. Each ref becomes a clickable navigation
+  // button; unresolved IDs fall back to plain text.
   if (canon.references && canon.references.length > 0) {
-    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">Refs: ' + escHtml(canon.references.join(', ')) + '</div>';
+    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">Refs: ';
+    canon.references.forEach(function(refId, idx) {
+      if (idx > 0) html += ', ';
+      html += renderReferenceLink(refId);
+    });
+    html += '</div>';
   }
 
-  // Created date
   if (canon.created) {
     html += '<div class="cx-card-meta">' + escHtml(formatAbsoluteDate(canon.created)) + '</div>';
   }
