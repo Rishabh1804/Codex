@@ -5,6 +5,15 @@ SPLIT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$SPLIT_DIR/.."
 OUTPUT="$SPLIT_DIR/codex.html"
 
+# canon-0053: rebuild the companion-logs JSON index from on-disk markdown
+# before bundling, so the Logs sub-tab reflects the current state of
+# docs/companion-logs/<repo>/.
+if [ -f "$REPO_ROOT/scripts/extract-companion-logs.py" ]; then
+  python3 "$REPO_ROOT/scripts/extract-companion-logs.py" || {
+    echo "Warning: companion-logs extraction failed; built HTML may carry stale logs index" >&2
+  }
+fi
+
 {
 cat "$SPLIT_DIR/template.html"
 echo '<style>'

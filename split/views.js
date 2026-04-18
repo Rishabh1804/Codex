@@ -16,6 +16,14 @@ var _loreSort = 'newest';
 var _todoFilters = { status: 'open', volume: null };
 var _todoSort = 'newest';
 
+/* --- Forum Pattern (canon-0052) State — Journal sub-tabs ---
+   Per canon-0052 §Journal: four sub-tabs (Sessions / Decrees / Logs / All)
+   default 'all' per §Sub-Tab Pattern. Sessions / Decrees are derived from
+   journal.json entries (decrees = sessions whose id starts 'decree-' or
+   that carry a ratification_mode field). Logs render from
+   store.companion_logs (canon-0053 v1 schema, generated at build time). */
+var _journalSubTab = (typeof localStorage !== 'undefined' && localStorage.getItem('codex-subtab-journal')) || 'all';
+
 /* --- Forum Pattern (canon-0052) State — Canons sub-tabs + filters ---
    Per canon-0052 §Sub-Tab Pattern, selection persists in localStorage
    under codex-subtab-{tab}. Default is 'canons' (the primary entity type
@@ -289,98 +297,373 @@ function getLastActiveDate(volumeId) {
    JOURNAL VIEW
    ============================================================ */
 
+/* Journal Forum Pattern dispatcher (canon-0052 §Journal). Four sub-tabs:
+   Sessions / Decrees / Logs / All. Sessions and Decrees are derived from
+   the same journal.json store; Logs reads store.companion_logs (canon-0053
+   v1 schema). The "All" sub-tab is the default per §Sub-Tab Pattern. */
 function renderJournal() {
   var vc = document.getElementById('viewContainer');
-  var html = '';
+  var html = renderSubTabBar('journal', [
+    { key: 'all', label: 'All' },
+    { key: 'sessions', label: 'Sessions' },
+    { key: 'decrees', label: 'Decrees' },
+    { key: 'logs', label: 'Logs' }
+  ], _journalSubTab);
 
-  // Filter bar: range chips
-  html += '<div class="cx-filter-bar">';
-  html += '<span class="cx-filter-label">Range:</span>';
-  var ranges = [
-    { value: '7d', label: '7 days' },
-    { value: '30d', label: '30 days' },
-    { value: '90d', label: '90 days' },
-    { value: 'all', label: 'All' }
-  ];
-  ranges.forEach(function(r) {
-    var active = _journalFilters.range === r.value ? ' cx-chip-active' : '';
-    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="setJournalRange" data-value="' + escAttr(r.value) + '">' + escHtml(r.label) + '</button>';
+  if (_journalSubTab === 'sessions') html += renderJournalSessionsSubTab();
+  else if (_journalSubTab === 'decrees') html += renderJournalDecreesSubTab();
+  else if (_journalSubTab === 'logs') html += renderJournalLogsSubTab();
+  else html += renderJournalAllSubTab();
+
+  vc.innerHTML = html;
+}
+
+/* True for sessions whose id starts with 'decree-' OR that carry a
+   ratification_mode field. The data layer doesn't model decrees as a
+   separate entity type — they're sessions with an institutional shape. */
+function isDecreeSession(s) {
+  if (!s) return false;
+  if (s.id && s.id.indexOf('decree-') === 0) return true;
+  if (s.ratification_mode) return true;
+  return false;
+}
+
+/* Walk store.journal and return flat session arrays partitioned by type.
+   Sorted newest-first by day.date (store.journal already sorted). */
+function partitionJournalEntries() {
+  var sessions = [];
+  var decrees = [];
+  (store.journal || []).forEach(function(day) {
+    (day.sessions || []).forEach(function(s) {
+      var entry = { session: s, date: day.date };
+      if (isDecreeSession(s)) decrees.push(entry);
+      else sessions.push(entry);
+    });
   });
-  html += '</div>';
+  return { sessions: sessions, decrees: decrees };
+}
 
-  // Volume filter chips
-  var activeVols = filterActive(store.volumes);
-  if (activeVols.length > 1) {
-    html += '<div class="cx-filter-bar">';
-    html += '<span class="cx-filter-label">Volume:</span>';
-    html += '<button class="cx-chip cx-chip-sm' + (!_journalFilters.volume ? ' cx-chip-active' : '') + '" data-action="setJournalVolume" data-value="">All</button>';
-    activeVols.forEach(function(v) {
-      var active = _journalFilters.volume === v.id ? ' cx-chip-active' : '';
-      html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="setJournalVolume" data-value="' + escAttr(v.id) + '">' + escHtml(v.name) + '</button>';
+/* Sessions sub-tab Rostra signals (canon-0052 §Journal Sessions). */
+function computeSessionsStats(entries) {
+  var weekAgo = daysAgo(7);
+  var monthAgo = daysAgo(30);
+  var bugsFound = 0, bugsFixed = 0, durationSum = 0, durationCount = 0;
+  var thisWeek = 0, thisMonth = 0;
+  var perVolume = {};
+  entries.forEach(function(e) {
+    var s = e.session;
+    if (e.date >= weekAgo) thisWeek++;
+    if (e.date >= monthAgo) thisMonth++;
+    bugsFound += (s.bugs_found || 0);
+    bugsFixed += (s.bugs_fixed || 0);
+    if (typeof s.duration_minutes === 'number') {
+      durationSum += s.duration_minutes; durationCount++;
+    }
+    (s.volumes_touched || []).forEach(function(v) { perVolume[v] = (perVolume[v] || 0) + 1; });
+  });
+  return {
+    total: entries.length, thisWeek: thisWeek, thisMonth: thisMonth,
+    bugsFound: bugsFound, bugsFixed: bugsFixed,
+    avgDuration: durationCount > 0 ? Math.round(durationSum / durationCount) : null,
+    perVolume: Object.keys(perVolume).map(function(k) { return { key: k, count: perVolume[k] }; })
+      .sort(function(a, b) { return b.count - a.count; })
+  };
+}
+
+/* Decrees sub-tab Rostra signals (canon-0052 §Journal Decrees). */
+function computeDecreesStats(entries) {
+  var perProvince = {};
+  var perMode = {};
+  entries.forEach(function(e) {
+    var s = e.session;
+    var p = s.province_of_origin;
+    if (p) perProvince[p] = (perProvince[p] || 0) + 1;
+    var m = s.ratification_mode;
+    if (m) perMode[m] = (perMode[m] || 0) + 1;
+  });
+  return {
+    total: entries.length,
+    perProvince: Object.keys(perProvince).map(function(k) { return { key: k, count: perProvince[k] }; })
+      .sort(function(a, b) { return b.count - a.count; }),
+    perMode: Object.keys(perMode).map(function(k) { return { key: k, count: perMode[k] }; })
+      .sort(function(a, b) { return b.count - a.count; })
+  };
+}
+
+/* Logs sub-tab Rostra signals (canon-0052 §Journal Logs). Reads canon-
+   0053 v1 schema entries from store.companion_logs. Per-companion
+   invocation tally collapses Form A/B/C entries — scalars use the value,
+   'throughout' counts as 1, Form C uses the count. */
+function computeCompanionLogsStats() {
+  var logs = store.companion_logs || [];
+  var perCompanion = {};
+  var perRepo = {};
+  var driftCount = 0;
+  var totalRounds = 0;
+  var roundsCount = 0;
+  logs.forEach(function(log) {
+    if (log.same_agent_drift_acknowledged) driftCount++;
+    if (log.repo) perRepo[log.repo] = (perRepo[log.repo] || 0) + 1;
+    var rounds = log.rounds || {};
+    Object.keys(rounds).forEach(function(comp) {
+      var v = rounds[comp];
+      var n = 0;
+      if (typeof v === 'number') n = v;
+      else if (v === 'throughout') n = 1;
+      else if (v && typeof v === 'object' && typeof v.count === 'number') n = v.count;
+      perCompanion[comp] = (perCompanion[comp] || 0) + n;
+      if (n > 0) { totalRounds += n; roundsCount++; }
+    });
+  });
+  return {
+    total: logs.length, driftCount: driftCount,
+    avgRoundsPerSession: roundsCount > 0 ? Math.round((totalRounds / logs.length) * 10) / 10 : null,
+    perCompanion: Object.keys(perCompanion).map(function(k) { return { key: k, count: perCompanion[k] }; })
+      .filter(function(p) { return p.count > 0; })
+      .sort(function(a, b) { return b.count - a.count; }),
+    perRepo: Object.keys(perRepo).map(function(k) { return { key: k, count: perRepo[k] }; })
+      .sort(function(a, b) { return b.count - a.count; })
+  };
+}
+
+/* ---- Journal sub-tab renderers ---- */
+function renderJournalSessionsSubTab() {
+  var p = partitionJournalEntries();
+  var stats = computeSessionsStats(p.sessions);
+
+  var html = '<div class="cx-rostra">';
+  html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">sessions</span></div>';
+  if (stats.perVolume.length > 0) {
+    html += '<div class="cx-rostra-dots">';
+    stats.perVolume.forEach(function(v) {
+      var color = lookupVolumeColor(v.key);
+      var bg = color ? 'background:' + color : '';
+      html += '<span class="cx-rostra-dot" title="' + escAttr(lookupVolumeName(v.key) + ' \u2014 ' + v.count) + '" style="' + bg + '"></span>';
+      html += '<span class="cx-rostra-dot-label">' + escHtml(lookupVolumeName(v.key)) + ' ' + v.count + '</span>';
     });
     html += '</div>';
   }
+  var statLine = stats.thisWeek + ' wk \u00B7 ' + stats.thisMonth + ' mo \u00B7 ' + stats.total + ' total';
+  html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Logged:</span> ' + escHtml(statLine) + '</div>';
+  if (stats.bugsFound > 0 || stats.bugsFixed > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Bugs:</span> ' + stats.bugsFound + ' found \u00B7 ' + stats.bugsFixed + ' fixed</div>';
+  }
+  if (stats.avgDuration != null) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Avg duration:</span> ' + stats.avgDuration + ' min</div>';
+  }
+  html += '</div>';
 
-  // Filter sessions
-  var cutoffDate = null;
-  if (_journalFilters.range === '7d') cutoffDate = daysAgo(7);
-  else if (_journalFilters.range === '30d') cutoffDate = daysAgo(30);
-  else if (_journalFilters.range === '90d') cutoffDate = daysAgo(90);
+  return html + renderJournalRangeAndCards(p.sessions, 'session');
+}
 
-  var filteredDays = [];
-  store.journal.forEach(function(day) {
-    if (cutoffDate && day.date < cutoffDate) return;
-    var sessions = day.sessions || [];
-    if (_journalFilters.volume) {
-      sessions = sessions.filter(function(s) {
-        return (s.volumes_touched || []).indexOf(_journalFilters.volume) !== -1;
-      });
-    }
-    if (sessions.length > 0) {
-      filteredDays.push({ date: day.date, sessions: sessions });
-    }
+function renderJournalDecreesSubTab() {
+  var p = partitionJournalEntries();
+  var stats = computeDecreesStats(p.decrees);
+
+  var html = '<div class="cx-rostra">';
+  html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">decrees</span></div>';
+  if (stats.perProvince.length > 0) {
+    html += '<div class="cx-rostra-dots">';
+    stats.perProvince.forEach(function(p2) {
+      var color = lookupVolumeColor(p2.key);
+      var bg = color ? 'background:' + color : '';
+      html += '<span class="cx-rostra-dot" title="' + escAttr(lookupVolumeName(p2.key) + ' \u2014 ' + p2.count) + '" style="' + bg + '"></span>';
+      html += '<span class="cx-rostra-dot-label">' + escHtml(lookupVolumeName(p2.key)) + ' ' + p2.count + '</span>';
+    });
+    html += '</div>';
+  }
+  if (stats.perMode.length > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Modes:</span> ';
+    html += stats.perMode.map(function(m) { return escHtml(m.key + ' \u00D7 ' + m.count); }).join(' \u00B7 ');
+    html += '</div>';
+  }
+  html += '</div>';
+
+  return html + renderJournalRangeAndCards(p.decrees, 'decree');
+}
+
+function renderJournalLogsSubTab() {
+  var stats = computeCompanionLogsStats();
+
+  var html = '<div class="cx-rostra">';
+  html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">logs</span></div>';
+  if (stats.perRepo.length > 0) {
+    html += '<div class="cx-rostra-dots">';
+    stats.perRepo.forEach(function(r) {
+      var color = lookupVolumeColor(r.key);
+      var bg = color ? 'background:' + color : '';
+      html += '<span class="cx-rostra-dot" title="' + escAttr(lookupVolumeName(r.key) + ' \u2014 ' + r.count) + '" style="' + bg + '"></span>';
+      html += '<span class="cx-rostra-dot-label">' + escHtml(lookupVolumeName(r.key)) + ' ' + r.count + '</span>';
+    });
+    html += '</div>';
+  }
+  if (stats.perCompanion.length > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Invocations:</span> ';
+    html += stats.perCompanion.slice(0, 8).map(function(c) { return escHtml(c.key + ' \u00D7 ' + c.count); }).join(' \u00B7 ');
+    if (stats.perCompanion.length > 8) html += ' \u00B7 +' + (stats.perCompanion.length - 8) + ' more';
+    html += '</div>';
+  }
+  if (stats.avgRoundsPerSession != null) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Avg rounds/session:</span> ' + stats.avgRoundsPerSession + '</div>';
+  }
+  if (stats.driftCount > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-chip cx-chip-sm cx-overdue-chip">Same-agent drift acknowledged \u00D7 ' + stats.driftCount + '</span></div>';
+  }
+  html += '</div>';
+
+  if (stats.total === 0) {
+    html += renderEmptyState('scroll', 'No companion logs yet', 'Logs land in docs/companion-logs/<repo>/ — see canon-0053 for the format');
+    return html;
+  }
+
+  // Sort by date (newest first) and render as cards.
+  var logs = (store.companion_logs || []).slice().sort(function(a, b) {
+    return (b.date || '').localeCompare(a.date || '');
   });
+  html += '<div class="cx-filter-count">' + logs.length + ' log' + (logs.length === 1 ? '' : 's') + '</div>';
+  logs.forEach(function(log) { html += renderCompanionLogCard(log); });
+  return html;
+}
 
-  // Sort newest first (store.journal is already sorted, but filtered copy may not be)
-  filteredDays.sort(function(a, b) { return b.date.localeCompare(a.date); });
+function renderJournalAllSubTab() {
+  var p = partitionJournalEntries();
+  var sStats = computeSessionsStats(p.sessions);
+  var dStats = computeDecreesStats(p.decrees);
+  var lStats = computeCompanionLogsStats();
 
-  if (filteredDays.length === 0) {
-    html += renderEmptyState('scroll', 'No sessions found', _journalFilters.volume || cutoffDate ? 'Try adjusting filters' : 'Log your first build session', 'New Session', 'openCreateSession');
-    vc.innerHTML = html;
-    return;
+  var html = '<div class="cx-rostra">';
+  var totalAll = sStats.total + dStats.total + lStats.total;
+  html += '<div class="cx-rostra-headline">' + totalAll + ' <span class="cx-rostra-headline-label">entries</span></div>';
+  html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Mix:</span> ' + sStats.total + ' sessions \u00B7 ' + dStats.total + ' decrees \u00B7 ' + lStats.total + ' logs</div>';
+  html += '</div>';
+
+  // Combined chronological stream — sessions/decrees by their day.date,
+  // logs by their date field. Render unified day-grouped cards.
+  var combined = [];
+  p.sessions.forEach(function(e) { combined.push({ kind: 'session', date: e.date, payload: e }); });
+  p.decrees.forEach(function(e) { combined.push({ kind: 'decree', date: e.date, payload: e }); });
+  (store.companion_logs || []).forEach(function(log) {
+    combined.push({ kind: 'log', date: log.date || '', payload: log });
+  });
+  combined.sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
+
+  if (combined.length === 0) {
+    html += renderEmptyState('scroll', 'No journal entries', 'Log your first session');
+    return html;
   }
 
-  // Flatten to count total sessions
-  var totalSessions = 0;
-  filteredDays.forEach(function(d) { totalSessions += d.sessions.length; });
-
-  // Paginate by _journalLoadMoreCount (session count)
-  var sessionsRendered = 0;
-  var daysToRender = [];
-  for (var di = 0; di < filteredDays.length && sessionsRendered < _journalLoadMoreCount; di++) {
-    var day = filteredDays[di];
-    var sessionsForDay = [];
-    for (var si = 0; si < day.sessions.length && sessionsRendered < _journalLoadMoreCount; si++) {
-      sessionsForDay.push(day.sessions[si]);
-      sessionsRendered++;
-    }
-    daysToRender.push({ date: day.date, sessions: sessionsForDay });
-  }
-
-  // Render day groups
-  daysToRender.forEach(function(day) {
-    html += renderDayHeader(day.date);
-    day.sessions.forEach(function(session) {
-      html += renderSessionCard(session, day.date);
+  // Group by date.
+  var byDate = {};
+  var dateOrder = [];
+  combined.forEach(function(item) {
+    if (!byDate[item.date]) { byDate[item.date] = []; dateOrder.push(item.date); }
+    byDate[item.date].push(item);
+  });
+  dateOrder.forEach(function(d) {
+    html += renderDayHeader(d);
+    byDate[d].forEach(function(item) {
+      if (item.kind === 'log') html += renderCompanionLogCard(item.payload);
+      else html += renderSessionCard(item.payload.session, item.payload.date);
     });
   });
+  return html;
+}
 
-  // Load more button
-  if (sessionsRendered < totalSessions) {
-    html += '<div class="cx-center"><button class="cx-btn-secondary" data-action="loadMoreJournal">Load more (' + (totalSessions - sessionsRendered) + ' remaining)</button></div>';
+/* Common Range/Volume filter row + paginated session-card rendering used by
+   Sessions and Decrees sub-tabs. Returns HTML string. */
+function renderJournalRangeAndCards(entries, kind) {
+  var html = '';
+
+  // Filter pills — Range + Volume (derived from entries).
+  var ranges = [
+    { key: '7d', label: '7 days' },
+    { key: '30d', label: '30 days' },
+    { key: '90d', label: '90 days' },
+    { key: 'all', label: 'All' }
+  ];
+  html += '<div class="cx-filter-row">';
+  ranges.forEach(function(r) {
+    var active = _journalFilters.range === r.key;
+    html += '<button class="cx-filter-pill' + (active ? ' cx-filter-pill-active' : '') + '" data-action="setJournalRange" data-key="' + escAttr(r.key) + '">' + escHtml(r.label) + '</button>';
+  });
+  html += '</div>';
+
+  var perVolume = {};
+  entries.forEach(function(e) {
+    (e.session.volumes_touched || []).forEach(function(v) { perVolume[v] = (perVolume[v] || 0) + 1; });
+  });
+  var volumeOptions = Object.keys(perVolume).map(function(k) {
+    return { key: k, label: lookupVolumeName(k) };
+  });
+  html += renderDerivedFilterRow('journalVolume', _journalFilters.volume, volumeOptions, 'All');
+
+  // Apply filters to the entries.
+  var cutoff = null;
+  if (_journalFilters.range === '7d') cutoff = daysAgo(7);
+  else if (_journalFilters.range === '30d') cutoff = daysAgo(30);
+  else if (_journalFilters.range === '90d') cutoff = daysAgo(90);
+  var filtered = entries.filter(function(e) {
+    if (cutoff && e.date < cutoff) return false;
+    if (_journalFilters.volume && (e.session.volumes_touched || []).indexOf(_journalFilters.volume) === -1) return false;
+    return true;
+  });
+  filtered.sort(function(a, b) { return b.date.localeCompare(a.date); });
+
+  var filtersActive = (_journalFilters.range && _journalFilters.range !== 'all') || _journalFilters.volume;
+  html += '<div class="cx-filter-count">' + (filtersActive
+    ? 'Showing ' + filtered.length + ' of ' + entries.length
+    : filtered.length + ' ' + kind + (filtered.length === 1 ? '' : 's')) + '</div>';
+
+  if (filtered.length === 0) {
+    html += renderEmptyState('scroll', 'No ' + kind + 's match', filtersActive ? 'Try adjusting filters' : 'Nothing logged yet');
+    return html;
   }
 
-  vc.innerHTML = html;
+  // Paginate by _journalLoadMoreCount (entries count).
+  var rendered = 0;
+  var byDate = {};
+  var dateOrder = [];
+  for (var i = 0; i < filtered.length && rendered < _journalLoadMoreCount; i++) {
+    var e = filtered[i];
+    if (!byDate[e.date]) { byDate[e.date] = []; dateOrder.push(e.date); }
+    byDate[e.date].push(e);
+    rendered++;
+  }
+  dateOrder.forEach(function(d) {
+    html += renderDayHeader(d);
+    byDate[d].forEach(function(e) { html += renderSessionCard(e.session, e.date); });
+  });
+  if (rendered < filtered.length) {
+    html += '<div class="cx-center"><button class="cx-btn-secondary" data-action="loadMoreJournal">Load more (' + (filtered.length - rendered) + ' remaining)</button></div>';
+  }
+  return html;
+}
+
+/* Companion log card (canon-0053). Compact summary surfaced in the Logs
+   sub-tab — frontmatter signals + a link to the markdown body. */
+function renderCompanionLogCard(log) {
+  var html = '<div class="cx-card cx-companion-log-card">';
+  html += '<div class="cx-card-header">';
+  html += '<div class="cx-card-title">' + cx('scroll') + ' ' + escHtml(log.session_title || log.session_id || '') + '</div>';
+  html += '</div>';
+  html += '<div class="cx-chip-row" style="margin:var(--sp-4) 0">';
+  if (log.repo) html += '<span class="cx-chip cx-chip-sm">' + escHtml(lookupVolumeName(log.repo)) + '</span>';
+  if (log.session_type) html += '<span class="cx-chip cx-chip-sm">' + escHtml(log.session_type) + '</span>';
+  if (log.same_agent_drift_acknowledged) html += '<span class="cx-chip cx-chip-sm cx-overdue-chip">drift ack</span>';
+  if (log.duration_minutes) html += '<span class="cx-chip cx-chip-sm">' + escHtml(log.duration_minutes) + ' min</span>';
+  html += '</div>';
+  if (log.authors && log.authors.length > 0) {
+    html += '<div class="cx-card-meta">' + escHtml(log.authors.join(' \u00B7 ')) + '</div>';
+  }
+  if (log.stage) {
+    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">' + escHtml(log.stage) + '</div>';
+  }
+  if (log.path) {
+    var url = 'https://github.com/Rishabh1804/Codex/blob/main/' + escAttr(log.path);
+    html += '<div class="cx-card-meta" style="margin-top:var(--sp-8)"><a href="' + url + '" target="_blank" rel="noopener" class="cx-link-btn">' + escHtml(log.session_id || 'view log') + ' \u2192</a></div>';
+  }
+  html += '</div>';
+  return html;
 }
 
 function renderSessionCard(session, date) {
@@ -514,12 +797,14 @@ function renderCanonsSubTab() {
   var stats = computeCanonsStats();
 
   // ROSTRA — total + derived category dots + status dots + scope-coverage.
+  // Category dots use the per-category color class, matching the Lore
+  // Rostra's visual language (canon-0052 cross-cutting discipline).
   var html = '<div class="cx-rostra">';
   html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">canons</span></div>';
   if (stats.byCategory.length > 0) {
     html += '<div class="cx-rostra-dots">';
     stats.byCategory.forEach(function(c) {
-      html += '<span class="cx-rostra-dot" title="' + escAttr(c.key + ' \u2014 ' + c.count) + '" style="background:var(--accent)"></span>';
+      html += '<span class="cx-rostra-dot cx-canon-cat-dot cx-canon-cat-' + escAttr(c.key) + '" title="' + escAttr(c.key + ' \u2014 ' + c.count) + '"></span>';
       html += '<span class="cx-rostra-dot-label">' + escHtml(c.key) + ' ' + c.count + '</span>';
     });
     html += '</div>';
@@ -537,16 +822,17 @@ function renderCanonsSubTab() {
   html += '</div>';
 
   // NOTICE BOARDS — derived from data (canon-0052 §Canons rules out
-  // hard-coded enums). Scope / Category / Status / Sort.
-  html += renderDerivedFilterRow('canonScope', _canonFilters.scope, stats.byScope.map(function(s) { return { key: s.key, label: lookupVolumeName(s.key) }; }), 'All');
-  html += renderDerivedFilterRow('canonCategory', _canonFilters.category, stats.byCategory.map(function(c) { return { key: c.key, label: c.key }; }), 'All');
-  html += renderDerivedFilterRow('canonStatus', _canonFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All');
+  // hard-coded enums). Scope / Category / Status / Sort with Lore-style
+  // small-caps row labels for visual orientation.
+  html += renderDerivedFilterRow('canonScope', _canonFilters.scope, stats.byScope.map(function(s) { return { key: s.key, label: lookupVolumeName(s.key) }; }), 'All', 'Scope:');
+  html += renderDerivedFilterRow('canonCategory', _canonFilters.category, stats.byCategory.map(function(c) { return { key: c.key, label: c.key }; }), 'All', 'Category:');
+  html += renderDerivedFilterRow('canonStatus', _canonFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All', 'Status:');
   html += renderSortRow('canonSort', _canonSort, [
     { key: 'newest', label: 'Newest' },
     { key: 'oldest', label: 'Oldest' },
     { key: 'title', label: 'Title' },
     { key: 'scope', label: 'Scope' }
-  ]);
+  ], 'Sort:');
 
   // Apply filters.
   var canons = filterActive(store.canons).filter(function(c) {
@@ -598,11 +884,11 @@ function renderSchismsSubTab() {
   }
   html += '</div>';
 
-  html += renderDerivedFilterRow('schismVolume', _schismFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All');
+  html += renderDerivedFilterRow('schismVolume', _schismFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All', 'Volume:');
   html += renderSortRow('schismSort', _schismSort, [
     { key: 'newest', label: 'Newest' },
     { key: 'oldest', label: 'Oldest' }
-  ]);
+  ], 'Sort:');
 
   var schisms = filterActive(store.schisms);
   if (_schismFilters.volume) schisms = schisms.filter(function(s) { return (s.volumes || []).indexOf(_schismFilters.volume) !== -1; });
@@ -644,12 +930,12 @@ function renderApocryphaSubTab() {
   }
   html += '</div>';
 
-  html += renderDerivedFilterRow('apocryphaStatus', _apocryphaFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All');
-  html += renderDerivedFilterRow('apocryphaVolume', _apocryphaFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All');
+  html += renderDerivedFilterRow('apocryphaStatus', _apocryphaFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All', 'Status:');
+  html += renderDerivedFilterRow('apocryphaVolume', _apocryphaFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All', 'Volume:');
   html += renderSortRow('apocryphaSort', _apocryphaSort, [
     { key: 'newest', label: 'Newest' },
     { key: 'oldest', label: 'Oldest' }
-  ]);
+  ], 'Sort:');
 
   var apocryphon = filterActive(store.apocrypha);
   if (_apocryphaFilters.status) apocryphon = apocryphon.filter(function(a) { return a.status === _apocryphaFilters.status; });
@@ -693,9 +979,11 @@ function renderApocryphaSubTab() {
    is applied so the action handler is the conventional set<Filter>Filter
    name. `current` is the currently-selected key (null = All). `options`
    is [{ key, label }]. `allLabel` is the leftmost pill label (typically
-   "All") which clears the filter when clicked. */
-function renderDerivedFilterRow(filterKey, current, options, allLabel) {
+   "All") which clears the filter when clicked. `rowLabel` is the optional
+   SMALL-CAPS prefix label (e.g. "Category:") matching Lore's convention. */
+function renderDerivedFilterRow(filterKey, current, options, allLabel, rowLabel) {
   var html = '<div class="cx-filter-row">';
+  if (rowLabel) html += '<span class="cx-filter-label">' + escHtml(rowLabel) + '</span>';
   var actionName = 'set' + filterKey.charAt(0).toUpperCase() + filterKey.slice(1) + 'Filter';
   html += '<button class="cx-filter-pill' + (current ? '' : ' cx-filter-pill-active') + '" data-action="' + actionName + '" data-key="">' + escHtml(allLabel || 'All') + '</button>';
   options.forEach(function(opt) {
@@ -705,8 +993,9 @@ function renderDerivedFilterRow(filterKey, current, options, allLabel) {
   html += '</div>';
   return html;
 }
-function renderSortRow(sortKey, current, options) {
+function renderSortRow(sortKey, current, options, rowLabel) {
   var html = '<div class="cx-filter-row">';
+  if (rowLabel) html += '<span class="cx-filter-label">' + escHtml(rowLabel) + '</span>';
   var actionName = 'set' + sortKey.charAt(0).toUpperCase() + sortKey.slice(1);
   options.forEach(function(opt) {
     var active = current === opt.key;
@@ -725,33 +1014,37 @@ function renderPaginationHtml(current, total) {
 }
 
 function renderCanonCard(canon) {
-  var html = '<div class="cx-card cx-card-clickable" data-action="goToCanon" data-id="' + escAttr(canon.id) + '">';
+  var catClass = 'cx-canon-cat-' + escAttr(canon.category || 'unknown');
+  var html = '<div class="cx-card cx-card-clickable cx-canon-card ' + catClass + '" data-action="goToCanon" data-id="' + escAttr(canon.id) + '">';
   html += '<div class="cx-card-header">';
   html += '<div class="cx-card-title">' + cx('bookmark') + escHtml(canon.title) + '</div>';
   html += '</div>';
 
-  // Badges
+  // Badges — category takes the colored-chip slot (primary classification);
+  // scope + status follow as neutral outline chips.
   html += '<div class="cx-chip-row">';
-  // Scope badge
-  var scopeLabel = canon.scope === 'global' ? 'Global' : (function() { var v = store.volumes.find(function(x) { return x.id === canon.scope; }); return v ? v.name : canon.scope; })();
+  html += '<span class="cx-chip cx-chip-sm cx-canon-cat-chip ' + catClass + '-chip">' + escHtml(canon.category || '') + '</span>';
+  var scopeLabel = canon.scope === 'global' ? 'Global' : lookupVolumeName(canon.scope);
   html += '<span class="cx-chip cx-chip-sm">' + escHtml(scopeLabel) + '</span>';
-  // Category badge
-  html += '<span class="cx-chip cx-chip-sm">' + escHtml(canon.category) + '</span>';
-  // Status badge
   html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(canon.status) + '">' + escHtml(canon.status) + '</span>';
   html += '</div>';
 
-  // Rationale (truncated)
   if (canon.rationale) {
     html += '<div class="cx-card-body">' + renderTruncated(canon.rationale, 100, canon.id, 'rationale') + '</div>';
   }
 
-  // References
+  // References — resolved via the cross-cutting utility per canon-0052
+  // §Cross-Cutting Discipline. Each ref becomes a clickable navigation
+  // button; unresolved IDs fall back to plain text.
   if (canon.references && canon.references.length > 0) {
-    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">Refs: ' + escHtml(canon.references.join(', ')) + '</div>';
+    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">Refs: ';
+    canon.references.forEach(function(refId, idx) {
+      if (idx > 0) html += ', ';
+      html += renderReferenceLink(refId);
+    });
+    html += '</div>';
   }
 
-  // Created date
   if (canon.created) {
     html += '<div class="cx-card-meta">' + escHtml(formatAbsoluteDate(canon.created)) + '</div>';
   }

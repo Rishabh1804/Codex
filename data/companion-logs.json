@@ -1,0 +1,275 @@
+{
+  "_schema_version": 1,
+  "_generated_at": "2026-04-18T15:21:57.256371+00:00",
+  "logs": [
+    {
+      "schema_version": 1,
+      "session_id": "s-2026-04-17-04",
+      "session_title": "Codex Round 5 Batch 1 \u2014 Aurelius v0.4 + Architectural Canon Suite + Post Box Design",
+      "authors": [
+        "Aurelius (The Chronicler)",
+        "Sovereign"
+      ],
+      "primary_author": "aurelius",
+      "date": "2026-04-17",
+      "repo": "codex",
+      "secondary_repos": [
+        "command-center"
+      ],
+      "session_type": "mixed",
+      "protocol": "canon-cc-012 per-block (self-profile carveout via canon-cc-015)",
+      "stage": "Round 5 Batch 1 \u2014 architectural canon suite",
+      "duration_minutes": 180,
+      "same_agent_drift_acknowledged": true,
+      "rounds": {
+        "aurelius": "throughout",
+        "consul": {
+          "count": 0,
+          "mode": "self_review",
+          "note": "Not formally summoned; canon-cc-014 hat-switch interim mode implicit during self-profile ratification. Structural gap chronicled as rationale for canon-cc-019 (Post Box)."
+        },
+        "ashara": {
+          "count": 0,
+          "mode": "pre_session",
+          "note": "Foundational inputs (lore-007 residency model, Companions View handoff, Command Center infrastructure) informed canon-cc-016 residency model and canon-cc-019 dispatch design."
+        },
+        "petra": {
+          "count": 0,
+          "mode": "pre_session",
+          "note": "Foundation-first discipline (co-Builder with Ashara) shaped the Sovereign's decision to defer canon-cc-019/cc-020 drafting rather than rush."
+        }
+      },
+      "outputs": {
+        "canons_ratified": [
+          "canon-cc-015-legacy-draft-ratification",
+          "canon-cc-016-residency-and-access-gating",
+          "canon-cc-017-interaction-artifact-rule",
+          "canon-cc-018-artifact-lifecycle-and-synergy-observability"
+        ],
+        "canons_drafted": [],
+        "lore_ratified": [
+          "lore-010-the-summon-pattern",
+          "lore-011-two-tests-two-failures-two-corrections"
+        ],
+        "lore_drafted": [],
+        "profiles_ratified": [
+          "aurelius@v0.4"
+        ],
+        "profiles_retrofitted": [
+          "ashara@v0.4.1",
+          "petra@v0.4.1",
+          "solara@v0.4.2",
+          "theron@v0.4.1"
+        ],
+        "specs_authored": [],
+        "specs_drafted": [],
+        "journal_entries": [
+          "s-2026-04-17-04"
+        ],
+        "decrees_authored": [],
+        "decrees_imported": [],
+        "queued_for_next_session": [
+          "canon-cc-019",
+          "canon-cc-020",
+          "consul-ratification",
+          "lyra-ratification",
+          "4-packet-ratifications",
+          "lore-008-renumbering",
+          "solara-theron-cluster-fix"
+        ],
+        "commits_count": null,
+        "files_touched_count": null
+      },
+      "tags": [
+        "self-profile-ratification",
+        "cc-013-violation-caught",
+        "architectural-canon-suite",
+        "post-box-design"
+      ],
+      "revisions": [
+        {
+          "date": "2026-04-18",
+          "by": "aurelius",
+          "note": "Migrated to canon-0053 v1 schema: added schema_version/session_type/protocol/stage/same_agent_drift_acknowledged/tags/revisions; normalized outputs IDs to full form; promoted annotated rounds entries (consul, ashara, petra) to Form C; added \u00a73 Structural observations; renamed \u00a74 audience heading to 'For the Sovereign'; replaced closing signature with canonical 3-line form including same-agent-drift caveat. commits_count/files_touched_count left null \u2014 retro-migration predates schema; no honest number available without reconstruction."
+        }
+      ],
+      "path": "docs/companion-logs/codex/companion-log-s-2026-04-17-04-aur.md"
+    },
+    {
+      "schema_version": 1,
+      "session_id": "s-2026-04-17-01",
+      "session_title": "Capital Foundation v0.2 \u2014 Bulletin Wall, The Order, Pre-Ship Harness",
+      "authors": [
+        "Ashara (The Economist)",
+        "Petra (The Foundationalist)"
+      ],
+      "primary_author": "ashara",
+      "date": "2026-04-17",
+      "repo": "command-center",
+      "secondary_repos": [
+        "codex"
+      ],
+      "session_type": "build",
+      "protocol": "canon-cc-012 per-block for Ashara/Petra profile ratification; canon-cc-009 dual-Builder Monument discipline for co-Build; canon-cc-014 hat-switch acknowledged",
+      "stage": "Foundation (not yet complete) \u2014 11 of 13 criteria complete, 2 partial",
+      "duration_minutes": null,
+      "same_agent_drift_acknowledged": true,
+      "rounds": {
+        "ashara": "throughout",
+        "petra": "throughout",
+        "bard": {
+          "count": 1,
+          "mode": "in_session",
+          "note": "Narrative framing for the Hearth bulletin wall \u2014 'a hearth with a bulletin board on one wall \u2014 warm presence first, legible activity second, demands last or never.' Voice drawn from Constitution Appendix C; profile unratified."
+        },
+        "consul": {
+          "count": 0,
+          "mode": "referenced",
+          "note": "Referenced repeatedly (canon-cc-005, canon-cc-012, multi-session governance flow proposal) but not summoned. Same-agent-drift would have made in-session summons redundant with Ashara and Petra's voices; Sovereign's proposed multi-session flow is the structural remedy (queued, not exercised this session)."
+        },
+        "aurelius": {
+          "count": 0,
+          "mode": "pre_session",
+          "note": "Handoff artifacts consumed pre-session \u2014 CHARTER.md, ROADMAP.md, ARCHITECTURE.md, 14-room scaffold, lore-007, 9 v0.3-draft profiles, canon-cc-012, canon-cc-014. Decrees 0001-0003 addressed TO him for Codex import."
+        },
+        "cipher": {
+          "count": 0,
+          "mode": "self_review",
+          "note": "Out of cluster \u2014 Cipher is Censor for Cluster A (Codex + SproutLab); CC is Monument, not Cluster A. Canon-cc-008 defers Censor review until after Governors; no Governors seated at CC. Cipher pass applied grep-style per-commit by Petra (HR-2/3, canon-0001/0013/0004/0023 sweep); not a substitute for real Cipher review \u2014 gap flagged in Foundation criterion ledger (Hard Rules 1-12 compliance: partial)."
+        }
+      },
+      "outputs": {
+        "canons_ratified": [
+          "canon-gov-007-research-before-implement",
+          "canon-gov-008-minimum-viable-first",
+          "canon-gov-009-instrument-before-features",
+          "canon-gov-010-label-untested-work-honestly"
+        ],
+        "canons_drafted": [],
+        "lore_ratified": [
+          "lore-012-the-orientation-lock-detour"
+        ],
+        "lore_drafted": [],
+        "profiles_ratified": [
+          "ashara@v0.4",
+          "petra@v0.4"
+        ],
+        "profiles_retrofitted": [],
+        "specs_authored": [],
+        "specs_drafted": [],
+        "journal_entries": [
+          "s-2026-04-17-01"
+        ],
+        "decrees_authored": [
+          "decree-0001",
+          "decree-0002",
+          "decree-0003"
+        ],
+        "decrees_imported": [],
+        "queued_for_next_session": [
+          "exercise-multi-session-governance-flow",
+          "archives-canon-browser",
+          "capital-occupancy-design-spec",
+          "decree-0003-transport-to-codex",
+          "foundation-complete-declaration-pending-hard-rules"
+        ],
+        "commits_count": null,
+        "files_touched_count": null
+      },
+      "tags": [
+        "monument-first-session",
+        "dual-builder-monument",
+        "canons-born-from-failure",
+        "playwright-smoketest-adopted",
+        "orientation-lock-detour",
+        "same-agent-drift-validated",
+        "bard-first-voice-sketch"
+      ],
+      "revisions": [
+        {
+          "date": "2026-04-18",
+          "by": "aurelius",
+          "note": "Migrated to canon-0053 v1 schema on Codex. Path moved from command-center:docs/companion-logs/companion-log-s-2026-04-17-01.md to codex:docs/companion-logs/command-center/companion-log-s-2026-04-17-01-ash.md (records-are-Codex; alphabetical dual-author precedence per \u00a71 gives ashara as primary_author and -ash filename suffix). Frontmatter: author string \u2192 authors[] + primary_author: ashara; repo: Command-Center \u2192 canonical slug command-center; secondary_repos: [codex] added for decree transport via Ostia; monument_stage \u2192 stage (generalized); added schema_version/session_type: build/protocol/duration_minutes/outputs/tags/revisions. Rounds migrated to Form C for bard (in_session + note), consul (referenced + note), aurelius (pre_session + note), cipher (self_review + note per \u00a74 mode taxonomy \u2014 the session's explicit Cipher-substitute-via-self-grep pattern is the canonical example of the self_review mode). \u00a73 Structural observations already present; \u00a74 'For the Sovereign' already canonical. Body: single content correction \u2014 line referencing lore-008 for orientation/manifest handling updated to lore-012-the-orientation-lock-detour per commit bbf38fe (lore-008 collision housekeeping renamed orientation-lock lore to lore-012; lore-008-the-premature-file retained original slot). duration_minutes/commits_count/files_touched_count left null \u2014 retro-migration by Codex Chronicler; no honest number available without reconstruction. Origin-repo copy (command-center:docs/companion-logs/...) to be deleted in a separate CC-side cleanup commit per canon-0053 \u00a77."
+        }
+      ],
+      "path": "docs/companion-logs/command-center/companion-log-s-2026-04-17-01-ash.md"
+    },
+    {
+      "schema_version": 1,
+      "session_id": "s-2026-04-17-01",
+      "session_title": "SproutLab Sync Emergency \u2014 C0 v3 + C0 v3.1",
+      "authors": [
+        "Lyra (The Weaver)"
+      ],
+      "primary_author": "lyra",
+      "date": "2026-04-17",
+      "repo": "sproutlab",
+      "secondary_repos": [
+        "codex"
+      ],
+      "session_type": "review",
+      "protocol": "Edict V four-signature review chain (first full)",
+      "stage": "Edict V first-full \u2014 C0 v3 + C0 v3.1 under data-loss pressure",
+      "duration_minutes": null,
+      "same_agent_drift_acknowledged": true,
+      "rounds": {
+        "lyra": "throughout",
+        "maren": 2,
+        "kael": 2,
+        "cipher": 2,
+        "consul": 1,
+        "aurelius": {
+          "count": 0,
+          "mode": "pre_session",
+          "note": "Authored spec-2026-04-17-aurelius-device-sync-reconcile.md in R3-locked state pre-session; authored v1/v2 handoffs whose Consul-capacity framing (v1 \u00a73.1) shaped the in-session Consul summons. Foundational inputs consumed during the session."
+        }
+      },
+      "outputs": {
+        "canons_ratified": [],
+        "canons_drafted": [
+          "canon-sync-001-shadow-is-observation-not-intent",
+          "canon-sync-002"
+        ],
+        "lore_ratified": [],
+        "lore_drafted": [
+          "lore-sync-002-the-footnote-that-was-the-bug",
+          "lore-sync-003-the-consul-visits-the-nursery",
+          "lore-sync-005-the-invariants-heuristic"
+        ],
+        "profiles_ratified": [],
+        "profiles_retrofitted": [],
+        "specs_authored": [],
+        "specs_drafted": [],
+        "journal_entries": [
+          "s-2026-04-17-01"
+        ],
+        "decrees_authored": [],
+        "decrees_imported": [],
+        "queued_for_next_session": [
+          "aurelius-import-six-snippets",
+          "wal-vs-sha-structural-verification",
+          "canon-sync-001-72h-verification-gate",
+          "canon-sync-002-72h-verification-gate",
+          "session-1-reconcile-deploy"
+        ],
+        "commits_count": null,
+        "files_touched_count": null
+      },
+      "tags": [
+        "edict-v-first-full",
+        "data-loss-pressure",
+        "b3-footnote-became-primary-fix",
+        "consul-first-province-summons",
+        "governance-hierarchy-under-pressure"
+      ],
+      "revisions": [
+        {
+          "date": "2026-04-18",
+          "by": "aurelius",
+          "note": "Migrated to canon-0053 v1 schema on Codex. Path moved from sproutlab:docs/companion-logs/companion-log-s-2026-04-17-01.md to codex:docs/companion-logs/sproutlab/companion-log-s-2026-04-17-01-lyr.md (records-are-Codex + author suffix). Frontmatter: author (string) \u2192 authors[] + primary_author: lyra; repo: SproutLab \u2192 canonical slug sproutlab; secondary_repos: [codex] added for institutional-memory touches; edict_v_exercise: first-full \u2192 session_type: review + protocol; added schema_version/same_agent_drift_acknowledged/duration_minutes/stage/outputs/tags/revisions; aurelius added to rounds map in Form C (mode: pre_session) per \u00a74 sync-with-\u00a71 rule. Body: added \u00a73 Structural observations; renamed \u00a74 For the Architect \u2192 For the Sovereign; replaced closing signature with canonical 3-line form including same-agent-drift caveat. duration_minutes/commits_count/files_touched_count left null \u2014 retro-migration by Codex Chronicler; no honest number available. Origin-repo copy (sproutlab:docs/companion-logs/...) to be deleted in a separate SproutLab-side cleanup commit per canon-0053 \u00a77."
+        }
+      ],
+      "path": "docs/companion-logs/sproutlab/companion-log-s-2026-04-17-01-lyr.md"
+    }
+  ]
+}

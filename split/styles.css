@@ -898,6 +898,35 @@ body {
 .cx-lore-cat-chronicles{border-left-color:var(--accent-light)}
 .cx-lore-cat-chronicles-chip{background:color-mix(in srgb,var(--accent-light) 15%,transparent);color:var(--accent-light)}
 
+/* --- Canon category accents (mirrors lore-cat pattern; canon-0052) ---
+   Applied to cx-canon-card for the left border, to <cat>-chip for a
+   filled pill, and (via the cx-rostra-dot selector) to the Rostra dot
+   background. Data shows 7 categories; palette reuses existing tokens. */
+.cx-canon-card{border-left:3px solid var(--accent);transition:border-color 0.2s}
+.cx-canon-card .cx-card-title{font-family:var(--ff-heading);font-weight:700}
+.cx-canon-cat-chip{font-weight:600}
+.cx-canon-card.cx-canon-cat-architecture{border-left-color:var(--accent)}
+.cx-canon-cat-architecture-chip{background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)}
+.cx-rostra-dot.cx-canon-cat-architecture{background:var(--accent)}
+.cx-canon-card.cx-canon-cat-design{border-left-color:var(--accent-light)}
+.cx-canon-cat-design-chip{background:color-mix(in srgb,var(--accent-light) 15%,transparent);color:var(--accent-light)}
+.cx-rostra-dot.cx-canon-cat-design{background:var(--accent-light)}
+.cx-canon-card.cx-canon-cat-process{border-left-color:var(--success)}
+.cx-canon-cat-process-chip{background:color-mix(in srgb,var(--success) 15%,transparent);color:var(--success)}
+.cx-rostra-dot.cx-canon-cat-process{background:var(--success)}
+.cx-canon-card.cx-canon-cat-governance{border-left-color:var(--warning)}
+.cx-canon-cat-governance-chip{background:color-mix(in srgb,var(--warning) 15%,transparent);color:var(--warning)}
+.cx-rostra-dot.cx-canon-cat-governance{background:var(--warning)}
+.cx-canon-card.cx-canon-cat-builder_discipline{border-left-color:var(--error)}
+.cx-canon-cat-builder_discipline-chip{background:color-mix(in srgb,var(--error) 15%,transparent);color:var(--error)}
+.cx-rostra-dot.cx-canon-cat-builder_discipline{background:var(--error)}
+.cx-canon-card.cx-canon-cat-philosophy{border-left-color:var(--text-tertiary)}
+.cx-canon-cat-philosophy-chip{background:color-mix(in srgb,var(--text-tertiary) 15%,transparent);color:var(--text-secondary)}
+.cx-rostra-dot.cx-canon-cat-philosophy{background:var(--text-tertiary)}
+.cx-canon-card.cx-canon-cat-deploy{border-left-color:var(--accent-light)}
+.cx-canon-cat-deploy-chip{background:color-mix(in srgb,var(--accent-light) 15%,transparent);color:var(--accent-light)}
+.cx-rostra-dot.cx-canon-cat-deploy{background:var(--accent-light)}
+
 /* Lore health strip (Phase 1.5 B2) */
 .cx-lore-health{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-10) var(--sp-12);margin-bottom:var(--sp-12)}
 .cx-lore-health-row{display:flex;align-items:center;gap:var(--sp-12);flex-wrap:wrap}
