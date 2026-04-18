@@ -250,6 +250,20 @@ function setupDelegation() {
         _loreSort = el.dataset.value || 'newest';
         renderCurrentView();
         break;
+
+      // Forum Pattern (canon-0052) — TODOs filters/sort
+      case 'setTodoStatusFilter':
+        _todoFilters.status = el.dataset.key || 'open';
+        renderCurrentView();
+        break;
+      case 'setTodoVolumeFilter':
+        _todoFilters.volume = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setTodoSort':
+        _todoSort = el.dataset.key || 'newest';
+        renderCurrentView();
+        break;
       case 'restoreLore':
         var rl = store.lore.find(function(x) { return x.id === id; });
         if (rl) { rl._deleted = false; rl._deleted_date = null; store._createWalEntry('update', 'lore', id, 'canons.json', { _deleted: false, _deleted_date: null }); store._fireChange(); showToast('Lore restored', 'success'); renderTrashView(); }
