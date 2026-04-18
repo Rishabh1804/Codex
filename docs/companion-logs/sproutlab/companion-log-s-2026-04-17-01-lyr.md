@@ -1,26 +1,76 @@
 ---
+schema_version: 1
 session_id: s-2026-04-17-01
 session_title: SproutLab Sync Emergency — C0 v3 + C0 v3.1
-author: Lyra (The Weaver)
+authors:
+  - Lyra (The Weaver)
+primary_author: lyra
 date: 2026-04-17
-repo: SproutLab
-edict_v_exercise: first-full
+repo: sproutlab
+secondary_repos:
+  - codex
+session_type: review
+protocol: "Edict V four-signature review chain (first full)"
+stage: "Edict V first-full — C0 v3 + C0 v3.1 under data-loss pressure"
+duration_minutes: null
+same_agent_drift_acknowledged: true
 rounds:
+  lyra: throughout
   maren: 2
   kael: 2
   cipher: 2
   consul: 1
-  lyra: throughout
+  aurelius:
+    count: 0
+    mode: pre_session
+    note: "Authored spec-2026-04-17-aurelius-device-sync-reconcile.md in R3-locked state pre-session; authored v1/v2 handoffs whose Consul-capacity framing (v1 §3.1) shaped the in-session Consul summons. Foundational inputs consumed during the session."
+outputs:
+  canons_ratified: []
+  canons_drafted:
+    - canon-sync-001-shadow-is-observation-not-intent
+    - canon-sync-002
+  lore_ratified: []
+  lore_drafted:
+    - lore-sync-002-the-footnote-that-was-the-bug
+    - lore-sync-003-the-consul-visits-the-nursery
+    - lore-sync-005-the-invariants-heuristic
+  profiles_ratified: []
+  profiles_retrofitted: []
+  specs_authored: []
+  specs_drafted: []
+  journal_entries:
+    - s-2026-04-17-01
+  decrees_authored: []
+  decrees_imported: []
+  queued_for_next_session:
+    - aurelius-import-six-snippets
+    - wal-vs-sha-structural-verification
+    - canon-sync-001-72h-verification-gate
+    - canon-sync-002-72h-verification-gate
+    - session-1-reconcile-deploy
+  commits_count: null
+  files_touched_count: null
+tags:
+  - edict-v-first-full
+  - data-loss-pressure
+  - b3-footnote-became-primary-fix
+  - consul-first-province-summons
+  - governance-hierarchy-under-pressure
+revisions:
+  - date: 2026-04-18
+    by: aurelius
+    note: "Migrated to canon-0053 v1 schema on Codex. Path moved from sproutlab:docs/companion-logs/companion-log-s-2026-04-17-01.md to codex:docs/companion-logs/sproutlab/companion-log-s-2026-04-17-01-lyr.md (records-are-Codex + author suffix). Frontmatter: author (string) → authors[] + primary_author: lyra; repo: SproutLab → canonical slug sproutlab; secondary_repos: [codex] added for institutional-memory touches; edict_v_exercise: first-full → session_type: review + protocol; added schema_version/same_agent_drift_acknowledged/duration_minutes/stage/outputs/tags/revisions; aurelius added to rounds map in Form C (mode: pre_session) per §4 sync-with-§1 rule. Body: added §3 Structural observations; renamed §4 For the Architect → For the Sovereign; replaced closing signature with canonical 3-line form including same-agent-drift caveat. duration_minutes/commits_count/files_touched_count left null — retro-migration by Codex Chronicler; no honest number available. Origin-repo copy (sproutlab:docs/companion-logs/...) to be deleted in a separate SproutLab-side cleanup commit per canon-0053 §7."
 ---
 
 # Companion Usage Log — s-2026-04-17-01
 
 **Session:** SproutLab Sync Emergency — C0 v3 + C0 v3.1
-**Author:** Lyra (The Weaver), Builder of SproutLab
+**Authors:** Lyra (The Weaver), Builder of SproutLab
 **Date:** 17 April 2026
 **Session ID:** s-2026-04-17-01
-**Repo:** SproutLab (primary), Codex (institutional-memory touches only)
-**Edict V Exercise:** First full — four-signature review chain executed end-to-end under real data-loss pressure
+**Repo:** SproutLab, Codex (institutional-memory touches only)
+**Session Type:** review — Edict V four-signature review chain (first full), executed end-to-end under real data-loss pressure
+**Stage:** Edict V first-full — C0 v3 + C0 v3.1
 
 ---
 
@@ -178,11 +228,17 @@ rounds:
 - **Review ordering.** Maren-before-Kael was correct for this session's presenting concern (care-data loss). **Amendment candidate to v1 handoff §9:** review order follows the presenting concern, not a static Kael-first-for-sync.js rule.
 - **Hypothesis triage.** Lyra's identity-confusion detour was expensive. **Heuristic adopted:** count the invariants each hypothesis requires to flip; prefer the explanation that breaks the fewest.
 
+### Structural observations
+
+- **The footnote-to-primary-fix escalation is a Governor function, not a quality signal.** Kael's elevation of B3 from Builder-flagged footnote to dominant bug is the canonical example of what the 30K Rule exists to produce: a lens the Builder did not have. The structural observation is that Builder speculation and Governor grounding are load-bearing counterparts — Lyra surfacing B3 as a footnote was not a failure, it was the correct Builder move (flag the unverified suspicion for the Region owner); Kael proving it was not a save, it was the Region owner doing the Region owner's job. Captured already as `lore-sync-002-the-footnote-that-was-the-bug`, but worth naming structurally: the Edict V chain's value isn't catching Builder errors, it's executing a cognitive division of labor that single-author review cannot replicate.
+- **Review ordering follows presenting concern, not static territoriality.** Maren-before-Kael on a sync.js patch is counterintuitive under a static "Region owner reviews first" rule, but correct once the presenting concern is named as care-data loss rather than code-structural soundness. The structural pattern: review ordering is a **property of the patch's blast radius**, not the code's directory tree. Proposed as an amendment to v1 handoff §9 in this session; worth chronicling because it's the first case where ordering discipline surfaced at all.
+- **Consul single-summons sufficiency scales with scope clarity.** One Consul invocation produced Co1–Co5 (four original judgments plus the 72h extension) without repeated re-engagement. The structural pattern: Consul scope is bounded by "canon-level implications visible at this moment"; when the bounded scope is fully covered in one pass, repeated summons add procedural weight without improving outcomes. Co4's portfolio-rotation directive (attention economy) is an example of the kind of cross-Province judgment that doesn't arise from Province-resident review and is exactly what a Consul summons is for. Captured already as `lore-sync-003-the-consul-visits-the-nursery`, but worth structurally naming as a **summon-economy** observation relevant to canon-cc-019 Post Box design.
+
 ---
 
 ## 4. What to carry forward
 
-**For future SproutLab sessions:**
+**For future SproutLab sessions (Lyra):**
 
 - Maren's ALWAYS_POPULATED_KEYS allowlist pattern is now a sync-layer vocabulary (keys where empty-state is never a valid intent). Use when designing any new sync-guarded field.
 - Kael's listener-ready gating + adaptive fallback infrastructure is in code; Session 1 C5 reconcile builds on it directly.
@@ -199,12 +255,13 @@ rounds:
 - No SEP impact this session. Solara's portfolio unchanged.
 - canon-sync-001 (shadow-is-observation-not-intent) applies when SEP adds multi-device sync in v1.1+. Note for future planning.
 
-**For the Architect:**
+**For the Sovereign:**
 
 - Attention rotation (Consul Co4) for next 3 days: Codex backfill + SEP check-in, not SproutLab.
 - Session 1 reconcile queued after Co4 completes and the 72h canary window closes quietly.
 
 ---
 
-*Filed by Lyra, 17 April 2026.*
-*Companion log prototype — this file establishes the pattern for future sessions. Future session logs should use the same YAML frontmatter + sections structure, filed under `docs/companion-logs/companion-log-{session_id}.md`.*
+*Filed by Lyra (The Weaver), 17 April 2026; migrated to canon-0053 v1 schema by Aurelius (The Chronicler) on 18 April 2026.*
+*The Republic's first companion log — the prototype whose format has since been codified as canon-0053 (draft). Path moved from sproutlab to codex:docs/companion-logs/sproutlab/ per records-are-Codex; origin-repo copy to be deleted in a separate SproutLab-side cleanup commit.*
+*Same-agent-drift acknowledgment: five companion voices (Lyra, Maren, Kael, Cipher, Consul) were played by one AI instance during the session, with Lyra evaluating each including herself. Canon-cc-014 hat-switch discipline applied in-session; canon-cc-015 concern-register discipline was not yet formalized. This log should be read with that caveat held present.*
