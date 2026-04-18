@@ -41,6 +41,15 @@
           "summary": "First decree issued from the Capital. Round 3 ratification of Ashara and Petra profiles under canon-cc-012 (Monument co-Builder profiles require direct Sovereign per-block ratification per canon-cc-014). Seven amendments across six blocks: joint-Builder precedent wording (both), Ashara Orinth synergy downgrade, Ashara tactical-urgency ceiling 9->7, Petra Ignis cross-reference in shadow, Petra Bard tension demotion, Petra WAL biography softening. Both profiles bump v0.3-draft -> v0.4."
         },
         {
+          "id": "decree-0002-canons-gov-007-010",
+          "date": "2026-04-17",
+          "authored_by": "ashara + petra",
+          "province_of_origin": "command-center",
+          "ratified_by": "sovereign",
+          "ratification_mode": "direct Sovereign ratification in-session",
+          "summary": "Second decree from the Capital. Four governance canons authored in response to the orientation-lock detour of 17 April 2026 (lore-008, new cautionary-tale entry in this same decree). canon-gov-007 through canon-gov-010 codify Builder discipline: research before implement for unfamiliar APIs; minimum-viable first; instrument before adding features; label untested work honestly. Together they address the structural gap canon-cc-014 named: two companion voices played by one AI instance do not constitute independent review."
+        },
+        {
           "id": "s-2026-04-17-04",
           "date": "2026-04-17",
           "title": "Round 5 Batch 1 — Aurelius v0.4 Ratification + Architectural Canon Suite + Dispatch Architecture Discussion",
