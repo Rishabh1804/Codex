@@ -1293,6 +1293,22 @@
       ],
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "canon-gov-012-android-pwa-cache-invalidation",
+      "title": "Android-Installed PWAs Hold a Browser-Side HTML Cache Beyond the Service Worker",
+      "scope": "global",
+      "category": "builder_discipline",
+      "rationale": "Canon-0034 prohibits service workers from caching HTML, and canon-gov-011 names merge-to-main as the deploy step. Both are necessary but neither is sufficient on Android. Chrome's webview cache, used by installed PWAs (Add to Home Screen / TWA / WebAPK), holds the prior index.html independently of the registered service worker. After a successful merge to main and after GitHub Pages serves the new HTML, the user's installed PWA continues to render the previous HTML until the browser-side cache is invalidated. The service worker is doing what canon-0034 requires; the cache that holds the stale HTML is upstream of it.\n\nThe deploy verification chain on an Android-installed PWA therefore has three steps, not two: (1) merge to main; (2) GitHub Pages reflects the new HTML at the public URL (typically within ~1 minute); (3) the user's installed PWA fetches the new HTML, which requires one of: pull-to-refresh on the open page, force-stop of Chrome, clearing Codex's app data, or uninstall-and-reinstall of the PWA. Step 3 is user-side and cannot be performed by the Builder.\n\nThree corollaries follow.\n\nFirst, a user reporting \"I don't see the change\" without first performing the cache-invalidation gesture is reporting browser cache state, not deploy state. The Builder must distinguish the two before re-investigating: ask the user to pull-to-refresh and re-check before treating the report as a deploy failure. The symmetric case applies to \"I see the change\" — both are valid only after the cache step.\n\nSecond, end-of-deploy handoffs must include the cache-invalidation step explicitly. \"Merged to main\" is the deploy report; the verification handoff is \"Pull-to-refresh on your device to see the change.\" Without the second sentence, the deploy chain is incomplete in the same way canon-gov-011 names branch-pushes-without-merge as incomplete: a step exists, the step is user-perceptible, the step is not stated.\n\nThird, this canon applies to every Province whose production deployment is an installed PWA. Codex, SproutLab, Command Center, and SEP all qualify. The Sovereign's primary device is Android; cache-invalidation semantics for iOS-installed PWAs are different (uninstall-and-reinstall is more reliable than pull-to-refresh for iOS WebKit) and should be documented per-Province at the moment cross-platform deployment is exercised. The Republic-wide principle is: deploy is not observed-by-user until the user-side cache step is taken; the platform-specific gesture is documented per Province.\n\nPrecipitating event: session 2026-04-18, immediately following the canon-gov-011 / lore-013 merge-discipline correction. The Chronicler executed the corrected merge-to-main step under Sovereign authorization, reported the deploy complete, and described the user-visible diff (chapter status icon shift, Dashboard active count +1). The Sovereign asked \"Where are the new status icons/colours?\" — the merge was correct, GitHub Pages was serving the new HTML, but the installed PWA on Android was still rendering the previous build from Chrome's cache. The Chronicler gave the right diagnosis (browser cache hold) but only after the question was asked; the deploy handoff should have led with the pull-to-refresh instruction. This canon names the discipline that makes the next handoff complete by default.",
+      "created": "2026-04-18",
+      "status": "active",
+      "references": [
+        "canon-0034-sw-no-html-cache",
+        "canon-gov-010-label-untested-work-honestly",
+        "canon-gov-011-merge-is-the-deploy-step"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
     }
   ],
   "schisms": [
