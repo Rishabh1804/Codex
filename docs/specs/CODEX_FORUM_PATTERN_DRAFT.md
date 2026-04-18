@@ -56,7 +56,7 @@ Card structure (top to bottom):
 Cards have hover/touch affordance (subtle background lift on dark mode) and a primary tap target that opens the detail view.
 
 ### 6. Sub-tabs (When Needed)
-Some tabs serve multiple entity types (Journal: Sessions + Decrees; future Canons: Canons + Schisms + Apocrypha?). Sub-tabs are a **pill row directly below the primary tab bar**, same visual language as filter pills, with "All" default. Sub-tab selection is preserved per primary tab in localStorage. Each sub-tab independently goes through Rostra → Notice Boards → Stalls.
+Some tabs serve multiple entity types (Journal: Sessions + Decrees + Logs; future Canons: Canons + Schisms + Apocrypha?). Sub-tabs are a **pill row directly below the primary tab bar**, same visual language as filter pills, with "All" default. Sub-tab selection is preserved per primary tab in localStorage. Each sub-tab independently goes through Rostra → Notice Boards → Stalls.
 
 ## Per-Tab Application
 
@@ -95,14 +95,15 @@ This canon **codifies** what Lore already does — it is the reference, not the 
 **Cards:** title, scope+category+status chips, body preview, refs (resolved), date
 
 ### Journal
-**Sub-tabs:** Sessions / Decrees / All — three sub-tabs, default All
+**Sub-tabs:** Sessions / Decrees / Logs / All — four sub-tabs, default All
 **Per sub-tab Rostra:**
 - Sessions: count this week / month / total · bug counts · avg duration · per-volume dots · markdown export (chronicle)
 - Decrees: count · per-province dots · ratification mode breakdown · export
+- Logs: count · per-companion invocation heatmap · avg rounds/session · unhelpful-flag count · voice-drift flag count · per-province dots · export (chronicle)
 - All: combined counts and dots
 
 **Filters:** Range (7/30/90/All) / Volume / Sort — already present; complete and apply per sub-tab
-**Cards:** session and decree cards visually distinguished (icon + accent color); body preview always visible (no Details expander hiding decisions/todos)
+**Cards:** session, decree, and log cards visually distinguished (icon + accent color); body preview always visible (no Details expander hiding decisions/todos). Log cards surface invocation table + voice-drift/unhelpful flags inline per canon-0053.
 
 ### Library (Dashboard)
 **Rostra:**
@@ -117,7 +118,25 @@ This canon **codifies** what Lore already does — it is the reference, not the 
 **Heatmap:** trim or remove — currently spends vertical real estate for what's effectively a recency hint. Decision deferred to overhaul.
 **Cards:** existing volume cards already pattern-aligned; minor refinements during overhaul
 
+### Specs (new top-level tab — 6th tab)
+**Rostra:**
+- Total spec count (headline)
+- Status dots (needed / proposed / drafting / review / locked / implemented / superseded)
+- Category dots (impl-spec / design-spec / canon-draft / handoff)
+- Per-volume dots
+- **Coverage gap signal** — "N in-progress chapters lack specs" (surfaces what's owed — the novel Rostra signal this tab introduces)
+- Markdown export action
+
+**Filters:** Status / Category / Volume / Sort
+**Sub-tabs:** none — the Category filter covers the dimensions (impl-spec / design-spec / canon-draft / handoff)
+**Cards:** title, status+category+volume chips, body preview, refs (resolved), date + authored-by
+
+**Entity model:** separate entity in `codex:data/specs.json` per records-are-Codex. Chapters carry a `spec_id` back-pointer; spec entities carry `chapters[]` and `volumes[]` arrays for cross-cutting specs (e.g., the Forum Pattern spec covers 6 tabs, not one chapter). Spec markdown files live at `codex:docs/specs/<repo>/<spec-slug>.md` — all specs in Codex regardless of authoring Province. Handoffs are a `category: handoff` sub-type of design-spec.
+
 ## Cross-Cutting Discipline
+
+### Records-are-Codex (Architectural Rule)
+All institutional records live in the Codex repository regardless of authoring Province: canons, lore, schisms, apocrypha, journal entries, decrees, interaction artifacts (per cc-017), specs (per this canon's Specs tab), and companion logs (per canon-0053). Provinces produce work; Codex preserves the record. Codex's tabs read locally with no cross-repo fetch for record content. Ostia's role is limited to transport at commit time, not runtime read.
 
 ### Reference Resolver (Universal)
 Lore's `references[]` resolver becomes a shared utility (`resolveReference(id) → { type, label, route }`). Every tab with a `references[]` field renders through it: clickable links to target entity, type-prefixed label, unknown-ID fallback to plain text.
@@ -132,12 +151,13 @@ Implementation: extract from current Lore-tab logic into core.js as a free funct
 - Soft-deleted entities move to **Trash** room in Settings
 - Trash auto-cleans entities where `_deleted_date` > 30 days ago, on app init
 - Trash supports Restore (clears `_deleted` flag) and Permanent Delete (immediate purge)
-- Applies to: TODOs, journal sessions, decrees, canons, schisms, apocrypha, lore, companions, volumes, chapters
+- Applies to: TODOs, journal sessions, decrees, canons, schisms, apocrypha, lore, companions, volumes, chapters, specs, companion logs
 
 ### Export Policy
 - **Lore:** markdown ledger (existing) — keep as-is
 - **Canons:** markdown ledger (new) — canon audit trail with category/scope/status grouping, citation references, ratification dates
-- **Journal:** markdown chronicle (new) — sessions and decrees as autobiography chapters, per the dissertation's "Binding" concept
+- **Journal:** markdown chronicle (new) — sessions, decrees, and logs as autobiography chapters, per the dissertation's "Binding" concept
+- **Specs:** markdown bundle (new) — concatenated spec documents with coverage-gap report prepended
 - **TODOs:** no export — the TODO ledger is operational, not institutional
 
 Export is a button in the Rostra, right-aligned. Filename convention: `codex-{tab}-YYYY-MM-DD.md`.
@@ -165,9 +185,11 @@ CLAUDE.md must be updated to reflect the new enum at ratification.
 1. **Filtered count phrasing.** "12 entries" vs "showing 5 of 12" when filtered. Which reads cleaner? Test both during Canons overhaul.
 2. **Library heatmap.** Cut entirely, or shrink to one row? Test removal first; restore if a Sovereign-felt absence emerges.
 3. **Canons sub-tabs.** Schisms and Apocrypha currently route through the Canons view but have separate detail routes. Confirm sub-tab placement vs. dedicated tabs vs. status of sub-tabs at all.
-4. **Journal "All" sub-tab.** Mixing sessions + decrees in chronological order — useful or noisy? Test default = All; flip if confusing.
+4. **Journal "All" sub-tab.** Mixing sessions + decrees + logs in chronological order — useful or noisy? Test default = All; flip if confusing.
 5. **Per-volume dot color source.** Volumes have `domain_color` already set. Reuse for dot color across all per-volume distributions. Confirm contrast in dark mode.
 6. **Export button discoverability.** Right-aligned in Rostra is the proposal. Risk: Rostra is busy. Alternative: a single "•••" menu in the header. Test both.
+7. **Specs tab vs canon drafts.** Canon drafts are a sub-category of design-spec. When a canon is drafted (`status: draft`) in `canons.json`, does it also appear in the Specs tab, or only after ratification when it's promoted? Test both during overhaul.
+8. **Tab-bar capacity at 6 tabs.** Mobile bottom bar tightens at 6 labels (Library / Journal / Canons / Lore / TODOs / Specs). Slight font reduction accepted at ratification; revisit if usability degrades.
 
 ## References (when ratified)
 
@@ -177,6 +199,7 @@ CLAUDE.md must be updated to reflect the new enum at ratification.
 - canon-cc-017-interaction-artifact-rule (decree/session split rationale)
 - canon-cc-018-artifact-lifecycle-and-synergy-observability (informs Praetorium tab pattern)
 - canon-gov-011-merge-is-the-deploy-step (overhaul ships via main, not branches)
+- canon-0053-the-chronicle-format-companion-usage-logs (Journal → Logs sub-tab schema)
 
 ## Promotion to canons.json
 
