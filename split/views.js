@@ -14,6 +14,43 @@ var _loreSort = 'newest';
 
 /* --- Shared Helpers --- */
 
+/* Walk every chapter and return any whose status is not in CHAPTER_STATUSES.
+   Used by Settings to surface drift (canon-0052 §Chapter Status Enum —
+   "any unrecognized status surfaces in Settings as 'Unknown chapter status'
+   warnings"). Returns array of { volumeId, volumeName, chapterId,
+   chapterName, status }. */
+function detectChapterStatusDrift() {
+  var drift = [];
+  (store.volumes || []).forEach(function(v) {
+    (v.chapters || []).forEach(function(ch) {
+      if (ch._deleted) return;
+      if (ch.status && CHAPTER_STATUSES.indexOf(ch.status) === -1) {
+        drift.push({ volumeId: v.id, volumeName: v.name, chapterId: ch.id, chapterName: ch.name, status: ch.status });
+      }
+    });
+  });
+  return drift;
+}
+
+/* Chapter status → cx() icon name. Covers the canon-0052 enum —
+   progress states (planned → spec-drafting → spec-complete → in-progress
+   → review → complete) plus interrupts (paused, blocked, abandoned).
+   Unknown values fall through to bookmark; drift surfaces in Settings. */
+function chapterStatusIcon(status) {
+  switch (status) {
+    case 'complete': return 'check';
+    case 'in-progress': return 'clock';
+    case 'spec-drafting': return 'quill';
+    case 'spec-complete': return 'scroll';
+    case 'review': return 'search';
+    case 'abandoned': return 'alert';
+    case 'blocked': return 'lock';
+    case 'paused': return 'clock';
+    case 'planned': return 'bookmark';
+    default: return 'bookmark';
+  }
+}
+
 function renderTruncated(text, maxChars, entityId, field) {
   if (!text || text.length <= maxChars) return '<span class="cx-truncated-container">' + escHtml(text || '') + '</span>';
   var truncated = text.substring(0, maxChars).replace(/\s+\S*$/, '');
@@ -963,7 +1000,7 @@ function renderStatsBar() {
   var activeChapters = 0;
   filterActive(store.volumes).forEach(function(v) {
     filterActive(v.chapters || []).forEach(function(ch) {
-      if (ch.status === 'in-progress') activeChapters++;
+      if (isActiveChapterStatus(ch.status)) activeChapters++;
     });
   });
   var openTodos = 0;
@@ -1413,7 +1450,7 @@ function renderVolumeDetail(route) {
   } else {
     html += '<div class="cx-card">';
     chapters.forEach(function(ch) {
-      var icon = ch.status === 'complete' ? 'check' : ch.status === 'in-progress' ? 'clock' : ch.status === 'abandoned' ? 'alert' : ch.status === 'paused' ? 'clock' : 'bookmark';
+      var icon = chapterStatusIcon(ch.status);
       var meta = [];
       if (ch.started) meta.push('Started ' + formatRelativeTime(ch.started));
       if (ch.completed) meta.push('Done ' + formatRelativeTime(ch.completed));
@@ -1462,7 +1499,7 @@ function renderChapterDetail(route) {
   var html = '';
 
   // Title + status
-  var statusIcon = ch.status === 'complete' ? 'check' : ch.status === 'in-progress' ? 'clock' : ch.status === 'abandoned' ? 'alert' : ch.status === 'paused' ? 'clock' : 'bookmark';
+  var statusIcon = chapterStatusIcon(ch.status);
   html += '<h1 class="cx-page-title">' + escHtml(ch.name) + '</h1>';
 
   // Badges
@@ -1717,6 +1754,19 @@ function renderSettings() {
   html += '<div class="cx-settings-row" data-action="exportData"><div class="cx-settings-left">' + cx('download') + '<div><div class="cx-settings-label">Export Data</div><div class="cx-settings-hint">Download as JSON</div></div></div></div>';
   html += '<div class="cx-settings-row" data-action="restoreData"><div class="cx-settings-left">' + cx('refresh') + '<div><div class="cx-settings-label">Restore from Backup</div><div class="cx-settings-hint">Paste exported JSON to restore</div></div></div></div>';
   html += '</div></div>';
+
+  // Data Integrity — chapter status drift (canon-0052 §Chapter Status Enum)
+  var statusDrift = detectChapterStatusDrift();
+  if (statusDrift.length > 0) {
+    html += '<div class="cx-settings-section"><div class="cx-section-title">Data Integrity</div><div class="cx-card" style="padding:var(--sp-16);border-left:3px solid var(--warning)">';
+    html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-8)">' + cx('alert');
+    html += '<div><div class="cx-settings-label">Unknown chapter status</div><div class="cx-settings-hint">' + statusDrift.length + ' chapter' + (statusDrift.length !== 1 ? 's' : '') + ' carry a status not in the canon-0052 enum</div></div></div>';
+    html += '<ul style="margin:var(--sp-8) 0 0 var(--sp-16);padding:0;font-size:var(--fs-sm);color:var(--text-secondary)">';
+    statusDrift.forEach(function(d) {
+      html += '<li><code>' + escHtml(d.status) + '</code> \u2014 ' + escHtml(d.volumeName) + ' / ' + escHtml(d.chapterName) + '</li>';
+    });
+    html += '</ul></div></div>';
+  }
 
   // Advanced (Phase 4)
   html += '<div class="cx-settings-section"><div class="cx-section-title">Advanced</div><div class="cx-card">';

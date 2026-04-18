@@ -123,8 +123,12 @@ a{color:inherit;text-decoration:none}
 .cx-shelf-abandoned{background:var(--error);color:white}
 
 .cx-status-planned{color:var(--text-tertiary)}
+.cx-status-spec-drafting{color:var(--accent-muted,var(--accent));opacity:0.85}
+.cx-status-spec-complete{color:var(--accent)}
 .cx-status-in-progress{color:var(--accent)}
+.cx-status-review{color:var(--warning)}
 .cx-status-paused{color:var(--warning)}
+.cx-status-blocked{color:var(--error);opacity:0.75}
 .cx-status-complete{color:var(--success)}
 .cx-status-abandoned{color:var(--error)}
 
