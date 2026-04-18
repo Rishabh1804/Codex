@@ -305,6 +305,24 @@ function setupDelegation() {
         renderCurrentView();
         break;
 
+      // Forum Pattern — Specs filters + sort (canon-0052 §Specs).
+      case 'setSpecStatusFilter':
+        _specFilters.status = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setSpecCategoryFilter':
+        _specFilters.category = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setSpecVolumeFilter':
+        _specFilters.volume = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setSpecSort':
+        _specSort = el.dataset.key || 'newest';
+        renderCurrentView();
+        break;
+
       // Forum Pattern — Library (Dashboard) filters + sort.
       case 'setLibraryShelfFilter':
         _libraryFilters.shelf = el.dataset.key || null;
@@ -901,6 +919,12 @@ function initializeApp() {
     .then(function(data) { return { data: data }; })
     .catch(function() { return { data: safeParseLocalStorage(KEYS.CACHE_LOGS), fromCache: true }; });
 
+  /* Specs (canon-0052) — same pattern. Read-only at runtime. */
+  var specsPromise = fetch('data/specs.json', { cache: 'no-cache' })
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
+    .then(function(data) { return { data: data }; })
+    .catch(function() { return { data: safeParseLocalStorage(KEYS.CACHE_SPECS), fromCache: true }; });
+
   bootPromise.then(function(fetched) {
     // Seed on first visit (local-only mode, Phase 1 compat)
     var volData = fetched['volumes.json'].data;
@@ -926,6 +950,11 @@ function initializeApp() {
     companionLogsPromise.then(function(logsResult) {
       populateCompanionLogs(logsResult);
       if (typeof renderCurrentView === 'function' && _currentView === 'journal') renderCurrentView();
+    });
+    // Specs: same pattern; re-renders when on the Specs tab.
+    specsPromise.then(function(specsResult) {
+      populateSpecs(specsResult);
+      if (typeof renderCurrentView === 'function' && _currentView === 'specs') renderCurrentView();
     });
 
     // Step 11: Replay WAL

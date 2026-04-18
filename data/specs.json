@@ -1,0 +1,143 @@
+{
+  "_schema_version": 1,
+  "specs": [
+    {
+      "id": "spec-0001-chapter-detail",
+      "title": "Chapter Detail Page",
+      "status": "implemented",
+      "category": "impl-spec",
+      "volumes": ["codex"],
+      "chapters": [],
+      "references": [],
+      "summary": "Phase 5 spec for the Chapter Detail route — prose rendering, linked sessions, linked canons, spec_url affordance, status editor.",
+      "path": "docs/specs/CODEX_CHAPTER_DETAIL_SPEC.md",
+      "authored_by": "aurelius",
+      "created": "2026-04-15",
+      "_deleted": false
+    },
+    {
+      "id": "spec-0002-quick-reference",
+      "title": "Codex Quick Reference",
+      "status": "implemented",
+      "category": "handoff",
+      "volumes": ["codex"],
+      "chapters": [],
+      "references": [],
+      "summary": "Ambient reference doc for Codex sessions — pulled in via CLAUDE.md @import. Architecture, data shapes, build commands, key canons.",
+      "path": "docs/specs/CODEX_QUICK_REFERENCE.md",
+      "authored_by": "aurelius",
+      "created": "2026-04-15",
+      "_deleted": false
+    },
+    {
+      "id": "spec-0003-forum-pattern-draft",
+      "title": "Canon-0052 — The Forum Pattern",
+      "status": "review",
+      "category": "canon-draft",
+      "volumes": ["codex"],
+      "chapters": [],
+      "references": [
+        "canon-0034-sw-no-html-cache",
+        "canon-cc-013-source-verification-means-reading-the-source",
+        "canon-cc-016-residency-and-access-gating",
+        "canon-cc-017-interaction-artifact-rule",
+        "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+        "canon-gov-011-merge-is-the-deploy-step"
+      ],
+      "summary": "Working draft for canon-0052. Codifies Rostra \u2192 Notice Boards \u2192 Filtered Count \u2192 Stalls as the tab layer architecture; names Lore as the reference implementation; specifies per-tab application for Library/Journal/Canons/Lore/TODOs/Specs; cross-cutting discipline (reference resolver, delete affordance, export policy, chapter status enum, sub-tab pattern). Six tabs now landed against this draft; ratification pending.",
+      "path": "docs/specs/CODEX_FORUM_PATTERN_DRAFT.md",
+      "authored_by": "aurelius",
+      "created": "2026-04-18",
+      "_deleted": false
+    },
+    {
+      "id": "spec-0004-companion-log-format",
+      "title": "Canon-0053 \u2014 The Chronicle Format: Companion Usage Logs",
+      "status": "review",
+      "category": "canon-draft",
+      "volumes": ["codex", "sproutlab", "command-center"],
+      "chapters": [],
+      "references": [
+        "canon-cc-013-source-verification-means-reading-the-source",
+        "canon-cc-014-consul-accelerated-profile-drafting",
+        "canon-cc-015-legacy-draft-ratification",
+        "canon-cc-017-interaction-artifact-rule",
+        "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+        "canon-gov-009-instrument-before-features",
+        "canon-gov-011-merge-is-the-deploy-step"
+      ],
+      "summary": "Working draft for canon-0053. File location and naming (canonical path, repo slug, author3 suffix, dual-author precedence), YAML frontmatter schema (14-key outputs taxonomy, rounds Form A/B/C, session_type enum), body structure (\u00a71 Summary, \u00a71.5 Not invoked, \u00a72 Evaluation, \u00a73 Structural observations, \u00a74 Carry forward, \u00a75 Format notes, 3-line signature), rounds semantics, authoring cadence, migration plan, ratification workflow. Three Province logs migrated to v1 schema; precondition for ratification satisfied.",
+      "path": "docs/specs/CODEX_COMPANION_LOG_FORMAT_DRAFT.md",
+      "authored_by": "aurelius",
+      "created": "2026-04-18",
+      "_deleted": false
+    },
+    {
+      "id": "spec-0005-codex-design-principles",
+      "title": "Codex Design Principles v0.1",
+      "status": "drafting",
+      "category": "design-spec",
+      "volumes": ["codex"],
+      "chapters": [],
+      "references": [
+        "canon-0033-root-index-sync",
+        "canon-0034-sw-no-html-cache",
+        "canon-gov-011-merge-is-the-deploy-step",
+        "canon-gov-012-android-pwa-cache-invalidation"
+      ],
+      "summary": "Codex's visual + interaction discipline constitution. Imports HR-1\u2013HR-12 from SproutLab; adds 10 Codex-specific HR-C rules. Full design-token catalog, palette role mapping, per-entity category color tables, icon system, component library (cards, chips, filter pills, Rostra, forms, overlays, buttons, toast), Forum Pattern summary, cross-cutting disciplines, deploy chain. Draft pending design committee review per CC todo-0018.",
+      "path": "docs/specs/CODEX_DESIGN_PRINCIPLES.md",
+      "authored_by": "aurelius",
+      "created": "2026-04-18",
+      "_deleted": false
+    },
+    {
+      "id": "spec-0006-republic-design-principles",
+      "title": "Republic Design Principles v0.1 (skeleton)",
+      "status": "drafting",
+      "category": "design-spec",
+      "volumes": ["codex", "sproutlab", "command-center", "sep-invoicing", "sep-dashboard"],
+      "chapters": [],
+      "references": [
+        "canon-gov-011-merge-is-the-deploy-step",
+        "canon-gov-012-android-pwa-cache-invalidation"
+      ],
+      "summary": "Universal design + interaction discipline for the Republic. Codex-hosted per records-are-Codex. Universal HR-1\u2013HR-12 in central prose; deploy chain, Forum Pattern structural baseline, cross-cutting disciplines, design-token scale structure, icon system discipline, button classes, per-Province obligations. Skeleton v0.1 \u2014 awaiting per-Province contributions before Consul synthesis and Sovereign ratification.",
+      "path": "docs/specs/REPUBLIC_DESIGN_PRINCIPLES.md",
+      "authored_by": "aurelius",
+      "created": "2026-04-18",
+      "_deleted": false
+    },
+    {
+      "id": "spec-0007-companions-view-handoff",
+      "title": "Aurelius Companions View \u2014 Handoff",
+      "status": "needed",
+      "category": "handoff",
+      "volumes": ["codex"],
+      "chapters": [],
+      "references": [
+        "canon-cc-016-residency-and-access-gating",
+        "lore-007-founding-of-the-capital"
+      ],
+      "summary": "Command Center handoff to Aurelius specifying the Codex-side Companions View \u2014 hierarchical Ladder, Appendix C fallback rendering, flippable companion cards, canonical ratification-protocol linkage. Implementation queued.",
+      "path": "docs/handoffs/AURELIUS_COMPANIONS_VIEW.md",
+      "authored_by": "ashara+petra",
+      "created": "2026-04-17",
+      "_deleted": false
+    },
+    {
+      "id": "spec-0008-handoff-phase5",
+      "title": "Codex Handoff \u2014 Phase 5",
+      "status": "implemented",
+      "category": "handoff",
+      "volumes": ["codex"],
+      "chapters": [],
+      "references": [],
+      "summary": "Phase 5 handoff for Chapter Detail + Apocrypha + self-contained repo discipline.",
+      "path": "docs/handoffs/CODEX_HANDOFF_PHASE5.md",
+      "authored_by": "aurelius",
+      "created": "2026-04",
+      "_deleted": false
+    }
+  ]
+}

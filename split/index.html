@@ -52,6 +52,7 @@
   <button data-action="switchTab" data-tab="canons" class="cx-tab-btn"></button>
   <button data-action="switchTab" data-tab="lore" class="cx-tab-btn"></button>
   <button data-action="switchTab" data-tab="todos" class="cx-tab-btn"></button>
+  <button data-action="switchTab" data-tab="specs" class="cx-tab-btn"></button>
 </nav>
 
 <button id="fabButton" class="cx-fab" data-action="fabAction"></button>
@@ -986,6 +987,25 @@ body {
 .cx-canon-cat-deploy-chip{background:color-mix(in srgb,var(--accent-light) 15%,transparent);color:var(--accent-light)}
 .cx-rostra-dot.cx-canon-cat-deploy{background:var(--accent-light)}
 
+/* --- Spec category accents (canon-0052 §Specs) ---
+   Four categories (impl-spec / design-spec / canon-draft / handoff).
+   Each gets a left-border color + chip tint + Rostra dot background. */
+.cx-spec-card{border-left:3px solid var(--accent);transition:border-color 0.2s}
+.cx-spec-card .cx-card-title{font-family:var(--ff-heading);font-weight:700}
+.cx-spec-cat-chip{font-weight:600}
+.cx-spec-card.cx-spec-cat-impl-spec{border-left-color:var(--accent)}
+.cx-spec-cat-impl-spec-chip{background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)}
+.cx-rostra-dot.cx-spec-cat-impl-spec{background:var(--accent)}
+.cx-spec-card.cx-spec-cat-design-spec{border-left-color:var(--success)}
+.cx-spec-cat-design-spec-chip{background:color-mix(in srgb,var(--success) 15%,transparent);color:var(--success)}
+.cx-rostra-dot.cx-spec-cat-design-spec{background:var(--success)}
+.cx-spec-card.cx-spec-cat-canon-draft{border-left-color:var(--warning)}
+.cx-spec-cat-canon-draft-chip{background:color-mix(in srgb,var(--warning) 15%,transparent);color:var(--warning)}
+.cx-rostra-dot.cx-spec-cat-canon-draft{background:var(--warning)}
+.cx-spec-card.cx-spec-cat-handoff{border-left-color:var(--accent-light)}
+.cx-spec-cat-handoff-chip{background:color-mix(in srgb,var(--accent-light) 15%,transparent);color:var(--accent-light)}
+.cx-rostra-dot.cx-spec-cat-handoff{background:var(--accent-light)}
+
 /* Lore health strip (Phase 1.5 B2) */
 .cx-lore-health{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-10) var(--sp-12);margin-bottom:var(--sp-12)}
 .cx-lore-health-row{display:flex;align-items:center;gap:var(--sp-12);flex-wrap:wrap}
@@ -1054,7 +1074,7 @@ var KEYS = {
   DEFAULT_SHELF: 'codex-default-shelf', DEFAULT_BRANCH: 'codex-default-branch',
   CACHE_VOLUMES: 'codex-cache-volumes', CACHE_CANONS: 'codex-cache-canons',
   CACHE_JOURNAL: 'codex-cache-journal', CACHE_COMPANIONS: 'codex-cache-companions',
-  CACHE_LOGS: 'codex-cache-logs',
+  CACHE_LOGS: 'codex-cache-logs', CACHE_SPECS: 'codex-cache-specs',
   SHA_VOLUMES: 'codex-sha-volumes',
   SHA_CANONS: 'codex-sha-canons', SHA_JOURNAL: 'codex-sha-journal',
   SHA_COMPANIONS: 'codex-sha-companions',
@@ -1234,6 +1254,7 @@ var store = {
   companions: [],
   companions_meta: {},
   companion_logs: [],
+  specs: [],
   _wal: [],
   _meta: {
     shas: { volumes: null, canons: null, journal: null, companions: null },
@@ -1642,6 +1663,18 @@ function populateCompanionLogs(result) {
   catch(e) { logError('cache', 'Failed to cache companion logs', e.message); }
 }
 
+/* Specs (canon-0052 §Specs). Separate entity in data/specs.json per
+   records-are-Codex (HR-C-07). Read-only at runtime today — new specs
+   seeded by hand or via snippet import; Phase 2 may add an extractor
+   similar to the companion-logs pipeline that walks docs/specs/ +
+   docs/handoffs/ and auto-indexes frontmatter. */
+function populateSpecs(result) {
+  var data = (result && result.data) || { _schema_version: 1, specs: [] };
+  store.specs = data.specs || [];
+  try { localStorage.setItem(KEYS.CACHE_SPECS, JSON.stringify(data)); }
+  catch(e) { logError('cache', 'Failed to cache specs', e.message); }
+}
+
 function getStoreSnapshot() {
   return JSON.parse(JSON.stringify({
     volumes: store.volumes, canons: store.canons,
@@ -1868,7 +1901,8 @@ function parseRoute(hash) {
   if (parts[0] === 'canon' && parts[1]) return { view: 'canon-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'chapter' && parts[1] && parts[2]) return { view: 'chapter-detail', volumeId: decodeURIComponent(parts[1]), chapterId: decodeURIComponent(parts[2]) };
   if (parts[0] === 'lore' && parts[1]) return { view: 'lore-detail', id: decodeURIComponent(parts[1]) };
-  if (['dashboard','journal','canons','todos','lore','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
+  if (parts[0] === 'spec' && parts[1]) return { view: 'spec-detail', id: decodeURIComponent(parts[1]) };
+  if (['dashboard','journal','canons','todos','lore','specs','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
   return { view: 'dashboard' };
 }
 
@@ -1896,12 +1930,12 @@ function handleRouteChange(hash, scrollToTop) {
 
 function handleSwitchTab(tabName) {
   _pendingFilter = null;
-  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore' };
+  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore', specs: '#/specs' };
   navigate(map[tabName] || '#/dashboard');
 }
 
 function updateTabBarActive(view) {
-  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', settings:null };
+  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', specs:'specs', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', 'spec-detail':'specs', settings:null };
   var active = map[view];
   var btns = document.querySelectorAll('.cx-tab-btn');
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
@@ -1930,6 +1964,8 @@ function resolveReference(id) {
   if (apo) return { type: 'apocryphon', id: id, label: '\u201C' + (apo.title || id) + '\u201D', route: '#/canons' };
   var schism = store.schisms.find(function(s) { return s.id === id; });
   if (schism) return { type: 'schism', id: id, label: schism.rejected ? ('Rejected: ' + schism.rejected) : id, route: '#/canons' };
+  var spec = (store.specs || []).find(function(s) { return s.id === id; });
+  if (spec) return { type: 'spec', id: id, label: spec.title || id, route: '#/spec/' + encodeURIComponent(id) };
   return null;
 }
 
@@ -1978,10 +2014,11 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail')) {
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail' || route.view === 'spec-detail')) {
     var title = route.view === 'settings' ? 'Settings'
       : route.view === 'canon-detail' ? 'Canon'
       : route.view === 'lore-detail' ? 'Lore'
+      : route.view === 'spec-detail' ? 'Spec'
       : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
@@ -2068,8 +2105,8 @@ function updateFab(view) {
 /* --- Tab Icons --- */
 function initTabIcons() {
   var btns = document.querySelectorAll('.cx-tab-btn');
-  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check' };
-  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs' };
+  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check', specs: 'quill' };
+  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs', specs: 'Specs' };
   for (var i = 0; i < btns.length; i++) {
     var tab = btns[i].dataset.tab;
     btns[i].innerHTML = cx(icons[tab] || 'book') + '<span class="cx-tab-label">' + (labels[tab] || tab) + '</span>';
@@ -2086,7 +2123,8 @@ function renderCurrentView() {
       settings: renderSettings, todos: renderTodos,
       journal: renderJournal, canons: renderCanons,
       'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail,
-      lore: renderLore, 'lore-detail': renderLoreDetail
+      lore: renderLore, 'lore-detail': renderLoreDetail,
+      specs: renderSpecs, 'spec-detail': renderSpecDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);
@@ -2580,6 +2618,13 @@ var _apocryphaSort = 'newest';
 /* --- Forum Pattern (canon-0052) State — Library (Dashboard) --- */
 var _libraryFilters = { shelf: null, cluster: null };
 var _librarySort = 'recent';
+
+/* --- Forum Pattern (canon-0052) State — Specs --- */
+var _specFilters = { status: null, category: null, volume: null };
+var _specSort = 'newest';
+
+var SPEC_STATUSES = ['needed', 'proposed', 'drafting', 'review', 'locked', 'implemented', 'superseded'];
+var SPEC_CATEGORIES = ['impl-spec', 'design-spec', 'canon-draft', 'handoff'];
 
 /* Derive cluster from volume id per canon-cc-016 residency model. Data
    has cluster:null across the board (flagged for housekeeping) — compute
@@ -4100,6 +4145,189 @@ function renderSearchResults(results, query) {
 /* ============================================================
    PHASE 4: Stats Bar
    ============================================================ */
+
+/* Specs Rostra signals (canon-0052 §Specs). Total + status dots +
+   category dots + per-volume dots + coverage-gap signal ("N in-progress
+   chapters lack specs"). Coverage-gap is the novel Rostra signal the
+   Specs tab introduces — surfaces what's owed by the Chapters layer. */
+function computeSpecsStats() {
+  var specs = filterActive(store.specs || []);
+  var byStatus = tallyBy(specs, function(s) { return s.status; });
+  var byCategory = tallyBy(specs, function(s) { return s.category; });
+  var byVolume = tallyBy(specs, function(s) { return s.volumes || []; });
+
+  // Coverage gap: chapters with active-work status (canon-0052 enum) that
+  // carry no spec_id back-pointer. The Chapter Status Enum designates spec-
+  // drafting and spec-complete as explicit spec-phase states; any chapter
+  // in those states without a spec is a gap. Broaden the lens to include
+  // in-progress + review too (active work that should have had a spec).
+  var gap = [];
+  (store.volumes || []).forEach(function(v) {
+    if (v._deleted) return;
+    (v.chapters || []).forEach(function(ch) {
+      if (ch._deleted) return;
+      if (['spec-drafting', 'spec-complete', 'in-progress', 'review'].indexOf(ch.status) === -1) return;
+      if (ch.spec_id) return;
+      gap.push({ volumeId: v.id, volumeName: v.name, chapterId: ch.id, chapterName: ch.name, status: ch.status });
+    });
+  });
+
+  return {
+    total: specs.length,
+    byStatus: byStatus,
+    byCategory: byCategory,
+    byVolume: byVolume,
+    coverageGap: gap
+  };
+}
+
+function renderSpecs() {
+  var vc = document.getElementById('viewContainer');
+  var stats = computeSpecsStats();
+
+  // ROSTRA
+  var html = '<div class="cx-rostra">';
+  html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">specs</span></div>';
+  if (stats.byCategory.length > 0) {
+    html += '<div class="cx-rostra-dots">';
+    stats.byCategory.forEach(function(c) {
+      html += '<span class="cx-rostra-dot cx-spec-cat-dot cx-spec-cat-' + escAttr(c.key) + '" title="' + escAttr(c.key + ' \u2014 ' + c.count) + '"></span>';
+      html += '<span class="cx-rostra-dot-label">' + escHtml(c.key) + ' ' + c.count + '</span>';
+    });
+    html += '</div>';
+  }
+  if (stats.byStatus.length > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Status:</span> ';
+    html += stats.byStatus.map(function(s) { return escHtml(s.key + ' ' + s.count); }).join(' \u00B7 ');
+    html += '</div>';
+  }
+  if (stats.byVolume.length > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Volumes:</span> ';
+    html += stats.byVolume.map(function(v) { return escHtml(lookupVolumeName(v.key) + ' ' + v.count); }).join(' \u00B7 ');
+    html += '</div>';
+  }
+  if (stats.coverageGap.length > 0) {
+    html += '<div class="cx-rostra-stats" style="color:var(--warning)"><span class="cx-rostra-stat-label">Coverage gap:</span> ' + stats.coverageGap.length + ' active chapter' + (stats.coverageGap.length === 1 ? '' : 's') + ' without spec</div>';
+  }
+  html += '</div>';
+
+  // NOTICE BOARDS — Status / Category / Volume / Sort, all derived from
+  // data. Category filter doubles as the sub-tab axis per canon-0052
+  // §Specs "Sub-tabs: none — the Category filter covers the dimensions".
+  html += renderDerivedFilterRow('specStatus', _specFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All', 'Status:');
+  html += renderDerivedFilterRow('specCategory', _specFilters.category, stats.byCategory.map(function(c) { return { key: c.key, label: c.key }; }), 'All', 'Category:');
+  html += renderDerivedFilterRow('specVolume', _specFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All', 'Volume:');
+  html += renderSortRow('specSort', _specSort, [
+    { key: 'newest', label: 'Newest' },
+    { key: 'oldest', label: 'Oldest' },
+    { key: 'status', label: 'Status' },
+    { key: 'title', label: 'Title' }
+  ], 'Sort:');
+
+  // Apply filters + sort.
+  var specs = filterActive(store.specs || []).filter(function(s) {
+    if (_specFilters.status && s.status !== _specFilters.status) return false;
+    if (_specFilters.category && s.category !== _specFilters.category) return false;
+    if (_specFilters.volume && (s.volumes || []).indexOf(_specFilters.volume) === -1) return false;
+    return true;
+  });
+  if (_specSort === 'oldest') specs.sort(function(a, b) { return (a.created || '').localeCompare(b.created || ''); });
+  else if (_specSort === 'status') specs.sort(function(a, b) {
+    var ai = SPEC_STATUSES.indexOf(a.status), bi = SPEC_STATUSES.indexOf(b.status);
+    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+  });
+  else if (_specSort === 'title') specs.sort(function(a, b) { return (a.title || '').localeCompare(b.title || ''); });
+  else specs.sort(function(a, b) { return (b.created || '').localeCompare(a.created || ''); });
+
+  var filtersActive = _specFilters.status || _specFilters.category || _specFilters.volume;
+  html += '<div class="cx-filter-count">' + (filtersActive
+    ? 'Showing ' + specs.length + ' of ' + stats.total
+    : specs.length + ' spec' + (specs.length === 1 ? '' : 's')) + '</div>';
+
+  if (specs.length === 0) {
+    html += renderEmptyState('quill', 'No specs match', filtersActive ? 'Try adjusting filters' : 'Specs land in data/specs.json — see canon-0052 §Specs');
+    vc.innerHTML = html;
+    return;
+  }
+
+  specs.forEach(function(s) { html += renderSpecCard(s); });
+  vc.innerHTML = html;
+}
+
+function renderSpecCard(spec) {
+  var catClass = 'cx-spec-cat-' + escAttr(spec.category || 'unknown');
+  var html = '<div class="cx-card cx-card-clickable cx-spec-card ' + catClass + '" data-action="navigate" data-route="#/spec/' + escAttr(spec.id) + '">';
+  html += '<div class="cx-card-header">';
+  html += '<div class="cx-card-title">' + cx('quill') + ' ' + escHtml(spec.title || spec.id) + '</div>';
+  html += '</div>';
+  html += '<div class="cx-chip-row">';
+  html += '<span class="cx-chip cx-chip-sm cx-spec-cat-chip ' + catClass + '-chip">' + escHtml(spec.category || '') + '</span>';
+  if (spec.status) html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(spec.status) + '">' + escHtml(spec.status) + '</span>';
+  (spec.volumes || []).forEach(function(v) {
+    html += '<span class="cx-chip cx-chip-sm">' + escHtml(lookupVolumeName(v)) + '</span>';
+  });
+  html += '</div>';
+  if (spec.summary) {
+    html += '<div class="cx-card-body">' + renderTruncated(spec.summary, 160, spec.id, 'summary') + '</div>';
+  }
+  if (spec.references && spec.references.length > 0) {
+    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">Refs: ';
+    spec.references.forEach(function(refId, idx) {
+      if (idx > 0) html += ', ';
+      html += renderReferenceLink(refId);
+    });
+    html += '</div>';
+  }
+  var metaBits = [];
+  if (spec.authored_by) metaBits.push(spec.authored_by);
+  if (spec.created) metaBits.push(formatAbsoluteDate(spec.created));
+  if (metaBits.length > 0) html += '<div class="cx-card-meta">' + escHtml(metaBits.join(' \u00B7 ')) + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function renderSpecDetail(route) {
+  var vc = document.getElementById('viewContainer');
+  var spec = (store.specs || []).find(function(s) { return s.id === route.id; });
+  if (!spec) {
+    vc.innerHTML = renderEmptyState('alert', 'Spec not found', 'This spec may have been deleted');
+    return;
+  }
+  var catClass = 'cx-spec-cat-' + escAttr(spec.category || 'unknown');
+  var html = '<h1 class="cx-page-title">' + cx('quill') + ' ' + escHtml(spec.title || spec.id) + '</h1>';
+  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-16)">';
+  html += '<span class="cx-chip cx-chip-sm cx-spec-cat-chip ' + catClass + '-chip">' + escHtml(spec.category || '') + '</span>';
+  if (spec.status) html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(spec.status) + '">' + escHtml(spec.status) + '</span>';
+  (spec.volumes || []).forEach(function(v) {
+    html += '<span class="cx-chip cx-chip-sm">' + escHtml(lookupVolumeName(v)) + '</span>';
+  });
+  html += '</div>';
+
+  if (spec.summary) {
+    html += '<div class="cx-section-title">Summary</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">' + escHtml(spec.summary).replace(/\n/g, '<br>') + '</div></div>';
+  }
+  if (spec.references && spec.references.length > 0) {
+    html += '<div class="cx-section-title">References</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    spec.references.forEach(function(refId, idx) {
+      if (idx > 0) html += ', ';
+      html += renderReferenceLink(refId);
+    });
+    html += '</div></div>';
+  }
+  if (spec.path) {
+    var url = 'https://github.com/Rishabh1804/Codex/blob/main/' + escAttr(spec.path);
+    html += '<div class="cx-section-title">Document</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0"><a href="' + url + '" target="_blank" rel="noopener" class="cx-link-btn">' + escHtml(spec.path) + ' \u2192</a></div></div>';
+  }
+  var metaBits = [];
+  if (spec.authored_by) metaBits.push('Authored by ' + spec.authored_by);
+  if (spec.created) metaBits.push('Created ' + formatAbsoluteDate(spec.created));
+  if (metaBits.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-16)">' + escHtml(metaBits.join(' \u00B7 ')) + '</div>';
+
+  vc.innerHTML = html;
+}
 
 /* Library Rostra + stats (canon-0052 §Library). Headline volume count,
    per-shelf dots, per-cluster dots, and aggregate signal counts (active
@@ -6766,6 +6994,24 @@ function setupDelegation() {
         renderCurrentView();
         break;
 
+      // Forum Pattern — Specs filters + sort (canon-0052 §Specs).
+      case 'setSpecStatusFilter':
+        _specFilters.status = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setSpecCategoryFilter':
+        _specFilters.category = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setSpecVolumeFilter':
+        _specFilters.volume = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setSpecSort':
+        _specSort = el.dataset.key || 'newest';
+        renderCurrentView();
+        break;
+
       // Forum Pattern — Library (Dashboard) filters + sort.
       case 'setLibraryShelfFilter':
         _libraryFilters.shelf = el.dataset.key || null;
@@ -7362,6 +7608,12 @@ function initializeApp() {
     .then(function(data) { return { data: data }; })
     .catch(function() { return { data: safeParseLocalStorage(KEYS.CACHE_LOGS), fromCache: true }; });
 
+  /* Specs (canon-0052) — same pattern. Read-only at runtime. */
+  var specsPromise = fetch('data/specs.json', { cache: 'no-cache' })
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
+    .then(function(data) { return { data: data }; })
+    .catch(function() { return { data: safeParseLocalStorage(KEYS.CACHE_SPECS), fromCache: true }; });
+
   bootPromise.then(function(fetched) {
     // Seed on first visit (local-only mode, Phase 1 compat)
     var volData = fetched['volumes.json'].data;
@@ -7387,6 +7639,11 @@ function initializeApp() {
     companionLogsPromise.then(function(logsResult) {
       populateCompanionLogs(logsResult);
       if (typeof renderCurrentView === 'function' && _currentView === 'journal') renderCurrentView();
+    });
+    // Specs: same pattern; re-renders when on the Specs tab.
+    specsPromise.then(function(specsResult) {
+      populateSpecs(specsResult);
+      if (typeof renderCurrentView === 'function' && _currentView === 'specs') renderCurrentView();
     });
 
     // Step 11: Replay WAL

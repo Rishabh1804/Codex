@@ -41,6 +41,13 @@ var _apocryphaSort = 'newest';
 var _libraryFilters = { shelf: null, cluster: null };
 var _librarySort = 'recent';
 
+/* --- Forum Pattern (canon-0052) State — Specs --- */
+var _specFilters = { status: null, category: null, volume: null };
+var _specSort = 'newest';
+
+var SPEC_STATUSES = ['needed', 'proposed', 'drafting', 'review', 'locked', 'implemented', 'superseded'];
+var SPEC_CATEGORIES = ['impl-spec', 'design-spec', 'canon-draft', 'handoff'];
+
 /* Derive cluster from volume id per canon-cc-016 residency model. Data
    has cluster:null across the board (flagged for housekeeping) — compute
    until the data fix commit lands. */
@@ -1560,6 +1567,189 @@ function renderSearchResults(results, query) {
 /* ============================================================
    PHASE 4: Stats Bar
    ============================================================ */
+
+/* Specs Rostra signals (canon-0052 §Specs). Total + status dots +
+   category dots + per-volume dots + coverage-gap signal ("N in-progress
+   chapters lack specs"). Coverage-gap is the novel Rostra signal the
+   Specs tab introduces — surfaces what's owed by the Chapters layer. */
+function computeSpecsStats() {
+  var specs = filterActive(store.specs || []);
+  var byStatus = tallyBy(specs, function(s) { return s.status; });
+  var byCategory = tallyBy(specs, function(s) { return s.category; });
+  var byVolume = tallyBy(specs, function(s) { return s.volumes || []; });
+
+  // Coverage gap: chapters with active-work status (canon-0052 enum) that
+  // carry no spec_id back-pointer. The Chapter Status Enum designates spec-
+  // drafting and spec-complete as explicit spec-phase states; any chapter
+  // in those states without a spec is a gap. Broaden the lens to include
+  // in-progress + review too (active work that should have had a spec).
+  var gap = [];
+  (store.volumes || []).forEach(function(v) {
+    if (v._deleted) return;
+    (v.chapters || []).forEach(function(ch) {
+      if (ch._deleted) return;
+      if (['spec-drafting', 'spec-complete', 'in-progress', 'review'].indexOf(ch.status) === -1) return;
+      if (ch.spec_id) return;
+      gap.push({ volumeId: v.id, volumeName: v.name, chapterId: ch.id, chapterName: ch.name, status: ch.status });
+    });
+  });
+
+  return {
+    total: specs.length,
+    byStatus: byStatus,
+    byCategory: byCategory,
+    byVolume: byVolume,
+    coverageGap: gap
+  };
+}
+
+function renderSpecs() {
+  var vc = document.getElementById('viewContainer');
+  var stats = computeSpecsStats();
+
+  // ROSTRA
+  var html = '<div class="cx-rostra">';
+  html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">specs</span></div>';
+  if (stats.byCategory.length > 0) {
+    html += '<div class="cx-rostra-dots">';
+    stats.byCategory.forEach(function(c) {
+      html += '<span class="cx-rostra-dot cx-spec-cat-dot cx-spec-cat-' + escAttr(c.key) + '" title="' + escAttr(c.key + ' \u2014 ' + c.count) + '"></span>';
+      html += '<span class="cx-rostra-dot-label">' + escHtml(c.key) + ' ' + c.count + '</span>';
+    });
+    html += '</div>';
+  }
+  if (stats.byStatus.length > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Status:</span> ';
+    html += stats.byStatus.map(function(s) { return escHtml(s.key + ' ' + s.count); }).join(' \u00B7 ');
+    html += '</div>';
+  }
+  if (stats.byVolume.length > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Volumes:</span> ';
+    html += stats.byVolume.map(function(v) { return escHtml(lookupVolumeName(v.key) + ' ' + v.count); }).join(' \u00B7 ');
+    html += '</div>';
+  }
+  if (stats.coverageGap.length > 0) {
+    html += '<div class="cx-rostra-stats" style="color:var(--warning)"><span class="cx-rostra-stat-label">Coverage gap:</span> ' + stats.coverageGap.length + ' active chapter' + (stats.coverageGap.length === 1 ? '' : 's') + ' without spec</div>';
+  }
+  html += '</div>';
+
+  // NOTICE BOARDS — Status / Category / Volume / Sort, all derived from
+  // data. Category filter doubles as the sub-tab axis per canon-0052
+  // §Specs "Sub-tabs: none — the Category filter covers the dimensions".
+  html += renderDerivedFilterRow('specStatus', _specFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All', 'Status:');
+  html += renderDerivedFilterRow('specCategory', _specFilters.category, stats.byCategory.map(function(c) { return { key: c.key, label: c.key }; }), 'All', 'Category:');
+  html += renderDerivedFilterRow('specVolume', _specFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All', 'Volume:');
+  html += renderSortRow('specSort', _specSort, [
+    { key: 'newest', label: 'Newest' },
+    { key: 'oldest', label: 'Oldest' },
+    { key: 'status', label: 'Status' },
+    { key: 'title', label: 'Title' }
+  ], 'Sort:');
+
+  // Apply filters + sort.
+  var specs = filterActive(store.specs || []).filter(function(s) {
+    if (_specFilters.status && s.status !== _specFilters.status) return false;
+    if (_specFilters.category && s.category !== _specFilters.category) return false;
+    if (_specFilters.volume && (s.volumes || []).indexOf(_specFilters.volume) === -1) return false;
+    return true;
+  });
+  if (_specSort === 'oldest') specs.sort(function(a, b) { return (a.created || '').localeCompare(b.created || ''); });
+  else if (_specSort === 'status') specs.sort(function(a, b) {
+    var ai = SPEC_STATUSES.indexOf(a.status), bi = SPEC_STATUSES.indexOf(b.status);
+    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+  });
+  else if (_specSort === 'title') specs.sort(function(a, b) { return (a.title || '').localeCompare(b.title || ''); });
+  else specs.sort(function(a, b) { return (b.created || '').localeCompare(a.created || ''); });
+
+  var filtersActive = _specFilters.status || _specFilters.category || _specFilters.volume;
+  html += '<div class="cx-filter-count">' + (filtersActive
+    ? 'Showing ' + specs.length + ' of ' + stats.total
+    : specs.length + ' spec' + (specs.length === 1 ? '' : 's')) + '</div>';
+
+  if (specs.length === 0) {
+    html += renderEmptyState('quill', 'No specs match', filtersActive ? 'Try adjusting filters' : 'Specs land in data/specs.json — see canon-0052 §Specs');
+    vc.innerHTML = html;
+    return;
+  }
+
+  specs.forEach(function(s) { html += renderSpecCard(s); });
+  vc.innerHTML = html;
+}
+
+function renderSpecCard(spec) {
+  var catClass = 'cx-spec-cat-' + escAttr(spec.category || 'unknown');
+  var html = '<div class="cx-card cx-card-clickable cx-spec-card ' + catClass + '" data-action="navigate" data-route="#/spec/' + escAttr(spec.id) + '">';
+  html += '<div class="cx-card-header">';
+  html += '<div class="cx-card-title">' + cx('quill') + ' ' + escHtml(spec.title || spec.id) + '</div>';
+  html += '</div>';
+  html += '<div class="cx-chip-row">';
+  html += '<span class="cx-chip cx-chip-sm cx-spec-cat-chip ' + catClass + '-chip">' + escHtml(spec.category || '') + '</span>';
+  if (spec.status) html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(spec.status) + '">' + escHtml(spec.status) + '</span>';
+  (spec.volumes || []).forEach(function(v) {
+    html += '<span class="cx-chip cx-chip-sm">' + escHtml(lookupVolumeName(v)) + '</span>';
+  });
+  html += '</div>';
+  if (spec.summary) {
+    html += '<div class="cx-card-body">' + renderTruncated(spec.summary, 160, spec.id, 'summary') + '</div>';
+  }
+  if (spec.references && spec.references.length > 0) {
+    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">Refs: ';
+    spec.references.forEach(function(refId, idx) {
+      if (idx > 0) html += ', ';
+      html += renderReferenceLink(refId);
+    });
+    html += '</div>';
+  }
+  var metaBits = [];
+  if (spec.authored_by) metaBits.push(spec.authored_by);
+  if (spec.created) metaBits.push(formatAbsoluteDate(spec.created));
+  if (metaBits.length > 0) html += '<div class="cx-card-meta">' + escHtml(metaBits.join(' \u00B7 ')) + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function renderSpecDetail(route) {
+  var vc = document.getElementById('viewContainer');
+  var spec = (store.specs || []).find(function(s) { return s.id === route.id; });
+  if (!spec) {
+    vc.innerHTML = renderEmptyState('alert', 'Spec not found', 'This spec may have been deleted');
+    return;
+  }
+  var catClass = 'cx-spec-cat-' + escAttr(spec.category || 'unknown');
+  var html = '<h1 class="cx-page-title">' + cx('quill') + ' ' + escHtml(spec.title || spec.id) + '</h1>';
+  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-16)">';
+  html += '<span class="cx-chip cx-chip-sm cx-spec-cat-chip ' + catClass + '-chip">' + escHtml(spec.category || '') + '</span>';
+  if (spec.status) html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(spec.status) + '">' + escHtml(spec.status) + '</span>';
+  (spec.volumes || []).forEach(function(v) {
+    html += '<span class="cx-chip cx-chip-sm">' + escHtml(lookupVolumeName(v)) + '</span>';
+  });
+  html += '</div>';
+
+  if (spec.summary) {
+    html += '<div class="cx-section-title">Summary</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">' + escHtml(spec.summary).replace(/\n/g, '<br>') + '</div></div>';
+  }
+  if (spec.references && spec.references.length > 0) {
+    html += '<div class="cx-section-title">References</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    spec.references.forEach(function(refId, idx) {
+      if (idx > 0) html += ', ';
+      html += renderReferenceLink(refId);
+    });
+    html += '</div></div>';
+  }
+  if (spec.path) {
+    var url = 'https://github.com/Rishabh1804/Codex/blob/main/' + escAttr(spec.path);
+    html += '<div class="cx-section-title">Document</div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0"><a href="' + url + '" target="_blank" rel="noopener" class="cx-link-btn">' + escHtml(spec.path) + ' \u2192</a></div></div>';
+  }
+  var metaBits = [];
+  if (spec.authored_by) metaBits.push('Authored by ' + spec.authored_by);
+  if (spec.created) metaBits.push('Created ' + formatAbsoluteDate(spec.created));
+  if (metaBits.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-16)">' + escHtml(metaBits.join(' \u00B7 ')) + '</div>';
+
+  vc.innerHTML = html;
+}
 
 /* Library Rostra + stats (canon-0052 §Library). Headline volume count,
    per-shelf dots, per-cluster dots, and aggregate signal counts (active

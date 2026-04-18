@@ -38,7 +38,7 @@ var KEYS = {
   DEFAULT_SHELF: 'codex-default-shelf', DEFAULT_BRANCH: 'codex-default-branch',
   CACHE_VOLUMES: 'codex-cache-volumes', CACHE_CANONS: 'codex-cache-canons',
   CACHE_JOURNAL: 'codex-cache-journal', CACHE_COMPANIONS: 'codex-cache-companions',
-  CACHE_LOGS: 'codex-cache-logs',
+  CACHE_LOGS: 'codex-cache-logs', CACHE_SPECS: 'codex-cache-specs',
   SHA_VOLUMES: 'codex-sha-volumes',
   SHA_CANONS: 'codex-sha-canons', SHA_JOURNAL: 'codex-sha-journal',
   SHA_COMPANIONS: 'codex-sha-companions',
@@ -218,6 +218,7 @@ var store = {
   companions: [],
   companions_meta: {},
   companion_logs: [],
+  specs: [],
   _wal: [],
   _meta: {
     shas: { volumes: null, canons: null, journal: null, companions: null },
@@ -624,6 +625,18 @@ function populateCompanionLogs(result) {
   store.companion_logs = data.logs || [];
   try { localStorage.setItem(KEYS.CACHE_LOGS, JSON.stringify(data)); }
   catch(e) { logError('cache', 'Failed to cache companion logs', e.message); }
+}
+
+/* Specs (canon-0052 §Specs). Separate entity in data/specs.json per
+   records-are-Codex (HR-C-07). Read-only at runtime today — new specs
+   seeded by hand or via snippet import; Phase 2 may add an extractor
+   similar to the companion-logs pipeline that walks docs/specs/ +
+   docs/handoffs/ and auto-indexes frontmatter. */
+function populateSpecs(result) {
+  var data = (result && result.data) || { _schema_version: 1, specs: [] };
+  store.specs = data.specs || [];
+  try { localStorage.setItem(KEYS.CACHE_SPECS, JSON.stringify(data)); }
+  catch(e) { logError('cache', 'Failed to cache specs', e.message); }
 }
 
 function getStoreSnapshot() {
