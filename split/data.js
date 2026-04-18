@@ -38,6 +38,7 @@ var KEYS = {
   DEFAULT_SHELF: 'codex-default-shelf', DEFAULT_BRANCH: 'codex-default-branch',
   CACHE_VOLUMES: 'codex-cache-volumes', CACHE_CANONS: 'codex-cache-canons',
   CACHE_JOURNAL: 'codex-cache-journal', CACHE_COMPANIONS: 'codex-cache-companions',
+  CACHE_LOGS: 'codex-cache-logs',
   SHA_VOLUMES: 'codex-sha-volumes',
   SHA_CANONS: 'codex-sha-canons', SHA_JOURNAL: 'codex-sha-journal',
   SHA_COMPANIONS: 'codex-sha-companions',
@@ -216,6 +217,7 @@ var store = {
   journal: [],
   companions: [],
   companions_meta: {},
+  companion_logs: [],
   _wal: [],
   _meta: {
     shas: { volumes: null, canons: null, journal: null, companions: null },
@@ -611,6 +613,17 @@ function populateStore(volResult, canonResult, journalResult, companionsResult) 
   } catch(e) { logError('cache', 'Failed to cache', e.message); }
 
   store._meta.lastFetch = new Date().toISOString();
+}
+
+/* Companion logs (canon-0053) are read-only at runtime — generated at build
+   time from on-disk markdown by scripts/extract-companion-logs.py and
+   served as data/companion-logs.json. No SHA tracking, no WAL, no
+   write-back path; the index regenerates on each build.sh invocation. */
+function populateCompanionLogs(result) {
+  var data = (result && result.data) || { _schema_version: 1, logs: [] };
+  store.companion_logs = data.logs || [];
+  try { localStorage.setItem(KEYS.CACHE_LOGS, JSON.stringify(data)); }
+  catch(e) { logError('cache', 'Failed to cache companion logs', e.message); }
 }
 
 function getStoreSnapshot() {

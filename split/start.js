@@ -185,11 +185,18 @@ function setupDelegation() {
         handleSyncNow();
         break;
 
-      // Phase 3: Journal
-      case 'setJournalRange': _journalFilters.range = el.dataset.value; _journalLoadMoreCount = 30; renderCurrentView(); break;
+      // Phase 3 / Forum Pattern: Journal — accept both data-value (legacy)
+      // and data-key (Forum Pattern) for backwards compat with any inline
+      // chips outside the new pill flow.
+      case 'setJournalRange':
+        _journalFilters.range = el.dataset.key || el.dataset.value || 'all';
+        _journalLoadMoreCount = 30;
+        renderCurrentView();
+        break;
       case 'loadMoreJournal': _journalLoadMoreCount += 30; renderCurrentView(); break;
       case 'setJournalVolume':
-        _journalFilters.volume = el.dataset.value || null;
+      case 'setJournalVolumeFilter':
+        _journalFilters.volume = el.dataset.key || el.dataset.value || null;
         _journalLoadMoreCount = 30;
         renderCurrentView();
         break;
@@ -259,7 +266,9 @@ function setupDelegation() {
         var stKey = el.dataset.key;
         try { localStorage.setItem('codex-subtab-' + stTab, stKey); } catch(e) {}
         if (stTab === 'canons') _canonsSubTab = stKey;
+        else if (stTab === 'journal') _journalSubTab = stKey;
         _canonPage = 1;
+        _journalLoadMoreCount = 30;
         renderCurrentView();
         break;
 
@@ -869,6 +878,15 @@ function initializeApp() {
     });
   }
 
+  /* Companion logs (canon-0053) are fetched separately — read-only data
+     generated at build time, no SHA, no GitHub roundtrip needed even in
+     repo mode (the file ships in the same repo). Falls back to cache when
+     the fetch fails (offline, or before first fetch). */
+  var companionLogsPromise = fetch('data/companion-logs.json', { cache: 'no-cache' })
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
+    .then(function(data) { return { data: data }; })
+    .catch(function() { return { data: safeParseLocalStorage(KEYS.CACHE_LOGS), fromCache: true }; });
+
   bootPromise.then(function(fetched) {
     // Seed on first visit (local-only mode, Phase 1 compat)
     var volData = fetched['volumes.json'].data;
@@ -889,6 +907,12 @@ function initializeApp() {
 
     // Step 10: Populate store
     populateStore(fetched['volumes.json'], fetched['canons.json'], fetched['journal.json'], fetched['companions.json']);
+    // Companion logs: parallel-fetched, populated when ready (re-renders
+    // the current view if Logs tab is open).
+    companionLogsPromise.then(function(logsResult) {
+      populateCompanionLogs(logsResult);
+      if (typeof renderCurrentView === 'function' && _currentView === 'journal') renderCurrentView();
+    });
 
     // Step 11: Replay WAL
     replayWal(store._wal);
