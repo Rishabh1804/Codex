@@ -153,6 +153,39 @@ function updateTabBarActive(view) {
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
 }
 
+/* --- Reference Resolver (canon-0052 Forum Pattern cross-cutting utility) ---
+   Resolves an entity ID against every known store type and returns a
+   descriptor { type, id, label, route } or null when unresolved. Used by
+   any tab that surfaces a `references[]` field. Extracted from the former
+   views.js:renderLoreReferenceLink for reuse across Lore, Canons, Journal,
+   Specs, TODOs. */
+function resolveReference(id) {
+  if (!id) return null;
+  var canon = store.canons.find(function(c) { return c.id === id; });
+  if (canon) return { type: 'canon', id: id, label: canon.title || id, route: '#/canon/' + encodeURIComponent(id) };
+  var vol = store.volumes.find(function(v) { return v.id === id; });
+  if (vol) return { type: 'volume', id: id, label: vol.name || id, route: '#/volume/' + encodeURIComponent(id) };
+  var lentry = store.lore.find(function(x) { return x.id === id; });
+  if (lentry) return { type: 'lore', id: id, label: lentry.title || id, route: '#/lore/' + encodeURIComponent(id) };
+  for (var i = 0; i < store.volumes.length; i++) {
+    var v = store.volumes[i];
+    var ch = (v.chapters || []).find(function(c) { return c.id === id; });
+    if (ch) return { type: 'chapter', id: id, label: ch.name || id, route: '#/chapter/' + encodeURIComponent(v.id) + '/' + encodeURIComponent(id), parentId: v.id };
+  }
+  var apo = store.apocrypha.find(function(a) { return a.id === id; });
+  if (apo) return { type: 'apocryphon', id: id, label: '\u201C' + (apo.title || id) + '\u201D', route: '#/canons' };
+  var schism = store.schisms.find(function(s) { return s.id === id; });
+  if (schism) return { type: 'schism', id: id, label: schism.rejected ? ('Rejected: ' + schism.rejected) : id, route: '#/canons' };
+  return null;
+}
+
+/* Render a reference ID as a clickable link, or plain text when unresolved. */
+function renderReferenceLink(id) {
+  var r = resolveReference(id);
+  if (!r) return '<span>' + escHtml(id) + '</span>';
+  return '<button class="cx-link-btn" data-action="navigate" data-route="' + escAttr(r.route) + '">' + escHtml(r.label) + '</button>';
+}
+
 /* --- Breadcrumb (from spec) --- */
 function renderBreadcrumbForRoute(route) {
   var segments = [];

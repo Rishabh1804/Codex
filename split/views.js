@@ -805,36 +805,6 @@ function renderLoreCard(l) {
   return html;
 }
 
-/* Resolve a lore reference ID against any known entity type and return
-   a clickable link (or plain text fallback). Phase 1.5 B1 polish. */
-function renderLoreReferenceLink(refId) {
-  // Canon
-  var canon = store.canons.find(function(c) { return c.id === refId; });
-  if (canon) return '<button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(refId) + '">' + escHtml(canon.title || refId) + '</button>';
-  // Volume
-  var vol = store.volumes.find(function(v) { return v.id === refId; });
-  if (vol) return '<button class="cx-link-btn" data-action="goToVolume" data-id="' + escAttr(refId) + '">' + escHtml(vol.name) + '</button>';
-  // Lore (peer reference)
-  var lentry = store.lore.find(function(x) { return x.id === refId; });
-  if (lentry) return '<button class="cx-link-btn" data-action="goToLore" data-id="' + escAttr(refId) + '">' + escHtml(lentry.title || refId) + '</button>';
-  // Chapter — requires parent volume lookup
-  for (var i = 0; i < store.volumes.length; i++) {
-    var v = store.volumes[i];
-    var ch = (v.chapters || []).find(function(c) { return c.id === refId; });
-    if (ch) {
-      return '<button class="cx-link-btn" data-action="goToChapter" data-vol="' + escAttr(v.id) + '" data-id="' + escAttr(refId) + '">' + escHtml(ch.name || refId) + '</button>';
-    }
-  }
-  // Apocryphon (no detail route — bounce to Canons tab where Apocrypha section lives)
-  var apo = store.apocrypha.find(function(a) { return a.id === refId; });
-  if (apo) return '<button class="cx-link-btn" data-action="navigate" data-route="#/canons">\u201C' + escHtml(apo.title || refId) + '\u201D</button>';
-  // Schism — same bounce pattern
-  var schism = store.schisms.find(function(s) { return s.id === refId; });
-  if (schism) return '<button class="cx-link-btn" data-action="navigate" data-route="#/canons">' + escHtml((schism.rejected ? 'Rejected: ' + schism.rejected : refId)) + '</button>';
-  // Unresolved — plain text
-  return '<span>' + escHtml(refId) + '</span>';
-}
-
 function renderLoreDetail(route) {
   var vc = document.getElementById('viewContainer');
   var l = store.lore.find(function(x) { return x.id === route.id; });
@@ -892,7 +862,7 @@ function renderLoreDetail(route) {
     html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
     l.references.forEach(function(refId, idx) {
       if (idx > 0) html += ', ';
-      html += renderLoreReferenceLink(refId);
+      html += renderReferenceLink(refId);
     });
     html += '</div></div>';
   }
