@@ -305,6 +305,20 @@ function setupDelegation() {
         renderCurrentView();
         break;
 
+      // Forum Pattern — Library (Dashboard) filters + sort.
+      case 'setLibraryShelfFilter':
+        _libraryFilters.shelf = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setLibraryClusterFilter':
+        _libraryFilters.cluster = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setLibrarySort':
+        _librarySort = el.dataset.key || 'recent';
+        renderCurrentView();
+        break;
+
       // Forum Pattern — Apocrypha sub-tab filters + sort.
       case 'setApocryphaStatusFilter':
         _apocryphaFilters.status = el.dataset.key || null;

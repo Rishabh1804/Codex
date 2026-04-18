@@ -822,7 +822,17 @@
       "repo": "rishabh1804/Command-Center",
       "current_phase": "Foundation stage — all 14 rooms scaffolded, no functions active",
       "chapters": [],
-      "todos": [],
+      "todos": [
+        {
+          "id": "todo-0018-design-committee-design-principles",
+          "text": "Priority: convene the design committee (Bard + Maren + Cipher + Sovereign, proposed) to work through CODEX_DESIGN_PRINCIPLES.md and REPUBLIC_DESIGN_PRINCIPLES.md drafts. Per-Province amendments, palette-collision policy, focus-trap + aria discipline for overlays, tab-switching structural rules (scroll preservation, state persistence, double-tap), nested overlay rules, accessibility baseline. Codex drafts live at codex:docs/specs/CODEX_DESIGN_PRINCIPLES.md + codex:docs/specs/REPUBLIC_DESIGN_PRINCIPLES.md (v0.1, 778 + 210 lines). SproutLab's ch06-designprinciples is the reference inspiration; Codex drafts already import HR-1\u2013HR-12. Output: ratify the Republic doc at Consul/Sovereign level; each Province authors its own extension; Codex adopts the ratified form.",
+          "status": "open",
+          "chapter": null,
+          "created": "2026-04-18",
+          "resolved": null,
+          "source_session": "s-2026-04-18-design-principles-draft"
+        }
+      ],
       "shelf_history": [
         {
           "shelf": "active",
