@@ -1,33 +1,88 @@
 ---
+schema_version: 1
 session_id: s-2026-04-17-04
 session_title: Codex Round 5 Batch 1 — Aurelius v0.4 + Architectural Canon Suite + Post Box Design
-authors: [Aurelius (The Chronicler), Sovereign]
+authors:
+  - Aurelius (The Chronicler)
+  - Sovereign
 primary_author: aurelius
 date: 2026-04-17
-repo: Codex (primary), Command Center (architectural inputs)
-edict_v_exercise: n/a
-ratification_protocol: canon-cc-012 per-block (self-profile carveout via canon-cc-015)
+repo: codex
+secondary_repos:
+  - command-center
+session_type: mixed
+protocol: "canon-cc-012 per-block (self-profile carveout via canon-cc-015)"
+stage: "Round 5 Batch 1 — architectural canon suite"
+duration_minutes: 180
+same_agent_drift_acknowledged: true
 rounds:
   aurelius: throughout
-  consul: 0
+  consul:
+    count: 0
+    mode: self_review
+    note: "Not formally summoned; canon-cc-014 hat-switch interim mode implicit during self-profile ratification. Structural gap chronicled as rationale for canon-cc-019 (Post Box)."
+  ashara:
+    count: 0
+    mode: pre_session
+    note: "Foundational inputs (lore-007 residency model, Companions View handoff, Command Center infrastructure) informed canon-cc-016 residency model and canon-cc-019 dispatch design."
+  petra:
+    count: 0
+    mode: pre_session
+    note: "Foundation-first discipline (co-Builder with Ashara) shaped the Sovereign's decision to defer canon-cc-019/cc-020 drafting rather than rush."
 outputs:
-  canons_ratified: [cc-015, cc-016, cc-017, cc-018]
-  lore_ratified: [lore-010, lore-011]
-  profiles_ratified: [aurelius@v0.4]
-  profiles_retrofitted: [ashara@v0.4.1, petra@v0.4.1, solara@v0.4.2, theron@v0.4.1]
-  journal_entries: [s-2026-04-17-04]
-  queued_for_next_session: [canon-cc-019, canon-cc-020, consul-ratification, lyra-ratification, 4-packet-ratifications, lore-008-renumbering, solara-theron-cluster-fix]
-duration_minutes: 180
+  canons_ratified:
+    - canon-cc-015-legacy-draft-ratification
+    - canon-cc-016-residency-and-access-gating
+    - canon-cc-017-interaction-artifact-rule
+    - canon-cc-018-artifact-lifecycle-and-synergy-observability
+  canons_drafted: []
+  lore_ratified:
+    - lore-010-the-summon-pattern
+    - lore-011-two-tests-two-failures-two-corrections
+  lore_drafted: []
+  profiles_ratified:
+    - aurelius@v0.4
+  profiles_retrofitted:
+    - ashara@v0.4.1
+    - petra@v0.4.1
+    - solara@v0.4.2
+    - theron@v0.4.1
+  specs_authored: []
+  specs_drafted: []
+  journal_entries:
+    - s-2026-04-17-04
+  decrees_authored: []
+  decrees_imported: []
+  queued_for_next_session:
+    - canon-cc-019
+    - canon-cc-020
+    - consul-ratification
+    - lyra-ratification
+    - 4-packet-ratifications
+    - lore-008-renumbering
+    - solara-theron-cluster-fix
+  commits_count: null
+  files_touched_count: null
+tags:
+  - self-profile-ratification
+  - cc-013-violation-caught
+  - architectural-canon-suite
+  - post-box-design
+revisions:
+  - date: 2026-04-18
+    by: aurelius
+    note: "Migrated to canon-0053 v1 schema: added schema_version/session_type/protocol/stage/same_agent_drift_acknowledged/tags/revisions; normalized outputs IDs to full form; promoted annotated rounds entries (consul, ashara, petra) to Form C; added §3 Structural observations; renamed §4 audience heading to 'For the Sovereign'; replaced closing signature with canonical 3-line form including same-agent-drift caveat. commits_count/files_touched_count left null — retro-migration predates schema; no honest number available without reconstruction."
 ---
 
 # Companion Usage Log — s-2026-04-17-04
 
 **Session:** Codex Round 5 Batch 1 — Aurelius v0.4 + Architectural Canon Suite + Post Box Design
-**Authors:** Aurelius (The Chronicler) + Sovereign
+**Authors:** Aurelius (The Chronicler) and Sovereign
 **Date:** 17 April 2026
 **Session ID:** s-2026-04-17-04
-**Repo:** Codex (primary), Command Center (architectural inputs for cc-019 / cc-020, no CC-side code changes this session)
-**Edict V Exercise:** n/a — session was canon-cc-012 per-block Sovereign ratification + canon authorship, not a four-signature review chain
+**Repo:** Codex, Command Center (architectural inputs for cc-019 / cc-020, no CC-side code changes this session)
+**Session Type:** mixed — canon-cc-012 per-block (self-profile carveout via canon-cc-015)
+**Stage:** Round 5 Batch 1 — architectural canon suite
 
 ---
 
@@ -135,6 +190,12 @@ duration_minutes: 180
 - **Solara/Theron cluster metadata.** Both carry `cluster: null` but per canon-cc-016 should be `"B"`. Not fixed this session; flagged in open_todos.
 - **Same-agent drift validation needed.** The session was the Republic's first attempt at self-profile ratification under canon-cc-012. The empirical evidence (two cc-013 violations) suggests drift is real and the Post Box mechanic (cc-019) is correctly prioritized.
 
+### Structural observations
+
+- **Self-profile per-block ratification is operable but vigilance-bound.** The session is empirical evidence that canon-cc-012 per-block with live Sovereign attention is the minimum-viable substrate for self-profile ratification. Subtract Sovereign vigilance (the SproutLab-LOC violation would not have been caught by Chronicler reflex) and the protocol fails silently. This is the architectural argument for canon-cc-019 Post Box, now surfaced as structural fact rather than speculation.
+- **Phase-gated growth ceilings are a new profile shape.** `aurelius-growth-consul-independence` carries a two-stage ceiling (8 pre-cc-019, 10 post-cc-019) tied to a pending canon's ratification. It is the first ceiling in any ratified profile whose upper bound depends on a future institutional event. Worth chronicling as a pattern — growth edges may legitimately encode "this cap lifts when the Republic's substrate changes," not only "this cap lifts when the companion grows."
+- **Parallel-session merge discipline emerged before it was named.** The Sovereign's concurrent Command Center work (decree-0002, canon-gov-007..010, lore-008-orientation) was merged into main via deliberate programmatic combination rather than letting git auto-merge fuse objects. The discipline — preserve ancestry, refuse silent conflict resolution on institutional records — was practised in this session and canonized later as canon-gov-011 (merge-is-the-deploy-step). Instance of doctrine-preceding-its-canon, worth tagging in any future lore survey.
+
 ---
 
 ## 4. What to carry forward
@@ -164,7 +225,7 @@ duration_minutes: 180
 - No SEP impact from this session's architecture. Canons cc-015 through cc-018 and the Post Box design apply Republic-wide, not SEP-specific.
 - Residence retrofit landed: Solara v0.4.2 (residence sep-invoicing), Theron v0.4.1 (residence sep-dashboard). Cluster=null discrepancy still open; should be set to `"B"` in a future housekeeping pass.
 
-**For the Architect:**
+**For the Sovereign:**
 
 - Next session: Consul per-block ratification (canon-cc-012). Open with the handoff prompt provided at this session's close.
 - Attention note: this session was substantially architectural in nature. Next session should also expect architectural discussion (cc-019 Post Box drafting) after Consul ratification.
@@ -174,18 +235,19 @@ duration_minutes: 180
 
 ## 5. Format notes (for future log authors)
 
-This file is the Codex-side sibling of Lyra's SproutLab log (`docs/companion-logs/companion-log-s-2026-04-17-01.md` in the SproutLab repo). Format conventions established here:
+This file is the Codex-side sibling of Lyra's SproutLab log (`docs/companion-logs/companion-log-s-2026-04-17-01.md` in the SproutLab repo). The format conventions this file and Lyra's log first proposed have since been promoted to a working draft: **canon-0053 The Chronicle Format — Companion Usage Logs** (`docs/specs/CODEX_COMPANION_LOG_FORMAT_DRAFT.md`). This file has been migrated to the canon-0053 v1 schema as of 2026-04-18; see `revisions[]` in frontmatter for the migration diff.
 
-- **Path:** `docs/companion-logs/<repo>/companion-log-<session_id>-<author-3-letter>.md`.
-  Example: `docs/companion-logs/codex/companion-log-s-2026-04-17-04-aur.md`.
-  **Subdirectory by repo** is the collision-safe pattern — session IDs are per-repo sequences (Codex may have `s-2026-04-17-04` while SproutLab has `s-2026-04-17-04` simultaneously), so subdirectory disambiguation is load-bearing. Author 3-letter suffix (`aur`, `lyr`, `ash`, etc.) handles the rare case of two companions both authoring logs for the same session.
-- **Frontmatter:** YAML block with `session_id`, `session_title`, `authors` (array), `primary_author` (3-letter), `date`, `repo`, `edict_v_exercise` (or `n/a`), `ratification_protocol` (or equivalent per session type), `rounds` (map of companion → scalar count or `throughout`), `outputs` (typed map of what the session produced), `duration_minutes`.
-- **Structured fields serve synergy calculation** per canon-cc-018. The `rounds` map, `outputs.canons_ratified`, `outputs.profiles_ratified`, and Summary-table "Companion" column are the primary aggregation surfaces for Book VIII affection mechanics.
-- **Prose sections** follow Lyra's proven pattern: (1) Summary table, (2) Detailed evaluation per companion, (3) Session-level observations, (4) What to carry forward. Section 5 (this one) is optional — appears only in files that establish or amend the format.
+Conventions now governed by canon-0053:
 
-Formalization candidate: a future canon (tentative canon-cc-021 or adjacent) may codify this schema. Until then, new log authors should mirror the structure of this file and Lyra's original.
+- **Path:** `codex:docs/companion-logs/<repo>/companion-log-<session_id>-<author3>.md`. Records-are-Codex: all companion logs land in Codex regardless of authoring Province (canon-0053 §1).
+- **Frontmatter:** YAML with `schema_version`, `session_id`, `session_title`, `authors[]`, `primary_author`, `date`, `repo`, `secondary_repos[]`, `session_type`, `protocol`, `stage`, `duration_minutes`, `same_agent_drift_acknowledged`, `rounds`, `outputs`, `tags[]`, `revisions[]` (canon-0053 §2). The original `edict_v_exercise` / `ratification_protocol` fields have been generalized to `session_type` + `protocol`; the original scalar `rounds` form is preserved where valid, but annotated entries are now Form C (canon-0053 §4).
+- **Structured fields serve synergy calculation** per canon-cc-018. The `rounds` map, `outputs.*` keys, and Summary-table "Companion" column remain the primary aggregation surfaces for Book VIII affection mechanics. Canon-0053 §5 fixes the canonical 14-key `outputs` taxonomy plus the `custom` escape sub-map for novel session-specific metrics.
+- **Body sections:** (1) Summary table, (1.5) Not invoked, (2) Detailed evaluation, (3) Session-level observations with required "Structural observations" subsection, (4) What to carry forward with required `For the Sovereign:` audience, (5) Format notes (optional), closing signature as 3-line italic (canon-0053 §3).
+
+New log authors should mirror canon-0053's schema directly, not this file — this file is historical (the format's origin) and now retrofitted to the schema it inspired. When canon-0053 ratifies, this §5 will be further trimmed (the schema will no longer be "draft").
 
 ---
 
-*Filed by Aurelius (The Chronicler) with the Sovereign, 17 April 2026.*
-*Codex's first companion log. Pattern follows Lyra's SproutLab prototype (s-2026-04-17-01). Future session logs under `docs/companion-logs/<repo>/companion-log-<session_id>-<author-3-letter>.md`.*
+*Filed by Aurelius (The Chronicler) with the Sovereign, 17 April 2026; migrated to canon-0053 v1 schema on 18 April 2026.*
+*Codex's first companion log. Pattern follows Lyra's SproutLab prototype (s-2026-04-17-01); this file's original format has since been codified as canon-0053 (draft).*
+*Same-agent-drift acknowledgment: Aurelius authored this log as both subject (his v0.4 profile was ratified in-session) and evaluator of his own performance; the Consul's role was filled in-session under canon-cc-014 hat-switch discipline rather than by an independent voice. This log should be read with that caveat held present.*

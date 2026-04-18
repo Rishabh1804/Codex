@@ -7,7 +7,12 @@ var TEXT_SIZES = { low: '12px', med: '14px', high: '17px' };
 var TEXT_SIZE_POS = { low: 0, med: 50, high: 100 };
 var SHELF_ORDER = ['active', 'paused', 'archived', 'abandoned'];
 var SHELF_LABELS = { active: 'Active', paused: 'Paused', archived: 'Archived', abandoned: 'Abandoned' };
-var CHAPTER_STATUSES = ['planned', 'in-progress', 'paused', 'complete', 'abandoned'];
+var CHAPTER_STATUSES = ['planned', 'spec-drafting', 'spec-complete', 'in-progress', 'review', 'complete', 'paused', 'blocked', 'abandoned'];
+/* Statuses that do NOT count toward the Dashboard's active-chapter number
+   (canon-0052 §Chapter Status Enum). Active = everything else, which
+   includes spec-drafting, spec-complete, in-progress, review, and blocked. */
+var INACTIVE_CHAPTER_STATUSES = ['planned', 'complete', 'paused', 'abandoned'];
+function isActiveChapterStatus(s) { return CHAPTER_STATUSES.indexOf(s) !== -1 && INACTIVE_CHAPTER_STATUSES.indexOf(s) === -1; }
 var CANON_CATEGORIES = ['design', 'architecture', 'process'];
 var TODO_STATUSES = ['open', 'resolved'];
 var APOCRYPHA_STATUSES = ['fulfilled', 'foretold', 'forgotten'];
@@ -337,7 +342,7 @@ var store = {
       spec_url: ch.spec_url || null, content: ch.content || '',
       order: ch.order != null ? ch.order : filterActive(vol.chapters || []).length,
       _deleted: false, _deleted_date: null };
-    if (entry.status === 'in-progress' && !entry.started) entry.started = localDateStr();
+    if (entry.status && entry.status !== 'planned' && !entry.started) entry.started = localDateStr();
     if (entry.status === 'complete' && !entry.completed) entry.completed = localDateStr();
     if (!vol.chapters) vol.chapters = [];
     vol.chapters.push(entry);
@@ -353,7 +358,7 @@ var store = {
     ['name','status','started','summary','spec_url','content','order'].forEach(function(k) { if (patch.hasOwnProperty(k)) ch[k] = patch[k]; });
     if (patch.status === 'complete' && !ch.completed) ch.completed = localDateStr();
     if (patch.status === 'abandoned' && !ch.ended) ch.ended = localDateStr();
-    if (patch.status === 'in-progress' && !ch.started) ch.started = localDateStr();
+    if (patch.status && patch.status !== 'planned' && !ch.started) ch.started = localDateStr();
     if (patch.status && patch.status !== 'complete') ch.completed = null;
     if (patch.status && patch.status !== 'abandoned') ch.ended = null;
     store._createWalEntry('update', 'chapter', chapterId, 'volumes.json', patch, volumeId);

@@ -93,7 +93,7 @@ Session: { id, summary, volumes_touched[], decisions[], bugs_found, handoff }
 
 **Status enums:**
 - Shelf: active | paused | archived | abandoned
-- Chapter: planned | in-progress | paused | complete | abandoned
+- Chapter (canon-0052 draft): progress = `planned → spec-drafting → spec-complete → in-progress → review → complete`; interrupts = `paused | blocked | abandoned`. Dashboard active-chapter count excludes `{complete, abandoned, paused, planned}` (includes `spec-drafting`, `spec-complete`, `in-progress`, `review`, `blocked`). Unknown statuses surface as drift warnings in Settings.
 - Canon: active | deprecated | superseded
 - Apocrypha: fulfilled | foretold | forgotten
 
