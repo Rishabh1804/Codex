@@ -2,6 +2,50 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-04-18",
+      "sessions": [
+        {
+          "id": "s-2026-04-18-01",
+          "date": "2026-04-18",
+          "title": "The Forum Pattern Application Session",
+          "summary": "Six-tab Forum Pattern application (canon-0052) end-to-end. Three Province companion logs migrated to canon-0053 v1 schema (codex/sproutlab/command-center). canon-gov-012 ratified mid-session (Android-installed PWAs hold a browser-side HTML cache beyond the SW \u2014 born from the in-session 'Where are the new colors?' correction). CODEX_DESIGN_PRINCIPLES + REPUBLIC_DESIGN_PRINCIPLES drafts authored. Specs tab scaffolded as the new 6th top-level tab. First Codex-side Playwright harness in place: 35/35 cases green. Five Sovereign-authorized merges to main per canon-gov-011. No companion summons; Sovereign-Builder direct work throughout.",
+          "volumes_touched": ["codex", "sproutlab", "command-center"],
+          "chapters_touched": ["the-forum-pattern-overhaul"],
+          "decisions": [
+            "Migrate the three pre-canon-0053 companion logs to v1 schema first \u2014 satisfy the ratification precondition before any tab work begins. Ashara+Petra log uses alphabetical dual-author precedence (ash before pet); Lyra log moved from sproutlab repo to codex:docs/companion-logs/sproutlab/ per records-are-Codex.",
+            "Extract the Lore reference resolver into core.js as resolveReference + renderReferenceLink BEFORE per-tab overhauls \u2014 every subsequent tab gets it for free. Action dispatch unified to data-action='navigate' + data-route (was per-entity goToCanon/goToVolume/etc.); equivalent behavior, single dispatch path.",
+            "Scaffold Playwright harness BEFORE per-tab overhauls (canon-gov-009 instrument-before-features applied to Codex). python3 -m http.server as the web server; Playwright's webServer config drives it.",
+            "Chapter status enum normalization: 9 values per canon-0052 (planned \u2192 spec-drafting \u2192 spec-complete \u2192 in-progress \u2192 review \u2192 complete + paused/blocked/abandoned). Dashboard active count uses the canon-0052 exclusion rule. 'started' date trigger generalized from in-progress-only to any-non-planned (active work begins at spec-drafting).",
+            "canon-gov-012 ratified mid-session in response to the 'Where are the new colors?' diagnostic moment. Canon names the discipline that makes deploy handoffs complete by default on Android: pull-to-refresh is the third step of the deploy chain, not optional polish.",
+            "Forum Pattern application order: cross-cutting first (resolver, enum, harness, gov-012), then per-tab small-to-large (TODOs, Canons, Journal, Library), then new-tab last (Specs). Each merge to main was distinct + Sovereign-authorized; canon-gov-011's 'merge is a distinct act' discipline honored every time.",
+            "Canon category color discipline ported from Lore as a separate polish commit after the structural overhaul. Sovereign feedback ('Canons has too many tabs and the colors are only applied to the dots') was the trigger \u2014 the color treatment Lore had as visual lockdown, Canons shipped without. Polish became canon-cc-013-style 'visual discipline is non-negotiable, not later-polish' lesson; surfaced into HR-C-09 in the design principles draft.",
+            "Sub-tab pattern infrastructure (setSubTab + localStorage persistence) is generic, not per-tab. Used by Canons (Canons/Schisms/Apocrypha) and Journal (All/Sessions/Decrees/Logs). Default rule: 'all' when sub-tabs carry compatible Rostra signals (Journal); primary-entity when they don't (Canons, because the three Rostras carry incompatible signals).",
+            "Companion logs surface in Codex via build-time extraction (scripts/extract-companion-logs.py) into data/companion-logs.json, not runtime YAML parsing. Content-addressable: _generated_at field dropped to prevent uncommitted-change churn. PyYAML dependency on the build host accepted for canon-0053 v1 frontmatter parsing.",
+            "CODEX_DESIGN_PRINCIPLES + REPUBLIC_DESIGN_PRINCIPLES drafted as a pair, not in sequence. Codex doc imports HR-1\u2013HR-12 from SproutLab + adds 10 HR-C rules + codifies tokens, palette, components, Forum Pattern. Republic doc holds the universal subset awaiting per-Province contributions. Both Codex-hosted per HR-C-07.",
+            "Specs as a new top-level entity (data/specs.json) rather than a fold-in to Canons. Canon-0052 \u00a7Specs is explicit about this; the coverage-gap Rostra signal (active chapters without spec_id) is the novel piece that justifies the separate tab.",
+            "Cross-Province TODO transport via volume.todos[]: command-center:todo-0018 queues design-committee work for the design principles drafts. Surfaces in Codex's TODOs tab under the Command Center pill; reaches Ashara+Petra on the next CC session via the shared data substrate.",
+            "Session-close artifacts (this journal entry + chapter + handoff + new follow-up TODOs) authored at session close per canon-cc-018-style intra-session-then-close discipline. No companion log (canon-0053 scopes logs to companion-invocation sessions; this session was Sovereign-Builder direct)."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 1,
+          "duration_minutes": null,
+          "open_todos": [],
+          "handoff": "Next session opener: canon-cc-019 Post Box drafting. All architectural inputs live on the deployed PWA (Journal \u2192 Logs sub-tab). Five open questions to resolve in the draft: where Post Box UI lives in Codex (settings sub-tab vs 7th tab vs conditional Praetorium view); concrete artifact data model (data/post-box.json); Ostia's role (dispatch-only vs general-purpose); companion log auto-generation on artifact ratification; three-tier UI density (Censor/Consul/Praetorium). Secondary opener (lighter session): the design-principles audit pass per CODEX_DESIGN_PRINCIPLES.md \u00a711, then ratify v1.0 of the Codex doc. Full handoff at docs/handoffs/CODEX_HANDOFF_SESSION_2026-04-18.md.",
+          "tags": [
+            "forum-pattern",
+            "canon-0052",
+            "canon-0053",
+            "canon-gov-012-ratified",
+            "design-principles-drafted",
+            "specs-tab-scaffolded",
+            "playwright-harness-installed",
+            "six-tab-overhaul",
+            "no-companion-log"
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-04-17",
       "sessions": [
         {
