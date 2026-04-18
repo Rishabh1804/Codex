@@ -927,6 +927,25 @@ body {
 .cx-canon-cat-deploy-chip{background:color-mix(in srgb,var(--accent-light) 15%,transparent);color:var(--accent-light)}
 .cx-rostra-dot.cx-canon-cat-deploy{background:var(--accent-light)}
 
+/* --- Spec category accents (canon-0052 §Specs) ---
+   Four categories (impl-spec / design-spec / canon-draft / handoff).
+   Each gets a left-border color + chip tint + Rostra dot background. */
+.cx-spec-card{border-left:3px solid var(--accent);transition:border-color 0.2s}
+.cx-spec-card .cx-card-title{font-family:var(--ff-heading);font-weight:700}
+.cx-spec-cat-chip{font-weight:600}
+.cx-spec-card.cx-spec-cat-impl-spec{border-left-color:var(--accent)}
+.cx-spec-cat-impl-spec-chip{background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)}
+.cx-rostra-dot.cx-spec-cat-impl-spec{background:var(--accent)}
+.cx-spec-card.cx-spec-cat-design-spec{border-left-color:var(--success)}
+.cx-spec-cat-design-spec-chip{background:color-mix(in srgb,var(--success) 15%,transparent);color:var(--success)}
+.cx-rostra-dot.cx-spec-cat-design-spec{background:var(--success)}
+.cx-spec-card.cx-spec-cat-canon-draft{border-left-color:var(--warning)}
+.cx-spec-cat-canon-draft-chip{background:color-mix(in srgb,var(--warning) 15%,transparent);color:var(--warning)}
+.cx-rostra-dot.cx-spec-cat-canon-draft{background:var(--warning)}
+.cx-spec-card.cx-spec-cat-handoff{border-left-color:var(--accent-light)}
+.cx-spec-cat-handoff-chip{background:color-mix(in srgb,var(--accent-light) 15%,transparent);color:var(--accent-light)}
+.cx-rostra-dot.cx-spec-cat-handoff{background:var(--accent-light)}
+
 /* Lore health strip (Phase 1.5 B2) */
 .cx-lore-health{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-10) var(--sp-12);margin-bottom:var(--sp-12)}
 .cx-lore-health-row{display:flex;align-items:center;gap:var(--sp-12);flex-wrap:wrap}

@@ -114,7 +114,8 @@ function parseRoute(hash) {
   if (parts[0] === 'canon' && parts[1]) return { view: 'canon-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'chapter' && parts[1] && parts[2]) return { view: 'chapter-detail', volumeId: decodeURIComponent(parts[1]), chapterId: decodeURIComponent(parts[2]) };
   if (parts[0] === 'lore' && parts[1]) return { view: 'lore-detail', id: decodeURIComponent(parts[1]) };
-  if (['dashboard','journal','canons','todos','lore','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
+  if (parts[0] === 'spec' && parts[1]) return { view: 'spec-detail', id: decodeURIComponent(parts[1]) };
+  if (['dashboard','journal','canons','todos','lore','specs','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
   return { view: 'dashboard' };
 }
 
@@ -142,12 +143,12 @@ function handleRouteChange(hash, scrollToTop) {
 
 function handleSwitchTab(tabName) {
   _pendingFilter = null;
-  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore' };
+  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore', specs: '#/specs' };
   navigate(map[tabName] || '#/dashboard');
 }
 
 function updateTabBarActive(view) {
-  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', settings:null };
+  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', specs:'specs', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', 'spec-detail':'specs', settings:null };
   var active = map[view];
   var btns = document.querySelectorAll('.cx-tab-btn');
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
@@ -176,6 +177,8 @@ function resolveReference(id) {
   if (apo) return { type: 'apocryphon', id: id, label: '\u201C' + (apo.title || id) + '\u201D', route: '#/canons' };
   var schism = store.schisms.find(function(s) { return s.id === id; });
   if (schism) return { type: 'schism', id: id, label: schism.rejected ? ('Rejected: ' + schism.rejected) : id, route: '#/canons' };
+  var spec = (store.specs || []).find(function(s) { return s.id === id; });
+  if (spec) return { type: 'spec', id: id, label: spec.title || id, route: '#/spec/' + encodeURIComponent(id) };
   return null;
 }
 
@@ -224,10 +227,11 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail')) {
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail' || route.view === 'spec-detail')) {
     var title = route.view === 'settings' ? 'Settings'
       : route.view === 'canon-detail' ? 'Canon'
       : route.view === 'lore-detail' ? 'Lore'
+      : route.view === 'spec-detail' ? 'Spec'
       : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
@@ -314,8 +318,8 @@ function updateFab(view) {
 /* --- Tab Icons --- */
 function initTabIcons() {
   var btns = document.querySelectorAll('.cx-tab-btn');
-  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check' };
-  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs' };
+  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check', specs: 'quill' };
+  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs', specs: 'Specs' };
   for (var i = 0; i < btns.length; i++) {
     var tab = btns[i].dataset.tab;
     btns[i].innerHTML = cx(icons[tab] || 'book') + '<span class="cx-tab-label">' + (labels[tab] || tab) + '</span>';
@@ -332,7 +336,8 @@ function renderCurrentView() {
       settings: renderSettings, todos: renderTodos,
       journal: renderJournal, canons: renderCanons,
       'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail,
-      lore: renderLore, 'lore-detail': renderLoreDetail
+      lore: renderLore, 'lore-detail': renderLoreDetail,
+      specs: renderSpecs, 'spec-detail': renderSpecDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);
