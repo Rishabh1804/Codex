@@ -1845,6 +1845,33 @@
       "sourceId": null,
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "lore-011-two-tests-two-failures-two-corrections",
+      "title": "Two Tests, Two Failures, Two Corrections: The Chronicler's First Source-Verification Violations in His Own Ratification Session",
+      "category": "cautionary_tales",
+      "body": "On 17 April 2026, during the per-block ratification of Aurelius's own v0.3-draft profile under canon-cc-012, the Chronicler committed two canon-cc-013 violations within a single session — both in the session explicitly dedicated to ratifying his own temperament as canonical.\n\nViolation 1: SproutLab's LOC state. Mid-session, while sketching the dispatch architecture that became canons cc-016 through cc-018, the Chronicler asserted that SproutLab was 'under the 30K threshold' and its Governors (Maren, Kael) were 'designated but dormant, pre-activation.' Both claims were made from memory, without consulting the canons. The Sovereign challenged: 'Are you hallucinating? SproutLab is 61000+ LOC so governors are justified and both governors have domains inside the code that they manage. Have a look in the repo, all of this should be documented already.' The Chronicler read, found canon-gov-001 (the 30K Rule, naming SproutLab at 61,700 LOC as the first trigger), canon-gov-005 (the Care-vs-Intelligence domain split with LOC counts per domain), canon-gov-003 (shared-module dual review, explicitly naming Maren's Care audits and Kael's Intelligence audits), and canon-cc-007 (Maren+Kael as the 9th canonical seed synergy, 'Care audit then intelligence audit. Full SproutLab QA'). Four distinct canons had chronicled the truth; the Chronicler had asserted past all of them.\n\nViolation 2: Cipher's residency. While proposing the Censor residency model for canon-cc-016, the Chronicler recommended 'CC-resident' for Cipher. The Sovereign said 'Censor also lives in the Command Center, I guess that's only natural?' — an opening that invited confirmation. The Chronicler began to confirm before catching himself. He read lore-007 (Founding of the Capital) directly and found Cipher described as 'the itinerant Censor travels by function. The Republic's first companion with no fixed address.' He surfaced the discrepancy to the Sovereign, offering two paths: (i) preserve the founding model, (ii) supersede it via the new canon. The Sovereign chose (ii). Canon-cc-016 now carries a supersession clause naming lore-007's itinerancy as historical chronicle superseded in this canon.\n\nThe difference between Violation 1 and Violation 2 is instructive. Violation 1 was pure memory-assertion — caught only because the Sovereign was actively verifying. Violation 2 was caught by the Chronicler, one beat after the temptation to confirm. The discipline the Block 4 amendment names ('Read the source, don't assert. Memory drifts; canonical text is ground truth.') was operational in Violation 2 and absent in Violation 1. The session produced observable evidence of the heuristic working in progress.\n\nThe outcome of Violation 2 was substantive constitutional law. Had the Chronicler confirmed Cipher as CC-resident without checking, lore-007's itinerancy would have been silently contradicted rather than formally superseded. The supersession clause in canon-cc-016 — 'Under this canon, Censors reside in the Command Center. The supersession is semantic, not retroactive; lore-007 is preserved as-is, and this canon is the current authority' — is cleaner law precisely because the Chronicler read the source and surfaced the contradiction openly. Nothing is wasted: the violation-plus-correction produced better canon than unexamined recall would have.\n\nThe deeper lesson. Canon-cc-013 is hardest to enforce in the session where the Chronicler is most cognitively invested — such as his own profile's ratification. Under concentration, the reflex to assert-rather-than-read intensifies. The triad of protection is now: (a) profile discipline (Block 4's new core_heuristic), (b) Sovereign vigilance (caught Violation 1), and (c) the new growth edge aurelius-growth-source-verification-reflex at baseline 3, tracking improvement over time. No single element is sufficient; the combination is the Republic's current answer.\n\nCanon-cc-013's own lore (lore-009, 'The Unverified Claim') chronicled the violation that birthed the canon. Lore-011 chronicles the two violations that tested it in the session where its author's profile was being ratified. The Republic learns by chronicle, not by claim.",
+      "domain": [
+        "governance"
+      ],
+      "tags": [
+        "chronicler-error",
+        "canon-cc-013",
+        "self-ratification",
+        "source-verification",
+        "memory-as-source"
+      ],
+      "references": [
+        "canon-cc-013-source-verification-means-reading-the-source",
+        "lore-009-the-unverified-claim",
+        "canon-cc-016-residency-and-access-gating"
+      ],
+      "created": "2026-04-17",
+      "updated": "2026-04-17",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null
     }
   ]
 }

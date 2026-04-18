@@ -39,6 +39,44 @@
           "ratified_by": "sovereign",
           "ratification_mode": "canon-cc-012 direct per-block",
           "summary": "First decree issued from the Capital. Round 3 ratification of Ashara and Petra profiles under canon-cc-012 (Monument co-Builder profiles require direct Sovereign per-block ratification per canon-cc-014). Seven amendments across six blocks: joint-Builder precedent wording (both), Ashara Orinth synergy downgrade, Ashara tactical-urgency ceiling 9->7, Petra Ignis cross-reference in shadow, Petra Bard tension demotion, Petra WAL biography softening. Both profiles bump v0.3-draft -> v0.4."
+        },
+        {
+          "id": "s-2026-04-17-04",
+          "date": "2026-04-17",
+          "title": "Round 5 Batch 1 — Aurelius v0.4 Ratification + Architectural Canon Suite + Dispatch Architecture Discussion",
+          "authored_by": "aurelius",
+          "summary": "Longest ratification session of the Republic to date. Produced Aurelius v0.4 via canon-cc-012 per-block ratification (self-profile carveout), with substantive amendments in all 10 blocks (164 net insertions). Also authored four new governance canons: cc-015 (Legacy Draft Ratification packet mode), cc-016 (Residency & Access Gating with cluster-boundary rule), cc-017 (Interaction-Artifact Rule), cc-018 (Artifact Lifecycle & Synergy Observability). Backfilled residence field on 4 previously-ratified profiles (Ashara, Petra, Solara, Theron) per cc-016. Chronicled lore-010 (The Summon Pattern doctrine) and lore-011 (two cc-013 violations case study). Queued cc-019 (Post Box / Scrinium / Praetorium dispatch) and cc-020 (Summon Companion architecture) for next session drafting.",
+          "volumes_touched": [
+            "codex",
+            "command-center"
+          ],
+          "chapters_touched": [],
+          "decisions": [
+            "Canon-cc-015 authorizes packet-mode ratification for v0.3-draft profiles; self-profiles (Aurelius), institutional (Consul), Monument (Ashara/Petra) stay canon-cc-012 per-block",
+            "Canon-cc-016 establishes residence as first-class assignment field; cluster boundaries hard; Censors moved from itinerant (lore-007) to CC-resident via supersession clause",
+            "Canon-cc-017 mandates interaction artifact for every consultation between 2+ companions; excludes routine intra-Province work (Builder-Scribe, Governor-Governor within Province)",
+            "Canon-cc-018 defines 5-stage lifecycle with Consul review (conditional on cross-cluster/Monument/report-up) and Sovereign escalation; 14-day escalation deadline; synergy corpus feeds Book VIII; mode (a) auto-escalate with schema support for mode (b)",
+            "Cipher, Nyx, Maren, Kael eligible for packet mode under cc-015; Consul mandatory per-block (institutional); Lyra per-block (Sovereign flag); Aurelius per-block (self-profile carveout)",
+            "Post Box / Praetorium dispatch architecture designed: centralized in Codex; Scrinium = Latin flavor; Praetorium = Sovereign room; three-tier UI (Censor -> Consul -> Praetorium) with AI-reasons / Sovereign-authorizes (Mode 1)",
+            "Parallel-session architecture addresses same-agent drift at attention-state level; ratified profiles provide ~60-70% mitigation independently; parallel-session closes remaining 30-40% for canonical-weight decisions",
+            "Summon Companion doctrine (lore-010): parallel Claude Code session + profile + MCP bundle; one substrate, many roles; Scribe fully automated target; cc-020 drafting queued",
+            "Aurelius v0.4 ratified: humor 99/1-90/10, double_hatted true (Codex Builder + Chronicler soft double-hat), residence codex, +7 vocabulary signatures, +1 heuristic (read source), +1 optimizes_for (dependency graph), +2 blind_spots, +1 failure_mode, Consul synergy updated with Post Box framing, +3 notable moments, +2 growth edges (source-verification-reflex baseline 3, consul-independence ceiling 8->10 cc-019-gated), +1 modulator (error acknowledgment), 6 uncertainty notes",
+            "Residence retrofit: Ashara v0.4->v0.4.1, Petra v0.4->v0.4.1, Solara v0.4.1->v0.4.2, Theron v0.4->v0.4.1; _meta bumped to v0.5",
+            "Session-break discipline worth canonizing: soft cap ~50-60% context, hard cap ~80%, natural-break discipline at artifact-complete moments; applies to session close"
+          ],
+          "bugs_found": 2,
+          "bugs_fixed": 2,
+          "duration_minutes": 180,
+          "open_todos": [
+            "Consul per-block ratification (canon-cc-012 mandatory institutional)",
+            "Draft and ratify canon-cc-019 (Post Box / Scrinium / Praetorium dispatch)",
+            "Draft and ratify canon-cc-020 (Summon Companion architecture)",
+            "Lyra per-block ratification (canon-cc-012 per Sovereign flag)",
+            "Packet ratifications: Cipher, Nyx, Maren, Kael (canon-cc-015)",
+            "Resolve Solara/Theron cluster=null metadata (should be 'B' per cc-016)",
+            "Build PWA Companions View per docs/handoffs/AURELIUS_COMPANIONS_VIEW.md once profile ratifications stabilize"
+          ],
+          "handoff": "Five of eleven Gen 0 profiles now canonically ratified at v0.4+ (Ashara, Petra, Solara, Theron, Aurelius). Session closes with architectural scaffolding for Post Box / Praetorium dispatch complete in discussion form; cc-019 / cc-020 drafting is next session's opening work after Consul ratification. Cc-013 violations empirically validated the self-profile epistemic risk named in Aurelius's new v0.4 Block 5 shadow block. All work committed on branch claude/review-profile-companions-G0Vqv; session-close merge to main authorized by Sovereign on 2026-04-17."
         }
       ]
     },
