@@ -126,6 +126,24 @@
       "_deleted": false
     },
     {
+      "id": "spec-0009-handoff-session-2026-04-18",
+      "title": "Codex Handoff \u2014 Session 2026-04-18 (Forum Pattern Application)",
+      "status": "implemented",
+      "category": "handoff",
+      "volumes": ["codex"],
+      "chapters": ["the-forum-pattern-overhaul"],
+      "references": [
+        "canon-0034-sw-no-html-cache",
+        "canon-gov-011-merge-is-the-deploy-step",
+        "canon-gov-012-android-pwa-cache-invalidation"
+      ],
+      "summary": "Session-close handoff for s-2026-04-18-01. Sixteen commits, five Sovereign-authorized merges, six tabs into Forum Pattern, three Province companion logs migrated to canon-0053 v1, canon-gov-012 ratified, design-principles double-draft, Specs tab scaffolded, Playwright harness installed (35/35 green). Names the next-session opener (canon-cc-019 Post Box drafting), 17 open questions/gaps, 7 follow-up TODOs added to the Codex volume.",
+      "path": "docs/handoffs/CODEX_HANDOFF_SESSION_2026-04-18.md",
+      "authored_by": "aurelius",
+      "created": "2026-04-18",
+      "_deleted": false
+    },
+    {
       "id": "spec-0008-handoff-phase5",
       "title": "Codex Handoff \u2014 Phase 5",
       "status": "implemented",
