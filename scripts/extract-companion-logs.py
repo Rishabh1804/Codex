@@ -11,9 +11,13 @@ via a per-log path.
 Output shape:
 {
   "_schema_version": 1,
-  "_generated_at": "<iso8601>",
   "logs": [ { ...frontmatter..., "path": "docs/companion-logs/<repo>/<file>" } ]
 }
+
+Content-addressable: the file changes only when logs change. A "when was
+this regenerated" timestamp is deliberately omitted — it would rewrite the
+file on every build.sh invocation and force uncommitted-change churn even
+when no log content moved.
 
 Wired into split/build.sh — runs before the HTML concat step so the JSON
 index reflects the current on-disk logs whenever build.sh is invoked.
@@ -22,7 +26,6 @@ index reflects the current on-disk logs whenever build.sh is invoked.
 import json
 import os
 import sys
-from datetime import datetime, timezone
 
 try:
     import yaml
@@ -75,7 +78,6 @@ def main():
 
     output = {
         "_schema_version": 1,
-        "_generated_at": datetime.now(timezone.utc).isoformat(),
         "logs": logs,
     }
     with open(OUTPUT, "w", encoding="utf-8") as f:
