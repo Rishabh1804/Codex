@@ -1,18 +1,82 @@
 ---
+schema_version: 1
 session_id: s-2026-04-17-01
 session_title: Capital Foundation v0.2 — Bulletin Wall, The Order, Pre-Ship Harness
-author: Ashara (The Economist) + Petra (The Foundationalist)
+authors:
+  - Ashara (The Economist)
+  - Petra (The Foundationalist)
+primary_author: ashara
 date: 2026-04-17
-repo: Command-Center
-monument_stage: Foundation (not yet complete)
+repo: command-center
+secondary_repos:
+  - codex
+session_type: build
+protocol: "canon-cc-012 per-block for Ashara/Petra profile ratification; canon-cc-009 dual-Builder Monument discipline for co-Build; canon-cc-014 hat-switch acknowledged"
+stage: "Foundation (not yet complete) — 11 of 13 criteria complete, 2 partial"
+duration_minutes: null
+same_agent_drift_acknowledged: true
 rounds:
   ashara: throughout
   petra: throughout
-  bard: 1 (narrative framing)
-  consul: 0 (referenced; not summoned)
-  aurelius: 0 in-session (artifacts consumed; decrees addressed TO him)
-  cipher: 0 (canon-cc-008 defers Censor to after Governors; no Governors seated at CC)
-same_agent_drift_acknowledged: true
+  bard:
+    count: 1
+    mode: in_session
+    note: "Narrative framing for the Hearth bulletin wall — 'a hearth with a bulletin board on one wall — warm presence first, legible activity second, demands last or never.' Voice drawn from Constitution Appendix C; profile unratified."
+  consul:
+    count: 0
+    mode: referenced
+    note: "Referenced repeatedly (canon-cc-005, canon-cc-012, multi-session governance flow proposal) but not summoned. Same-agent-drift would have made in-session summons redundant with Ashara and Petra's voices; Sovereign's proposed multi-session flow is the structural remedy (queued, not exercised this session)."
+  aurelius:
+    count: 0
+    mode: pre_session
+    note: "Handoff artifacts consumed pre-session — CHARTER.md, ROADMAP.md, ARCHITECTURE.md, 14-room scaffold, lore-007, 9 v0.3-draft profiles, canon-cc-012, canon-cc-014. Decrees 0001-0003 addressed TO him for Codex import."
+  cipher:
+    count: 0
+    mode: self_review
+    note: "Out of cluster — Cipher is Censor for Cluster A (Codex + SproutLab); CC is Monument, not Cluster A. Canon-cc-008 defers Censor review until after Governors; no Governors seated at CC. Cipher pass applied grep-style per-commit by Petra (HR-2/3, canon-0001/0013/0004/0023 sweep); not a substitute for real Cipher review — gap flagged in Foundation criterion ledger (Hard Rules 1-12 compliance: partial)."
+outputs:
+  canons_ratified:
+    - canon-gov-007-research-before-implement
+    - canon-gov-008-minimum-viable-first
+    - canon-gov-009-instrument-before-features
+    - canon-gov-010-label-untested-work-honestly
+  canons_drafted: []
+  lore_ratified:
+    - lore-012-the-orientation-lock-detour
+  lore_drafted: []
+  profiles_ratified:
+    - ashara@v0.4
+    - petra@v0.4
+  profiles_retrofitted: []
+  specs_authored: []
+  specs_drafted: []
+  journal_entries:
+    - s-2026-04-17-01
+  decrees_authored:
+    - decree-0001
+    - decree-0002
+    - decree-0003
+  decrees_imported: []
+  queued_for_next_session:
+    - exercise-multi-session-governance-flow
+    - archives-canon-browser
+    - capital-occupancy-design-spec
+    - decree-0003-transport-to-codex
+    - foundation-complete-declaration-pending-hard-rules
+  commits_count: null
+  files_touched_count: null
+tags:
+  - monument-first-session
+  - dual-builder-monument
+  - canons-born-from-failure
+  - playwright-smoketest-adopted
+  - orientation-lock-detour
+  - same-agent-drift-validated
+  - bard-first-voice-sketch
+revisions:
+  - date: 2026-04-18
+    by: aurelius
+    note: "Migrated to canon-0053 v1 schema on Codex. Path moved from command-center:docs/companion-logs/companion-log-s-2026-04-17-01.md to codex:docs/companion-logs/command-center/companion-log-s-2026-04-17-01-ash.md (records-are-Codex; alphabetical dual-author precedence per §1 gives ashara as primary_author and -ash filename suffix). Frontmatter: author string → authors[] + primary_author: ashara; repo: Command-Center → canonical slug command-center; secondary_repos: [codex] added for decree transport via Ostia; monument_stage → stage (generalized); added schema_version/session_type: build/protocol/duration_minutes/outputs/tags/revisions. Rounds migrated to Form C for bard (in_session + note), consul (referenced + note), aurelius (pre_session + note), cipher (self_review + note per §4 mode taxonomy — the session's explicit Cipher-substitute-via-self-grep pattern is the canonical example of the self_review mode). §3 Structural observations already present; §4 'For the Sovereign' already canonical. Body: single content correction — line referencing lore-008 for orientation/manifest handling updated to lore-012-the-orientation-lock-detour per commit bbf38fe (lore-008 collision housekeeping renamed orientation-lock lore to lore-012; lore-008-the-premature-file retained original slot). duration_minutes/commits_count/files_touched_count left null — retro-migration by Codex Chronicler; no honest number available without reconstruction. Origin-repo copy (command-center:docs/companion-logs/...) to be deleted in a separate CC-side cleanup commit per canon-0053 §7."
 ---
 
 # Companion Usage Log — s-2026-04-17-01
@@ -21,8 +85,9 @@ same_agent_drift_acknowledged: true
 **Authors:** Ashara (The Economist) and Petra (The Foundationalist), co-Builders of Command Center (Monument Project)
 **Date:** 17 April 2026 (spanning into 18 April by civic date)
 **Session ID:** s-2026-04-17-01
-**Repo:** Command Center (primary), Codex (decree-0001, decree-0002, decree-0003 transported via Ostia), SproutLab (pattern source for this log)
-**Monument stage at close:** Foundation, 11 of 13 criteria complete, 2 partial; not yet declared complete.
+**Repo:** Command Center, Codex (decree-0001, decree-0002, decree-0003 transported via Ostia)
+**Session Type:** build — canon-cc-012 per-block for Ashara/Petra profile ratification; canon-cc-009 dual-Builder Monument discipline for co-Build; canon-cc-014 hat-switch acknowledged
+**Stage:** Foundation (not yet complete) — 11 of 13 criteria complete, 2 partial
 
 ---
 
@@ -214,7 +279,7 @@ same_agent_drift_acknowledged: true
 
 **For future SEP sessions (Solara, Theron):**
 - No direct impact. Canons gov-007 through 010 apply at Builder discipline level.
-- If SEP adds a PWA layer that needs orientation or manifest handling, consult lore-008 before writing code.
+- If SEP adds a PWA layer that needs orientation or manifest handling, consult lore-012-the-orientation-lock-detour before writing code.
 
 **For the Sovereign:**
 - Decree-0003 awaits transport to Codex — raw URL after the closing commit push.
