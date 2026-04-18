@@ -16,6 +16,19 @@ var _loreSort = 'newest';
 var _todoFilters = { status: 'open', volume: null };
 var _todoSort = 'newest';
 
+/* --- Forum Pattern (canon-0052) State — Canons sub-tabs + filters ---
+   Per canon-0052 §Sub-Tab Pattern, selection persists in localStorage
+   under codex-subtab-{tab}. Default is 'canons' (the primary entity type
+   in this tab); the canon's "All default leftmost" rule from §Sub-Tabs
+   is overridden by §Canons which lists three concrete sub-tabs without
+   an All option — the three Rostras carry incompatible signals and an
+   All view would jumble them. */
+var _canonsSubTab = (typeof localStorage !== 'undefined' && localStorage.getItem('codex-subtab-canons')) || 'canons';
+var _schismFilters = { volume: null };
+var _schismSort = 'newest';
+var _apocryphaFilters = { status: null, volume: null };
+var _apocryphaSort = 'newest';
+
 /* --- Shared Helpers --- */
 
 /* Walk every chapter and return any whose status is not in CHAPTER_STATUSES.
@@ -53,6 +66,71 @@ function chapterStatusIcon(status) {
     case 'planned': return 'bookmark';
     default: return 'bookmark';
   }
+}
+
+/* Generic per-key tally: returns [{ key, count }] sorted descending.
+   Used by every Forum Pattern Rostra that needs derived dot rows. */
+function tallyBy(items, keyFn) {
+  var map = {};
+  items.forEach(function(item) {
+    var k = keyFn(item);
+    if (k == null) return;
+    if (Array.isArray(k)) {
+      k.forEach(function(kk) { if (kk != null) map[kk] = (map[kk] || 0) + 1; });
+    } else {
+      map[k] = (map[k] || 0) + 1;
+    }
+  });
+  return Object.keys(map).map(function(k) { return { key: k, count: map[k] }; })
+    .sort(function(a, b) { return b.count - a.count; });
+}
+
+/* Canons Rostra signals (canon-0052 §Canons). Total + per-category +
+   per-status + scope-coverage. Categories/statuses are derived from
+   data, not hard-coded — adding a new category to canons.json adds a
+   dot automatically. */
+function computeCanonsStats() {
+  var canons = filterActive(store.canons);
+  return {
+    total: canons.length,
+    byCategory: tallyBy(canons, function(c) { return c.category; }),
+    byStatus: tallyBy(canons, function(c) { return c.status; }),
+    byScope: tallyBy(canons, function(c) { return c.scope; })
+  };
+}
+
+/* Schisms Rostra signals. Per-volume counts (volumes[] is an array on
+   each schism), plus total. */
+function computeSchismsStats() {
+  var schisms = filterActive(store.schisms);
+  return {
+    total: schisms.length,
+    byVolume: tallyBy(schisms, function(s) { return s.volumes || []; })
+  };
+}
+
+/* Apocrypha Rostra signals. Per-status (fulfilled/foretold/forgotten)
+   plus per-volume. */
+function computeApocryphaStats() {
+  var apo = filterActive(store.apocrypha);
+  return {
+    total: apo.length,
+    byStatus: tallyBy(apo, function(a) { return a.status; }),
+    byVolume: tallyBy(apo, function(a) { return a.volumes || []; })
+  };
+}
+
+/* Look up a volume name by id; falls back to the id itself when the
+   volume isn't found (orphaned scope reference). */
+function lookupVolumeName(id) {
+  if (!id || id === 'global') return id === 'global' ? 'Global' : id;
+  var v = (store.volumes || []).find(function(x) { return x.id === id; });
+  return v ? v.name : id;
+}
+function lookupVolumeColor(id) {
+  if (!id) return null;
+  var v = (store.volumes || []).find(function(x) { return x.id === id; });
+  return v ? (v.domain_color || null) : null;
 }
 
 /* TODOs Rostra signals (canon-0052 §TODOs). Walks every volume's todos and
@@ -398,155 +476,244 @@ function renderSessionCard(session, date) {
    CANONS VIEW
    ============================================================ */
 
+/* Forum Pattern dispatcher for the Canons tab (canon-0052 §Canons).
+   Three sub-tabs (Canons / Schisms / Apocrypha), each with its own
+   Rostra → Notice Boards → Stalls. Sub-tab selection persists in
+   localStorage per §Sub-Tab Pattern. */
 function renderCanons() {
   var vc = document.getElementById('viewContainer');
-  var html = '';
+  var html = renderSubTabBar('canons', [
+    { key: 'canons', label: 'Canons' },
+    { key: 'schisms', label: 'Schisms' },
+    { key: 'apocrypha', label: 'Apocrypha' }
+  ], _canonsSubTab);
 
-  // Build scope options from data
-  var scopeOptions = ['global'];
-  filterActive(store.volumes).forEach(function(v) {
-    if (filterActive(store.canons).some(function(c) { return c.scope === v.id; })) {
-      scopeOptions.push(v.id);
-    }
-  });
+  if (_canonsSubTab === 'schisms') html += renderSchismsSubTab();
+  else if (_canonsSubTab === 'apocrypha') html += renderApocryphaSubTab();
+  else html += renderCanonsSubTab();
 
-  // Filter bar: scope
-  html += '<div class="cx-filter-bar">';
-  html += '<span class="cx-filter-label">Scope:</span>';
-  html += '<button class="cx-chip cx-chip-sm' + (!_canonFilters.scope ? ' cx-chip-active' : '') + '" data-action="toggleCanonFilter" data-key="scope" data-value="">All</button>';
-  scopeOptions.forEach(function(s) {
-    var active = _canonFilters.scope === s ? ' cx-chip-active' : '';
-    var label = s === 'global' ? 'Global' : (function() { var v = store.volumes.find(function(x) { return x.id === s; }); return v ? v.name : s; })();
-    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleCanonFilter" data-key="scope" data-value="' + escAttr(s) + '">' + escHtml(label) + '</button>';
-  });
-  html += '</div>';
+  vc.innerHTML = html;
+}
 
-  // Filter bar: category
-  html += '<div class="cx-filter-bar">';
-  html += '<span class="cx-filter-label">Category:</span>';
-  html += '<button class="cx-chip cx-chip-sm' + (!_canonFilters.category ? ' cx-chip-active' : '') + '" data-action="toggleCanonFilter" data-key="category" data-value="">All</button>';
-  CANON_CATEGORIES.forEach(function(c) {
-    var active = _canonFilters.category === c ? ' cx-chip-active' : '';
-    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleCanonFilter" data-key="category" data-value="' + escAttr(c) + '">' + escHtml(c) + '</button>';
+/* Generic sub-tab pill row. canon-0052 §Sub-Tab Pattern: pill row directly
+   below the primary tab bar, same visual language as filter pills, "All"
+   default leftmost when applicable, selection persists per primary-tab in
+   localStorage (`codex-subtab-{tab}`). */
+function renderSubTabBar(tabName, options, current) {
+  var html = '<div class="cx-filter-row cx-subtab-row">';
+  options.forEach(function(opt) {
+    var active = current === opt.key;
+    html += '<button class="cx-filter-pill cx-subtab-pill' + (active ? ' cx-filter-pill-active' : '') + '" data-action="setSubTab" data-tab="' + escAttr(tabName) + '" data-key="' + escAttr(opt.key) + '">' + escHtml(opt.label) + '</button>';
   });
   html += '</div>';
+  return html;
+}
 
-  // Filter bar: status
-  html += '<div class="cx-filter-bar">';
-  html += '<span class="cx-filter-label">Status:</span>';
-  html += '<button class="cx-chip cx-chip-sm' + (!_canonFilters.status ? ' cx-chip-active' : '') + '" data-action="toggleCanonFilter" data-key="status" data-value="">All</button>';
-  ['active', 'deprecated', 'superseded'].forEach(function(s) {
-    var active = _canonFilters.status === s ? ' cx-chip-active' : '';
-    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="toggleCanonFilter" data-key="status" data-value="' + escAttr(s) + '">' + escHtml(s) + '</button>';
-  });
+/* ---- Canons sub-tab — Forum Pattern ---- */
+function renderCanonsSubTab() {
+  var stats = computeCanonsStats();
+
+  // ROSTRA — total + derived category dots + status dots + scope-coverage.
+  var html = '<div class="cx-rostra">';
+  html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">canons</span></div>';
+  if (stats.byCategory.length > 0) {
+    html += '<div class="cx-rostra-dots">';
+    stats.byCategory.forEach(function(c) {
+      html += '<span class="cx-rostra-dot" title="' + escAttr(c.key + ' \u2014 ' + c.count) + '" style="background:var(--accent)"></span>';
+      html += '<span class="cx-rostra-dot-label">' + escHtml(c.key) + ' ' + c.count + '</span>';
+    });
+    html += '</div>';
+  }
+  if (stats.byStatus.length > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Status:</span> ';
+    html += stats.byStatus.map(function(s) { return escHtml(s.key + ' ' + s.count); }).join(' \u00B7 ');
+    html += '</div>';
+  }
+  if (stats.byScope.length > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Scope:</span> ';
+    html += stats.byScope.map(function(s) { return escHtml(lookupVolumeName(s.key) + ' ' + s.count); }).join(' \u00B7 ');
+    html += '</div>';
+  }
   html += '</div>';
 
-  // Sort bar
-  html += '<div class="cx-filter-bar">';
-  html += '<span class="cx-filter-label">Sort:</span>';
-  var sortOptions = [
-    { value: 'newest', label: 'Newest' },
-    { value: 'oldest', label: 'Oldest' },
-    { value: 'title', label: 'Title' },
-    { value: 'scope', label: 'Scope' }
-  ];
-  sortOptions.forEach(function(s) {
-    var active = _canonSort === s.value ? ' cx-chip-active' : '';
-    html += '<button class="cx-chip cx-chip-sm' + active + '" data-action="setCanonSort" data-value="' + escAttr(s.value) + '">' + escHtml(s.label) + '</button>';
-  });
-  html += '</div>';
+  // NOTICE BOARDS — derived from data (canon-0052 §Canons rules out
+  // hard-coded enums). Scope / Category / Status / Sort.
+  html += renderDerivedFilterRow('canonScope', _canonFilters.scope, stats.byScope.map(function(s) { return { key: s.key, label: lookupVolumeName(s.key) }; }), 'All');
+  html += renderDerivedFilterRow('canonCategory', _canonFilters.category, stats.byCategory.map(function(c) { return { key: c.key, label: c.key }; }), 'All');
+  html += renderDerivedFilterRow('canonStatus', _canonFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All');
+  html += renderSortRow('canonSort', _canonSort, [
+    { key: 'newest', label: 'Newest' },
+    { key: 'oldest', label: 'Oldest' },
+    { key: 'title', label: 'Title' },
+    { key: 'scope', label: 'Scope' }
+  ]);
 
-  // Apply filters (intersection)
+  // Apply filters.
   var canons = filterActive(store.canons).filter(function(c) {
     if (_canonFilters.scope && c.scope !== _canonFilters.scope) return false;
     if (_canonFilters.category && c.category !== _canonFilters.category) return false;
     if (_canonFilters.status && c.status !== _canonFilters.status) return false;
     return true;
   });
+  if (_canonSort === 'oldest') canons.sort(function(a, b) { return a.id.localeCompare(b.id); });
+  else if (_canonSort === 'title') canons.sort(function(a, b) { return (a.title || '').localeCompare(b.title || ''); });
+  else if (_canonSort === 'scope') canons.sort(function(a, b) { return (a.scope || '').localeCompare(b.scope || '') || b.id.localeCompare(a.id); });
+  else canons.sort(function(a, b) { return b.id.localeCompare(a.id); });
 
-  // Sort
-  if (_canonSort === 'oldest') {
-    canons.sort(function(a, b) { return a.id.localeCompare(b.id); });
-  } else if (_canonSort === 'title') {
-    canons.sort(function(a, b) { return (a.title || '').localeCompare(b.title || ''); });
-  } else if (_canonSort === 'scope') {
-    canons.sort(function(a, b) { return (a.scope || '').localeCompare(b.scope || '') || b.id.localeCompare(a.id); });
-  } else {
-    canons.sort(function(a, b) { return b.id.localeCompare(a.id); });
-  }
-
-  // Paginate
-  var totalPages = Math.max(1, Math.ceil(canons.length / CANONS_PER_PAGE));
-  if (_canonPage > totalPages) _canonPage = totalPages;
-  var startIdx = (_canonPage - 1) * CANONS_PER_PAGE;
-  var pageCanons = canons.slice(startIdx, startIdx + CANONS_PER_PAGE);
+  var totalShown = filterActive(store.canons).length;
+  var filtersActive = _canonFilters.scope || _canonFilters.category || _canonFilters.status;
+  html += '<div class="cx-filter-count">' + (filtersActive
+    ? 'Showing ' + canons.length + ' of ' + totalShown
+    : canons.length + ' canon' + (canons.length === 1 ? '' : 's')) + '</div>';
 
   if (canons.length === 0) {
     html += renderEmptyState('bookmark', 'No canons match', 'Try adjusting filters or add a new canon', 'New Canon', 'openCreateCanon');
-    vc.innerHTML = html;
-    return;
+    return html;
   }
 
-  html += '<div class="cx-card-meta" style="margin-bottom:var(--sp-8)">' + canons.length + ' canon' + (canons.length !== 1 ? 's' : '') + '</div>';
+  // Paginate (10/page) — keep existing pagination since 88+ canons in
+  // a single scroll is mobile-painful even after filtering.
+  var totalPages = Math.max(1, Math.ceil(canons.length / CANONS_PER_PAGE));
+  if (_canonPage > totalPages) _canonPage = totalPages;
+  var pageCanons = canons.slice((_canonPage - 1) * CANONS_PER_PAGE, _canonPage * CANONS_PER_PAGE);
+  pageCanons.forEach(function(canon) { html += renderCanonCard(canon); });
+  if (totalPages > 1) html += renderPaginationHtml(_canonPage, totalPages);
+  return html;
+}
 
-  // Canon cards
-  pageCanons.forEach(function(canon) {
-    html += renderCanonCard(canon);
-  });
-
-  // Pagination
-  if (totalPages > 1) {
-    html += renderPaginationHtml(_canonPage, totalPages);
+/* ---- Schisms sub-tab — Forum Pattern ---- */
+function renderSchismsSubTab() {
+  var stats = computeSchismsStats();
+  var html = '<div class="cx-rostra">';
+  html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">schisms</span></div>';
+  if (stats.byVolume.length > 0) {
+    html += '<div class="cx-rostra-dots">';
+    stats.byVolume.forEach(function(v) {
+      var color = lookupVolumeColor(v.key);
+      var bg = color ? 'background:' + color : '';
+      html += '<span class="cx-rostra-dot" title="' + escAttr(lookupVolumeName(v.key) + ' \u2014 ' + v.count) + '" style="' + bg + '"></span>';
+      html += '<span class="cx-rostra-dot-label">' + escHtml(lookupVolumeName(v.key)) + ' ' + v.count + '</span>';
+    });
+    html += '</div>';
   }
+  html += '</div>';
 
-  // Schisms section (inline at bottom, not paginated)
+  html += renderDerivedFilterRow('schismVolume', _schismFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All');
+  html += renderSortRow('schismSort', _schismSort, [
+    { key: 'newest', label: 'Newest' },
+    { key: 'oldest', label: 'Oldest' }
+  ]);
+
   var schisms = filterActive(store.schisms);
-  if (_canonFilters.scope) {
-    schisms = schisms.filter(function(r) {
-      return (r.volumes || []).indexOf(_canonFilters.scope) !== -1 || _canonFilters.scope === 'global';
-    });
-  }
+  if (_schismFilters.volume) schisms = schisms.filter(function(s) { return (s.volumes || []).indexOf(_schismFilters.volume) !== -1; });
+  if (_schismSort === 'oldest') schisms.sort(function(a, b) { return a.id.localeCompare(b.id); });
+  else schisms.sort(function(a, b) { return b.id.localeCompare(a.id); });
 
-  if (schisms.length > 0) {
-    html += '<div class="cx-divider"></div>';
-    html += '<div class="cx-section-title">' + cx('alert') + ' Schisms (' + schisms.length + ')</div>';
-    schisms.forEach(function(rej) {
-      html += renderSchismCard(rej);
-    });
-  }
+  var filtersActive = _schismFilters.volume;
+  html += '<div class="cx-filter-count">' + (filtersActive
+    ? 'Showing ' + schisms.length + ' of ' + stats.total
+    : schisms.length + ' schism' + (schisms.length === 1 ? '' : 's')) + '</div>';
 
-  // Apocrypha (Phase 5) — collapsed by default
+  if (schisms.length === 0) {
+    html += renderEmptyState('alert', 'No schisms match', 'Try adjusting filters');
+    return html;
+  }
+  schisms.forEach(function(s) { html += renderSchismCard(s); });
+  return html;
+}
+
+/* ---- Apocrypha sub-tab — Forum Pattern ---- */
+function renderApocryphaSubTab() {
+  var stats = computeApocryphaStats();
+  var html = '<div class="cx-rostra">';
+  html += '<div class="cx-rostra-headline">' + stats.total + ' <span class="cx-rostra-headline-label">apocrypha</span></div>';
+  if (stats.byStatus.length > 0) {
+    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Status:</span> ';
+    html += stats.byStatus.map(function(s) { return escHtml(s.key + ' ' + s.count); }).join(' \u00B7 ');
+    html += '</div>';
+  }
+  if (stats.byVolume.length > 0) {
+    html += '<div class="cx-rostra-dots">';
+    stats.byVolume.forEach(function(v) {
+      var color = lookupVolumeColor(v.key);
+      var bg = color ? 'background:' + color : '';
+      html += '<span class="cx-rostra-dot" title="' + escAttr(lookupVolumeName(v.key) + ' \u2014 ' + v.count) + '" style="' + bg + '"></span>';
+      html += '<span class="cx-rostra-dot-label">' + escHtml(lookupVolumeName(v.key)) + ' ' + v.count + '</span>';
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+
+  html += renderDerivedFilterRow('apocryphaStatus', _apocryphaFilters.status, stats.byStatus.map(function(s) { return { key: s.key, label: s.key }; }), 'All');
+  html += renderDerivedFilterRow('apocryphaVolume', _apocryphaFilters.volume, stats.byVolume.map(function(v) { return { key: v.key, label: lookupVolumeName(v.key) }; }), 'All');
+  html += renderSortRow('apocryphaSort', _apocryphaSort, [
+    { key: 'newest', label: 'Newest' },
+    { key: 'oldest', label: 'Oldest' }
+  ]);
+
   var apocryphon = filterActive(store.apocrypha);
-  if (apocryphon.length > 0) {
-    html += '<div class="cx-divider"></div>';
-    html += '<div class="cx-apocrypha-header" data-action="toggleApocrypha">';
-    html += '<span class="cx-section-title" style="margin:0;cursor:pointer">' + cx('scroll') + ' Apocrypha (' + apocryphon.length + ')</span>';
-    html += '<span class="cx-expand-toggle" id="apocryphaToggle">\u25B6</span>';
-    html += '</div>';
-    html += '<div id="apocryphaSection" hidden>';
-    apocryphon.forEach(function(a) {
-      var statusCls = a.status === 'fulfilled' ? 'cx-status-complete' : a.status === 'foretold' ? 'cx-status-in-progress' : 'cx-status-abandoned';
-      html += '<div class="cx-apocrypha-card">';
-      html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-8)">';
-      html += '<div class="cx-apocrypha-title">' + escHtml(a.title) + '</div>';
-      html += '<div style="display:flex;gap:var(--sp-4);flex-shrink:0">';
-      html += '<button class="cx-btn-icon" data-action="editApocryphon" data-id="' + escAttr(a.id) + '" title="Edit">' + cx('quill') + '</button>';
-      html += '<button class="cx-btn-icon" data-action="deleteApocryphonAction" data-id="' + escAttr(a.id) + '" title="Delete">' + cx('trash') + '</button>';
-      html += '</div></div>';
-      html += '<span class="cx-chip cx-chip-sm ' + statusCls + '">' + escHtml(a.status) + '</span>';
-      if (a.narrative) html += '<div class="cx-apocrypha-narrative">' + escHtml(a.narrative).replace(/\n/g, '<br>') + '</div>';
-      var ameta = [];
-      if (a.volumes && a.volumes.length > 0) {
-        a.volumes.forEach(function(vid) { var v = store.volumes.find(function(x) { return x.id === vid; }); ameta.push(v ? v.name : vid); });
-      }
-      if (a.date) ameta.push(formatAbsoluteDate(a.date));
-      if (ameta.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-8)">' + escHtml(ameta.join(' \u00B7 ')) + '</div>';
-      html += '</div>';
-    });
-    html += '</div>';
-  }
+  if (_apocryphaFilters.status) apocryphon = apocryphon.filter(function(a) { return a.status === _apocryphaFilters.status; });
+  if (_apocryphaFilters.volume) apocryphon = apocryphon.filter(function(a) { return (a.volumes || []).indexOf(_apocryphaFilters.volume) !== -1; });
+  if (_apocryphaSort === 'oldest') apocryphon.sort(function(a, b) { return a.id.localeCompare(b.id); });
+  else apocryphon.sort(function(a, b) { return b.id.localeCompare(a.id); });
 
-  vc.innerHTML = html;
+  var filtersActive = _apocryphaFilters.status || _apocryphaFilters.volume;
+  html += '<div class="cx-filter-count">' + (filtersActive
+    ? 'Showing ' + apocryphon.length + ' of ' + stats.total
+    : apocryphon.length + ' entr' + (apocryphon.length === 1 ? 'y' : 'ies')) + '</div>';
+
+  if (apocryphon.length === 0) {
+    html += renderEmptyState('scroll', 'No apocrypha match', 'Try adjusting filters');
+    return html;
+  }
+  apocryphon.forEach(function(a) {
+    var statusCls = a.status === 'fulfilled' ? 'cx-status-complete' : a.status === 'foretold' ? 'cx-status-in-progress' : 'cx-status-abandoned';
+    html += '<div class="cx-apocrypha-card">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-8)">';
+    html += '<div class="cx-apocrypha-title">' + escHtml(a.title) + '</div>';
+    html += '<div style="display:flex;gap:var(--sp-4);flex-shrink:0">';
+    html += '<button class="cx-btn-icon" data-action="editApocryphon" data-id="' + escAttr(a.id) + '" title="Edit">' + cx('quill') + '</button>';
+    html += '<button class="cx-btn-icon" data-action="deleteApocryphonAction" data-id="' + escAttr(a.id) + '" title="Delete">' + cx('trash') + '</button>';
+    html += '</div></div>';
+    html += '<span class="cx-chip cx-chip-sm ' + statusCls + '">' + escHtml(a.status) + '</span>';
+    if (a.narrative) html += '<div class="cx-apocrypha-narrative">' + escHtml(a.narrative).replace(/\n/g, '<br>') + '</div>';
+    var ameta = [];
+    if (a.volumes && a.volumes.length > 0) {
+      a.volumes.forEach(function(vid) { ameta.push(lookupVolumeName(vid)); });
+    }
+    if (a.date) ameta.push(formatAbsoluteDate(a.date));
+    if (ameta.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-8)">' + escHtml(ameta.join(' \u00B7 ')) + '</div>';
+    html += '</div>';
+  });
+  return html;
+}
+
+/* Generic Forum Pattern filter pill row. `filterKey` is the action name
+   suffix (e.g. 'canonScope' → data-action="setCanonScopeFilter"); cap-casing
+   is applied so the action handler is the conventional set<Filter>Filter
+   name. `current` is the currently-selected key (null = All). `options`
+   is [{ key, label }]. `allLabel` is the leftmost pill label (typically
+   "All") which clears the filter when clicked. */
+function renderDerivedFilterRow(filterKey, current, options, allLabel) {
+  var html = '<div class="cx-filter-row">';
+  var actionName = 'set' + filterKey.charAt(0).toUpperCase() + filterKey.slice(1) + 'Filter';
+  html += '<button class="cx-filter-pill' + (current ? '' : ' cx-filter-pill-active') + '" data-action="' + actionName + '" data-key="">' + escHtml(allLabel || 'All') + '</button>';
+  options.forEach(function(opt) {
+    var active = current === opt.key;
+    html += '<button class="cx-filter-pill' + (active ? ' cx-filter-pill-active' : '') + '" data-action="' + actionName + '" data-key="' + escAttr(opt.key) + '">' + escHtml(opt.label) + '</button>';
+  });
+  html += '</div>';
+  return html;
+}
+function renderSortRow(sortKey, current, options) {
+  var html = '<div class="cx-filter-row">';
+  var actionName = 'set' + sortKey.charAt(0).toUpperCase() + sortKey.slice(1);
+  options.forEach(function(opt) {
+    var active = current === opt.key;
+    html += '<button class="cx-filter-pill' + (active ? ' cx-filter-pill-active' : '') + '" data-action="' + actionName + '" data-key="' + escAttr(opt.key) + '">' + escHtml(opt.label) + '</button>';
+  });
+  html += '</div>';
+  return html;
 }
 
 function renderPaginationHtml(current, total) {

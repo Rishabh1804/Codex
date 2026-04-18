@@ -207,6 +207,12 @@ a{color:inherit;text-decoration:none}
 .cx-filter-pill-active{background:var(--accent);color:white;border-color:var(--accent)}
 .cx-filter-count{font-size:var(--fs-xs);color:var(--text-tertiary);margin:var(--sp-8) 0 var(--sp-12);font-style:italic}
 
+/* Sub-tab pill row sits directly below the primary tab bar; same pill
+   visual language but with a thin divider beneath to mark the boundary
+   from the inner Notice Boards (canon-0052 §Sub-Tab Pattern). */
+.cx-subtab-row{margin-bottom:var(--sp-12);padding-bottom:var(--sp-8);border-bottom:1px solid var(--border)}
+.cx-subtab-pill{font-weight:600}
+
 .cx-overdue-chip{background:var(--warning);color:white}
 .cx-stalled-chip{background:var(--error);color:white;opacity:0.85}
 

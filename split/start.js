@@ -199,18 +199,6 @@ function setupDelegation() {
 
       // Phase 3: Canons
       case 'goToCanon': navigate('#/canon/' + encodeURIComponent(id)); break;
-      case 'toggleCanonFilter':
-        var key = el.dataset.key;
-        var val = el.dataset.value;
-        _canonFilters[key] = val || null;
-        _canonPage = 1;
-        renderCurrentView();
-        break;
-      case 'setCanonSort':
-        _canonSort = el.dataset.value || 'newest';
-        _canonPage = 1;
-        renderCurrentView();
-        break;
       case 'changePage': _canonPage = parseInt(el.dataset.page, 10) || 1; renderCurrentView(); document.getElementById('viewContainer').scrollTop = 0; break;
 
       // Phase 5: Apocrypha
@@ -264,6 +252,64 @@ function setupDelegation() {
         _todoSort = el.dataset.key || 'newest';
         renderCurrentView();
         break;
+
+      // Forum Pattern — generic sub-tab switcher (canon-0052 §Sub-Tab Pattern).
+      case 'setSubTab':
+        var stTab = el.dataset.tab;
+        var stKey = el.dataset.key;
+        try { localStorage.setItem('codex-subtab-' + stTab, stKey); } catch(e) {}
+        if (stTab === 'canons') _canonsSubTab = stKey;
+        _canonPage = 1;
+        renderCurrentView();
+        break;
+
+      // Forum Pattern — Canons sub-tab filters + sort (derived; replaces
+      // toggleCanonFilter pattern).
+      case 'setCanonScopeFilter':
+        _canonFilters.scope = el.dataset.key || null;
+        _canonPage = 1;
+        renderCurrentView();
+        break;
+      case 'setCanonCategoryFilter':
+        _canonFilters.category = el.dataset.key || null;
+        _canonPage = 1;
+        renderCurrentView();
+        break;
+      case 'setCanonStatusFilter':
+        _canonFilters.status = el.dataset.key || null;
+        _canonPage = 1;
+        renderCurrentView();
+        break;
+      case 'setCanonSort':
+        _canonSort = el.dataset.key || 'newest';
+        _canonPage = 1;
+        renderCurrentView();
+        break;
+
+      // Forum Pattern — Schisms sub-tab filters + sort.
+      case 'setSchismVolumeFilter':
+        _schismFilters.volume = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setSchismSort':
+        _schismSort = el.dataset.key || 'newest';
+        renderCurrentView();
+        break;
+
+      // Forum Pattern — Apocrypha sub-tab filters + sort.
+      case 'setApocryphaStatusFilter':
+        _apocryphaFilters.status = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setApocryphaVolumeFilter':
+        _apocryphaFilters.volume = el.dataset.key || null;
+        renderCurrentView();
+        break;
+      case 'setApocryphaSort':
+        _apocryphaSort = el.dataset.key || 'newest';
+        renderCurrentView();
+        break;
+
       case 'restoreLore':
         var rl = store.lore.find(function(x) { return x.id === id; });
         if (rl) { rl._deleted = false; rl._deleted_date = null; store._createWalEntry('update', 'lore', id, 'canons.json', { _deleted: false, _deleted_date: null }); store._fireChange(); showToast('Lore restored', 'success'); renderTrashView(); }
