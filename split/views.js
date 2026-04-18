@@ -12,6 +12,10 @@ var CANONS_PER_PAGE = 10;
 var _loreFilters = { category: null, domain: null };
 var _loreSort = 'newest';
 
+/* --- Forum Pattern (canon-0052) State — TODOs --- */
+var _todoFilters = { status: 'open', volume: null };
+var _todoSort = 'newest';
+
 /* --- Shared Helpers --- */
 
 /* Walk every chapter and return any whose status is not in CHAPTER_STATUSES.
@@ -49,6 +53,88 @@ function chapterStatusIcon(status) {
     case 'planned': return 'bookmark';
     default: return 'bookmark';
   }
+}
+
+/* TODOs Rostra signals (canon-0052 §TODOs). Walks every volume's todos and
+   produces { open, resolvedThisWeek, resolvedThisMonth, resolvedLifetime,
+   resolutionRate30d, avgResolutionDays, overdue, stalled, perVolume }.
+   Resolution-rate is rolling 30-day percentage of (resolved-in-window) over
+   (resolved-in-window + still-open-created-in-window). avgResolutionDays is
+   lifetime mean for resolved entries that carry both created and resolved
+   dates. perVolume is sorted by openCount descending. */
+function computeTodoStats() {
+  var today = new Date();
+  var oneWeekAgo = new Date(today.getTime() - 7 * 86400000);
+  var oneMonthAgo = new Date(today.getTime() - 30 * 86400000);
+  var fourteenDaysAgo = new Date(today.getTime() - 14 * 86400000);
+  var thirtyDaysAgo = new Date(today.getTime() - 30 * 86400000);
+
+  var stats = {
+    open: 0, resolvedThisWeek: 0, resolvedThisMonth: 0, resolvedLifetime: 0,
+    overdue: 0, stalled: 0, resolutionRate30d: null, avgResolutionDays: null,
+    perVolume: []
+  };
+  var perVolMap = {};
+  var resolvedDurations = [];
+  var resolvedIn30d = 0;
+  var openCreatedIn30d = 0;
+
+  (store.volumes || []).forEach(function(vol) {
+    if (vol._deleted) return;
+    perVolMap[vol.id] = { volId: vol.id, name: vol.name, color: vol.domain_color || null, openCount: 0, totalCount: 0 };
+    (vol.todos || []).forEach(function(t) {
+      if (t._deleted) return;
+      perVolMap[vol.id].totalCount++;
+      var created = parseDateSafe(t.created);
+      if (t.status === 'open') {
+        stats.open++;
+        perVolMap[vol.id].openCount++;
+        if (created && created < fourteenDaysAgo) stats.overdue++;
+        if (created && created < thirtyDaysAgo) stats.stalled++;
+        if (created && created >= thirtyDaysAgo) openCreatedIn30d++;
+      } else if (t.status === 'resolved') {
+        stats.resolvedLifetime++;
+        var resolved = parseDateSafe(t.resolved);
+        if (resolved) {
+          if (resolved >= oneWeekAgo) stats.resolvedThisWeek++;
+          if (resolved >= oneMonthAgo) stats.resolvedThisMonth++;
+          if (resolved >= thirtyDaysAgo) resolvedIn30d++;
+          if (created) {
+            var diffDays = Math.round((resolved - created) / 86400000);
+            if (diffDays >= 0) resolvedDurations.push(diffDays);
+          }
+        }
+      }
+    });
+  });
+
+  if (resolvedDurations.length > 0) {
+    var sum = 0;
+    resolvedDurations.forEach(function(d) { sum += d; });
+    stats.avgResolutionDays = Math.round((sum / resolvedDurations.length) * 10) / 10;
+  }
+  var rateDenom = resolvedIn30d + openCreatedIn30d;
+  if (rateDenom > 0) stats.resolutionRate30d = Math.round((resolvedIn30d / rateDenom) * 100);
+
+  stats.perVolume = Object.keys(perVolMap).map(function(k) { return perVolMap[k]; })
+    .filter(function(v) { return v.totalCount > 0; })
+    .sort(function(a, b) { return b.openCount - a.openCount; });
+  return stats;
+}
+
+/* TODO age helpers — overdue = open + created > 14 days ago; stalled = open
+   + created > 30 days ago. Canon-0052 §TODOs notes "no recent activity" as
+   part of stalled; TODO entities don't currently track activity timestamps,
+   so the no-activity component is deferred until a touch-timestamp lands. */
+function todoIsOverdue(t) {
+  if (t.status !== 'open' || !t.created) return false;
+  var c = parseDateSafe(t.created);
+  return c && (Date.now() - c.getTime()) > 14 * 86400000;
+}
+function todoIsStalled(t) {
+  if (t.status !== 'open' || !t.created) return false;
+  var c = parseDateSafe(t.created);
+  return c && (Date.now() - c.getTime()) > 30 * 86400000;
 }
 
 function renderTruncated(text, maxChars, entityId, field) {
@@ -1604,7 +1690,11 @@ function renderTodoItem(volumeId, todo) {
   var meta = [];
   if (todo.chapter) meta.push(todo.chapter);
   meta.push(formatRelativeTime(todo.created));
-  html += '<div class="cx-todo-meta">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
+  html += '<div class="cx-todo-meta">' + escHtml(meta.join(' \u00B7 '));
+  // Stalled wins over overdue when both apply (stalled is the stronger signal).
+  if (todoIsStalled(todo)) html += ' <span class="cx-chip cx-chip-sm cx-stalled-chip">Stalled</span>';
+  else if (todoIsOverdue(todo)) html += ' <span class="cx-chip cx-chip-sm cx-overdue-chip">Overdue</span>';
+  html += '</div>';
   html += '</div>';
   html += '<button class="cx-btn-icon cx-btn-danger-icon" data-action="deleteTodo" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(todo.id) + '">' + cx('trash') + '</button>';
   html += '</div>';
@@ -1614,18 +1704,20 @@ function renderTodoItem(volumeId, todo) {
 /* --- TODOs (All) --- */
 function renderTodos() {
   var vc = document.getElementById('viewContainer');
+
+  // Gather every active TODO with its volume context.
   var allTodos = [];
-  store.volumes.forEach(function(vol) {
+  (store.volumes || []).forEach(function(vol) {
+    if (vol._deleted) return;
     (vol.todos || []).forEach(function(t) {
-      if (t.status === 'open') allTodos.push({ volume: vol, todo: t });
+      if (t._deleted) return;
+      allTodos.push({ volume: vol, todo: t });
     });
   });
 
   // Session carryover — most recent journal session with non-empty open_todos.
-  // open_todos[] is a historical snapshot (not actionable); surface it here so
-  // session-close pending items are visible until promoted to volume TODOs.
-  // Suppress when fully promoted (volume todos tagged with source_session
-  // match or exceed the session's open_todos count).
+  // open_todos[] is a historical snapshot; surface it as an action affordance
+  // until the items are promoted to volume TODOs.
   var carryover = null;
   var sessionsWithTodos = [];
   (store.journal || []).forEach(function(day) {
@@ -1642,7 +1734,7 @@ function renderTodos() {
   if (sessionsWithTodos.length > 0) {
     var candidate = sessionsWithTodos[0];
     var promotedCount = 0;
-    store.volumes.forEach(function(vol) {
+    (store.volumes || []).forEach(function(vol) {
       (vol.todos || []).forEach(function(t) {
         if (t.source_session === candidate.session.id) promotedCount++;
       });
@@ -1650,18 +1742,18 @@ function renderTodos() {
     if (promotedCount < candidate.session.open_todos.length) carryover = candidate;
   }
 
-  if (allTodos.length === 0 && !carryover) {
-    vc.innerHTML = renderEmptyState('check', 'All clear', 'No open TODOs across any volume');
-    return;
-  }
-
+  var stats = computeTodoStats();
   var html = '';
 
+  // ROSTRA — single card; always present per canon-0052.
+  html += renderTodoRostra(stats);
+
+  // Session carryover stays directly under the Rostra: it's an interrupt
+  // surface, not a normal TODO entity.
   if (carryover) {
     var s = carryover.session;
-    html += '<div class="cx-section-title">Session carryover</div>';
-    html += '<div class="cx-card cx-todo-volume-group">';
-    html += '<div class="cx-todo-volume-title">' + cx('clock') + escHtml(s.id) + '</div>';
+    html += '<div class="cx-card cx-todo-volume-group" style="margin-top:var(--sp-12)">';
+    html += '<div class="cx-todo-volume-title">' + cx('clock') + ' Session carryover \u2014 ' + escHtml(s.id) + '</div>';
     html += '<div class="cx-session-todo-item" style="font-style:italic">Historical snapshot from session close. Promote to a volume TODO to track as active work.</div>';
     s.open_todos.forEach(function(t) {
       html += '<div class="cx-session-todo-item">\u2022 ' + escHtml(t) + '</div>';
@@ -1669,17 +1761,57 @@ function renderTodos() {
     html += '</div>';
   }
 
-  if (allTodos.length > 0) {
-    html += '<div class="cx-section-title">' + allTodos.length + ' open TODO' + (allTodos.length !== 1 ? 's' : '') + '</div>';
+  // NOTICE BOARDS — three pill rows: Status / Volume / Sort.
+  html += renderTodoNoticeBoards(stats);
 
-    // Group by volume
+  // Apply filters + sort to produce the visible set.
+  var filtered = allTodos.filter(function(item) {
+    if (_todoFilters.status && _todoFilters.status !== 'all' && item.todo.status !== _todoFilters.status) return false;
+    if (_todoFilters.volume && item.volume.id !== _todoFilters.volume) return false;
+    return true;
+  });
+  filtered.sort(function(a, b) {
+    if (_todoSort === 'overdue') {
+      var ao = todoIsOverdue(a.todo) ? 1 : 0;
+      var bo = todoIsOverdue(b.todo) ? 1 : 0;
+      if (bo !== ao) return bo - ao;
+    } else if (_todoSort === 'stalled') {
+      var as = todoIsStalled(a.todo) ? 1 : 0;
+      var bs = todoIsStalled(b.todo) ? 1 : 0;
+      if (bs !== as) return bs - as;
+    }
+    var ac = a.todo.created || '';
+    var bc = b.todo.created || '';
+    if (_todoSort === 'oldest') return ac < bc ? -1 : ac > bc ? 1 : 0;
+    return bc < ac ? -1 : bc > ac ? 1 : 0; // newest default + tiebreaker
+  });
+
+  // FILTERED COUNT.
+  var filtersActive = (_todoFilters.status && _todoFilters.status !== 'all') || _todoFilters.volume;
+  var totalShown = allTodos.length;
+  html += '<div class="cx-filter-count">' + (filtersActive
+    ? 'Showing ' + filtered.length + ' of ' + totalShown
+    : filtered.length + ' entr' + (filtered.length === 1 ? 'y' : 'ies')) + '</div>';
+
+  // STALLS — the cards. Group by volume only when no volume filter is active
+  // (volume-filtered view is already a single-volume list, so headers add noise).
+  if (filtered.length === 0) {
+    html += renderEmptyState('check', 'No matches', 'No TODOs match the current filter selection');
+  } else if (_todoFilters.volume) {
+    html += '<div class="cx-card cx-todo-volume-group">';
+    filtered.forEach(function(item) { html += renderTodoItem(item.volume.id, item.todo); });
+    html += '</div>';
+  } else {
     var grouped = {};
-    allTodos.forEach(function(item) {
-      if (!grouped[item.volume.id]) grouped[item.volume.id] = { volume: item.volume, todos: [] };
+    var groupOrder = [];
+    filtered.forEach(function(item) {
+      if (!grouped[item.volume.id]) {
+        grouped[item.volume.id] = { volume: item.volume, todos: [] };
+        groupOrder.push(item.volume.id);
+      }
       grouped[item.volume.id].todos.push(item.todo);
     });
-
-    Object.keys(grouped).forEach(function(volId) {
+    groupOrder.forEach(function(volId) {
       var g = grouped[volId];
       html += '<div class="cx-card cx-todo-volume-group">';
       html += '<div class="cx-todo-volume-title" data-action="goToVolume" data-id="' + escAttr(volId) + '" style="cursor:pointer">' + cx('book') + escHtml(g.volume.name) + '</div>';
@@ -1689,6 +1821,85 @@ function renderTodos() {
   }
 
   vc.innerHTML = html;
+}
+
+/* Forum Pattern Rostra for the TODOs tab. Headline open count + per-volume
+   dots + resolved counts + resolution-rate + avg-time + overdue/stalled. */
+function renderTodoRostra(stats) {
+  var html = '<div class="cx-rostra">';
+  html += '<div class="cx-rostra-headline">' + stats.open + ' <span class="cx-rostra-headline-label">open</span></div>';
+
+  if (stats.perVolume.length > 0) {
+    html += '<div class="cx-rostra-dots">';
+    stats.perVolume.forEach(function(v) {
+      var bg = v.color ? 'background:' + v.color : '';
+      html += '<span class="cx-rostra-dot" title="' + escAttr(v.name + ' — ' + v.openCount + ' open / ' + v.totalCount + ' total') + '" style="' + bg + '"></span>';
+      html += '<span class="cx-rostra-dot-label">' + escHtml(v.name) + ' ' + v.openCount + '</span>';
+    });
+    html += '</div>';
+  }
+
+  var stats2 = [];
+  stats2.push(stats.resolvedThisWeek + ' wk');
+  stats2.push(stats.resolvedThisMonth + ' mo');
+  stats2.push(stats.resolvedLifetime + ' total');
+  html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Resolved:</span> ' + escHtml(stats2.join(' \u00B7 ')) + '</div>';
+
+  var meta = [];
+  if (stats.resolutionRate30d != null) meta.push('Rate (30d): ' + stats.resolutionRate30d + '%');
+  if (stats.avgResolutionDays != null) meta.push('Avg time: ' + stats.avgResolutionDays + 'd');
+  if (meta.length > 0) html += '<div class="cx-rostra-stats">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
+
+  if (stats.overdue > 0 || stats.stalled > 0) {
+    html += '<div class="cx-rostra-stats">';
+    if (stats.overdue > 0) html += '<span class="cx-chip cx-chip-sm cx-overdue-chip">Overdue ' + stats.overdue + '</span> ';
+    if (stats.stalled > 0) html += '<span class="cx-chip cx-chip-sm cx-stalled-chip">Stalled ' + stats.stalled + '</span>';
+    html += '</div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+/* Three pill rows under the Rostra. Volume pills are derived from data —
+   adding a new volume with TODOs adds a pill automatically. */
+function renderTodoNoticeBoards(stats) {
+  var html = '';
+  var statusOptions = [
+    { key: 'all', label: 'All' },
+    { key: 'open', label: 'Open' },
+    { key: 'resolved', label: 'Resolved' }
+  ];
+  html += '<div class="cx-filter-row">';
+  statusOptions.forEach(function(opt) {
+    var active = (_todoFilters.status || 'open') === opt.key;
+    html += '<button class="cx-filter-pill' + (active ? ' cx-filter-pill-active' : '') + '" data-action="setTodoStatusFilter" data-key="' + escAttr(opt.key) + '">' + escHtml(opt.label) + '</button>';
+  });
+  html += '</div>';
+
+  // Volume pills — derived from data.
+  html += '<div class="cx-filter-row">';
+  html += '<button class="cx-filter-pill' + (_todoFilters.volume ? '' : ' cx-filter-pill-active') + '" data-action="setTodoVolumeFilter" data-key="">All</button>';
+  stats.perVolume.forEach(function(v) {
+    var active = _todoFilters.volume === v.volId;
+    html += '<button class="cx-filter-pill' + (active ? ' cx-filter-pill-active' : '') + '" data-action="setTodoVolumeFilter" data-key="' + escAttr(v.volId) + '">' + escHtml(v.name) + '</button>';
+  });
+  html += '</div>';
+
+  // Sort pills.
+  var sortOptions = [
+    { key: 'newest', label: 'Newest' },
+    { key: 'oldest', label: 'Oldest' },
+    { key: 'overdue', label: 'Overdue' },
+    { key: 'stalled', label: 'Stalled' }
+  ];
+  html += '<div class="cx-filter-row">';
+  sortOptions.forEach(function(opt) {
+    var active = _todoSort === opt.key;
+    html += '<button class="cx-filter-pill' + (active ? ' cx-filter-pill-active' : '') + '" data-action="setTodoSort" data-key="' + escAttr(opt.key) + '">' + escHtml(opt.label) + '</button>';
+  });
+  html += '</div>';
+  return html;
 }
 
 /* --- Settings (Phase 2: GitHub connection) --- */

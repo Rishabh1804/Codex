@@ -192,6 +192,24 @@ a{color:inherit;text-decoration:none}
 .cx-todo-volume-title{font-size:var(--fs-sm);font-weight:600;margin-bottom:var(--sp-8);display:flex;align-items:center;gap:var(--sp-6)}
 .cx-todo-chapter-label{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;margin:var(--sp-8) 0 var(--sp-4)}
 
+/* --- Forum Pattern (canon-0052) — Rostra, Notice Boards, age chips --- */
+.cx-rostra{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-12) var(--sp-16);margin-bottom:var(--sp-12);box-shadow:var(--card-shadow)}
+.cx-rostra-headline{font-family:var(--ff-heading);font-size:var(--fs-3xl);line-height:1.1;margin-bottom:var(--sp-8)}
+.cx-rostra-headline-label{font-family:var(--ff-body);font-size:var(--fs-sm);font-weight:500;color:var(--text-secondary);letter-spacing:0.4px;text-transform:uppercase}
+.cx-rostra-dots{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-4) var(--sp-8);margin-bottom:var(--sp-8)}
+.cx-rostra-dot{display:inline-block;width:10px;height:10px;border-radius:var(--r-full);background:var(--text-tertiary);flex-shrink:0}
+.cx-rostra-dot-label{font-size:var(--fs-xs);color:var(--text-secondary);margin-right:var(--sp-4)}
+.cx-rostra-stats{font-size:var(--fs-xs);color:var(--text-secondary);margin-top:var(--sp-4)}
+.cx-rostra-stat-label{color:var(--text-tertiary);font-weight:600;text-transform:uppercase;letter-spacing:0.3px;margin-right:var(--sp-4)}
+
+.cx-filter-row{display:flex;flex-wrap:wrap;gap:var(--sp-6);margin-bottom:var(--sp-8)}
+.cx-filter-pill{padding:var(--sp-4) var(--sp-12);border:1px solid var(--border);border-radius:var(--r-full);background:transparent;color:var(--text-secondary);font-size:var(--fs-xs);cursor:pointer;min-height:32px;font-weight:500}
+.cx-filter-pill-active{background:var(--accent);color:white;border-color:var(--accent)}
+.cx-filter-count{font-size:var(--fs-xs);color:var(--text-tertiary);margin:var(--sp-8) 0 var(--sp-12);font-style:italic}
+
+.cx-overdue-chip{background:var(--warning);color:white}
+.cx-stalled-chip{background:var(--error);color:white;opacity:0.85}
+
 /* --- Tags --- */
 .cx-tag-container{border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-6)}
 .cx-tag-chips{display:flex;flex-wrap:wrap;gap:var(--sp-4);margin-bottom:var(--sp-4)}
