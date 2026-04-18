@@ -4049,6 +4049,8 @@ function renderTodos() {
   // Session carryover — most recent journal session with non-empty open_todos.
   // open_todos[] is a historical snapshot (not actionable); surface it here so
   // session-close pending items are visible until promoted to volume TODOs.
+  // Suppress when fully promoted (volume todos tagged with source_session
+  // match or exceed the session's open_todos count).
   var carryover = null;
   var sessionsWithTodos = [];
   (store.journal || []).forEach(function(day) {
@@ -4062,7 +4064,16 @@ function renderTodos() {
     if (b.date !== a.date) return b.date < a.date ? -1 : 1;
     return (b.session.id || '') < (a.session.id || '') ? -1 : 1;
   });
-  if (sessionsWithTodos.length > 0) carryover = sessionsWithTodos[0];
+  if (sessionsWithTodos.length > 0) {
+    var candidate = sessionsWithTodos[0];
+    var promotedCount = 0;
+    store.volumes.forEach(function(vol) {
+      (vol.todos || []).forEach(function(t) {
+        if (t.source_session === candidate.session.id) promotedCount++;
+      });
+    });
+    if (promotedCount < candidate.session.open_todos.length) carryover = candidate;
+  }
 
   if (allTodos.length === 0 && !carryover) {
     vc.innerHTML = renderEmptyState('check', 'All clear', 'No open TODOs across any volume');
