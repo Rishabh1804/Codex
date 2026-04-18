@@ -234,7 +234,7 @@
     {
       "id": "sep-dashboard",
       "name": "SEP Dashboard",
-      "shelf": "active",
+      "shelf": "paused",
       "description": "Single-file PWA for SEP workforce management — attendance, production, stock, payroll. 7-principle design system, 21-worker roster, full wage calculation engine.",
       "domain_color": "#7A9E7E",
       "tags": [
@@ -279,6 +279,11 @@
         {
           "shelf": "active",
           "date": "2024-01-01",
+          "reason": null
+        },
+        {
+          "shelf": "paused",
+          "date": "2026-04-18",
           "reason": null
         }
       ]
@@ -678,6 +683,69 @@
           "created": "2026-04-15",
           "resolved": null,
           "source_session": "s-2026-04-15-01"
+        },
+        {
+          "id": "todo-0011-consul-ratification",
+          "text": "Consul per-block ratification under canon-cc-012 (mandatory, institutional carveout per cc-015 exclusion clause).",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-17",
+          "resolved": null,
+          "source_session": "s-2026-04-17-04"
+        },
+        {
+          "id": "todo-0012-draft-cc-019",
+          "text": "Draft and ratify canon-cc-019 (Post Box / Scrinium / Praetorium dispatch architecture). Inputs chronicled in s-2026-04-17-04 decisions and lore-010: centralized Post Box in Codex; three-tier UI (Censor → Consul → Praetorium); Mode 1 (AI reasons, Sovereign authorizes); Scrinium = Latin flavor; return pipeline = decree pipeline for rulings + symmetric Scrinium for relays; intra-Province hat-switch authorized with discipline clause; weight-gated by artifact triggers per cc-017.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-17",
+          "resolved": null,
+          "source_session": "s-2026-04-17-04"
+        },
+        {
+          "id": "todo-0013-draft-cc-020",
+          "text": "Draft and ratify canon-cc-020 (Summon Companion architecture). Inputs in lore-010: parallel Claude Code session + ratified profile + role-appropriate MCP bundle; one substrate, many roles; Scribe fully-automated target; automation scales with decision weight (rule-following end fully automated, judgment end human-in-loop).",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-17",
+          "resolved": null,
+          "source_session": "s-2026-04-17-04"
+        },
+        {
+          "id": "todo-0014-lyra-ratification",
+          "text": "Lyra per-block ratification under canon-cc-012 (Sovereign flagged; excluded from cc-015 packet mode).",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-17",
+          "resolved": null,
+          "source_session": "s-2026-04-17-04"
+        },
+        {
+          "id": "todo-0015-packet-ratifications",
+          "text": "Packet ratifications under canon-cc-015: Cipher, Nyx, Maren, Kael. Chronicler assembles block-by-block content summary + concern register (3–5 blocks) + cross-companion consistency checks, presents packet to Sovereign for single-deliberation ratification.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-17",
+          "resolved": null,
+          "source_session": "s-2026-04-17-04"
+        },
+        {
+          "id": "todo-0016-cluster-null-fix",
+          "text": "Resolve Solara/Theron cluster=null metadata (should be \"B\" per canon-cc-016 residency table).",
+          "status": "resolved",
+          "chapter": "governance-founding",
+          "created": "2026-04-17",
+          "resolved": "2026-04-18",
+          "source_session": "s-2026-04-17-04"
+        },
+        {
+          "id": "todo-0017-companions-view",
+          "text": "Build PWA Companions View per docs/handoffs/AURELIUS_COMPANIONS_VIEW.md once profile ratifications stabilize.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-17",
+          "resolved": null,
+          "source_session": "s-2026-04-17-04"
         }
       ],
       "shelf_history": [

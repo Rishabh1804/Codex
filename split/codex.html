@@ -4046,27 +4046,72 @@ function renderTodos() {
     });
   });
 
-  if (allTodos.length === 0) {
+  // Session carryover — most recent journal session with non-empty open_todos.
+  // open_todos[] is a historical snapshot (not actionable); surface it here so
+  // session-close pending items are visible until promoted to volume TODOs.
+  // Suppress when fully promoted (volume todos tagged with source_session
+  // match or exceed the session's open_todos count).
+  var carryover = null;
+  var sessionsWithTodos = [];
+  (store.journal || []).forEach(function(day) {
+    (day.sessions || []).forEach(function(s) {
+      if (s.open_todos && s.open_todos.length > 0) {
+        sessionsWithTodos.push({ session: s, date: day.date || s.date || '' });
+      }
+    });
+  });
+  sessionsWithTodos.sort(function(a, b) {
+    if (b.date !== a.date) return b.date < a.date ? -1 : 1;
+    return (b.session.id || '') < (a.session.id || '') ? -1 : 1;
+  });
+  if (sessionsWithTodos.length > 0) {
+    var candidate = sessionsWithTodos[0];
+    var promotedCount = 0;
+    store.volumes.forEach(function(vol) {
+      (vol.todos || []).forEach(function(t) {
+        if (t.source_session === candidate.session.id) promotedCount++;
+      });
+    });
+    if (promotedCount < candidate.session.open_todos.length) carryover = candidate;
+  }
+
+  if (allTodos.length === 0 && !carryover) {
     vc.innerHTML = renderEmptyState('check', 'All clear', 'No open TODOs across any volume');
     return;
   }
 
-  var html = '<div class="cx-section-title">' + allTodos.length + ' open TODO' + (allTodos.length !== 1 ? 's' : '') + '</div>';
+  var html = '';
 
-  // Group by volume
-  var grouped = {};
-  allTodos.forEach(function(item) {
-    if (!grouped[item.volume.id]) grouped[item.volume.id] = { volume: item.volume, todos: [] };
-    grouped[item.volume.id].todos.push(item.todo);
-  });
-
-  Object.keys(grouped).forEach(function(volId) {
-    var g = grouped[volId];
+  if (carryover) {
+    var s = carryover.session;
+    html += '<div class="cx-section-title">Session carryover</div>';
     html += '<div class="cx-card cx-todo-volume-group">';
-    html += '<div class="cx-todo-volume-title" data-action="goToVolume" data-id="' + escAttr(volId) + '" style="cursor:pointer">' + cx('book') + escHtml(g.volume.name) + '</div>';
-    g.todos.forEach(function(t) { html += renderTodoItem(volId, t); });
+    html += '<div class="cx-todo-volume-title">' + cx('clock') + escHtml(s.id) + '</div>';
+    html += '<div class="cx-session-todo-item" style="font-style:italic">Historical snapshot from session close. Promote to a volume TODO to track as active work.</div>';
+    s.open_todos.forEach(function(t) {
+      html += '<div class="cx-session-todo-item">\u2022 ' + escHtml(t) + '</div>';
+    });
     html += '</div>';
-  });
+  }
+
+  if (allTodos.length > 0) {
+    html += '<div class="cx-section-title">' + allTodos.length + ' open TODO' + (allTodos.length !== 1 ? 's' : '') + '</div>';
+
+    // Group by volume
+    var grouped = {};
+    allTodos.forEach(function(item) {
+      if (!grouped[item.volume.id]) grouped[item.volume.id] = { volume: item.volume, todos: [] };
+      grouped[item.volume.id].todos.push(item.todo);
+    });
+
+    Object.keys(grouped).forEach(function(volId) {
+      var g = grouped[volId];
+      html += '<div class="cx-card cx-todo-volume-group">';
+      html += '<div class="cx-todo-volume-title" data-action="goToVolume" data-id="' + escAttr(volId) + '" style="cursor:pointer">' + cx('book') + escHtml(g.volume.name) + '</div>';
+      g.todos.forEach(function(t) { html += renderTodoItem(volId, t); });
+      html += '</div>';
+    });
+  }
 
   vc.innerHTML = html;
 }
