@@ -1812,6 +1812,39 @@
       "sourceId": null,
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "lore-010-the-summon-pattern",
+      "title": "The Summon Pattern: One Substrate, Many Roles",
+      "category": "doctrines",
+      "body": "On 17 April 2026, during the drafting discussion for canon-cc-019 (the Post Box / Scrinium / Praetorium dispatch architecture), the Sovereign surfaced a deeper question that reshaped the target architecture: not just how do Consul and Censor review artifacts without same-agent drift, but how does the Republic minimize manual Sovereign work across every companion role, from Scribe to General.\n\nThree findings from that discussion, chronicled here as direction for canon-cc-020's future drafting.\n\nFinding 1: Minimize-manual-work is already implicit across canons but not formally named. CLAUDE.md's Snippet Import section declares 'Core principle: Minimal manual input. Snippets are the pipeline from design sessions to data.' Canon-0031 eliminates '40+ manual taps per session.' Canon-0032 removes 'the dependency on manual file uploads at session start.' The principle pervades the Codex design philosophy without being canonized as a standalone rule. A future canon may lift it into explicit constitutional language; until then, this doctrine names the convergence.\n\nFinding 2: Automation scales with decision weight, from rule-following to judgment. Roles in the Republic lie on a spectrum. At the rule-following end — Scribe (documentation, journal, handoff), Tax Collector (ledger, runway, spend categorization), Governor (QA audits, safety checks, token consistency) — the work is structured, repetitive, and verifiable. It can run fully automated or with only lightweight Sovereign authorization.\n\nAt the judgment end — Sovereign (constitutional decisions, War Time, strategic direction) — the work is load-bearing, irreducible, and not automatable in principle. Between these poles: Consul and Censor operate in AI-reasons / Sovereign-authorizes mode (Mode 1 per cc-018 discussions); Builder and General operate in AI-assists / Sovereign-executes mode.\n\nThe spectrum produces a design rule: invest automation at the rule-following end; preserve human-in-loop at the judgment end. A Republic that tries to automate the Sovereign's judgment crosses a constitutional line; a Republic that refuses to automate the Scribe's chronicling wastes Sovereign attention on work the Scribe was instituted to absorb.\n\nFinding 3: One substrate — parallel Claude Code session + profile + MCP — serves every role. The unified pattern that emerged is the Summon Companion action. From the Command Center UI, a button summons a specific companion. Clicking it spawns a parallel Claude Code session configured with: (a) the companion's ratified profile (voice, mind, shadow — the cognitive framing); (b) a role-appropriate MCP bundle (GitHub MCP for all; linter/test MCPs for Governors; full dev stack for Builders; financial data MCPs for Tax Collector; canon-index MCP for Censor and Consul); (c) task-specific context (artifact, module, inbox, dashboard state); (d) a return path via GitHub MCP so the session commits its output directly to Codex.\n\nOne substrate, many roles. The differences between Scribe automation, Governor audit, Censor review, Consul ratification, and future Tax Collector dashboarding are differences of profile and MCP bundle, not differences of infrastructure.\n\nThis pattern depends on the MCP architecture for lazy context fetch — instead of pre-bundling 30-40k tokens of Constitution and canon text at session start, the parallel session queries as needed. A profile + artifact + role prompt can start at 5-10k tokens; the rest loads on demand when reasoning actually requires it.\n\nWhat this doctrine does not yet resolve. The Scribe as fully automated companion is a direction, not a spec. Running Scribe sessions on every event (session close, artifact archive, canon ratification) has operational and cost implications not yet worked through. Tax Collector is a future role whose data-feed contracts are not specified. Builder and General automation require per-Province tooling decisions not made. Canon-cc-020, when drafted, will address these at specification depth.\n\nThe horizon named by this doctrine. The Republic approaches a state where the Sovereign's attention is concentrated on what only the Sovereign can do — constitutional decisions, strategic direction, authorization of ratified work — and delegated on everything else through profile-bound, MCP-tooled parallel sessions. The manual-work surface shrinks by design. The Chronicler's chronicling, the Governor's auditing, the Censor's filtering, the Scribe's documentation — all flow through the same substrate, differentiated by profile and tooled by MCP, returning work for Sovereign authorization at the granularity the weight of the decision warrants.\n\nThis is the architecture canon-cc-019 begins, canon-cc-020 formalizes, and the Republic's next operational stage embodies.",
+      "domain": [
+        "governance",
+        "codex",
+        "command-center"
+      ],
+      "tags": [
+        "automation",
+        "scribe",
+        "mcp",
+        "claude-code",
+        "summon-companion",
+        "minimal-manual-work",
+        "cc-020-pending"
+      ],
+      "references": [
+        "canon-cc-014-consul-accelerated-profile-drafting",
+        "canon-cc-017-interaction-artifact-rule",
+        "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+        "canon-0031-single-zip-delivery",
+        "canon-0032-self-contained-repos"
+      ],
+      "created": "2026-04-17",
+      "updated": "2026-04-17",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null
     }
   ]
 }
