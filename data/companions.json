@@ -3791,7 +3791,7 @@
         "current_assignments": [
           "SEP Invoicing Builder (Province)"
         ],
-        "cluster": null,
+        "cluster": "B",
         "province": "sep-invoicing",
         "residence": "sep-invoicing",
         "track": "governance",
@@ -4245,7 +4245,7 @@
         "current_assignments": [
           "SEP Dashboard Builder (Province)"
         ],
-        "cluster": null,
+        "cluster": "B",
         "province": "sep-dashboard",
         "residence": "sep-dashboard",
         "track": "governance",
