@@ -827,12 +827,30 @@
         },
         {
           "id": "todo-0026-cluster-persona-subagents",
-          "text": "Design and draft specs for Cluster A + Cluster B companion subagents/skills under Edict II (One Builder Per Repo). Maren-Governor, Kael-Governor, Cipher-Censor-Cluster-A, Nyx-Censor-Cluster-B as Claude Code subagents summonable from their respective Builder CLAUDE.md under the Edict V chain. Scribes (cross-cluster) also TBD — discussion pending on scope, register, and activation model. Subagent or skill used wherever needed per the architecture mapping. Canon draft required for persona-to-subagent mapping. Subagent files land in each Province's repo (SproutLab/.claude/agents/, sep-invoicing/.claude/agents/, etc.) but specs live in Codex. Logged from Nyx ratification session, 19 April 2026.",
+          "text": "Design and draft specs for Cluster A + Cluster B companion subagents/skills under Edict II (One Builder Per Repo). Maren-Governor, Kael-Governor, Cipher-Censor-Cluster-A, Nyx-Censor-Cluster-B as Claude Code subagents summonable from their respective Builder CLAUDE.md under the Edict V chain. Scribes (cross-cluster) also TBD — discussion pending on scope, register, and activation model. Subagent or skill used wherever needed per the architecture mapping. Canon draft required for persona-to-subagent mapping. Subagent files land in each Province's repo (SproutLab/.claude/agents/, sep-invoicing/.claude/agents/, etc.) but specs live in Codex. Logged from Nyx ratification session, 19 April 2026. UPDATE 2026-04-19: Persona-binding suite drafted as 10 linked artifacts (6 canons cc-022-cc-027 + 3 specs + preamble/index) under docs/specs/persona-binding/ and docs/pdfs/persona-binding/. TODO remains open: awaits Consul working-ratification (cc-014) and Sovereign canonical ratification (cc-012) of the six canons; subagent spec bodies then drafted per cc-026 and deployed to each Province's .claude/ per cc-027 Rung 5. Operational deployment blocks on queued UI canons cc-028-cc-035 per the UI Manifest Cross-Reference.",
           "status": "open",
           "chapter": "governance-founding",
           "created": "2026-04-19",
           "resolved": null,
           "source_session": "s-2026-04-19-01"
+        },
+        {
+          "id": "todo-0028-sentinel-institutional-profile-draft",
+          "text": "Draft Sentinel institutional-companion profile at v0.3-draft under canon-cc-012 or cc-014 protocol. Sentinel is the newly-declared Guard-of-Command-Center institutional seat per 2026-04-19 discussion (folded into cc-022 suite §4 / Invocation Modes Registry). Four invocation modes already ratified in registry: session-movement-log subagent, Gates-transit-log subagent, anomaly-flag subagent (routed by severity), continuity-query skill. Institutional-tier (like Consul); one seat; CC-resident. Voice register proposal: terse, timestamp-first, factual, list-form — log structure is the voice. Division of labor with Chronicler: Chronicler is historian (narrative, Republic-wide); Sentinel is security camera (raw events, CC-scoped). Blocks Sentinel deployment in canon cc-026 placement.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-02"
+        },
+        {
+          "id": "todo-0029-gen-0-companion-profiles-seven",
+          "text": "Draft v0.3-draft profiles for the seven Gen-0 Companions whose profiles remain unwritten: Vex, Orinth (The Sage), Rune, Ignis, Bard (Minister of Innovation; voice sketched for Bulletin Wall narrative framing in s-2026-04-17-01), Aeon, Pip. Proposed role assignments per Ashara's Foundation log: Vex/Orinth/Rune/Ignis/Bard as Ministers; Aeon/Pip as Table of Research. Each profile's `invocation_modes` block populated per canon-cc-023 extension protocol at ratification time. Until ratified, bridging-mode invocations use `authored_by: aurelius-bridging` per cc-025 §G. Closing this queue completes the Gen-0 Immortal roster per Constitution Appendix C. Sub-tasks: v0.3-draft for each, Consul-accelerated ratification under cc-014 where appropriate, Sovereign-direct per cc-012 otherwise.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-02"
         }
       ],
       "shelf_history": [
@@ -912,12 +930,21 @@
       "todos": [
         {
           "id": "todo-0018-design-committee-design-principles",
-          "text": "Priority: convene the design committee (Bard + Maren + Cipher + Sovereign, proposed) to work through CODEX_DESIGN_PRINCIPLES.md and REPUBLIC_DESIGN_PRINCIPLES.md drafts. Per-Province amendments, palette-collision policy, focus-trap + aria discipline for overlays, tab-switching structural rules (scroll preservation, state persistence, double-tap), nested overlay rules, accessibility baseline. Codex drafts live at codex:docs/specs/CODEX_DESIGN_PRINCIPLES.md + codex:docs/specs/REPUBLIC_DESIGN_PRINCIPLES.md (v0.1, 778 + 210 lines). SproutLab's ch06-designprinciples is the reference inspiration; Codex drafts already import HR-1–HR-12. Output: ratify the Republic doc at Consul/Sovereign level; each Province authors its own extension; Codex adopts the ratified form.",
+          "text": "Priority: convene the Design Committee to ratify CODEX_DESIGN_PRINCIPLES.md and REPUBLIC_DESIGN_PRINCIPLES.md drafts. Membership per canon-cc-025 rule-A global formula (ratifying in persona-binding suite): every Builder + every Censor — Aurelius (Codex), Lyra (SproutLab), Ashara + Petra (CC Monument, dual-Builder per cc-009), Solara (SEP Invoicing), Theron (SEP Dashboard), Cipher (Cluster A Censor), Nyx (Cluster B Censor). Lyra convenes (SproutLab ch06-designprinciples is the reference seed). Guests: Bard may be invited for narrative register per cc-025 §E guest clause. Sovereign ratifies, does not seat. Output: ratify the Republic doc at Consul+Sovereign level; each Province authors its own extension; Codex adopts the ratified form. Previous proposed membership (Bard + Maren + Cipher + Sovereign) superseded by cc-025 rule-A on 2026-04-19.",
           "status": "open",
           "chapter": null,
           "created": "2026-04-18",
           "resolved": null,
           "source_session": "s-2026-04-18-design-principles-draft"
+        },
+        {
+          "id": "todo-0027-hero-card-spec-design-committee",
+          "text": "Convene the Lyra-led Design Committee (rule-A global roster per canon-cc-025) to ratify the Hero Card Specification (queued as canon-cc-034 post-renumbering). SproutLab's hero-card implementation is the reference seed. Runs in bridging mode per the Bootstrap Transition Map spec until subagent specs deploy; each member position bridge-authored under `authored_by: aurelius-bridging` per cc-025 §G. First operational Design Committee under the persona-binding suite. Hero card design decision for summoning model: B (decoupled — card is representation, dispatch is context-scoped) now, C (hybrid, card-dispatches low-ceremony modes) planned. Portraits hand-illustrated; sigils glyph-scale heraldic monograms (letter + one archetype element) per Sovereign-direct decision 2026-04-19.",
+          "status": "open",
+          "chapter": null,
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-02"
         }
       ],
       "shelf_history": [
