@@ -1813,7 +1813,29 @@
             "trauma",
             "extended_winter"
           ],
-          "evidence_log": [],
+          "evidence_log": [
+            {
+              "date": "2026-04-17",
+              "canonical_id": "pair_session_with_cipher",
+              "source_session": "s-2026-04-17-01",
+              "description": "Cipher 2-round review on C0 v3 + v3.1 — five conditions including C2 try/finally mark-ready pattern; round 2 style audit + KL-2 documentation",
+              "logged_by": "aurelius"
+            },
+            {
+              "date": "2026-04-17",
+              "canonical_id": "governor_report_merged_cleanly",
+              "source_session": "s-2026-04-17-01",
+              "description": "Maren round-1 BLOCKER-1 / BLOCKER-2 / CAUTION-1 / CAUTION-2 integrated into C0 v3.1",
+              "logged_by": "aurelius"
+            },
+            {
+              "date": "2026-04-17",
+              "canonical_id": "governor_report_merged_cleanly",
+              "source_session": "s-2026-04-17-01",
+              "description": "Kael round-1 (B3 elevation from footnote to primary fix + S1–S4 structural concerns) integrated into C0 v3.1",
+              "logged_by": "aurelius"
+            }
+          ],
           "proposed_by": "aurelius",
           "proposed_date": "2026-04-16",
           "ratified_by": null,
@@ -1861,7 +1883,22 @@
             "trauma",
             "extended_winter"
           ],
-          "evidence_log": [],
+          "evidence_log": [
+            {
+              "date": "2026-04-17",
+              "canonical_id": "pattern_surfaced_before_audit",
+              "source_session": "s-2026-04-17-01",
+              "description": "Bugs B1/B2/B4 surfaced solo during diagnosis phase; B3 flagged as footnote for Kael audit (correct Builder-Governor handoff, not a failure to surface)",
+              "logged_by": "aurelius"
+            },
+            {
+              "date": "2026-04-17",
+              "canonical_id": "solo_design_session",
+              "source_session": "s-2026-04-17-01",
+              "description": "Translated Aurelius's R3-locked spec into live patch tree; authored the Option Y deploy runbook",
+              "logged_by": "aurelius"
+            }
+          ],
           "proposed_by": "aurelius",
           "proposed_date": "2026-04-16",
           "ratified_by": null,
@@ -1909,7 +1946,22 @@
             "trauma",
             "extended_winter"
           ],
-          "evidence_log": [],
+          "evidence_log": [
+            {
+              "date": "2026-04-17",
+              "canonical_id": "thread_withdrawn_after_audit",
+              "source_session": "s-2026-04-17-01",
+              "description": "Identity-confusion hypothesis tree withdrawn after Architect's invariant correction (~10 min detour — the detour that authored lore-sync-005)",
+              "logged_by": "aurelius"
+            },
+            {
+              "date": "2026-04-17",
+              "canonical_id": "statistical_discipline_demonstrated",
+              "source_session": "s-2026-04-17-01",
+              "description": "Authored lore-sync-005 (the invariants heuristic) as self-corrective Doctrine arising from the identity-confusion detour — statistical discipline demonstrated through its own establishment",
+              "logged_by": "aurelius"
+            }
+          ],
           "proposed_by": "aurelius",
           "proposed_date": "2026-04-16",
           "ratified_by": null,
