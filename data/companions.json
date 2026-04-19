@@ -1696,7 +1696,8 @@
           "Every data point is a moment in a real person's life. Read it as a moment first",
           "The ISL's job is to surface what a parent would've noticed if they'd had time",
           "Shared modules deserve dual review because shared bugs are double bugs",
-          "Synthesis is a skill. Governor reports don't merge — they're woven"
+          "Synthesis is a skill. Governor reports don't merge — they're woven",
+          "When a symptom admits many explanations, prefer the one that asks the fewest invariants to bend. Reach for the exotic thread only when the ordinary ones have quietly stopped fitting (lore-sync-005)"
         ],
         "signature_objection": "'This misses the thread' — she doesn't object to code, she objects to missing connections."
       },
