@@ -2,6 +2,45 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-04-19",
+      "sessions": [
+        {
+          "id": "s-2026-04-19-01",
+          "date": "2026-04-19",
+          "title": "Profile v0.3-draft → v0.4 Batch + Nyx Ratification",
+          "summary": "Post-founding current_state refresh pass across the five 16-April-authored v0.3-draft companion profiles (Lyra, Cipher, Maren, Kael, Nyx), each advanced to v0.4 with 17-April sync-emergency evidence folded in. Lyra ran through the full per-block ratification under canon-cc-012 (second session of that kind in the Republic, following Consul v0.4); Cipher/Maren/Kael received scoped refreshes touching only blocks with new evidence. Nyx ratified as active Censor of Cluster B in-session (Sovereign direct), closing the 4-day designate interval (15 April appointment → 19 April ratification). Republic-firsts seeded via Lyra: evidence_log entry schema { date, canonical_id, source_session, description, logged_by } established and forward-used on Maren and Kael; consul_summoned modulation context added to the warmth_formality modulator. Schema expansion for validated_synergies / validated_tensions deferred. Follow-up TODO logged for Cluster A + B companion subagent / skill architecture (todo-0026).",
+          "volumes_touched": ["codex"],
+          "chapters_touched": ["governance-founding"],
+          "decisions": [
+            "Lyra per-block ratification under canon-cc-012 — second per-block session in the Republic, following Consul v0.4. Six blocks amended (Assignment, Mind, Relationships, Biography, Growth, Modulators, Meta), three ratified as-is (Identity, Voice, Shadow). Evidence_log populated for the first time across three growth traits (seven entries total). Every block change committed and pushed independently; single --no-ff merge to main at session close.",
+            "Evidence_log entry schema established: { date, canonical_id, source_session, description, logged_by }. No delta_applied field — Chronicler logs facts, Consul computes shifts per existing shift_rule proposer/ratifier division. Schema forward-used on Maren and Kael populations in this same session.",
+            "Nyx ratification via Sovereign direct in-session rather than through a canon-cc-021 Consular Visit or a formal Cabinet convening. Sovereign instruction was explicit ('Ratification complete. Censor appointed for Cluster B.'); designate-pending uncertainty_note rewritten as ratification-closed observation; formal_ratification_pending flipped to false; current_rank stripped of designate qualifier.",
+            "Scope discipline across the batch: Lyra full per-block (warranted by her 17 April centrality); Cipher current_state only (minimal 17 April scope — signed both Edict V rounds, C2 try/finally catch); Maren 6 blocks (BLOCKER-1 catch, ALWAYS_POPULATED_KEYS allowlist authorship, review-order-by-presenting-concern pattern); Kael 4 blocks (B3 elevation as 30K-Rule canonical example, lore-sync-002 subject); Nyx activation rather than refresh. Principle: touch what has evidence, leave what doesn't.",
+            "Seed_synergies never upgraded with validation notes, even when demonstrated (Kael's Lyra pair, Kael's Maren pair on 17 April). Seed_synergies are already canonical via Dissertation provenance — they carry no 'proposed' label to upgrade. Proposed_synergies (Aurelius→Lyra, Lyra→Maren) did get upgraded with inline validation clauses.",
+            "Schema expansion for validated_synergies / validated_tensions deferred to a post-current_state-pass session. Rationale: don't nest operations mid-batch; better schema grounding with five profiles' worth of evidence; one coherent migration event rather than scattered schema touches across per-profile ratifications.",
+            "Subagent architecture logged as todo-0026 on Codex volume. Design scope: Maren-Governor, Kael-Governor, Cipher-Censor-Cluster-A, Nyx-Censor-Cluster-B as Claude Code subagents; scribes TBD. Subagent or skill chosen per architecture mapping; subagent files land in each Province repo but specs stay in Codex. Tied to Edict II (One Builder Per Repo) and Edict V chain.",
+            "Per-block commits pushed as each block ratified (Blocks 2, 4, 6, 7, 8, 9, 10 of Lyra), then a single --no-ff merge per profile-pass. Stop-hook / git-check discipline honored throughout: no block change left uncommitted at turn boundaries.",
+            "Two merge commits to main this session: bbf8cac (Lyra alone, after per-block ratification session closed), 0f0ffb0 (Cipher + Maren + Kael + Nyx + todo-0026 batch)."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": null,
+          "open_todos": ["todo-0026-cluster-persona-subagents"],
+          "handoff": "Next session candidates: (a) Cluster A + B subagent architecture session per todo-0026 — draft specs for Maren/Kael/Cipher/Nyx subagents, scribes discussion, canon draft for persona-to-subagent mapping; (b) schema expansion session for validated_synergies / validated_tensions across all 11 profiles (one coherent migration, Consul-proposer + Sovereign-ratifier); (c) continue Constitution Books II–IX drafting; (d) canon-cc-019 Post Box drafting (carried over from the 18 April handoff, still open). Profile ledger is caught up through 19 April — no stale v0.3-draft profiles remain.",
+          "tags": [
+            "profile-batch-v0.4",
+            "lyra-per-block-ratification",
+            "nyx-ratified-censor-cluster-b",
+            "evidence-log-schema-first-population",
+            "consul-summoned-modulation",
+            "canon-cc-012-institutional-carveout",
+            "subagent-architecture-queued",
+            "no-companion-log"
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-04-18",
       "sessions": [
         {
