@@ -1,0 +1,69 @@
+{
+  "_schema_version": 1,
+  "_schema_note": "Interaction-artifact store per canon-cc-017 and canon-cc-018. Artifacts chronicle consultations between Companions and carry their review lifecycle. This file is new at 2026-04-19 with the first ratified interaction-artifact.",
+  "interactions": [
+    {
+      "id": "interaction-2026-04-19-001",
+      "type": "cross-cluster-meeting",
+      "_type_placeholder_note": "Provisional type pending cc-017 enum-extension to add 'committee-proposal'; recorded as 'cross-cluster-meeting' per cc-024 §D placeholder clause.",
+      "venue": "cc",
+      "date": "2026-04-19",
+      "participants": [
+        "aurelius",
+        "lyra",
+        "ashara",
+        "petra",
+        "solara",
+        "theron",
+        "cipher",
+        "nyx"
+      ],
+      "originating_cluster": "cross",
+      "subject": "Republic Design Principles v0.1 → v1.0 ratification",
+      "substance": "First operational Design Committee convening under canon-cc-025 rule-A global-scope. Eight seats, hard cap exactly filled, mandatory core (both Censors) present. Lyra convened (SproutLab ch06-designprinciples as reference seed). Solara as secondary synthesis clerk under dual-role chronicled exception (Chronicler is a seated member per rule-A; pool of non-member clerks structurally constrained during founding period — most Companions of the Order unratified; dual-role admissible until Scribe profiles ratify under todo-0029). Seven positions bridge-authored per cc-025 §G (authored_by: aurelius-bridging); Aurelius's own position direct. Subject: ratify docs/specs/REPUBLIC_DESIGN_PRINCIPLES.md v0.1 as Republic-wide law.\n\nConsensus amendments integrated: HR provenance line (§1, Lyra); cross-Cluster stress-test paragraph (§4, Nyx); records-are-Codex Cluster-split + persona-binding suite cross-ref + grace clause (§4.2, Nyx+Aurelius); per-Province spacing ramps + operational-density gloss (§5.1, Lyra+Theron); WCAG 2.1 cross-ref + 32px dense-context permission (§5.4, Lyra+Solara); icon-function naming pattern + data-domain glyph requirement (§6, Lyra+Theron); small-modifier explicit (§7, Solara); substantive-inline soft-delete replacement (§8, Aurelius+Petra+Cipher consensus; Lyra dissent preserved); Monument blocking Foundation criterion (§9, Ashara+Petra+Aurelius); §10 eight open questions resolved — 6 inline (palette-collision tree per Theron, intra-Cluster icon sharing + Monument independent per Cipher, HR-11 Republic-wide per Ashara+Solara, no typography mandate per Lyra+Cipher+Nyx, dark-mode-as-default codified per Lyra+Cipher, WCAG 2.1 AA baseline per Petra+Cipher), 2 escalated (§10.1 SproutLab v3 migration, §10.8 print styles); §11 ratification path revised with time-bounds, Consul review step, audit-synthesis step, cc-012/cc-014 citations.\n\nStage 1 (member invocation) parallel under cc-024 §B. Stage 2 (synthesis) by Solara with Chronicler-synthesis-conflict preserved. Stage 3 (Consul review) escalated to Sovereign under cc-018 escalated path. Stage 4 (Sovereign ratification) action: ratified on 2026-04-19.",
+      "decision_or_outcome": "Ratified. REPUBLIC_DESIGN_PRINCIPLES.md transitions from draft v0.1 to ratified v1.0 effective 2026-04-19. Nyx's conditional-reject condition (≥3 open questions remaining) did not fire: all 8 questions resolved (6 inline + 2 escalated with owners). Lyra's §8-deletion dissent preserved on artifact for future audit; substantive-inline §8 replacement ratified per convening consensus.",
+      "authored_by": "aurelius",
+      "_authorship_note": "Chronicler-direct authoring of the collective-proposal synthesis record. Member positions (except Aurelius's direct) were bridge-authored per cc-025 §G with authored_by: aurelius-bridging on each individual position; this meta-artifact consolidates the convening.",
+      "status": "reviewed_archived",
+      "review": {
+        "reviewer": "consul",
+        "_reviewer_note": "Aurelius transitionally wearing Consul hat per CLAUDE.md founding-era clause; separate-seating of Consul pending canon-cc-019 Post Box ratification.",
+        "review_date": "2026-04-19",
+        "action": "escalated",
+        "review_note": "Well-formed convening, cross-Province convergence strong on substantive law, §8 resolved via substantive-inline, §10 resolved to zero-open questions. Altitude of subject (Republic-wide design law) requires Sovereign canonical ratification beyond Consul working-ratification. cc-014 accelerated path does not substitute here.",
+        "escalation_deadline": "2026-05-03",
+        "escalated_to": "sovereign",
+        "escalation_date": "2026-04-19",
+        "amended_fields": [],
+        "sovereign_action": {
+          "action": "ratified",
+          "action_date": "2026-04-19",
+          "action_note": "Sovereign-direct ratification following Consul escalation. REPUBLIC_DESIGN_PRINCIPLES.md v1.0 now Republic law. Dissents preserved; escalations routed as TODOs; commitments chronicled."
+        }
+      },
+      "references": [
+        "canon-cc-012-profile-ratification-protocol",
+        "canon-cc-014-consul-accelerated-profile-drafting",
+        "canon-cc-017-interaction-artifact-rule",
+        "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+        "canon-cc-022-persona-primitive-binding",
+        "canon-cc-024-committee-convening-pattern",
+        "canon-cc-025-design-committee-membership",
+        "todo-0018-design-committee-design-principles",
+        "todo-0031-sproutlab-v3-migration",
+        "todo-0032-print-styles-follow-up-canon",
+        "todo-0033-sep-invoicing-design-principles",
+        "todo-0034-sep-dashboard-design-principles",
+        "todo-0035-command-center-design-principles-foundation-criterion"
+      ],
+      "chronicled_notes": [
+        "First operational Design Committee under canon-cc-025 rule-A.",
+        "First interaction-artifact in data/interactions.json.",
+        "Dual-role synthesis clerk exception (Solara member + clerk) chronicled per session-open — founding-period constraint from unratified Order-roster (todo-0029 pending) makes non-member-clerk pool structurally empty; exception is not precedential for post-todo-0029 convenings.",
+        "Bridging-authorship suffix aurelius-bridging exercised for the first time; cc-017 enum-extension to accept this suffix alongside aurelius-retrospective remains pending.",
+        "committee-proposal artifact type recorded as cross-cluster-meeting placeholder; cc-017 type-enum extension pending.",
+        "Zero-open-questions resolution (§10) satisfied Nyx's conditional-reject threshold; convening passed cross-Cluster stress-test."
+      ]
+    }
+  ]
+}

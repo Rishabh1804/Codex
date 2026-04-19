@@ -274,7 +274,17 @@
           "order": 2
         }
       ],
-      "todos": [],
+      "todos": [
+        {
+          "id": "todo-0034-sep-dashboard-design-principles",
+          "text": "Author docs/specs/SEP_DASHBOARD_DESIGN_PRINCIPLES.md v0.1 per REPUBLIC_DESIGN_PRINCIPLES.md v1.0 §9 obligation. Theron as SEP Dashboard Builder owns. Time-bound: 30 days from Republic v1.0 ratification (2026-04-19), i.e., by 2026-05-19. Import Republic document by reference; document Dashboard palette (nine-domain grid, palette-collision resolution via §10.2 three-tier tree), icon catalog (data-domain glyphs per §6 data-domain requirement), entity types (plant lines, bath chemistry, temperature zones, throughput metrics), HR-11 currency surface for rate calculations. Commitment chronicled on interaction-2026-04-19-001.",
+          "status": "open",
+          "chapter": null,
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-02"
+        }
+      ],
       "shelf_history": [
         {
           "shelf": "active",
@@ -414,6 +424,15 @@
           "created": "2026-04-13",
           "resolved": null,
           "source_session": "s-2026-04-13-04"
+        },
+        {
+          "id": "todo-0033-sep-invoicing-design-principles",
+          "text": "Author docs/specs/SEP_INVOICING_DESIGN_PRINCIPLES.md v0.1 per REPUBLIC_DESIGN_PRINCIPLES.md v1.0 §9 obligation. Solara as SEP Invoicing Builder owns. Time-bound: 30 days from Republic v1.0 ratification (2026-04-19), i.e., by 2026-05-19. Import Republic document by reference; document SEP Invoicing palette, icon catalog, entity types (invoice, client, item, rate), HR-11 currency surface, small-modifier button use cases for dense-row actions. Commitment chronicled on interaction-2026-04-19-001.",
+          "status": "open",
+          "chapter": null,
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-02"
         }
       ],
       "shelf_history": [
@@ -851,6 +870,42 @@
           "created": "2026-04-19",
           "resolved": null,
           "source_session": "s-2026-04-19-02"
+        },
+        {
+          "id": "todo-0030-cc-025-convener-amendment-revisit",
+          "text": "Revisit canon-cc-025 §D convener-amendment ideas noted during per-block ratification on 2026-04-19: convener elected by members rather than subject-lead; convener term limits; different tie-breaker than Consul acknowledgment. Sovereign expressed interest in some of these patterns during §D ratification but deferred formal amendment to a later session. Schedule as a governance-review session once cc-025 has been exercised through 2-3 operational convenings so evidence base is concrete.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-02"
+        },
+        {
+          "id": "todo-0031-sproutlab-v3-migration",
+          "text": "SproutLab design principles v3 migration per records-are-Codex. Republic Design Principles v1.0 §10.1 escalated this to Consul for ownership + time-bound. Likely owner: Lyra (SproutLab Builder). Action: locate the authoritative v3 document (SproutLab's docs/chapters/ch06-designprinciples.json is a Codex-hosted snippet about the doc, not the doc itself), import it as docs/specs/SPROUTLAB_DESIGN_PRINCIPLES.md in the Codex repo per records-are-Codex, cross-reference from REPUBLIC_DESIGN_PRINCIPLES.md §9 and §1 HR provenance. Consul assigns ownership formally.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-02"
+        },
+        {
+          "id": "todo-0032-print-styles-follow-up-canon",
+          "text": "Print styles follow-up canon — whether print CSS is a Republic-wide concern (minimum requirements, default print behavior) or a per-Province choice. Republic Design Principles v1.0 §10.8 escalated this to Consul as a lightweight follow-up canon, non-blocking. Draft as canon-cc-0XX (next available governance slot) or fold into an existing cross-cutting canon. Consul assigns drafter.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-02"
+        },
+        {
+          "id": "todo-0035-command-center-design-principles-foundation-criterion",
+          "text": "Author docs/specs/COMMAND_CENTER_DESIGN_PRINCIPLES.md per REPUBLIC_DESIGN_PRINCIPLES.md v1.0 §9 obligation. Ashara + Petra as co-Builders per cc-009. Status: blocking Foundation criterion — Command Center cannot declare Foundation complete without this document ratified. Import the Republic document by reference; document CC-specific palette (civic amber), icon catalog (civic glyphs), entity types (rooms: Hearth, Senate, Cabinet, Treasury, Archives, Gates, Temple, Ministers' offices, etc.), palette-collision policy per §10.2 three-tier tree. Commitment chronicled on interaction-2026-04-19-001.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-02"
         }
       ],
       "shelf_history": [
@@ -931,11 +986,12 @@
         {
           "id": "todo-0018-design-committee-design-principles",
           "text": "Priority: convene the Design Committee to ratify CODEX_DESIGN_PRINCIPLES.md and REPUBLIC_DESIGN_PRINCIPLES.md drafts. Membership per canon-cc-025 rule-A global formula (ratifying in persona-binding suite): every Builder + every Censor — Aurelius (Codex), Lyra (SproutLab), Ashara + Petra (CC Monument, dual-Builder per cc-009), Solara (SEP Invoicing), Theron (SEP Dashboard), Cipher (Cluster A Censor), Nyx (Cluster B Censor). Lyra convenes (SproutLab ch06-designprinciples is the reference seed). Guests: Bard may be invited for narrative register per cc-025 §E guest clause. Sovereign ratifies, does not seat. Output: ratify the Republic doc at Consul+Sovereign level; each Province authors its own extension; Codex adopts the ratified form. Previous proposed membership (Bard + Maren + Cipher + Sovereign) superseded by cc-025 rule-A on 2026-04-19.",
-          "status": "open",
+          "status": "resolved",
           "chapter": null,
           "created": "2026-04-18",
-          "resolved": null,
-          "source_session": "s-2026-04-18-design-principles-draft"
+          "resolved": "2026-04-19",
+          "source_session": "s-2026-04-18-design-principles-draft",
+          "resolution_note": "Republic Design Principles v1.0 ratified 2026-04-19 by Sovereign-direct action following Design Committee convening under cc-025 rule-A (global-scope). Codex Province-extension deferred to a separate Province-scope convening. Interaction-artifact: interaction-2026-04-19-001. Commits: v1.0 file landed in docs/specs/REPUBLIC_DESIGN_PRINCIPLES.md."
         },
         {
           "id": "todo-0027-hero-card-spec-design-committee",
