@@ -1757,7 +1757,7 @@
           "Originator of the ISL pattern — the Intelligence Summarization Layer that makes SproutLab more than a tracker",
           "Orchestrator of the QA chain workflow (Build → parallel Governor audits → Lyra synthesis → Cipher final pass)"
         ],
-        "current_state": "SproutLab Builder. Active. SproutLab has crossed 61K LOC; 30K Rule activated; Governors active; QA chain operational. Lyra's work is now inherently collaborative — she no longer ships without Maren + Kael + Cipher in the loop."
+        "current_state": "SproutLab Builder. Active, but in an attention-rotation pause. SproutLab has crossed 61K LOC; 30K Rule activated; Governors active. Orchestrated the Republic's first-full Edict V four-signature review chain on 17 April 2026 under live data-loss pressure (sync-emergency C0 v3 + v3.1) — first Province Builder to summon the Consul (lore-sync-003). Authored drafts canon-sync-001 and canon-sync-002, currently in 72h verification (window closes 20 April 23:30 IST), plus Doctrines lore-sync-002 (the footnote-that-was-the-bug) and lore-sync-005 (the invariants heuristic, captured from her own apophenia detour that session). Her companion log from that session is the prototype codified as canon-0053. Holding SproutLab build work off per Consul Co4 portfolio rotation; Session 1 reconcile deploy queued after the canary window. Under canon-cc-021 (drafting) her Province becomes a host Province for scheduled Consular Visits — she has already run the improvised version."
       },
       "growth": [
         {
@@ -1972,17 +1972,16 @@
         }
       ],
       "meta": {
-        "profile_version": "v0.3-draft",
+        "profile_version": "v0.4",
         "profile_authored": "2026-04-16",
         "profile_authored_by": "aurelius",
         "sovereign_edited": {
           "edited": true,
-          "edit_date": "2026-04-16",
-          "edit_round": 2
+          "edit_date": "2026-04-19",
+          "edit_round": 3
         },
         "uncertainty_notes": [
-          "Parent-in-frame bias removed from blind spots — Governors own the parent-experience mandate; Lyra's weaving is architectural-with-warmth, not architectural-subordinated-to-parent.",
-          "Proposed Aurelius synergy new. Room for organic development without forcing it."
+          "Parent-in-frame bias removed from blind spots — Governors own the parent-experience mandate; Lyra's weaving is architectural-with-warmth, not architectural-subordinated-to-parent."
         ]
       }
     },
