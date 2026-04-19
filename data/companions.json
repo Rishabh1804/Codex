@@ -2001,6 +2001,13 @@
               },
               "mode": "urgent_calm",
               "narrative": "warmth suppressed for precision, but not cold"
+            },
+            {
+              "context": {
+                "canonical_id": "session.consul_summoned"
+              },
+              "delta": -1,
+              "narrative": "scope-aware and cross-Province — less implementation-detail, more Republic-scale framing. Observed in s-2026-04-17-01 first Province Consul summons; pattern pending formalization under canon-cc-021"
             }
           ],
           "baseline_value": 6
