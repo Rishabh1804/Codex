@@ -76,9 +76,7 @@ The Monument Province is a special case. Its two co-Builders per canon-cc-009 bo
 
 = §C — Global-Scope
 
-A Design Committee convened over a subject whose outcome applies across the Republic — the Republic Design Principles, the Hero Card Specification, a convention for portraits and sigils, a register definition every companion must honor — seats every Builder and every Censor.
-
-At suite ratification, that is #key[eight seats]:
+A Design Committee convened over a subject whose outcome applies across the Republic — the Republic Design Principles, the Hero Card Specification, a convention for portraits and sigils, a register definition every companion must honor — draws from every Builder and every Censor. The maximum seat count on any Global-scope convening is #key[eight — a hard cap]. At suite ratification, the full roster fits the cap exactly (six Builders + two Censors = 8), and every eligible member is seated.
 
 #table(
   columns: (1fr, 1fr),
@@ -96,7 +94,17 @@ At suite ratification, that is #key[eight seats]:
 
 #v(0.5em)
 
-New Builders and Censors seat automatically as they ratify; #key[no separate amendment to this canon is required].
+As new Builders and Censors ratify, they join the eligible roster automatically; no separate amendment to this canon is required for eligibility. The convening cap, however, remains #key[eight]. Where the eligible roster exceeds eight, the convener — at brief-set time — selects which members #key[not to invite] for the specific convening. Exclusion is per-convening and does not affect a member's ratifying-right in future convenings; the exclusion is chronicled on the convening's originating artifact with a one-line rationale (subject distance, rotation, workload, per-Province representation).
+
+#rulebox(title: [The mandatory core — who the convener cannot exclude])[
+  Every Global-scope convening seats:\
+  \
+  — #key[Both Censors] (Cipher and Nyx, or their successors), because the Censors carry the architectural signing authority §B's Monument-scope signing and canon-cc-027's signing chain rely on. Excluding a Censor would collapse the Edict V chain.\
+  \
+  — The #key[subject-home Province's Builder] (the Province whose Capital, identity, or operational surface the subject most directly touches). If two or more Provinces qualify as home under a single brief, all qualifying Builders are mandatory for that convening.\
+  \
+  Beyond the mandatory core, the convener's exclusion discretion governs. Where the mandatory core itself would exceed the cap — a future state in which multiple clusters carry multiple Censors, or a genuinely cross-Province subject names more than a handful of home-Provinces — a seat-cap amendment to this canon is required rather than exclusion. The cap and the mandatory core must remain consistent.
+]
 
 = §D — Convener
 
