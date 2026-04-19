@@ -152,7 +152,7 @@ The `-bridging` suffix is #key[structurally distinct] from `-retrospective`: it 
 
 = §H — First Operational Design Committee
 
-The first Design Committee convened under this rule is the #key[Lyra-convened Hero Card Specification committee], queued on the Command Center volume as `todo-0027`. It runs in bridging mode (see the Bootstrap Transition Map) until subagent specs deploy. Each member position is bridge-authored per §G.
+The first Design Committee convened under this rule is the #key[Lyra-convened Republic & Codex Design Principles committee], queued on the Command Center volume as `todo-0018`, ratifying the Republic-wide Design Principles (drawing from SproutLab's `ch06-designprinciples`) and Codex's Province-extension of those principles. It runs in bridging mode (see the Bootstrap Transition Map) until subagent specs deploy. Each member position is bridge-authored per §G. A second convening, the Hero Card Specification committee queued as `todo-0027`, follows under the same convener (Lyra) once the Design Principles committee closes — SproutLab's hero-card implementation is its reference seed.
 
 Bridging-mode convenings are grace-covered per canon-cc-017's pre-ratification clause; from the first post-deploy convening onward, positions must be member-generated under real subagent invocation.
 
