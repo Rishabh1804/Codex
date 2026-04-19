@@ -824,6 +824,15 @@
           "created": "2026-04-17",
           "resolved": null,
           "source_session": "s-2026-04-17-04"
+        },
+        {
+          "id": "todo-0026-cluster-persona-subagents",
+          "text": "Design and draft specs for Cluster A + Cluster B companion subagents/skills under Edict II (One Builder Per Repo). Maren-Governor, Kael-Governor, Cipher-Censor-Cluster-A, Nyx-Censor-Cluster-B as Claude Code subagents summonable from their respective Builder CLAUDE.md under the Edict V chain. Scribes (cross-cluster) also TBD — discussion pending on scope, register, and activation model. Subagent or skill used wherever needed per the architecture mapping. Canon draft required for persona-to-subagent mapping. Subagent files land in each Province's repo (SproutLab/.claude/agents/, sep-invoicing/.claude/agents/, etc.) but specs live in Codex. Logged from Nyx ratification session, 19 April 2026.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-19",
+          "resolved": null,
+          "source_session": "s-2026-04-19-01"
         }
       ],
       "shelf_history": [
