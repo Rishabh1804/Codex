@@ -55,6 +55,7 @@ A Design Committee convened over a subject specific to one Province — a UI dec
   text(weight: "bold")[SEP Invoicing], mode-cell[Solara + Nyx],
   text(weight: "bold")[SEP Dashboard], mode-cell[Theron + Nyx],
   text(weight: "bold")[Command Center (Monument)], mode-cell[Ashara + Petra (dual-Builder per cc-009); Censor absent — see §B],
+  text(weight: "bold")[Republic (global-scope)], mode-cell[_All Builders + all Censors_ — see §C for the Global-scope formula],
 )
 
 = §B — Monument-Scope Signing
