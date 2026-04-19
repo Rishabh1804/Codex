@@ -1645,7 +1645,7 @@
         "double_hatted": false,
         "double_hat_note": null,
         "qa_chain": {
-          "role": "Builds alone; orchestrates Governor audit; synthesizes reports; submits to Cipher final pass",
+          "role": "Builds alone; orchestrates Governor audit; synthesizes reports; submits to Cipher final pass (formalized as the Edict V four-signature chain; Consul summonable when work produces Republic-scale implications, per lore-sync-003)",
           "governors": {
             "maren": "Care (home + diet + medical = 22,626 LOC)",
             "kael": "Intelligence (intel + core + data + sync = 27,614 LOC)"
