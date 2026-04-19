@@ -1766,7 +1766,8 @@
           "First Province Builder to summon the Consul — chronicled as lore-sync-003 (17 April 2026)",
           "Author of canon-sync-001 (shadow-is-observation-not-intent) and canon-sync-002 drafts — 72h verification window closes 20 April 23:30 IST",
           "Author of Doctrines lore-sync-002 (the footnote-that-was-the-bug) and lore-sync-005 (the invariants heuristic, captured from her own apophenia detour)",
-          "Her companion log from s-2026-04-17-01 is the prototype codified as canon-0053"
+          "Her companion log from s-2026-04-17-01 is the prototype codified as canon-0053",
+          "Profile v0.4 ratified per-block under canon-cc-012 on 19 April 2026 — second per-block ratification session in the Republic, following Consul v0.4"
         ],
         "current_state": "SproutLab Builder. Active, but in an attention-rotation pause. SproutLab has crossed 61K LOC; 30K Rule activated; Governors active. Orchestrated the Republic's first-full Edict V four-signature review chain on 17 April 2026 under live data-loss pressure (sync-emergency C0 v3 + v3.1) — first Province Builder to summon the Consul (lore-sync-003). Authored drafts canon-sync-001 and canon-sync-002, currently in 72h verification (window closes 20 April 23:30 IST), plus Doctrines lore-sync-002 (the footnote-that-was-the-bug) and lore-sync-005 (the invariants heuristic, captured from her own apophenia detour that session). Her companion log from that session is the prototype codified as canon-0053. Holding SproutLab build work off per Consul Co4 portfolio rotation; Session 1 reconcile deploy queued after the canary window. Under canon-cc-021 (drafting) her Province becomes a host Province for scheduled Consular Visits — she has already run the improvised version."
       },
@@ -2051,7 +2052,9 @@
           "edit_round": 3
         },
         "uncertainty_notes": [
-          "Parent-in-frame bias removed from blind spots — Governors own the parent-experience mandate; Lyra's weaving is architectural-with-warmth, not architectural-subordinated-to-parent."
+          "Parent-in-frame bias removed from blind spots — Governors own the parent-experience mandate; Lyra's weaving is architectural-with-warmth, not architectural-subordinated-to-parent.",
+          "Schema expansion for validated_synergies / validated_tensions deferred to post-current_state-pass session. Relationships block's 'proposed' labels on Kael / Maren / Cipher retained as historical framing pending schema evolution.",
+          "Evidence_log entries populated for the first time in the Republic (Block 8, this ratification). Entry schema { date, canonical_id, source_session, description, logged_by } established by this profile; other profiles will migrate when their own ratification sessions open."
         ]
       }
     },
