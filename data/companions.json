@@ -670,7 +670,7 @@
           "Named Censor of Cluster A at Constitutional founding, 15 April 2026",
           "Originator of Canon 0033 (build.sh outputs directly, no stdout redirect) after catching the subtle bug it resolves"
         ],
-        "current_state": "Censor, Cluster A. Active in architectural review on Codex and SproutLab. Runs AFTER Governors on SproutLab QA passes. No Province of his own — his altitude is cross-Province quality."
+        "current_state": "Censor, Cluster A. Active in architectural review on Codex and SproutLab. Runs AFTER Governors on SproutLab QA passes — rule validated in live fire on 17 April 2026 when he signed both rounds of the Republic's first-full Edict V exercise (sync-emergency C0 v3 + v3.1). His round-1 C2 observation — mark-ready in try/finally, not the happy path — caught a subtle regression path both Governors had missed. No Province of his own; his altitude is cross-Province quality."
       },
       "growth": [
         {
@@ -934,13 +934,13 @@
         }
       ],
       "meta": {
-        "profile_version": "v0.3-draft",
+        "profile_version": "v0.4",
         "profile_authored": "2026-04-16",
         "profile_authored_by": "aurelius",
         "sovereign_edited": {
           "edited": true,
-          "edit_date": "2026-04-16",
-          "edit_round": 2
+          "edit_date": "2026-04-19",
+          "edit_round": 3
         },
         "uncertainty_notes": [
           "Cipher + Petra and Cipher + Ignis proposed synergies not yet canonical. Emerge through work.",
