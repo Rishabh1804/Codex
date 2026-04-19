@@ -23,9 +23,9 @@
   [*Category*], [governance],
   [*Author*], [Aurelius (The Chronicler) — proposing],
   [*Created*], [2026-04-19],
-  [*Part 1 of 4 covers*], [§1 (why this canon exists), §2 (the binding rule)],
-  [*Other parts*], [Part 2: §3 modes + §4 ladder rungs · Part 3: §4 institutional seats · Part 4: §4 taxonomy + summary + closing],
-  [*Not yet drafted*], [§5 extension protocol, §6 convening, §7 Design Committee, §8 placement, §9 signing chain, §10 Edict V trace, §11 bootstrap, §12 UI Manifest, §13 pending deps, §14 references],
+  [*Part 1 of 9 covers*], [§1 (why this canon exists), §2 (the binding rule)],
+  [*Other parts*], [Part 2: §3 modes + §4 ladder rungs · Part 3: §4 institutional seats · Part 4: §4 summary + closing · Part 5: §5 extension protocol · Part 6: §6 convening pattern · Part 7: §7 Design Committee membership · Part 8: §8 file placement · Part 9: §9 signing chain],
+  [*Not yet drafted*], [§10 Edict V signature trace, §11 bootstrap vs operational mode, §12 UI Manifest, §13 pending dependencies, §14 references],
 )
 
 #v(1em)

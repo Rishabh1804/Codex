@@ -6,7 +6,7 @@
 // Title banner
 #align(center)[
   #v(1cm)
-  #text(22pt, weight: "bold", fill: warm-dark)[Canon cc-022 · Part 3 of 4]
+  #text(22pt, weight: "bold", fill: warm-dark)[Canon cc-022 · Part 3 of 9]
   #v(0.2em)
   #text(15pt, fill: warm, style: "italic")[§4 Institutional Seats (Consul, Chronicler, Sentinel)]
   #v(1cm)

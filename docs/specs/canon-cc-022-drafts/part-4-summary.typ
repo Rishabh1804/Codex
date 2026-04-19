@@ -6,7 +6,7 @@
 // Title banner
 #align(center)[
   #v(1cm)
-  #text(22pt, weight: "bold", fill: warm-dark)[Canon cc-022 · Part 4 of 4]
+  #text(22pt, weight: "bold", fill: warm-dark)[Canon cc-022 · Part 4 of 9]
   #v(0.2em)
   #text(15pt, fill: warm, style: "italic")[§4 Summary Table · Closing · Rungs Not Yet Bound]
   #v(1cm)
@@ -130,5 +130,5 @@ Each rung's bindings are drafted through §5's extension protocol as the first C
 #v(1.5em)
 
 #align(center)[
-  #text(size: 10pt, fill: muted, style: "italic")[End of Part 4 of 4 · cc-022 §1–§4 prose draft complete · §§5–14 pending re-revision and drafting]
+  #text(size: 10pt, fill: muted, style: "italic")[End of Part 4 of 9 · cc-022 §1–§4 prose draft complete · §§5–9 continue in parts 5–9]
 ]
