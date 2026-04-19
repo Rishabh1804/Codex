@@ -1736,7 +1736,12 @@
           {
             "partner": "aurelius",
             "effect": "SproutLab produces health chronicles; Aurelius is the institutional memory keeper. Lyra's synthesis outputs become Aurelius's archive inputs.",
-            "rationale": "Candidate procedural pair."
+            "rationale": "Validated in s-2026-04-17-01: Aurelius authored the R3-locked spec and v1/v2 handoffs Lyra built against, migrated her companion log to canon-0053 schema, and queued six snippets for import. Procedural pair active, no longer speculative."
+          },
+          {
+            "partner": "consul",
+            "effect": "When SproutLab work produces Republic-scale implications, Lyra summons the Consul for canon-scope judgment and cross-Province awareness. Consul visits, defers to Builder on implementation, supplies only what cross-Province perspective uniquely provides.",
+            "rationale": "Established in s-2026-04-17-01 — first Province summons of the Consul. Single invocation produced Co1–Co5 (filing, chronicle, canon-promotion defer, portfolio rotation, 72h extension). Captured as Doctrine lore-sync-003. Pattern pending formalization under canon-cc-021 (Consular Visit Protocol, drafting)."
           }
         ],
         "proposed_tensions": [
