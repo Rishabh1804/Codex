@@ -249,6 +249,39 @@
             "six-follow-up-todos-logged",
             "final-builder-act-nearing-close"
           ]
+        },
+        {
+          "id": "s-2026-04-20-06",
+          "date": "2026-04-20",
+          "title": "canon-proc-002 Design Principles Precondition for Build ratified active",
+          "summary": "Sovereign-direct ratification. canon-proc-002 flips draft → active with no amendments. The rule that no substantial Builder work opens on a Province until its design-principles status is verified is now Republic law. UI enforcement (the design-principles chip on every Volume card) was already shipped in s-2026-04-20-05; this session grants that enforcement its institutional backing. todo-0044 closes. Downstream TODOs (todo-0033 SEP Invoicing principles, todo-0034 SEP Dashboard, todo-0035 Command Center, todo-0041 Codex v0.1→v1.0 ratification, todo-0043 SproutLab local addendum) now execute under this canon's discipline.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [],
+          "decisions": [
+            "canon-proc-002 ratified as drafted, no amendments. Sovereign-direct per cc-012 adjacent-pattern (single-canon, high-consensus ratifications may bypass MCQ surfacing when the draft was already MCQ-surfaced at drafting time in the prior session)."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 2,
+          "open_todos": [
+            "todo-0033-sep-invoicing-design-principles",
+            "todo-0034-sep-dashboard-design-principles",
+            "todo-0035-command-center-design-principles-foundation-criterion",
+            "todo-0041-codex-design-principles-ratification",
+            "todo-0043-sproutlab-design-principles-local-addendum"
+          ],
+          "handoff": "canon-proc-002 is law. Every Builder's first act in a Province session is now institutional discipline, not suggestion. The design-principles chip on Volume cards is the enforcement surface. Five Provinces carry non-green chips that are now priority tasks for their Builders: Codex (draft, Aurelius/Orinth post-transition), SproutLab (draft, Lyra), SEP Invoicing (missing, Solara), SEP Dashboard (missing, Theron), Command Center (missing, Ashara+Petra co-draft under cc-009).",
+          "screenshots": [],
+          "tags": [
+            "canon-proc-002-ratified-active",
+            "sovereign-direct-ratification",
+            "no-amendments",
+            "design-principles-discipline-is-law",
+            "five-provinces-priority-queued",
+            "todo-0044-closed"
+          ]
         }
       ]
     },

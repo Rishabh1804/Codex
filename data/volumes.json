@@ -1000,10 +1000,10 @@
         {
           "id": "todo-0044-canon-proc-002-ratification",
           "text": "Ratify canon-proc-002 Design Principles Precondition for Build — status draft, awaiting Sovereign flip to active. Drafted s-2026-04-20-05. Ratification is first-order for every downstream design-principles TODO (0033, 0034, 0035, 0041, 0043) because those are executed under this canon's discipline. Review rationale, references, exemptions, enforcement clauses before flipping.",
-          "status": "open",
+          "status": "resolved",
           "chapter": "governance-founding",
           "created": "2026-04-20",
-          "resolved": null,
+          "resolved": "2026-04-20",
           "source_session": "s-2026-04-20-05"
         }
       ],
