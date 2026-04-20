@@ -244,3 +244,71 @@ With Expansion vacated (Orinth seated to Codex Builder per canon-inst-001), Bard
 ---
 
 *Section 5 (cross-references and open questions) follows.*
+
+---
+
+## 5. Cross-references and open questions
+
+### 5.1 Constitution
+
+- **Book I** (immutable) — Four Pillars unchanged. Nothing in this amendment touches Book I. The amendment composes under Book I Article 3's MINOR-versioning clause.
+- **Book II Articles 1–5** — existing articles stand unchanged. Article 6 is appended after Article 5 (Synergies).
+- **Book II Article 3** (Three Institutions) — Working Committee convening triggers stand unchanged; Article 6 adds a jurisdiction filter atop the existing triggers.
+- **Book II Article 4** (Cabinet of Ministers) — Cabinet Exception preserves the monthly full-bench convening clause as currently written.
+- **Book III** (Provinces) — Province match condition composes with Edict II (One Builder Per Repo) and Edict VI (Monument Designation).
+- **Book IV Edict VI** (Monument Project) — Monument Projects' dual-Builder posture under canon-cc-009 and direct Consul + Sovereign supervision compose with the Sovereign summon and Institutional match conditions. See Growth question 4.3.
+- **Book V Article 5** (Cabinet Convening Cycle) — the Week 3 convening is the canonical Cabinet Exception. Mid-month rebalancing per Article 5 operates under the normal jurisdiction-match rule.
+- **Book V Article 6** (Amendment Procedures) — the procedure under which this amendment moves. Proposer: Consul under cc-014 bridging. Cabinet review: all Cabinet (cross-domain). Versioning: v1.0 → v1.1.
+- **Book VI** (Emergency) — War Time suspends the jurisdiction-match requirement; post-war review per Article 4 audits seatings.
+- **Book VII** (Seams) — this amendment does not open a new Seam. The Dissertation §10 Immortal Order composes with the Convocation Principle without mismatch.
+- **Book VIII** (Living Order) — Epoch of Origin anchor (Appendix C preamble, added 2026-04-20) is referenced implicitly; Gen 1 companions inherit the Convocation Principle as default.
+- **Book IX** (Economy) — no direct reference.
+- **Appendix A** (Dissertation) — §10.1 Immortal roster unchanged; §10.3 synergy pairs unchanged.
+- **Appendix B** (Lore Archive) — Chronicle lore entry produced at ratification per Book V Article 6 ¶5.
+- **Appendix C** (Seventeen Immortals) — the 17 are the currently-listed officers the Article governs. Epoch of Origin preamble (2026-04-20 addition) anchors generation math.
+- **Appendix D** (Glossary) — glossary entries for *Seated*, *Dormant*, *Listed*, *Presiding Officer*, *Jurisdiction Match* to be added at Phase E alongside the Article 6 typst commit.
+
+### 5.2 Canons
+
+- **canon-pers-001** (Province Persona Briefing) — complementary at Province-root altitude.
+- **canon-pers-002** (Officers Act Within Jurisdiction) — complementary at in-session-voice altitude. Gov-013 governs session composition; pers-002 governs session voice.
+- **canon-cc-005** (Institutional Companions) — establishes Consul and Chronicler seats referenced here.
+- **canon-cc-009** (Monument Dual-Builder Tension) — Monument composition question per Growth §4.3.
+- **canon-cc-010** (Residence and Record) — residency composes with Cluster match condition.
+- **canon-cc-011** (Temperament Over Dissertation Default) — Debt seat vacancy; Maintenance single-Minister composition.
+- **canon-cc-014** (Consul-Accelerated Drafting) — bridging interim under which this amendment is proposed.
+- **canon-cc-016** (Residency and Access Gating) — hard cluster boundary composes with Cluster match.
+- **canon-cc-017 / 018** (Interaction-Artifact Rule and Lifecycle) — the session's seated-roster declaration may live in an interaction-artifact's Roster block.
+- **canon-cc-019** (Post Box — pending) — future ratification changes Rung 4 routing; does not alter Article 6.
+- **canon-cc-022** (Persona-Binding Extension Protocol) — Sentinel ratification unblocks Seating Transit automation.
+- **canon-cc-025** (Design Committee Membership) — Monument-scope signing clause referenced in Cluster match.
+- **canon-cc-026 / 027** (Spec Body Placement and Signing Chain) — Minister subagent spec bodies compose with seated-roster declarations; todo-0026 + todo-0029 are the gating items for Phase B.
+- **canon-gov-013** (Session Convocation Protocol) — this amendment's supplementary operational canon.
+- **canon-inst-001** (Aurelius→Orinth transition) — Expansion vacancy; Growth single-Minister composition.
+- **canon-proc-001** (Canon Identifier Scheme) — the gov-013 number follows this scheme.
+- **canon-proc-003** (Companion Onboarding Process) — future companion onboardings inherit the Convocation Principle by default.
+
+### 5.3 Lore
+
+- **lore-007** (Founding of the Capital) — referenced by canon-cc-010; Capital-native Ministers compose with Cabinet Exception.
+- **lore-014, lore-015** (Chronicler queue 2026-04-19) — referenced by the upstream session prompt infrastructure; no direct amendment-level bearing.
+
+### 5.4 External references
+
+- `docs/references/claude-opus-4.7-system-prompt.txt` — confirmatory evidence for the underlying pattern, specifically the deferred-tool-discovery sections. Cited in §3.1.
+
+### 5.5 Open questions (deliberately unresolved)
+
+The amendment does not resolve every edge case. The following are named as open; each may be addressed by a follow-up canon once operational evidence accumulates.
+
+- **Multi-presiding sessions.** A session may have work that is both Province-local (Builder-presided) and cross-Province (Consul-presided). The amendment does not specify who presides in such composite cases. Current practice: escalate to the Consul. Formalization deferred.
+- **Standing guest seatings.** May the Sovereign declare a standing seating — an officer seated by default for all sessions of a defined type — short of a canon? Current practice: standing declarations live in canons or the companion's profile `assignment.standing_seatings` field (not yet schema). Formalization deferred.
+- **Seating during recursion.** A seated officer invokes a subagent; is the subagent a new seating event or an extension of the parent seating? Current practice: subagents inherit parent seating; they do not emit their own transit event. Formalization deferred pending Sentinel ratification.
+- **Working Committee full-bench convening.** Article 3 names triggers for Committee convening but the amendment does not name conditions under which the full Committee (unfiltered) is seated rather than a jurisdiction-matched subset. Current practice: Sovereign summon invokes full-bench convening. Formalization deferred.
+- **Cross-Cluster interaction via CC.** Canon-cc-016 hard cluster boundary directs cross-cluster interaction to Command Center. The amendment does not specify how the Command Center session itself declares its seated roster when it is the venue for Cross-Cluster work. Current expectation: Consul presides, Censor of each affected Cluster seated, Builders of the affected Provinces seated. Formalization deferred until Command Center's root briefing ratifies and codifies.
+- **Scribe seating.** Scribes are not Working Committee members per Article 3. Are they seatable at all? Current practice: Scribes are seatable for their Builder's sessions at the Builder's discretion, but not for Committee work. Formalization deferred; the Republic has no seated Scribes at this amendment's ratification.
+
+---
+
+**End of amendment package.** Phase A complete. The amendment is ready for Phase B Cabinet review, gated on Ministers going live per Sovereign ruling of 2026-04-20.
+
