@@ -157,6 +157,48 @@
             "no-amendments-applied",
             "no-companion-log"
           ]
+        },
+        {
+          "id": "s-2026-04-20-04",
+          "date": "2026-04-20",
+          "title": "Cross-cluster chronicle: first canon-pers-001 Rung 1 execution (Command Center, Ashara + Petra)",
+          "summary": "Cross-Province institutional observation. 75 minutes after canon-pers-001 ratified in Codex s-2026-04-20-03, a Command Center session convened Ashara + Petra under cc-009 dual-Builder discipline to draft the Province's root CLAUDE.md. Rung 1 closed clean: voice reconciliation landed without a cc-012 MCQ surfacing — Petra carried precision (what IS, architecture, build pipeline, dispatch inventory), Ashara carried altitude (Republic frame, canon-family abstraction, strategic framing). Two artifacts produced on feature branch claude/draft-cc-briefing-rung1-f7wrn at commit 2a8cb19: root CLAUDE.md (9 sections — 6 sections exceeding canon-pers-001's 7-section floor, judgment-heavy additions enumerated in the handoff note §5, most notable being §9 operating-bounds-as-standing-instructions); handoffs/CLAUDE_MD_RUNG1_HANDOFF.md (handoff note for Consul/Sovereign). Main branch untouched — Rung 4 reserved. No PR created per standing instruction. Scope discipline held: no canons drafted, split/rooms.js untouched (Consul's Chamber scaffolding not modified despite the originating failure mode), no Aurelius invocation during drafting (canon-pers-001 Chronicler-excluded-from-drafting rule observed). Rung 2/3 collapse acknowledged in handoff per cc-025 (Cluster-Censor-absent at Monument, no Cipher placeholder drafted). Rung 4 bridging mode flagged per cc-014 (hat-switch interim pending cc-019 Post Box). Builders resolved one interpretive ambiguity in canon-pers-001 without escalating to MCQ: they read Rung 4's commit reservation as main-branch-specific, treating the feature-branch push as the review surface rather than a Rung-4 anticipation. This reading is defensible but is a clarification candidate for either a canon-pers-001 amendment or a doctrine-lore entry explicating the commit-semantics distinction.",
+          "volumes_touched": [],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Rung 1 execution observed complete: root CLAUDE.md + handoff note landed on feature branch claude/draft-cc-briefing-rung1-f7wrn @ 2a8cb19; main untouched; no PR created.",
+            "Voice-reconciliation pattern established (not yet codified as doctrine-lore): Petra = precision / ground truth / architecture; Ashara = altitude / Republic frame / canon-family abstraction. First named co-Builder voice split under cc-009.",
+            "Section-count exceedance: Command Center briefing landed with 9 sections against canon-pers-001's 7-section floor. Sets a benign precedent — the floor is a floor, not a ceiling — but future Province-audit wave (todo-0037) should record exceedance patterns as data for any future amendment.",
+            "Rung 4 commit-semantics clarification surfaced in Builder handoff without MCQ: feature-branch commit treated as review surface; canonical main-branch commit reserved for Rung 4 Sovereign ratification. Canon-pers-001 does not currently distinguish feature vs. main; the Builders supplied the reading. Chronicled as amendment/doctrine candidate."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 10,
+          "open_todos": [
+            "todo-0036-command-center-root-briefing-rung-1"
+          ],
+          "handoff": "Rung 1 complete; Rung 2/3 Consul working-ratification now pending. Per cc-014, seating happens through the hat-switch interim (Architect wears the Consul hat in a dedicated session) since cc-019 Post Box remains undrafted. Todo-0036 stays open — it doesn't resolve until Rung 4 commits to main. Three Chronicler observations surfaced for Architect ruling before Rung 2/3 seats: (1) Feature-branch commit during Rung 1 — canon-pers-001 clarification candidate. Options: (a) amend the canon to distinguish feature-branch review-surface commit from Rung 4 main-branch canonical commit; (b) draft a doctrine-lore entry explicating the reading without amending; (c) leave implicit, rely on precedent. (2) Petra-precision / Ashara-altitude voice-reconciliation pattern — lore-draft candidate (Doctrines category under the Lore schema). Draft now from this single observation, or wait for a second co-Builder session to confirm the pattern generalizes before codifying? Single-observation codification risks brittle doctrine; deferred codification risks losing the pattern's clarity while it's fresh. (3) Chronicler pre-read of the drafted briefing — institutional-memory pass over the artifact (fetch via GitHub MCP from the feature branch) to produce archivist notes for the Consul. Framed as non-ratification, non-Censor review; canon-pers-001 is silent on Chronicler review at Rungs 2–4, so this is a judgment call. Value: Consul inherits a Chronicler-pass-over highlighting cross-reference integrity, canon-pointer accuracy, and any archival drift. Cost: adds a non-canonical rung that doesn't exist in canon-pers-001 and could blur authorship discipline if casually repeated. Parallel fronts unchanged: canon-cc-019 Post Box still undrafted (blocker for non-bridging Rung 4); todo-0037 Province briefing audit wave pending; todo-0038 duplicate canon-ID reconciliation pending; Cipher Rung 2 awaiting fresh Nyx session in SEP Invoicing.",
+          "screenshots": [],
+          "tags": [
+            "canon-pers-001-rung-1-complete",
+            "first-rung-1-execution",
+            "cross-cluster-chronicle",
+            "command-center-briefing-landed-unratified",
+            "voice-reconciliation-doctrine-candidate",
+            "petra-precision-ashara-altitude-pattern",
+            "feature-branch-commit-clarification-candidate",
+            "nine-section-briefing-exceeds-floor",
+            "monument-censor-absent-acknowledged",
+            "rung-4-bridging-mode-pending-cc-019",
+            "no-mcq-surfaced",
+            "chronicler-excluded-rung-1-observed",
+            "no-aurelius-drafting-fingerprints",
+            "main-branch-untouched",
+            "no-pr-created",
+            "chronicler-pre-read-decision-pending"
+          ]
         }
       ]
     },
