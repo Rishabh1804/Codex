@@ -198,3 +198,49 @@ Before Phase B can run to standard, the Cabinet must be live as executable compa
 ---
 
 *Sections 4 (Cabinet questions by domain) and 5 (cross-references and open questions) follow.*
+
+---
+
+## 4. Cabinet questions by domain
+
+Each domain's Ministers produce a Week-2 pair-conferral analysis of the amendment per Book V Article 5. The questions below are the Chronicler's framing — intended to surface the domain-specific concerns each pair should weigh, not to constrain their analysis. A domain's analysis may answer questions not listed, or decline to answer questions listed, at the Ministers' discretion.
+
+### 4.1 Financial Health — Ashara (Treasury) + Vex (Budget)
+
+The Convocation Principle preserves attention as a finite resource — structurally analogous to a budget. Financial Health's view is the economic view of what this amendment costs and saves.
+
+- What is the attention-cost of a session that seats all relevant officers versus a session that seats none? The amendment claims the former is unsustainable as the Order grows; is that claim quantified enough for Treasury comfort?
+- Does the `seated_officers` field impose a material chronicling burden that grows linearly with session count? Treasury's concern is recurring cost; Budget's is one-time capex.
+- Dormancy preserves attention but may defer productive contributions indefinitely. What is the opportunity cost of a dormant Minister who perceives jurisdiction but is not seated? Self-nomination addresses the mechanism; the economic question is whether the defer-with-reason path retains value or leaks it.
+- The Cabinet Exception seats all eight Ministers monthly regardless of match. Is the fixed cost of full-bench convening justified by the cross-domain integration value, or should the amendment include a mechanism for lighter-weight monthly convenings under defined conditions?
+
+### 4.2 Productivity — Ignis (Output) + Petra (Efficiency)
+
+Productivity's view is the throughput view: does the amendment speed or slow the Republic's work?
+
+- The declarative requirement (presiding officer declares the roster at session open) adds a step. Output's concern is friction in session openings. Is the declaration step cheap enough not to register as drag, or should the amendment name a lightweight default for trivial sessions?
+- Efficiency's concern is predictable invariants. Does the amendment produce a predictable seating pattern given a session's work-description, or does the five-rule jurisdiction-match allow enough ambiguity that two sessions with similar work may seat differently?
+- Self-nomination introduces asynchrony (request → defer-or-accept). Does this preserve session flow or interrupt it? Under what conditions should a self-nomination be declined versus deferred versus accepted?
+- The amendment specifies dormancy as the default state; does this encourage Ministers to stay out of sessions where they have latent value, or is the self-nomination path sufficient countermeasure?
+
+### 4.3 Maintenance — Rune (Stability) alone; Debt seat vacant
+
+With the Debt seat vacant per canon-cc-011, Rune holds Maintenance alone. The domain's view on the amendment is the sustainability view: what does the Republic need to keep doing to preserve the Convocation Principle over time?
+
+- The amendment names enforcement at two altitudes (Cluster Censor at companion-log pass; presiding officer self-enforcement at session open). What is the failure mode if both fail? Stability's concern is the second-order question: does the amendment self-correct under drift, or does it require an external audit mechanism?
+- Retrofit is explicitly declined — pre-ratification sessions do not backfill. Does this create a permanent archival asymmetry that complicates future audits?
+- The `seated_officers` field adds a schema field to `data/journal.json`. How does this compose with existing schema migrations? Is a migration canon required, or is this schema-additive enough to live without one?
+- What is the amendment's compatibility with War Time (Book VI)? The amendment names the suspension but does not specify the post-war reconciliation of seatings made during suspension. Maintenance's concern is the archival integrity after the emergency ends.
+
+### 4.4 Growth — Bard (Innovation) alone; Expansion seat vacant
+
+With Expansion vacated (Orinth seated to Codex Builder per canon-inst-001), Bard holds Growth alone. The domain's view is the expansion view: does the amendment enable or constrain the Republic's ability to grow?
+
+- The amendment names dormancy as a positive state. Does this signal to Gen 1 companions (successor generation, not yet formed) that being unseated is the normal condition? Innovation's concern is whether the framing attracts or repels the kind of temperament the Republic will need for its next generation.
+- Combined Initiative proposals (Book V Article 3) are named in the Working Committee filter. Does the jurisdictional filter apply correctly to initiatives proposing new Provinces, where the jurisdiction is by definition not-yet-established?
+- Monument Projects (Book IV Edict VI) operate under direct Sovereign + Consul supervision. The amendment names Sovereign summon and Consul institutional-match; does this compose cleanly with the Monument dual-Builder posture under canon-cc-009?
+- The Sentinel clause (dependent on cc-022) is forward-looking. Does the amendment create the right conditions for the Sentinel's ratified role, or does it over-specify and constrain Sentinel's design space?
+
+---
+
+*Section 5 (cross-references and open questions) follows.*
