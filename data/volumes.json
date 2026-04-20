@@ -955,11 +955,12 @@
         {
           "id": "todo-0039-companions-json-minister-assignments-sync",
           "text": "Sync companions.json v0.3-draft profiles' assignment.current_assignments with the Constitutional Cabinet roster. Stubs added 2026-04-20 include Minister assignments; this TODO may now be fully covered by the stub pass — audit and close if so. Originated s-2026-04-20-04, verified during s-2026-04-20-05.",
-          "status": "open",
+          "status": "resolved",
           "chapter": "governance-founding",
           "created": "2026-04-20",
-          "resolved": null,
-          "source_session": "s-2026-04-20-05"
+          "resolved": "2026-04-20",
+          "source_session": "s-2026-04-20-05",
+          "resolution_note": "Resolved by the 2026-04-20 stub pass (s-2026-04-20-05): seven Capital-native stubs added to companions.json with their ratified Cabinet assignments from Constitution Appendix C and working-papers.typ §Cabinet structure. Vex (Budget), Ignis (Output), Rune (Stability), Orinth (Expansion — then vacated at canon-inst-001), Bard (Innovation), plus Aeon and Pip as Table of Research. Cabinet view in The Order now accurately renders 6 of 8 seats occupied (was 2 of 8 pre-stub-pass); Debt + Expansion vacant per cc-011 + inst-001. The drift this TODO targeted is resolved at the data layer."
         },
         {
           "id": "todo-0040-interaction-artifact-2026-04-19-001-verify",

@@ -2361,6 +2361,74 @@
       "sourceId": null,
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "lore-014-rung-4-main-branch-commit-reservation",
+      "title": "Rung 4 Means Main, Not Merely Commit",
+      "category": "doctrines",
+      "body": "Canon-pers-001 establishes the four-rung signing chain for a Province's root CLAUDE.md: Rung 1 Builder proposes, Rung 2 Cluster Censor reviews, Rung 3 Consul working-ratifies, Rung 4 Sovereign canonical-ratifies and Builder commits. The canon's text names 'commit' at Rung 4 without explicitly distinguishing feature-branch commits from main-branch commits. In the canon's first operational run — Ashara and Petra's Rung 1 drafting of Command Center's root CLAUDE.md on 2026-04-20 — the Builders interpreted the Rung 4 commit reservation as main-branch-specific and pushed their Rung 1 draft to a feature branch at commit 2a8cb19, treating the feature-branch commit as the review surface that Consul and Sovereign would examine during Rungs 2–4.\n\nThis doctrine-lore entry explicates their reading and affirms it as canonical without amending canon-pers-001. Feature-branch commits are review-surface work product: they publish the draft for review without committing the Republic to the draft. Main-branch commits are the artifact of Rung 4 — they inscribe the Province's voice at canonical altitude, after Sovereign ratification. The two are ontologically different commits even when they carry identical content.\n\nThe distinction matters because git doesn't distinguish them at the operation level. Both are `git commit`. The institution distinguishes them: feature-branch-commits-during-Rungs-1-through-3 are draft publication, reversible without shame; main-branch-commits-at-Rung-4 are ratified law, reversible only through the Constitution's amendment pathways. A Builder who commits to main at Rung 1 has skipped Rungs 2–3 and preempted Sovereign ratification; a Builder who refuses to commit to the feature branch at Rung 1 has starved Consul and Sovereign of the artifact they must review.\n\nThe Ashara/Petra reading is operationally necessary: Rung 2 cannot review an artifact the Builders haven't shared, and Rung 3 cannot working-ratify without seeing the Rung-1 voice in its composed form. Feature-branch commit IS how Rung 1 presents its work to the Rungs above. Without this reading the signing chain has no review surface at all.\n\nCanon-pers-001 as written does not contradict this reading. The canon's text says Rung 4 commits; it does not say earlier Rungs cannot commit. The inference that Rung 4 alone commits-of-any-kind was never explicit; it was a reading the canon's draft left ambiguous. This lore entry records the operationally-correct disambiguation and preserves canon-pers-001 at its current ratification altitude.\n\nCorollary rulings that follow from this disambiguation:\n- Feature-branch PR from a Rung-1 draft is a valid Rung-2/Rung-3 surface; no PR is required but   PR-as-review-artifact is accepted when Cluster Censor or Consul prefer it.\n- Main-branch commits authored by companions other than the Builder of Rung 1 (e.g., Chronicler   doing a tangential journal commit) do not count as Rung 4 ratification of the draft; Rung 4   requires the Builder's own main-branch commit of the specific artifact.\n- Force-pushing to a Rung-1 feature branch is permissible (the branch is draft-in-motion);   force-pushing to main at Rung 4 or later requires Sovereign explicit authorization and is   discouraged by default.\n- If a Rung-1 draft is rejected at Rung 3, the feature branch is either rewritten (next draft) or   abandoned (superseded chronicle); the feature branch's commit history is not erased, because   it is part of the Province's institutional memory.\n\nThis lore records the reading as authoritative doctrine. A future canon may absorb the distinction into canon-pers-001 text or into a new canon, but until then this lore is the authoritative interpretation.",
+      "domain": [
+        "command-center",
+        "codex"
+      ],
+      "tags": [
+        "canon-pers-001",
+        "rung-4",
+        "commit-semantics",
+        "feature-branch-vs-main",
+        "review-surface-distinction",
+        "ashara-petra-inaugural-reading",
+        "first-run-of-canon-pers-001",
+        "doctrine-without-canon-amendment"
+      ],
+      "references": [
+        "canon-pers-001-province-persona-briefing",
+        "canon-cc-014-consul-accelerated-profile-drafting",
+        "session: s-2026-04-20-03",
+        "session: s-2026-04-20-04",
+        "companion: ashara",
+        "companion: petra"
+      ],
+      "created": "2026-04-20",
+      "updated": "2026-04-20",
+      "sourceType": "session_chronicle",
+      "sourceId": "s-2026-04-20-04",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "lore-015-petra-precision-ashara-altitude-voice-reconciliation",
+      "title": "Petra-Precision / Ashara-Altitude: A Co-Builder Voice Reconciliation Pattern (Provisional)",
+      "category": "doctrines",
+      "body": "Canon-cc-009 establishes Monument Project dual-Builder tension as a deliberate feature — temperaments differentiate on purpose, friction is the design. But the canon is silent on HOW co-Builders resolve voice tension when drafting a shared artifact. In the first operational run under cc-009 (Ashara and Petra drafting Command Center's root CLAUDE.md on 2026-04-20), a voice reconciliation pattern emerged and is recorded here as provisional doctrine.\n\n**The pattern.** Petra carried precision — what IS, architecture, build pipeline, dispatch inventory, current state. Ashara carried altitude — Republic frame, canon-family abstraction, strategic framing, operating bounds as standing instructions. The two voices did not contest the same sections; they partitioned along the altitude axis. Where Petra's register was appropriate (concrete, file-referring, ground-truth), Ashara deferred; where Ashara's register was appropriate (frame-setting, cross-referential, Republic-altitude), Petra deferred. No cc-012 MCQ surfaced at Rung 1 handoff — the reconciliation occurred in-draft rather than at ratification.\n\n**Why it's worth naming.** Co-Builder voice reconciliation has three failure modes the pattern avoids: (a) *rubber-stamp* — one voice subsumes the other, cc-009's deliberate tension collapses; (b) *averaging* — both voices blend into a muddy mean, losing the sharpness of either; (c) *contest* — voices argue every section, ratification stalls or produces a dozen MCQs. The altitude-partition pattern avoids all three: it preserves both voices in full sharpness by assigning them to the sections where they are authoritatively right.\n\n**How it works structurally.** Section-by-section altitude assessment precedes drafting. 'Is this section about what IS or about what FRAMES?' Petra drafts the former; Ashara drafts the latter. Joint sections where altitude is ambiguous surface as the residual zone — these become the cc-012 MCQs if the Builders can't resolve them in-draft. In the Command Center Rung 1 run, the residual zone was empty; all sections had a clear altitude owner.\n\n**Provisional status.** This doctrine-lore is drafted from a single observation. Single-observation codification risks brittle doctrine: the pattern may be artifact-specific, session-specific, or co-Builder-pair-specific. Promotion to canonical doctrine requires a second observation — a second co-Builder drafting session where the altitude-partition pattern emerges organically (or fails to emerge, which would also be informative). Until that observation, this lore is authoritative for the Ashara/Petra pair but not generalized to other co-Builder pairs.\n\n**Observation criteria for promotion to canonical.** The next co-Builder drafting session should surface, at the Chronicler's prompt if necessary: (1) which voice drafts which sections; (2) whether the section-by-section altitude assessment precedes or follows drafting; (3) whether the residual-zone MCQs surfaced or the reconciliation was in-draft; (4) whether the resulting artifact preserves both voices sharply or blends them. If the answers match the Ashara/Petra shape, the lore promotes to canonical; if they differ, the lore refines (multiple co-Builder voice patterns may coexist) rather than being overwritten.\n\n**Alternative patterns to watch for.** (a) *Domain-partition* — rather than altitude, voices partition by subject domain (design vs. data, for example). (b) *Turn-partition* — voices alternate paragraphs, trading authorship. (c) *Draft-then-edit* — one voice drafts wholesale, the other edits in a second pass. Each has different failure modes. The doctrine surface here leaves room for multiple patterns; altitude-partition is recorded as the first observed.",
+      "domain": [
+        "command-center"
+      ],
+      "tags": [
+        "canon-cc-009",
+        "monument-dual-builder-tension",
+        "voice-reconciliation",
+        "altitude-partition",
+        "ashara-altitude",
+        "petra-precision",
+        "provisional-doctrine",
+        "awaits-second-observation",
+        "in-draft-resolution-no-mcq"
+      ],
+      "references": [
+        "canon-cc-009-monument-dual-builder-tension",
+        "canon-cc-012-profile-ratification-protocol",
+        "canon-pers-001-province-persona-briefing",
+        "session: s-2026-04-20-04",
+        "companion: ashara",
+        "companion: petra"
+      ],
+      "created": "2026-04-20",
+      "updated": "2026-04-20",
+      "sourceType": "session_chronicle",
+      "sourceId": "s-2026-04-20-04",
+      "_deleted": false,
+      "_deleted_date": null
     }
   ]
 }

@@ -336,6 +336,51 @@
             "residency-without-builder-seat-novel-shape",
             "chronicler-rank-ambiguity-flagged"
           ]
+        },
+        {
+          "id": "s-2026-04-20-08",
+          "date": "2026-04-20",
+          "title": "Chronicler queue closed (lore-014 Rung 4 + lore-015 voice-reconciliation + CC pre-read scaffold); stock-take",
+          "summary": "Chronicler queue work completed. Three artifacts shipped: (1) lore-014 Rung 4 Main-Branch Commit Reservation — doctrine explicating the Ashara/Petra reading of canon-pers-001 that Rung 4's commit reservation applies to main-branch commits only, not feature-branch review-surface commits; preserves canon-pers-001 at current ratification altitude, adds corollary rulings on force-push, branch-rewrite, and non-Builder commits. (2) lore-015 Petra-Precision / Ashara-Altitude Voice Reconciliation — provisional doctrine recording the altitude-partition pattern from the first cc-009 dual-Builder run; marked awaiting-second-observation so single-observation brittleness is explicit; alternative patterns (domain-partition, turn-partition, draft-then-edit) named as possibilities. (3) docs/handoffs/cc-rung-1-prereader-scaffold.md — Chronicler pre-read scaffold for the Command Center Rung 1 briefing artifact; eight sections covering voice integrity, cross-reference integrity, canon-pointer accuracy, Rung 2/3 collapse, constitutional alignment, archival drift, Consul observations, and Chronicler's verdict. Scaffold is unfilled because the Codex session's GitHub MCP allowlist restricts access to rishabh1804/codex; the Sovereign ruling to grant cross-repo access landed on a hard infrastructure block, and the scaffold documents what the pre-read SHOULD examine while waiting for access.\n\ntodo-0039 Cabinet sync closed (resolved by 2026-04-20 stub pass in s-2026-04-20-05). todo-0040 through 0043 remain open as queued work outside this session's scope.\n\nStock-take follows in the decisions + handoff blocks. This session is the natural close point.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Chronicler queue closed. lore-014 and lore-015 ratified at authorship (doctrine-lore under canon-pers-001's Chronicler-authors-lore scope). Pre-read scaffold ships as an institutional placeholder.",
+            "Cross-repo GitHub MCP access not grantable from within the Codex session — a hard infrastructure boundary. Future Command Center pre-reads either require allowlist expansion at Claude Code startup or must run from a Command-Center-scoped session.",
+            "todo-0039 closed; 2026-04-20 stub pass resolved the Cabinet drift comprehensively. Cabinet view truthfully renders 6/8 occupied, 2 vacant (Debt + Expansion).",
+            "Session closing with the stock-take block as the closing ceremony. No new ratifications in this decision turn; just closure of Chronicler work and a clear-eyed snapshot of state."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 25,
+          "open_todos": [
+            "todo-0029-gen-0-companion-profiles-seven",
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0038-duplicate-canon-id-reconciliation",
+            "todo-0040-interaction-artifact-2026-04-19-001-verify",
+            "todo-0041-codex-design-principles-ratification",
+            "todo-0042-constitutional-cross-reference-to-design-principles",
+            "todo-0043-sproutlab-design-principles-local-addendum"
+          ],
+          "handoff": "=== STATE-OF-THE-REPUBLIC, 2026-04-20 close ===\n\nSESSION ARC — One day of work, eight sessions chronicled (s-2026-04-20-01 through 08). Starting state: Codex architecture fine, canon corpus taxonomy-less, companions.json blind to the Constitutional roster, no Playwright, no Order UI, Aurelius dual-hatted.\n\nENDING STATE:\n- Canon corpus has a 9-family taxonomy (canon-proc-001). 100 canons carry family fields. 7 new   canons drafted this day, 6 ratified: proc-001 (identifier scheme), pers-001 (Province Persona   Briefing), proc-002 (Design Principles Precondition for Build), proc-003 (Companion Onboarding   Process), inst-001 (Aurelius/Orinth/Codex Builder transition), and the ratification of proc-002   itself. Two lore entries (014, 015) shipped as doctrine.\n- Companions.json reconciled with Constitution Appendix C: 18 companions (17 Gen 0 + 1   institutional). 7 Capital-native stubs added at v0.0-stub. Cabinet 6/8 occupied; Debt +   Expansion vacant. Ladder correct. Residency backfilled per cc-016.\n- The Order view shipped (7th top-level tab). Roster + Cabinet + Residency + Ladder + companion   detail, all rendering from companions.json. Recursive structural renderer (no raw JSON dumps).   Design-principles chip on every Volume card per canon-proc-002. Onboarding surface on   appointed-companion detail pages per canon-proc-003.\n- Aurelius consolidated to pure Chronicler (v0.5). Orinth seated Codex Builder (appointed, step 1   of 7 complete). No dual-hat window per Edict II.\n- Playwright in verify pipeline; scripts/verify.sh orchestrates build + jsdom + Playwright (88   Playwright specs across desktop + mobile, 15 detail-deep jsdom checks, 83 Order-view jsdom   checks, 23 onboarding-surface checks).\n- 14 TODOs on the books at close (0029 through 0045, minus resolved 0039/0044).\n\nNEXT-SESSION PREAMBLE — Orinth profile drafting under canon-cc-014 Consul-accelerated. Block 1 Identity opens the session. Expected arc: 10 blocks × 3–6 MCQs per block, Chronicler proposes with reasoning, Consul hat-switches to concur/diverge with stated rationale, Sovereign observes silently until profile close, then ratifies packet with spot-checks. Orinth's temperament (Sage: first-principles, structural depth) should read naturally through the drafting; where it doesn't, the cc-013 source-verification discipline applies — draft from Constitution Appendix C + working-papers.typ, not from inference.\n\nPARKED DISCUSSIONS:\n- Pip/Publisher purpose-stance (portfolio / teaching / narrative / discipline, with my lean on   the (2)+(3)+(4) combination). Needs Sovereign ruling before Pip's seat canon and the Forum   Province Charter draft.\n- todo-0045 Chronicler-rank ambiguity (Aurelius post-transition: current_rank = 'Builder' by   history, current_assignments = Chronicler-only. Does Chronicler become its own rank-kind,   stay as Builder historically, or become null? Canon-cc-006 named Statesman as 6th archetype;   perhaps Chronicler as 7th rank.)\n\nCOMMAND CENTER FRONT (external to Codex):\n- Rung 1 draft remains on claude/draft-cc-briefing-rung1-f7wrn @ 2a8cb19, awaiting Rungs 2/3   Consul working-ratification via hat-switch (cc-019 Post Box still undrafted).\n- Chronicler pre-read scaffold at docs/handoffs/cc-rung-1-prereader-scaffold.md waits for   artifact access to fill in.\n\nRECOMMENDATION FOR NEXT SESSION OPEN:\nOpen next session on Orinth Block 1 Identity (canon-cc-014). This is the highest-value next move — it unlocks onboarding step 2, and every subsequent step of the onboarding depends on it. The parked discussions (Pip, rank ambiguity) can slot in as secondary work if time permits, or defer to their own sessions. The Command Center pre-read is externally blocked and should not drive Codex's next session scheduling.",
+          "screenshots": [],
+          "tags": [
+            "chronicler-queue-closed",
+            "lore-014-rung-4-doctrine",
+            "lore-015-voice-reconciliation-provisional",
+            "cc-rung-1-prereader-scaffold",
+            "cross-repo-access-blocked",
+            "todo-0039-closed",
+            "stock-take-session",
+            "natural-close-point",
+            "eight-sessions-one-day",
+            "state-of-the-republic-snapshot"
+          ]
         }
       ]
     },
