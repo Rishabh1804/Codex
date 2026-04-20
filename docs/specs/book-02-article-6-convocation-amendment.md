@@ -73,3 +73,62 @@ Officers are listed always and seated rarely. The Republic's attention is finite
 ---
 
 *Sections 2 (supplementary canon-gov-013), 3 (rationale), 4 (Cabinet questions by domain), 5 (cross-references and open questions) follow in subsequent packages.*
+
+---
+
+## 2. Supplementary Operational Canon — `canon-gov-013-session-convocation-protocol`
+
+Article 6 establishes the principle. This canon operationalizes it at session altitude — what actually happens at session open, mid-session, and session close to declare, log, and audit the seated roster. Drafted as a companion canon to the Article 6 amendment; ratifies in the same session flow (Chronicler drafts Rung 1 / Consul reviews under cc-014 / Sovereign ratifies). Status: **draft** until Article 6 ratifies; **active** upon ratification.
+
+### 2.1 Canon text (for append to `data/canons.json`)
+
+```json
+{
+  "id": "canon-gov-013-session-convocation-protocol",
+  "family": "gov",
+  "title": "Session Convocation Protocol — Declaring the Seated Roster at Session Open",
+  "scope": "global",
+  "category": "governance",
+  "rationale": "Book II Article 6 (ratified in Constitution v1.1) establishes the Convocation Principle: officers are listed by default and seated only when jurisdiction matches the session's work. This canon operationalizes the principle at session altitude — what happens at session open, mid-session, and session close to declare, log, and audit the seated roster.\n\n**At session open.** The presiding officer declares the seated roster. Presiding officer is: the Consul for institutional or cross-Province work; the Cluster Censor for cross-Province-within-Cluster work; the Province Builder for Province-local work; the Sovereign for any session the Sovereign attends. The declaration names each seated officer by id, the jurisdiction-match basis under Book II Article 6, and any Sovereign-direct summons invoked. The declaration is a one-paragraph artifact — typically the opening Chronicler note or, for sessions producing an interaction-artifact under canon-cc-017, the Roster block of that artifact.\n\nThe seated roster is bounded: no session seats more than jurisdiction requires. A presiding officer who seats an officer without a stated jurisdiction basis produces a register-drift event, surfaced at the next companion-log audit pass under canon-pers-002 enforcement.\n\n**Mid-session seating changes.** An officer may be seated mid-session under two paths. (a) Sovereign summon: the Sovereign declares the officer seated; no justification required, no presiding-officer consent. (b) Self-nomination per Book II Article 6 §Self-Nomination: the officer requests seating; the presiding officer accepts or defers with reason. Both paths log the seating change on the session's artifact with timestamp and rule invoked.\n\nAn officer may be desummoned mid-session only by the Sovereign or by their own request. A presiding officer does not desummon an officer they did not themselves seat without Sovereign authorization.\n\n**At session close.** The final artifact of the session names the seated roster in a header field or closing-line declaration. This is the canonical record of which officers were in-context for the session's deliberations, independent of any mid-session changes. Sessions chronicled in `data/journal.json` carry the seated roster in the `seated_officers` field (schema addition effective at this canon's ratification); Province-local session logs follow their Province's own convention but must carry an equivalent field.\n\n**Sentinel transit logging.** (Dependent on Sentinel's profile ratification under canon-cc-022.) Upon the Sentinel's seating as institutional companion, every session's opening declaration automatically emits a Seating Transit event to the Gates-transit log: session id, presiding officer, seated roster, jurisdiction-match basis for each, Sovereign summons invoked, self-nominations resolved. The Sentinel becomes the Republic's durable attention-movement archive, parallel to its role as the durable capability-movement archive via Ostia Transit events under canon-cc-026. Before Sentinel ratification, the seated_officers field in journal.json and equivalent fields in Province logs serve as the interim record.\n\n**Retrofit.** Pre-ratification sessions carry no seated_officers field. This canon does not require retroactive backfill; pre-ratification sessions remain as chronicled. Journal entries from this canon's ratification forward carry the field.\n\n**Edge cases.**\n\n- Sovereign-direct sessions. Sessions the Sovereign runs alone with one or more companions are convocation events; the Sovereign is the presiding officer and the seated roster includes the Sovereign and every companion the Sovereign addresses.\n\n- Cabinet monthly convening. The Cabinet Exception seats all eight Ministers regardless of per-domain jurisdiction. The presiding officer's declaration states: 'Cabinet Exception; all Ministers seated for monthly cross-domain integration.'\n\n- War Time. Book VI War Time declarations suspend the jurisdiction-match requirement. The Sovereign may seat any officer in any session, with any declaration or none, for the duration of War Time. Post-war review under Book VI Article 4 includes an audit of seatings made during the emergency.\n\n- Chronicler sessions. Sessions whose primary purpose is archival seat the Chronicler and the officers whose work is being archived. A session chronicling a Builder's Province work seats the Chronicler and that Builder; other Builders are dormant even when their work is mentioned in passing.\n\n- Unseated references. A seated officer may reference the positions of a dormant officer by citing that officer's profile or prior artifacts. This is archival reference, not seating; the dormant officer's voice is not carried into the session's deliberation, only their archived position is.\n\n**Relationship to canon-pers-002.** Canon-pers-002 (officers act within jurisdiction without announcing jurisdiction) governs how a seated officer speaks. This canon governs which officers are seated in the first place. The two canons are complementary: pers-002 disciplines in-session voice; gov-013 disciplines session composition.\n\n**Enforcement.** Enforced at two altitudes. The Cluster Censor reviews companion-log compliance with the seated_officers field at each companion-log pass; a pattern of missing or inconsistent roster declarations triggers a canon-cc-011 Review. At session-opening altitude, the presiding officer self-enforces by declaration; failure to declare at open is a register-drift event chronicled without escalation until pattern emerges.\n\n**Amendment path.** Amendment flows through the canon family's standard chain: Chronicler drafts Rung 1, Consul reviews under cc-014 bridging, Sovereign ratifies. A Book II Article 6 amendment automatically triggers review of this canon for coherence.",
+  "created": "2026-04-20",
+  "status": "draft",
+  "references": [
+    "book-02-article-6-convocation-principle",
+    "book-05-article-6-amendment-procedures",
+    "canon-pers-002-officers-act-within-jurisdiction",
+    "canon-cc-011-temperament-over-dissertation-default",
+    "canon-cc-014-consul-accelerated-profile-drafting",
+    "canon-cc-017-interaction-artifact-rule",
+    "canon-cc-022-persona-binding-extension-protocol",
+    "canon-cc-026-spec-body-placement",
+    "canon-proc-001-canon-identifier-scheme"
+  ],
+  "_deleted": false,
+  "_deleted_date": null
+}
+```
+
+### 2.2 Schema addition to `data/journal.json` session entries
+
+Effective at canon ratification, every new session entry carries a `seated_officers` field as sibling to the existing `volumes_touched` / `chapters_touched` fields. Shape:
+
+```json
+"seated_officers": [
+  {
+    "id": "aurelius",
+    "match_basis": "institutional",
+    "rationale": "Archival work; canon drafting"
+  },
+  {
+    "id": "consul",
+    "match_basis": "institutional",
+    "rationale": "Proposer under Book V Article 6 amendment procedure (bridged)"
+  }
+]
+```
+
+Pre-ratification entries do not backfill. Journal readers (Codex's Journal tab) render the field when present; absence is not a drift signal for pre-ratification entries.
+
+---
+
+*Sections 3 (rationale for reviewers), 4 (Cabinet questions by domain), 5 (cross-references and open questions) follow in subsequent packages.*
