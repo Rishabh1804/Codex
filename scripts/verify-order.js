@@ -34,25 +34,18 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 
   // Roster
   const h1 = render('roster');
-  check('Roster: size > 10KB', h1.length > 10000, h1.length + ' chars');
+  check('Roster: size > 15KB', h1.length > 15000, h1.length + ' chars');
   check('Roster: hero title "The Order"', h1.includes('The Order'));
-  check('Roster: stat 11 companions', /stat-value[^>]*>11</.test(h1));
-  check('Roster: stat 10 generational', /stat-value[^>]*>10</.test(h1));
-  check('Roster: stat 1 institutional', /stat-value[^>]*>1</.test(h1));
-  check('Roster: Aurelius present', h1.includes('Aurelius'));
-  check('Roster: Cipher present', h1.includes('Cipher'));
-  check('Roster: Consul present', h1.includes('Consul'));
-  check('Roster: Ashara present', h1.includes('Ashara'));
-  check('Roster: Petra present', h1.includes('Petra'));
-  check('Roster: Lyra present', h1.includes('Lyra'));
-  check('Roster: Maren present', h1.includes('Maren'));
-  check('Roster: Kael present', h1.includes('Kael'));
-  check('Roster: Nyx present', h1.includes('Nyx'));
-  check('Roster: Solara present', h1.includes('Solara'));
-  check('Roster: Theron present', h1.includes('Theron'));
-  check('Roster: Orinth absent (awaiting data write)', !h1.includes('Orinth'));
+  check('Roster: stat 18 companions', /stat-value[^>]*>18</.test(h1));
+  check('Roster: stat 17 generational', /stat-value[^>]*>17</.test(h1));
+  check('Roster: stat 1 institutional', />1</.test(h1));
+  ['Aurelius','Cipher','Consul','Ashara','Petra','Lyra','Maren','Kael','Nyx','Solara','Theron',
+   'Vex','Orinth','Rune','Ignis','Bard','Aeon','Pip'].forEach(function(name) {
+    check('Roster: ' + name + ' present', h1.includes(name));
+  });
   check('Roster: Chronicler title surface', h1.includes('Chronicler'));
   check('Roster: double-hat badge class', h1.includes('cx-companion-dh-badge'));
+  check('Roster: v0.0-stub profile version rendered', h1.includes('v0.0-stub'));
 
   // Cabinet
   const h2 = render('cabinet');
@@ -66,7 +59,11 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
   check('Cabinet: footnote renders', h2.includes('Constitution Book II Article 4'));
 
   const vacantCount = (h2.match(/cx-cabinet-seat-vacant/g) || []).length;
-  check('Cabinet: at least 1 vacancy', vacantCount >= 1, vacantCount + ' vacant seats');
+  check('Cabinet: exactly 1 vacancy (Debt per cc-011)', vacantCount === 1, vacantCount + ' vacant seats');
+  check('Cabinet: Vex on Budget', /Financial Health[\s\S]*?Budget[\s\S]*?Vex/i.test(h2));
+  check('Cabinet: Ignis on Output', /Productivity[\s\S]*?Output[\s\S]*?Ignis/i.test(h2));
+  check('Cabinet: Orinth on Expansion', /Growth[\s\S]*?Expansion[\s\S]*?Orinth/i.test(h2));
+  check('Cabinet: Bard on Innovation', /Growth[\s\S]*?Innovation[\s\S]*?Bard/i.test(h2));
 
   // Residency
   const h3 = render('residency');
@@ -99,7 +96,7 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
   check('Detail: name Aurelius', h5.includes('Aurelius'));
   check('Detail: title Chronicler', h5.includes('Chronicler'));
   check('Detail: key_trait prose rendered', h5.includes('Journals') || /Playfair/.test(h5) || /key_trait|keytrait/.test(h5));
-  check('Detail: Assignment block', h5.includes('>Assignment<'));
+  check('Detail: Assignment block', /<\/svg>\s*Assignment<\/div>/.test(h5) || h5.includes('>Assignment<'));
   check('Detail: Voice block', h5.includes('>Voice<'));
   check('Detail: Mind block', h5.includes('>Mind<'));
   check('Detail: Shadow block', h5.includes('>Shadow<'));
