@@ -75,16 +75,15 @@ test.describe('The Order — mobile smoke', () => {
       await expect(page.locator('.cx-cabinet-domain-title').filter({ hasText: domain })).toBeVisible();
     }
 
-    // Exactly one vacancy rendered.
+    // Two vacancies after canon-inst-001 (Debt per cc-011, Expansion per inst-001).
     const vacant = page.locator('.cx-cabinet-seat-vacant');
-    await expect(vacant).toHaveCount(1);
-    await expect(vacant.first()).toContainText(/Debt/i);
+    await expect(vacant).toHaveCount(2);
 
     // Occupants landed on their expected portfolios.
     await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Treasury' }).filter({ hasText: 'Ashara' })).toBeVisible();
     await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Efficiency' }).filter({ hasText: 'Petra' })).toBeVisible();
     await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Stability' }).filter({ hasText: 'Rune' })).toBeVisible();
-    await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Expansion' }).filter({ hasText: 'Orinth' })).toBeVisible();
+    await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Innovation' }).filter({ hasText: 'Bard' })).toBeVisible();
   });
 
   test('Residency subtab: Cipher + Nyx appear under Command Center, Lyra/Maren/Kael under SproutLab', async ({ page }) => {

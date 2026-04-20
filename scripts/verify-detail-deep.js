@@ -31,7 +31,8 @@ setTimeout(() => {
   // Now also verify Kael's reassignment_condition + jurisdiction render cleanly
   dom.window.renderCompanionDetail({id:'kael'});
   const h2 = dom.window.document.getElementById('viewContainer').innerHTML;
-  check('Kael: Reassignment condition KV rendered', h2.includes('>Successor<') && h2.includes('Orinth'));
+  check('Kael: Reassignment condition block rendered', h2.includes('Reassignment condition'));
+  check('Kael: Orinth no longer named as successor (struck 2026-04-20)', !/>\s*Successor\s*<[\s\S]{0,120}Orinth/.test(h2));
   check('Kael: Jurisdiction subblock recursive (no pre)', !h2.includes('cx-companion-pre'));
   check('Kael: module LOC values surface', /intelligence\.js/.test(h2));
 

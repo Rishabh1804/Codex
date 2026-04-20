@@ -3055,6 +3055,7 @@ function renderCompanionCard(c) {
   if (title) html += '<div class="cx-companion-card-title">' + escHtml(title) + '</div>';
   html += '</div>';
   if (doubleHat) html += '<span class="cx-companion-dh-badge" title="Double-hatted">' + cx('bookmark') + '</span>';
+  if (asn.operational_status === 'appointed') html += '<span class="cx-companion-appointed-badge" title="Appointed — onboarding in flight per canon-proc-003">' + cx('clock') + '</span>';
   html += '</div>';
 
   html += '<div class="cx-chip-row cx-companion-card-chips">';
@@ -3318,6 +3319,10 @@ function renderCompanionDetail(route) {
   // Assignment block
   html += renderCompanionAssignmentBlock(c);
 
+  // Onboarding block — canon-proc-003. Surfaces only when an onboarding
+  // is in flight (operational_status === 'appointed') or recently sealed.
+  html += renderCompanionOnboardingBlock(c);
+
   // Subsequent blocks — render whatever is present
   var blocks = [
     { key: 'voice',         label: 'Voice' },
@@ -3533,6 +3538,56 @@ function prettifyKey(k) {
   return s.replace(/_/g, ' ').replace(/\b\w/g, function(ch) { return ch.toUpperCase(); });
 }
 
+
+/* Onboarding block — canon-proc-003. Renders the seven-step progress when
+   a companion is 'appointed' (onboarding in flight) or recently sealed. For
+   'operational' and 'seated-grandfathered' companions, returns empty so the
+   detail page isn't cluttered with completed processes. */
+function renderCompanionOnboardingBlock(c) {
+  var asn = c.assignment || {};
+  var opStatus = asn.operational_status;
+  var ob = asn.onboarding;
+  if (!ob || !opStatus || opStatus === 'seated-grandfathered' || opStatus === 'operational') return '';
+  var steps = ob.steps || [];
+  var total = steps.length;
+  var complete = steps.filter(function(s) { return s.status === 'complete' || s.status === 'exempted'; }).length;
+
+  var html = '<section class="cx-companion-block cx-onboarding-block">';
+  html += '<div class="cx-companion-block-title">' + cx('scroll') + ' Onboarding <span class="cx-chip cx-chip-sm cx-onboarding-status-' + escAttr(opStatus) + '">' + escHtml(opStatus) + '</span></div>';
+  html += '<div class="cx-companion-block-body">';
+  html += '<div class="cx-onboarding-progress">';
+  html += '<div class="cx-onboarding-progress-bar"><div class="cx-onboarding-progress-fill" style="width:' + (total ? Math.round(complete * 100 / total) : 0) + '%"></div></div>';
+  html += '<div class="cx-onboarding-progress-label">' + complete + ' of ' + total + ' complete</div>';
+  html += '</div>';
+  if (ob.canon_reference) {
+    html += '<div class="cx-onboarding-canon-ref">' + renderReferenceLink(ob.canon_reference) + '</div>';
+  }
+  html += '<ol class="cx-onboarding-steps">';
+  steps.forEach(function(s) {
+    var status = s.status || 'pending';
+    html += '<li class="cx-onboarding-step cx-onboarding-step-' + escAttr(status) + '">';
+    html += '<div class="cx-onboarding-step-header">';
+    html += '<span class="cx-onboarding-step-marker">' + (status === 'complete' || status === 'exempted' ? cx('check') : (status === 'in-progress' ? cx('clock') : cx('bookmark'))) + '</span>';
+    html += '<span class="cx-onboarding-step-num">' + escHtml(String(s.step)) + '</span>';
+    html += '<span class="cx-onboarding-step-name">' + escHtml(s.name) + '</span>';
+    html += '<span class="cx-chip cx-chip-sm cx-onboarding-step-chip-' + escAttr(status) + '">' + escHtml(status) + '</span>';
+    html += '</div>';
+    if (s.completed || s.artifact) {
+      html += '<div class="cx-onboarding-step-meta">';
+      if (s.completed) html += '<span>' + escHtml(formatAbsoluteDate(s.completed)) + '</span>';
+      if (s.completed && s.artifact) html += ' \u00B7 ';
+      if (s.artifact) html += renderReferenceLink(s.artifact);
+      html += '</div>';
+    }
+    html += '</li>';
+  });
+  html += '</ol>';
+  if (ob.started) {
+    html += '<div class="cx-companion-prose cx-onboarding-footnote">Started ' + escHtml(formatAbsoluteDate(ob.started)) + ' \u00B7 canon-proc-003 seven-step process \u00B7 appointed until step 7 seals</div>';
+  }
+  html += '</div></section>';
+  return html;
+}
 
 /* Cross-reference Companion Logs (canon-0053) — count + navigation. */
 function renderCompanionLogsCrossRef(c) {

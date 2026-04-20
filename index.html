@@ -1142,6 +1142,34 @@ body {
 .cx-chip-version-ratified{background:var(--accent);color:white;border-color:var(--accent);font-family:var(--ff-mono,monospace)}
 .cx-chip-version-draft{background:var(--bg-secondary);color:var(--text-tertiary);font-family:var(--ff-mono,monospace);font-style:italic}
 .cx-chip-version-stub{background:transparent;color:var(--text-tertiary);border-color:var(--text-tertiary);font-family:var(--ff-mono,monospace);font-style:italic;border-style:dashed}
+
+/* canon-proc-003 Onboarding surface */
+.cx-companion-appointed-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;color:var(--accent);border:1px dashed var(--accent);border-radius:var(--r-full)}
+.cx-companion-appointed-badge svg{width:14px;height:14px}
+.cx-onboarding-block{border-left:3px solid var(--accent);padding-left:var(--sp-12)}
+.cx-onboarding-status-appointed{background:transparent;color:var(--accent);border-color:var(--accent);border-style:dashed;font-style:italic}
+.cx-onboarding-progress{margin:var(--sp-8) 0 var(--sp-12);display:flex;align-items:center;gap:var(--sp-12)}
+.cx-onboarding-progress-bar{flex:1;height:6px;background:var(--bg-secondary);border-radius:var(--r-full);overflow:hidden}
+.cx-onboarding-progress-fill{height:100%;background:var(--accent);transition:width 300ms ease}
+.cx-onboarding-progress-label{font-size:var(--fs-xs);color:var(--text-secondary);font-family:var(--ff-mono,monospace);white-space:nowrap}
+.cx-onboarding-canon-ref{font-size:var(--fs-xs);margin-bottom:var(--sp-8)}
+.cx-onboarding-steps{list-style:none;padding:0;margin:var(--sp-8) 0 0;display:flex;flex-direction:column;gap:var(--sp-6)}
+.cx-onboarding-step{padding:var(--sp-8) var(--sp-10);background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--r-md)}
+.cx-onboarding-step-complete{border-left:3px solid var(--accent)}
+.cx-onboarding-step-exempted{border-left:3px solid var(--text-tertiary)}
+.cx-onboarding-step-in-progress{border-left:3px solid var(--accent-light);background:var(--bg-card)}
+.cx-onboarding-step-pending{opacity:0.65}
+.cx-onboarding-step-header{display:flex;align-items:center;gap:var(--sp-8)}
+.cx-onboarding-step-marker{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex:0 0 auto;color:var(--accent)}
+.cx-onboarding-step-marker svg{width:14px;height:14px}
+.cx-onboarding-step-num{font-family:var(--ff-mono,monospace);font-size:var(--fs-xs);color:var(--text-tertiary);min-width:18px}
+.cx-onboarding-step-name{flex:1;font-size:var(--fs-sm);color:var(--text-primary)}
+.cx-onboarding-step-chip-complete{background:var(--accent);color:white;border-color:var(--accent)}
+.cx-onboarding-step-chip-exempted{background:transparent;color:var(--text-tertiary);border-style:dotted}
+.cx-onboarding-step-chip-in-progress{background:var(--accent-light);color:white;border-color:var(--accent-light)}
+.cx-onboarding-step-chip-pending{background:transparent;color:var(--text-tertiary)}
+.cx-onboarding-step-meta{font-size:var(--fs-xs);color:var(--text-tertiary);margin-top:var(--sp-4);padding-left:26px}
+.cx-onboarding-footnote{font-size:var(--fs-xs);color:var(--text-tertiary);font-style:italic;margin-top:var(--sp-8)}
 .cx-dp-chip{gap:var(--sp-4)}
 .cx-dp-chip svg{width:12px;height:12px}
 .cx-dp-ratified{background:var(--accent);color:white;border-color:var(--accent)}
@@ -5792,6 +5820,7 @@ function renderCompanionCard(c) {
   if (title) html += '<div class="cx-companion-card-title">' + escHtml(title) + '</div>';
   html += '</div>';
   if (doubleHat) html += '<span class="cx-companion-dh-badge" title="Double-hatted">' + cx('bookmark') + '</span>';
+  if (asn.operational_status === 'appointed') html += '<span class="cx-companion-appointed-badge" title="Appointed — onboarding in flight per canon-proc-003">' + cx('clock') + '</span>';
   html += '</div>';
 
   html += '<div class="cx-chip-row cx-companion-card-chips">';
@@ -6055,6 +6084,10 @@ function renderCompanionDetail(route) {
   // Assignment block
   html += renderCompanionAssignmentBlock(c);
 
+  // Onboarding block — canon-proc-003. Surfaces only when an onboarding
+  // is in flight (operational_status === 'appointed') or recently sealed.
+  html += renderCompanionOnboardingBlock(c);
+
   // Subsequent blocks — render whatever is present
   var blocks = [
     { key: 'voice',         label: 'Voice' },
@@ -6270,6 +6303,56 @@ function prettifyKey(k) {
   return s.replace(/_/g, ' ').replace(/\b\w/g, function(ch) { return ch.toUpperCase(); });
 }
 
+
+/* Onboarding block — canon-proc-003. Renders the seven-step progress when
+   a companion is 'appointed' (onboarding in flight) or recently sealed. For
+   'operational' and 'seated-grandfathered' companions, returns empty so the
+   detail page isn't cluttered with completed processes. */
+function renderCompanionOnboardingBlock(c) {
+  var asn = c.assignment || {};
+  var opStatus = asn.operational_status;
+  var ob = asn.onboarding;
+  if (!ob || !opStatus || opStatus === 'seated-grandfathered' || opStatus === 'operational') return '';
+  var steps = ob.steps || [];
+  var total = steps.length;
+  var complete = steps.filter(function(s) { return s.status === 'complete' || s.status === 'exempted'; }).length;
+
+  var html = '<section class="cx-companion-block cx-onboarding-block">';
+  html += '<div class="cx-companion-block-title">' + cx('scroll') + ' Onboarding <span class="cx-chip cx-chip-sm cx-onboarding-status-' + escAttr(opStatus) + '">' + escHtml(opStatus) + '</span></div>';
+  html += '<div class="cx-companion-block-body">';
+  html += '<div class="cx-onboarding-progress">';
+  html += '<div class="cx-onboarding-progress-bar"><div class="cx-onboarding-progress-fill" style="width:' + (total ? Math.round(complete * 100 / total) : 0) + '%"></div></div>';
+  html += '<div class="cx-onboarding-progress-label">' + complete + ' of ' + total + ' complete</div>';
+  html += '</div>';
+  if (ob.canon_reference) {
+    html += '<div class="cx-onboarding-canon-ref">' + renderReferenceLink(ob.canon_reference) + '</div>';
+  }
+  html += '<ol class="cx-onboarding-steps">';
+  steps.forEach(function(s) {
+    var status = s.status || 'pending';
+    html += '<li class="cx-onboarding-step cx-onboarding-step-' + escAttr(status) + '">';
+    html += '<div class="cx-onboarding-step-header">';
+    html += '<span class="cx-onboarding-step-marker">' + (status === 'complete' || status === 'exempted' ? cx('check') : (status === 'in-progress' ? cx('clock') : cx('bookmark'))) + '</span>';
+    html += '<span class="cx-onboarding-step-num">' + escHtml(String(s.step)) + '</span>';
+    html += '<span class="cx-onboarding-step-name">' + escHtml(s.name) + '</span>';
+    html += '<span class="cx-chip cx-chip-sm cx-onboarding-step-chip-' + escAttr(status) + '">' + escHtml(status) + '</span>';
+    html += '</div>';
+    if (s.completed || s.artifact) {
+      html += '<div class="cx-onboarding-step-meta">';
+      if (s.completed) html += '<span>' + escHtml(formatAbsoluteDate(s.completed)) + '</span>';
+      if (s.completed && s.artifact) html += ' \u00B7 ';
+      if (s.artifact) html += renderReferenceLink(s.artifact);
+      html += '</div>';
+    }
+    html += '</li>';
+  });
+  html += '</ol>';
+  if (ob.started) {
+    html += '<div class="cx-companion-prose cx-onboarding-footnote">Started ' + escHtml(formatAbsoluteDate(ob.started)) + ' \u00B7 canon-proc-003 seven-step process \u00B7 appointed until step 7 seals</div>';
+  }
+  html += '</div></section>';
+  return html;
+}
 
 /* Cross-reference Companion Logs (canon-0053) — count + navigation. */
 function renderCompanionLogsCrossRef(c) {

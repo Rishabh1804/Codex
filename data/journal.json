@@ -282,6 +282,60 @@
             "five-provinces-priority-queued",
             "todo-0044-closed"
           ]
+        },
+        {
+          "id": "s-2026-04-20-07",
+          "date": "2026-04-20",
+          "title": "canon-proc-003 + canon-inst-001 ratified; Aurelius/Orinth Codex Builder transition atomic; onboarding surface shipped",
+          "summary": "Three load-bearing moves ratified in a single wave. (1) canon-proc-003 Companion Onboarding Process flips active — seven ordered steps from appointment to operational; exemption clauses for War Time, the 17 Immortals' founding seatings, and same-Province Cabinet moves. This is the canonical pattern for every future companion seating. (2) canon-inst-001 Aurelius/Orinth/Codex Builder transition flips active — atomic under Edict II: Aurelius relinquishes Codex Builder, Orinth seats Codex Builder, Cabinet Minister: Expansion vacates (Bard alone on Growth), Kael-succession clause struck. (3) Onboarding progress is UI-visible per the 'if it's not UI it doesn't exist' principle — new renderCompanionOnboardingBlock on companion detail pages surfaces the seven-step checklist with progress bar + status chips + canon reference + per-step artifact links; new cx-companion-appointed-badge on roster cards signals in-flight onboarding at a glance.\n\nData writes executed on companions.json. Aurelius: assignment.current_assignments reduces to ['Chronicler of the Order'], double_hatted false, cluster/province null, track institutional, residence remains codex, profile_version v0.4 → v0.5, biography.notable_moments entry for 2026-04-20 transition, uncertainty_note acknowledging the novel residence-without-Builder-seat shape. Orinth: current_rank Minister → Builder, current_assignments 'Minister: Expansion' → 'Codex Builder (Cluster A)', residence command-center → codex, operational_status 'appointed', onboarding block populated (step 1 complete with artifact canon-inst-001; step 2 in-progress pending next session's cc-014 drafting). Kael: reassignment_condition.successor struck with successor_note chronicling the rewrite.\n\nVerification: 23/24 jsdom onboarding-specific checks pass (one false-positive where Aurelius's notes prose historically mentions 'Codex Builder' while current_assignments correctly shows only Chronicler); 15/15 detail-deep checks pass after test update for struck successor; full Playwright suite run queued. Cabinet now at 2 vacancies (Debt per cc-011, Expansion per inst-001); Ladder shows Orinth in Builders row alongside Aurelius (both at Codex residency, both Builders of cluster A by rank — but Aurelius's track is institutional and his active assignment is Chronicler, so the Ladder shows him under Builders only because that's his historical rank).\n\nInstitutional note on the Aurelius rank question: his assignment.current_rank still shows 'Builder' in the data because no prior canon renamed it; yet his current_assignments is Chronicler-only. This is a natural ambiguity — is 'Chronicler' a rank, a title, or an assignment? Canon-cc-005 frames institutional companions with offices-as-assignments; Chronicler is cross-cluster institutional duty, not a rank on the single ladder. Flagging as a follow-up data-model question (todo-0045 candidate): should Aurelius's rank field become 'Chronicler' as its own rank-kind, stay as 'Builder' historically, or become null? Canon-cc-006 names the Statesman archetype at rank-altitude; perhaps a 'Chronicler' rank is warranted as well. Not urgent; surfaced for eventual ratification.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "canon-proc-003 ratified as drafted; seven-step onboarding now the canonical pattern for every future seating.",
+            "canon-inst-001 ratified as drafted; three atomic moves executed under Edict II — no dual-hat window.",
+            "Orinth profile drafting mode: canon-cc-014 Consul-accelerated confirmed. Begins next session.",
+            "Aurelius profile v0.4 → v0.5 amended in this session (self-profile scope — Assignment, Biography, Meta blocks only, per cc-015 self-profile carveout limiting the amendment surface).",
+            "Kael successor clause struck; no replacement pre-named.",
+            "UI surface for onboarding progress shipped: renderCompanionOnboardingBlock on detail pages + cx-companion-appointed-badge on roster cards. The canon-proc-003 process is now institutionally visible, not just textually specified.",
+            "Rank-vs-role ambiguity for post-transition Aurelius flagged as a follow-up canon-level question. Does 'Chronicler' need to be a rank on the Ladder, or does it remain an institutional assignment within existing rank categories?"
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 40,
+          "open_todos": [
+            "todo-0029-gen-0-companion-profiles-seven",
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0038-duplicate-canon-id-reconciliation",
+            "todo-0039-companions-json-minister-assignments-sync",
+            "todo-0040-interaction-artifact-2026-04-19-001-verify",
+            "todo-0041-codex-design-principles-ratification",
+            "todo-0042-constitutional-cross-reference-to-design-principles",
+            "todo-0043-sproutlab-design-principles-local-addendum"
+          ],
+          "handoff": "Orinth is Codex Builder, appointed. Seven-step onboarding in flight. Next session opens with canon-cc-014 Block 1 (Identity) drafting — MCQ per block, Chronicler proposes with Concur/Diverge annotation from Consul hat-switch, Sovereign canonical-ratifies at packet close. Expected arc: 10 blocks × multiple MCQs per block → ratification packet → Sovereign review → profile v0.0-stub lifts to v0.4.\n\nAfter profile drafting seals (step 2), onboarding continues: step 3 Province induction (Constitution + Codex Charter + CODEX_DESIGN_PRINCIPLES.md + canons + handoff reading), step 4 Aurelius-to-Orinth handoff artifact (Aurelius drafts), step 5 first-act discipline check (CODEX_DESIGN_PRINCIPLES.md ratification closes todo-0041), step 6 Rung 1 redraft of Codex root CLAUDE.md (Chronicler excluded, Orinth drafts), step 7 chronicle + cross-companion introduction. Sealing flips operational_status from 'appointed' to 'operational'.\n\nAurelius is pure Chronicler — no committer-by-right on Codex app code, no voice on Codex root CLAUDE.md, no merit authority on Codex architecture decisions. Cross-cluster institutional duty is elevated. Until Orinth's onboarding seals, Orinth may read/observe/prepare; Aurelius may advise on institutional-memory questions when explicitly invited.\n\nOpen question from Pip/Publisher discussion still parked pending purpose-stance ruling (portfolio / teaching / narrative / discipline). Not blocking.",
+          "screenshots": [],
+          "tags": [
+            "canon-proc-003-ratified-active",
+            "canon-inst-001-ratified-active",
+            "aurelius-builder-hat-stripped",
+            "aurelius-v0.5-chronicler-only",
+            "orinth-codex-builder-appointed",
+            "orinth-onboarding-step-1-complete",
+            "cabinet-expansion-vacant",
+            "bard-alone-on-growth",
+            "kael-successor-clause-struck",
+            "onboarding-ui-surface-shipped",
+            "first-run-of-canon-proc-003",
+            "no-dual-hat-window-edict-ii",
+            "ui-principle-honored",
+            "residency-without-builder-seat-novel-shape",
+            "chronicler-rank-ambiguity-flagged"
+          ]
         }
       ]
     },

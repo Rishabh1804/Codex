@@ -59,10 +59,10 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
   check('Cabinet: footnote renders', h2.includes('Constitution Book II Article 4'));
 
   const vacantCount = (h2.match(/cx-cabinet-seat-vacant/g) || []).length;
-  check('Cabinet: exactly 1 vacancy (Debt per cc-011)', vacantCount === 1, vacantCount + ' vacant seats');
+  check('Cabinet: 2 vacancies (Debt per cc-011, Expansion per inst-001)', vacantCount === 2, vacantCount + ' vacant seats');
   check('Cabinet: Vex on Budget', /Financial Health[\s\S]*?Budget[\s\S]*?Vex/i.test(h2));
   check('Cabinet: Ignis on Output', /Productivity[\s\S]*?Output[\s\S]*?Ignis/i.test(h2));
-  check('Cabinet: Orinth on Expansion', /Growth[\s\S]*?Expansion[\s\S]*?Orinth/i.test(h2));
+  check('Cabinet: Expansion vacant (post-inst-001)', /Growth[\s\S]{0,800}Expansion[\s\S]{0,400}cx-cabinet-seat-vacant|cx-cabinet-seat-vacant[\s\S]{0,400}Expansion/.test(h2));
   check('Cabinet: Bard on Innovation', /Growth[\s\S]*?Innovation[\s\S]*?Bard/i.test(h2));
 
   // Residency
