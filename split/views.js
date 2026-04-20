@@ -3394,7 +3394,7 @@ function renderCompanionAssignmentBlock(c) {
   if (asn.jurisdiction) {
     html += '<div class="cx-companion-subblock">';
     html += '<div class="cx-companion-subblock-title">Jurisdiction</div>';
-    html += '<pre class="cx-companion-pre">' + escHtml(formatValueForPre(asn.jurisdiction)) + '</pre>';
+    html += renderCompanionValue(asn.jurisdiction, 0);
     html += '</div>';
   }
 
@@ -3411,66 +3411,84 @@ function renderCompanionAssignmentBlock(c) {
   return html;
 }
 
-/* Generic block renderer — descends one level into the block object and
-   surfaces scalars as K/V rows, arrays as bulleted lists, nested objects as
-   sub-blocks. Preserves institutional richness without imposing a brittle
-   schema. */
+/* Generic block renderer — recursive structural renderer for the 10-block
+   companion schema. Scalars become K/V rows; string arrays become bulleted
+   lists; object arrays become indexed cards with their own K/V rows and
+   nested subblocks; nested objects recurse. No raw JSON dumps anywhere. */
 function renderCompanionGenericBlock(label, block) {
-  if (!block || typeof block !== 'object') return '';
+  if (block == null) return '';
+  if (Array.isArray(block) && block.length === 0) return '';
+  if (typeof block === 'object' && !Array.isArray(block) && Object.keys(block).length === 0) return '';
   var html = '<section class="cx-companion-block">';
   html += '<div class="cx-companion-block-title">' + escHtml(label) + '</div>';
   html += '<div class="cx-companion-block-body">';
+  html += renderCompanionValue(block, 0);
+  html += '</div></section>';
+  return html;
+}
 
+/* Recursive value renderer — handles scalars, arrays (of scalars and of
+   objects), and nested objects. Depth is informational (bounded visually
+   via CSS .cx-companion-subblock nesting). */
+function renderCompanionValue(v, depth) {
+  if (v == null) return '';
+  var t = typeof v;
+  if (t === 'string' || t === 'number' || t === 'boolean') {
+    return '<p class="cx-companion-prose">' + escHtml(String(v)) + '</p>';
+  }
+  if (Array.isArray(v)) {
+    if (v.length === 0) return '';
+    var allScalar = v.every(function(x) { var xt = typeof x; return xt === 'string' || xt === 'number' || xt === 'boolean'; });
+    if (allScalar) {
+      var h = '<ul class="cx-companion-list">';
+      v.forEach(function(item) { h += '<li>' + escHtml(String(item)) + '</li>'; });
+      h += '</ul>';
+      return h;
+    }
+    // array of objects — each item as an indexed subblock
+    var h2 = '<div class="cx-companion-list-items">';
+    v.forEach(function(item, idx) {
+      h2 += '<div class="cx-companion-list-item">';
+      h2 += '<div class="cx-companion-list-item-index">' + (idx + 1) + '</div>';
+      h2 += '<div class="cx-companion-list-item-body">';
+      h2 += renderCompanionValue(item, depth + 1);
+      h2 += '</div></div>';
+    });
+    h2 += '</div>';
+    return h2;
+  }
+  if (t === 'object') {
+    return renderCompanionObject(v, depth);
+  }
+  return '';
+}
+
+function renderCompanionObject(obj, depth) {
+  var html = '';
+  // Pass 1: scalar fields → KV table
   var scalars = [];
-  Object.keys(block).forEach(function(k) {
-    var v = block[k];
-    if (v == null) return;
-    if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
-      scalars.push([prettifyKey(k), String(v)]);
+  Object.keys(obj).forEach(function(k) {
+    var val = obj[k];
+    if (val == null) return;
+    var vt = typeof val;
+    if (vt === 'string' || vt === 'number' || vt === 'boolean') {
+      scalars.push([prettifyKey(k), String(val)]);
     }
   });
   if (scalars.length > 0) html += renderKVTable(scalars);
-
-  Object.keys(block).forEach(function(k) {
-    var v = block[k];
-    if (v == null) return;
-    if (Array.isArray(v)) {
-      if (v.length === 0) return;
-      html += '<div class="cx-companion-subblock">';
-      html += '<div class="cx-companion-subblock-title">' + escHtml(prettifyKey(k)) + '</div>';
-      html += '<ul class="cx-companion-list">';
-      v.forEach(function(item) {
-        if (typeof item === 'string' || typeof item === 'number') {
-          html += '<li>' + escHtml(String(item)) + '</li>';
-        } else {
-          html += '<li><pre class="cx-companion-pre">' + escHtml(formatValueForPre(item)) + '</pre></li>';
-        }
-      });
-      html += '</ul></div>';
-    } else if (typeof v === 'object') {
-      html += '<div class="cx-companion-subblock">';
-      html += '<div class="cx-companion-subblock-title">' + escHtml(prettifyKey(k)) + '</div>';
-      // Render nested object as K/V rows for scalars, pre for deeper nesting
-      var nestedScalars = [];
-      var hasNested = false;
-      Object.keys(v).forEach(function(nk) {
-        var nv = v[nk];
-        if (nv == null) return;
-        if (typeof nv === 'string' || typeof nv === 'number' || typeof nv === 'boolean') {
-          nestedScalars.push([prettifyKey(nk), String(nv)]);
-        } else {
-          hasNested = true;
-        }
-      });
-      if (nestedScalars.length > 0) html += renderKVTable(nestedScalars);
-      if (hasNested) {
-        html += '<pre class="cx-companion-pre">' + escHtml(formatValueForPre(v)) + '</pre>';
-      }
-      html += '</div>';
-    }
+  // Pass 2: nested fields → recursive subblocks
+  Object.keys(obj).forEach(function(k) {
+    var val = obj[k];
+    if (val == null) return;
+    var vt = typeof val;
+    if (vt === 'string' || vt === 'number' || vt === 'boolean') return;
+    if (Array.isArray(val) && val.length === 0) return;
+    if (vt === 'object' && !Array.isArray(val) && Object.keys(val).length === 0) return;
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">' + escHtml(prettifyKey(k)) + '</div>';
+    html += renderCompanionValue(val, depth + 1);
+    html += '</div>';
   });
-
-  html += '</div></section>';
   return html;
 }
 
@@ -3488,13 +3506,13 @@ function renderKVTable(rows) {
 }
 
 function prettifyKey(k) {
-  return String(k).replace(/_/g, ' ').replace(/\b\w/g, function(ch) { return ch.toUpperCase(); });
+  var s = String(k);
+  // Preserve identifier-shaped keys (filenames, URLs, hyphenated slugs) — they
+  // are data, not labels.
+  if (/[./]/.test(s)) return s;
+  return s.replace(/_/g, ' ').replace(/\b\w/g, function(ch) { return ch.toUpperCase(); });
 }
 
-function formatValueForPre(v) {
-  try { return JSON.stringify(v, null, 2); }
-  catch(e) { return String(v); }
-}
 
 /* Cross-reference Companion Logs (canon-0053) — count + navigation. */
 function renderCompanionLogsCrossRef(c) {
