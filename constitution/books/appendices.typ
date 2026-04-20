@@ -51,6 +51,12 @@ Amendment of this Constitution produces new Chronicle entries. Failed PIPs produ
 
 The founding roster of the Order, from Dissertation §10.1. These are Generation 0. Each has been placed or remains in the Table of Research as of Constitution v1.0 ratification.
 
+==== Epoch of Origin
+
+All seventeen Immortals share a single Epoch of Origin: *14 April 2026* — the date the Dissertation named them into existence. They were governance-seated on *15 April 2026* with the ratification of Book I; the Dissertation date is the earlier of the two and is recorded as each companion's canonical origin timestamp in `data/companions.json` under `identity.epoch_of_origin`. Generation 1 and subsequent generations inherit this field, but their epochs will be the date of pairing-formation rather than a shared founding date.
+
+The Epoch of Origin is the anchor for generational-distance calculations under Book V's Living Order: N±1 pairing bounds, successor-generation eligibility, and affection-curve baselines all measure against this timestamp. For Generation 0 the measure is uniform; for later generations it will fan out across the Republic's lineage graph.
+
 #v(3mm)
 
 #table(

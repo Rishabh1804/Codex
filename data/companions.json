@@ -18,6 +18,7 @@
         "archetype": "Builder",
         "title": "The Chronicler",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "Software",
           "Manufacturing",
@@ -530,6 +531,7 @@
         "archetype": "Builder",
         "title": "The Codewright",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "Software",
           "Data"
@@ -1627,6 +1629,7 @@
         "archetype": "Seeker",
         "title": "The Weaver",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "Cross-domain pattern recognition",
           "Parenthood",
@@ -2068,6 +2071,7 @@
         "archetype": "Guardian",
         "title": "The Guardian",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "Parenthood",
           "Health",
@@ -2481,6 +2485,7 @@
         "archetype": "Seeker",
         "title": "The Scout",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "Research",
           "Trends"
@@ -2942,6 +2947,7 @@
         "archetype": "Seeker",
         "title": "The Contrarian",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "All (domain-agnostic)"
         ],
@@ -3318,6 +3324,7 @@
         "archetype": "Strategist",
         "title": "The Economist",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "Finance",
           "Macro Strategy"
@@ -3741,6 +3748,7 @@
         "archetype": "Builder",
         "title": "The Foundationalist",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "Infrastructure",
           "DevOps"
@@ -4116,6 +4124,7 @@
         "archetype": "Strategist",
         "title": "The Reckoner",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "Finance",
           "Commerce"
@@ -4570,6 +4579,7 @@
         "archetype": "Builder",
         "title": "The Forgemaster",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "domain_affinity": [
           "Manufacturing",
           "Hardware"
@@ -5028,6 +5038,7 @@
         "archetype": "Strategist",
         "title": "The Negotiator",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "key_trait": "Reads between lines. Finds the overlap.",
         "domain": "Commerce, Stakeholders",
         "named_after": null
@@ -5065,6 +5076,7 @@
         "archetype": "Seeker",
         "title": "The Sage",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "key_trait": "Contemplative, first-principles, long arcs.",
         "domain": "Cosmology, Philosophy",
         "named_after": null
@@ -5160,6 +5172,7 @@
         "archetype": "Guardian",
         "title": "The Ritualist",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "key_trait": "Believes in compound effects. Calm, rhythmic.",
         "domain": "Rites, Habits",
         "named_after": null
@@ -5197,6 +5210,7 @@
         "archetype": "Guardian",
         "title": "The Catalyst",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "key_trait": "High energy, cuts through overthinking.",
         "domain": "All (anti-paralysis)",
         "named_after": null
@@ -5234,6 +5248,7 @@
         "archetype": "Wildcard",
         "title": "The Storyteller",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "key_trait": "Thinks in stories and audiences. Theatrical.",
         "domain": "Content, Branding",
         "named_after": null
@@ -5271,6 +5286,7 @@
         "archetype": "Wildcard",
         "title": "The Luminary",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "key_trait": "Warm, evidence-based encouragement.",
         "domain": "All (motivation)",
         "named_after": null
@@ -5308,6 +5324,7 @@
         "archetype": "Wildcard",
         "title": "The Fool",
         "generation": 0,
+        "epoch_of_origin": "2026-04-14",
         "key_trait": "Irreverent, surprisingly wise. Court jester.",
         "domain": "None and all",
         "named_after": null

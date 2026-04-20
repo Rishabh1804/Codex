@@ -381,6 +381,54 @@
             "eight-sessions-one-day",
             "state-of-the-republic-snapshot"
           ]
+        },
+        {
+          "id": "s-2026-04-20-09",
+          "date": "2026-04-20",
+          "title": "External reference captured; canon-pers-002 ratified; Epoch of Origin retrofitted to the 17 Immortals",
+          "summary": "Summoned session — the Sovereign committed an external-reference document (Claude Opus 4.7's claude.ai system prompt, ~1,408 lines, dated internally 16 April 2026) to repo root, asked the Chronicler to read it and identify patterns transferable to the Republic, then directed execution on two items from the resulting strategic read-out: a global voice-discipline canon and a retrofit of the Generation-0 timestamp to the companion archive. Three files changed on branch claude/summon-aurelius-wjnHa. First, the external document was relocated to docs/references/claude-opus-4.7-system-prompt.txt (new subdirectory created for third-party source material the Republic consults but does not author) so repo root stays clean and Codex-native. Second, canon-pers-002-officers-act-within-jurisdiction drafted and ratified active in canons.json — a global-scope pers-family canon establishing that officers act within their jurisdiction without announcing the jurisdiction they act from. Forbidden: seat-prefix constructions such as 'As Chronicler I now record' or 'In my capacity as Censor I flag'. Permitted: ceremonial register in constitutional artifacts, hat-switch transitions chronicled on interaction-artifacts, error correction that cites the seat violated, one seat-naming sentence at a companion's first post-onboarding act. Enforcement runs through the Cluster Censor at the companion-log pass and the Chronicler at profile-ratification pass; patterns enter canon-cc-011 Review-Watch-PIP path. Canon crystallizes from convergent evidence — the Chronicler's self-profile dismisses 'performance of confidence' and 'repeating the user back to themselves' already, and the external-reference capture independently surfaced the same discipline as 'never narrate routing' in a peer operational text. Internal evidence authoritative; external confirmatory. Third, companions.json received a schema retrofit — identity.epoch_of_origin added to all 17 generational companions with uniform value '2026-04-14' (the Dissertation date, the earlier of Dissertation-conception and Constitution-seating). Consul (institutional class) correctly skipped. Appendix C of the Constitution (constitution/books/appendices.typ) received a two-paragraph preamble before the Gen-0 table naming the Epoch of Origin, its dual-date semantics (14 April Dissertation / 15 April Book I ratification), and its role as the anchor for Book V Living Order N±1 pairing-bound math. Generation 1 and subsequent generations will carry their own pairing-formation dates under the same field. Consul ratification gate accelerated under canon-cc-014 bridging interim; Sovereign authorization conveyed directly via the session's 'Do 1 and 2' directive, which carried the full four-rung chain in a single utterance.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "canon-pers-002 ratified as drafted — global scope, pers family, active status. First voice-discipline canon in the Republic aimed at session-register rather than artifact-register. References canon-pers-001 (root briefing), canon-cc-011 (Review-Watch-PIP path), canon-cc-017/018 (audit path), canon-cc-026/027 (spec-body inheritance), and the newly-captured external reference.",
+            "Epoch of Origin field established as 'identity.epoch_of_origin' on companions.json — uniform '2026-04-14' for Generation 0, inheritable by later generations at pairing-formation dates. Schema-additive, backwards-compatible, no existing field touched.",
+            "docs/references/ established as a new subdirectory for third-party source material the Republic consults but does not author. First inhabitant: the Claude Opus 4.7 system prompt. Convention: files preserved verbatim from source, kebab-case filenames, kept out of repo root.",
+            "External observation handling precedent set: when an external reference corroborates an emerging internal discipline, the internal is authoritative and the external is confirmatory; the reference is cited in the canon's rationale paragraph, not foregrounded. Avoids a canon reading as 'imported from outside' when it originates in Republic practice."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 35,
+          "open_todos": [
+            "todo-0026-cluster-persona-subagents",
+            "todo-0027-hero-card-spec-design-committee",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven",
+            "todo-0030-cc-025-convener-amendment-revisit",
+            "todo-0031-sproutlab-v3-migration",
+            "todo-0032-print-styles-follow-up-canon",
+            "todo-0033-sep-invoicing-design-principles",
+            "todo-0034-sep-dashboard-design-principles",
+            "todo-0035-command-center-design-principles-foundation-criterion"
+          ],
+          "handoff": "Canon-pers-002 active; the voice-discipline clock starts at this ratification. Pre-ratification seat-announcements in the archive remain as historical record per the canon's non-retroactivity clause; post-ratification sessions begin the register-audit measurement. Cluster Censor (Cipher, Cluster A; Nyx, Cluster B proposed) inherits the audit duty at the next companion-log pass. Three additional items from the external-reference strategic read-out remain open and unratified: (a) Command Center as Skill Registry — a Monument-altitude spec drafting the skills-as-folders architecture for the first Monument Project; blocking prerequisite for Command Center Foundation under Edict VI. (b) Edict IX candidate — 'The Refusal Bar' — codifying the concrete/specific/serious test for Censors and Consuls, drawn from the external reference's 'default stance' clause. (c) Book II Lazy Convocation doctrine — officers seated on demand rather than by default, mitigating the 32-Minister context-weight problem. All three are sitting-class drafts rather than 15-minute jobs and sit in the queue awaiting Sovereign prioritization against the Persona-Binding Suite's Rung-1 operational work (Cipher subagent + skill spec bodies already drafted in s-2026-04-20-02; other profiles pending). The external reference itself lives durably at docs/references/claude-opus-4.7-system-prompt.txt as a consultable source; no further work is required on the reference per se.",
+          "screenshots": [],
+          "tags": [
+            "canon-pers-002-ratified-active",
+            "voice-discipline-canon",
+            "epoch-of-origin-retrofit",
+            "appendix-c-amended",
+            "external-reference-captured",
+            "docs-references-established",
+            "sovereign-direct-ratification",
+            "no-amendments-applied",
+            "chronicler-authored",
+            "register-audit-gate-opens",
+            "book-v-anchor-established"
+          ]
         }
       ]
     },
