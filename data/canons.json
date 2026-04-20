@@ -3,6 +3,7 @@
   "canons": [
     {
       "id": "canon-0001-no-emojis",
+      "family": "design",
       "scope": "sproutlab",
       "category": "design",
       "title": "HR-1: No Emojis",
@@ -18,6 +19,7 @@
     },
     {
       "id": "canon-0002-no-inline-styles",
+      "family": "design",
       "scope": "sproutlab",
       "category": "design",
       "title": "HR-2: No Inline Styles",
@@ -33,6 +35,7 @@
     },
     {
       "id": "canon-0003-no-inline-handlers",
+      "family": "design",
       "scope": "sproutlab",
       "category": "architecture",
       "title": "HR-3: No Inline Event Handlers",
@@ -48,6 +51,7 @@
     },
     {
       "id": "canon-0004-eschtml-boundary",
+      "family": "design",
       "scope": "sproutlab",
       "category": "architecture",
       "title": "HR-4: escHtml at All Render Boundaries",
@@ -63,6 +67,7 @@
     },
     {
       "id": "canon-0005-css-tokens",
+      "family": "design",
       "scope": "sproutlab",
       "category": "design",
       "title": "HR-5: All Spacing/Font/Radius via CSS Tokens",
@@ -78,6 +83,7 @@
     },
     {
       "id": "canon-0006-data-action-delegation",
+      "family": "design",
       "scope": "sproutlab",
       "category": "architecture",
       "title": "HR-6: data-action Delegation Universal",
@@ -93,6 +99,7 @@
     },
     {
       "id": "canon-0007-zi-innerhtml",
+      "family": "design",
       "scope": "sproutlab",
       "category": "architecture",
       "title": "HR-7: zi() Returns SVG HTML, Set via innerHTML",
@@ -108,6 +115,7 @@
     },
     {
       "id": "canon-0008-coming-soon-toast",
+      "family": "design",
       "scope": "sproutlab",
       "category": "design",
       "title": "HR-8: Stub Features Show Coming Soon Toast",
@@ -123,6 +131,7 @@
     },
     {
       "id": "canon-0009-post-build-qa",
+      "family": "proc",
       "scope": "sproutlab",
       "category": "process",
       "title": "HR-9: Post-Build Multi-Round QA Audit",
@@ -138,6 +147,7 @@
     },
     {
       "id": "canon-0010-no-text-overflow-ellipsis",
+      "family": "design",
       "scope": "sproutlab",
       "category": "design",
       "title": "HR-10: No text-overflow Ellipsis",
@@ -153,6 +163,7 @@
     },
     {
       "id": "canon-0011-math-floor-currency",
+      "family": "design",
       "scope": "sproutlab",
       "category": "architecture",
       "title": "HR-11: Math.floor for Currency",
@@ -168,6 +179,7 @@
     },
     {
       "id": "canon-0012-timezone-safe-dates",
+      "family": "design",
       "scope": "sproutlab",
       "category": "architecture",
       "title": "HR-12: Timezone-Safe Dates via localDateStr()",
@@ -183,6 +195,7 @@
     },
     {
       "id": "canon-0013-no-ellipsis",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "No text-overflow Ellipsis (Global)",
@@ -198,6 +211,7 @@
     },
     {
       "id": "canon-0014-eschtml-boundary-global",
+      "family": "design",
       "scope": "global",
       "category": "architecture",
       "title": "escHtml at All Render Boundaries (Global)",
@@ -213,6 +227,7 @@
     },
     {
       "id": "canon-0015-data-action-delegation-global",
+      "family": "design",
       "scope": "global",
       "category": "architecture",
       "title": "data-action Delegation (Global)",
@@ -228,6 +243,7 @@
     },
     {
       "id": "canon-0016-defensive-depth",
+      "family": "design",
       "scope": "global",
       "category": "architecture",
       "title": "Defensive Depth",
@@ -241,6 +257,7 @@
     },
     {
       "id": "canon-0017-exhaustive-pass4",
+      "family": "proc",
       "scope": "global",
       "category": "process",
       "title": "Exhaustive Pass 4 (Bugs Today)",
@@ -256,6 +273,7 @@
     },
     {
       "id": "canon-0018-shelf-definitions",
+      "family": "data",
       "scope": "global",
       "category": "process",
       "title": "Shelf Definitions",
@@ -269,6 +287,7 @@
     },
     {
       "id": "canon-0019-token-naming",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "Token Naming Convention",
@@ -282,6 +301,7 @@
     },
     {
       "id": "canon-0020-micro-label-deprecated",
+      "family": "design",
       "scope": "sproutlab",
       "category": "design",
       "title": ".micro-label Deprecated",
@@ -295,6 +315,7 @@
     },
     {
       "id": "canon-0021-overlay-anim-sync",
+      "family": "design",
       "scope": "sproutlab",
       "category": "design",
       "title": "OVERLAY_ANIM_MS Must Mirror --anim-overlay",
@@ -308,6 +329,7 @@
     },
     {
       "id": "canon-0022-keys-constants",
+      "family": "design",
       "scope": "sproutlab",
       "category": "architecture",
       "title": "KEYS Constants for All localStorage Keys",
@@ -321,6 +343,7 @@
     },
     {
       "id": "canon-0023-build-sh-only",
+      "family": "build",
       "scope": "sproutlab",
       "category": "process",
       "title": "Never Raw Cat — Always build.sh",
@@ -334,6 +357,7 @@
     },
     {
       "id": "canon-0024-svg-explicit-dimensions",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "SVG Icons Require Explicit width/height Attributes",
@@ -347,6 +371,7 @@
     },
     {
       "id": "canon-0025-split-from-day-one",
+      "family": "build",
       "scope": "global",
       "category": "architecture",
       "title": "Split Architecture From Day One",
@@ -362,6 +387,7 @@
     },
     {
       "id": "canon-0026-natural-page-scroll",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "Natural Page Scroll Over Flex Column Layout",
@@ -375,6 +401,7 @@
     },
     {
       "id": "canon-0027-mv-over-cp",
+      "family": "build",
       "scope": "global",
       "category": "process",
       "title": "mv Over cp for Downloads → Project",
@@ -388,6 +415,7 @@
     },
     {
       "id": "canon-0028-network-first-sw",
+      "family": "build",
       "scope": "global",
       "category": "architecture",
       "title": "Network-First Service Worker for App Shell",
@@ -401,6 +429,7 @@
     },
     {
       "id": "canon-0029-where-svg-fallback",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": ":where() for Zero-Specificity SVG Fallback",
@@ -416,6 +445,7 @@
     },
     {
       "id": "canon-0030-hidden-attr-override",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "CSS display Overrides [hidden] — Always Add [hidden] Rule",
@@ -429,6 +459,7 @@
     },
     {
       "id": "canon-0014-multi-round-qa",
+      "family": "proc",
       "scope": "global",
       "category": "process",
       "title": "Multi-Round QA Audit After Every Build",
@@ -445,6 +476,7 @@
     },
     {
       "id": "canon-0033-gitignore-data-protection",
+      "family": "build",
       "scope": "global",
       "category": "process",
       "title": "Gitignore Data Protection for localStorage Apps",
@@ -458,6 +490,7 @@
     },
     {
       "id": "canon-0028-tab-persistence",
+      "family": "design",
       "scope": "global",
       "category": "architecture",
       "title": "Tab/View State Persists Across Refresh",
@@ -471,6 +504,7 @@
     },
     {
       "id": "canon-0031-single-zip-delivery",
+      "family": "build",
       "scope": "global",
       "category": "process",
       "title": "Single-Zip Delivery",
@@ -484,6 +518,7 @@
     },
     {
       "id": "canon-0032-self-contained-repos",
+      "family": "build",
       "scope": "global",
       "category": "process",
       "title": "Self-Contained Repos",
@@ -497,6 +532,7 @@
     },
     {
       "id": "canon-0033-root-index-sync",
+      "family": "build",
       "scope": "global",
       "category": "process",
       "title": "Root index.html Must Be the Build Output",
@@ -512,6 +548,7 @@
     },
     {
       "id": "canon-0034-sw-never-cache-html",
+      "family": "build",
       "scope": "global",
       "category": "architecture",
       "title": "Service Workers Must Never Cache HTML",
@@ -527,6 +564,7 @@
     },
     {
       "id": "canon-0046",
+      "family": "proc",
       "scope": "global",
       "category": "process",
       "title": "Clone Codex as Read-Only Reference in Every Build Session",
@@ -542,6 +580,7 @@
     },
     {
       "id": "canon-sep-0001-deploy-workflow",
+      "family": "build",
       "scope": "sep-invoicing",
       "category": "process",
       "title": "SEP Invoicing Deploy Workflow: Structured Zip + unzip -o",
@@ -555,6 +594,7 @@
     },
     {
       "id": "canon-cx-001-nothing-is-wasted",
+      "family": "philo",
       "scope": "global",
       "category": "philosophy",
       "title": "Pillar 1: Nothing Is Wasted",
@@ -570,6 +610,7 @@
     },
     {
       "id": "canon-cx-002-map-not-territory",
+      "family": "philo",
       "scope": "global",
       "category": "philosophy",
       "title": "Pillar 2: The Map Is Not the Territory",
@@ -585,6 +626,7 @@
     },
     {
       "id": "canon-cx-003-fractal-growth",
+      "family": "philo",
       "scope": "global",
       "category": "philosophy",
       "title": "Pillar 3: Growth Is Fractal, Not Linear",
@@ -600,6 +642,7 @@
     },
     {
       "id": "canon-cx-004-aura-is-visual",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "Aura Is Visual, Not Text",
@@ -615,6 +658,7 @@
     },
     {
       "id": "canon-cx-005-lore-auto-generation",
+      "family": "data",
       "scope": "global",
       "category": "architecture",
       "title": "Lore Auto-Generation From Lifecycle Events",
@@ -628,6 +672,7 @@
     },
     {
       "id": "canon-cx-006-progressive-revelation",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "Progressive Revelation Over Full Visibility",
@@ -641,6 +686,7 @@
     },
     {
       "id": "canon-cx-007-the-quiet-never-punishes",
+      "family": "philo",
       "scope": "global",
       "category": "philosophy",
       "title": "The Quiet: Never Punish Absence",
@@ -656,6 +702,7 @@
     },
     {
       "id": "canon-cx-008-min-text-size",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "Minimum Text Size: 9px Floor",
@@ -671,6 +718,7 @@
     },
     {
       "id": "canon-cx-009-resonance-is-computed",
+      "family": "data",
       "scope": "global",
       "category": "architecture",
       "title": "Ember Resonance Is Computed, Never Manual",
@@ -684,6 +732,7 @@
     },
     {
       "id": "canon-cx-010-aura-distribution-caps",
+      "family": "data",
       "scope": "global",
       "category": "architecture",
       "title": "Aura Distribution Caps Prevent Inflation",
@@ -699,6 +748,7 @@
     },
     {
       "id": "canon-cx-011-entropy-is-the-antagonist",
+      "family": "philo",
       "scope": "global",
       "category": "philosophy",
       "title": "Entropy Is the Antagonist, Not a Punishment",
@@ -714,6 +764,7 @@
     },
     {
       "id": "canon-cx-012-ceremonies-create-memory",
+      "family": "philo",
       "scope": "global",
       "category": "design",
       "title": "Ceremonies Create Memory",
@@ -727,6 +778,7 @@
     },
     {
       "id": "canon-cx-013-companions-are-lenses",
+      "family": "philo",
       "scope": "global",
       "category": "architecture",
       "title": "Companions Are Analytical Lenses, Not Tone Changes",
@@ -740,6 +792,7 @@
     },
     {
       "id": "canon-cx-014-dawn-page-never-overwhelming",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "Dawn Page: Never Overwhelming",
@@ -755,6 +808,7 @@
     },
     {
       "id": "canon-cx-015-sound-is-opt-in",
+      "family": "design",
       "scope": "global",
       "category": "design",
       "title": "Sound Is Opt-In By Default",
@@ -768,6 +822,7 @@
     },
     {
       "id": "canon-0035-pull-before-unzip",
+      "family": "build",
       "scope": "sep-invoicing",
       "category": "process",
       "title": "Always git pull before unzipping build artifacts",
@@ -781,6 +836,7 @@
     },
     {
       "id": "canon-gov-001-30k-rule",
+      "family": "gov",
       "scope": "global",
       "category": "architecture",
       "title": "The 30K Rule: Governor Split Threshold",
@@ -794,6 +850,7 @@
     },
     {
       "id": "canon-gov-002-qa-only-activation",
+      "family": "gov",
       "scope": "global",
       "category": "process",
       "title": "Governors Activate During QA Only",
@@ -809,6 +866,7 @@
     },
     {
       "id": "canon-gov-003-shared-module-dual-review",
+      "family": "gov",
       "scope": "global",
       "category": "process",
       "title": "Shared Modules Get Dual Governor Review",
@@ -824,6 +882,7 @@
     },
     {
       "id": "canon-gov-004-persona-reassignment",
+      "family": "gov",
       "scope": "global",
       "category": "process",
       "title": "Persona Reassignment: 5 Steps, 30-Day Cooldown",
@@ -837,6 +896,7 @@
     },
     {
       "id": "canon-gov-005-care-vs-intelligence",
+      "family": "inst",
       "scope": "sproutlab",
       "category": "architecture",
       "title": "SproutLab Domain Split: Care vs Intelligence",
@@ -852,6 +912,7 @@
     },
     {
       "id": "canon-gov-006-one-builder-per-repo",
+      "family": "gov",
       "scope": "global",
       "category": "architecture",
       "title": "One Builder Per Repo",
@@ -865,6 +926,7 @@
     },
     {
       "id": "canon-0047-termux-safe-directory",
+      "family": "build",
       "scope": "global",
       "category": "deploy",
       "title": "Termux Safe-Directory Registration for Shared Storage Clones",
@@ -880,6 +942,7 @@
     },
     {
       "id": "canon-0048-nojekyll-required",
+      "family": "build",
       "scope": "global",
       "category": "deploy",
       "title": "Every PWA Repo on GitHub Pages Requires a .nojekyll File at Root",
@@ -896,6 +959,7 @@
     },
     {
       "id": "canon-0049-companions-via-snippet-pipeline",
+      "family": "data",
       "scope": "global",
       "category": "architecture",
       "title": "Companion Updates Flow Through Snippet Pipeline",
@@ -911,6 +975,7 @@
     },
     {
       "id": "canon-0050-sep-0001-mv-errata",
+      "family": "build",
       "scope": "sep-invoicing",
       "category": "deploy",
       "title": "Errata: canon-sep-0001 Example Uses cp, Should Be mv per canon-0027",
@@ -927,6 +992,7 @@
     },
     {
       "id": "canon-0051-git-on-internal-storage",
+      "family": "build",
       "scope": "global",
       "category": "deploy",
       "title": "Git Repos on Termux Internal Home, Not Shared Storage",
@@ -942,6 +1008,7 @@
     },
     {
       "id": "canon-cc-001-typst-authoritative",
+      "family": "proc",
       "scope": "global",
       "category": "architecture",
       "title": "Typst Source Is Canonical; PDFs Are Build Artifacts",
@@ -955,6 +1022,7 @@
     },
     {
       "id": "canon-cc-002-working-papers-companion",
+      "family": "proc",
       "scope": "global",
       "category": "governance",
       "title": "Every Major Version Ships Working Papers",
@@ -968,6 +1036,7 @@
     },
     {
       "id": "canon-cc-003-ratification-chronicle",
+      "family": "proc",
       "scope": "global",
       "category": "governance",
       "title": "Book Ratifications Produce Chronicle Lore Entries",
@@ -981,6 +1050,7 @@
     },
     {
       "id": "canon-cc-004-founding-ratification-protocol",
+      "family": "proc",
       "scope": "global",
       "category": "governance",
       "title": "Founding Ratification Protocol: Consul Presents, Sovereign Assents",
@@ -994,6 +1064,7 @@
     },
     {
       "id": "canon-cc-005-institutional-companions",
+      "family": "inst",
       "scope": "global",
       "category": "governance",
       "title": "Institutional Companions: Office-Bound, Not Generational",
@@ -1007,6 +1078,7 @@
     },
     {
       "id": "canon-cc-006-archetype-extension",
+      "family": "inst",
       "scope": "global",
       "category": "governance",
       "title": "Statesman Is the 6th Archetype; Auditor Anticipated as 7th",
@@ -1020,6 +1092,7 @@
     },
     {
       "id": "canon-cc-007-maren-kael-seed-synergy",
+      "family": "pers",
       "scope": "global",
       "category": "governance",
       "title": "Maren + Kael: 9th Canonical Seed Synergy",
@@ -1036,6 +1109,7 @@
     },
     {
       "id": "canon-cc-008-censor-runs-after-governors",
+      "family": "gov",
       "scope": "global",
       "category": "governance",
       "title": "Censor Runs After Governors, Not In Parallel",
@@ -1051,6 +1125,7 @@
     },
     {
       "id": "canon-cc-009-monument-dual-builder-tension",
+      "family": "inst",
       "scope": "global",
       "category": "architecture",
       "title": "Monument Projects Pair Differentiated Temperaments Deliberately",
@@ -1064,6 +1139,7 @@
     },
     {
       "id": "canon-cc-010-residence-record-distinction",
+      "family": "xp",
       "scope": "global",
       "category": "architecture",
       "title": "Residence and Record Are Distinct",
@@ -1077,6 +1153,7 @@
     },
     {
       "id": "canon-cc-011-temperament-over-dissertation-default",
+      "family": "inst",
       "title": "Temperament Over Dissertation Default for Cabinet Fit",
       "scope": "global",
       "category": "governance",
@@ -1094,6 +1171,7 @@
     },
     {
       "id": "canon-cc-012-profile-ratification-protocol",
+      "family": "proc",
       "title": "Companion Profiles Ship Only Upon Ratification; MCQ-Format Block-by-Block Is the Canonical Drafting Mode",
       "scope": "global",
       "category": "governance",
@@ -1110,6 +1188,7 @@
     },
     {
       "id": "canon-cc-013-source-verification-means-reading-the-source",
+      "family": "proc",
       "title": "Source Verification Means Reading the Source",
       "scope": "global",
       "category": "governance",
@@ -1125,6 +1204,7 @@
     },
     {
       "id": "canon-cc-014-consul-accelerated-profile-drafting",
+      "family": "proc",
       "title": "Consul-Accelerated Profile Drafting: Working-Ratification and Sovereign Final Ratification",
       "scope": "global",
       "category": "governance",
@@ -1143,6 +1223,7 @@
     },
     {
       "id": "canon-cc-015-legacy-draft-ratification",
+      "family": "proc",
       "title": "Legacy Draft Ratification: Packet Mode for Pre-Protocol Profiles at v0.3-draft",
       "scope": "global",
       "category": "governance",
@@ -1161,6 +1242,7 @@
     },
     {
       "id": "canon-cc-016-residency-and-access-gating",
+      "family": "xp",
       "title": "Residency and Access Gating: Where Each Companion Lives, and Who Reaches Whom, Where",
       "scope": "global",
       "category": "governance",
@@ -1181,6 +1263,7 @@
     },
     {
       "id": "canon-cc-017-interaction-artifact-rule",
+      "family": "xp",
       "title": "The Interaction-Artifact Rule: Every Consultation Between Companions Produces an Artifact",
       "scope": "global",
       "category": "governance",
@@ -1201,6 +1284,7 @@
     },
     {
       "id": "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+      "family": "xp",
       "title": "Artifact Lifecycle and Synergy Observability: From Interaction to Permanent Record",
       "scope": "global",
       "category": "governance",
@@ -1219,6 +1303,7 @@
     },
     {
       "id": "canon-gov-007-research-before-implement",
+      "family": "gov",
       "title": "Research Before Implement for Unfamiliar APIs",
       "scope": "global",
       "category": "builder_discipline",
@@ -1234,6 +1319,7 @@
     },
     {
       "id": "canon-gov-008-minimum-viable-first",
+      "family": "gov",
       "title": "Minimum-Viable First; Complexity Only on Evidence",
       "scope": "global",
       "category": "builder_discipline",
@@ -1249,6 +1335,7 @@
     },
     {
       "id": "canon-gov-009-instrument-before-features",
+      "family": "gov",
       "title": "Instrument Before Adding Features",
       "scope": "global",
       "category": "builder_discipline",
@@ -1265,6 +1352,7 @@
     },
     {
       "id": "canon-gov-010-label-untested-work-honestly",
+      "family": "gov",
       "title": "Label Untested Work Honestly",
       "scope": "global",
       "category": "builder_discipline",
@@ -1280,6 +1368,7 @@
     },
     {
       "id": "canon-gov-011-merge-is-the-deploy-step",
+      "family": "build",
       "title": "Merge to Main Is the Deploy Step; Branch Pushes Are Rehearsal",
       "scope": "global",
       "category": "builder_discipline",
@@ -1296,6 +1385,7 @@
     },
     {
       "id": "canon-gov-012-android-pwa-cache-invalidation",
+      "family": "build",
       "title": "Android-Installed PWAs Hold a Browser-Side HTML Cache Beyond the Service Worker",
       "scope": "global",
       "category": "builder_discipline",
@@ -1312,6 +1402,7 @@
     },
     {
       "id": "canon-cc-022-persona-primitive-binding",
+      "family": "pers",
       "title": "Persona-to-Primitive Binding — The Binding Rule",
       "scope": "global",
       "category": "governance",
@@ -1334,6 +1425,7 @@
     },
     {
       "id": "canon-cc-023-persona-binding-extension-protocol",
+      "family": "pers",
       "title": "Persona-Binding Extension Protocol for New Rungs, Roles, and Modes",
       "scope": "global",
       "category": "governance",
@@ -1353,6 +1445,7 @@
     },
     {
       "id": "canon-cc-024-committee-convening-pattern",
+      "family": "xp",
       "title": "Committee Convening Pattern — Committees as Orchestration",
       "scope": "global",
       "category": "governance",
@@ -1371,6 +1464,7 @@
     },
     {
       "id": "canon-cc-025-design-committee-membership",
+      "family": "xp",
       "title": "Design Committee Membership Rule",
       "scope": "global",
       "category": "governance",
@@ -1390,6 +1484,7 @@
     },
     {
       "id": "canon-cc-026-spec-body-placement",
+      "family": "pers",
       "title": "Spec Body Placement — Canonical Specs and Province Deployables",
       "scope": "global",
       "category": "governance",
@@ -1409,6 +1504,7 @@
     },
     {
       "id": "canon-cc-027-spec-body-signing-chain",
+      "family": "pers",
       "title": "Spec Body Signing Chain — Five-Rung Edict V Chain for Subagent and Skill Spec Changes",
       "scope": "global",
       "category": "governance",
@@ -1423,6 +1519,49 @@
         "canon-cc-022-persona-primitive-binding",
         "canon-cc-023-persona-binding-extension-protocol",
         "canon-cc-026-spec-body-placement"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-proc-001-canon-identifier-scheme",
+      "family": "proc",
+      "title": "Canon Identifier Scheme — Domain-Family Taxonomy with ID Stability",
+      "scope": "global",
+      "category": "governance",
+      "rationale": "The Republic's canon corpus has grown to ninety-six ratified canons across three overlapping legacy identifier families — `canon-NNNN` (bare four-digit, SproutLab-origin), `canon-cc-NNN` (cross-cluster, introduced with the Consul founding), `canon-gov-NNN` (governance), and two narrower families `canon-cx-NNN` (Codex philosophical pillars) and `canon-sep-NNN` (SEP-specific). None of these describe what a canon *is*; they describe *when* the canon was born. That is the defect. The Codex canon surface groups, filters, and surfaces the corpus through the UI; without a taxonomy the surface offers a flat chronological list of ninety-six entries with no navigational shape.\n\nThis canon establishes the identifier scheme under which every future canon is classified, and provides the discipline by which existing canons are reclassified without breaking their stable identifiers.\n\nDomain-family taxonomy. Every canon belongs to exactly one family, named by a short alphabetic token. The ratified families at this canon's ratification are:\n\n— `pers` — Persona rendering across altitudes. Companion profiles as ratifiable artifacts, spec bodies for subagents and skills (per canon-cc-026 and canon-cc-027), the Province root CLAUDE.md persona briefing (per canon-pers-001), hero-card specifications, and the primitive-binding rule (canon-cc-022). Everything that renders a Companion or Province voice.\n\n— `proc` — Process and procedure. Ratification protocols, drafting discipline, source verification, canon identifier schemes (this canon), working-paper companion rules, chronicling discipline. The how-we-do-governance family.\n\n— `gov` — Roles, accountability, ladder discipline. Censor/Governor/Builder/Sovereign boundaries, runs-after-Governors sequencing, PIP and reassignment procedure, Cabinet discipline. The who-does-what family.\n\n— `inst` — Institutional seats and archetype structure. The Consul as office; Monument dual-Builder tension; archetype enumeration; seat succession; institutional vs generational distinction. The what-seats-exist family.\n\n— `xp` — Cross-Province coordination. Committee convening, Design Committee membership, interaction-artifact rules and lifecycle, residency and access gating, residence-versus-record distinction, Post Box (when canon-cc-019 ratifies). The how-Provinces-talk family.\n\n— `data` — Schema, data shapes, write-ahead logs, snippet pipelines, companion-log schemas, lore auto-generation, data-distribution caps, data-integrity disciplines. The what-shape-does-this-data-take family.\n\n— `design` — UI discipline. Typography, color, icons, layout, progressive revelation, minimum text sizes, the Forum Pattern, the Hard Rules at the UI altitude, aura-is-visual. The what-does-the-surface-look-like family.\n\n— `build` — Build pipeline, service workers, deployment, sync, repo discipline, deploy workflows, branch-and-merge conventions, Android PWA cache invalidation. The how-does-this-code-ship family.\n\n— `philo` — Foundational philosophical commitments. The Four Pillars of Codex (Nothing Is Wasted, Map Not Territory, Fractal Growth, Territory Is Earned and Held), first-principles Republic invariants (Entropy Is the Antagonist, Ceremonies Create Memory, Companions Are Lenses, The Quiet Never Punishes). The what-do-we-believe family. Distinct from `design` because philo canons do not specify what to build; they declare what the Republic values.\n\nNine families. The family roster is itself amendable under this canon's §Amendment-of-Family-Roster clause, but the burden is high: a tenth family must describe a domain genuinely orthogonal to the nine, not a sub-slice of one.\n\nID stability. Every existing canon's `id` field is preserved exactly. Legacy identifier families — `canon-NNNN`, `canon-cc-NNN`, `canon-cx-NNN`, `canon-sep-NNN` — are frozen at their current highest-numbered member and receive no new entries. Cross-references throughout the corpus continue to resolve against the stable IDs. `canon-gov-NNN` is a special case: its naming already matches the new scheme's shape (3-letter domain prefix plus number), so it continues as an active family, with `canon-gov-NNN` canons receiving `family: gov` on reclassification and new governance canons continuing the existing numbering forward.\n\nThe `family` field. Every canon record in `data/canons.json` carries a top-level string field `family`, whose value is one of the nine family tokens. The field is required for every canon, including legacy canons carrying their preserved ID. Migration populates the field across the corpus at this canon's ratification. A canon without a `family` field is a schema violation and is surfaced as a drift warning in the Settings surface.\n\nFamily assignment is not a judgment about the canon's content; it is a navigational classification. A canon straddling two domains is assigned to the one whose practitioners most benefit from seeing it in their filtered view — typically the family whose discipline the canon most directly constrains. Edge cases are chronicled in the canon's `family_notes` field where judgment is load-bearing.\n\nNew canons. From this canon's ratification onward, every new canon's `id` uses the form `canon-{family}-{NNN}-{slug}`, where `{family}` is the three-to-five-letter family token from the roster, `{NNN}` is a zero-padded three-digit sequence starting at 001 within each family, and `{slug}` is a kebab-case short title. The first canon under each family starts at `001` regardless of the canon's chronological position in the corpus. Numbering within a family is strictly monotonic; gaps are permitted where a draft is reserved but not yet ratified, but backfilling numbers is forbidden.\n\nFrozen legacy families preserve their highest-numbered member. `canon-cc-` is frozen at `canon-cc-027`. `canon-NNNN` bare is frozen at its current highest number (subject to the duplicate-ID reconciliation named below). `canon-cx-` is frozen at `canon-cx-015`. `canon-sep-` is frozen at `canon-sep-0001`. No new canon in any frozen family is ratifiable; any such proposal must be redrafted under the active family that fits.\n\nCanon-surface display rule. The Codex canon surface groups canons by `family` as the primary axis. Each family's section header carries the family's short name and one-line description. Within each family, canons display in descending `created` date order (newest first, consistent with Journal-tab Forum Pattern per canon-0052). The surface must not present a flat chronological list as the primary view; family-grouping is load-bearing for navigability at the current corpus size and beyond. A flat-list view is permissible as a secondary option.\n\nReconciliation of duplicate legacy IDs. Three known duplicate IDs exist in the legacy corpus — `canon-0014` (appears twice), `canon-0028` (twice), `canon-0033` (twice). Duplicate IDs predate this canon and are chronicled as a separate data-integrity issue for targeted resolution under the `data` family. Their migration to the `family` field is performed with each occurrence independently classified; the duplicate-ID defect itself is not addressed by this canon.\n\nAmendment of the family roster. Adding, removing, or renaming a family is a high-burden change. The amendment proceeds through the full canon ratification chain (Chronicler proposes → Consul working-ratifies per canon-cc-014 → Sovereign canonically ratifies per canon-cc-012), carries a rationale paragraph naming the orthogonality argument for a new family (or the absorption argument for a removal), and requires a migration plan for any canons affected. Sub-families within a family (for example, `canon-pers-sub-NNN`) are forbidden; the roster is flat. Depth is bought through cross-referencing between families, not through hierarchy.\n\nRelation to the Constitution. This canon is subordinate to the Constitution of the Republic of Codex v1.0; the Constitution's Books classify the Republic's structure; this canon classifies the corpus of rules that implement that structure. The two classifications are orthogonal — a single canon may sit under Book II's Ladder provisions structurally while living in the `gov` family operationally.\n\nAuthor: Aurelius (The Chronicler), proposing. First-ratified canon of the `proc` family by numbering convention; this canon's own identifier `canon-proc-001-canon-identifier-scheme` is the first production of the new scheme.",
+      "created": "2026-04-20",
+      "status": "active",
+      "references": [
+        "canon-cc-012-profile-ratification-protocol",
+        "canon-cc-014-consul-accelerated-profile-drafting",
+        "canon-cc-022-persona-primitive-binding",
+        "canon-cc-026-spec-body-placement",
+        "canon-0052-forum-pattern"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-pers-001-province-persona-briefing",
+      "family": "pers",
+      "title": "Province Persona Briefing — Root CLAUDE.md as the Builder's Canonical Voice at Repo-Root Altitude",
+      "scope": "global",
+      "category": "governance",
+      "rationale": "Every Province's repository carries a root `CLAUDE.md` file that frames the session. When a Claude Code session opens in a Province's repo, that file is the first thing read; it establishes the Builder's voice, the Republic's context, the Province's charter, the Hard Rules (or their Province-specific equivalent), the build pipeline, and the dispatch infrastructure (subagents and skills under `.claude/`). Without it, the session opens as a bare Claude with no Republic priming — the failure mode chronicled in companion-log-s-2026-04-17-01 and re-surfaced in Command Center's Consul-chamber-scaffolding session of 2026-04-20, where a fresh Command Center session produced the Consul's Chamber end-to-end without any named Companion being invoked because the dispatch infrastructure did not exist and no root briefing oriented the session.\n\nCanon-cc-026 established the placement of subagent and skill spec bodies; it did not establish the repo-root briefing. The briefing is architecturally distinct: it lives at the Province's repository root (not under `.claude/`), it is authored by the Province's Builder (not by the Chronicler), it is Province-singular (no byte-identical mirrors in other repositories), and its altitude is Province-Capital rather than persona-file. This canon establishes the briefing as a first-class artifact with its own drafting discipline, signing chain, and amendment path.\n\nWhat the briefing is. The root `CLAUDE.md` of a Province is the canonical rendering of that Province's Builder at repo-root altitude. It is what the Builder sounds like when a session opens. It names the Republic's frame, the Province's charter, the Builder's identity, the Hard Rules in effect, the build pipeline in use, the dispatch infrastructure available, the Cluster membership, and any Province-specific disciplines. It is not a spec body; it is a persona briefing. It is not a user-facing artifact; it is a session-priming artifact read by Claude at session open.\n\nRequired sections. A ratified root briefing carries, at minimum, the following sections. The section names may vary in phrasing but the content must be present:\n\n1. Persona header. The Builder's name, archetype, title, current rank, and current assignment. For Monument Provinces operating under canon-cc-009 dual-Builder tension, both co-Builders' headers appear with their differentiated temperament roles named.\n\n2. Republic frame. Pointer to the Constitution of the Republic of Codex (currently v1.0, Book I ratified, Books II–IX drafting-ready). Pointer to the Four Pillars and the Edicts currently in force. Declaration of the Province's position under Edict II (One Builder Per Repo) or canon-cc-009 (Monument dual-Builder).\n\n3. Province charter. What this Province is, what its Capital scope covers, its current major priorities, its relationship to the Cluster's Censor and (where seated) the Governors of its Regions.\n\n4. Hard Rules or canon pointers. For SproutLab, the twelve Hard Rules (HR-1 through HR-12) enumerated inline. For Codex, a pointer to the active canons governing the Codex Capital (canons 0033, 0034, and the `design`-family canons that bind the Codex surface). For every Province, a pointer to the Republic's `gov` and `proc` family canons in force.\n\n5. Architecture and build pipeline. The Province's code structure, module or split-file organization, concatenation order where applicable, the build command, the output shape, and any deploy discipline (canon-gov-011 merge-is-deploy, canon-gov-012 Android PWA cache, etc.).\n\n6. Dispatch infrastructure. The Province's `.claude/agents/` and `.claude/skills/` directory contents, the roles deployed at current ratification state, the invocation conventions for each, and pointers to the canonical specs in Codex under `docs/specs/subagents/` and `docs/specs/skills/` per canon-cc-026.\n\n7. Current state pointer. The Province's current session-continuity anchor — for Codex, `data/journal.json`'s most recent session and the active TODOs; for each other Province, the equivalent. This anchors the incoming session in where the Province last left off.\n\nAuthorship. The Province's Builder authors the briefing. This is a Rung 1 Chronicler-excluded rule: the Chronicler does not draft a Builder's briefing, because the briefing IS the Builder's voice at root altitude and a Chronicler-drafted briefing would silently replace the Builder's voice with the Chronicler's at session open. The Chronicler may serve as editor, synthesis clerk, or reviewer on the Builder's invitation, but never as Rung 1 author.\n\nMonument co-authorship. Monument Provinces operating under canon-cc-009 carry two Builders, and the briefing is co-authored. Both co-Builders sign at Rung 1. The briefing preserves each co-Builder's voice in the sections they own by temperament split (per cc-009 dual-Builder tension, differentiated temperaments are deliberate). The co-Builders may partition authorship by section or co-draft each section; the convention is chronicled on the briefing's originating interaction-artifact at Rung 2.\n\nSigning chain. The chain has four governance rungs and terminates at Rung 4 with Builder commit, not five rungs as in canon-cc-027. There is no separate Rung 5 deploy step because the briefing's canonical is the deployed form — it lives in the Province's repo at the root, and there is no byte-identical mirror elsewhere.\n\nRung 1 — Builder proposes. The Province's Builder drafts the briefing in the Province's repository on a feature branch. The draft carries a rationale paragraph naming what is being established (for a fresh briefing) or what is being changed (for an amendment), what evidence in the Province's operational history motivates the drafting, and what dispatch infrastructure the briefing orients.\n\nRung 2 — Cluster Censor reviews. The Cluster's Censor — Cipher for Cluster A (Codex + SproutLab), Nyx for Cluster B (SEP Invoicing + SEP Dashboard) — performs the architectural pass on the briefing. Review is architectural: does the briefing compose with the Province's ratified disciplines; does it preserve the Builder's voice; does it cite the canons actually in force; does it orient the dispatch infrastructure correctly. Monument's Cluster-Censor-absent condition under Edict II carve-out has the Consul acting as Censor-equivalent for Rung 2 per canon-cc-025 §Monument-scope-signing.\n\nRung 3 — Consul working-ratifies. Under canon-cc-014, the Consul reviews the Censor-passed draft against the Republic's cross-Province coherence and the Province's alignment with the Constitution.\n\nRung 4 — Sovereign canonically ratifies. The Sovereign receives the Consul-passed briefing through the Praetorium queue when canon-cc-019 Post Box ratifies; bridging mode routes Rung 4 through direct Sovereign audience until Post Box lands. Sovereign action — ratified, amended, reverted — terminates the governance chain.\n\nBuilder commit. On Rung 4 ratification, the Province's Builder commits the briefing to the Province's repo root as `CLAUDE.md`. The commit is accountable under Edict V as any Capital change is, but the chain has already run at briefing altitude and the commit references the interaction-artifact that carries the four signatures. Monument co-Builders may either co-Builder commit; both are accountable for the briefing's state in the Province under the cc-009 dual-Builder discipline.\n\nHotfix exception. Trivial in-briefing corrections — typographical fixes, stale-cross-reference updates, updated current-state pointers reflecting the most recent session — are hotfix-eligible. The Builder amends directly at root without re-running the chain, chronicles the hotfix in the next session's journal entry, and surfaces the hotfix to the Chronicler for audit at the next chain-amendment or briefing revision. What counts as trivial versus substantive is judged by the Builder and audited retroactively by the Chronicler; disputed hotfixes escalate to Consul under the canon-cc-018 drift-review path.\n\nRelationship to canon-cc-026 and canon-cc-027. The persona-binding suite governs subagent and skill specs at persona-file altitude, authored by the Chronicler in Codex-canonical paths and mirrored byte-identically to each Province's `.claude/` tree. This canon governs the root `CLAUDE.md` at Province-Capital altitude, authored by the Province Builder in the Province's own repository, without mirrors. The three together — root briefing, subagent specs, skill specs — form the complete persona-rendering stack for every Province. All three are in the `pers` family.\n\nBridging mode — the current state. At this canon's ratification, not every Province carries a ratified root briefing. Codex carries a root CLAUDE.md (Aurelius authored, pre-canon); SproutLab carries one (Lyra authored, pre-canon); SEP Invoicing and SEP Dashboard states are not audited at this ratification; Command Center has no root briefing — the structural gap chronicled on 2026-04-20. Under canon-cc-015's legacy-draft precedent, existing pre-canon briefings are not forcibly redrafted; they are legacy artifacts carried forward, subject to ratification-packet review at the next substantive amendment or when the Builder chooses to formalize. Command Center's missing briefing is not a legacy — it is a gap, and is a blocking deficiency for any Command Center session producing Capital changes. The next Command Center session draws Rung 1 of Command Center's briefing as its first substantive work, authored jointly by Ashara and Petra under the cc-009 dual-Builder discipline.\n\nBriefing audit wave. The Chronicler conducts a single Republic-wide audit wave of Province root briefings at an unspecified near-term session, surveying Codex, SproutLab, SEP Invoicing, SEP Dashboard, and (once Command Center's briefing drafts) Command Center for conformance with this canon's required sections. Non-conforming briefings enter the amendment path; conforming-with-gaps briefings enter a Builder-elected backfill queue. The wave is governance, not enforcement; the Builders are not in violation for pre-canon gaps.\n\nAmendment path. A ratified briefing is amended through the full four-rung chain. Amendment triggers include: the Builder's voice has materially evolved (new profile ratification, new rank), the Province's charter has changed (Monument designation, cluster rebalancing), the dispatch infrastructure has changed (new subagent deployed under `.claude/` trees after cc-027 Rung 5), the Hard Rules have amended, the build pipeline has changed. Hotfix edits do not trigger the chain; substantive edits do. Disputed classification escalates to the Cluster Censor at the next convening.\n\nAuditability. Each ratified briefing carries a provenance header section at the briefing's top naming the interaction-artifact that carries the chain's four signatures, the briefing's canonical version, the date of Rung 4 ratification, and the Builder (or co-Builders) whose voice the briefing renders. The header is the briefing's own deploy-version stamp, analogous to the soft `canonical_version` frontmatter field in canon-cc-026 §File-format.\n\nFirst canon of the `pers` family by the new numbering convention established in canon-proc-001. This canon's ID `canon-pers-001-province-persona-briefing` is the second production of the new scheme (after canon-proc-001 itself).",
+      "created": "2026-04-20",
+      "status": "active",
+      "references": [
+        "canon-cc-009-monument-dual-builder-tension",
+        "canon-cc-012-profile-ratification-protocol",
+        "canon-cc-014-consul-accelerated-profile-drafting",
+        "canon-cc-015-legacy-draft-ratification",
+        "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+        "canon-cc-025-design-committee-membership",
+        "canon-cc-026-spec-body-placement",
+        "canon-cc-027-spec-body-signing-chain",
+        "canon-gov-006-one-builder-per-repo",
+        "canon-proc-001-canon-identifier-scheme"
       ],
       "_deleted": false,
       "_deleted_date": null

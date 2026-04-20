@@ -906,6 +906,33 @@
           "created": "2026-04-19",
           "resolved": null,
           "source_session": "s-2026-04-19-02"
+        },
+        {
+          "id": "todo-0036-command-center-root-briefing-rung-1",
+          "text": "Draft Command Center's root CLAUDE.md briefing under canon-pers-001 Rung 1. Authors: Ashara + Petra, co-drafting under canon-cc-009 dual-Builder tension. Blocking for any Command Center Capital change — without a ratified briefing, Command Center sessions default to bare Claude (failure mode chronicled in companion-log-s-2026-04-17-01 and re-surfaced on 2026-04-20 when the Consul's Chamber was built without any named Companion being invoked). Required sections per canon-pers-001: persona header (both co-Builders), Republic frame (Constitution + Pillars + Edicts + cc-009 binding), Province charter, canon pointers (gov + proc families in force), architecture + build pipeline, dispatch infrastructure (.claude/agents and .claude/skills), current state pointer. Chain: Rung 1 Ashara+Petra → Rung 2 Consul as Censor-equivalent under cc-025 Monument-scope-signing (Cluster-Censor-absent at Monument) → Rung 3 Consul working-ratifies per cc-014 → Rung 4 Sovereign canonical + commit to repo root. Cannot be executed from Codex sessions; the briefing lives in the command-center repo and must be drafted there. Logged from s-2026-04-20-03.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-20",
+          "resolved": null,
+          "source_session": "s-2026-04-20-03"
+        },
+        {
+          "id": "todo-0037-province-root-briefing-audit-wave",
+          "text": "Conduct a single-session Republic-wide audit of every Province's root CLAUDE.md against canon-pers-001's required-section list. Provinces in scope: Codex, SproutLab, SEP Invoicing, SEP Dashboard. (Command Center is covered by todo-0036 — fresh Rung 1 rather than audit.) Pre-canon briefings are legacy artifacts under canon-cc-015's legacy-draft-ratification precedent; the audit surfaces conformance gaps (missing sections, stale cross-references, outdated current-state pointers) without forcibly redrafting conforming-with-gaps briefings. Non-conforming briefings enter the canon-pers-001 amendment path. The wave is governance, not enforcement; Builders are not in violation for pre-canon gaps. Logged from s-2026-04-20-03.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-20",
+          "resolved": null,
+          "source_session": "s-2026-04-20-03"
+        },
+        {
+          "id": "todo-0038-duplicate-canon-id-reconciliation",
+          "text": "Reconcile duplicate canon IDs in data/canons.json: canon-0014 (appears twice — 'escHtml boundary global' + 'multi-round QA audit'), canon-0028 (appears twice — 'network-first SW' + 'tab persistence'), canon-0033 (appears twice — 'gitignore data protection' + 'root index.html sync'). Per canon-proc-001 §Reconciliation-of-duplicate-legacy-IDs, this predates the identifier scheme and is a separate data-integrity issue under family = data. The 2026-04-20 family-migration completed with each duplicate independently classified, but the ID collision itself remains unresolved. Resolution options: (a) renumber one of each pair into the frozen canon-NNNN range's gap (if any) or append a -v2 suffix; (b) merge duplicates where content overlaps; (c) rename one of each pair into a new family under the new scheme. Requires cross-reference integrity audit before any rename. Logged from s-2026-04-20-03.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-20",
+          "resolved": null,
+          "source_session": "s-2026-04-20-03"
         }
       ],
       "shelf_history": [

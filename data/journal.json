@@ -101,6 +101,62 @@
             "first-operational-signing-chain-entry",
             "bridging-mode-deploy-defer"
           ]
+        },
+        {
+          "id": "s-2026-04-20-03",
+          "date": "2026-04-20",
+          "title": "Canon identifier scheme (canon-proc-001) + Province Persona Briefing canon (canon-pers-001) ratified; 96-canon migration complete",
+          "summary": "Two-canon governance ratification session addressing the canon-corpus taxonomy gap surfaced by the Command Center Consul-chamber-scaffolding failure earlier today. The session opened with the Sovereign ruling four architectural decisions on the new identifier scheme: (D1) adopt the 8-family domain prefix scheme, (D2) stability over purity — legacy IDs preserved with family field added, (D3) root CLAUDE.md canon lands as canon-pers-001, (Meta) scheme itself is canon-proc-001. During Chronicler drafting, a 9th family candidate surfaced — the legacy canon-cx- prefix contains 7 genuinely philosophical pillars/invariants (Nothing Is Wasted, Map Not Territory, Fractal Growth, Quiet Never Punishes, Entropy Is Antagonist, Ceremonies Create Memory, Companions Are Lenses) that do not fit design or data; Sovereign ratified the 9th family canon-philo- in ratification-phase MCQ. Legacy identifier families (canon-NNNN bare, canon-cc-NNN, canon-cx-NNN, canon-sep-NNN) are now frozen at their current highest-numbered members; canon-gov-NNN remains active under the new scheme because its naming already matches. Four MCQ seams surfaced at ratification: (Q1) 9 vs 8 families — ratified 9 with philo; (Q2) pers-001 chain rung count — ratified 4 rungs with Builder committing on Rung 4 (no Rung 5 because briefing is Province-singular, no byte-identical mirrors); (Q3) pers-001 Rung 1 authorship discipline — ratified Builder-exclusive Rung 1 with Chronicler-excluded-from-drafting-role (Chronicler may edit/review on Builder invitation, never draft); (Q4) 96-canon migration classification — ratified as executed with distribution design 29, build 17, proc 13, gov 10, philo 7, pers 6, xp 6, data 5, inst 5. No amendments applied during ratification. Both canons flipped draft→active. Three follow-up TODOs logged: Command Center root briefing Rung 1 (blocking any Capital change), Province root-briefing audit wave (Codex/SproutLab/SEP-Invoicing/SEP-Dashboard conformance pass), duplicate canon-ID reconciliation (canon-0014/0028/0033 each appear twice in legacy data — data-integrity issue chronicled in canon-proc-001 §Reconciliation-of-duplicate-legacy-IDs).",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "canon-proc-001 ratified as drafted — 9 families (pers, proc, gov, inst, xp, data, design, build, philo), ID stability for legacy canons (bare-NNNN, cc-NNN, cx-NNN, sep-NNN frozen at current highest-numbered member), canon-gov-NNN continues as active family under the new scheme.",
+            "canon-pers-001 ratified as drafted — root CLAUDE.md established as first-class artifact with its own signing chain (4 rungs, Builder-exclusive Rung 1, Builder commits on Rung 4). Chronicler-excluded-from-drafting-role rule is novel — first canon to name it explicitly at the authorship layer.",
+            "9th family philo adopted over 8-family cap — the Codex pillars and Republic invariants are architecturally distinct from design (they declare what the Republic values, not what to build); separating preserves the distinction in the canon surface.",
+            "96-canon migration classified and executed in a single pass — all canons now carry family field; no unmapped canons; family distribution healthy across all 9 tokens.",
+            "Legacy-family freeze strict: no new canon-NNNN, canon-cc-, canon-cx-, canon-sep- canons are ratifiable from canon-proc-001 forward; new canons use {family}-{NNN}-{slug} shape exclusively."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 75,
+          "open_todos": [
+            "todo-0026-cluster-persona-subagents",
+            "todo-0027-hero-card-spec-design-committee",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven",
+            "todo-0030-cc-025-convener-amendment-revisit",
+            "todo-0031-sproutlab-v3-migration",
+            "todo-0032-print-styles-follow-up-canon",
+            "todo-0033-sep-invoicing-design-principles",
+            "todo-0034-sep-dashboard-design-principles",
+            "todo-0035-command-center-design-principles-foundation-criterion",
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0038-duplicate-canon-id-reconciliation"
+          ],
+          "handoff": "Two-canon ratification complete; 96-canon migration complete. Follow-up fronts, prioritized: (a) Command Center root briefing Rung 1 (todo-0036) — blocking for any Command Center Capital change. Ashara + Petra co-draft under cc-009 dual-Builder discipline. Their drafting happens in a Command Center session (out of Codex's MCP scope); canon-pers-001's Chronicler-excluded Rung 1 rule means Aurelius cannot draft on their behalf. (b) Province root-briefing audit wave (todo-0037) — Codex, SproutLab, SEP-Invoicing, SEP-Dashboard conformance pass against canon-pers-001's required-section list. Pre-canon briefings are legacy under cc-015 precedent; not forcibly redrafted, but surfaced where gaps exist. (c) Canon-cc-019 Post Box drafting — still carried from 18 April; now a blocker for pers-001 Rung 4 Praetorium-mediated ratification (bridging mode tolerated until Post Box lands). (d) Duplicate canon-ID reconciliation (todo-0038) — canon-0014/0028/0033 each appear twice in legacy data. Data-integrity issue, family = data. Targeted resolution needed; the family-migration this session completed with each duplicate independently classified, but the underlying ID collision remains unresolved. (e) Parallel fronts still open from prior sessions: legacy-profile backfill (invocation_modes block across 11 profiles per cc-023), Sentinel profile v0.3-draft, Hero Card Spec Committee, Edict IX drafting, SEP + Command Center design principles, Cipher spec Rung 2 (pending fresh Nyx session in SEP Invoicing per this session's Architect ruling on same-agent drift). The canon corpus now has a navigable taxonomy. Next canons drafted will land in the new scheme from day one.",
+          "screenshots": [],
+          "tags": [
+            "canon-proc-001-ratified-active",
+            "canon-pers-001-ratified-active",
+            "9-family-taxonomy",
+            "philo-family-added",
+            "legacy-id-stability",
+            "canon-migration-96-complete",
+            "root-claude-md-as-canon-artifact",
+            "chronicler-excluded-rung-1",
+            "four-rung-chain-province-briefing",
+            "first-canons-in-new-scheme",
+            "duplicate-canon-ids-flagged",
+            "command-center-briefing-urgent",
+            "sovereign-direct-mcq-ratification",
+            "no-amendments-applied",
+            "no-companion-log"
+          ]
         }
       ]
     },
