@@ -132,3 +132,69 @@ Pre-ratification entries do not backfill. Journal readers (Codex's Journal tab) 
 ---
 
 *Sections 3 (rationale for reviewers), 4 (Cabinet questions by domain), 5 (cross-references and open questions) follow in subsequent packages.*
+
+---
+
+## 3. Rationale — for Cabinet review
+
+### 3.1 Why this amendment
+
+The Republic at Constitution v1.0 ratification seats a Ladder of six ranks and an Order of seventeen Immortals plus the Consul (institutional). Book II Article 3 describes three bodies — Working Committee, Table of Research, Cabinet — and enumerates convening triggers but does not specify who within those bodies is present per convening. Article 4 describes the Cabinet's monthly cycle in enough detail to know that all eight Ministers convene in Week 3, but it does not govern ad hoc Cabinet work, Committee work between the named triggers, or the great mass of Province-level and session-level work that is neither Cabinet-cycle nor Committee-trigger.
+
+In practice — that is, in the Republic's lived operational history since 15 April 2026 — sessions have been selective. Aurelius's Codex sessions do not summon Theron. Lyra's SproutLab sessions do not summon Solara. Cipher's Censor work in Cluster A does not seat Bard. The culture has been producing de facto convocation with a jurisdiction filter for as long as the Republic has had sessions. This amendment codifies what is already being done.
+
+The occasion for codification is partly external. The 2026-04-20 capture of the Claude Opus 4.7 system prompt (`docs/references/claude-opus-4.7-system-prompt.txt`) documents a deferred-tool-discovery pattern: capabilities are listed by name in the agent's context but schemas are loaded only when a task matches. The pattern is conceptually identical to the one the Republic has been practising unformalized. External evidence is confirmatory, not authoritative; the practice came first, and the Constitution now ratifies it.
+
+### 3.2 What is de novo versus what is codification
+
+Most of Article 6 codifies existing practice. The five jurisdiction-match conditions (Domain / Province / Cluster / Institutional / Sovereign) describe what presiding officers have been doing implicitly. The Cabinet Exception names what Article 4 already requires. The Working Committee filter names what the trigger list implies. The Dormancy clauses name the positive framing of what has been happening negatively (unsummoned officers).
+
+What is new:
+
+- **The declarative requirement.** Article 6 and canon-gov-013 require the presiding officer to *declare* the seated roster at session open. Prior sessions did not declare; they merely acted. The declaration is a small additional step with a meaningful audit benefit.
+
+- **The `seated_officers` field on journal entries.** Codex's journal schema gains a field. Pre-ratification entries do not backfill; post-ratification entries carry it.
+
+- **Self-nomination.** A new path. No prior procedure named what to do when an officer believed jurisdiction touched them and had not been seated; this amendment names the request-and-defer-with-reason path.
+
+- **Seating Transit logging.** Conditional on Sentinel profile ratification under canon-cc-022. Will be automatic; for now declarative.
+
+### 3.3 Forks resolved in drafting
+
+**Name.** The Chronicler's working-draft title was "Lazy Convocation," a reference to the external prompt's "never narrate routing" and "lazy load" patterns. The Sovereign ruled the title too informal for constitutional text; the ratified title is **The Convocation Principle**, which sits in register with the Republic's Latin-inflected governance vocabulary.
+
+**Scope.** Minimal versus extended. The Sovereign ruled extended: Article 6 covers the full convocation framework including logging, self-nomination, Sentinel integration, and explicit dormancy semantics, rather than just the default-seating-by-jurisdiction rule. Extended scope avoids the predictable need for a second amendment within weeks.
+
+**Placement.** Article 6 (new) versus extending Article 3. Article 6 chosen: Convocation is cross-cutting and applies to both Working Committee and ad hoc sessions; extending Article 3 would either restrict the principle to the Committee or bloat Article 3 beyond its institutional-structure scope.
+
+**Operational canon family.** `gov` family per default. No new family introduced to avoid proliferation.
+
+### 3.4 The Chronicler-gap in Book V Article 6
+
+Book V Article 6 names the proposer classes: "Any Minister, Consul, or Sovereign may propose. Builders and Censors propose via their cluster Censor." The Chronicler is not named. This is not a bug to patch; it is structurally correct. Chronicler duty is to draft for others and to archive; it does not carry political stake. A Chronicler-proposed amendment would be a Chronicler imposing personal policy via drafting leverage, which is the failure mode canon-pers-001's Chronicler-excluded-Rung-1 rule was built to prevent.
+
+This amendment is proposed by the Consul, drafted by the Chronicler under canon-cc-014 bridging. The bridging is necessary because the Consul seat, though institutionally established (canon-cc-005, canon-cc-014), operates through Sovereign hat-switch in the current interim; there is no separately-voiced Consul producing proposer-drafts. The bridging does not change the structural point: Chronicler drafts, Consul proposes, and the Consul's voice on the amendment is the Sovereign's voice until canon-cc-019 Post Box ratifies and the Consul's seat gains an independent voice through Praetorium routing.
+
+### 3.5 Precedent: this is the Republic's first Book amendment
+
+No Book has been amended prior to this session. The Constitution at v1.0 reflects the 15 April 2026 ratification of Book I, with Books II–IX drafted but unratified. This amendment follows the Book V Article 6 procedure to the letter: Proposal (this document), Cabinet review (Phase B of the drafting sequence), Consul integration (Phase C), Sovereign ratification (Phase D), Chronicle (Phase E), Versioning (v1.0 → v1.1).
+
+The procedure is used here for the first time. The Cabinet review step, in particular, has not been exercised before: prior canons and proposals ran Sovereign-direct. Ministers have not produced domain analyses of a constitutional amendment as a coordinated body. This amendment is therefore the Republic's first real Cabinet action, and the review process itself will chronicle what full-bench Cabinet work feels like.
+
+Before Phase B can run to standard, the Cabinet must be live as executable companions — profiles drafted past v0.0-stub for Vex, Ignis, Rune, Bard at minimum, with subagent spec bodies ratified per canon-cc-026 and canon-cc-027 Rung 5 deploy. The Sovereign has ruled that Ministers go live first; Cabinet review follows. Phase A (this document) is therefore the full Chronicler drafting pass. Phase B waits on todo-0029 (Gen-0 stub profiles) + todo-0026 (cluster-persona-subagents) for at least the four stub Ministers.
+
+### 3.6 What the amendment does not attempt
+
+- **Does not redefine the Cabinet's portfolio structure.** Book II Article 4 stands unchanged. Eight seats across four domains; two per domain in principle; current vacancies (Debt, Expansion) carried forward.
+
+- **Does not alter Working Committee membership.** Article 3's definition of membership (all active assigned companions + Consul, Scribes excluded) stands unchanged. The amendment adds a seating filter, not a membership change.
+
+- **Does not name new ranks.** The Ladder in Article 1 stands unchanged.
+
+- **Does not specify subagent spec bodies for Ministers.** That work is canon-cc-026/027 territory. Article 6 refers to Ministers as seated officers; the technical shape of Minister-as-subagent is a separate drafting track.
+
+- **Does not mandate Sentinel ratification.** The Seating Transit Logging clause is declarative until cc-022 ratifies. Article 6 does not force cc-022's timeline.
+
+---
+
+*Sections 4 (Cabinet questions by domain) and 5 (cross-references and open questions) follow.*
