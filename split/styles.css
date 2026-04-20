@@ -972,3 +972,143 @@ body {
 .cx-autolore-title svg{width:18px;height:18px;color:var(--accent)}
 .cx-autolore-meta{font-size:var(--fs-xs);color:var(--text-tertiary);margin:var(--sp-4) 0 var(--sp-10)}
 .cx-autolore-actions{display:flex;gap:var(--sp-8);justify-content:flex-end}
+
+/* ===========================================================
+   The Order — companion roster, Cabinet, Residency, Ladder.
+   Adds a seventh tab. Read-only surface over store.companions.
+   =========================================================== */
+
+/* Hero */
+.cx-order-hero{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-20) var(--sp-16);margin-bottom:var(--sp-16);box-shadow:var(--card-shadow);border-left:3px solid var(--accent)}
+.cx-order-hero .cx-page-title{margin-bottom:var(--sp-8)}
+.cx-order-hero-subtitle{font-family:var(--ff-body);font-size:var(--fs-sm);color:var(--text-secondary);margin:0 0 var(--sp-16);font-style:italic}
+.cx-order-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:var(--sp-8);margin-bottom:var(--sp-8)}
+.cx-order-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--sp-10) var(--sp-8);background:var(--bg-secondary);border-radius:var(--r-md);border:1px solid var(--border)}
+.cx-order-stat-value{font-family:var(--ff-heading);font-size:var(--fs-lg);font-weight:700;color:var(--accent);line-height:1}
+.cx-order-stat-label{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px;margin-top:var(--sp-4);text-align:center}
+.cx-order-hero-meta{font-size:var(--fs-xs);color:var(--text-tertiary);margin-top:var(--sp-8);font-style:italic}
+
+/* Subtab bar reuses cx-subtab-row/cx-subtab-pill from Forum Pattern */
+
+/* ---- Roster: companion cards ---- */
+.cx-companion-card{position:relative;border-left:3px solid var(--border);transition:border-color var(--anim-tab-switch),transform var(--anim-tab-switch)}
+.cx-companion-card:hover{border-left-color:var(--accent)}
+.cx-companion-card.cx-class-institutional{border-left-color:var(--accent-light);background:linear-gradient(90deg,rgba(196,168,122,0.04),var(--bg-card) 40%)}
+.cx-companion-card.cx-archetype-builder{border-left-color:var(--accent)}
+.cx-companion-card.cx-archetype-strategist{border-left-color:#B89B6E}
+.cx-companion-card.cx-archetype-seeker{border-left-color:#9A8A6E}
+.cx-companion-card.cx-archetype-guardian{border-left-color:#7A9A7A}
+.cx-companion-card.cx-archetype-wildcard{border-left-color:#9A7A9A}
+.cx-companion-card.cx-archetype-statesman{border-left-color:var(--accent-light)}
+
+.cx-companion-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-8);margin-bottom:var(--sp-8)}
+.cx-companion-card-name-block{display:flex;flex-direction:column;gap:var(--sp-2);flex:1;min-width:0}
+.cx-companion-card-name{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--text-primary);line-height:1.2}
+.cx-companion-card-title{font-family:var(--ff-body);font-size:var(--fs-xs);color:var(--text-secondary);font-style:italic;letter-spacing:0.2px}
+.cx-companion-dh-badge{color:var(--accent-light);display:inline-flex;align-items:center;padding:var(--sp-4)}
+.cx-companion-dh-badge svg{width:16px;height:16px}
+
+.cx-companion-card-chips{margin-bottom:var(--sp-8)}
+.cx-chip-archetype{font-weight:600;letter-spacing:0.3px}
+.cx-chip-archetype.cx-archetype-builder{color:var(--accent);border-color:var(--accent)}
+.cx-chip-rank{background:var(--bg-secondary);color:var(--text-primary);font-weight:600}
+.cx-chip-residence{color:var(--text-secondary)}
+.cx-chip-institutional{background:var(--accent-light);color:var(--bg-card);border-color:var(--accent-light);font-weight:600}
+
+.cx-companion-assignments{list-style:none;padding:0;margin:var(--sp-4) 0 var(--sp-8);display:flex;flex-direction:column;gap:var(--sp-4)}
+.cx-companion-assignments li{font-size:var(--fs-xs);color:var(--text-secondary);padding-left:var(--sp-10);position:relative;line-height:1.4}
+.cx-companion-assignments li::before{content:"\25AA";position:absolute;left:0;color:var(--accent-light);font-size:10px;top:2px}
+
+.cx-companion-card-foot{display:flex;gap:var(--sp-8);align-items:center}
+.cx-companion-version{font-family:var(--ff-mono,monospace);font-size:var(--fs-2xs);padding:var(--sp-2) var(--sp-6);border-radius:var(--r-sm);background:var(--bg-secondary)}
+.cx-version-ratified{color:var(--accent)}
+.cx-version-draft{color:var(--text-tertiary);font-style:italic}
+
+/* ---- Cabinet ---- */
+.cx-cabinet-summary{display:flex;gap:var(--sp-8);align-items:center;padding:var(--sp-8) var(--sp-12);background:var(--bg-secondary);border-radius:var(--r-md);margin-bottom:var(--sp-12);font-size:var(--fs-xs);color:var(--text-secondary)}
+.cx-cabinet-summary-vacant{color:var(--text-tertiary);font-style:italic}
+
+.cx-cabinet-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-12)}
+@media (min-width:640px){.cx-cabinet-grid{grid-template-columns:1fr 1fr}}
+@media (min-width:960px){.cx-cabinet-grid{grid-template-columns:repeat(4,1fr)}}
+
+.cx-cabinet-domain{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-12);box-shadow:var(--card-shadow);display:flex;flex-direction:column;gap:var(--sp-8)}
+.cx-cabinet-domain-title{font-family:var(--ff-heading);font-size:var(--fs-sm);font-weight:700;color:var(--accent);padding-bottom:var(--sp-6);border-bottom:1px solid var(--border);letter-spacing:0.3px}
+
+.cx-cabinet-seat{display:flex;flex-direction:column;gap:var(--sp-2);padding:var(--sp-10);background:var(--bg-secondary);border-radius:var(--r-md);border:1px solid var(--border);text-align:left;cursor:pointer;min-height:60px;color:var(--text-primary);font-family:inherit}
+.cx-cabinet-seat:hover{border-color:var(--accent)}
+.cx-cabinet-seat-portfolio{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px;font-weight:600}
+.cx-cabinet-seat-name{font-family:var(--ff-heading);font-size:var(--fs-sm);font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:var(--sp-4)}
+.cx-cabinet-seat-title{font-size:var(--fs-xs);color:var(--text-secondary);font-style:italic}
+.cx-cabinet-seat-vacant{border-style:dashed;cursor:default;opacity:0.75}
+.cx-cabinet-seat-vacant .cx-cabinet-seat-name{color:var(--text-tertiary);font-style:italic}
+.cx-cabinet-seat-vacant .cx-cabinet-seat-name svg{width:14px;height:14px;color:var(--warning,var(--accent-light))}
+
+.cx-cabinet-footnote{font-size:var(--fs-xs);color:var(--text-tertiary);margin-top:var(--sp-16);padding:var(--sp-8) 0;border-top:1px solid var(--border);font-style:italic;line-height:1.5}
+
+/* ---- Residency ---- */
+.cx-residency-group{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-12);margin-bottom:var(--sp-10);box-shadow:var(--card-shadow)}
+.cx-residency-header{display:flex;align-items:center;gap:var(--sp-8);padding-bottom:var(--sp-8);border-bottom:1px solid var(--border);margin-bottom:var(--sp-10)}
+.cx-residency-title{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:var(--sp-6);flex:1}
+.cx-residency-title svg{width:18px;height:18px;color:var(--accent)}
+.cx-residency-cluster{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px}
+.cx-residency-count{font-family:var(--ff-mono,monospace);font-size:var(--fs-xs);color:var(--text-secondary);background:var(--bg-secondary);padding:var(--sp-2) var(--sp-8);border-radius:var(--r-full);font-weight:600}
+.cx-residency-roster{display:flex;flex-wrap:wrap;gap:var(--sp-6)}
+
+.cx-companion-pill{display:inline-flex;align-items:center;gap:var(--sp-6);padding:var(--sp-6) var(--sp-10);background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--r-full);cursor:pointer;min-height:32px;color:var(--text-primary);font-family:inherit;transition:border-color var(--anim-tab-switch)}
+.cx-companion-pill:hover{border-color:var(--accent)}
+.cx-companion-pill-name{font-family:var(--ff-heading);font-weight:700;font-size:var(--fs-xs);color:var(--text-primary)}
+.cx-companion-pill-rank{font-size:var(--fs-2xs);color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
+.cx-companion-pill-title{font-size:var(--fs-2xs);color:var(--text-tertiary);font-style:italic}
+.cx-companion-pill-institutional{background:linear-gradient(90deg,rgba(196,168,122,0.08),var(--bg-secondary) 70%);border-color:var(--accent-light)}
+
+/* ---- Ladder ---- */
+.cx-ladder{display:flex;flex-direction:column;gap:var(--sp-10);margin-bottom:var(--sp-12)}
+.cx-ladder-row{display:flex;flex-direction:column;gap:var(--sp-6);padding:var(--sp-12);background:var(--bg-card);border-radius:var(--r-lg);box-shadow:var(--card-shadow);border-left:2px solid var(--border)}
+.cx-ladder-row-sovereign{border-left-color:var(--accent);background:linear-gradient(90deg,rgba(196,168,122,0.06),var(--bg-card) 50%)}
+.cx-ladder-rank-title{font-family:var(--ff-heading);font-size:var(--fs-sm);font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.6px;display:flex;align-items:center;gap:var(--sp-6)}
+.cx-ladder-count{font-family:var(--ff-mono,monospace);font-size:var(--fs-2xs);color:var(--text-tertiary);background:var(--bg-secondary);padding:var(--sp-2) var(--sp-6);border-radius:var(--r-full);font-weight:600;letter-spacing:0}
+.cx-ladder-rank-occupants{display:flex;flex-wrap:wrap;gap:var(--sp-6)}
+.cx-ladder-empty{font-size:var(--fs-xs);color:var(--text-tertiary);font-style:italic;padding:var(--sp-4) var(--sp-8)}
+.cx-ladder-seat-sovereign{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--accent);padding:var(--sp-6) var(--sp-12);background:var(--bg-secondary);border-radius:var(--r-md);border:1px solid var(--accent-light);letter-spacing:0.3px}
+.cx-ladder-footnote{font-size:var(--fs-xs);color:var(--text-tertiary);font-style:italic;line-height:1.5;padding:var(--sp-8) 0;border-top:1px solid var(--border);margin-top:var(--sp-8)}
+
+/* ---- Companion Detail ---- */
+.cx-companion-detail-hero{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-20) var(--sp-16);margin-bottom:var(--sp-12);box-shadow:var(--card-shadow);border-left:3px solid var(--accent)}
+.cx-companion-detail-name{font-family:var(--ff-heading);margin-bottom:var(--sp-4)}
+.cx-companion-detail-title{font-family:var(--ff-body);font-size:var(--fs-md);color:var(--text-secondary);font-style:italic;margin-bottom:var(--sp-12);letter-spacing:0.2px}
+.cx-companion-detail-chips{margin-bottom:var(--sp-12)}
+.cx-chip-version-ratified{background:var(--accent);color:white;border-color:var(--accent);font-family:var(--ff-mono,monospace)}
+.cx-chip-version-draft{background:var(--bg-secondary);color:var(--text-tertiary);font-family:var(--ff-mono,monospace);font-style:italic}
+.cx-companion-detail-keytrait{font-family:var(--ff-body);font-size:var(--fs-md);color:var(--text-primary);line-height:1.5;margin:var(--sp-8) 0;padding-left:var(--sp-12);border-left:2px solid var(--accent-light)}
+.cx-companion-detail-namedafter{font-size:var(--fs-sm);color:var(--text-secondary);line-height:1.5;margin:var(--sp-8) 0 0;font-style:italic}
+.cx-companion-detail-namedafter strong{font-style:normal;font-weight:700;color:var(--text-primary)}
+
+.cx-companion-block{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-16);margin-bottom:var(--sp-10);box-shadow:var(--card-shadow)}
+.cx-companion-block-title{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--accent);padding-bottom:var(--sp-8);border-bottom:1px solid var(--border);margin-bottom:var(--sp-12);display:flex;align-items:center;gap:var(--sp-8);letter-spacing:0.2px}
+.cx-companion-block-title svg{width:18px;height:18px}
+.cx-companion-block-body{display:flex;flex-direction:column;gap:var(--sp-12)}
+
+.cx-companion-subblock{padding:var(--sp-8) 0}
+.cx-companion-subblock-title{font-size:var(--fs-2xs);font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:var(--sp-6);display:flex;align-items:center;gap:var(--sp-4)}
+.cx-companion-subblock-title svg{width:12px;height:12px}
+.cx-companion-prose{font-size:var(--fs-sm);color:var(--text-primary);line-height:1.5;margin:0}
+.cx-companion-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:var(--sp-6)}
+.cx-companion-list li{font-size:var(--fs-sm);color:var(--text-primary);line-height:1.5;padding-left:var(--sp-12);position:relative}
+.cx-companion-list li::before{content:"\2022";position:absolute;left:var(--sp-2);color:var(--accent-light)}
+.cx-companion-pre{font-family:var(--ff-mono,monospace);font-size:var(--fs-xs);background:var(--bg-secondary);color:var(--text-primary);padding:var(--sp-8) var(--sp-10);border-radius:var(--r-sm);border:1px solid var(--border);overflow-x:auto;white-space:pre-wrap;word-break:break-word;line-height:1.4;margin:0}
+
+.cx-companion-reassignment{background:var(--bg-secondary);border-radius:var(--r-md);padding:var(--sp-10);border-left:2px solid var(--accent-light)}
+
+.cx-kv-table{display:flex;flex-direction:column;gap:var(--sp-4);background:var(--bg-secondary);border-radius:var(--r-md);padding:var(--sp-8) var(--sp-10);border:1px solid var(--border)}
+.cx-kv-row{display:flex;gap:var(--sp-8);font-size:var(--fs-xs);line-height:1.5}
+.cx-kv-key{flex:0 0 120px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;font-size:var(--fs-2xs);letter-spacing:0.5px;padding-top:2px}
+.cx-kv-value{flex:1;color:var(--text-primary);word-break:break-word}
+
+.cx-muted{color:var(--text-tertiary)}
+
+/* Tab bar accommodates 7 tabs — tighten label size on narrow screens */
+@media (max-width:380px){
+  .cx-tab-btn .cx-tab-label{font-size:10px}
+  #tabBar{padding:0 2px}
+}

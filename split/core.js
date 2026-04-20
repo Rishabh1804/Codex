@@ -115,7 +115,8 @@ function parseRoute(hash) {
   if (parts[0] === 'chapter' && parts[1] && parts[2]) return { view: 'chapter-detail', volumeId: decodeURIComponent(parts[1]), chapterId: decodeURIComponent(parts[2]) };
   if (parts[0] === 'lore' && parts[1]) return { view: 'lore-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'spec' && parts[1]) return { view: 'spec-detail', id: decodeURIComponent(parts[1]) };
-  if (['dashboard','journal','canons','todos','lore','specs','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
+  if (parts[0] === 'companion' && parts[1]) return { view: 'companion-detail', id: decodeURIComponent(parts[1]) };
+  if (['dashboard','journal','canons','todos','lore','specs','order','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
   return { view: 'dashboard' };
 }
 
@@ -143,12 +144,12 @@ function handleRouteChange(hash, scrollToTop) {
 
 function handleSwitchTab(tabName) {
   _pendingFilter = null;
-  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore', specs: '#/specs' };
+  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore', specs: '#/specs', order: '#/order' };
   navigate(map[tabName] || '#/dashboard');
 }
 
 function updateTabBarActive(view) {
-  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', specs:'specs', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', 'spec-detail':'specs', settings:null };
+  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', specs:'specs', order:'order', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', 'spec-detail':'specs', 'companion-detail':'order', settings:null };
   var active = map[view];
   var btns = document.querySelectorAll('.cx-tab-btn');
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
@@ -205,6 +206,10 @@ function renderBreadcrumbForRoute(route) {
   } else if (route.view === 'lore-detail') {
     var lentry = store.lore.find(function(x) { return x.id === route.id; });
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Lore', route: '#/lore' }, { label: lentry ? lentry.title : route.id, route: null }];
+  } else if (route.view === 'companion-detail') {
+    var comp = (store.companions || []).find(function(x) { return x.id === route.id; });
+    var cname = comp && comp.identity && comp.identity.name ? comp.identity.name : route.id;
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Order', route: '#/order' }, { label: cname, route: null }];
   }
   renderBreadcrumb(segments);
 }
@@ -227,11 +232,12 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail' || route.view === 'spec-detail')) {
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail' || route.view === 'spec-detail' || route.view === 'companion-detail')) {
     var title = route.view === 'settings' ? 'Settings'
       : route.view === 'canon-detail' ? 'Canon'
       : route.view === 'lore-detail' ? 'Lore'
       : route.view === 'spec-detail' ? 'Spec'
+      : route.view === 'companion-detail' ? 'Companion'
       : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
@@ -318,8 +324,8 @@ function updateFab(view) {
 /* --- Tab Icons --- */
 function initTabIcons() {
   var btns = document.querySelectorAll('.cx-tab-btn');
-  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check', specs: 'quill' };
-  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs', specs: 'Specs' };
+  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check', specs: 'quill', order: 'shelf' };
+  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs', specs: 'Specs', order: 'Order' };
   for (var i = 0; i < btns.length; i++) {
     var tab = btns[i].dataset.tab;
     btns[i].innerHTML = cx(icons[tab] || 'book') + '<span class="cx-tab-label">' + (labels[tab] || tab) + '</span>';
@@ -337,7 +343,8 @@ function renderCurrentView() {
       journal: renderJournal, canons: renderCanons,
       'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail,
       lore: renderLore, 'lore-detail': renderLoreDetail,
-      specs: renderSpecs, 'spec-detail': renderSpecDetail
+      specs: renderSpecs, 'spec-detail': renderSpecDetail,
+      order: renderOrder, 'companion-detail': renderCompanionDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);

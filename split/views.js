@@ -2879,3 +2879,643 @@ function renderWizardDone() {
     + '<button class="cx-btn-primary cx-wizard-btn" data-action="wizardFinish">Open Codex</button>'
     + '</div>';
 }
+
+/* ============================================================
+   The Order — companion roster, Cabinet, Residency, Ladder.
+   Read-only surface over store.companions (companions.json).
+   Mutations flow through the snippet pipeline per canon-cc-012.
+   ============================================================ */
+
+var _orderSubTab = (function() {
+  try { return localStorage.getItem('codex-subtab-order') || 'roster'; }
+  catch(e) { return 'roster'; }
+})();
+
+/* Cabinet structure inscribed in constitution/working-papers.typ line 161
+   and constitution/books/appendices.typ. The app derives occupants from
+   companions' current_assignments at render-time; the structure itself is
+   constitutional and does not live in companions.json. */
+var CABINET_STRUCTURE = [
+  { domain: 'Financial Health', portfolios: ['Treasury', 'Budget'] },
+  { domain: 'Productivity',     portfolios: ['Efficiency', 'Output'] },
+  { domain: 'Maintenance',      portfolios: ['Stability', 'Debt'] },
+  { domain: 'Growth',           portfolios: ['Expansion', 'Innovation'] }
+];
+
+/* Residency ordering — Provinces first (Cluster A, Cluster B), then
+   Command Center (Capital + Monument), then unresided. */
+var RESIDENCY_ORDER = [
+  { key: 'codex',          label: 'Codex',          cluster: 'A' },
+  { key: 'sproutlab',      label: 'SproutLab',      cluster: 'A' },
+  { key: 'sep-invoicing',  label: 'SEP Invoicing',  cluster: 'B' },
+  { key: 'sep-dashboard',  label: 'SEP Dashboard',  cluster: 'B' },
+  { key: 'command-center', label: 'Command Center', cluster: 'Capital' }
+];
+
+/* Ladder ordering — Constitution Book II Article 1 single-ladder spec. */
+var LADDER_RANKS = [
+  { key: 'Sovereign', label: 'Sovereign' },
+  { key: 'Consul',    label: 'Consul' },
+  { key: 'Censor',    label: 'Censors' },
+  { key: 'Builder',   label: 'Builders' },
+  { key: 'Governor',  label: 'Governors' },
+  { key: 'Scribe',    label: 'Scribes' }
+];
+
+function renderOrder() {
+  var vc = document.getElementById('viewContainer');
+  var companions = store.companions || [];
+
+  if (companions.length === 0) {
+    vc.innerHTML = renderEmptyState('tome', 'The Order stands empty',
+      'No companions are seated. companions.json has not loaded, or the roster is unbootstrapped.');
+    return;
+  }
+
+  var html = renderOrderHeader(companions);
+
+  html += renderSubTabBar('order', [
+    { key: 'roster',    label: 'Roster' },
+    { key: 'cabinet',   label: 'Cabinet' },
+    { key: 'residency', label: 'Residency' },
+    { key: 'ladder',    label: 'Ladder' }
+  ], _orderSubTab);
+
+  if      (_orderSubTab === 'cabinet')   html += renderOrderCabinetSubTab(companions);
+  else if (_orderSubTab === 'residency') html += renderOrderResidencySubTab(companions);
+  else if (_orderSubTab === 'ladder')    html += renderOrderLadderSubTab(companions);
+  else                                    html += renderOrderRosterSubTab(companions);
+
+  vc.innerHTML = html;
+}
+
+/* Header — roster health at a glance. */
+function renderOrderHeader(companions) {
+  var meta = store.companions_meta || {};
+  var total = companions.length;
+  var gen  = companions.filter(function(c) { return c.companion_class === 'generational'; }).length;
+  var inst = companions.filter(function(c) { return c.companion_class === 'institutional'; }).length;
+
+  var ratified = 0, drafts = 0;
+  companions.forEach(function(c) {
+    var v = c.meta && c.meta.profile_version;
+    if (!v) return;
+    if (String(v).indexOf('draft') !== -1) drafts++;
+    else ratified++;
+  });
+
+  var stats = [
+    { label: 'Companions',    value: total },
+    { label: 'Generational',  value: gen },
+    { label: 'Institutional', value: inst },
+    { label: 'Ratified',      value: ratified },
+    { label: 'Drafts',        value: drafts }
+  ];
+
+  var html = '<div class="cx-order-hero">';
+  html += '<h1 class="cx-page-title">' + cx('tome') + ' The Order</h1>';
+  html += '<p class="cx-order-hero-subtitle">The Republic\u2019s companion roster \u2014 seated, residing, ranked.</p>';
+  html += '<div class="cx-order-stats">';
+  stats.forEach(function(s) {
+    html += '<div class="cx-order-stat"><span class="cx-order-stat-value">' + escHtml(String(s.value)) + '</span>'
+         +  '<span class="cx-order-stat-label">' + escHtml(s.label) + '</span></div>';
+  });
+  html += '</div>';
+  if (meta.updated) {
+    html += '<div class="cx-order-hero-meta">Roster updated ' + escHtml(formatAbsoluteDate(meta.updated)) + '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+/* ---- Roster subtab — all companions as full cards ---- */
+function renderOrderRosterSubTab(companions) {
+  var sorted = companions.slice().sort(orderCompanionsByInstitutionalThenName);
+  var html = '';
+  sorted.forEach(function(c) { html += renderCompanionCard(c); });
+  return html;
+}
+
+/* Sort: institutional first (Consul), then generational by name. */
+function orderCompanionsByInstitutionalThenName(a, b) {
+  var ai = a.companion_class === 'institutional' ? 0 : 1;
+  var bi = b.companion_class === 'institutional' ? 0 : 1;
+  if (ai !== bi) return ai - bi;
+  var an = ((a.identity && a.identity.name) || a.id || '').toLowerCase();
+  var bn = ((b.identity && b.identity.name) || b.id || '').toLowerCase();
+  return an.localeCompare(bn);
+}
+
+/* Companion card — compact-rich. Clickable, routes to detail. */
+function renderCompanionCard(c) {
+  var id       = c.id || '';
+  var ident    = c.identity || {};
+  var asn      = c.assignment || {};
+  var meta     = c.meta || {};
+  var name     = ident.name || id;
+  var title    = ident.title || '';
+  var archetype = ident.archetype || '';
+  var cls      = c.companion_class || 'generational';
+  var rank     = asn.current_rank || '';
+  var residence = asn.residence || asn.province || (cls === 'institutional' ? 'command-center' : '');
+  var cluster  = asn.cluster || '';
+  var version  = meta.profile_version || '';
+  var assignments = Array.isArray(asn.current_assignments) ? asn.current_assignments : [];
+  var doubleHat = asn.double_hatted === true;
+
+  var archetypeCls = archetype ? ' cx-archetype-' + escAttr(archetype.toLowerCase()) : '';
+  var classCls     = ' cx-class-' + escAttr(cls);
+  var versionCls   = version && String(version).indexOf('draft') !== -1 ? 'cx-version-draft' : 'cx-version-ratified';
+  var residenceLabel = residenceLabelFor(residence);
+
+  var html = '<div class="cx-card cx-card-clickable cx-companion-card' + archetypeCls + classCls + '" data-action="goToCompanion" data-id="' + escAttr(id) + '">';
+
+  html += '<div class="cx-companion-card-head">';
+  html += '<div class="cx-companion-card-name-block">';
+  html += '<div class="cx-companion-card-name">' + escHtml(name) + '</div>';
+  if (title) html += '<div class="cx-companion-card-title">' + escHtml(title) + '</div>';
+  html += '</div>';
+  if (doubleHat) html += '<span class="cx-companion-dh-badge" title="Double-hatted">' + cx('bookmark') + '</span>';
+  html += '</div>';
+
+  html += '<div class="cx-chip-row cx-companion-card-chips">';
+  if (archetype) html += '<span class="cx-chip cx-chip-sm cx-chip-archetype' + archetypeCls + '">' + escHtml(archetype) + '</span>';
+  if (rank)      html += '<span class="cx-chip cx-chip-sm cx-chip-rank">' + escHtml(rank) + '</span>';
+  if (residenceLabel) html += '<span class="cx-chip cx-chip-sm cx-chip-residence">' + escHtml(residenceLabel) + '</span>';
+  if (cluster && cluster !== 'Monument' && cluster !== 'Capital') html += '<span class="cx-chip cx-chip-sm">Cluster ' + escHtml(cluster) + '</span>';
+  else if (cluster)                                                 html += '<span class="cx-chip cx-chip-sm">' + escHtml(cluster) + '</span>';
+  if (cls === 'institutional') html += '<span class="cx-chip cx-chip-sm cx-chip-institutional">Institutional</span>';
+  html += '</div>';
+
+  if (assignments.length > 0) {
+    html += '<ul class="cx-companion-assignments">';
+    assignments.forEach(function(a) { html += '<li>' + escHtml(a) + '</li>'; });
+    html += '</ul>';
+  }
+
+  var footerBits = [];
+  if (version) footerBits.push('<span class="cx-companion-version ' + versionCls + '">' + escHtml(version) + '</span>');
+  if (ident.generation != null) footerBits.push('Gen ' + escHtml(String(ident.generation)));
+  if (footerBits.length > 0) {
+    html += '<div class="cx-card-meta cx-companion-card-foot">' + footerBits.join(' \u00B7 ') + '</div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+function residenceLabelFor(key) {
+  if (!key) return '';
+  var match = RESIDENCY_ORDER.find(function(r) { return r.key === key; });
+  return match ? match.label : key;
+}
+
+/* ---- Cabinet subtab — 4 domains × 2 seats, vacancies visible ---- */
+function renderOrderCabinetSubTab(companions) {
+  var filled = computeCabinetOccupancy(companions);
+
+  var totalSeats = 8;
+  var vacantSeats = 0;
+  CABINET_STRUCTURE.forEach(function(d) {
+    d.portfolios.forEach(function(p) {
+      if (!filled[d.domain + '|' + p]) vacantSeats++;
+    });
+  });
+
+  var html = '<div class="cx-cabinet-summary">';
+  html += '<span>' + escHtml(String(totalSeats - vacantSeats)) + ' of ' + totalSeats + ' Ministerial seats filled</span>';
+  if (vacantSeats > 0) html += '<span class="cx-cabinet-summary-vacant">\u00B7 ' + vacantSeats + ' vacant</span>';
+  html += '</div>';
+
+  html += '<div class="cx-cabinet-grid">';
+  CABINET_STRUCTURE.forEach(function(d) {
+    html += '<div class="cx-cabinet-domain" data-domain="' + escAttr(d.domain.toLowerCase().replace(/\s+/g, '-')) + '">';
+    html += '<div class="cx-cabinet-domain-title">' + escHtml(d.domain) + '</div>';
+    d.portfolios.forEach(function(p) {
+      var key = d.domain + '|' + p;
+      var occupant = filled[key];
+      html += renderCabinetSeat(d.domain, p, occupant);
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+
+  html += '<div class="cx-cabinet-footnote">Cabinet structure per Constitution Book II Article 4 and working-papers.typ. Vacancies chronicled per canon-cc-011.</div>';
+
+  return html;
+}
+
+function renderCabinetSeat(domain, portfolio, occupant) {
+  if (occupant) {
+    var c = occupant.companion;
+    var ident = c.identity || {};
+    return '<button class="cx-cabinet-seat" data-action="goToCompanion" data-id="' + escAttr(c.id) + '">'
+      +  '<div class="cx-cabinet-seat-portfolio">Minister: ' + escHtml(portfolio) + '</div>'
+      +  '<div class="cx-cabinet-seat-name">' + escHtml(ident.name || c.id) + '</div>'
+      +  (ident.title ? '<div class="cx-cabinet-seat-title">' + escHtml(ident.title) + '</div>' : '')
+      +  '</button>';
+  }
+  return '<div class="cx-cabinet-seat cx-cabinet-seat-vacant">'
+    + '<div class="cx-cabinet-seat-portfolio">Minister: ' + escHtml(portfolio) + '</div>'
+    + '<div class="cx-cabinet-seat-name">' + cx('alert') + ' Vacant</div>'
+    + '</div>';
+}
+
+/* Parse each companion's current_assignments for Cabinet-seat strings of the
+   form "Minister: <Portfolio> (<Domain>)". Returns a map domain|portfolio → companion. */
+function computeCabinetOccupancy(companions) {
+  var map = {};
+  companions.forEach(function(c) {
+    var assignments = (c.assignment && c.assignment.current_assignments) || [];
+    assignments.forEach(function(a) {
+      var m = /Minister:\s*([A-Za-z]+)\s*\(([^)]+)\)/.exec(a);
+      if (!m) return;
+      var portfolio = m[1].trim();
+      var domainRaw = m[2].trim();
+      // Match against CABINET_STRUCTURE to canonicalize.
+      CABINET_STRUCTURE.forEach(function(d) {
+        if (d.portfolios.indexOf(portfolio) === -1) return;
+        // Domain match: exact or substring (e.g. "Financial Health domain" contains "Financial Health")
+        if (domainRaw.indexOf(d.domain) === -1) return;
+        map[d.domain + '|' + portfolio] = { companion: c };
+      });
+    });
+  });
+  return map;
+}
+
+/* ---- Residency subtab — grouped by Province/Capital ---- */
+function renderOrderResidencySubTab(companions) {
+  var groups = {};
+  var unresided = [];
+
+  companions.forEach(function(c) {
+    var asn = c.assignment || {};
+    var key = asn.residence || asn.province || null;
+    if (!key) { unresided.push(c); return; }
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(c);
+  });
+
+  var html = '';
+  RESIDENCY_ORDER.forEach(function(r) {
+    var members = groups[r.key];
+    if (!members || members.length === 0) return;
+    members.sort(orderCompanionsByInstitutionalThenName);
+    html += renderResidencyGroup(r, members);
+  });
+
+  // Any residence keys not in RESIDENCY_ORDER
+  Object.keys(groups).forEach(function(k) {
+    if (RESIDENCY_ORDER.find(function(r) { return r.key === k; })) return;
+    groups[k].sort(orderCompanionsByInstitutionalThenName);
+    html += renderResidencyGroup({ key: k, label: residenceLabelFor(k), cluster: '' }, groups[k]);
+  });
+
+  if (unresided.length > 0) {
+    unresided.sort(orderCompanionsByInstitutionalThenName);
+    html += renderResidencyGroup({ key: 'unresided', label: 'Unresided', cluster: '' }, unresided);
+  }
+
+  return html;
+}
+
+function renderResidencyGroup(r, members) {
+  var clusterLabel = r.cluster === 'A' ? 'Cluster A'
+                   : r.cluster === 'B' ? 'Cluster B'
+                   : r.cluster === 'Capital' ? 'Capital'
+                   : '';
+  var html = '<div class="cx-residency-group">';
+  html += '<div class="cx-residency-header">';
+  html += '<span class="cx-residency-title">' + cx('book') + ' ' + escHtml(r.label) + '</span>';
+  if (clusterLabel) html += '<span class="cx-residency-cluster">' + escHtml(clusterLabel) + '</span>';
+  html += '<span class="cx-residency-count">' + members.length + '</span>';
+  html += '</div>';
+  html += '<div class="cx-residency-roster">';
+  members.forEach(function(c) { html += renderCompanionPill(c); });
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+/* Compact pill — name, rank, title — clickable to detail. */
+function renderCompanionPill(c) {
+  var ident = c.identity || {};
+  var asn   = c.assignment || {};
+  var name  = ident.name || c.id;
+  var rank  = asn.current_rank || '';
+  var title = ident.title || '';
+  var cls   = c.companion_class === 'institutional' ? ' cx-companion-pill-institutional' : '';
+  return '<button class="cx-companion-pill' + cls + '" data-action="goToCompanion" data-id="' + escAttr(c.id) + '">'
+    +  '<span class="cx-companion-pill-name">' + escHtml(name) + '</span>'
+    +  (rank  ? '<span class="cx-companion-pill-rank">' + escHtml(rank) + '</span>' : '')
+    +  (title ? '<span class="cx-companion-pill-title">' + escHtml(title) + '</span>' : '')
+    +  '</button>';
+}
+
+/* ---- Ladder subtab — the single-ladder hierarchy ---- */
+function renderOrderLadderSubTab(companions) {
+  var byRank = {};
+  LADDER_RANKS.forEach(function(r) { byRank[r.key] = []; });
+
+  companions.forEach(function(c) {
+    var rank = (c.assignment && c.assignment.current_rank) || null;
+    if (!rank) return;
+    // Normalize: "Censor-designate" etc. maps to "Censor"
+    var canonical = rank.split(/[\s\-]/)[0];
+    if (byRank[canonical]) byRank[canonical].push(c);
+  });
+
+  // Sovereign is the Architect — not a companion seat. Render as placeholder row.
+  var html = '<div class="cx-ladder">';
+
+  html += '<div class="cx-ladder-row cx-ladder-row-sovereign">';
+  html += '<div class="cx-ladder-rank-title">' + escHtml('Sovereign') + '</div>';
+  html += '<div class="cx-ladder-rank-occupants">';
+  html += '<div class="cx-ladder-seat-sovereign">The Architect</div>';
+  html += '</div></div>';
+
+  LADDER_RANKS.slice(1).forEach(function(r) {
+    var members = (byRank[r.key] || []).slice().sort(orderCompanionsByInstitutionalThenName);
+    html += '<div class="cx-ladder-row">';
+    html += '<div class="cx-ladder-rank-title">' + escHtml(r.label);
+    if (members.length > 0) html += ' <span class="cx-ladder-count">' + members.length + '</span>';
+    html += '</div>';
+    html += '<div class="cx-ladder-rank-occupants">';
+    if (members.length === 0) {
+      html += '<div class="cx-ladder-empty">None seated</div>';
+    } else {
+      members.forEach(function(c) { html += renderCompanionPill(c); });
+    }
+    html += '</div></div>';
+  });
+
+  html += '</div>';
+
+  html += '<div class="cx-ladder-footnote">Single-ladder per Constitution Book II Article 1. Military-track parallel (General/Centurion) and Treasury parallel (Collector) not yet seated.</div>';
+
+  return html;
+}
+
+/* ==========================================================
+   Companion Detail — route #/companion/<id>
+   Renders the ten-block profile schema in readable sections.
+   ========================================================== */
+
+function renderCompanionDetail(route) {
+  var vc = document.getElementById('viewContainer');
+  var c = (store.companions || []).find(function(x) { return x.id === route.id; });
+  if (!c) {
+    vc.innerHTML = renderEmptyState('alert', 'Companion not found',
+      'No companion with this id. The id may be misspelled or the roster may be unloaded.');
+    return;
+  }
+
+  var ident = c.identity || {};
+  var asn   = c.assignment || {};
+  var meta  = c.meta || {};
+
+  var html = '';
+
+  // Hero
+  html += '<div class="cx-companion-detail-hero">';
+  html += '<h1 class="cx-page-title cx-companion-detail-name">' + escHtml(ident.name || c.id) + '</h1>';
+  if (ident.title) html += '<div class="cx-companion-detail-title">' + escHtml(ident.title) + '</div>';
+  html += '<div class="cx-chip-row cx-companion-detail-chips">';
+  if (ident.archetype)            html += '<span class="cx-chip cx-chip-sm cx-chip-archetype">' + escHtml(ident.archetype) + '</span>';
+  if (asn.current_rank)           html += '<span class="cx-chip cx-chip-sm cx-chip-rank">' + escHtml(asn.current_rank) + '</span>';
+  if (c.companion_class)          html += '<span class="cx-chip cx-chip-sm">' + escHtml(c.companion_class) + '</span>';
+  if (ident.generation != null)   html += '<span class="cx-chip cx-chip-sm">Gen ' + escHtml(String(ident.generation)) + '</span>';
+  if (meta.profile_version) {
+    var vcls = String(meta.profile_version).indexOf('draft') !== -1 ? 'cx-chip-version-draft' : 'cx-chip-version-ratified';
+    html += '<span class="cx-chip cx-chip-sm ' + vcls + '">' + escHtml(meta.profile_version) + '</span>';
+  }
+  html += '</div>';
+  if (ident.key_trait) html += '<p class="cx-companion-detail-keytrait">' + escHtml(ident.key_trait) + '</p>';
+  if (ident.named_after) html += '<p class="cx-companion-detail-namedafter"><strong>Named after.</strong> ' + escHtml(ident.named_after) + '</p>';
+  html += '</div>';
+
+  // Assignment block
+  html += renderCompanionAssignmentBlock(c);
+
+  // Subsequent blocks — render whatever is present
+  var blocks = [
+    { key: 'voice',         label: 'Voice' },
+    { key: 'mind',          label: 'Mind' },
+    { key: 'shadow',        label: 'Shadow' },
+    { key: 'relationships', label: 'Relationships' },
+    { key: 'biography',     label: 'Biography' },
+    { key: 'growth',        label: 'Growth' },
+    { key: 'modulators',    label: 'Modulators' },
+    { key: 'meta',          label: 'Meta' }
+  ];
+  blocks.forEach(function(b) {
+    if (c[b.key]) html += renderCompanionGenericBlock(b.label, c[b.key]);
+  });
+
+  // Companion logs cross-reference (canon-0053)
+  html += renderCompanionLogsCrossRef(c);
+
+  vc.innerHTML = html;
+}
+
+function renderCompanionAssignmentBlock(c) {
+  var asn = c.assignment || {};
+  var html = '<section class="cx-companion-block">';
+  html += '<div class="cx-companion-block-title">' + cx('bookmark') + ' Assignment</div>';
+  html += '<div class="cx-companion-block-body">';
+
+  var kv = [];
+  if (asn.current_rank)      kv.push(['Rank',      asn.current_rank]);
+  if (asn.cluster)           kv.push(['Cluster',   asn.cluster]);
+  if (asn.province)          kv.push(['Province',  asn.province]);
+  if (asn.residence)         kv.push(['Residence', residenceLabelFor(asn.residence)]);
+  if (asn.track)             kv.push(['Track',     asn.track]);
+  if (asn.double_hatted === true)  kv.push(['Double-hatted', 'Yes']);
+  if (asn.double_hatted === false) kv.push(['Double-hatted', 'No']);
+  html += renderKVTable(kv);
+
+  if (Array.isArray(asn.current_assignments) && asn.current_assignments.length > 0) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Current assignments</div>';
+    html += '<ul class="cx-companion-list">';
+    asn.current_assignments.forEach(function(a) { html += '<li>' + escHtml(a) + '</li>'; });
+    html += '</ul></div>';
+  }
+
+  if (asn.double_hat_note) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Double-hat note</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.double_hat_note) + '</p></div>';
+  }
+
+  if (asn.notes) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Notes</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.notes) + '</p></div>';
+  }
+
+  if (asn.scope_note) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Scope</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.scope_note) + '</p></div>';
+  }
+
+  if (asn.access_note) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Access</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.access_note) + '</p></div>';
+  }
+
+  if (asn.activation_status) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Activation status</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.activation_status) + '</p></div>';
+  }
+
+  if (Array.isArray(asn.activation_triggers) && asn.activation_triggers.length > 0) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Activation triggers</div>';
+    html += '<ul class="cx-companion-list">';
+    asn.activation_triggers.forEach(function(t) { html += '<li>' + escHtml(t) + '</li>'; });
+    html += '</ul></div>';
+  }
+
+  if (asn.reassignment_condition) {
+    var rc = asn.reassignment_condition;
+    html += '<div class="cx-companion-subblock cx-companion-reassignment">';
+    html += '<div class="cx-companion-subblock-title">' + cx('refresh') + ' Reassignment condition</div>';
+    if (rc.successor)        html += '<div class="cx-kv-row"><span class="cx-kv-key">Successor</span><span class="cx-kv-value">' + escHtml(rc.successor) + '</span></div>';
+    if (rc.trigger_condition) html += '<div class="cx-kv-row"><span class="cx-kv-key">Trigger</span><span class="cx-kv-value">' + escHtml(rc.trigger_condition) + '</span></div>';
+    if (rc.process)          html += '<div class="cx-kv-row"><span class="cx-kv-key">Process</span><span class="cx-kv-value">' + escHtml(rc.process) + '</span></div>';
+    html += '</div>';
+  }
+
+  if (asn.jurisdiction) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Jurisdiction</div>';
+    html += '<pre class="cx-companion-pre">' + escHtml(formatValueForPre(asn.jurisdiction)) + '</pre>';
+    html += '</div>';
+  }
+
+  if (asn.per_repo_lens) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Per-repo lens</div>';
+    Object.keys(asn.per_repo_lens).forEach(function(k) {
+      html += '<div class="cx-kv-row"><span class="cx-kv-key">' + escHtml(k) + '</span><span class="cx-kv-value">' + escHtml(String(asn.per_repo_lens[k])) + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  html += '</div></section>';
+  return html;
+}
+
+/* Generic block renderer — descends one level into the block object and
+   surfaces scalars as K/V rows, arrays as bulleted lists, nested objects as
+   sub-blocks. Preserves institutional richness without imposing a brittle
+   schema. */
+function renderCompanionGenericBlock(label, block) {
+  if (!block || typeof block !== 'object') return '';
+  var html = '<section class="cx-companion-block">';
+  html += '<div class="cx-companion-block-title">' + escHtml(label) + '</div>';
+  html += '<div class="cx-companion-block-body">';
+
+  var scalars = [];
+  Object.keys(block).forEach(function(k) {
+    var v = block[k];
+    if (v == null) return;
+    if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+      scalars.push([prettifyKey(k), String(v)]);
+    }
+  });
+  if (scalars.length > 0) html += renderKVTable(scalars);
+
+  Object.keys(block).forEach(function(k) {
+    var v = block[k];
+    if (v == null) return;
+    if (Array.isArray(v)) {
+      if (v.length === 0) return;
+      html += '<div class="cx-companion-subblock">';
+      html += '<div class="cx-companion-subblock-title">' + escHtml(prettifyKey(k)) + '</div>';
+      html += '<ul class="cx-companion-list">';
+      v.forEach(function(item) {
+        if (typeof item === 'string' || typeof item === 'number') {
+          html += '<li>' + escHtml(String(item)) + '</li>';
+        } else {
+          html += '<li><pre class="cx-companion-pre">' + escHtml(formatValueForPre(item)) + '</pre></li>';
+        }
+      });
+      html += '</ul></div>';
+    } else if (typeof v === 'object') {
+      html += '<div class="cx-companion-subblock">';
+      html += '<div class="cx-companion-subblock-title">' + escHtml(prettifyKey(k)) + '</div>';
+      // Render nested object as K/V rows for scalars, pre for deeper nesting
+      var nestedScalars = [];
+      var hasNested = false;
+      Object.keys(v).forEach(function(nk) {
+        var nv = v[nk];
+        if (nv == null) return;
+        if (typeof nv === 'string' || typeof nv === 'number' || typeof nv === 'boolean') {
+          nestedScalars.push([prettifyKey(nk), String(nv)]);
+        } else {
+          hasNested = true;
+        }
+      });
+      if (nestedScalars.length > 0) html += renderKVTable(nestedScalars);
+      if (hasNested) {
+        html += '<pre class="cx-companion-pre">' + escHtml(formatValueForPre(v)) + '</pre>';
+      }
+      html += '</div>';
+    }
+  });
+
+  html += '</div></section>';
+  return html;
+}
+
+function renderKVTable(rows) {
+  if (!rows || rows.length === 0) return '';
+  var html = '<div class="cx-kv-table">';
+  rows.forEach(function(row) {
+    html += '<div class="cx-kv-row">';
+    html += '<span class="cx-kv-key">' + escHtml(row[0]) + '</span>';
+    html += '<span class="cx-kv-value">' + escHtml(row[1]) + '</span>';
+    html += '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function prettifyKey(k) {
+  return String(k).replace(/_/g, ' ').replace(/\b\w/g, function(ch) { return ch.toUpperCase(); });
+}
+
+function formatValueForPre(v) {
+  try { return JSON.stringify(v, null, 2); }
+  catch(e) { return String(v); }
+}
+
+/* Cross-reference Companion Logs (canon-0053) — count + navigation. */
+function renderCompanionLogsCrossRef(c) {
+  var logs = store.companion_logs || [];
+  var name = (c.identity && c.identity.name) || c.id;
+  var nameLower = String(name).toLowerCase();
+  var matching = logs.filter(function(log) {
+    var invoked = (log.invoked_companions || log.companions || []);
+    if (!Array.isArray(invoked)) return false;
+    return invoked.some(function(n) { return String(n).toLowerCase() === nameLower; });
+  });
+
+  var html = '<section class="cx-companion-block">';
+  html += '<div class="cx-companion-block-title">' + cx('scroll') + ' Companion logs (canon-0053)</div>';
+  html += '<div class="cx-companion-block-body">';
+  if (matching.length === 0) {
+    html += '<p class="cx-companion-prose cx-muted">No logs in docs/companion-logs/ reference ' + escHtml(name) + ' yet.</p>';
+  } else {
+    html += '<p class="cx-companion-prose">' + matching.length + ' log entr' + (matching.length === 1 ? 'y' : 'ies') + ' reference ' + escHtml(name) + '. '
+         +  '<button class="cx-link-btn" data-action="navigate" data-route="#/journal">Open Journal \u2192 Logs</button></p>';
+  }
+  html += '</div></section>';
+  return html;
+}

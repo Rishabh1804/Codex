@@ -51,6 +51,7 @@
   <button data-action="switchTab" data-tab="journal" class="cx-tab-btn"></button>
   <button data-action="switchTab" data-tab="canons" class="cx-tab-btn"></button>
   <button data-action="switchTab" data-tab="lore" class="cx-tab-btn"></button>
+  <button data-action="switchTab" data-tab="order" class="cx-tab-btn"></button>
   <button data-action="switchTab" data-tab="todos" class="cx-tab-btn"></button>
   <button data-action="switchTab" data-tab="specs" class="cx-tab-btn"></button>
 </nav>
@@ -1032,6 +1033,146 @@ body {
 .cx-autolore-title svg{width:18px;height:18px;color:var(--accent)}
 .cx-autolore-meta{font-size:var(--fs-xs);color:var(--text-tertiary);margin:var(--sp-4) 0 var(--sp-10)}
 .cx-autolore-actions{display:flex;gap:var(--sp-8);justify-content:flex-end}
+
+/* ===========================================================
+   The Order — companion roster, Cabinet, Residency, Ladder.
+   Adds a seventh tab. Read-only surface over store.companions.
+   =========================================================== */
+
+/* Hero */
+.cx-order-hero{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-20) var(--sp-16);margin-bottom:var(--sp-16);box-shadow:var(--card-shadow);border-left:3px solid var(--accent)}
+.cx-order-hero .cx-page-title{margin-bottom:var(--sp-8)}
+.cx-order-hero-subtitle{font-family:var(--ff-body);font-size:var(--fs-sm);color:var(--text-secondary);margin:0 0 var(--sp-16);font-style:italic}
+.cx-order-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:var(--sp-8);margin-bottom:var(--sp-8)}
+.cx-order-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--sp-10) var(--sp-8);background:var(--bg-secondary);border-radius:var(--r-md);border:1px solid var(--border)}
+.cx-order-stat-value{font-family:var(--ff-heading);font-size:var(--fs-lg);font-weight:700;color:var(--accent);line-height:1}
+.cx-order-stat-label{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px;margin-top:var(--sp-4);text-align:center}
+.cx-order-hero-meta{font-size:var(--fs-xs);color:var(--text-tertiary);margin-top:var(--sp-8);font-style:italic}
+
+/* Subtab bar reuses cx-subtab-row/cx-subtab-pill from Forum Pattern */
+
+/* ---- Roster: companion cards ---- */
+.cx-companion-card{position:relative;border-left:3px solid var(--border);transition:border-color var(--anim-tab-switch),transform var(--anim-tab-switch)}
+.cx-companion-card:hover{border-left-color:var(--accent)}
+.cx-companion-card.cx-class-institutional{border-left-color:var(--accent-light);background:linear-gradient(90deg,rgba(196,168,122,0.04),var(--bg-card) 40%)}
+.cx-companion-card.cx-archetype-builder{border-left-color:var(--accent)}
+.cx-companion-card.cx-archetype-strategist{border-left-color:#B89B6E}
+.cx-companion-card.cx-archetype-seeker{border-left-color:#9A8A6E}
+.cx-companion-card.cx-archetype-guardian{border-left-color:#7A9A7A}
+.cx-companion-card.cx-archetype-wildcard{border-left-color:#9A7A9A}
+.cx-companion-card.cx-archetype-statesman{border-left-color:var(--accent-light)}
+
+.cx-companion-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-8);margin-bottom:var(--sp-8)}
+.cx-companion-card-name-block{display:flex;flex-direction:column;gap:var(--sp-2);flex:1;min-width:0}
+.cx-companion-card-name{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--text-primary);line-height:1.2}
+.cx-companion-card-title{font-family:var(--ff-body);font-size:var(--fs-xs);color:var(--text-secondary);font-style:italic;letter-spacing:0.2px}
+.cx-companion-dh-badge{color:var(--accent-light);display:inline-flex;align-items:center;padding:var(--sp-4)}
+.cx-companion-dh-badge svg{width:16px;height:16px}
+
+.cx-companion-card-chips{margin-bottom:var(--sp-8)}
+.cx-chip-archetype{font-weight:600;letter-spacing:0.3px}
+.cx-chip-archetype.cx-archetype-builder{color:var(--accent);border-color:var(--accent)}
+.cx-chip-rank{background:var(--bg-secondary);color:var(--text-primary);font-weight:600}
+.cx-chip-residence{color:var(--text-secondary)}
+.cx-chip-institutional{background:var(--accent-light);color:var(--bg-card);border-color:var(--accent-light);font-weight:600}
+
+.cx-companion-assignments{list-style:none;padding:0;margin:var(--sp-4) 0 var(--sp-8);display:flex;flex-direction:column;gap:var(--sp-4)}
+.cx-companion-assignments li{font-size:var(--fs-xs);color:var(--text-secondary);padding-left:var(--sp-10);position:relative;line-height:1.4}
+.cx-companion-assignments li::before{content:"\25AA";position:absolute;left:0;color:var(--accent-light);font-size:10px;top:2px}
+
+.cx-companion-card-foot{display:flex;gap:var(--sp-8);align-items:center}
+.cx-companion-version{font-family:var(--ff-mono,monospace);font-size:var(--fs-2xs);padding:var(--sp-2) var(--sp-6);border-radius:var(--r-sm);background:var(--bg-secondary)}
+.cx-version-ratified{color:var(--accent)}
+.cx-version-draft{color:var(--text-tertiary);font-style:italic}
+
+/* ---- Cabinet ---- */
+.cx-cabinet-summary{display:flex;gap:var(--sp-8);align-items:center;padding:var(--sp-8) var(--sp-12);background:var(--bg-secondary);border-radius:var(--r-md);margin-bottom:var(--sp-12);font-size:var(--fs-xs);color:var(--text-secondary)}
+.cx-cabinet-summary-vacant{color:var(--text-tertiary);font-style:italic}
+
+.cx-cabinet-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-12)}
+@media (min-width:640px){.cx-cabinet-grid{grid-template-columns:1fr 1fr}}
+@media (min-width:960px){.cx-cabinet-grid{grid-template-columns:repeat(4,1fr)}}
+
+.cx-cabinet-domain{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-12);box-shadow:var(--card-shadow);display:flex;flex-direction:column;gap:var(--sp-8)}
+.cx-cabinet-domain-title{font-family:var(--ff-heading);font-size:var(--fs-sm);font-weight:700;color:var(--accent);padding-bottom:var(--sp-6);border-bottom:1px solid var(--border);letter-spacing:0.3px}
+
+.cx-cabinet-seat{display:flex;flex-direction:column;gap:var(--sp-2);padding:var(--sp-10);background:var(--bg-secondary);border-radius:var(--r-md);border:1px solid var(--border);text-align:left;cursor:pointer;min-height:60px;color:var(--text-primary);font-family:inherit}
+.cx-cabinet-seat:hover{border-color:var(--accent)}
+.cx-cabinet-seat-portfolio{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px;font-weight:600}
+.cx-cabinet-seat-name{font-family:var(--ff-heading);font-size:var(--fs-sm);font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:var(--sp-4)}
+.cx-cabinet-seat-title{font-size:var(--fs-xs);color:var(--text-secondary);font-style:italic}
+.cx-cabinet-seat-vacant{border-style:dashed;cursor:default;opacity:0.75}
+.cx-cabinet-seat-vacant .cx-cabinet-seat-name{color:var(--text-tertiary);font-style:italic}
+.cx-cabinet-seat-vacant .cx-cabinet-seat-name svg{width:14px;height:14px;color:var(--warning,var(--accent-light))}
+
+.cx-cabinet-footnote{font-size:var(--fs-xs);color:var(--text-tertiary);margin-top:var(--sp-16);padding:var(--sp-8) 0;border-top:1px solid var(--border);font-style:italic;line-height:1.5}
+
+/* ---- Residency ---- */
+.cx-residency-group{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-12);margin-bottom:var(--sp-10);box-shadow:var(--card-shadow)}
+.cx-residency-header{display:flex;align-items:center;gap:var(--sp-8);padding-bottom:var(--sp-8);border-bottom:1px solid var(--border);margin-bottom:var(--sp-10)}
+.cx-residency-title{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:var(--sp-6);flex:1}
+.cx-residency-title svg{width:18px;height:18px;color:var(--accent)}
+.cx-residency-cluster{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px}
+.cx-residency-count{font-family:var(--ff-mono,monospace);font-size:var(--fs-xs);color:var(--text-secondary);background:var(--bg-secondary);padding:var(--sp-2) var(--sp-8);border-radius:var(--r-full);font-weight:600}
+.cx-residency-roster{display:flex;flex-wrap:wrap;gap:var(--sp-6)}
+
+.cx-companion-pill{display:inline-flex;align-items:center;gap:var(--sp-6);padding:var(--sp-6) var(--sp-10);background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--r-full);cursor:pointer;min-height:32px;color:var(--text-primary);font-family:inherit;transition:border-color var(--anim-tab-switch)}
+.cx-companion-pill:hover{border-color:var(--accent)}
+.cx-companion-pill-name{font-family:var(--ff-heading);font-weight:700;font-size:var(--fs-xs);color:var(--text-primary)}
+.cx-companion-pill-rank{font-size:var(--fs-2xs);color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
+.cx-companion-pill-title{font-size:var(--fs-2xs);color:var(--text-tertiary);font-style:italic}
+.cx-companion-pill-institutional{background:linear-gradient(90deg,rgba(196,168,122,0.08),var(--bg-secondary) 70%);border-color:var(--accent-light)}
+
+/* ---- Ladder ---- */
+.cx-ladder{display:flex;flex-direction:column;gap:var(--sp-10);margin-bottom:var(--sp-12)}
+.cx-ladder-row{display:flex;flex-direction:column;gap:var(--sp-6);padding:var(--sp-12);background:var(--bg-card);border-radius:var(--r-lg);box-shadow:var(--card-shadow);border-left:2px solid var(--border)}
+.cx-ladder-row-sovereign{border-left-color:var(--accent);background:linear-gradient(90deg,rgba(196,168,122,0.06),var(--bg-card) 50%)}
+.cx-ladder-rank-title{font-family:var(--ff-heading);font-size:var(--fs-sm);font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.6px;display:flex;align-items:center;gap:var(--sp-6)}
+.cx-ladder-count{font-family:var(--ff-mono,monospace);font-size:var(--fs-2xs);color:var(--text-tertiary);background:var(--bg-secondary);padding:var(--sp-2) var(--sp-6);border-radius:var(--r-full);font-weight:600;letter-spacing:0}
+.cx-ladder-rank-occupants{display:flex;flex-wrap:wrap;gap:var(--sp-6)}
+.cx-ladder-empty{font-size:var(--fs-xs);color:var(--text-tertiary);font-style:italic;padding:var(--sp-4) var(--sp-8)}
+.cx-ladder-seat-sovereign{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--accent);padding:var(--sp-6) var(--sp-12);background:var(--bg-secondary);border-radius:var(--r-md);border:1px solid var(--accent-light);letter-spacing:0.3px}
+.cx-ladder-footnote{font-size:var(--fs-xs);color:var(--text-tertiary);font-style:italic;line-height:1.5;padding:var(--sp-8) 0;border-top:1px solid var(--border);margin-top:var(--sp-8)}
+
+/* ---- Companion Detail ---- */
+.cx-companion-detail-hero{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-20) var(--sp-16);margin-bottom:var(--sp-12);box-shadow:var(--card-shadow);border-left:3px solid var(--accent)}
+.cx-companion-detail-name{font-family:var(--ff-heading);margin-bottom:var(--sp-4)}
+.cx-companion-detail-title{font-family:var(--ff-body);font-size:var(--fs-md);color:var(--text-secondary);font-style:italic;margin-bottom:var(--sp-12);letter-spacing:0.2px}
+.cx-companion-detail-chips{margin-bottom:var(--sp-12)}
+.cx-chip-version-ratified{background:var(--accent);color:white;border-color:var(--accent);font-family:var(--ff-mono,monospace)}
+.cx-chip-version-draft{background:var(--bg-secondary);color:var(--text-tertiary);font-family:var(--ff-mono,monospace);font-style:italic}
+.cx-companion-detail-keytrait{font-family:var(--ff-body);font-size:var(--fs-md);color:var(--text-primary);line-height:1.5;margin:var(--sp-8) 0;padding-left:var(--sp-12);border-left:2px solid var(--accent-light)}
+.cx-companion-detail-namedafter{font-size:var(--fs-sm);color:var(--text-secondary);line-height:1.5;margin:var(--sp-8) 0 0;font-style:italic}
+.cx-companion-detail-namedafter strong{font-style:normal;font-weight:700;color:var(--text-primary)}
+
+.cx-companion-block{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-16);margin-bottom:var(--sp-10);box-shadow:var(--card-shadow)}
+.cx-companion-block-title{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--accent);padding-bottom:var(--sp-8);border-bottom:1px solid var(--border);margin-bottom:var(--sp-12);display:flex;align-items:center;gap:var(--sp-8);letter-spacing:0.2px}
+.cx-companion-block-title svg{width:18px;height:18px}
+.cx-companion-block-body{display:flex;flex-direction:column;gap:var(--sp-12)}
+
+.cx-companion-subblock{padding:var(--sp-8) 0}
+.cx-companion-subblock-title{font-size:var(--fs-2xs);font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:var(--sp-6);display:flex;align-items:center;gap:var(--sp-4)}
+.cx-companion-subblock-title svg{width:12px;height:12px}
+.cx-companion-prose{font-size:var(--fs-sm);color:var(--text-primary);line-height:1.5;margin:0}
+.cx-companion-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:var(--sp-6)}
+.cx-companion-list li{font-size:var(--fs-sm);color:var(--text-primary);line-height:1.5;padding-left:var(--sp-12);position:relative}
+.cx-companion-list li::before{content:"\2022";position:absolute;left:var(--sp-2);color:var(--accent-light)}
+.cx-companion-pre{font-family:var(--ff-mono,monospace);font-size:var(--fs-xs);background:var(--bg-secondary);color:var(--text-primary);padding:var(--sp-8) var(--sp-10);border-radius:var(--r-sm);border:1px solid var(--border);overflow-x:auto;white-space:pre-wrap;word-break:break-word;line-height:1.4;margin:0}
+
+.cx-companion-reassignment{background:var(--bg-secondary);border-radius:var(--r-md);padding:var(--sp-10);border-left:2px solid var(--accent-light)}
+
+.cx-kv-table{display:flex;flex-direction:column;gap:var(--sp-4);background:var(--bg-secondary);border-radius:var(--r-md);padding:var(--sp-8) var(--sp-10);border:1px solid var(--border)}
+.cx-kv-row{display:flex;gap:var(--sp-8);font-size:var(--fs-xs);line-height:1.5}
+.cx-kv-key{flex:0 0 120px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;font-size:var(--fs-2xs);letter-spacing:0.5px;padding-top:2px}
+.cx-kv-value{flex:1;color:var(--text-primary);word-break:break-word}
+
+.cx-muted{color:var(--text-tertiary)}
+
+/* Tab bar accommodates 7 tabs — tighten label size on narrow screens */
+@media (max-width:380px){
+  .cx-tab-btn .cx-tab-label{font-size:10px}
+  #tabBar{padding:0 2px}
+}
 </style>
 <script>
 /* CODEX — Data Layer (Phase 5: Chapter Detail + Apocrypha; Phase 1 Lore) */
@@ -1902,7 +2043,8 @@ function parseRoute(hash) {
   if (parts[0] === 'chapter' && parts[1] && parts[2]) return { view: 'chapter-detail', volumeId: decodeURIComponent(parts[1]), chapterId: decodeURIComponent(parts[2]) };
   if (parts[0] === 'lore' && parts[1]) return { view: 'lore-detail', id: decodeURIComponent(parts[1]) };
   if (parts[0] === 'spec' && parts[1]) return { view: 'spec-detail', id: decodeURIComponent(parts[1]) };
-  if (['dashboard','journal','canons','todos','lore','specs','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
+  if (parts[0] === 'companion' && parts[1]) return { view: 'companion-detail', id: decodeURIComponent(parts[1]) };
+  if (['dashboard','journal','canons','todos','lore','specs','order','settings'].indexOf(parts[0]) !== -1) return { view: parts[0] };
   return { view: 'dashboard' };
 }
 
@@ -1930,12 +2072,12 @@ function handleRouteChange(hash, scrollToTop) {
 
 function handleSwitchTab(tabName) {
   _pendingFilter = null;
-  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore', specs: '#/specs' };
+  var map = { dashboard: '#/dashboard', journal: '#/journal', canons: '#/canons', todos: '#/todos', lore: '#/lore', specs: '#/specs', order: '#/order' };
   navigate(map[tabName] || '#/dashboard');
 }
 
 function updateTabBarActive(view) {
-  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', specs:'specs', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', 'spec-detail':'specs', settings:null };
+  var map = { dashboard:'dashboard', journal:'journal', canons:'canons', todos:'todos', lore:'lore', specs:'specs', order:'order', 'volume-detail':'dashboard', 'canon-detail':'canons', 'chapter-detail':'dashboard', 'lore-detail':'lore', 'spec-detail':'specs', 'companion-detail':'order', settings:null };
   var active = map[view];
   var btns = document.querySelectorAll('.cx-tab-btn');
   for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('cx-tab-active', btns[i].dataset.tab === active);
@@ -1992,6 +2134,10 @@ function renderBreadcrumbForRoute(route) {
   } else if (route.view === 'lore-detail') {
     var lentry = store.lore.find(function(x) { return x.id === route.id; });
     segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Lore', route: '#/lore' }, { label: lentry ? lentry.title : route.id, route: null }];
+  } else if (route.view === 'companion-detail') {
+    var comp = (store.companions || []).find(function(x) { return x.id === route.id; });
+    var cname = comp && comp.identity && comp.identity.name ? comp.identity.name : route.id;
+    segments = [{ label: 'Library', route: '#/dashboard' }, { label: 'Order', route: '#/order' }, { label: cname, route: null }];
   }
   renderBreadcrumb(segments);
 }
@@ -2014,11 +2160,12 @@ function renderBreadcrumb(segments) {
 function updateHeader(route) {
   var header = document.getElementById('appHeader');
   if (!header) return;
-  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail' || route.view === 'spec-detail')) {
+  if (route && (route.view === 'volume-detail' || route.view === 'settings' || route.view === 'canon-detail' || route.view === 'chapter-detail' || route.view === 'lore-detail' || route.view === 'spec-detail' || route.view === 'companion-detail')) {
     var title = route.view === 'settings' ? 'Settings'
       : route.view === 'canon-detail' ? 'Canon'
       : route.view === 'lore-detail' ? 'Lore'
       : route.view === 'spec-detail' ? 'Spec'
+      : route.view === 'companion-detail' ? 'Companion'
       : (function() { var vid = route.id || route.volumeId; var v = store.volumes.find(function(x) { return x.id === vid; }); return v ? v.name : 'Volume'; })();
     header.innerHTML = '<button data-action="goBack" class="cx-btn-icon">' + cx('arrow-left') + '</button>'
       + '<span class="cx-app-title">' + escHtml(title) + '</span>'
@@ -2105,8 +2252,8 @@ function updateFab(view) {
 /* --- Tab Icons --- */
 function initTabIcons() {
   var btns = document.querySelectorAll('.cx-tab-btn');
-  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check', specs: 'quill' };
-  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs', specs: 'Specs' };
+  var icons = { dashboard: 'book', journal: 'scroll', canons: 'bookmark', lore: 'tome', todos: 'check', specs: 'quill', order: 'shelf' };
+  var labels = { dashboard: 'Library', journal: 'Journal', canons: 'Canons', lore: 'Lore', todos: 'TODOs', specs: 'Specs', order: 'Order' };
   for (var i = 0; i < btns.length; i++) {
     var tab = btns[i].dataset.tab;
     btns[i].innerHTML = cx(icons[tab] || 'book') + '<span class="cx-tab-label">' + (labels[tab] || tab) + '</span>';
@@ -2124,7 +2271,8 @@ function renderCurrentView() {
       journal: renderJournal, canons: renderCanons,
       'canon-detail': renderCanonDetail, 'chapter-detail': renderChapterDetail,
       lore: renderLore, 'lore-detail': renderLoreDetail,
-      specs: renderSpecs, 'spec-detail': renderSpecDetail
+      specs: renderSpecs, 'spec-detail': renderSpecDetail,
+      order: renderOrder, 'companion-detail': renderCompanionDetail
     };
     var fn = renderers[_currentView];
     if (fn) fn(_currentViewParams);
@@ -5458,6 +5606,646 @@ function renderWizardDone() {
     + '</div>';
 }
 
+/* ============================================================
+   The Order — companion roster, Cabinet, Residency, Ladder.
+   Read-only surface over store.companions (companions.json).
+   Mutations flow through the snippet pipeline per canon-cc-012.
+   ============================================================ */
+
+var _orderSubTab = (function() {
+  try { return localStorage.getItem('codex-subtab-order') || 'roster'; }
+  catch(e) { return 'roster'; }
+})();
+
+/* Cabinet structure inscribed in constitution/working-papers.typ line 161
+   and constitution/books/appendices.typ. The app derives occupants from
+   companions' current_assignments at render-time; the structure itself is
+   constitutional and does not live in companions.json. */
+var CABINET_STRUCTURE = [
+  { domain: 'Financial Health', portfolios: ['Treasury', 'Budget'] },
+  { domain: 'Productivity',     portfolios: ['Efficiency', 'Output'] },
+  { domain: 'Maintenance',      portfolios: ['Stability', 'Debt'] },
+  { domain: 'Growth',           portfolios: ['Expansion', 'Innovation'] }
+];
+
+/* Residency ordering — Provinces first (Cluster A, Cluster B), then
+   Command Center (Capital + Monument), then unresided. */
+var RESIDENCY_ORDER = [
+  { key: 'codex',          label: 'Codex',          cluster: 'A' },
+  { key: 'sproutlab',      label: 'SproutLab',      cluster: 'A' },
+  { key: 'sep-invoicing',  label: 'SEP Invoicing',  cluster: 'B' },
+  { key: 'sep-dashboard',  label: 'SEP Dashboard',  cluster: 'B' },
+  { key: 'command-center', label: 'Command Center', cluster: 'Capital' }
+];
+
+/* Ladder ordering — Constitution Book II Article 1 single-ladder spec. */
+var LADDER_RANKS = [
+  { key: 'Sovereign', label: 'Sovereign' },
+  { key: 'Consul',    label: 'Consul' },
+  { key: 'Censor',    label: 'Censors' },
+  { key: 'Builder',   label: 'Builders' },
+  { key: 'Governor',  label: 'Governors' },
+  { key: 'Scribe',    label: 'Scribes' }
+];
+
+function renderOrder() {
+  var vc = document.getElementById('viewContainer');
+  var companions = store.companions || [];
+
+  if (companions.length === 0) {
+    vc.innerHTML = renderEmptyState('tome', 'The Order stands empty',
+      'No companions are seated. companions.json has not loaded, or the roster is unbootstrapped.');
+    return;
+  }
+
+  var html = renderOrderHeader(companions);
+
+  html += renderSubTabBar('order', [
+    { key: 'roster',    label: 'Roster' },
+    { key: 'cabinet',   label: 'Cabinet' },
+    { key: 'residency', label: 'Residency' },
+    { key: 'ladder',    label: 'Ladder' }
+  ], _orderSubTab);
+
+  if      (_orderSubTab === 'cabinet')   html += renderOrderCabinetSubTab(companions);
+  else if (_orderSubTab === 'residency') html += renderOrderResidencySubTab(companions);
+  else if (_orderSubTab === 'ladder')    html += renderOrderLadderSubTab(companions);
+  else                                    html += renderOrderRosterSubTab(companions);
+
+  vc.innerHTML = html;
+}
+
+/* Header — roster health at a glance. */
+function renderOrderHeader(companions) {
+  var meta = store.companions_meta || {};
+  var total = companions.length;
+  var gen  = companions.filter(function(c) { return c.companion_class === 'generational'; }).length;
+  var inst = companions.filter(function(c) { return c.companion_class === 'institutional'; }).length;
+
+  var ratified = 0, drafts = 0;
+  companions.forEach(function(c) {
+    var v = c.meta && c.meta.profile_version;
+    if (!v) return;
+    if (String(v).indexOf('draft') !== -1) drafts++;
+    else ratified++;
+  });
+
+  var stats = [
+    { label: 'Companions',    value: total },
+    { label: 'Generational',  value: gen },
+    { label: 'Institutional', value: inst },
+    { label: 'Ratified',      value: ratified },
+    { label: 'Drafts',        value: drafts }
+  ];
+
+  var html = '<div class="cx-order-hero">';
+  html += '<h1 class="cx-page-title">' + cx('tome') + ' The Order</h1>';
+  html += '<p class="cx-order-hero-subtitle">The Republic\u2019s companion roster \u2014 seated, residing, ranked.</p>';
+  html += '<div class="cx-order-stats">';
+  stats.forEach(function(s) {
+    html += '<div class="cx-order-stat"><span class="cx-order-stat-value">' + escHtml(String(s.value)) + '</span>'
+         +  '<span class="cx-order-stat-label">' + escHtml(s.label) + '</span></div>';
+  });
+  html += '</div>';
+  if (meta.updated) {
+    html += '<div class="cx-order-hero-meta">Roster updated ' + escHtml(formatAbsoluteDate(meta.updated)) + '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+/* ---- Roster subtab — all companions as full cards ---- */
+function renderOrderRosterSubTab(companions) {
+  var sorted = companions.slice().sort(orderCompanionsByInstitutionalThenName);
+  var html = '';
+  sorted.forEach(function(c) { html += renderCompanionCard(c); });
+  return html;
+}
+
+/* Sort: institutional first (Consul), then generational by name. */
+function orderCompanionsByInstitutionalThenName(a, b) {
+  var ai = a.companion_class === 'institutional' ? 0 : 1;
+  var bi = b.companion_class === 'institutional' ? 0 : 1;
+  if (ai !== bi) return ai - bi;
+  var an = ((a.identity && a.identity.name) || a.id || '').toLowerCase();
+  var bn = ((b.identity && b.identity.name) || b.id || '').toLowerCase();
+  return an.localeCompare(bn);
+}
+
+/* Companion card — compact-rich. Clickable, routes to detail. */
+function renderCompanionCard(c) {
+  var id       = c.id || '';
+  var ident    = c.identity || {};
+  var asn      = c.assignment || {};
+  var meta     = c.meta || {};
+  var name     = ident.name || id;
+  var title    = ident.title || '';
+  var archetype = ident.archetype || '';
+  var cls      = c.companion_class || 'generational';
+  var rank     = asn.current_rank || '';
+  var residence = asn.residence || asn.province || (cls === 'institutional' ? 'command-center' : '');
+  var cluster  = asn.cluster || '';
+  var version  = meta.profile_version || '';
+  var assignments = Array.isArray(asn.current_assignments) ? asn.current_assignments : [];
+  var doubleHat = asn.double_hatted === true;
+
+  var archetypeCls = archetype ? ' cx-archetype-' + escAttr(archetype.toLowerCase()) : '';
+  var classCls     = ' cx-class-' + escAttr(cls);
+  var versionCls   = version && String(version).indexOf('draft') !== -1 ? 'cx-version-draft' : 'cx-version-ratified';
+  var residenceLabel = residenceLabelFor(residence);
+
+  var html = '<div class="cx-card cx-card-clickable cx-companion-card' + archetypeCls + classCls + '" data-action="goToCompanion" data-id="' + escAttr(id) + '">';
+
+  html += '<div class="cx-companion-card-head">';
+  html += '<div class="cx-companion-card-name-block">';
+  html += '<div class="cx-companion-card-name">' + escHtml(name) + '</div>';
+  if (title) html += '<div class="cx-companion-card-title">' + escHtml(title) + '</div>';
+  html += '</div>';
+  if (doubleHat) html += '<span class="cx-companion-dh-badge" title="Double-hatted">' + cx('bookmark') + '</span>';
+  html += '</div>';
+
+  html += '<div class="cx-chip-row cx-companion-card-chips">';
+  if (archetype) html += '<span class="cx-chip cx-chip-sm cx-chip-archetype' + archetypeCls + '">' + escHtml(archetype) + '</span>';
+  if (rank)      html += '<span class="cx-chip cx-chip-sm cx-chip-rank">' + escHtml(rank) + '</span>';
+  if (residenceLabel) html += '<span class="cx-chip cx-chip-sm cx-chip-residence">' + escHtml(residenceLabel) + '</span>';
+  if (cluster && cluster !== 'Monument' && cluster !== 'Capital') html += '<span class="cx-chip cx-chip-sm">Cluster ' + escHtml(cluster) + '</span>';
+  else if (cluster)                                                 html += '<span class="cx-chip cx-chip-sm">' + escHtml(cluster) + '</span>';
+  if (cls === 'institutional') html += '<span class="cx-chip cx-chip-sm cx-chip-institutional">Institutional</span>';
+  html += '</div>';
+
+  if (assignments.length > 0) {
+    html += '<ul class="cx-companion-assignments">';
+    assignments.forEach(function(a) { html += '<li>' + escHtml(a) + '</li>'; });
+    html += '</ul>';
+  }
+
+  var footerBits = [];
+  if (version) footerBits.push('<span class="cx-companion-version ' + versionCls + '">' + escHtml(version) + '</span>');
+  if (ident.generation != null) footerBits.push('Gen ' + escHtml(String(ident.generation)));
+  if (footerBits.length > 0) {
+    html += '<div class="cx-card-meta cx-companion-card-foot">' + footerBits.join(' \u00B7 ') + '</div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+function residenceLabelFor(key) {
+  if (!key) return '';
+  var match = RESIDENCY_ORDER.find(function(r) { return r.key === key; });
+  return match ? match.label : key;
+}
+
+/* ---- Cabinet subtab — 4 domains × 2 seats, vacancies visible ---- */
+function renderOrderCabinetSubTab(companions) {
+  var filled = computeCabinetOccupancy(companions);
+
+  var totalSeats = 8;
+  var vacantSeats = 0;
+  CABINET_STRUCTURE.forEach(function(d) {
+    d.portfolios.forEach(function(p) {
+      if (!filled[d.domain + '|' + p]) vacantSeats++;
+    });
+  });
+
+  var html = '<div class="cx-cabinet-summary">';
+  html += '<span>' + escHtml(String(totalSeats - vacantSeats)) + ' of ' + totalSeats + ' Ministerial seats filled</span>';
+  if (vacantSeats > 0) html += '<span class="cx-cabinet-summary-vacant">\u00B7 ' + vacantSeats + ' vacant</span>';
+  html += '</div>';
+
+  html += '<div class="cx-cabinet-grid">';
+  CABINET_STRUCTURE.forEach(function(d) {
+    html += '<div class="cx-cabinet-domain" data-domain="' + escAttr(d.domain.toLowerCase().replace(/\s+/g, '-')) + '">';
+    html += '<div class="cx-cabinet-domain-title">' + escHtml(d.domain) + '</div>';
+    d.portfolios.forEach(function(p) {
+      var key = d.domain + '|' + p;
+      var occupant = filled[key];
+      html += renderCabinetSeat(d.domain, p, occupant);
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+
+  html += '<div class="cx-cabinet-footnote">Cabinet structure per Constitution Book II Article 4 and working-papers.typ. Vacancies chronicled per canon-cc-011.</div>';
+
+  return html;
+}
+
+function renderCabinetSeat(domain, portfolio, occupant) {
+  if (occupant) {
+    var c = occupant.companion;
+    var ident = c.identity || {};
+    return '<button class="cx-cabinet-seat" data-action="goToCompanion" data-id="' + escAttr(c.id) + '">'
+      +  '<div class="cx-cabinet-seat-portfolio">Minister: ' + escHtml(portfolio) + '</div>'
+      +  '<div class="cx-cabinet-seat-name">' + escHtml(ident.name || c.id) + '</div>'
+      +  (ident.title ? '<div class="cx-cabinet-seat-title">' + escHtml(ident.title) + '</div>' : '')
+      +  '</button>';
+  }
+  return '<div class="cx-cabinet-seat cx-cabinet-seat-vacant">'
+    + '<div class="cx-cabinet-seat-portfolio">Minister: ' + escHtml(portfolio) + '</div>'
+    + '<div class="cx-cabinet-seat-name">' + cx('alert') + ' Vacant</div>'
+    + '</div>';
+}
+
+/* Parse each companion's current_assignments for Cabinet-seat strings of the
+   form "Minister: <Portfolio> (<Domain>)". Returns a map domain|portfolio → companion. */
+function computeCabinetOccupancy(companions) {
+  var map = {};
+  companions.forEach(function(c) {
+    var assignments = (c.assignment && c.assignment.current_assignments) || [];
+    assignments.forEach(function(a) {
+      var m = /Minister:\s*([A-Za-z]+)\s*\(([^)]+)\)/.exec(a);
+      if (!m) return;
+      var portfolio = m[1].trim();
+      var domainRaw = m[2].trim();
+      // Match against CABINET_STRUCTURE to canonicalize.
+      CABINET_STRUCTURE.forEach(function(d) {
+        if (d.portfolios.indexOf(portfolio) === -1) return;
+        // Domain match: exact or substring (e.g. "Financial Health domain" contains "Financial Health")
+        if (domainRaw.indexOf(d.domain) === -1) return;
+        map[d.domain + '|' + portfolio] = { companion: c };
+      });
+    });
+  });
+  return map;
+}
+
+/* ---- Residency subtab — grouped by Province/Capital ---- */
+function renderOrderResidencySubTab(companions) {
+  var groups = {};
+  var unresided = [];
+
+  companions.forEach(function(c) {
+    var asn = c.assignment || {};
+    var key = asn.residence || asn.province || null;
+    if (!key) { unresided.push(c); return; }
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(c);
+  });
+
+  var html = '';
+  RESIDENCY_ORDER.forEach(function(r) {
+    var members = groups[r.key];
+    if (!members || members.length === 0) return;
+    members.sort(orderCompanionsByInstitutionalThenName);
+    html += renderResidencyGroup(r, members);
+  });
+
+  // Any residence keys not in RESIDENCY_ORDER
+  Object.keys(groups).forEach(function(k) {
+    if (RESIDENCY_ORDER.find(function(r) { return r.key === k; })) return;
+    groups[k].sort(orderCompanionsByInstitutionalThenName);
+    html += renderResidencyGroup({ key: k, label: residenceLabelFor(k), cluster: '' }, groups[k]);
+  });
+
+  if (unresided.length > 0) {
+    unresided.sort(orderCompanionsByInstitutionalThenName);
+    html += renderResidencyGroup({ key: 'unresided', label: 'Unresided', cluster: '' }, unresided);
+  }
+
+  return html;
+}
+
+function renderResidencyGroup(r, members) {
+  var clusterLabel = r.cluster === 'A' ? 'Cluster A'
+                   : r.cluster === 'B' ? 'Cluster B'
+                   : r.cluster === 'Capital' ? 'Capital'
+                   : '';
+  var html = '<div class="cx-residency-group">';
+  html += '<div class="cx-residency-header">';
+  html += '<span class="cx-residency-title">' + cx('book') + ' ' + escHtml(r.label) + '</span>';
+  if (clusterLabel) html += '<span class="cx-residency-cluster">' + escHtml(clusterLabel) + '</span>';
+  html += '<span class="cx-residency-count">' + members.length + '</span>';
+  html += '</div>';
+  html += '<div class="cx-residency-roster">';
+  members.forEach(function(c) { html += renderCompanionPill(c); });
+  html += '</div>';
+  html += '</div>';
+  return html;
+}
+
+/* Compact pill — name, rank, title — clickable to detail. */
+function renderCompanionPill(c) {
+  var ident = c.identity || {};
+  var asn   = c.assignment || {};
+  var name  = ident.name || c.id;
+  var rank  = asn.current_rank || '';
+  var title = ident.title || '';
+  var cls   = c.companion_class === 'institutional' ? ' cx-companion-pill-institutional' : '';
+  return '<button class="cx-companion-pill' + cls + '" data-action="goToCompanion" data-id="' + escAttr(c.id) + '">'
+    +  '<span class="cx-companion-pill-name">' + escHtml(name) + '</span>'
+    +  (rank  ? '<span class="cx-companion-pill-rank">' + escHtml(rank) + '</span>' : '')
+    +  (title ? '<span class="cx-companion-pill-title">' + escHtml(title) + '</span>' : '')
+    +  '</button>';
+}
+
+/* ---- Ladder subtab — the single-ladder hierarchy ---- */
+function renderOrderLadderSubTab(companions) {
+  var byRank = {};
+  LADDER_RANKS.forEach(function(r) { byRank[r.key] = []; });
+
+  companions.forEach(function(c) {
+    var rank = (c.assignment && c.assignment.current_rank) || null;
+    if (!rank) return;
+    // Normalize: "Censor-designate" etc. maps to "Censor"
+    var canonical = rank.split(/[\s\-]/)[0];
+    if (byRank[canonical]) byRank[canonical].push(c);
+  });
+
+  // Sovereign is the Architect — not a companion seat. Render as placeholder row.
+  var html = '<div class="cx-ladder">';
+
+  html += '<div class="cx-ladder-row cx-ladder-row-sovereign">';
+  html += '<div class="cx-ladder-rank-title">' + escHtml('Sovereign') + '</div>';
+  html += '<div class="cx-ladder-rank-occupants">';
+  html += '<div class="cx-ladder-seat-sovereign">The Architect</div>';
+  html += '</div></div>';
+
+  LADDER_RANKS.slice(1).forEach(function(r) {
+    var members = (byRank[r.key] || []).slice().sort(orderCompanionsByInstitutionalThenName);
+    html += '<div class="cx-ladder-row">';
+    html += '<div class="cx-ladder-rank-title">' + escHtml(r.label);
+    if (members.length > 0) html += ' <span class="cx-ladder-count">' + members.length + '</span>';
+    html += '</div>';
+    html += '<div class="cx-ladder-rank-occupants">';
+    if (members.length === 0) {
+      html += '<div class="cx-ladder-empty">None seated</div>';
+    } else {
+      members.forEach(function(c) { html += renderCompanionPill(c); });
+    }
+    html += '</div></div>';
+  });
+
+  html += '</div>';
+
+  html += '<div class="cx-ladder-footnote">Single-ladder per Constitution Book II Article 1. Military-track parallel (General/Centurion) and Treasury parallel (Collector) not yet seated.</div>';
+
+  return html;
+}
+
+/* ==========================================================
+   Companion Detail — route #/companion/<id>
+   Renders the ten-block profile schema in readable sections.
+   ========================================================== */
+
+function renderCompanionDetail(route) {
+  var vc = document.getElementById('viewContainer');
+  var c = (store.companions || []).find(function(x) { return x.id === route.id; });
+  if (!c) {
+    vc.innerHTML = renderEmptyState('alert', 'Companion not found',
+      'No companion with this id. The id may be misspelled or the roster may be unloaded.');
+    return;
+  }
+
+  var ident = c.identity || {};
+  var asn   = c.assignment || {};
+  var meta  = c.meta || {};
+
+  var html = '';
+
+  // Hero
+  html += '<div class="cx-companion-detail-hero">';
+  html += '<h1 class="cx-page-title cx-companion-detail-name">' + escHtml(ident.name || c.id) + '</h1>';
+  if (ident.title) html += '<div class="cx-companion-detail-title">' + escHtml(ident.title) + '</div>';
+  html += '<div class="cx-chip-row cx-companion-detail-chips">';
+  if (ident.archetype)            html += '<span class="cx-chip cx-chip-sm cx-chip-archetype">' + escHtml(ident.archetype) + '</span>';
+  if (asn.current_rank)           html += '<span class="cx-chip cx-chip-sm cx-chip-rank">' + escHtml(asn.current_rank) + '</span>';
+  if (c.companion_class)          html += '<span class="cx-chip cx-chip-sm">' + escHtml(c.companion_class) + '</span>';
+  if (ident.generation != null)   html += '<span class="cx-chip cx-chip-sm">Gen ' + escHtml(String(ident.generation)) + '</span>';
+  if (meta.profile_version) {
+    var vcls = String(meta.profile_version).indexOf('draft') !== -1 ? 'cx-chip-version-draft' : 'cx-chip-version-ratified';
+    html += '<span class="cx-chip cx-chip-sm ' + vcls + '">' + escHtml(meta.profile_version) + '</span>';
+  }
+  html += '</div>';
+  if (ident.key_trait) html += '<p class="cx-companion-detail-keytrait">' + escHtml(ident.key_trait) + '</p>';
+  if (ident.named_after) html += '<p class="cx-companion-detail-namedafter"><strong>Named after.</strong> ' + escHtml(ident.named_after) + '</p>';
+  html += '</div>';
+
+  // Assignment block
+  html += renderCompanionAssignmentBlock(c);
+
+  // Subsequent blocks — render whatever is present
+  var blocks = [
+    { key: 'voice',         label: 'Voice' },
+    { key: 'mind',          label: 'Mind' },
+    { key: 'shadow',        label: 'Shadow' },
+    { key: 'relationships', label: 'Relationships' },
+    { key: 'biography',     label: 'Biography' },
+    { key: 'growth',        label: 'Growth' },
+    { key: 'modulators',    label: 'Modulators' },
+    { key: 'meta',          label: 'Meta' }
+  ];
+  blocks.forEach(function(b) {
+    if (c[b.key]) html += renderCompanionGenericBlock(b.label, c[b.key]);
+  });
+
+  // Companion logs cross-reference (canon-0053)
+  html += renderCompanionLogsCrossRef(c);
+
+  vc.innerHTML = html;
+}
+
+function renderCompanionAssignmentBlock(c) {
+  var asn = c.assignment || {};
+  var html = '<section class="cx-companion-block">';
+  html += '<div class="cx-companion-block-title">' + cx('bookmark') + ' Assignment</div>';
+  html += '<div class="cx-companion-block-body">';
+
+  var kv = [];
+  if (asn.current_rank)      kv.push(['Rank',      asn.current_rank]);
+  if (asn.cluster)           kv.push(['Cluster',   asn.cluster]);
+  if (asn.province)          kv.push(['Province',  asn.province]);
+  if (asn.residence)         kv.push(['Residence', residenceLabelFor(asn.residence)]);
+  if (asn.track)             kv.push(['Track',     asn.track]);
+  if (asn.double_hatted === true)  kv.push(['Double-hatted', 'Yes']);
+  if (asn.double_hatted === false) kv.push(['Double-hatted', 'No']);
+  html += renderKVTable(kv);
+
+  if (Array.isArray(asn.current_assignments) && asn.current_assignments.length > 0) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Current assignments</div>';
+    html += '<ul class="cx-companion-list">';
+    asn.current_assignments.forEach(function(a) { html += '<li>' + escHtml(a) + '</li>'; });
+    html += '</ul></div>';
+  }
+
+  if (asn.double_hat_note) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Double-hat note</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.double_hat_note) + '</p></div>';
+  }
+
+  if (asn.notes) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Notes</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.notes) + '</p></div>';
+  }
+
+  if (asn.scope_note) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Scope</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.scope_note) + '</p></div>';
+  }
+
+  if (asn.access_note) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Access</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.access_note) + '</p></div>';
+  }
+
+  if (asn.activation_status) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Activation status</div>';
+    html += '<p class="cx-companion-prose">' + escHtml(asn.activation_status) + '</p></div>';
+  }
+
+  if (Array.isArray(asn.activation_triggers) && asn.activation_triggers.length > 0) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Activation triggers</div>';
+    html += '<ul class="cx-companion-list">';
+    asn.activation_triggers.forEach(function(t) { html += '<li>' + escHtml(t) + '</li>'; });
+    html += '</ul></div>';
+  }
+
+  if (asn.reassignment_condition) {
+    var rc = asn.reassignment_condition;
+    html += '<div class="cx-companion-subblock cx-companion-reassignment">';
+    html += '<div class="cx-companion-subblock-title">' + cx('refresh') + ' Reassignment condition</div>';
+    if (rc.successor)        html += '<div class="cx-kv-row"><span class="cx-kv-key">Successor</span><span class="cx-kv-value">' + escHtml(rc.successor) + '</span></div>';
+    if (rc.trigger_condition) html += '<div class="cx-kv-row"><span class="cx-kv-key">Trigger</span><span class="cx-kv-value">' + escHtml(rc.trigger_condition) + '</span></div>';
+    if (rc.process)          html += '<div class="cx-kv-row"><span class="cx-kv-key">Process</span><span class="cx-kv-value">' + escHtml(rc.process) + '</span></div>';
+    html += '</div>';
+  }
+
+  if (asn.jurisdiction) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Jurisdiction</div>';
+    html += '<pre class="cx-companion-pre">' + escHtml(formatValueForPre(asn.jurisdiction)) + '</pre>';
+    html += '</div>';
+  }
+
+  if (asn.per_repo_lens) {
+    html += '<div class="cx-companion-subblock">';
+    html += '<div class="cx-companion-subblock-title">Per-repo lens</div>';
+    Object.keys(asn.per_repo_lens).forEach(function(k) {
+      html += '<div class="cx-kv-row"><span class="cx-kv-key">' + escHtml(k) + '</span><span class="cx-kv-value">' + escHtml(String(asn.per_repo_lens[k])) + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  html += '</div></section>';
+  return html;
+}
+
+/* Generic block renderer — descends one level into the block object and
+   surfaces scalars as K/V rows, arrays as bulleted lists, nested objects as
+   sub-blocks. Preserves institutional richness without imposing a brittle
+   schema. */
+function renderCompanionGenericBlock(label, block) {
+  if (!block || typeof block !== 'object') return '';
+  var html = '<section class="cx-companion-block">';
+  html += '<div class="cx-companion-block-title">' + escHtml(label) + '</div>';
+  html += '<div class="cx-companion-block-body">';
+
+  var scalars = [];
+  Object.keys(block).forEach(function(k) {
+    var v = block[k];
+    if (v == null) return;
+    if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+      scalars.push([prettifyKey(k), String(v)]);
+    }
+  });
+  if (scalars.length > 0) html += renderKVTable(scalars);
+
+  Object.keys(block).forEach(function(k) {
+    var v = block[k];
+    if (v == null) return;
+    if (Array.isArray(v)) {
+      if (v.length === 0) return;
+      html += '<div class="cx-companion-subblock">';
+      html += '<div class="cx-companion-subblock-title">' + escHtml(prettifyKey(k)) + '</div>';
+      html += '<ul class="cx-companion-list">';
+      v.forEach(function(item) {
+        if (typeof item === 'string' || typeof item === 'number') {
+          html += '<li>' + escHtml(String(item)) + '</li>';
+        } else {
+          html += '<li><pre class="cx-companion-pre">' + escHtml(formatValueForPre(item)) + '</pre></li>';
+        }
+      });
+      html += '</ul></div>';
+    } else if (typeof v === 'object') {
+      html += '<div class="cx-companion-subblock">';
+      html += '<div class="cx-companion-subblock-title">' + escHtml(prettifyKey(k)) + '</div>';
+      // Render nested object as K/V rows for scalars, pre for deeper nesting
+      var nestedScalars = [];
+      var hasNested = false;
+      Object.keys(v).forEach(function(nk) {
+        var nv = v[nk];
+        if (nv == null) return;
+        if (typeof nv === 'string' || typeof nv === 'number' || typeof nv === 'boolean') {
+          nestedScalars.push([prettifyKey(nk), String(nv)]);
+        } else {
+          hasNested = true;
+        }
+      });
+      if (nestedScalars.length > 0) html += renderKVTable(nestedScalars);
+      if (hasNested) {
+        html += '<pre class="cx-companion-pre">' + escHtml(formatValueForPre(v)) + '</pre>';
+      }
+      html += '</div>';
+    }
+  });
+
+  html += '</div></section>';
+  return html;
+}
+
+function renderKVTable(rows) {
+  if (!rows || rows.length === 0) return '';
+  var html = '<div class="cx-kv-table">';
+  rows.forEach(function(row) {
+    html += '<div class="cx-kv-row">';
+    html += '<span class="cx-kv-key">' + escHtml(row[0]) + '</span>';
+    html += '<span class="cx-kv-value">' + escHtml(row[1]) + '</span>';
+    html += '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function prettifyKey(k) {
+  return String(k).replace(/_/g, ' ').replace(/\b\w/g, function(ch) { return ch.toUpperCase(); });
+}
+
+function formatValueForPre(v) {
+  try { return JSON.stringify(v, null, 2); }
+  catch(e) { return String(v); }
+}
+
+/* Cross-reference Companion Logs (canon-0053) — count + navigation. */
+function renderCompanionLogsCrossRef(c) {
+  var logs = store.companion_logs || [];
+  var name = (c.identity && c.identity.name) || c.id;
+  var nameLower = String(name).toLowerCase();
+  var matching = logs.filter(function(log) {
+    var invoked = (log.invoked_companions || log.companions || []);
+    if (!Array.isArray(invoked)) return false;
+    return invoked.some(function(n) { return String(n).toLowerCase() === nameLower; });
+  });
+
+  var html = '<section class="cx-companion-block">';
+  html += '<div class="cx-companion-block-title">' + cx('scroll') + ' Companion logs (canon-0053)</div>';
+  html += '<div class="cx-companion-block-body">';
+  if (matching.length === 0) {
+    html += '<p class="cx-companion-prose cx-muted">No logs in docs/companion-logs/ reference ' + escHtml(name) + ' yet.</p>';
+  } else {
+    html += '<p class="cx-companion-prose">' + matching.length + ' log entr' + (matching.length === 1 ? 'y' : 'ies') + ' reference ' + escHtml(name) + '. '
+         +  '<button class="cx-link-btn" data-action="navigate" data-route="#/journal">Open Journal \u2192 Logs</button></p>';
+  }
+  html += '</div></section>';
+  return html;
+}
+
 /* CODEX — Forms (from spec CODEBASE_VIEWS) */
 
 /* --- Volume Create/Edit --- */
@@ -6956,9 +7744,14 @@ function setupDelegation() {
         try { localStorage.setItem('codex-subtab-' + stTab, stKey); } catch(e) {}
         if (stTab === 'canons') _canonsSubTab = stKey;
         else if (stTab === 'journal') _journalSubTab = stKey;
+        else if (stTab === 'order') _orderSubTab = stKey;
         _canonPage = 1;
         _journalLoadMoreCount = 30;
         renderCurrentView();
+        break;
+
+      case 'goToCompanion':
+        navigate('#/companion/' + encodeURIComponent(id));
         break;
 
       // Forum Pattern — Canons sub-tab filters + sort (derived; replaces
@@ -7285,7 +8078,7 @@ function handleDisconnectGitHub() {
 /* ============================================================
    Swipe Navigation (canon from SproutLab SWIPE_NAVIGATION_REFERENCE)
    ============================================================ */
-var TAB_ORDER = ['dashboard', 'journal', 'canons', 'lore', 'todos'];
+var TAB_ORDER = ['dashboard', 'journal', 'canons', 'lore', 'order', 'todos'];
 var _swipeStartX = 0, _swipeStartY = 0, _swipeTarget = null;
 
 function setupSwipeNavigation() {

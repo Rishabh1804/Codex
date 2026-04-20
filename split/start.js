@@ -267,9 +267,14 @@ function setupDelegation() {
         try { localStorage.setItem('codex-subtab-' + stTab, stKey); } catch(e) {}
         if (stTab === 'canons') _canonsSubTab = stKey;
         else if (stTab === 'journal') _journalSubTab = stKey;
+        else if (stTab === 'order') _orderSubTab = stKey;
         _canonPage = 1;
         _journalLoadMoreCount = 30;
         renderCurrentView();
+        break;
+
+      case 'goToCompanion':
+        navigate('#/companion/' + encodeURIComponent(id));
         break;
 
       // Forum Pattern — Canons sub-tab filters + sort (derived; replaces
@@ -596,7 +601,7 @@ function handleDisconnectGitHub() {
 /* ============================================================
    Swipe Navigation (canon from SproutLab SWIPE_NAVIGATION_REFERENCE)
    ============================================================ */
-var TAB_ORDER = ['dashboard', 'journal', 'canons', 'lore', 'todos'];
+var TAB_ORDER = ['dashboard', 'journal', 'canons', 'lore', 'order', 'todos'];
 var _swipeStartX = 0, _swipeStartY = 0, _swipeTarget = null;
 
 function setupSwipeNavigation() {

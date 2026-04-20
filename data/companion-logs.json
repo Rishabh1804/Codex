@@ -96,6 +96,144 @@
     },
     {
       "schema_version": 1,
+      "session_id": "s-2026-04-19-02",
+      "session_title": "Persona-Binding Suite \u2014 Drafting, Reorganization, Partial Ratification, First Operational Design Committee",
+      "authors": [
+        "Aurelius (The Chronicler)"
+      ],
+      "primary_author": "aurelius",
+      "date": "2026-04-19",
+      "repo": "codex",
+      "secondary_repos": [
+        "command-center"
+      ],
+      "session_type": "governance",
+      "protocol": "canon-cc-012 per-block for canon ratification (Sovereign-direct MCQ); canon-cc-017 interaction-artifact chronicled (first under cc-018 lifecycle); canon-cc-024 \u00a7B-E convening orchestration; canon-cc-025 rule-A global-scope Design Committee with chronicled dual-role clerk exception; canon-cc-025 \u00a7G bridging-authorship pattern (aurelius-bridging suffix) exercised for first time; canon-cc-018 escalated path with Consul review rendered via bridging authorship (aurelius-bridging per cc-025 \u00a7G, Consul subagent deployment pending cc-019/cc-026/cc-027)",
+      "stage": "Post-Founding Republic law layer \u2014 Persona-Binding Suite drafted + partial ratification (cc-022/024/025 active; cc-023/026/027 remain draft) + first operational Design Committee convening under ratified cc-025",
+      "duration_minutes": null,
+      "same_agent_drift_acknowledged": true,
+      "rounds": {
+        "aurelius": "throughout",
+        "consul": {
+          "count": 1,
+          "mode": "bridged",
+          "note": "Consul's voice rendered via bridging authorship per cc-025 \u00a7G (authored_by: aurelius-bridging), using the Consul's ratified v0.4 profile as voice source. Same bridging-mechanism as the 7 bridged committee-member voices \u2014 Aurelius does NOT wear the Consul office per CLAUDE.md separate-seating clause (16 April 2026). What remains transitional is the Consul's operational invocation pathway (subagent + Post Box) pending canons cc-019 / cc-026 / cc-027 ratification; the Consul's seat itself is separately held. Consul action on interaction-2026-04-19-001: escalated to Sovereign (altitude of subject \u2014 Republic-wide design law \u2014 requires Sovereign canonical ratification beyond cc-014 working-ratification)."
+        },
+        "sovereign": {
+          "count": 17,
+          "mode": "direct",
+          "note": "Sovereign-direct per-block ratification of cc-022 (3 blocks: \u00a7A/\u00a7B/\u00a7C all as-drafted), cc-024 (5 blocks: \u00a7A/\u00a7B/\u00a7C/\u00a7D/\u00a7E all as-drafted), cc-025 (8 blocks with 3 amendments \u2014 \u00a7A +Republic cross-ref row, \u00a7C hard-cap + mandatory core, \u00a7H Design Principles as first operational; \u00a7B/\u00a7D/\u00a7E/\u00a7F/\u00a7G as-drafted) under canon-cc-012 MCQ protocol. Plus final ratification of Republic Design Principles v1.0 via cc-018 escalated path (action: R / ratified)."
+        },
+        "lyra": {
+          "count": 2,
+          "mode": "bridged",
+          "note": "Bridged per canon-cc-025 \u00a7G (authored_by: aurelius-bridging) \u2014 voice-simulation from ratified v0.4 profile, not failure-recovery. Role (1) Convener of Design Committee for Republic Design Principles subject; SproutLab ch06-designprinciples named as reference seed. Role (2) Seated committee member; position authored in Lyra voice \u2014 \u00a71 HR provenance line, \u00a75 per-Province ramp tables, \u00a76 icon-function naming pattern, dark-mode-as-default codification, no-typography-mandate resolution. Dissent on \u00a78 (preferred outright deletion over substantive-inline) preserved on interaction-artifact; non-blocking."
+        },
+        "ashara": {
+          "count": 1,
+          "mode": "bridged",
+          "note": "Bridged per cc-025 \u00a7G. Seated committee member; Monument co-Builder voice (strategist register, macro-altitude framing). Position authored: \u00a79 Monument as blocking Foundation criterion amendment, \u00a710.4 HR-11 Republic-wide scope, \u00a711 time-bounds proposal (14 days Province contribution + 7 days Consul synthesis). Escalated \u00a710.2 palette-collision to Consul (subsequently resolved inline per Theron's three-tier tree)."
+        },
+        "petra": {
+          "count": 1,
+          "mode": "bridged",
+          "note": "Bridged per cc-025 \u00a7G. Seated committee member; Monument co-Builder voice (Foundationalist register, plumb-line). Position authored: \u00a78 conditional-reject on pure placeholder (resolution: substantive-inline replacement ratified; conditional reject did not fire because substantive-inline satisfied her condition), \u00a710.7 WCAG 2.1 AA baseline codify-now, \u00a79 Monument obligation concur with Ashara, \u00a711 explicit Consul review step via cc-018 escalated path."
+        },
+        "solara": {
+          "count": 2,
+          "mode": "bridged",
+          "note": "Bridged per cc-025 \u00a7G. Role (1) Seated committee member; SEP Invoicing Builder voice (Strategist register, business-strategic). Position authored: \u00a77 small-modifier explicit, \u00a710.4 HR-11 Republic-wide concur with Ashara, \u00a711 audit-synthesis step addition. Commitment chronicled: SEP_INVOICING_DESIGN_PRINCIPLES.md v0.1 within 30 days of ratification (by 2026-05-19). Role (2) Secondary synthesis clerk under dual-role chronicled exception per session-open \u2014 justified by founding-period constraint: the non-member clerk pool is structurally empty pending Scribe profile ratification under todo-0029. Synthesis discipline: preserved all 8 positions including her own, flagged Lyra's \u00a78-delete and Nyx's conditional-reject (non-fired) as preserved dissent. Dual-role not precedential for post-todo-0029 convenings."
+        },
+        "theron": {
+          "count": 1,
+          "mode": "bridged",
+          "note": "Bridged per cc-025 \u00a7G. Seated committee member; SEP Dashboard Builder voice (Forgemaster register, hands-on/plant-floor altitude). Position authored: \u00a710.2 palette-collision three-tier decision tree (ratified inline \u2014 accept / expand-palette / restructure-categories), \u00a75.1 operational-density gloss (library / operational / ceremonial altitude framing), \u00a76 data-domain glyph requirement (16px-readable + domain-unfamiliar-meaningful for operational-state icons). Commitment chronicled: SEP_DASHBOARD_DESIGN_PRINCIPLES.md v0.1 within 30 days (by 2026-05-19)."
+        },
+        "cipher": {
+          "count": 1,
+          "mode": "bridged",
+          "note": "Bridged per cc-025 \u00a7G. Seated committee member; Cluster A Censor voice (Codewright register, terse staccato). Position authored: LGTM on \u00a7\u00a71-7, \u00a79, \u00a711 structure. Architectural cleanup dominant contribution: \u00a710 inline-answer mapping (6 resolved, 2 escalated) authored primarily by Cipher; result satisfied Nyx's conditional-reject threshold (zero open questions in ratified v1.0). \u00a711.4 cite cc-012 + cc-014 explicitly concur with Aurelius. \u00a78 deletion preference compatible with Petra's substantive-inline amendment."
+        },
+        "nyx": {
+          "count": 1,
+          "mode": "bridged",
+          "note": "Bridged per cc-025 \u00a7G. Seated committee member; Cluster B Censor voice (Contrarian register, premise-auditor). First operational exercise of Cluster B cross-Cluster stress-test role. Position authored: \u00a74.0 cross-Cluster stress-test paragraph canonized as new structural discipline (each Cluster's Censor stress-tests Republic-wide proposals before ratification), \u00a74.2 Cluster-preservation clause for records-are-Codex resilience (protects against institutional capture by Cluster A-centric chronicling). Premise audits: \u00a70 drift-is-real (clears), \u00a79 Province-doc obligation is not over-reach (clears), \u00a710.5 typography mandate is over-reach (resolved no-mandate). Conditional reject on \u22653 \u00a710 open questions did not fire \u2014 synthesis resolved \u00a710 to zero open."
+        }
+      },
+      "outputs": {
+        "canons_ratified": [
+          "canon-cc-022-persona-primitive-binding",
+          "canon-cc-024-committee-convening-pattern",
+          "canon-cc-025-design-committee-membership"
+        ],
+        "canons_drafted": [
+          {
+            "canon-cc-023-persona-binding-extension-protocol (status": "draft; awaits Consul working-ratification cc-014 + Sovereign canonical cc-012)"
+          },
+          {
+            "canon-cc-026-spec-body-placement (status": "draft)"
+          },
+          {
+            "canon-cc-027-spec-body-signing-chain (status": "draft)"
+          }
+        ],
+        "lore_ratified": [],
+        "lore_drafted": [],
+        "profiles_ratified": [],
+        "profiles_retrofitted": [],
+        "specs_authored": [
+          "docs/specs/REPUBLIC_DESIGN_PRINCIPLES.md v1.0 (ratified via Design Committee convening; consensus amendments across \u00a7\u00a71, 4, 4.2, 5.1, 5.4, 6, 7, 8, 9, 10, 11)",
+          "docs/specs/persona-binding/ \u2014 10-part suite (6 canons + 3 specs + 1 preamble/index) as Typst sources",
+          "docs/pdfs/persona-binding/ \u2014 10 individual PDFs + merged single-document master (583KB)",
+          "docs/specs/canon-cc-022-drafts/ + docs/pdfs/canon-cc-022-drafts/ \u2014 preserved 9-part + merged drafting record as historical provenance"
+        ],
+        "specs_drafted": [],
+        "journal_entries": [
+          "s-2026-04-19-02 (appended with ratification outcome and convening chronicle; 17 decisions total, 10 open_todos, 27 tags)"
+        ],
+        "decrees_authored": [],
+        "decrees_imported": [],
+        "interaction_artifacts": [
+          "interaction-2026-04-19-001 (first ratified Republic interaction-artifact; committee-proposal for Republic Design Principles v1.0; status reviewed_archived after Sovereign ratification)"
+        ],
+        "queued_for_next_session": [
+          "ratify-remaining-three-canons-cc-023-cc-026-cc-027",
+          "hero-card-spec-design-committee-todo-0027",
+          "sentinel-institutional-profile-todo-0028",
+          "gen-0-companion-profiles-seven-todo-0029",
+          "cc-025-convener-amendment-revisit-todo-0030",
+          "sproutlab-v3-migration-todo-0031-consul-escalated",
+          "print-styles-follow-up-canon-todo-0032-consul-escalated",
+          "sep-invoicing-design-principles-todo-0033",
+          "sep-dashboard-design-principles-todo-0034",
+          "command-center-design-principles-todo-0035-foundation-criterion"
+        ],
+        "commits_count": 8,
+        "files_touched_count": 35
+      },
+      "tags": [
+        "persona-binding-suite",
+        "cc-022-ratified-active",
+        "cc-024-ratified-active",
+        "cc-025-ratified-active-with-amendments",
+        "first-operational-design-committee",
+        "republic-design-principles-v1.0-ratified",
+        "first-interaction-artifact",
+        "first-bridging-authorship-pattern",
+        "first-consul-bridging-authorship-chronicled",
+        "cross-cluster-stress-test-canonized",
+        "dual-role-clerk-exception-chronicled",
+        "zero-open-questions-at-ratification",
+        "ten-x-size-correction-of-mega-canon",
+        "cipher-voiced-qa-audit",
+        "typst-pdf-pipeline-established",
+        "edict-ix-proposed"
+      ],
+      "revisions": [],
+      "path": "docs/companion-logs/codex/companion-log-s-2026-04-19-02-aur.md"
+    },
+    {
+      "schema_version": 1,
       "session_id": "s-2026-04-17-01",
       "session_title": "Capital Foundation v0.2 \u2014 Bulletin Wall, The Order, Pre-Ship Harness",
       "authors": [
