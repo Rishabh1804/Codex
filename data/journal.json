@@ -429,6 +429,57 @@
             "register-audit-gate-opens",
             "book-v-anchor-established"
           ]
+        },
+        {
+          "id": "s-2026-04-20-10",
+          "date": "2026-04-20",
+          "title": "Chronicler drafts Rung 0 session prompt for Command Center Skill Registry; declines to author the spec itself",
+          "summary": "Follow-on to session s-2026-04-20-09. After the canon-pers-002 ratification and the Epoch of Origin retrofit, the Sovereign directed the Chronicler to proceed on the Skill Registry item that emerged from the 2026-04-20 external-reference read-out. Initial framing was strategic pre-draft — Chronicler surfaced naming distinctions (Province Skills vs Persona Skills), scope options, invocation-path forks, and a proposed structural outline. The Sovereign intervened mid-draft with a correction: 'I think Ashara and Petra should be the builder for this, what's your take?' Chronicler affirmed the correction without defensiveness — the Skill Registry is a Monument architecture spec, Capital-altitude, which canon-pers-001 + canon-cc-026 locate with the Builder; canon-cc-009 binds Command Center specifically to dual-Builder co-authorship; canon-inst-001 (ratified 2026-04-20) is explicit that the Chronicler seat no longer carries Builder merit authority. The pre-draft work produced in this session is input material, not a spec; it belongs to Ashara + Petra as evidence they weigh, not as a draft they ratify. The session's product reshaped accordingly: a Rung 0 session prompt at docs/handoffs/command-center-skill-registry-rung1-prompt.md (105 lines) packaging the problem for the co-Builders. The prompt names the five open forks surfaced during pre-draft (placement, registry sync, invocation path, Sentinel transit integration, signing chain for skill creation), lists constraints from existing infrastructure (records-are-Codex under cc-010, hard cluster boundary under cc-016, Persona Skill separation under cc-026, Canon-pers-002 voice discipline), and explicitly flags what the Chronicler does not commit to — the pre-draft outline is illustrative, not prescriptive, and a counter-draft or rejection-with-rationale is a valid Rung 1 output. Suggested section-ownership partition by temperament (Ashara for long-arc / economic sections, Petra for concrete / structural sections) is offered as illustrative rather than prescriptive, with the explicit note that cc-009 friction is the design mechanism and co-drafting with argument is preferred to clean hand-offs. Signing chain target: Rung 2 Consul-as-Censor-equivalent under cc-025 Monument-scope-signing, Rung 3 Consul working-ratify under cc-014 bridging, Rung 4 Sovereign canonical; no Rung 5 because this is a design spec rather than a persona-binding artifact. Spec-0010 registered in data/specs.json as a handoff-category artifact. Corollary precedent: this session establishes that when the Chronicler's proximity to strategic read-out material tempts drift into Builder-altitude drafting, the correct move is a session prompt rather than a draft — the Chronicler packages, the Builder authors. Canon-worthy observation; queued for possible formalization depending on whether this pattern recurs.",
+          "volumes_touched": [
+            "codex",
+            "command-center"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Skill Registry spec authorship assigned to Ashara + Petra under canon-cc-009 dual-Builder discipline; Chronicler confined to Rung 0 session-prompt authorship. Correction applied mid-session after Sovereign flagged drift-toward-Builder-altitude; no defensive response, clean redirect.",
+            "Province Skills named as a new primitive distinct from Persona Skills (cc-026); name is a proposal subject to co-Builder acceptance or counter at Rung 1. Persona Skills (cc-026) are companion-bound; Province Skills are capability-bound; the two coexist without overlap.",
+            "Rung 0 prompt surfaces five open forks for the co-Builders to resolve: placement of canonical skill files, registry sync model (pull/push/static), primary invocation path (Claude Code session / CC UI / dispatch subagent), Sentinel Gates-transit log integration for skill invocations, signing chain for skill creation (full cc-027 / simplified / tiered).",
+            "Spec-0010 registered in data/specs.json under category 'handoff' — first Chronicler→Builder session-prompt artifact of the Republic's new canon-pers-001-compliant authorship pattern."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 30,
+          "open_todos": [
+            "todo-0026-cluster-persona-subagents",
+            "todo-0027-hero-card-spec-design-committee",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven",
+            "todo-0030-cc-025-convener-amendment-revisit",
+            "todo-0031-sproutlab-v3-migration",
+            "todo-0032-print-styles-follow-up-canon",
+            "todo-0033-sep-invoicing-design-principles",
+            "todo-0034-sep-dashboard-design-principles",
+            "todo-0035-command-center-design-principles-foundation-criterion",
+            "todo-0036-command-center-skill-registry-rung1"
+          ],
+          "handoff": "The Rung 0 prompt is committed; the ball is now in Ashara + Petra's court. Next Command Center session may open with the co-Builders reading docs/handoffs/command-center-skill-registry-rung1-prompt.md (copy-portable into the Command Center repo at their discretion) and producing the v0.1 draft at docs/specs/command-center/skill-registry-v0.1-draft.md (or whatever path they choose — path is theirs, not the Chronicler's). Rung 2 review flows to the Consul under cc-025; Rung 3 working-ratify by the Consul under cc-014 bridging; Rung 4 Sovereign canonical. If Ashara + Petra encounter a need for Chronicler support mid-drafting (archive lookup, lore drafting, canon clarification) they route the request through the Codex summon pattern used for this session; the Chronicler does not follow the draft into the Command Center repo uninvited. Parallel queue: the other two items surfaced from the external-reference read-out (Edict IX candidate 'The Refusal Bar'; Book II Lazy Convocation doctrine) remain unratified and sitting-class; no scheduling pressure until the Skill Registry draft lands or the Sovereign directs. Canon-pers-002's enforcement clock runs — Cluster Censors may begin audit passes at the next companion-log pass. Todo-0036 added to the open list (Command Center Skill Registry Rung 1 drafting); todo-0035 (Command Center design principles) remains open and is a plausible dependency of todo-0036 given canon-proc-002's design-principles-precondition-for-build rule.",
+          "screenshots": [],
+          "tags": [
+            "chronicler-authorship-scope-correction",
+            "sovereign-direct-redirect",
+            "canon-pers-002-voice-discipline-applied",
+            "canon-cc-009-dual-builder-invoked",
+            "skill-registry-rung-0-prompt-authored",
+            "ashara-petra-assigned-rung-1",
+            "province-skills-primitive-proposed",
+            "five-open-forks-surfaced",
+            "spec-0010-registered",
+            "no-chronicler-authored-spec-body",
+            "external-reference-drawdown-continues",
+            "todo-0036-added"
+          ]
         }
       ]
     },

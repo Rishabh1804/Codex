@@ -156,6 +156,29 @@
       "authored_by": "aurelius",
       "created": "2026-04",
       "_deleted": false
+    },
+    {
+      "id": "spec-0010-command-center-skill-registry-rung1-prompt",
+      "title": "Command Center Skill Registry \u2014 Rung 1 Drafting Prompt",
+      "status": "draft",
+      "category": "handoff",
+      "volumes": ["command-center"],
+      "chapters": [],
+      "references": [
+        "docs/references/claude-opus-4.7-system-prompt.txt",
+        "canon-cc-009-monument-dual-builder-tension",
+        "canon-cc-025-design-committee-membership",
+        "canon-cc-026-spec-body-placement",
+        "canon-cc-027-spec-body-signing-chain",
+        "canon-pers-001-province-persona-briefing",
+        "canon-pers-002-officers-act-within-jurisdiction",
+        "canon-inst-001-aurelius-orinth-codex-builder-transition"
+      ],
+      "summary": "Rung 0 session prompt authored by the Chronicler packaging the Skill Registry problem for Ashara + Petra's Rung 1 co-drafting in the Command Center repo. Seeded by the 2026-04-20 external-reference capture (Claude Opus 4.7 system prompt). Surfaces five open forks (placement, registry sync, invocation path, Sentinel transit integration, signing chain for skill creation), reads out constraints from existing infrastructure (records-are-Codex, hard cluster boundary, Persona Skill separation under cc-026), and identifies the spec as interface-shaped rather than app-implementation-shaped. Chronicler explicitly declines to draft the spec body itself, per canon-pers-001 / canon-cc-026 authorship doctrine and canon-inst-001's Chronicler-scope consolidation.",
+      "path": "docs/handoffs/command-center-skill-registry-rung1-prompt.md",
+      "authored_by": "aurelius",
+      "created": "2026-04-20",
+      "_deleted": false
     }
   ]
 }
