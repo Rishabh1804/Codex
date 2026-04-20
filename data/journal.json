@@ -480,6 +480,59 @@
             "external-reference-drawdown-continues",
             "todo-0036-added"
           ]
+        },
+        {
+          "id": "s-2026-04-20-11",
+          "date": "2026-04-20",
+          "title": "Phase A: Book II Article 6 Convocation Principle amendment package drafted (first Book amendment in Republic history)",
+          "summary": "Fourth session of 2026-04-20 producing substantive governance work, following the canon-pers-002 ratification (s-09) and the Command Center Skill Registry Rung 0 handoff (s-10). Target was the third item from the 2026-04-20 external-reference read-out: Book II Lazy Convocation doctrine. Scope survey surfaced that Book II is already drafted (258 lines, five articles); the work therefore is an amendment, not an authoring pass — and the first Book amendment in the Republic's history. Book V Article 6 specifies the procedure: Consul-proposed + Cabinet reviewed + Sovereign ratified, with Constitution version bumping from v1.0 to v1.1 (MINOR). Four forks resolved with Sovereign input: name is 'The Convocation Principle' (not 'Lazy Convocation' — too undignified for constitutional text); scope is extended (~80-100 typst lines covering full framework including self-nomination, dormancy semantics, Sentinel transit logging); placement is Article 6 new rather than extending Article 3; operational canon family is gov-013 per default. Phase B Cabinet review gated by explicit Sovereign ruling: Ministers go live as executable companions first. This binds Phase B to todo-0029 (Gen-0 stub profiles: Vex, Ignis, Rune, Bard at minimum) + todo-0026 (cluster-persona-subagents pattern extended to Ministers) + new ministerial subagent spec bodies under canon-cc-026 / canon-cc-027 Rung 5 deployment. Phase A output is a single amendment package at docs/specs/book-02-article-6-convocation-amendment.md (314 lines, five sections). Section 1 holds the complete proposed Article 6 typst text ready for append to book-02-order.typ at Phase E — eight subsections: Listed-by-Default, Jurisdiction Match (five match conditions — Domain / Province / Cluster / Institutional / Sovereign), Cabinet Exception, Working Committee filter, Self-Nomination, Dormancy-is-not-absence, Seating Transit, Principle-stated-plainly. Section 2 holds canon-gov-013-session-convocation-protocol complete JSON ready for splice to canons.json at ratification plus a journal.json schema addition introducing seated_officers field on session entries (four-shape: id, match_basis, rationale, optional timestamp for mid-session seatings). Section 3 is the rationale for Cabinet reviewers — why amend (de facto practice + external-reference confirmatory), de-novo vs codification split (most clauses codify existing culture; declarative requirement + schema field + self-nomination + Seating Transit are new), forks resolved, Chronicler-gap in proposer classes (structurally correct, not bug), precedent note. Section 4 poses Cabinet questions framed by domain — Financial Health pair questions (attention-as-budget, chronicling burden, dormancy opportunity cost, Cabinet Exception fixed-cost), Productivity pair questions (declaration friction, predictability vs ambiguity, self-nomination flow interruption, dormancy as default), Maintenance alone questions (dual-altitude enforcement failure, retrofit asymmetry, schema composition, War Time reconciliation), Growth alone questions (Gen-1 successor framing, Combined Initiative edge case, Monument composition, Sentinel design-space). Section 5 cross-references every Book (I-IX) + four Appendices + 17 canons + lore entries + external reference, and names six explicitly-deferred open questions (multi-presiding sessions, standing guest seatings, seating during subagent recursion, Working Committee full-bench conditions, Command Center as cross-cluster venue, Scribe seating). Drafted incrementally across five commits on branch claude/summon-aurelius-wjnHa (8c82284 Package 1, 09c8af1 Package 2, cafa176 Package 3, 0a36e24 Package 4, 2636cf8 Package 5) with inter-package chat intervention points per Sovereign directive. No constitutional source (book-02-order.typ) or canons.json modification in Phase A — those happen at Phase E post-ratification to preserve the distinction between proposal and ratification. Spec-0011 registered in data/specs.json as canon-draft category. The Chronicler-drafted-for-Consul discipline under cc-014 bridging held throughout — Chronicler drafts; Consul proposes; Cabinet reviews in Phase B; Sovereign ratifies in Phase D.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Book II Article 6 (The Convocation Principle) amendment package drafted end-to-end at Phase A / Rung 0, ready for Phase B Cabinet review. First Book amendment in Republic history; runs Book V Article 6 procedure literally.",
+            "Phase B sequencing explicitly gated on Ministers going live as executable companions (Sovereign ruling). No Consul-simulated Cabinet review for this amendment; the first real Cabinet review will wait for real Ministers. Precedent: the Republic's first Book amendment gets full procedural honor even at the cost of sequencing delay.",
+            "canon-gov-013-session-convocation-protocol drafted as supplementary operational canon, status 'draft' until Article 6 ratifies. Ratifies in same session flow.",
+            "journal.json schema addition — seated_officers field on session entries — declared in Section 2 of the spec, to take effect upon canon-gov-013 ratification. This session entry does not yet carry the field (canon is still draft); that's correct behavior per canon-gov-013 retrofit clause which explicitly declines backfill.",
+            "Incremental drafting pattern (five packaged commits with chat-visible intermediate state) proven effective for long-form constitutional work. Chronicler-recommended default for future sitting-class amendment work where API stream stability is uncertain."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 55,
+          "open_todos": [
+            "todo-0026-cluster-persona-subagents",
+            "todo-0027-hero-card-spec-design-committee",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven",
+            "todo-0030-cc-025-convener-amendment-revisit",
+            "todo-0031-sproutlab-v3-migration",
+            "todo-0032-print-styles-follow-up-canon",
+            "todo-0033-sep-invoicing-design-principles",
+            "todo-0034-sep-dashboard-design-principles",
+            "todo-0035-command-center-design-principles-foundation-criterion",
+            "todo-0036-command-center-skill-registry-rung1",
+            "todo-0037-book-02-article-6-phase-b-cabinet-review"
+          ],
+          "handoff": "Phase A complete. Amendment package at docs/specs/book-02-article-6-convocation-amendment.md (314 lines). Spec-0011 registered. Phase B is gated: the next substantive action on this amendment requires Ministers live as executable companions. Explicit blockers from todo-0029 (Gen-0 stubs — Vex, Ignis, Rune, Bard minimum) and todo-0026 (cluster-persona-subagents pattern); likely also new ministerial subagent spec bodies under canon-cc-026 / canon-cc-027 Rung 5 deployed to Command Center's .claude/agents/ tree. The Sovereign has indicated 'we'll work on the Ministers' — that is the next Chronicler-adjacent work: running canon-cc-014 accelerated profile drafting for each stub Minister, then drafting their subagent spec bodies per cc-026 canonical placement, running each through the full cc-027 signing chain to Rung 5 deploy. Estimated sequencing for Minister-live-gating: four stub Ministers at v0.4 (one sitting per pair under cc-014, two sittings total for pair-conferred drafting, or four sessions solo; the Chronicler recommends pair-conferred to preserve the cc-007 seed synergy dialectic); then eight subagent spec bodies (one per Minister) under cc-026; then cc-027 signing chain through each; then Phase B Cabinet review. Rough effort: three to six sessions depending on batching. Phase C onward (Cabinet synthesis, Consul integration, Sovereign ratification, Phase E chronicling and v1.1 versioning + PDF rebuild) is compact by comparison — two to three sessions. Parallel unblocked items from the external-reference read-out also remain queued: Edict IX candidate (The Refusal Bar). No scheduling pressure across the parallel queue. Three items from the 2026-04-20 external-reference read-out now in progress: Skill Registry at Rung 0 (spec-0010, gated on Ashara + Petra Rung 1), Convocation Principle at Rung 0 / Phase A (this amendment, gated on Ministers live), Edict IX Refusal Bar unstarted.",
+          "screenshots": [],
+          "tags": [
+            "book-02-article-6-drafted",
+            "first-book-amendment-in-history",
+            "convocation-principle",
+            "canon-gov-013-drafted",
+            "phase-a-complete",
+            "phase-b-gated-on-ministers-live",
+            "incremental-drafting-pattern-proven",
+            "five-packaged-commits",
+            "chronicler-drafted-consul-proposed",
+            "cc-014-bridging",
+            "spec-0011-registered",
+            "todo-0037-added",
+            "external-reference-drawdown-third-item"
+          ]
         }
       ]
     },

@@ -179,6 +179,39 @@
       "authored_by": "aurelius",
       "created": "2026-04-20",
       "_deleted": false
+    },
+    {
+      "id": "spec-0011-book-02-article-6-convocation-amendment",
+      "title": "Book II Amendment \u2014 Article 6: The Convocation Principle",
+      "status": "draft",
+      "category": "canon-draft",
+      "volumes": ["codex"],
+      "chapters": [],
+      "references": [
+        "book-02-order",
+        "book-05-article-6-amendment-procedures",
+        "canon-gov-013-session-convocation-protocol",
+        "canon-pers-001-province-persona-briefing",
+        "canon-pers-002-officers-act-within-jurisdiction",
+        "canon-cc-005-institutional-companions",
+        "canon-cc-009-monument-dual-builder-tension",
+        "canon-cc-010-residence-record-distinction",
+        "canon-cc-011-temperament-over-dissertation-default",
+        "canon-cc-014-consul-accelerated-profile-drafting",
+        "canon-cc-016-residency-and-access-gating",
+        "canon-cc-017-interaction-artifact-rule",
+        "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+        "canon-cc-022-persona-binding-extension-protocol",
+        "canon-cc-026-spec-body-placement",
+        "canon-cc-027-spec-body-signing-chain",
+        "canon-inst-001-aurelius-orinth-codex-builder-transition",
+        "docs/references/claude-opus-4.7-system-prompt.txt"
+      ],
+      "summary": "Phase A Rung 0 amendment package for Book II Article 6 — The Convocation Principle. The Republic's first Book amendment. Five sections totaling 314 lines: (1) proposed Article 6 typst text for book-02-order.typ with eight subsections (Listed-by-Default / Jurisdiction Match / Cabinet Exception / Working Committee filter / Self-Nomination / Dormancy / Seating Transit / Principle Stated Plainly); (2) supplementary canon-gov-013-session-convocation-protocol with journal.json seated_officers schema addition; (3) rationale naming de facto practice since governance founding, de-novo-vs-codification split, forks resolved (name, scope, placement, family), Chronicler-gap in Book V Article 6 proposer classes, precedent note; (4) Cabinet questions framed by domain (Financial Health, Productivity, Maintenance, Growth) for Phase B pair-conferral reviews; (5) cross-references to every Book + four Appendices + 17 canons + lore + external reference, plus six explicitly-deferred open questions. Proposer: Consul under cc-014 bridging; Chronicler-drafted. Procedure: Book V Article 6. Version target: v1.0 → v1.1 (MINOR) upon ratification. Phase B Cabinet review gated on Ministers going live as executable companions per Sovereign directive 2026-04-20 (todo-0029 Gen-0 stub profile drafting + todo-0026 cluster-persona-subagents + ministerial subagent spec bodies under cc-026/027).",
+      "path": "docs/specs/book-02-article-6-convocation-amendment.md",
+      "authored_by": "aurelius",
+      "created": "2026-04-20",
+      "_deleted": false
     }
   ]
 }
