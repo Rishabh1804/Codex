@@ -27,7 +27,7 @@
       "status": "reviewed_archived",
       "review": {
         "reviewer": "consul",
-        "_reviewer_note": "Aurelius transitionally wearing Consul hat per CLAUDE.md founding-era clause; separate-seating of Consul pending canon-cc-019 Post Box ratification.",
+        "_reviewer_note": "Consul review rendered via bridging authorship per cc-025 §G (authored_by: aurelius-bridging) using the Consul's ratified v0.4 profile as voice source. Aurelius does NOT wear the Consul office — CLAUDE.md separate-seating clause (16 April 2026) and the Consul's v0.4 ratification earlier this day (s-2026-04-19-01, commit ea32eb3) establish the Consul as a distinct institutional companion. What remains transitional is the Consul's operational invocation pathway (subagent + Post Box), pending canons cc-019 / cc-026 / cc-027 ratification; once those ratify and the Consul subagent spec deploys, Consul-action is rendered via direct subagent invocation rather than bridging-authorship.",
         "review_date": "2026-04-19",
         "action": "escalated",
         "review_note": "Well-formed convening, cross-Province convergence strong on substantive law, §8 resolved via substantive-inline, §10 resolved to zero-open questions. Altitude of subject (Republic-wide design law) requires Sovereign canonical ratification beyond Consul working-ratification. cc-014 accelerated path does not substitute here.",

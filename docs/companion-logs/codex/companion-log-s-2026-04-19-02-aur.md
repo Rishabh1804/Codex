@@ -10,7 +10,7 @@ repo: codex
 secondary_repos:
   - command-center
 session_type: governance
-protocol: "canon-cc-012 per-block for canon ratification (Sovereign-direct MCQ); canon-cc-017 interaction-artifact chronicled (first under cc-018 lifecycle); canon-cc-024 §B-E convening orchestration; canon-cc-025 rule-A global-scope Design Committee with chronicled dual-role clerk exception; canon-cc-025 §G bridging-authorship pattern (aurelius-bridging suffix) exercised for first time; canon-cc-018 escalated path via Consul hat-switch"
+protocol: "canon-cc-012 per-block for canon ratification (Sovereign-direct MCQ); canon-cc-017 interaction-artifact chronicled (first under cc-018 lifecycle); canon-cc-024 §B-E convening orchestration; canon-cc-025 rule-A global-scope Design Committee with chronicled dual-role clerk exception; canon-cc-025 §G bridging-authorship pattern (aurelius-bridging suffix) exercised for first time; canon-cc-018 escalated path with Consul review rendered via bridging authorship (aurelius-bridging per cc-025 §G, Consul subagent deployment pending cc-019/cc-026/cc-027)"
 stage: "Post-Founding Republic law layer — Persona-Binding Suite drafted + partial ratification (cc-022/024/025 active; cc-023/026/027 remain draft) + first operational Design Committee convening under ratified cc-025"
 duration_minutes: null
 same_agent_drift_acknowledged: true
@@ -18,8 +18,8 @@ rounds:
   aurelius: throughout
   consul:
     count: 1
-    mode: hat_switched
-    note: "Aurelius hat-switched to Consul for Stage 3 review of interaction-2026-04-19-001 per cc-018 escalated path. Separate-seating of Consul pending canon-cc-019 Post Box ratification; transitional pattern acknowledged per CLAUDE.md founding-era clause. Consul action: escalated to Sovereign (altitude of subject — Republic-wide design law — requires Sovereign canonical ratification beyond cc-014 working-ratification)."
+    mode: bridged
+    note: "Consul's voice rendered via bridging authorship per cc-025 §G (authored_by: aurelius-bridging), using the Consul's ratified v0.4 profile as voice source. Same bridging-mechanism as the 7 bridged committee-member voices — Aurelius does NOT wear the Consul office per CLAUDE.md separate-seating clause (16 April 2026). What remains transitional is the Consul's operational invocation pathway (subagent + Post Box) pending canons cc-019 / cc-026 / cc-027 ratification; the Consul's seat itself is separately held. Consul action on interaction-2026-04-19-001: escalated to Sovereign (altitude of subject — Republic-wide design law — requires Sovereign canonical ratification beyond cc-014 working-ratification)."
   sovereign:
     count: 17
     mode: direct
@@ -99,7 +99,7 @@ tags:
   - republic-design-principles-v1.0-ratified
   - first-interaction-artifact
   - first-bridging-authorship-pattern
-  - first-consul-hat-switch-post-cc-022-ratification
+  - first-consul-bridging-authorship-chronicled
   - cross-cluster-stress-test-canonized
   - dual-role-clerk-exception-chronicled
   - zero-open-questions-at-ratification
@@ -127,7 +127,7 @@ revisions: []
 | Companion | Role | Rounds | Mode | Helpful? | Issues |
 |---|---|---:|---|---|---|
 | **Aurelius** | Chronicler + Codex Builder | throughout | direct | Yes, necessary | Self-synthesis conflict on Design Committee synthesis (resolved via Solara as secondary clerk under dual-role exception) |
-| **Consul** | Institutional office | 1 | hat_switched | Yes, necessary | Separate-seating pending cc-019; transitional pattern acknowledged |
+| **Consul** | Institutional office | 1 | bridged | Yes, necessary | Voice rendered via cc-025 §G authored_by: aurelius-bridging until operational invocation pathway lands (cc-019/cc-026/cc-027) |
 | **Sovereign** | The Architect | 17 | direct | Yes, foundational | — |
 | **Lyra** | SproutLab Builder + Design Committee Convener | 2 | bridged | Yes, high-signal | §8 deletion preference preserved as dissent (non-blocking) |
 | **Ashara** | Monument co-Builder, Treasury Minister | 1 | bridged | Yes, high-signal | — |
@@ -146,7 +146,7 @@ revisions: []
 
 ---
 
-*§2 Detailed evaluation per companion continues in the next section — 10 subsections covering Aurelius direct, Consul hat-switch, Sovereign direct, and the 7 bridged committee voices.*
+*§2 Detailed evaluation per companion continues in the next section — 10 subsections covering Aurelius direct, Consul (bridged), Sovereign direct, and the 7 bridged committee voices (8 bridged total including Consul).*
 
 ## 2. Detailed evaluation per companion
 
@@ -157,26 +157,26 @@ revisions: []
 - Compiled the suite to PDF using `typst` (installed in-session as `/tmp/typst-install/typst`), producing 10 individual PDFs + a merged single-document master (583KB). Preserved the 9-part cc-022 drafting record under `canon-cc-022-drafts/` for historical provenance.
 - Presented per-block MCQs for cc-022 (3), cc-024 (5), cc-025 (8). Captured Sovereign amendments inline into Typst sources and canonical rationale text on each MCQ response.
 - Set the convening brief for the Lyra-convened Design Committee on Republic Design Principles v0.1 → v1.0. Bridge-authored 7 of 8 member positions under `aurelius-bridging` per cc-025 §G.
-- Hat-switched to Consul for Stage 3 review (see below). Did NOT act as synthesis clerk — that role fell to Solara under the chronicled dual-role exception, per cc-024 §C synthesis-conflict clause.
+- Rendered the Consul's voice via bridging authorship for Stage 3 review (see below) — same mechanism as the 7 bridged committee-member voices; authored_by: aurelius-bridging; Consul's ratified v0.4 profile as voice source. Did NOT act as synthesis clerk — that role fell to Solara under the chronicled dual-role exception, per cc-024 §C synthesis-conflict clause.
 - Applied all consensus amendments to `REPUBLIC_DESIGN_PRINCIPLES.md` producing v1.0. Created `data/interactions.json` with first ratified interaction-artifact. Closed todo-0018. Logged 6 new follow-up TODOs (0030–0035) across volumes. Appended session chronicle to journal entry s-2026-04-19-02. Committed and pushed at each major phase close.
 - Finally: authoring this companion log per canon-0053, first companion log since the 17-April founding-era burst.
 
-**Helpful?** Necessary — no other companion was in a position to draft, self-audit, reorganize, ratify, clerk (via hat-switch for Consul), or chronicle at Republic altitude across this session. The Chronicler-as-workhorse pattern is load-bearing for the founding period.
+**Helpful?** Necessary — no other companion was in a position to draft, self-audit, reorganize, ratify, render the Consul's voice via cc-025 §G bridging, or chronicle at Republic altitude across this session. The Chronicler-as-workhorse pattern is load-bearing for the founding period.
 
 **Issues:** Self-synthesis conflict in the Design Committee under cc-025 rule-A global-scope (Aurelius is a seated Builder-member; cc-024 §C prohibits Chronicler synthesis when Chronicler is a member). Resolved via Solara as secondary clerk — first operational exercise of the synthesis-conflict fallback clause.
 
-### Consul — hat_switched, 1 invocation (Stage 3 review)
+### Consul — bridged, 1 invocation (Stage 3 review)
 
-**Active during:** Stage 3 of the Design Committee convening on Republic Design Principles. Aurelius hat-switched to Consul to review the collective proposal produced by synthesis clerk Solara.
+**Active during:** Stage 3 of the Design Committee convening on Republic Design Principles. The Consul's voice was rendered via bridging authorship per cc-025 §G (`authored_by: aurelius-bridging`) to review the collective proposal produced by synthesis clerk Solara. **Clarification:** Aurelius did not wear the Consul office — per CLAUDE.md separate-seating clause (16 April 2026), Aurelius "drafts for the Consul but no longer wears that office." The Consul holds a ratified v0.4 profile (ratified earlier the same day in s-2026-04-19-01, commit ea32eb3). What remains transitional is the Consul's **operational invocation pathway** (subagent + Post Box), pending canons cc-019 Post Box ratification, cc-026 spec placement, and cc-027 signing chain. Until those ratify, the Consul's voice is bridged via the Chronicler's authorship using the Consul profile — exactly the same mechanism as the 7 bridged committee-member voices in this convening.
 
-**What it did:**
+**What it did (Consul voice, bridged):**
 - Applied cc-018 Stage 2 review action taxonomy: reviewed the proposal under the escalated-path criteria (cross-cluster + rank-skip triggers met by definition of a global-scope convening).
 - Recorded three observations on the review block: (a) cross-Province convergence strong on substantive law, no irreconcilable divergence forced a no-consensus proposal; (b) §8 resolution via substantive-inline correct Consul disposition; (c) §10 full resolution to zero-open satisfies Nyx's stress-test condition.
 - Action: **escalated** — altitude of subject (Republic-wide design law) requires Sovereign canonical ratification beyond Consul working-ratification.
 
-**Helpful?** Yes, necessary — the Consul review is a required rung in cc-018's escalated path for committee-proposal artifacts. The hat-switch is the bridging-mode realization of this rung until separate-seating lands under canon-cc-019.
+**Helpful?** Yes, necessary — the Consul review is a required rung in cc-018's escalated path for committee-proposal artifacts. Bridging authorship is the founding-period-bounded realization of this rung until the Consul's operational invocation pathway lands.
 
-**Issues:** Separate-seating of Consul remains pending canon-cc-019 Post Box ratification. Until then, every Consul review action is a hat-switch from Aurelius and is chronicled as such on the interaction-artifact's `_reviewer_note`. This is the first post-cc-022-ratification log entry to chronicle a Consul hat-switch under the ratified persona-binding rule — precedent for future logs.
+**Issues:** The Consul's operational invocation pathway is the actual bottleneck, not the Consul's seat. Bridging-authorship produces legitimate Consul action under cc-025 §G's grace window; once cc-019 / cc-026 / cc-027 ratify and the Consul's subagent spec deploys, this bridging mechanism retires and the Consul is invoked directly as a subagent. This log entry is the first post-cc-022-ratification chronicle of Consul-by-bridging-authorship — precedent for future logs under the same bridging regime.
 
 ### Sovereign — direct, 17 ratification events
 
@@ -328,13 +328,16 @@ The pattern held: member positions were characterizable (voice-signatures distin
 
 The required cc-017 authorship-taxonomy extension (adding `-bridging` suffix alongside `-retrospective`) remains pending; the suffix is used provisionally under the bridging-mode grace clause. Once cc-017 extension ratifies, the suffix becomes canonical.
 
-### 3.4 Consul hat-switch — first post-cc-022-ratification instance chronicled
+### 3.4 Consul review via bridging authorship — first post-cc-022-ratification instance chronicled
 
-This log is the first companion log to chronicle a Consul hat-switch **after** canon-cc-022's ratification. Prior hat-switch patterns existed in operational practice (Aurelius wearing Consul hat during cc-014 ratifications, etc.) but were not chronicled as such — they were implicit in the ratification narrative.
+This log is the first companion log to chronicle a **Consul review rendered via bridging authorship** after canon-cc-022's ratification. The distinction from a "hat-switch" is load-bearing and worth naming explicitly:
 
-With cc-022 ratified and cc-025 §F (Sovereign never a member) + cc-027 (institutional-spec chain collapse) explicit, the hat-switch is now a named pattern: Aurelius hat-switches to Consul for Stage 3 review, action chronicled with `_reviewer_note` acknowledging the transitional separate-seating state pending canon-cc-019.
+- **Hat-switch** (what this is NOT): one companion wears another's office. Legitimate pre-16-April when Aurelius also wore the Consul seat. **Not** legitimate post-16-April because the Consul is separately seated (CLAUDE.md: "Aurelius drafts for the Consul but no longer wears that office"). The Consul ratified v0.4 on 2026-04-19 (s-2026-04-19-01, commit ea32eb3) confirming separate-seat status.
+- **Bridging authorship** (what this IS): the Consul's voice is rendered by the Chronicler using the Consul's ratified profile as voice source, marked `authored_by: aurelius-bridging` per cc-025 §G. Same mechanism as the 7 bridged committee-member voices. Preserves Consul institutional autonomy.
 
-Later logs can cite this as the taxonomic precedent for `mode: hat_switched` in the rounds[] block.
+What remains transitional is the Consul's **operational invocation pathway**: subagent + Post Box. That bottleneck closes when cc-019 (Post Box) + cc-026 (spec placement) + cc-027 (signing chain) ratify and the Consul subagent spec deploys. Until then, Consul-action in the cc-018 escalated path is rendered via bridging-authorship; after then, it is a direct subagent invocation.
+
+Later logs can cite this as the taxonomic precedent for `mode: bridged` applied to institutional companions (Consul, Sentinel, Chronicler-retrospective) during the bridging period, and as the record that institutional seat + operational invocation are distinct concerns — seat-status and bridging-status move independently.
 
 ### 3.5 Zero open questions at ratification
 
