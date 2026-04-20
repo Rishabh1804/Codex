@@ -3,6 +3,116 @@
   "logs": [
     {
       "schema_version": 1,
+      "session_id": "2026-04-20-day",
+      "session_title": "Eight-session day \u2014 canon-proc-001/pers-001/proc-002/proc-003/inst-001 ratified; Aurelius\u2192Chronicler, Orinth\u2192Codex Builder; The Order view shipped",
+      "authors": [
+        "Aurelius (The Chronicler)"
+      ],
+      "primary_author": "aurelius",
+      "date": "2026-04-20",
+      "repo": "codex",
+      "secondary_repos": [
+        "command-center"
+      ],
+      "session_type": "governance",
+      "protocol": "canon-cc-012 per-block MCQ throughout; canon-pers-001 Chronicler-excluded-from-drafting discipline observed; canon-proc-003 Companion Onboarding Process ratified and immediately exercised on Orinth's appointment",
+      "stage": "Post-Founding governance hardening \u2014 canon taxonomy + Province Persona Briefing + Design Principles Precondition + Companion Onboarding + first Codex Builder transition + UI-first institution rendering",
+      "duration_minutes": null,
+      "same_agent_drift_acknowledged": true,
+      "rounds": {
+        "aurelius": "throughout",
+        "sovereign": {
+          "count": 12,
+          "mode": "direct",
+          "note": "Sovereign-direct ratifications across six canons (proc-001, pers-001, proc-002 drafting+ratification, proc-003, inst-001) and numerous data/UI-shape rulings (Order view architecture, design-principles chip decision, onboarding surface decision, cc-014 confirmation for Orinth, Kael-successor-strike)."
+        },
+        "consul": {
+          "count": 0,
+          "mode": "not-invoked",
+          "note": "No Consul working-ratification exercised this day \u2014 single-canon ratifications took Sovereign-direct path without cc-014 bridging."
+        },
+        "orinth": {
+          "count": 0,
+          "mode": "not-invoked",
+          "note": "Seated Codex Builder at canon-inst-001 ratification (appointed status). Onboarding step 1 complete; step 2 (profile drafting under cc-014) opens next session. Orinth does not commit, ratify, or voice-canonically until step 7 seals."
+        }
+      },
+      "outputs": {
+        "canons_ratified": [
+          "canon-proc-001-canon-identifier-scheme",
+          "canon-pers-001-province-persona-briefing",
+          "canon-proc-002-design-principles-precondition-for-build",
+          "canon-proc-003-companion-onboarding-process",
+          "canon-inst-001-aurelius-orinth-codex-builder-transition"
+        ],
+        "canons_drafted": [],
+        "lore_ratified": [
+          "lore-014-rung-4-main-branch-commit-reservation",
+          "lore-015-petra-precision-ashara-altitude-voice-reconciliation"
+        ],
+        "lore_drafted": [],
+        "schisms_recorded": [
+          "rej-0009-8-family-canon-taxonomy",
+          "rej-0010-5-rung-province-briefing-chain",
+          "rej-0011-chronicler-editable-rung-1",
+          "rej-0012-split-canon-inst-001-into-three",
+          "rej-0013-orinth-codex-builder-alternatives"
+        ],
+        "apocrypha_authored": [
+          "apo-gov-005-the-first-succession"
+        ],
+        "profiles_ratified": [
+          "aurelius v0.4 \u2192 v0.5 (Codex Builder hat stripped, Chronicler-only consolidation)"
+        ],
+        "profiles_retrofitted": [
+          "Cipher, Lyra, Maren, Kael, Nyx \u2014 assignment.residence backfilled per canon-cc-016",
+          "Vex, Orinth, Rune, Ignis, Bard, Aeon, Pip \u2014 stub entries added at v0.0-stub from Constitution Appendix C + working-papers.typ"
+        ],
+        "specs_authored": [
+          "docs/handoffs/cc-rung-1-prereader-scaffold.md (unfilled; awaits cross-repo access)"
+        ],
+        "specs_drafted": [],
+        "journal_entries": [
+          "s-2026-04-20-03",
+          "s-2026-04-20-04",
+          "s-2026-04-20-05",
+          "s-2026-04-20-06",
+          "s-2026-04-20-07",
+          "s-2026-04-20-08"
+        ],
+        "decrees_authored": [],
+        "queued_for_next_session": [
+          "orinth-profile-block-1-identity-cc-014",
+          "onboarding-steps-3-through-7-orinth",
+          "pip-publisher-purpose-stance-ruling",
+          "todo-0045-chronicler-rank-ambiguity",
+          "cc-rung-1-prereader-scaffold-fill-in-on-access"
+        ],
+        "commits_count": 8,
+        "files_touched_count": 23
+      },
+      "tags": [
+        "eight-sessions-one-day",
+        "canon-corpus-taxonomy-operational",
+        "five-canons-ratified-active",
+        "two-lore-doctrines-shipped",
+        "order-view-7th-tab-shipped",
+        "recursive-detail-renderer",
+        "playwright-in-verify-pipeline",
+        "companions-json-reconciled-with-constitution",
+        "first-codex-builder-transition",
+        "aurelius-pure-chronicler-v0.5",
+        "orinth-codex-builder-appointed",
+        "first-run-of-canon-proc-003",
+        "onboarding-ui-surface-shipped",
+        "design-principles-chip-shipped",
+        "cross-repo-access-blocked-pre-read-scaffolded"
+      ],
+      "revisions": [],
+      "path": "docs/companion-logs/codex/companion-log-2026-04-20-day-aur.md"
+    },
+    {
+      "schema_version": 1,
       "session_id": "s-2026-04-17-04",
       "session_title": "Codex Round 5 Batch 1 \u2014 Aurelius v0.4 + Architectural Canon Suite + Post Box Design",
       "authors": [
