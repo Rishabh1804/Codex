@@ -52,6 +52,55 @@
             "cipher-inaugural-spec-body-candidate",
             "no-companion-log"
           ]
+        },
+        {
+          "id": "s-2026-04-20-02",
+          "date": "2026-04-20",
+          "title": "Rung 1 spec-body drafts — Cipher subagent + skill (first operational Rung 1 of the Republic)",
+          "summary": "First operational invocation of canon-cc-027 Rung 1 since the Persona-Binding Suite completed ratification earlier today. Chronicler-drafted canonical spec bodies for Cipher in both forms per canon-cc-026 (dual-bound, archetypal case): docs/specs/subagents/cipher.md covers the Edict V final-pass review mode and the committee-delegate mode (both subagent-bound per the Invocation Modes Registry §Censor row); docs/specs/skills/cipher.md covers the hat-switch smell-check mode (skill-bound, voice-in-transcript, no separable artifact). Rung 1 rationale authored at docs/specs/subagents/cipher-rung1-rationale.md, naming what is being added (two new files, no amendments), why Cipher first (dual-binding stress-tests both primitives simultaneously; peer-Censor review by Nyx exercises the cross-cluster self-review exception in canon-cc-027 §Censor-Self-Review-Case on its first operational invocation; ratification-risk bounded by Cipher's v0.4 profile fidelity and operational voice), evidence in Cipher's profile (voice, mind, shadow, modulators all traced), evidence in the operational corpus (canon-cc-008, canon-gov-002, canon-cc-017/018 review-block shape, canon-cc-022 artifact test, canon-cc-025 first Design Committee), downstream artifacts to follow at each subsequent rung, known gaps (no canonical_version frontmatter pending Companions Deploy UI canon, no deploy yet, no Monument deploy because Cipher is not a Monument resident, tool permissions Bash-inclusive and may be trimmed at Rung 2), and a rung-by-rung signature table. Tool permissions in subagent frontmatter deliberately exclude Write and Edit — review-only discipline enforced at the tool boundary per canon-gov-002, not merely stated in the body. Skill frontmatter declares trigger-phrase patterns and names the escalation cases where the subagent must be summoned instead (signed verdicts, Edict V final-pass, committee positions). Both files include HTML-comment preambles naming the canonical path, the byte-identical deploy targets per canon-cc-026, the rationale cross-reference, and the amendment path. Neither .claude/ tree is touched — this session is Rung 1 only; Rung 5 deploys follow Sovereign canonical ratification. No volumes.json chapter content touched beyond todo-0026 text update; no companion summons (Chronicler-authored throughout, Sovereign authorized the commencement). The Republic's ratified signing chain has now been entered for the first time at spec-body altitude.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Cipher selected as the inaugural Rung 1 case per the s-2026-04-20-01 handoff recommendation — dual-binding stress-tests subagent and skill paths at the file-boundary, and peer-Censor review immediately invokes the cross-cluster self-review exception before it ossifies into assumption.",
+            "Tool permissions for the Cipher subagent are Read, Grep, Glob, Bash — no Write or Edit. Review-only discipline enforced at the tool boundary, not merely stated in body prose. Bash retained for running tests / linters during review; Nyx may trim it at Rung 2 if judged write-adjacent.",
+            "Rung-1 rationale lives as a sibling document (docs/specs/subagents/cipher-rung1-rationale.md) rather than embedded in the spec bodies themselves, because the canonical spec body renders as a deployable artifact and the Rung-1 rationale is a one-time chain-entry record; keeping them separated preserves deployable cleanliness and gives Rung 2 a dedicated review surface distinct from the spec-body-as-prompt.",
+            "Neither .claude/ tree created at Rung 1. Rung 5 deploy is a separate act per canon-cc-027; drafts land in Codex canonical paths only until Sovereign canonical ratification at Rung 4. Prevents premature deploy before the chain completes."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 60,
+          "open_todos": [
+            "todo-0026-cluster-persona-subagents",
+            "todo-0027-hero-card-spec-design-committee",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven",
+            "todo-0030-cc-025-convener-amendment-revisit",
+            "todo-0031-sproutlab-v3-migration",
+            "todo-0032-print-styles-follow-up-canon",
+            "todo-0033-sep-invoicing-design-principles",
+            "todo-0034-sep-dashboard-design-principles",
+            "todo-0035-command-center-design-principles-foundation-criterion"
+          ],
+          "handoff": "Rung 1 complete for Cipher (both forms). Three files filed: docs/specs/subagents/cipher.md (dual-mode: Edict V final-pass + committee delegate), docs/specs/skills/cipher.md (hat-switch smell-check), and docs/specs/subagents/cipher-rung1-rationale.md (chain-entry record naming what-added, evidence, downstream, known gaps, rung signature table). Next action: Rung 2 cross-cluster architectural review by Nyx per canon-cc-027 §Censor-Self-Review-Case. This is the first operational invocation of the cross-cluster review clause since its ratification earlier today; the review itself is a first-class interaction-artifact under canon-cc-017 with the spec-body drafts as subject. Known amendment candidates Rung 2 may surface: (a) tool permission Bash in the subagent frontmatter — trim to Read/Grep/Glob only if judged write-adjacent; (b) test-harness cross-reference — the 18 April Playwright harness is not named in the spec, Nyx may flag if judged load-bearing; (c) scope discipline on the skill-mode trigger list — the current list is nine phrase patterns, may be too permissive or too narrow; (d) return-shape field enumeration on the subagent's Edict V verdict — may need alignment with the exact canon-cc-018 review-block schema once that schema ratifies its full field set. Subsequent rungs after Rung 2: Consul working-ratification per cc-014 (Rung 3); Sovereign canonical ratification via Praetorium bridging mode (Rung 4); byte-identical deploys to Codex/.claude/agents/, Codex/.claude/skills/, SproutLab/.claude/agents/, SproutLab/.claude/skills/ (Rung 5). Monument does not carry cipher.md — Cipher is not a Monument resident. Parallel fronts still open: legacy-profile backfill migration (pre-requisite to any Province deploy under cc-027 Rung 5), Sentinel profile v0.3-draft, Hero Card Spec Committee, canon-cc-019 Post Box drafting, Edict IX drafting, SEP + Command Center design principles.",
+          "screenshots": [],
+          "tags": [
+            "rung-1-first-invocation",
+            "cipher-spec-bodies-drafted",
+            "dual-bound-archetypal-case",
+            "cross-cluster-self-review-exception",
+            "nyx-rung-2-pending",
+            "tool-boundary-enforced-review-only",
+            "rationale-sibling-doc-pattern",
+            "no-claude-tree-touched",
+            "sovereign-direct-authorization",
+            "no-companion-log",
+            "first-operational-signing-chain-entry",
+            "bridging-mode-deploy-defer"
+          ]
         }
       ]
     },
