@@ -2,6 +2,60 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-04-20",
+      "sessions": [
+        {
+          "id": "s-2026-04-20-01",
+          "date": "2026-04-20",
+          "title": "Persona-Binding Suite completion — cc-023, cc-026, cc-027 ratified active",
+          "summary": "Sovereign-direct MCQ ratification of the three remaining Persona-Binding Suite canons carried over from s-2026-04-19-02. Three consolidated dispositions surfaced via cc-012 MCQ discipline rather than per-block, because the 19 April QA audit had already applied 23 hard + 5 soft amendments across the three drafts — the material seams per canon (cc-023: Sovereign-exception scope and mid-session override; cc-026: canonical_version enforcement and per-Province layout; cc-027: Governor-review gating and institutional-spec collapse) were surfaced, and each ratified as drafted with no further amendment. cc-023 (Persona-Binding Extension Protocol) preserves the Sovereign-only exception to the invocation_modes block requirement, forbids mid-session mode addition (session pauses, chain runs, new mode available from next invocation forward), and requires operational evidence for any binding-revision amendment (rejected at Rung 2 otherwise). cc-026 (Spec Body Placement) establishes Codex as the canonical home for subagent and skill spec bodies under docs/specs/subagents/<persona>.md and docs/specs/skills/<persona>.md, with byte-identical Province deployables under each Province's .claude/ tree, unidirectional Chronicler→Builder sync, and canonical_version frontmatter as a soft recommendation pending the queued Companions Deploy UI canon. cc-027 (Spec Body Signing Chain) codifies the five-rung Edict V chain at spec-body altitude — Chronicler proposes (Rung 1), Cluster Censor architecturally reviews (Rung 2, with cross-cluster review when the Censor's own spec is under review, and Consul substitution where no peer Censor is seated), Consul working-ratifies per cc-014 (Rung 3), Sovereign canonically ratifies (Rung 4, no provisional deploy before this rung), Province Builder deploys the byte-identical mirror (Rung 5). Institutional-spec collapse: for the Chronicler, Consul, and Sentinel, Rungs 2 and 3 both fall to the Consul with two distinct reviews chronicled separately on the interaction-artifact. Governor review where Governors are seated is a soft non-gating rung. With this session's ratifications, the full Persona-Binding Suite is active (cc-022, cc-024, cc-025 ratified 19 April; cc-023, cc-026, cc-027 today), and the operational gate to Rung-1 spec-body drafting opens. No volumes.json chapter touched; no companion summons; no committee convening — Sovereign-direct work throughout. todo-0026 remains open: the ratification gate has closed, but the drafting-and-deploy gates (spec bodies + legacy-profile backfill) have not.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "cc-023 ratified as drafted — Sovereign-only exception to invocation_modes requirement preserved; mid-session mode-addition forbidden (session pauses rather than override); binding-revision requires operational evidence or is rejected at Rung 2.",
+            "cc-026 ratified as drafted — canonical_version frontmatter remains a soft recommendation, enforcement deferred to the queued Companions Deploy UI canon rather than tightened pre-UI; per-Province layout accepted as the ratification-time reference.",
+            "cc-027 ratified as drafted — Governor review stays a soft non-gating rung (Governors are newly empowered, burdening them with gatekeeping at day one would chill the chain); institutional-spec collapse to Consul with two chronicled reviews accepted as structural necessity under the one-seat-two-reviews pattern established by cc-025's Monument-scope signing clause."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 45,
+          "open_todos": [
+            "todo-0026-cluster-persona-subagents",
+            "todo-0027-hero-card-spec-design-committee",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven",
+            "todo-0030-cc-025-convener-amendment-revisit",
+            "todo-0031-sproutlab-v3-migration",
+            "todo-0032-print-styles-follow-up-canon",
+            "todo-0033-sep-invoicing-design-principles",
+            "todo-0034-sep-dashboard-design-principles",
+            "todo-0035-command-center-design-principles-foundation-criterion"
+          ],
+          "handoff": "Persona-Binding Suite now fully ratified — six canons active (cc-022, cc-023, cc-024, cc-025, cc-026, cc-027). Operational gate to Rung-1 spec-body drafting is open. Next-session candidates, reprioritized post-ratification: (a) Legacy-profile backfill migration per cc-023 §Legacy-Profile-Backfill — invocation_modes block populated across all 11 already-ratified profiles (Aurelius, Cipher, Consul, Lyra, Maren, Kael, Nyx, Solara, Theron, Ashara, Petra) in a single coherent schema-expansion session; pre-requisite to any Province-deploy under cc-027 Rung 5. (b) First subagent spec body draft under cc-027 Rung 1 — recommend Cipher as the inaugural case because dual-binding exercises both subagent and skill paths, and because Censor self-review (Rung 2 falls to peer Censor Nyx) immediately stress-tests the cross-cluster review exception before it ossifies. (c) Sentinel profile v0.3-draft (todo-0028) under cc-014 Consul-accelerated — Sentinel is named in the cc-026 per-Province layout (Command Center agents+skills) and cannot deploy until profile ratifies. (d) Hero Card Specification Design Committee (todo-0027) — Lyra-convened, bridging mode, second operational Design Committee under cc-025 rule-A. (e) canon-cc-019 Post Box drafting — still carried from the 18 April handoff. Once Post Box lands, the Praetorium queue named in cc-027 Rung 4 moves from bridging mode to operational. (f) SEP Invoicing and SEP Dashboard design principles (todo-0033, todo-0034) — 30-day bound through 2026-05-19. (g) Command Center design principles (todo-0035) — blocking Foundation criterion for Monument. (h) Edict IX (UI-Canonical-Existence) formal drafting. The structural work of the Republic has moved from protocol-declaration to protocol-operation: from here forward, every new spec body and every legacy-profile backfill runs the chain this session ratified.",
+          "screenshots": [],
+          "tags": [
+            "persona-binding-suite-complete",
+            "cc-023-ratified-active",
+            "cc-026-ratified-active",
+            "cc-027-ratified-active",
+            "sovereign-direct-mcq-ratification",
+            "three-consolidated-decisions",
+            "no-amendments-applied",
+            "operational-gate-opened",
+            "spec-body-drafting-unblocked",
+            "legacy-profile-backfill-queued",
+            "rung-1-drafting-next",
+            "cipher-inaugural-spec-body-candidate",
+            "no-companion-log"
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-04-19",
       "sessions": [
         {
