@@ -229,7 +229,13 @@
           "date": "2024-10-01",
           "reason": "Project started — Ziva's Dashboard v1"
         }
-      ]
+      ],
+      "design_principles": {
+        "status": "draft",
+        "spec_path": null,
+        "republic_principles_applied": true,
+        "notes": "SproutLab originated HR-1..HR-12 which were promoted to Republic scale on 2026-04-19. A Province-local extension is pending — SproutLab inherits the Republic principles directly but has not yet published a SproutLab-specific addendum. Audit on next Lyra Builder session."
+      }
     },
     {
       "id": "sep-dashboard",
@@ -296,7 +302,13 @@
           "date": "2026-04-18",
           "reason": null
         }
-      ]
+      ],
+      "design_principles": {
+        "status": "missing",
+        "spec_path": null,
+        "republic_principles_applied": true,
+        "notes": "Per todo-0034 — Theron to draft SEP Dashboard design principles. Republic-wide HR-1..HR-12 apply in the interim. Priority task for next Theron session per canon-proc-002."
+      }
     },
     {
       "id": "sep-invoicing",
@@ -441,7 +453,13 @@
           "date": "2026-04-01",
           "reason": "New project — SEP billing digitization"
         }
-      ]
+      ],
+      "design_principles": {
+        "status": "missing",
+        "spec_path": null,
+        "republic_principles_applied": true,
+        "notes": "Per todo-0033 — Solara to draft SEP Invoicing design principles. Republic-wide HR-1..HR-12 apply in the interim. Priority task for next Solara session per canon-proc-002."
+      }
     },
     {
       "id": "codex",
@@ -933,6 +951,60 @@
           "created": "2026-04-20",
           "resolved": null,
           "source_session": "s-2026-04-20-03"
+        },
+        {
+          "id": "todo-0039-companions-json-minister-assignments-sync",
+          "text": "Sync companions.json v0.3-draft profiles' assignment.current_assignments with the Constitutional Cabinet roster. Stubs added 2026-04-20 include Minister assignments; this TODO may now be fully covered by the stub pass — audit and close if so. Originated s-2026-04-20-04, verified during s-2026-04-20-05.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-20",
+          "resolved": null,
+          "source_session": "s-2026-04-20-05"
+        },
+        {
+          "id": "todo-0040-interaction-artifact-2026-04-19-001-verify",
+          "text": "Verify or create data/interactions.json entry 'interaction-2026-04-19-001' referenced by journal session s-2026-04-19-02 as the Design Committee's durable artifact. The journal declares it exists but initial audit could not confirm. Either backfill from session context or correct the journal reference. Logged from s-2026-04-20-04.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-20",
+          "resolved": null,
+          "source_session": "s-2026-04-20-05"
+        },
+        {
+          "id": "todo-0041-codex-design-principles-ratification",
+          "text": "Ratify docs/specs/CODEX_DESIGN_PRINCIPLES.md v0.1 → v1.0. Workflow per journal handoff: codify existing Codex conventions → audit existing tabs for compliance → present to Sovereign for ratification pass. This is a Codex Builder task (Orinth's on assumption). Prerequisite for flipping the Codex Volume's design_principles.status from 'draft' to 'ratified'. Logged from s-2026-04-20-04; data field surfaced 2026-04-20.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-20",
+          "resolved": null,
+          "source_session": "s-2026-04-20-05"
+        },
+        {
+          "id": "todo-0042-constitutional-cross-reference-to-design-principles",
+          "text": "Add reciprocal reference to docs/specs/REPUBLIC_DESIGN_PRINCIPLES.md from constitution/books/book-03-provinces.typ and/or book-04-edicts.typ. The spec declares peer-to-Book-III/IV authority but the Books don't cite it back — documentation link gap surfaced during s-2026-04-20-04 audit.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-20",
+          "resolved": null,
+          "source_session": "s-2026-04-20-05"
+        },
+        {
+          "id": "todo-0043-sproutlab-design-principles-local-addendum",
+          "text": "Draft SproutLab's Province-local design principles addendum. SproutLab originated HR-1..HR-12 which were promoted to Republic scale on 2026-04-19; a Province-local extension would capture SproutLab-specific refinements (module-specific HRs that didn't generalize). Lyra's task; next Lyra Builder session. Unblocks flipping the SproutLab Volume's design_principles.status from 'draft' to 'ratified'.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-20",
+          "resolved": null,
+          "source_session": "s-2026-04-20-05"
+        },
+        {
+          "id": "todo-0044-canon-proc-002-ratification",
+          "text": "Ratify canon-proc-002 Design Principles Precondition for Build — status draft, awaiting Sovereign flip to active. Drafted s-2026-04-20-05. Ratification is first-order for every downstream design-principles TODO (0033, 0034, 0035, 0041, 0043) because those are executed under this canon's discipline. Review rationale, references, exemptions, enforcement clauses before flipping.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-20",
+          "resolved": null,
+          "source_session": "s-2026-04-20-05"
         }
       ],
       "shelf_history": [
@@ -941,7 +1013,13 @@
           "date": "2026-04-11",
           "reason": "Project started — institutional memory system"
         }
-      ]
+      ],
+      "design_principles": {
+        "status": "draft",
+        "spec_path": "docs/specs/CODEX_DESIGN_PRINCIPLES.md",
+        "republic_principles_applied": true,
+        "notes": "Codex-local extension of REPUBLIC_DESIGN_PRINCIPLES.md v1.0. Draft at v0.1; ratification pending audit-existing-tabs pass (see todo-0041 queued from s-2026-04-20-04 analysis)."
+      }
     },
     {
       "id": "businessai-simulation",
@@ -992,7 +1070,13 @@
           "date": "2026-04-01",
           "reason": "Focus shifted to SproutLab feature builds and SEP restructuring"
         }
-      ]
+      ],
+      "design_principles": {
+        "status": "missing",
+        "spec_path": null,
+        "republic_principles_applied": true,
+        "notes": "Province is paused; design principles drafting deferred until shelf returns to active. Canon-proc-002 precondition re-asserts at that time."
+      }
     },
     {
       "id": "command-center",
@@ -1036,7 +1120,13 @@
           "date": "2026-04-16",
           "reason": "Created"
         }
-      ]
+      ],
+      "design_principles": {
+        "status": "missing",
+        "spec_path": null,
+        "republic_principles_applied": true,
+        "notes": "Per todo-0035 — Ashara + Petra to co-draft Command Center design principles under cc-009 dual-Builder discipline. Republic-wide HR-1..HR-12 apply. Priority task per canon-proc-002 alongside todo-0036 (root CLAUDE.md Rung 1)."
+      }
     }
   ]
 }

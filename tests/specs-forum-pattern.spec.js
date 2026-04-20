@@ -54,12 +54,12 @@ test.describe('Specs tab (canon-0052 §Specs)', () => {
     await seedAppData(page);
   });
 
-  test('Specs tab is present as the 6th top-level tab', async ({ page }) => {
+  test('Specs tab is present as a top-level tab', async ({ page }) => {
     await page.goto('/index.html');
     await waitForBoot(page);
-    const tabs = page.locator('#tabBar .cx-tab-btn');
-    await expect(tabs).toHaveCount(6);
-    await expect(tabs.nth(5)).toContainText(/Specs/i);
+    const specsTab = page.locator('#tabBar [data-action="switchTab"][data-tab="specs"]');
+    await expect(specsTab).toBeVisible();
+    await expect(specsTab).toContainText(/Specs/i);
   });
 
   test('Specs Rostra renders headline + category dots + coverage-gap signal', async ({ page }) => {

@@ -20,6 +20,7 @@ module.exports = defineConfig({
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'mobile-chromium', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {
     command: 'python3 -m http.server 8765',

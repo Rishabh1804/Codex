@@ -199,6 +199,56 @@
             "no-pr-created",
             "chronicler-pre-read-decision-pending"
           ]
+        },
+        {
+          "id": "s-2026-04-20-05",
+          "date": "2026-04-20",
+          "title": "Constitutional-roster reconciliation + recursive detail renderer fix + canon-proc-002 drafted + Playwright in verify pipeline",
+          "summary": "Dense Builder + Chronicler wave. (1) Reconciled data/companions.json with the Constitutional roster: backfilled assignment.residence for five companions predating cc-016 (Cipher/Nyx → command-center, Lyra/Maren/Kael → sproutlab); added seven Capital-native stub entries (Vex/Orinth/Rune/Ignis/Bard/Aeon/Pip) at profile_version v0.0-stub sourced from Constitution Appendix C + working-papers.typ §Cabinet structure. Roster total 11 → 18; generational 10 → 17. Cabinet view now accurately shows 7/8 occupied, Debt vacant per cc-011 (was 2/8 before reconciliation, a data-vs-Constitution drift). (2) Fixed renderCompanionDetail recursive renderer: the prior 1-level-deep generic block emitted raw JSON <pre> dumps for arrays-of-objects and nested objects — surfaced when Consul's growth block rendered every field twice. Replaced with a fully recursive structural renderer (scalars → KV, scalar arrays → bullets, object arrays → indexed cards, nested objects → subblocks); removed the formatValueForPre helper and .cx-companion-pre CSS. (3) Playwright wired into the verify pipeline — added mobile-chromium project alongside desktop, new tests/order-view.spec.js with 10 specs (Roster, Cabinet, Residency, Ladder, companion detail, stub detail, design-principles chip, 3 screenshots), scripts/verify.sh as the unified runner covering build + jsdom + Playwright. Three pre-existing test assertions updated for post-reconciliation data drift (rostra headline hard-coded to '3 logs' when corpus is now 4; tabs.nth(5) position after Order addition). (4) Drafted canon-proc-002 Design Principles Precondition for Build — status draft, family proc, scope global; extends Edict VIII's Charter-Before-Build to design-principles; UI surface via a new design-principles status chip (ratified / draft / missing) on every Volume card rendered at Dashboard. All six Volumes received a design_principles data field with current truth (codex=draft, sproutlab=draft-inheriting-Republic-pending-local-addendum, sep-invoicing/sep-dashboard/command-center/businessai-simulation=missing). (5) Voice-tension reconciliation for the session itself: none — work proceeded under single-Builder Codex discipline with the pending transition to Orinth still architected but not yet ratified.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [],
+          "decisions": [
+            "Companions.json reconciled with Constitutional roster — 18 total (17 gen + 1 inst), residency backfilled, seven Capital-native stubs added at v0.0-stub. Stub entries are data reconciliation with ratified law, not profile drafts; Round 4 proper drafting still flows through canon-cc-014 (todo-0029).",
+            "Recursive structural renderer for companion-detail blocks. No raw JSON dumps anywhere in the view layer going forward — arrays-of-objects render as indexed cards, nested objects as subblocks, scalars as KV rows.",
+            "Playwright enters the verify pipeline as a peer to jsdom. jsdom remains for unit-level render correctness (fast, no server); Playwright for browser-level behavior on mobile + desktop viewports (fetch semantics, CSS layout, tap, swipe, screenshots). scripts/verify.sh orchestrates build → jsdom → Playwright in one run. 88 Playwright specs pass across both viewports.",
+            "Canon-proc-002 drafted: Design Principles Precondition for Build. Extends Edict VIII one layer inward — geography-before-build becomes geography-AND-principles-before-build at the Province altitude. Republic-level REPUBLIC_DESIGN_PRINCIPLES.md v1.0 applies as fallback during Province-local draft/missing state; not an indefinite substitute. Awaits Sovereign ratification.",
+            "Design-principles status surfaced as a first-class UI signal: chip on every Volume card, three states (ratified accent-green / draft dashed-italic / missing warning-border). Volume schema extended with design_principles: { status, spec_path, republic_principles_applied, notes }. Six Volumes retrofitted."
+          ],
+          "bugs_found": 1,
+          "bugs_fixed": 1,
+          "duration_minutes": 120,
+          "open_todos": [
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0038-duplicate-canon-id-reconciliation",
+            "todo-0039-companions-json-minister-assignments-sync",
+            "todo-0040-interaction-artifact-2026-04-19-001-verify",
+            "todo-0041-codex-design-principles-ratification",
+            "todo-0042-constitutional-cross-reference-to-design-principles",
+            "todo-0043-sproutlab-design-principles-local-addendum",
+            "todo-0044-canon-proc-002-ratification"
+          ],
+          "handoff": "Codex is now a UI-visible institution at the Order level AND at the design-principles level. Roster is Constitution-faithful (18 companions, Cabinet 7/8, Debt vacant); companion-detail renders cleanly (no JSON dumps); Volume cards show design-principles status at a glance. The verify pipeline is complete enough that regressions get caught before they ship: scripts/verify.sh runs build + jsdom (83/83 Order + 15/15 detail) + Playwright (88/88 across mobile + desktop).\n\nOpen ratification queue:\n- canon-proc-002 Design Principles Precondition — status draft, awaits Sovereign flip to active. Impact:   formalizes the rule that Builders must verify principles BEFORE building. UI already enforces via the   status chip; canon ratification makes the discipline law.\n- Orinth appointment as Codex Builder + Chronicler scope consolidation (canon-inst-NNN) still pending —   unchanged from s-2026-04-20-04 handoff. Profile drafting mode ruled cc-014, Kael-succession rewrite   ruled 'strike', Minister: Expansion vacancy ruled 'accept' (Bard alone on Growth).\n- Queued Chronicler work: Rung 4 commit-semantics doctrine-lore, Petra-precision / Ashara-altitude   voice-reconciliation lore (provisional), Chronicler pre-read of Command Center briefing on feature   branch claude/draft-cc-briefing-rung1-f7wrn at 2a8cb19.\n\nParallel priority queue for design principles:\n- todo-0041 CODEX_DESIGN_PRINCIPLES.md v0.1 → v1.0 ratification (audit-existing-tabs pass).\n- todo-0043 SproutLab design-principles local addendum drafting (Lyra next session).\n- todo-0033/0034/0035 SEP Invoicing / SEP Dashboard / Command Center principles (already queued).\n- todo-0044 canon-proc-002 ratification — flipping this canon to 'active' is the first-order move;   everything downstream depends on the rule being law.\n\nInfrastructure additions shipped this session: tests/order-view.spec.js, scripts/verify-order.js, scripts/verify-detail-deep.js, scripts/verify.sh, playwright.config.js mobile-chromium project, renderDesignPrinciplesChip helper, .cx-dp-* CSS classes, .cx-chip-version-stub class, recursive renderCompanionValue/renderCompanionObject in views.js.",
+          "screenshots": [],
+          "tags": [
+            "companions-reconciliation-18-total",
+            "capital-native-stubs-v0.0-stub",
+            "residency-backfill-cc-016",
+            "cabinet-7-of-8-occupied",
+            "recursive-companion-detail-renderer",
+            "no-raw-json-dumps-in-views",
+            "playwright-in-verify-pipeline",
+            "mobile-chromium-project-added",
+            "scripts-verify-sh-unified-runner",
+            "canon-proc-002-drafted",
+            "design-principles-precondition",
+            "design-principles-chip-rendered",
+            "volume-schema-extended",
+            "six-follow-up-todos-logged",
+            "final-builder-act-nearing-close"
+          ]
         }
       ]
     },

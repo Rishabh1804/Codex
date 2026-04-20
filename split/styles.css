@@ -1080,6 +1080,12 @@ body {
 .cx-companion-detail-chips{margin-bottom:var(--sp-12)}
 .cx-chip-version-ratified{background:var(--accent);color:white;border-color:var(--accent);font-family:var(--ff-mono,monospace)}
 .cx-chip-version-draft{background:var(--bg-secondary);color:var(--text-tertiary);font-family:var(--ff-mono,monospace);font-style:italic}
+.cx-chip-version-stub{background:transparent;color:var(--text-tertiary);border-color:var(--text-tertiary);font-family:var(--ff-mono,monospace);font-style:italic;border-style:dashed}
+.cx-dp-chip{gap:var(--sp-4)}
+.cx-dp-chip svg{width:12px;height:12px}
+.cx-dp-ratified{background:var(--accent);color:white;border-color:var(--accent)}
+.cx-dp-draft{background:transparent;color:var(--accent);border-color:var(--accent);border-style:dashed;font-style:italic}
+.cx-dp-missing{background:transparent;color:var(--error,#C4736B);border-color:var(--error,#C4736B);font-weight:600}
 .cx-companion-detail-keytrait{font-family:var(--ff-body);font-size:var(--fs-md);color:var(--text-primary);line-height:1.5;margin:var(--sp-8) 0;padding-left:var(--sp-12);border-left:2px solid var(--accent-light)}
 .cx-companion-detail-namedafter{font-size:var(--fs-sm);color:var(--text-secondary);line-height:1.5;margin:var(--sp-8) 0 0;font-style:italic}
 .cx-companion-detail-namedafter strong{font-style:normal;font-weight:700;color:var(--text-primary)}

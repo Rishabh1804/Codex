@@ -2194,6 +2194,7 @@ function renderVolumeCard(vol) {
 
   var chipRow = '';
   if (cluster) chipRow += '<span class="cx-chip cx-chip-sm">' + escHtml(getClusterLabel(cluster)) + '</span>';
+  chipRow += renderDesignPrinciplesChip(vol.design_principles);
   if (chipRow) html += '<div class="cx-chip-row" style="margin:var(--sp-4) 0">' + chipRow + '</div>';
 
   if (vol.current_phase) html += '<div class="cx-card-body" style="color:var(--accent);font-size:var(--fs-xs)">' + escHtml(vol.current_phase) + '</div>';
@@ -2206,6 +2207,24 @@ function renderVolumeCard(vol) {
   }
   html += '</div></div>';
   return html;
+}
+
+/* Design Principles status chip — canon-proc-002 Precondition for Build.
+   Renders one of: ratified (green, accent), draft (muted italic, dashed
+   border), missing (red-ish warning). Tappable to follow spec_path in a
+   future iteration; for now it's a status surface only. */
+function renderDesignPrinciplesChip(dp) {
+  if (!dp) {
+    return '<span class="cx-chip cx-chip-sm cx-dp-chip cx-dp-missing" title="Design principles not yet drafted — priority per canon-proc-002">' + cx('alert') + 'principles missing</span>';
+  }
+  var status = dp.status || 'missing';
+  if (status === 'ratified') {
+    return '<span class="cx-chip cx-chip-sm cx-dp-chip cx-dp-ratified" title="Design principles ratified">' + cx('check') + 'principles ratified</span>';
+  }
+  if (status === 'draft') {
+    return '<span class="cx-chip cx-chip-sm cx-dp-chip cx-dp-draft" title="Design principles drafted, ratification pending">' + cx('quill') + 'principles draft</span>';
+  }
+  return '<span class="cx-chip cx-chip-sm cx-dp-chip cx-dp-missing" title="Design principles not yet drafted — priority per canon-proc-002">' + cx('alert') + 'principles missing</span>';
 }
 
 /* --- Chapter Helpers (Phase 5) --- */
@@ -3287,7 +3306,8 @@ function renderCompanionDetail(route) {
   if (c.companion_class)          html += '<span class="cx-chip cx-chip-sm">' + escHtml(c.companion_class) + '</span>';
   if (ident.generation != null)   html += '<span class="cx-chip cx-chip-sm">Gen ' + escHtml(String(ident.generation)) + '</span>';
   if (meta.profile_version) {
-    var vcls = String(meta.profile_version).indexOf('draft') !== -1 ? 'cx-chip-version-draft' : 'cx-chip-version-ratified';
+    var vstr = String(meta.profile_version);
+    var vcls = vstr.indexOf('stub') !== -1 ? 'cx-chip-version-stub' : (vstr.indexOf('draft') !== -1 ? 'cx-chip-version-draft' : 'cx-chip-version-ratified');
     html += '<span class="cx-chip cx-chip-sm ' + vcls + '">' + escHtml(meta.profile_version) + '</span>';
   }
   html += '</div>';
