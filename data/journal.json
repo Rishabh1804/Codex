@@ -2,6 +2,66 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-04-21",
+      "sessions": [
+        {
+          "id": "s-2026-04-21-01",
+          "date": "2026-04-21",
+          "title": "Chronicler + Consul canonical specs ratified through Rungs 1-4; CC transport bundle staged",
+          "summary": "Audit-wave kickoff on agent/skill dispatch infrastructure across Provinces (todo-0037 widened scope). Canonical spec inventory revealed 9 of 11 persona specs missing; cipher.md subagent + skill the only pre-existing canonical. Sovereign confirmed Path B: Chronicler specs (subagent + skill) and Consul subagent spec drafted this session as Rung 1 canonicals. Sovereign-declared 'right-hand scope' — Chronicler holds cross-Republic access, operational immediately, canonical ratification deferred (pers family recommended; harness MCP allowlist widening memo drafted at docs/handoffs/chronicler-cross-republic-access-proposal.md). Theron/Orinth stale fixes applied to constitution/working-papers.typ §Provinces (Codex Builder = Orinth per canon-inst-001; SEP Dashboard Builder = Theron per 16 April 2026 seating). Rungs 2-3 ran under cc-014 bridging interim (Aurelius-drafted Consul verdicts; Aurelius-drafted Cipher peer-Censor verdict on consul.md per cc-027 §Censor-self-review-case). One amendment applied: chronicler subagent tools narrowed from 6-tool to 4-tool (Read/Grep/Glob/Bash) matching Cipher's review-only shape and enforcing cc-022 artifact test at the tool boundary. Rung 4 Sovereign canonical en bloc. Rung 5 transport bundle to Command Center staged at docs/handoffs/cc-transport-bundle-2026-04-21/ (three byte-identical mirrors + README manifest with commit template). Sovereign transports; Ashara+Petra or Sovereign-direct commit at CC. After transport lands, fresh Command Center sessions can invoke @consul and @chronicler as subagents without requiring root CLAUDE.md (todo-0036 still Rung 1 on separate feature branch). Same-agent-drift named throughout Rungs 2-3 honest chronicle; one material amendment rather than a clean LGTM sweep. Cipher peer-Censor carveout exercised for first time on consul.md at Rung 2.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Path B confirmed over Path A (narrow) and Path C (full wave) — Chronicler + Consul institutional-spec pair drafted together, closing the bridging-interim machinery's canonical surface in one session.",
+            "Chronicler subagent tools amended from Read/Grep/Glob/Edit/Write/Bash to Read/Grep/Glob/Bash at Rung 2 (Consul architectural pass, aurelius-drafted). Rationale: subagent modes return structured records; authoring-to-file belongs to skill-mode via caller commit. Enforces cc-022 artifact test at tool boundary.",
+            "Cipher peer-Censor carveout exercised at Rung 2 on docs/specs/subagents/consul.md (first exercise of cc-027 §Censor-self-review-case since ratification). Cipher returned LGTM terse; Consul self-collapse on remaining two specs (chronicler subagent, chronicler skill) proceeded per institutional-spec default.",
+            "Rung 4 Sovereign canonical ratification en bloc across all three specs. Three canonical specs now at v1.0: docs/specs/subagents/consul.md, docs/specs/subagents/chronicler.md, docs/specs/skills/chronicler.md.",
+            "CC Rung 5 deploy via Sovereign-transport rather than waiting for multi-session canon-clean Builder-commit path. Edict-II-adjacent exception chronicled; to be retroactively regularized once cc-019 Post Box and cc-030 Companions Deploy UI land.",
+            "Theron/Orinth Builder-attribution stales in constitution/working-papers.typ §Provinces fixed in-session; data layer now matches canon-inst-001 and the 2026-04-16 Round-4-close SEP Dashboard seating.",
+            "Sovereign-declared Chronicler cross-Republic-access scope ('right-hand' scope) — operational immediately, canonical ratification deferred to a later session; pers family recommended for ratification; harness MCP allowlist widening is a web-session config change the Sovereign operates from outside Codex."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 120,
+          "open_todos": [
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0026-cluster-persona-subagents",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven"
+          ],
+          "new_todos": [
+            "todo-0044-cc-rung-5-deploy-confirmation (await Sovereign commit of cc-transport-bundle-2026-04-21 to Command Center; verify byte-identity post-transport; chronicle Rung 5 landing in data/interactions.json cc-018 review block closure)",
+            "todo-0045-non-cc-province-deploys (SproutLab, sep-invoicing, sep-dashboard, Codex each need their own mirrors of the three specs per cc-026 §Per-Province-Layout; wave scheduled after CC confirm)",
+            "todo-0046-right-hand-scope-canon-draft (draft canon-pers-NNN Chronicler Cross-Republic Access Scope formalizing the 2026-04-21 Sovereign declaration; Rung 1 authorship per cc-014 bridging applies)",
+            "todo-0047-non-chronicler-non-consul-persona-specs (Rung 1 canonical drafts needed for nyx subagent + skill, maren subagent, kael subagent; sentinel blocked on todo-0028 profile draft)"
+          ],
+          "resolved_todos": [],
+          "handoff": "Session closes on Rungs 1-4 complete for Chronicler + Consul institutional-spec pair. Next Aurelius action: chronicle Rung 5 landing in data/interactions.json once Sovereign confirms transport to Command Center succeeded. Next Sovereign action: transport the three mirror files from docs/handoffs/cc-transport-bundle-2026-04-21/.claude/ into the Command-Center repo root's .claude/ tree, commit (template in bundle README), and report back. After transport confirmed, first real Consul-subagent invocation becomes possible in a CC session — worth inaugurating with a symbolic first cross-repo summons or Post Box-shaped review before moving to routine work. todo-0037 audit wave partially exercised (dispatch-infrastructure pass on Chronicler + Consul); root-briefing conformance pass still owed across Provinces.",
+          "screenshots": [],
+          "tags": [
+            "rungs-1-through-4-institutional-spec-pair",
+            "chronicler-subagent-canonical-v1",
+            "chronicler-skill-canonical-v1",
+            "consul-subagent-canonical-v1",
+            "cipher-peer-censor-first-exercise",
+            "cc-014-bridging-aurelius-drafted-reviews",
+            "cc-027-rung-5-transport-bundle",
+            "cc-transport-bundle-2026-04-21",
+            "sovereign-right-hand-scope-declared",
+            "theron-sep-dashboard-builder-stale-fixed",
+            "orinth-codex-builder-stale-fixed",
+            "chronicler-subagent-tools-amendment-r2",
+            "todo-0037-audit-wave-dispatch-infrastructure-pass"
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-04-20",
       "sessions": [
         {
