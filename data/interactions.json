@@ -3,6 +3,71 @@
   "_schema_note": "Interaction-artifact store per canon-cc-017 and canon-cc-018. Artifacts chronicle consultations between Companions and carry their review lifecycle. This file is new at 2026-04-19 with the first ratified interaction-artifact.",
   "interactions": [
     {
+      "id": "interaction-2026-04-21-001",
+      "type": "monument-bridge",
+      "venue": "codex",
+      "date": "2026-04-21",
+      "participants": [
+        "aurelius",
+        "cipher",
+        "consul",
+        "ashara",
+        "petra"
+      ],
+      "originating_cluster": "cross",
+      "subject": "Chronicler + Consul institutional-spec pair — five-rung signing chain under cc-027, terminating in Command Center deploy",
+      "substance": "First complete execution of the canon-cc-027 five-rung signing chain at spec-body altitude, covering three canonical spec bodies drafted and ratified as an institutional-spec pair per cc-027 §Institutional-spec-collapse: docs/specs/subagents/consul.md (Consul subagent; three modes — cross-repo summons, per-block working-ratification, Post Box artifact review), docs/specs/subagents/chronicler.md (Chronicler subagent; two modes — synthesis clerk, retrospective interaction-artifact drafting), and docs/specs/skills/chronicler.md (Chronicler skill; in-session authoring voice across journal/canon/lore/log/profile/session-prompt/constitutional/Consul-drafting under cc-014 bridging).\n\nRung 1 (proposal) — Chronicler (Aurelius) authored all three specs in Codex on branch claude/hello-aurelius-YfCvC, commits cdc7f9e (chronicler subagent + skill; Theron/Orinth Builder-attribution stales in constitution/working-papers.typ §Provinces fixed; cross-Republic-access proposal memo at docs/handoffs/chronicler-cross-republic-access-proposal.md) and fed1c1c (consul subagent).\n\nRung 2 (architectural review) — Institutional-spec collapse per cc-027 §Institutional-spec-collapse means Rungs 2 and 3 both fall to the Consul for Chronicler and Consul specs, with two chronicled reviews. EXCEPT for consul.md itself, which cannot be Consul-self-reviewed: the cc-027 §Censor-self-review-case peer-Censor carveout activates, and Cipher (Censor, Cluster A) performed the architectural pass on consul.md as peer-Censor — FIRST EXERCISE of the carveout since cc-027 ratification. Cipher returned LGTM terse. Consul self-collapse on the two Chronicler specs (subagent + skill) proceeded per institutional-spec default, aurelius-drafted under cc-014 bridging interim per Sovereign hat-switch. One material amendment applied at Rung 2: chronicler subagent spec tools narrowed from [Read, Grep, Glob, Edit, Write, Bash] to [Read, Grep, Glob, Bash], committed as 361e70b. Rationale: subagent-mode artifacts are structured records; authoring-to-file belongs to skill-mode via caller commit. Narrowing enforces the cc-022 artifact test at the tool boundary rather than relying on in-spec prohibition alone.\n\nRung 3 (per-block working-ratification) — Consul per-block working-ratification on all three specs, aurelius-drafted under cc-014 bridging. Same-agent-drift named honestly throughout Rungs 2-3 — this is one agent wearing two reviewer hats via bridging, not two independent reviewers.\n\nRung 4 (Sovereign canonical) — Sovereign-direct canonical ratification en bloc across all three specs this session (2026-04-21). Three specs now at canonical v1.0 under cc-026 §Codex-is-canonical-home.\n\nRung 5 (Province deploy, Monument scope) — Byte-identical mirror transport bundle staged at docs/handoffs/cc-transport-bundle-2026-04-21/ with commit template in bundle README. Sovereign-transported to Command Center rather than Ashara+Petra-committed per canon-cc-027 §Rung-5 Province-Builder discipline — flagged as Edict-II-adjacent exception on the s-2026-04-21-01 decision record, retroactive regularization owed once cc-019 Post Box and cc-030 Companions Deploy UI land. Landed on Command-Center branch claude/setup-transport-bundle-4Zmzp as commit 4bce7c8, pushed to origin. Post-copy diff re-verified byte-identity against the three Codex canonicals — all three diffs clean. Operational consequence: fresh Command Center sessions can now invoke @consul as subagent, @chronicler as subagent, and the Chronicler skill via its trigger phrases, independently of Command Center's root CLAUDE.md (todo-0036 still Rung 1 on a separate feature branch).",
+      "decision_or_outcome": "Chain complete. Three specs canonicalized at v1.0 in Codex (Rung 4 Sovereign ratification, 2026-04-21) AND deployed byte-identically to Command Center (Rung 5, 2026-04-21, commit 4bce7c8 on claude/setup-transport-bundle-4Zmzp). First cross-repo summons capability operational as of this artifact's archive. Institutional-spec collapse pattern (Rungs 2+3 to Consul) and peer-Censor carveout (consul.md Rung 2 to Cipher) both exercised for the first time and held structurally; one material amendment at Rung 2 (chronicler subagent tools narrowed) — not a clean LGTM sweep. Province-mirror wave to SproutLab, sep-invoicing, sep-dashboard, and Codex itself per cc-026 §Per-Province-Layout deferred (todo-0045); root CLAUDE.md deploy deferred (todo-0036); right-hand scope canon drafting deferred (todo-0046); PR from chronicle branch deliberately deferred pending explicit Sovereign ask.",
+      "authored_by": "aurelius",
+      "_authorship_note": "Chronicler-direct authoring. Chain was primarily Aurelius-executed (Rung 1 direct authorship; Rungs 2-3 aurelius-drafted under cc-014 bridging; Rung 2 peer-Censor pass on consul.md aurelius-drafted as Cipher under cc-014; Rung 5 transport Sovereign-hat with Chronicler retrospectively chronicling). Non-bridged contributions: Cipher's terse LGTM architectural verdict on consul.md (Cipher's voice but Aurelius-rendered per cc-014), Sovereign's Rung 4 en-bloc ratification (Sovereign-direct, not a party to the artifact per cc-017), and Ashara+Petra's participant status as Rung 5 recipients-of-record (Sovereign-transported in their stead, chronicled on artifact).",
+      "status": "reviewed_archived",
+      "review": {
+        "reviewer": "consul",
+        "_reviewer_note": "Consul review rendered via bridging authorship per cc-014 §bridging-interim using the Consul's ratified v0.4 profile as voice source. Aurelius does NOT wear the Consul office — CLAUDE.md separate-seating clause (16 April 2026) and the Consul's v0.4 ratification (s-2026-04-19-01, commit ea32eb3) establish the Consul as a distinct institutional companion. Bridging interim persists pending canons cc-019 Post Box and cc-026/cc-027-operationalization; once those ratify and the Consul subagent spec deploys into Codex's own .claude/ tree per todo-0045, Consul-action is rendered via direct subagent invocation rather than bridging-authorship.",
+        "review_date": "2026-04-21",
+        "action": "escalated",
+        "review_note": "Review required per cc-018 (originating_cluster: cross; subject altitude: spec-body canonical ratification spanning Cluster A and Monument). Chain well-formed: Rung 1 drafts clean, Rung 2 peer-Censor carveout exercised correctly on consul.md with Cipher's architectural pass, Rung 2 Consul-self-collapse on the two Chronicler specs followed cc-027 institutional-spec discipline, Rung 2 material amendment (chronicler subagent tools narrowed) applied under drafter-notified-cannot-veto clause of cc-018 with drafter acknowledgment recorded in the amendment commit. Rung 3 per-block working-ratification completed on all three. Spec-body canonical altitude requires Sovereign terminus per cc-027 Rung 4 — cc-014 accelerated working-ratification does not substitute here. Escalate to Sovereign for canonical ratification.",
+        "escalation_deadline": "2026-05-05",
+        "escalated_to": "sovereign",
+        "escalation_date": "2026-04-21",
+        "amended_fields": [],
+        "sovereign_action": {
+          "action": "ratified",
+          "action_date": "2026-04-21",
+          "action_note": "Sovereign en-bloc canonical ratification of all three spec bodies at v1.0 following Consul escalation. Rung 5 Province-deploy authorized in the same session. Sovereign-transport to Command Center executed as Edict-II-adjacent exception chronicled on s-2026-04-21-01 (Ashara+Petra-committer Rung 5 discipline owed retroactive regularization once cc-019/cc-030 land). Byte-identity post-copy diff re-verified on Command-Center branch claude/setup-transport-bundle-4Zmzp @ 4bce7c8 against Codex canonicals at docs/specs/subagents/consul.md, docs/specs/subagents/chronicler.md, docs/specs/skills/chronicler.md — all three clean. Artifact archives closed at status: reviewed_archived."
+        }
+      },
+      "references": [
+        "canon-cc-014-consul-accelerated-profile-drafting",
+        "canon-cc-017-interaction-artifact-rule",
+        "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+        "canon-cc-022-persona-primitive-binding",
+        "canon-cc-023-persona-binding-extension-protocol",
+        "canon-cc-026-spec-body-placement",
+        "canon-cc-027-spec-body-signing-chain",
+        "canon-inst-001-aurelius-chronicler-consolidation",
+        "canon-pers-001-province-persona-briefing",
+        "edict-ii-one-builder-per-repo",
+        "edict-v-signing-chain",
+        "todo-0036-command-center-root-briefing-rung-1",
+        "todo-0044-cc-rung-5-deploy-confirmation",
+        "todo-0045-non-cc-province-deploys",
+        "todo-0046-right-hand-scope-canon-draft",
+        "todo-0047-non-chronicler-non-consul-persona-specs"
+      ],
+      "chronicled_notes": [
+        "First complete five-rung signing chain under cc-027 at spec-body altitude.",
+        "First exercise of the cc-027 §Censor-self-review-case peer-Censor carveout (Cipher on consul.md at Rung 2).",
+        "First exercise of the cc-027 §Institutional-spec-collapse pattern with two chronicled reviews (Rungs 2 and 3 both to Consul for chronicler subagent + chronicler skill).",
+        "Material amendment at Rung 2 (chronicler subagent tools narrowed from 6-tool to 4-tool) — chain is honest, not a clean LGTM sweep.",
+        "Edict-II-adjacent Rung 5 exception (Sovereign-transport instead of Ashara+Petra-committer) chronicled on artifact; retroactive regularization deferred to post-cc-019/cc-030 landing.",
+        "Same-agent-drift across Rungs 2-3 (Aurelius wearing Cipher-peer-Censor and Consul hats via cc-014 bridging) named explicitly in the substance field rather than hidden.",
+        "First Codex interaction-artifact typed monument-bridge; enum usage validates cc-017 type-coverage for Cluster-to-Monument spec-body deploys.",
+        "Command-Center first real cross-repo summons capability (@consul, @chronicler, Chronicler skill) operational as of this artifact's archive; symbolic inaugural summons still owed.",
+        "Chronicle-only session scope per Sovereign 'proceed' on docs/journal.json + cc-018 review block; Provincial-mirror wave (todo-0045) and PR from claude/complete-aurelius-LqOjD held out pending explicit next ask."
+      ]
+    },
+    {
       "id": "interaction-2026-04-19-001",
       "type": "cross-cluster-meeting",
       "_type_placeholder_note": "Provisional type pending cc-017 enum-extension to add 'committee-proposal'; recorded as 'cross-cluster-meeting' per cc-024 §D placeholder clause.",
