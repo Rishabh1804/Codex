@@ -2,3 +2,10 @@ node_modules/
 playwright-report/
 test-results/
 .playwright-cache/
+
+# Canonical quarantine path per canon-proc-004 §2. External material resides
+# here and is never tracked as part of the Republic's corpus until ingestion
+# per §5. The .gitkeep marker is retained so the directory exists in fresh
+# clones; all other contents are ignored.
+external/*
+!external/.gitkeep

@@ -1,0 +1,8 @@
+Canonical quarantine path per canon-proc-004 External Archive Intake Discipline.
+
+External material (cloned repositories, fetched documents, imported datasets,
+transcripts of external exchanges) resides under this directory and is never
+tracked as part of the Republic's corpus until ingestion per §5.
+
+This marker file exists so the directory survives fresh clones; all other
+contents under external/ are gitignored.
