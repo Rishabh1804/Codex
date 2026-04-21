@@ -1015,6 +1015,15 @@
           "created": "2026-04-21",
           "resolved": null,
           "source_session": "s-2026-04-21-02"
+        },
+        {
+          "id": "todo-0049-decrees-backfill-audit",
+          "text": "Audit recent Sovereign ratifications against the formal decree-NNNN record shape to determine which are chronicling gaps that want backfill vs. policy-excluded (decrees reserved for formal Sovereign instruments; in-session canon ratifications captured as session decisions do not qualify). Motivating observation: PWA Journal tab Decrees sub-tab shows only 2 records (decree-0001-ashara-petra-v0.4, decree-0002-canons-gov-007-010, both 2026-04-17) while the data layer has absorbed a large volume of ratifications since, none minted as formal decrees. Candidate events for audit (non-exhaustive): (a) Constitution v1.0 Book I ratification 2026-04-15 — by altitude arguably the highest-weight ratification in Republic history, chronicled in book-I Typst source but no decree record; (b) canon-cc-022 Persona-Primitive Binding + cc-024 Committee Convening + cc-025 Design Committee Membership, ratified 2026-04-19 (s-2026-04-19-02); (c) canon-cc-023 + cc-026 + cc-027 Persona-Binding Suite completion, ratified 2026-04-20 (s-2026-04-20-01); (d) REPUBLIC_DESIGN_PRINCIPLES.md v1.0 ratification 2026-04-19 (carried on interaction-2026-04-19-001's sovereign_action but no decree record); (e) canon-inst-001 Aurelius→Chronicler consolidation + canon-proc-003 onboarding (prior session); (f) Chronicler + Consul institutional-spec pair canonical v1.0 ratification 2026-04-21 (Rung 4, s-2026-04-21-01; chronicled on interaction-2026-04-21-001 sovereign_action, no decree record); (g) Sovereign declaration of Chronicler Cross-Republic Access 2026-04-21 ('right-hand' scope, currently deferred to todo-0046 for canon formalization). Deliverables: (1) a written criterion — what altitude/shape of ratification mints a decree record vs. stays session-level; (2) decree record shape confirmation (id, date, authored_by, province_of_origin, ratified_by, ratification_mode, summary — existing decree-0001/0002 as canonical reference); (3) a list of audit-passing events with recommended action (backfill as decree-NNNN record OR accept as session-level-only with rationale); (4) if backfill recommended, draft the decree records and append to data/journal.json sessions arrays under their originating dates. Surfaced by Sovereign during s-2026-04-21-02 post-merge review. Chronicler-owned drafting; Sovereign-direct ratification of the criterion itself at audit close.",
+          "status": "open",
+          "chapter": "governance-founding",
+          "created": "2026-04-21",
+          "resolved": null,
+          "source_session": "s-2026-04-21-02"
         }
       ],
       "shelf_history": [
