@@ -399,10 +399,10 @@ Edict VIII requires every Province to have a Charter. Existing Provinces without
     text(font: "DejaVu Sans", weight: "bold", size: 9pt, fill: accent)[Compliance],
     text(font: "DejaVu Sans", weight: "bold", size: 9pt, fill: accent)[Backfill Notes],
   ),
-  [Codex], [Partial], [Capital: start.js/core.js/data.js. Regions loosely by file (views/forms). Roads explicit (data→seed→core→views→forms→start). Builder: Aurelius. Governor: not yet activated (≪ 30K LOC). Cluster: A. Censor: Cipher.],
+  [Codex], [Partial], [Capital: start.js/core.js/data.js. Regions loosely by file (views/forms). Roads explicit (data→seed→core→views→forms→start). Builder: Orinth (seated 2026-04-20 per canon-inst-001; Aurelius consolidated to pure Chronicler same day). Governor: not yet activated (≪ 30K LOC). Cluster: A. Censor: Cipher.],
   [SproutLab], [Partial], [Capital and Regions well-documented in SproutLab's own CLAUDE.md. Formal Charter drafting required. Builder: Lyra. Governors: Kael, Maren. Cluster: A. Censor: Cipher.],
   [SEP Invoicing], [Unknown], [Architecture undocumented in Constitutional terms. Builder: Solara. Governor: not yet activated. Cluster: B. Censor: Nyx (proposed).],
-  [SEP Dashboard], [Unknown], [Paused Province transitioning toward active per initial allocation (5%). Builder: to be assigned. Cluster: B.],
+  [SEP Dashboard], [Unknown], [Operational surface of SEP-the-company. Builder: Theron (seated 2026-04-16, Round 4 close, concurrent with Debt seat unassignment per temperament-over-Dissertation-default ruling). First act as Builder: repo recovery from commit 5701fc7 after index.html overwrite at commit 8728798. Governor: not yet activated. Cluster: B. Censor: Nyx (proposed).],
   [Command Center], [Not yet founded], [See Article 2 above.],
 )
 
