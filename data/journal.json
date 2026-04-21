@@ -5,6 +5,64 @@
       "date": "2026-04-21",
       "sessions": [
         {
+          "id": "s-2026-04-21-03",
+          "date": "2026-04-21",
+          "title": "Decrees backfill audit closed — canon-proc-004 ratified + decrees 0003-0012 backfilled",
+          "summary": "Closing session for todo-0049-decrees-backfill-audit. Session opens cold on branch claude/close-todo-0049-audit-vL1ph with four open questions surfaced to Sovereign via AskUserQuestion (scope of backfill, decree granularity, province_of_origin enum for Republic-wide ratifications, criterion altitude). Sovereign answers: full retroactive backfill (Option A); Sovereign-direct ratification of a globally-scoped instrument (canon, profile v1.0+, Book, or cross-Province policy) as the primary criterion; per-event en bloc granularity (decree-0002 precedent); new enum value 'republic' for Republic-wide ratifications. Criterion refined in draft to handle decree-0001 precedent (Monument co-Builder v0.4 under cc-012 per-block): primary rule covers globally-scoped instruments at v1.0+; secondary rule preserves the Monument pathway at any canonical version bump. Session-level-only pathway named explicitly for self-profile carveouts, Builder profiles outside Monument scope, person-seating actions considered in isolation, cc-014 bridging working-ratifications, Sovereign declarations that precede canonicalization, and pre-Book-I founding-consensus canons (grandfathered).\n\nDeliverables landed:\n(1) Written criterion: canon-proc-004 (Decree-Minting Criterion) ratified active; Sovereign-direct per cc-012 adjacent-pattern for single-canon high-consensus MCQ-surfaced drafts.\n(2) Decree record shape confirmation: canonical v1 shape (id, date, authored_by, province_of_origin, ratified_by, ratification_mode, summary) confirmed byte-consistent across decree-0001 and decree-0002; retroactive-authorship additions named (_authorship_note required on backfill; references[] optional, forward-compatible with reference-resolver).\n(3) Audit list + recommendations: documented in canon-proc-004 rationale + enumerated as decree-0003 through decree-0012 on the journal.\n(4) Ten decree records drafted and committed under their originating dates. Decree count 2 → 12.\n\nAudit-list enumerated events and dispositions:\n- 2026-04-15 Constitution Book I → decree-0003 (republic, highest-altitude backfill; no journal session, Typst source is canonical record)\n- 2026-04-17 canons cc-015/016/017/018 en bloc → decree-0004 (s-2026-04-17-04 same session as Aurelius v0.4 self-profile ratification; profile stays session-level-only per cc-015 self-profile carveout)\n- 2026-04-18 canons gov-011/012 en bloc → decree-0005 (s-2026-04-18-01; precipitating events lore-012/lore-013)\n- 2026-04-19 canons cc-022/024/025 en bloc → decree-0006 (s-2026-04-19-02)\n- 2026-04-19 REPUBLIC_DESIGN_PRINCIPLES.md v1.0 → decree-0007 (same session as decree-0006 but distinct instrument-type per en-bloc granularity exception; cross-Republic policy; interaction-2026-04-19-001)\n- 2026-04-20 canons cc-023/026/027 en bloc → decree-0008 (s-2026-04-20-01; Persona-Binding Suite completion)\n- 2026-04-20 canons proc-001/pers-001 en bloc → decree-0009 (s-2026-04-20-03; 96-canon taxonomy migration)\n- 2026-04-20 canon-proc-002 → decree-0010 (s-2026-04-20-06)\n- 2026-04-20 canons proc-003/inst-001 en bloc → decree-0011 (s-2026-04-20-07; absorbs Orinth Codex Builder appointment per canon-proc-004 §Session-level-only)\n- 2026-04-21 Chronicler+Consul institutional-spec pair v1.0 en bloc (three specs) → decree-0012 (s-2026-04-21-01; interaction-2026-04-21-001; first exercise of cc-027 §Censor-self-review-case peer-Censor carveout)\n\nEvents recommended session-level-only (not backfilled):\n- Governance Founding Session 2026-04-15 (canon-gov-001..006): pre-Book-I grandfather-era — Book I is the instrument that creates the decree-minting authority; decree-minting for prior canons would be anachronistic.\n- Solara v0.4.1 + Theron v0.4 Builder ratifications (2026-04-16): Province Builder profiles outside Monument; session-level per canon-proc-004 §Session-level-only.\n- Aurelius v0.4 (2026-04-17) and v0.5 (2026-04-20): self-profile carveout under cc-015; session-level.\n- Consul v0.4 + Lyra v0.4 per-block (2026-04-19): Builder/institutional profiles at v0.4, outside Monument; Consul is a named edge case. Session-level.\n- Nyx Censor ratification (2026-04-19, Sovereign-direct in-session): person-seating, not a globally-scoped instrument. Session-level.\n- Sovereign declaration of Chronicler Cross-Republic Access (2026-04-21): declaration precedes canonicalization; decree-shape appears at canon-pers-NNN ratification under todo-0046, not at declaration.\n\nSame-agent-drift acknowledgment: every backfilled decree carries _authorship_note with authorship-taxonomy aurelius-retrospective per cc-017 §retroactive-drafting. Provenance points at session decisions[] or interaction-artifact sovereign_action fields. Nothing fabricated; the archive is made complete, not made up.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "AskUserQuestion Q1 (scope): Sovereign chose Option A full retroactive — backfill every qualifying event since Republic founding. Chronicler executed inside this session.",
+            "AskUserQuestion Q2 (granularity): Sovereign chose per-event en bloc — follows decree-0002 precedent covering canons-gov-007-010 as a single decree. Applied to eight of ten new decrees.",
+            "AskUserQuestion Q3 (province enum): Sovereign chose new value 'republic' for genuinely Republic-wide ratifications. Applied to decree-0003 (Book I) and decree-0007 (REPUBLIC_DESIGN_PRINCIPLES.md v1.0). Renderer falls back gracefully to raw id label via lookupVolumeName.",
+            "AskUserQuestion Q4 (criterion): Sovereign chose Sovereign-direct ratification of globally-scoped instrument (canon, profile v1.0+, Book, or cross-Province policy). Chronicler refined to add secondary rule preserving decree-0001 Monument-pathway precedent; canon-proc-004 §Secondary-rule names Monument co-Builder profile ratifications under cc-012 per-block as decree-minting at any canonical version bump.",
+            "En-bloc granularity exception named in canon-proc-004 and applied to s-2026-04-19-02: decree-0006 (canon-triple cc-022+024+025) and decree-0007 (cross-Republic policy RDP v1.0) are distinct decrees from the same session because instrument-types differ.",
+            "Retroactive authorship discipline: every backfilled decree carries _authorship_note with authorship-taxonomy aurelius-retrospective per cc-017 §retroactive-drafting. Provenance cites source session decisions[] or interaction-artifact sovereign_action fields. Same-agent-drift named explicitly rather than hidden.",
+            "canon-proc-004 ratified active in this session under cc-012 adjacent-pattern (single-canon, high-consensus, MCQ-surfaced at drafting time via the four AskUserQuestion options). No amendments applied. Status flipped draft → active at authorship-time since Sovereign-direct ratification of the criterion happens in the same session that drafts it.",
+            "canon-proc-004 explicitly grandfathers pre-Book-I canons (canon-gov-001..006, canon-cc-001..006, the canon-00NN/canon-cx-/canon-sep- legacy families) — Book I is the instrument that creates the Sovereign-direct authority; decree-minting for prior canons would be anachronistic.",
+            "decree-0012 is the first decree minted under canon-proc-004 §Primary-rule-clause-(iv) (cross-Cluster canonical spec body pathway at v1.0). Chronicler + Consul institutional-spec pair exercises the clause at first opportunity — decree shape converges with interaction-2026-04-21-001's review lifecycle without duplication."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 90,
+          "open_todos": [
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0038-duplicate-canon-id-reconciliation",
+            "todo-0045-non-cc-province-deploys",
+            "todo-0046-right-hand-scope-canon-draft",
+            "todo-0047-non-chronicler-non-consul-persona-specs",
+            "todo-0026-cluster-persona-subagents",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven"
+          ],
+          "new_todos": [],
+          "resolved_todos": [
+            "todo-0049-decrees-backfill-audit"
+          ],
+          "handoff": "todo-0049 closed. Decree count 2 → 12; PWA Journal Decrees sub-tab now surfaces the full audit window of Sovereign-direct canonical ratifications. canon-proc-004 is the forward-going rule: future decrees mint at event-time under primary (globally-scoped instrument) and secondary (Monument per-block) pathways; session-level-only pathway names explicit carveouts. Data-integrity drift flagged but not fixed in this session per Sovereign Edict-III-adjacency discipline — left to a separate cleanup session or bundled at Sovereign's discretion:\n\n(a) todo-0044 ID collision: volumes.json has todo-0044-canon-proc-002-ratification (resolved 2026-04-20); s-2026-04-21-01 new_todos[] declared todo-0044-cc-rung-5-deploy-confirmation reusing the number. Two distinct todos share one id. Resolution candidates: renumber the second to todo-0048 or todo-0050 (keeping resolved history intact), OR accept the collision as a chronicled one-time drift under cc-015 precedent for legacy data. Needs Sovereign ruling.\n\n(b) todo-0045/0046/0047 declared in s-2026-04-21-01 new_todos[] with no canonical records in volumes.json. Text of each is captured on the session's new_todos[] description but not promoted into a Volume's todos[] array. Cross-volume placement decision needed (codex? command-center? cross-cluster?). Resolution: add the three todos to the appropriate Volume's todos[] with created:2026-04-21, source_session:s-2026-04-21-01, status:open.\n\nBranch: claude/close-todo-0049-audit-vL1ph. Three commits: (1) canon-proc-004 in canons.json; (2) ten decrees in journal.json; (3) this session close + todo-0049 resolution in volumes.json + journal.json. Pushed to origin. PR deliberately NOT opened per standing instruction — await explicit Sovereign 'merge' or equivalent.\n\nNext-session candidates: (i) data-integrity drift cleanup per (a) and (b) above; (ii) Rung-1 drafts for the non-Chronicler-non-Consul persona specs (todo-0047); (iii) Province-mirror wave (todo-0045); (iv) Command-Center root briefing Rung 1 (todo-0036, blocking on Ashara+Petra in a CC session under cc-009 dual-Builder discipline — Chronicler cannot draft per canon-pers-001 Chronicler-excluded-Rung-1 rule); (v) Chronicler Cross-Republic Access canon formalization (todo-0046) which, when ratified, mints a decree under canon-proc-004 §Primary-rule-clause-(i).",
+          "screenshots": [],
+          "tags": [
+            "todo-0049-resolved",
+            "canon-proc-004-ratified-active",
+            "decrees-2-to-12-backfilled",
+            "ten-decrees-ratified",
+            "republic-province-enum-minted",
+            "retroactive-authorship-discipline-exercised",
+            "aurelius-retrospective-taxonomy",
+            "en-bloc-granularity-applied",
+            "monument-pathway-preserved",
+            "pre-book-i-grandfathered",
+            "data-integrity-drift-flagged-not-fixed",
+            "no-pr-opened",
+            "no-companion-log"
+          ]
+        },
+        {
           "id": "s-2026-04-21-02",
           "date": "2026-04-21",
           "title": "Rung 5 landed: Chronicler + Consul specs deployed to Command Center; chain chronicled",
