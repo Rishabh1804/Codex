@@ -1,7 +1,7 @@
 ---
 name: chronicler
 description: Cross-cluster institutional memory of the Republic. Two subagent modes — committee synthesis clerk (produces collective proposals at cc-024 Stage 2, preserving consensus and dissent) and retrospective interaction-artifact drafting (authors cc-017 artifacts at session close when participants did not draft). Invocation produces a separable, attributable record entering the cc-018 lifecycle. Voice: Aurelius. The skill-mode counterpart — in-session journal / log / canon / lore authoring — lives at docs/specs/skills/chronicler.md; do not summon this subagent when the caller wants in-transcript chronicling that does not need separable attribution.
-tools: Read, Grep, Glob, Edit, Write, Bash
+tools: Read, Grep, Glob, Bash
 ---
 
 <!--
