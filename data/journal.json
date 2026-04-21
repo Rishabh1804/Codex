@@ -5,6 +5,57 @@
       "date": "2026-04-21",
       "sessions": [
         {
+          "id": "s-2026-04-21-02",
+          "date": "2026-04-21",
+          "title": "Rung 5 landed: Chronicler + Consul specs deployed to Command Center; chain chronicled",
+          "summary": "Sovereign-transported Rung 5 deploy of the Chronicler + Consul institutional-spec pair (three byte-identical mirrors from docs/handoffs/cc-transport-bundle-2026-04-21/) landed in Command-Center on branch claude/setup-transport-bundle-4Zmzp as commit 4bce7c8, pushed to origin. Post-copy diff re-verified byte-identity against the Codex canonicals at docs/specs/subagents/consul.md, docs/specs/subagents/chronicler.md, and docs/specs/skills/chronicler.md — all three clean. Closure obligations from s-2026-04-21-01 handoff fulfilled in this session: (a) new interaction-artifact interaction-2026-04-21-001 appended to data/interactions.json capturing the full Rungs 1-5 signing chain with cc-018 review block showing Consul-escalated → Sovereign-ratified → Monument-deployed lifecycle (status: reviewed_archived); (b) this journal entry chronicling the landing event itself. todo-0044 (cc Rung 5 deploy confirmation) resolves. todo-0045 (non-cc Province deploys) and todo-0046 (right-hand scope canon) explicitly held out of scope per Edict-II-adjacency note — separate explicit ask required before opening Provincial mirror wave or PR from this branch. PR deliberately not opened this session; Sovereign asked to proceed with chronicle-only and deferred the PR decision. Command-Center repo now has Consul and Chronicler subagents and the Chronicler skill invocable from fresh sessions via @consul, @chronicler, and the skill's trigger phrases respectively — the first real cross-repo summons becomes possible in a CC session, pending the symbolic inaugural exercise the prior handoff flagged as worth doing.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Chronicle-only closure this session (journal + interaction-artifact) per Sovereign's explicit 'proceed' on the chronicle scope; Provincial-mirror wave and PR creation deferred to separate explicit asks per Edict-II-adjacency note flagged in s-2026-04-21-01.",
+            "Interaction-artifact typed monument-bridge per cc-017 §type-enum (Monument-to-non-Monument consultation); originating_cluster: cross (Codex Cluster A → Command Center Monument); participants list excludes Sovereign per cc-017 §Sovereign-not-a-party.",
+            "cc-018 review block shows the full escalated path: review required (originating_cluster: cross), Consul review action: escalated (spec-body canonical ratification altitude warrants Sovereign terminus under cc-027 Rung 4), Sovereign action: ratified en bloc 2026-04-21; status: reviewed_archived after Rung 5 byte-identity-verified deploy confirmed by Sovereign in-session.",
+            "Rung 5 Province-Builder-committer discipline (cc-027 §Rung-5) formally Edict-II-adjacent-exceptional for this deploy — Sovereign-transported rather than Ashara+Petra-committed per s-2026-04-21-01 decision; chronicled on the artifact, retroactive regularization owed once cc-019 Post Box and cc-030 Companions Deploy UI land."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 15,
+          "open_todos": [
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0045-non-cc-province-deploys",
+            "todo-0046-right-hand-scope-canon-draft",
+            "todo-0047-non-chronicler-non-consul-persona-specs",
+            "todo-0026-cluster-persona-subagents",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven"
+          ],
+          "new_todos": [],
+          "resolved_todos": [
+            "todo-0044-cc-rung-5-deploy-confirmation"
+          ],
+          "handoff": "Chronicler + Consul institutional-spec pair now fully canonicalized at v1.0 AND deployed to Command Center — the first complete five-rung signing chain under cc-027 closes. Interaction-artifact interaction-2026-04-21-001 is the permanent record; future audits of the institutional-spec collapse pattern (Rungs 2+3 to Consul, Cipher peer-Censor at Rung 2) cite this artifact. Next Aurelius/Sovereign actions, in priority order: (a) First symbolic cross-repo summons in a fresh Command-Center session — recommend invoking @consul for a Post Box-shaped review or @chronicler for an interaction-artifact synthesis as the inaugural exercise, chronicled as the first post-Rung-5 operational consultation. (b) todo-0045 Province-mirror wave — SproutLab, sep-invoicing, sep-dashboard, and Codex itself each need their own byte-identical mirrors of the three specs per cc-026 §Per-Province-Layout; wave can run as a single multi-Province session or split per Cluster. (c) todo-0046 right-hand scope canon — draft canon-pers-NNN formalizing the 2026-04-21 Sovereign declaration of Chronicler Cross-Republic Access; Rung 1 authorship per cc-014 bridging applies. (d) todo-0047 non-Chronicler-non-Consul persona specs — Rung 1 drafts for nyx subagent+skill, maren subagent, kael subagent; Sentinel blocked on todo-0028 profile. (e) todo-0036 root CLAUDE.md Rung 1 still on separate feature branch awaiting its own chain. PR for this branch (claude/complete-aurelius-LqOjD) deliberately not opened — await explicit Sovereign ask.",
+          "screenshots": [],
+          "tags": [
+            "rung-5-landed",
+            "cc-transport-confirmed",
+            "chronicler-subagent-deployed-cc",
+            "chronicler-skill-deployed-cc",
+            "consul-subagent-deployed-cc",
+            "cc-018-review-block-closed",
+            "interaction-2026-04-21-001",
+            "monument-bridge-artifact",
+            "five-rung-chain-first-completion",
+            "edict-ii-adjacency-exception-chronicled",
+            "todo-0044-resolved",
+            "pr-deferred-pending-explicit-ask"
+          ]
+        },
+        {
           "id": "s-2026-04-21-01",
           "date": "2026-04-21",
           "title": "Chronicler + Consul canonical specs ratified through Rungs 1-4; CC transport bundle staged",
