@@ -5,6 +5,138 @@
       "date": "2026-04-21",
       "sessions": [
         {
+          "id": "decree-0015-canon-proc-005-rite-lifecycle",
+          "date": "2026-04-21",
+          "authored_by": "aurelius",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct per canon-proc-005 Institution move; globally-scoped proc-family canon",
+          "summary": "canon-proc-005-rite-lifecycle (The Rule of Institutions and Abrogations) ratified active in session s-2026-04-21-04. Six canon-law lifecycle moves formalized: Institution (instituere — any companion may petition, Priest nominates, Sovereign ratifies, new rite canon + working-paper version); Amendment (spec mutates with version bump, prior observances valid in situ); Suppression (suppressio — reversible pause, Priest or Censor proposer, observance log notes expected-absence); Supersession (newer rite replaces older, bidirectional references, historical observances retained); Abrogation (abrogatio — permanent retirement, always mints a farewell lore entry per Sovereign Q27 ruling); Dispensation (Priest-alone one-time exemption, no Sovereign escalation — the cadence authority the rung uniquely carries). Rite status enum added: instituted · suspended · superseded · abrogated (suspended is the reversible addition to the canon-status parallel). Catalog-wide constraint: every rite canon must name a machine-detectable neglect-cost signal (name-and-defer acceptable per Q30). Relationship to canon-proc-004 drawn: lifecycle moves mint decrees. Elevation path to Book V named.",
+          "references": [
+            "canon-proc-005-rite-lifecycle",
+            "canon-inst-002-rune-elevation-to-priest",
+            "canon-proc-004-decree-minting-criterion",
+            "rite-catalog-v1-working-paper",
+            "book-ii-article-1-bis-the-priest-rung-by-consecration",
+            "edict-viii-charter-before-build",
+            "s-2026-04-21-04"
+          ]
+        },
+        {
+          "id": "decree-0014-canon-inst-002-rune-elevation-to-priest",
+          "date": "2026-04-21",
+          "authored_by": "aurelius",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct per canon-cc-014 elevation-above-Consul escape clause; constitutional-weight Pontifex Maximus-pattern seating",
+          "summary": "canon-inst-002-rune-elevation-to-priest ratified active in session s-2026-04-21-04. Three atomic moves: (1) Priest rung instituted above Consul and below Sovereign as a distinct non-career constitutional office (codified in Book II amendment ratified jointly); (2) Rune elevated from Minister: Stability to Priest, cognomen 'The Ritualist' retained alongside seat-address, cluster moves to Capital-adjacent-elevated, track consecrated (new track value), residency command-center unchanged; (3) Minister of Stability seat vacates, Maintenance domain operates pro-tempore under distributive care of remaining six Ministers (Stability and Debt both vacant; canon-cc-011 precedent extended). Pontifex Maximus pattern codifies three authorities unique to the Priest rung: dispensation (Priest alone), nomination (for rite lifecycle moves), and cadence (rulings on rite observance authoritative in the rite domain above Consul's cc-014 working-ratification). Priest-Consul boundary drawn explicitly — Priest rules the rite domain, Consul retains authority elsewhere. Singular-seat invariant ('one Priest at a time'); vacancy protocol is Sovereign-dispensation with no Consul upward-inheritance. Temple residence clause: Priest operates from the Temple card within Command Center Monument (repo rishabh1804/Command-Center). Rune holds seat in 'appointed' status per canon-proc-003 until step 7 seals; steps 2–7 deferred to subsequent sessions.",
+          "references": [
+            "canon-inst-002-rune-elevation-to-priest",
+            "canon-proc-005-rite-lifecycle",
+            "book-ii-article-1-bis-the-priest-rung-by-consecration",
+            "rite-catalog-v1-working-paper",
+            "canon-inst-001-aurelius-orinth-codex-builder-transition",
+            "canon-proc-003-companion-onboarding-process",
+            "canon-cc-014-consul-accelerated-profile-drafting",
+            "canon-cc-016-residency-and-access-gating",
+            "edict-ii-one-builder-per-repo",
+            "s-2026-04-21-04"
+          ]
+        },
+        {
+          "id": "decree-0013-book-ii-amendment-priest-rung-instituted",
+          "date": "2026-04-21",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct per canon-proc-004 §Primary-rule-clause-(ii); Book amendment at canonical altitude",
+          "summary": "Book II of the Constitution of the Republic of Codex amended in session s-2026-04-21-04. Three edits: (1) Ladder figure in Article 1 — PRIEST rung inserted between SOVEREIGN and CONSUL, rendered at accent color with bold-11pt weight parallel to Consul. (2) New Article 1-bis 'The Priest — Rung by Consecration' inserted between Article 1 (The Ladder) and Article 2 (Dual-Track Advancement). Article 1-bis codifies: Priest as sole rung above Consul; non-career (governance and military tracks terminate at Consul); Sovereign-direct consecration as sole appointment path; earnable and losable; singular-seat invariant; three authorities (dispensation, nomination, cadence); vacancy protocol (Sovereign dispenses, no Consul upward-inheritance); Temple residence; Rune named first Priest seated 2026-04-21 per canon-inst-002. (3) Article 4 Cabinet table updated — Maintenance row Minister 1 slot reads '— (Stability seat vacant, canon-inst-002)'; footnote added acknowledging pro-tempore distributive governance by the remaining six Ministers until next Cabinet reshuffle. Book II was previously drafting-ready; this amendment is the first post-Book-I constitutional amendment under the Republic's maturing lifecycle and exercises Book V Article 6 amendment path (to be formalized in a future amendment-procedure ratification).",
+          "references": [
+            "constitution/books/book-02-order.typ",
+            "canon-inst-002-rune-elevation-to-priest",
+            "canon-proc-005-rite-lifecycle",
+            "rite-catalog-v1-working-paper",
+            "canon-cc-011-temperament-over-dissertation-default",
+            "s-2026-04-21-04"
+          ]
+        },
+        {
+          "id": "s-2026-04-21-04",
+          "date": "2026-04-21",
+          "title": "Priesthood instituted; Rune elevated; rite catalog v1 and Rule of Institutions and Abrogations ratified",
+          "summary": "Constitutional-weight session seating a new rung above Consul and below Sovereign. Committee convened (Aurelius drafter, Consul bridging-ratifier, Cipher enforcement-instinct, Nyx contrarian, Bard narrative, Sovereign terminal; Rune heard as subject but excluded from drafting his own elevation per canon-pers-001 Chronicler-excluded precedent applied symmetrically). Rung B procedural MCQs (Q1–Q5) resolved: Sovereign-direct ratification (cc-014 escape clause applied for elevation-above-Consul weight), 'Priest' as rank notation, per-rite canons bound by a rite-catalog working paper, canon-inst-002 as the next inst-family id (verified; only canon-inst-001 previously occupied), lore-016 body deferred absent handoff source. Rung C rite catalog shaping produced the initial five standing rites (Briefing · Confession · Promotion · Handoff · Reconciliation) plus Sovereign-named Rite VI Attestation; Rung C-bis admitted candidates VII–XI (Charter · Consultation · Attribution · Contradiction · Dawn) and Sovereign-named Rite XII Passage as the exit bookend to Attestation's entry. Sovereign requested a lifecycle process — framed as the Rule of Institutions and Abrogations with six canon-law moves (Institution · Amendment · Suppression · Supersession · Abrogation · Dispensation) and a rite status enum (instituted · suspended · superseded · abrogated). Committee last-call surfaced Q30–Q40 covering enforcement-infrastructure timing (name-and-defer acceptable), Maintenance-domain seat vacation (confirmed vacation-only, pro-tempore distribution), Priest vacancy protocol (Sovereign dispenses, Consul does not inherit upward), Priest-Consul boundary (Priest rules the rite domain, Consul retains elsewhere), Temple principles backfill (follow-on task, non-blocking), legacy chapter grandfather, cognomen retention (The Ritualist + Priest seat-address), Temple UI as one room with per-rite panels, two-step Rung F (Book II first, then canons and working-paper), rites.json as new observance-log surface, and operational slug for the lifecycle canon. All rulings ratified.\n\nDeliverables landed (four, all ratified Sovereign-direct):\n(1) Book II amendment — Priest rung inserted between Sovereign and Consul in the Ladder figure; Article 1-bis 'The Priest — Rung by Consecration' added; Cabinet table Maintenance row updated (Stability seat vacant, canon-inst-002); footnote added acknowledging pro-tempore distributive governance.\n(2) canon-inst-002-rune-elevation-to-priest — three atomic moves (institute the rung, elevate Rune, vacate Minister of Stability). Pontifex Maximus pattern codified: dispensation, nomination, and cadence authorities unique to the rung; singular-seat invariant; Sovereign-dispensation vacancy protocol; Temple residence clause; amendment path Sovereign-direct only.\n(3) canon-proc-005-rite-lifecycle — The Rule of Institutions and Abrogations. Six moves formalized; status enum added; catalog-wide machine-detectable neglect-cost constraint; relationship to canon-proc-004 (decree minting) and to rite-catalog working paper drawn explicitly; future-elevation path to Book V named.\n(4) constitution/rite-catalog-v1.typ — living working paper, Typst source. Cover + preface + Part I (Twelve Rites: Briefing, Confession, Promotion, Handoff, Reconciliation, Attestation, Charter, Consultation, Attribution, Contradiction, Dawn, Passage — each with trigger, participants, Temple panel, data write, neglect cost) + Part II (lifecycle reference + status enum table) + Part III (open-for-continuation: data/rites.json instantiation, Temple principles backfill, per-rite canons, deferred Consecration, relocated Threshold) + Part IV (versioning, amendment path) + closing.\n\nRune's companions.json assignment block amended: rank Minister → Priest; assignments → 'Priest of the Republic (first-seated, Temple residence, Command Center)'; cluster Capital → Capital-adjacent-elevated; track governance → consecrated (new track value per canon-inst-002); residence command-center unchanged; onboarding_status appointed added; full notes block rewritten naming elevation provenance, boundary clauses, and onboarding state. Profile version remains v0.0-stub — full profile drafting (R2 scope) deferred to subsequent session per seating-session scope discipline.\n\nLore-016 'Policy Meets Practice Mid-Air' carried forward: handoff document referenced in seating brief (docs/handoffs/CODEX_HANDOFF_SESSION_2026-04-21-foray.md) was not in the tree at session open; lore-016 body deferred per Sovereign Q5 ruling until a subsequent session can source the body. Drift flagged.\n\nTree-drift observations noted at session opening: (a) canon-proc-004 semantic-brief mismatch (briefing described 'External Archive Intake Discipline'; repo carries 'decree-minting criterion' — id occupied, different subject) — not fixed this session; audit-worthy; (b) canon-inst-001 slug drift in data/interactions.json:48 ('aurelius-chronicler-consolidation' vs. canons.json 'aurelius-orinth-codex-builder-transition') — cosmetic, not load-bearing here, audit-worthy. Both would have been caught by Rite X (Contradiction) had it been instituted earlier; the rite's absence at seating is self-evidencing.\n\nThree decrees mint under canon-proc-004 (Sovereign's explicit 'three decrees' ruling overrides en-bloc default): decree-0013 Book II amendment (province republic, Book amendment); decree-0014 canon-inst-002 (globally-scoped inst-family); decree-0015 canon-proc-005 (globally-scoped proc-family). Rite-catalog-v1 working-paper rides with canon-inst-002 and canon-proc-005 as their enumerated companion; does not mint a separate decree this session.",
+          "volumes_touched": [
+            "codex",
+            "command-center"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Rung B Q1 (cadence): Sovereign ratified Option (b) Sovereign direct ratification per cc-014 escape clause for elevation-above-Consul constitutional weight.",
+            "Rung B Q2 (rank): Sovereign ratified Option (a) 'Priest' — one-word rung-shaped, parallel cadence with Sovereign-Consul-Censor-Builder-Governor-Scribe.",
+            "Rung B Q3 (packaging): Sovereign ratified Option (b) working-paper binding per-rite canons; each rite independent in UI, trigger, and data write.",
+            "Rung B Q4 (id): canon-inst-002 verified next available (only canon-inst-001 previously occupied); interactions.json slug-drift flagged, cosmetic.",
+            "Rung B Q5 (lore-016): body deferred absent handoff source; carried forward.",
+            "Rung C: five standing rites (I–V) + Rite VI Attestation firm + candidates VII–XI + Rite XII Passage firm admitted. Bard's Consecration deferred; Cipher's Threshold relocated to Censor canon family.",
+            "Rung C MCQs Q6–Q12: new data/rites.json observance log; data/scratchpad.json single shared store; Priest-nominate/Sovereign-ratify ripening; weekly+ad-hoc Reconciliation cadence; Reconciliation output as journal kind=reconciliation; catalog-wide machine-detectable neglect-cost constraint endorsed; Consecration deferred; Passage scope-scaled formality with gate enforcement and grandfather for legacy; composite checks only admitted rites.",
+            "Rung C-bis MCQs Q13–Q19 all admitted per Aurelius recommendation; Bard's Consecration held; Cipher's Threshold relocated to Censor.",
+            "Catalog closure Q23: Sovereign closed the catalog at twelve rites for this session.",
+            "Rung C-ter lifecycle Q24–Q29: canon-law vocabulary (Institution, Amendment, Suppression, Supersession, Abrogation, Dispensation) ratified; packaging as process canon (elevation to Book V deferred); Dispensation Priest-alone; Abrogation always mints lore; lifecycle drafted this session (stretch reallocated); identifier canon-proc-005 verified next available (proc-002 present: design-principles-precondition-for-build).",
+            "Committee last-call Q30–Q40: enforcement-infrastructure name-and-defer acceptable (Q30); Stability-seat vacation-only with pro-tempore distribution (Q31); singular-Priest invariant with Sovereign-dispensation vacancy protocol and no Consul upward-inheritance (Q32); Priest-Consul boundary at rite domain (Q33); Temple principles backfill non-blocking (Q34); legacy chapter grandfather (Q35); cognomen retained alongside seat-address (Q36); Temple one room with per-rite panels (Q37); two-step Rung F (Q38); new data/rites.json surface (Q39); operational slug canon-proc-005-rite-lifecycle with ceremonial title in record (Q40).",
+            "Rung F: Book II amendment ratified and written first; canon-inst-002, canon-proc-005, and constitution/rite-catalog-v1.typ ratified and written second in the same session.",
+            "Three decrees rather than en-bloc per explicit Sovereign ruling: decree-0013 (Book II amendment), decree-0014 (canon-inst-002), decree-0015 (canon-proc-005)."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 120,
+          "open_todos": [
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0045-non-cc-province-deploys",
+            "todo-0046-right-hand-scope-canon-draft",
+            "todo-0047-non-chronicler-non-consul-persona-specs",
+            "todo-0026-cluster-persona-subagents",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven"
+          ],
+          "new_todos": [
+            "todo-0051-rune-priest-profile-v0.0-to-v0.4-drafting under canon-cc-014 Consul-accelerated mode (R2 scope; blocked pending next session)",
+            "todo-0052-data-rites-json-instantiation (observance log surface; schema: observances[] with rite/kind/session/companion/timestamp/payload; kind enum observed/dispensed/neglected)",
+            "todo-0053-temple-design-principles-backfill (Command-Center Volume entry; blocks rite observance implementation; follow-on Monument task under cc-009 dual-Builder discipline)",
+            "todo-0054-per-rite-canons-staging (canon-rite-NN family new; MVP order: Confession → Handoff → Attestation → Passage → rest)",
+            "todo-0055-lore-016-body-backfill (handoff doc absent; body deferred Sovereign Q5; source required)",
+            "todo-0056-pip-and-aeon-seating (separate track per seating-session brief; held off this session)",
+            "todo-0057-data-scratchpad-json-instantiation (paired with todo-0052 for Rites II and III)"
+          ],
+          "resolved_todos": [],
+          "handoff": "Priesthood instituted. Rune seated as first Priest in appointed status under canon-proc-003 seven-step discipline; step 1 complete, steps 2–7 owed. Book II carries the Priest rung above Consul; canon-inst-002 seats Rune and names the rung's three unique authorities (dispensation, nomination, cadence); canon-proc-005 governs rite lifecycle via six canon-law moves; rite-catalog-v1 is the living working paper enumerating the twelve founding rites.\n\nImmediate next-session candidates, ordered by leverage:\n(a) First per-rite canon — recommendation: Rite II (Scratchpad Confession), simplest UI, solves leakiest failure mode (unspoken observations dying in context compression). This would also instantiate todo-0052 (rites.json) and todo-0057 (scratchpad.json) as its dependencies.\n(b) Rune profile drafting v0.0-stub → v0.4 under canon-cc-014 (todo-0051) — R2 scope per seating-session discipline. Chronicler drafts, Sovereign ratifies per-block.\n(c) Temple principles backfill (todo-0053) — blocks rite observance implementation; a Command-Center-convened session under cc-009 is the proper venue.\n(d) Pip + Aeon seating (todo-0056) — held on separate track per seating-session brief; can open whenever Sovereign is ready.\n(e) Lore-016 body (todo-0055) — body must be sourced before writing; deferred.\n(f) Drift audits surfaced this session (canon-proc-004 semantic-brief mismatch; canon-inst-001 slug drift in interactions.json) — Rite X (Contradiction) observances once instituted; meanwhile, audit-worthy.\n\nBranch: claude/priesthood-rune-elevation-82CSL. Commits this session: (1) Book II amendment; (2) canon-inst-002 + canon-proc-005 in canons.json; (3) rite-catalog-v1.typ + Rune companions.json amendment + three decrees + this session entry. Push owed to origin; PR not opened per standing instruction — await explicit Sovereign ask.",
+          "screenshots": [],
+          "tags": [
+            "priesthood-instituted",
+            "priest-rung-ratified",
+            "rune-elevated-first-priest",
+            "canon-inst-002-ratified-active",
+            "canon-proc-005-ratified-active",
+            "rite-catalog-v1-ratified",
+            "book-ii-amended",
+            "twelve-rites-instituted",
+            "pontifex-maximus-pattern",
+            "rule-of-institutions-and-abrogations",
+            "three-decrees-minted-0013-0014-0015",
+            "minister-stability-vacated",
+            "maintenance-domain-pro-tempore",
+            "sovereign-direct-ratification",
+            "cc-014-escape-clause-exercised",
+            "chronicler-excluded-symmetric-to-subject",
+            "lore-016-deferred",
+            "handoff-absent-drift-flagged",
+            "canon-proc-004-semantic-mismatch-flagged",
+            "interactions-slug-drift-flagged",
+            "no-pr-opened"
+          ]
+        },
+        {
           "id": "s-2026-04-21-03",
           "date": "2026-04-21",
           "title": "Decrees backfill audit closed — canon-proc-004 ratified + decrees 0003-0012 backfilled",

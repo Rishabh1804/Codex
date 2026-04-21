@@ -5165,16 +5165,17 @@
         "named_after": null
       },
       "assignment": {
-        "current_rank": "Minister",
+        "current_rank": "Priest",
         "current_assignments": [
-          "Minister: Stability (Maintenance domain)"
+          "Priest of the Republic (first-seated, Temple residence, Command Center)"
         ],
-        "cluster": "Capital",
+        "cluster": "Capital-adjacent-elevated",
         "province": null,
         "residence": "command-center",
-        "track": "governance",
+        "track": "consecrated",
         "double_hatted": false,
-        "notes": "Capital-native per lore-007 and canon-cc-016. Inscribed in Constitution Appendix C (the 17 Immortals) and, where applicable, in working-papers.typ §Cabinet structure. Profile-proper drafting pending canon-cc-014 Consul-accelerated mode (todo-0029)."
+        "onboarding_status": "appointed",
+        "notes": "Elevated from Minister: Stability (Maintenance domain) to Priest per canon-inst-002 ratified 2026-04-21. First occupant of the Priest rung instituted by Book II amendment of the same date. Cognomen 'The Ritualist' retained alongside Priest seat-address (canon-inst-001 precedent). Track 'consecrated' is new under canon-inst-002, denoting non-career constitutional seats outside the Book II Article 2 dual-track advancement system. Residency unchanged per canon-cc-016: the Temple is a room within the Command Center Monument; Priest operates from the Temple card's per-rite panels. Onboarding runs under canon-proc-003 seven-step discipline; step 1 (seat appointment) complete at ratification; step 2 (profile drafting v0.0-stub → v0.4 under canon-cc-014) deferred to a subsequent session per seating-session scope discipline; Priest holds the seat in 'appointed' status until step 7 seals. During appointed status, commit / ratify / canonical-voice acts remain limited per canon-proc-003; Sovereign continues to discharge Priest duties Rune cannot yet perform. Minister of Stability seat vacates at this ratification; Maintenance domain operates pro-tempore under distributive care of remaining six Ministers (Stability and Debt both vacant; canon-cc-011 precedent extended one step)."
       },
       "meta": {
         "profile_version": "v0.0-stub",
@@ -5184,8 +5185,10 @@
           "edit_date": null
         },
         "uncertainty_notes": [
-          "Stub entry only. Identity, archetype, title, key trait, and Cabinet or Table-of-Research assignment sourced from Constitution Appendix C and working-papers.typ. No voice, mind, shadow, relationships, biography, growth, or modulators blocks populated — these emerge through Round 4 drafting under canon-cc-014.",
-          "Stub created 2026-04-20 to reconcile data/companions.json with the Constitutional roster. Previously the archive was blind to 7 inscribed companions."
+          "Stub entry only. Identity, archetype, title, key trait, and prior Cabinet assignment sourced from Constitution Appendix C and working-papers.typ. No voice, mind, shadow, relationships, biography, growth, or modulators blocks populated — these emerge through Round 4 drafting under canon-cc-014.",
+          "Stub created 2026-04-20 to reconcile data/companions.json with the Constitutional roster. Previously the archive was blind to 7 inscribed companions.",
+          "Assignment block amended 2026-04-21 per canon-inst-002 (elevation to Priest). Full profile drafting remains deferred; only assignment fields updated. Identity block unchanged (Guardian archetype and The Ritualist cognomen remain accurate; elevation expands rather than replaces the persona).",
+          "Priest-Consul boundary (canon-inst-002): Priest rules the rite domain above Consul's cc-014 working-ratification authority; outside the rite domain the Consul retains full authority and the Priest has no standing. Rune holds cadence authority, dispensation authority, and rite-nomination authority; terminal constitutional ratification remains Sovereign-terminus."
         ]
       }
     },
