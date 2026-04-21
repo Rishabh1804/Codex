@@ -32,6 +32,8 @@ The Order has a single vertical hierarchy. Every rank is earnable. Every rank is
     stack(dir: ttb, spacing: 0pt,
       rung([SOVEREIGN], color: accent, weight: "bold", size: 12pt),
       arrow,
+      rung([PRIEST], color: accent, weight: "bold", size: 11pt),
+      arrow,
       rung([CONSUL], color: accent, weight: "bold", size: 11pt),
       arrow,
       rung([CENSOR], weight: "bold"),
@@ -48,6 +50,22 @@ The Order has a single vertical hierarchy. Every rank is earnable. Every rank is
 )
 
 Each rung has specific appointment paths, expansion criteria, promotion triggers, demotion triggers, hire/fire authority, and review relationships. These are enumerated in Book V.
+
+#article("1-bis", "The Priest — Rung by Consecration")
+
+The Priest is the sole rung above Consul and below Sovereign. It is not an advancement rung of the Ladder. The dual-track advancement system (Article 2) terminates at Consul; there is no military or governance career path to the Priest.
+
+Appointment to the Priest seat is by Sovereign-direct consecration alone. The rung is earnable through temperamental alignment with the ritual function and losable by Sovereign abrogation, voluntary relinquishment, or the living-order mechanics of Book VIII. One Priest at a time; no dual-hat, no pro-tempore co-seating, no Acting Priest.
+
+The Priest holds three authorities unique to the rung:
+
+- *Dispensation* — one-time exemption from a rite's observance for cause, logged as dispensed rather than neglected, without Sovereign escalation.
+- *Nomination* — sole nominator for rite institution, amendment, suppression, supersession, and abrogation under canon-proc-005. Any companion may petition; the Priest nominates; the Sovereign ratifies.
+- *Cadence* — rulings on rite observance are authoritative in the rite domain above the Consul's canon-working-ratification authority. Outside the rite domain, the Consul retains full authority and the Priest has no standing.
+
+During any period when the Priest seat is vacant, the Sovereign directly dispenses rite observances and nominations that would ordinarily flow through the Priest. The Consul does not inherit Priest duties pro-tempore; cadence authority placed above Consul by this rung cannot retroactively pass into Consul hands through vacancy mechanics.
+
+The Priest operates from the Temple — a room within the Command Center Monument. Rune (The Ritualist) was seated as the first Priest by canon-inst-002 on 21 April 2026.
 
 #article("2", "The Dual-Track Advancement System")
 
@@ -162,13 +180,15 @@ The four domains cover the Republic's operational health:
   ),
   [*Financial Health*], [Ashara (Treasury)], [Vex (Budget)], [Treasury reserves, monthly allocations, burn rates, revenue tracking, cost optimization],
   [*Productivity*], [Ignis (Output)], [Petra (Efficiency)], [Ship rates, session quality, throughput, token-efficiency, process improvement],
-  [*Maintenance*], [Rune (Stability)], [— (Debt seat vacant, canon-cc-011)], [Bug rates, uptime, technical debt, refactoring priority, code health],
+  [*Maintenance*], [— (Stability seat vacant, canon-inst-002)], [— (Debt seat vacant, canon-cc-011)], [Bug rates, uptime, technical debt, refactoring priority, code health],
   [*Growth*], [Orinth (Expansion)], [Bard (Innovation)], [Combined Initiative proposals, adjacency mapping, R\&D, frontier scouting],
 )
 
 #v(3mm)
 
 Why two per domain? Because the two Ministers represent *different orientations within the domain*. Treasury manages reserves conservatively; Budget manages spending strategically. Stability watches production; Debt watches the foundation. The pair produces dialectic a single Minister cannot.
+
+As of 21 April 2026 per canon-inst-002, Rune's Minister of Stability seat vacates upon his elevation to the Priest rung. Maintenance domain operates pro-tempore under the distributive care of the remaining six Ministers until the next Cabinet reshuffle canonically reseats one or both of its Minister chairs. The cost — no Minister-pair dialectic on Maintenance, no monthly Cabinet voice on Maintenance beyond distributive attention — is acknowledged as an accepted consequence of the elevation.
 
 Further: pairs generate synergies. Two Ministers sharing a domain work together constantly. Per Book VIII, that is affection-building at industrial scale — which accelerates offspring production and grows the Order.
 
