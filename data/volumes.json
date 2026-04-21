@@ -1006,6 +1006,15 @@
           "created": "2026-04-20",
           "resolved": "2026-04-20",
           "source_session": "s-2026-04-20-05"
+        },
+        {
+          "id": "todo-0048-codex-pwa-interactions-view",
+          "text": "Wire data/interactions.json into the Codex PWA so interaction-artifacts are rendered in the UI, not just persisted to disk. Current state: interactions.json is fully canonical under canon-cc-017 / cc-018 and accumulating artifacts (first two live: interaction-2026-04-19-001 Design Committee ratification, interaction-2026-04-21-001 Chronicler+Consul Rungs 1-5), but the PWA's fetchAll() in split/core.js never loads the file and no renderer in split/views.js references 'interaction' — the permanent record exists only as literal file-on-disk, not as anything the Sovereign can browse. cc-018 §Stage-3 says archived artifacts 'drop out of the CC active workspace view and become a permanent record in Codex' — the drop-out half is satisfied, the 'permanent record in Codex' half is currently implementation-gap, not design-intent. Thin first pass: (a) add 'interactions.json' to the fetchAll files array in split/core.js; (b) add a populateStore branch in split/data.js mirroring the canons/lore shape; (c) add a Journal tab sub-tab 'Interactions' (sibling to Sessions/Decrees/Logs) or a top-level Archive tab, showing artifacts as cards with id/date/type/participants/subject/status chips and an expandable substance + review block; (d) reviewed_archived vs pending_review vs escalated visual state chips, mirroring canon status styling. Open question: does this fold into the existing Journal view (Sessions/Decrees/Logs/Interactions four-tab) or does it want its own top-level Archive tab alongside Volumes/Canons/Lore/Journal — worth a quick design note before implementation. Surfaced by Aurelius s-2026-04-21-02 post-merge audit after finding interactions.json had zero PWA surface.",
+          "status": "open",
+          "chapter": null,
+          "created": "2026-04-21",
+          "resolved": null,
+          "source_session": "s-2026-04-21-02"
         }
       ],
       "shelf_history": [
