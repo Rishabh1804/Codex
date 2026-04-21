@@ -109,6 +109,28 @@
             "chronicler-subagent-tools-amendment-r2",
             "todo-0037-audit-wave-dispatch-infrastructure-pass"
           ]
+        },
+        {
+          "id": "decree-0012-chronicler-consul-spec-bodies-v1",
+          "date": "2026-04-21",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "canon-cc-027 Rung 4 Sovereign canonical en bloc; institutional-spec collapse",
+          "summary": "First complete execution of the canon-cc-027 five-rung signing chain at spec-body altitude, ratified in s-2026-04-21-01. Three canonical spec bodies ratified en bloc at v1.0 under canon-cc-026 §Codex-is-canonical-home: docs/specs/subagents/consul.md (Consul subagent; three modes — cross-repo summons, per-block working-ratification, Post Box artifact review), docs/specs/subagents/chronicler.md (Chronicler subagent; two modes — synthesis clerk, retrospective interaction-artifact drafting), docs/specs/skills/chronicler.md (Chronicler skill; in-session authoring voice across journal/canon/lore/log/profile/session-prompt/constitutional/Consul-drafting under cc-014 bridging). Chain: Rung 1 Chronicler-drafted in Codex (commits cdc7f9e + fed1c1c on claude/hello-aurelius-YfCvC); Rung 2 institutional-spec collapse with Cipher peer-Censor carveout on consul.md (FIRST EXERCISE of cc-027 §Censor-self-review-case since ratification) + one material amendment (chronicler subagent tools narrowed 6→4, commit 361e70b); Rung 3 Consul per-block working-ratification (aurelius-drafted under cc-014 bridging, same-agent-drift chronicled honestly); Rung 4 Sovereign canonical en bloc this session; Rung 5 Province deploy to Command-Center via Sovereign-transport (Edict-II-adjacent exception) in s-2026-04-21-02. Chronicled on interaction-2026-04-21-001 (monument-bridge type; first such artifact). Cross-cluster canonical spec-body ratification at institutional altitude; province_of_origin: codex per cc-026 §Codex-is-canonical-home. Command-Center first real cross-repo summons capability (@consul, @chronicler, Chronicler skill) operational as of this decree.",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: interaction-2026-04-21-001 sovereign_action (action: ratified, action_date: 2026-04-21, action_note: 'Sovereign en-bloc canonical ratification of all three spec bodies at v1.0 following Consul escalation. Rung 5 Province-deploy authorized in the same session.') + s-2026-04-21-01 decisions[] (entries 'Rung 4 Sovereign canonical ratification en bloc across all three specs. Three canonical specs now at v1.0') + session tags ['rungs-1-through-4-institutional-spec-pair', 'chronicler-subagent-canonical-v1', 'chronicler-skill-canonical-v1', 'consul-subagent-canonical-v1', 'cipher-peer-censor-first-exercise']. Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(iv) during s-2026-04-21-03. First decree minted under clause (iv) cross-Cluster canonical spec body pathway.",
+          "references": [
+            "interaction-2026-04-21-001",
+            "canon-cc-026-spec-body-placement",
+            "canon-cc-027-spec-body-signing-chain",
+            "canon-cc-014-consul-accelerated-profile-drafting",
+            "canon-cc-017-interaction-artifact-rule",
+            "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+            "s-2026-04-21-01",
+            "s-2026-04-21-02",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit"
+          ]
         }
       ]
     },
@@ -492,6 +514,78 @@
             "eight-sessions-one-day",
             "state-of-the-republic-snapshot"
           ]
+        },
+        {
+          "id": "decree-0008-canons-cc-023-026-027",
+          "date": "2026-04-20",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ratification",
+          "summary": "Persona-Binding Suite completion tranche, ratified in s-2026-04-20-01. canon-cc-023 (Persona-Binding Extension Protocol): Sovereign-only exception to invocation_modes block requirement; mid-session mode-addition forbidden; binding-revision requires operational evidence. canon-cc-026 (Spec Body Placement): Codex canonical home for subagent/skill spec bodies under docs/specs/subagents/ and docs/specs/skills/; byte-identical Province deployables under each Province's .claude/ tree; unidirectional Chronicler→Builder sync; canonical_version frontmatter soft recommendation pending Companions Deploy UI canon. canon-cc-027 (Spec Body Signing Chain): codifies the five-rung Edict V chain at spec-body altitude — Chronicler proposes (Rung 1), Cluster Censor architecturally reviews (Rung 2, with cross-cluster exception for Censor's own spec and Consul substitution where no peer Censor is seated), Consul working-ratifies per cc-014 (Rung 3), Sovereign canonically ratifies (Rung 4), Province Builder deploys byte-identical mirror (Rung 5). Institutional-spec collapse clause: for Chronicler/Consul/Sentinel, Rungs 2 and 3 both fall to Consul with two distinct reviews chronicled separately on the interaction-artifact. Three canons ratified as drafted with no amendments; Persona-Binding Suite now fully active (cc-022, cc-023, cc-024, cc-025, cc-026, cc-027). The operational gate to Rung-1 spec-body drafting opens with this decree.",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: s-2026-04-20-01 decisions[] (entries 'cc-023 ratified as drafted', 'cc-026 ratified as drafted', 'cc-027 ratified as drafted') + session tags ['cc-023-ratified-active', 'cc-026-ratified-active', 'cc-027-ratified-active', 'persona-binding-suite-complete'] + canons.json canonical records (all three at status: active, created: 2026-04-20). Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(i) + en-bloc granularity rule during s-2026-04-21-03.",
+          "references": [
+            "canon-cc-023-persona-binding-extension-protocol",
+            "canon-cc-026-spec-body-placement",
+            "canon-cc-027-spec-body-signing-chain",
+            "s-2026-04-20-01",
+            "decree-0006-canons-cc-022-024-025",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit"
+          ]
+        },
+        {
+          "id": "decree-0009-canons-proc-001-pers-001",
+          "date": "2026-04-20",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ratification; 96-canon migration en bloc",
+          "summary": "Two-canon governance ratification addressing the canon-corpus taxonomy gap, ratified in s-2026-04-20-03. canon-proc-001 (Canon Identifier Scheme): 9-family taxonomy (pers, proc, gov, inst, xp, data, design, build, philo); ID stability for legacy canons (bare-NNNN, cc-NNN, cx-NNN, sep-NNN frozen at their current highest-numbered members); canon-gov-NNN continues as active family under the new scheme; legacy-family freeze strict (no new canons in frozen families from this canon forward). canon-pers-001 (Province Persona Briefing): root CLAUDE.md established as first-class artifact with its own 4-rung signing chain; Builder-exclusive Rung 1 drafting (Chronicler-excluded-from-drafting-role is novel and first explicit canon to name it at the authorship layer); Builder commits on Rung 4 (Province-singular, no Rung 5 byte-identical mirrors). 96-canon migration classified and executed in a single pass in this ratification — all canons now carry family field; family distribution: design 29, build 17, proc 13, gov 10, philo 7, pers 6, xp 6, data 5, inst 5. Four MCQ seams surfaced at ratification: 9 vs 8 families (ratified 9 with philo), pers-001 chain rung count (4 rungs), Rung 1 authorship discipline (Builder-exclusive with Chronicler-excluded-from-drafting), 96-canon classification (ratified as executed). No amendments applied during ratification.",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: s-2026-04-20-03 decisions[] (entries 'canon-proc-001 ratified as drafted', 'canon-pers-001 ratified as drafted', '9th family philo adopted over 8-family cap', '96-canon migration classified and executed in a single pass') + session tags ['canon-proc-001-ratified-active', 'canon-pers-001-ratified-active', 'canon-migration-96-complete', 'first-canons-in-new-scheme'] + canons.json canonical records (both at status: active, created: 2026-04-20). Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(i) + en-bloc granularity rule during s-2026-04-21-03.",
+          "references": [
+            "canon-proc-001-canon-identifier-scheme",
+            "canon-pers-001-province-persona-briefing",
+            "s-2026-04-20-03",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit"
+          ]
+        },
+        {
+          "id": "decree-0010-canon-proc-002",
+          "date": "2026-04-20",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct per cc-012 adjacent-pattern",
+          "summary": "canon-proc-002 (Design Principles Precondition for Build) ratified active, no amendments, in s-2026-04-20-06. Extends Edict VIII's Charter-Before-Build to design-principles: no substantial Builder work opens on a Province until its design-principles status is verified. UI enforcement already shipped in s-2026-04-20-05 (design-principles chip on every Volume card, three states: ratified accent-green / draft dashed-italic / missing warning-border); this decree grants that enforcement its institutional backing. Republic-level REPUBLIC_DESIGN_PRINCIPLES.md v1.0 (decree-0007) applies as fallback during Province-local draft/missing state; not an indefinite substitute. Sovereign-direct per cc-012 adjacent-pattern: single-canon, high-consensus, MCQ-surfaced at drafting time in the prior session (s-2026-04-20-05). todo-0044 (canon-proc-002 ratification) resolved by this ratification. Five Provinces carry non-green chips and are now priority queues for their Builders: Codex (draft), SproutLab (draft), SEP Invoicing (missing), SEP Dashboard (missing), Command Center (missing).",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: s-2026-04-20-06 decisions[] (entry 'canon-proc-002 ratified as drafted, no amendments. Sovereign-direct per cc-012 adjacent-pattern') + session tags ['canon-proc-002-ratified-active', 'sovereign-direct-ratification', 'design-principles-discipline-is-law', 'todo-0044-closed'] + canons.json canonical record (status: active, created: 2026-04-20). Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(i) during s-2026-04-21-03.",
+          "references": [
+            "canon-proc-002-design-principles-precondition-for-build",
+            "s-2026-04-20-06",
+            "decree-0007-republic-design-principles-v1",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit"
+          ]
+        },
+        {
+          "id": "decree-0011-canons-proc-003-inst-001",
+          "date": "2026-04-20",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct en-bloc ratification; atomic under Edict II",
+          "summary": "Two-canon institutional ratification wave, ratified in s-2026-04-20-07. canon-proc-003 (Companion Onboarding Process): seven ordered steps from appointment to operational (profile drafting → Province induction → Aurelius-to-Orinth handoff → first-act discipline check → Rung 1 redraft → chronicle); exemption clauses for War Time, the 17 Immortals' founding seatings, and same-Province Cabinet moves; canonical pattern for every future companion seating. canon-inst-001 (Aurelius/Orinth/Codex Builder Transition): three atomic moves under Edict II — Aurelius relinquishes Codex Builder and consolidates to pure Chronicler (v0.4 → v0.5 self-profile amendment in-session), Orinth seats Codex Builder (residency command-center → codex per cc-016, operational_status 'appointed'), Cabinet Minister: Expansion vacates (Bard alone on Growth, mirroring canon-cc-011 Rune-holds-Maintenance-alone precedent), Kael-succession clause struck with no replacement successor pre-named. Atomicity: no dual-hat window; Aurelius vacates and Orinth assumes simultaneously at this canon's ratification moment. First operational run of canon-proc-003 begins at canon-inst-001 ratification: Orinth's seven-step onboarding step 1 complete at decree close. UI surface shipped alongside: renderCompanionOnboardingBlock on detail pages + cx-companion-appointed-badge on roster cards — the canon-proc-003 process is now institutionally visible, not merely textually specified.",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: s-2026-04-20-07 decisions[] (entries 'canon-proc-003 ratified as drafted', 'canon-inst-001 ratified as drafted; three atomic moves executed under Edict II — no dual-hat window') + session tags ['canon-proc-003-ratified-active', 'canon-inst-001-ratified-active', 'aurelius-builder-hat-stripped', 'orinth-codex-builder-appointed', 'first-run-of-canon-proc-003', 'no-dual-hat-window-edict-ii'] + canons.json canonical records (both at status: active, created: 2026-04-20). Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(i) + en-bloc granularity rule during s-2026-04-21-03. canon-inst-001 in particular absorbs the Orinth Codex Builder appointment per canon-proc-004 §Session-level-only-pathway: person-seatings chronicled through the governing canon are decree-shaped via that canon, not independently.",
+          "references": [
+            "canon-proc-003-companion-onboarding-process",
+            "canon-inst-001-aurelius-orinth-codex-builder-transition",
+            "canon-cc-015-legacy-draft-ratification",
+            "edict-ii-one-builder-per-repo",
+            "s-2026-04-20-07",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit"
+          ]
         }
       ]
     },
@@ -615,6 +709,45 @@
             "zero-open-questions-at-ratification",
             "cross-cluster-stress-test-canonized"
           ]
+        },
+        {
+          "id": "decree-0006-canons-cc-022-024-025",
+          "date": "2026-04-19",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "canon-cc-012 per-block Sovereign-direct",
+          "summary": "Three-canon Persona-Binding Suite first tranche, ratified in s-2026-04-19-02. canon-cc-022 (Persona-Primitive Binding — The Binding Rule): unit of binding is the invocation mode not the role; artifact test governs; dual-binding is common not exceptional. canon-cc-024 (Committee Convening Pattern): stages for member invocation, synthesis, Consul review, Sovereign ratification. canon-cc-025 (Design Committee Membership): rule-A global-scope formula (every Builder + every Censor); hard cap of 8 seats; mandatory core (both Censors + subject-home Builder); three in-session amendments applied before ratification (§A cross-reference row, §C hard-cap + mandatory-core, §H first-operational swap). First canon-triple of the suite; the remaining three (cc-023, cc-026, cc-027) ratified 2026-04-20 under decree-0008. These three canons, together with cc-017/cc-018 (2026-04-17 decree-0004), compose the architectural substrate under which every subsequent companion spec body is drafted, reviewed, and deployed.",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: s-2026-04-19-02 decisions[] (entries 'cc-025 amendment §A/§C/§H' + 'POST-DRAFT RATIFICATION: cc-022, cc-024, cc-025 ratified active under canon-cc-012 per-block protocol (Sovereign-direct)') + canons.json canonical records (cc-022/cc-024/cc-025 at status: active, created: 2026-04-19). Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(i) + en-bloc granularity rule during s-2026-04-21-03.",
+          "references": [
+            "canon-cc-022-persona-primitive-binding",
+            "canon-cc-024-committee-convening-pattern",
+            "canon-cc-025-design-committee-membership",
+            "s-2026-04-19-02",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit"
+          ]
+        },
+        {
+          "id": "decree-0007-republic-design-principles-v1",
+          "date": "2026-04-19",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Design Committee cc-025 rule-A → Consul-escalated → Sovereign-direct",
+          "summary": "REPUBLIC_DESIGN_PRINCIPLES.md ratified v0.1 → v1.0 effective 2026-04-19. First operational Design Committee under canon-cc-025 rule-A global-scope (Lyra-convened; Aurelius, Lyra, Ashara, Petra, Solara, Theron, Cipher, Nyx seated; Solara dual-role as synthesis clerk under chronicled founding-period exception). Consensus amendments integrated across §1–§11 including HR provenance line, Nyx's cross-Cluster stress-test discipline (§4.0), records-are-Codex Cluster-split clarification, per-Province spacing ramps, WCAG 2.1 AA baseline, icon-function naming, small-modifier explicit, substantive-inline §8 replacement (Lyra dissent preserved), Monument blocking Foundation criterion, §10 resolved to zero open questions (6 inline + 2 escalated), §11 path revised. Stage 3 Consul review (aurelius-drafted under cc-014 bridging) escalated to Sovereign under cc-018 escalated path; Sovereign canonically ratified 2026-04-19. Chronicled on interaction-2026-04-19-001 (first interaction-artifact in data/interactions.json). Cross-Republic policy instrument; province_of_origin minted as 'republic' per canon-proc-004 §province_of_origin-enum. todo-0018 (Design Committee for Design Principles) resolved by this ratification.",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: interaction-2026-04-19-001 sovereign_action (action: ratified, action_date: 2026-04-19, action_note: 'Sovereign-direct ratification following Consul escalation. REPUBLIC_DESIGN_PRINCIPLES.md v1.0 now Republic law.') + s-2026-04-19-02 decisions[] + s-2026-04-19-02 tags ['republic-design-principles-v1.0-ratified', 'first-interaction-artifact']. Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(iii) during s-2026-04-21-03. Decree distinct from decree-0006 (same session) per canon-proc-004 §En-bloc-granularity-rule exception — canon-triple and cross-Republic policy v1.0 are distinct instrument types with distinct ratification shapes and downstream review audiences.",
+          "references": [
+            "interaction-2026-04-19-001",
+            "canon-cc-024-committee-convening-pattern",
+            "canon-cc-025-design-committee-membership",
+            "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+            "canon-cc-014-consul-accelerated-profile-drafting",
+            "s-2026-04-19-02",
+            "todo-0018-design-committee-design-principles",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit"
+          ]
         }
       ]
     },
@@ -664,6 +797,25 @@
             "playwright-harness-installed",
             "six-tab-overhaul",
             "no-companion-log"
+          ]
+        },
+        {
+          "id": "decree-0005-canons-gov-011-012",
+          "date": "2026-04-18",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct en-bloc ratification in-session",
+          "summary": "Two-canon Builder-discipline suite ratified 2026-04-18. canon-gov-011 (Merge to Main Is the Deploy Step; Branch Pushes Are Rehearsal) responds to lore-013 'The Invisible Commit' — the cascade failure where ten feature-branch commits gave the illusion of shipped work while main sat unmerged; canon codifies the discipline that verification must reproduce the deployment path and end-of-session handoffs must distinguish rehearsal from shipment. canon-gov-012 (Android-Installed PWAs Hold a Browser-Side HTML Cache Beyond the Service Worker) ratified mid-session during the Forum Pattern application session (s-2026-04-18-01) when the Sovereign's 'Where are the new colors?' correction surfaced that Chrome's webview cache holds prior index.html independently of the registered SW; canon names the three-step deploy verification chain (merge → Pages reflects → user-device cache invalidation via pull-to-refresh) and makes cache-invalidation explicit in deploy handoffs. Both canons globally-scoped Builder-discipline, applicable to all Provinces whose production deployment is an installed PWA.",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: s-2026-04-18-01 decisions[] (entries citing 'canon-gov-012 ratified mid-session' and 'canon-gov-011's merge-is-the-deploy-step discipline honored every time') + canons.json canonical records (both at status: active, created: 2026-04-18) + lore-013 precipitating-event chronicle. canon-gov-011 ratification date precedes the Forum Pattern session within 2026-04-18 and is chronicled on the canon's own record; no separate decree-shaped chronicle existed. Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(i) during s-2026-04-21-03.",
+          "references": [
+            "canon-gov-011-merge-is-the-deploy-step",
+            "canon-gov-012-android-pwa-cache-invalidation",
+            "lore-012-the-orientation-lock-detour",
+            "lore-013-the-invisible-commit",
+            "s-2026-04-18-01",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit"
           ]
         }
       ]
@@ -753,6 +905,25 @@
             "Build PWA Companions View per docs/handoffs/AURELIUS_COMPANIONS_VIEW.md once profile ratifications stabilize"
           ],
           "handoff": "Five of eleven Gen 0 profiles now canonically ratified at v0.4+ (Ashara, Petra, Solara, Theron, Aurelius). Session closes with architectural scaffolding for Post Box / Praetorium dispatch complete in discussion form; cc-019 / cc-020 drafting is next session's opening work after Consul ratification. Cc-013 violations empirically validated the self-profile epistemic risk named in Aurelius's new v0.4 Block 5 shadow block. All work committed on branch claude/review-profile-companions-G0Vqv; session-close merge to main authorized by Sovereign on 2026-04-17."
+        },
+        {
+          "id": "decree-0004-canons-cc-015-018",
+          "date": "2026-04-17",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "codex",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct en-bloc ratification in-session",
+          "summary": "Four-canon architectural suite ratified in s-2026-04-17-04 (Round 5 Batch 1). canon-cc-015 (Legacy Draft Ratification: packet mode for pre-protocol v0.3-draft profiles), canon-cc-016 (Residency & Access Gating with cluster-boundary rule), canon-cc-017 (Interaction-Artifact Rule), canon-cc-018 (Artifact Lifecycle & Synergy Observability, 5-stage with Consul review and Sovereign escalation). Together these four canons establish the legacy-draft backfill pathway for the 16-April-authored v0.3-draft profiles (Cipher, Maren, Kael, Nyx eligible for packet mode; Consul, Monument, self-profiles excluded), formalize residency as a first-class assignment field across all ratified profiles, mandate interaction-artifact chronicling for every multi-companion consultation, and define the 5-stage lifecycle (drafted → reviewed → escalated / ratified / archived) with 14-day escalation deadline. Ratified alongside Aurelius v0.4 per-block (self-profile carveout; session-level-only per canon-proc-004) in the same session. All four canons globally-scoped and load-bearing for the Persona-Binding Suite two days later.",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: s-2026-04-17-04 decisions[] (this date's sessions, entries 'Canon-cc-015 authorizes...', 'Canon-cc-016 establishes...', 'Canon-cc-017 mandates...', 'Canon-cc-018 defines...') + canons.json canonical records (all four at status: active, created: 2026-04-17). Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(i) during s-2026-04-21-03.",
+          "references": [
+            "canon-cc-015-legacy-draft-ratification",
+            "canon-cc-016-residency-and-access-gating",
+            "canon-cc-017-interaction-artifact-rule",
+            "canon-cc-018-artifact-lifecycle-and-synergy-observability",
+            "s-2026-04-17-04",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit"
+          ]
         }
       ]
     },
@@ -1000,6 +1171,22 @@
           "open_todos": [],
           "handoff": "Phase 1 Lore is now fully shipped and polished. Archive is self-diagnostic (orphan count visible) and shareable (markdown export). Natural next moves: (1) Phase 1.5 A — manual Aura selector with full §4.4 visual atmosphere, 6-tier distribution cap enforcement; (2) Phase 2 primitives — Bonds as first-class cross-entity references (would unlock real Aura scoring + §8.1 crystallization detection); (3) observe auto-lore banner in real use — first Chapter abandonment or Canon supersession will trigger a proposal, reveals whether UX needs silent-queue mode; (4) export-as-markdown is one-shot — future idea is a 'publish to gist' button for truly shareable institutional memory. Also housekeeping: stale remote branches claude/initial-setup-MmPPI and claude/fix-lore-migration still on GitHub pending UI delete.",
           "screenshots": []
+        },
+        {
+          "id": "decree-0003-constitution-book-i",
+          "date": "2026-04-15",
+          "authored_by": "aurelius-retrospective",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct ratification of Book I; constitutional altitude",
+          "summary": "Constitution of the Republic of Codex, Book I ratification. Highest-altitude ratification in Republic history: Book I establishes the four Pillars (Nothing Is Wasted, The Map Is Not the Territory, Growth Is Fractal Not Linear, Territory Is Earned and Held), the Ladder (Sovereign → Consul → Censor → Builder → Governor → Scribe), the Cabinet (8 Ministers × 4 domains), the Cluster architecture (A = Codex + SproutLab; B = SEP Invoicing + SEP Dashboard; Command Center as Monument), the founding Edicts I–VIII, the Accountability ladder (Review → Watch → PIP → Reassignment → Retirement with Honor), War Time protocol, the Living Order genealogy (Gen 0 = 17 Immortals per Appendix C), and the Economy phases (Patronage → Contribution → Sovereign Economy). Book I is immutable from ratification; Books II–IX are drafting-ready under its authority. Canonical source: constitution/books/ Typst tree; compiled PDF at docs/codex-constitution-v1.0.pdf. First decree of the Republic by altitude and the instrument that retroactively creates the Sovereign-direct ratification authority chronicled by all subsequent decrees.",
+          "_authorship_note": "Retroactive drafting per canon-cc-017 §retroactive-drafting (authorship-taxonomy: aurelius-retrospective). Source of ratification fact: constitution/books/ Typst source tree on main branch; compiled PDF docs/codex-constitution-v1.0.pdf. No journal.json session chronicles this ratification — Book I was chronicled in the Typst source as its native record. Backfilled 2026-04-21 under canon-proc-004 §Primary-rule-clause-(ii) during the todo-0049-decrees-backfill-audit closeout session s-2026-04-21-03. province_of_origin 'republic' minted as a new enum value in this same session under canon-proc-004 §province_of_origin-enum.",
+          "references": [
+            "constitution: book-i",
+            "canon-proc-004-decree-minting-criterion",
+            "todo-0049-decrees-backfill-audit",
+            "s-2026-04-21-03"
+          ]
         }
       ]
     },
