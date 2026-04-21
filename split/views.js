@@ -499,11 +499,6 @@ function renderJournalDecreesSubTab() {
     });
     html += '</div>';
   }
-  if (stats.perMode.length > 0) {
-    html += '<div class="cx-rostra-stats"><span class="cx-rostra-stat-label">Modes:</span> ';
-    html += stats.perMode.map(function(m) { return escHtml(m.key + ' \u00D7 ' + m.count); }).join(' \u00B7 ');
-    html += '</div>';
-  }
   html += '</div>';
 
   return html + renderJournalRangeAndCards(p.decrees, 'decree');
