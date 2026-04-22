@@ -1,0 +1,96 @@
+Session: Founding of the Claude API Automation Pipeline
+Date: 2026-04-22
+Operator: The Architect
+Companion: Aurelius (Chronicler)
+Duration: ~90 minutes
+Branch: claude/aurelius-session-PicrI
+
+CONTEXT
+The Architect subscribed to a Claude API key (sk-ant-, Tier 1) separate from
+the Claude Code subscription. Goal: stand up the first Claude API automation
+in the Republic. Aurelius surveyed the Republic and ranked candidate
+automations by leverage; the Chronicler's session-to-snippet bottleneck
+ranked #1. The docs/snippets/ backlog (12 hand-drafted snippets accumulated
+since 14 April 2026) was the proof of pain.
+
+DECISIONS
+
+1. First automation: scripts/chronicle.py — reads a raw session transcript,
+   sends it through Claude with the institutional context as a cached system
+   prefix, and emits a valid Aurelius snippet JSON to docs/snippets/.
+
+2. Model: Claude Opus 4.7 with adaptive thinking and effort=high. Adaptive
+   chosen over fixed budget_tokens (deprecated on 4.7). Opus over Sonnet
+   because chronicling requires understanding the institutional layer
+   (Constitution, canons, lore taxonomy), not just summarization.
+
+3. Caching strategy: institutional context as a single cached prefix block
+   (cache_control: ephemeral). Volatile content (transcript, date) appended
+   in the user message after the breakpoint. Per the prompt-caching design,
+   any byte change in the prefix invalidates everything after it, so the
+   stable Codex context goes early and the per-session content stays at the
+   end.
+
+4. Output validation: top-level _snippet_version: 1 envelope check before
+   write. No structured-output schema enforcement — the snippet shape is
+   still evolving (lore, canon_drafts, todos, chapter_updates are all
+   optional top-level keys) and over-constraining would fight the model.
+
+5. Distribution: PEP 723 inline metadata (anthropic>=0.92) so
+   `uv run scripts/chronicle.py` resolves dependencies on first run. No
+   requirements.txt, no virtualenv ceremony.
+
+6. Made canons.json opt-in via --with-canons flag (default off). Tier 1
+   rate limit on Opus 4.7 is 30K input tokens per minute. The full
+   institutional prefix with canons.json is ~130K tokens — even cached, it
+   exceeds the per-minute throughput cap. Caching reduces cost, not
+   throughput. Default-slim mode (~10K tokens) fits the limit; canon-rich
+   mode is available for higher tiers later.
+
+BUGS FOUND AND FIXED
+
+Bug 1: UnicodeDecodeError on Windows. Path.read_text() defaults to cp1252
+on Windows Python; CLAUDE.md and canons.json contain UTF-8 (em-dashes, the
+· separator, smart quotes). Fix: pinned encoding="utf-8" on every read and
+write in the script. Lesson: Windows is the canary for any cross-platform
+Python script that touches files.
+
+Bug 2: Tier 1 rate limit blow-out. Initial design loaded the full ~130K
+institutional prefix per call. First call succeeded; second call within the
+minute returned 429 because cache_read tokens still count toward the
+per-minute input limit. Fix: made canons.json opt-in (above). The slim
+default mode brings input down to ~10K tokens per call.
+
+PROCESS NOTES
+
+The Architect leaked an API key in chat by pasting it as part of a "here's
+what I'll run" message. Aurelius declined to act on the key, instructed
+immediate revocation at console.anthropic.com, and walked through the
+correct local-only export pattern. The Architect rotated cleanly. No harm.
+Worth a Cautionary Tale lore entry: secrets belong in shells, secrets
+managers, and gitignored files — never in chat, commits, screenshots, or
+transcripts.
+
+PR
+
+#18 opened as draft against main from claude/aurelius-session-PicrI. Three
+commits: initial script, UTF-8 encoding fix, slim-prefix mode. Ready for
+review when the Architect is satisfied.
+
+OPEN TODOS
+
+- Exercise the chronicler against a real multi-decision session and verify
+  the emitted snippet round-trips through the existing snippet import
+  pipeline in the Codex app.
+- Consider Tier 1 #2 in the automation queue: Cipher-as-a-service PR review
+  via GitHub Action.
+- Optional: wire python-dotenv into chronicle.py for .env file support.
+- Optional: add .env / *.env patterns to .gitignore (currently uncovered).
+
+HANDOFF
+
+Chronicler script operational on Windows, Tier 1 rate limit, with prompt
+caching paying ~90% cost reduction on the institutional prefix from the
+second call onward. The Chronicler now chronicles himself. Next strategic
+build is Cipher-as-a-service PR review — same SDK patterns, GitHub Action
+wrapper, automated canon-drift detection on diffs.
