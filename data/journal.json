@@ -1566,6 +1566,27 @@
           "open_todos": [],
           "handoff": "Phase 8A deployed. Foundation is live: sidebar navigation, breakpoint detection, overlay split, tablet overrides. Next: Phase 8B (master-detail containers + drag handle + persistence).",
           "screenshots": []
+        },
+        {
+          "date": "2026-04-14",
+          "summary": "TODO Cleanup — resolved all 5 open Codex TODOs. Fixed renderStorageUsage to scan all codex-* keys (was missing draft/seed/migration keys). Added deleted apocrypha to trash view with restore + permanent delete. Added canon_updates to snippet pipeline (preview + import). Reconciled QUICK_REFERENCE docs (font tokens, KEYS, routes, store API, snippet format, build phases). canon-0009 superseded via canon_updates.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "phase-4-polish",
+            "phase-5-chapter-detail",
+            "design-session",
+            "phase-2-build"
+          ],
+          "decisions": [],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": 90,
+          "open_todos": [],
+          "handoff": "All 5 TODOs resolved. Mark TODOs as resolved in-app. Next: SproutLab Today So Far build, Codex SproutLab chapter backfill.",
+          "screenshots": [],
+          "id": "s-2026-04-14-02"
         }
       ]
     }
