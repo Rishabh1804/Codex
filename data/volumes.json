@@ -216,10 +216,10 @@
         {
           "id": "todo-0001-fix-id-mismatch",
           "text": "Fix ctStorageWarning div ID mismatch — template.html uses ctStorageWarning but JS references ctStorageWarn",
-          "status": "open",
+          "status": "resolved",
           "chapter": "caretickets",
           "created": "2026-04-10",
-          "resolved": null,
+          "resolved": "2026-04-22",
           "source_session": "s-2026-04-10-01"
         }
       ],
