@@ -2,6 +2,75 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-04-22",
+      "sessions": [
+        {
+          "id": "s-2026-04-22-01",
+          "date": "2026-04-22",
+          "title": "todo-0058 closed — Invocation Modes Registry amended to carry §Builder-Lyra, §Governor-Maren, §Governor-Kael; cc-027 Rung 1 draft committed to branch claude/register-invocation-modes-4o5qp",
+          "summary": "Focused Chronicler session amending docs/specs/persona-binding/invocation-modes-registry.typ to register the three seated SproutLab Companions whose paired subagent + skill spec bodies (landed in codex#12 and mirrored into sproutlab#1 on 2026-04-21 under cc-026) cite §Builder-Lyra, §Governor-Maren, and §Governor-Kael as their mode-declaration source of truth. Drift named in s-2026-04-21-05 decisions[] and queued as todo-0058; this session drafts the amendment at Rung 1 under canon-cc-027 and names the downstream rung trail. A new top-level section §Seated Companion Instances was inserted between §Institutional Seats and §Summary, carrying three H2 subsections with full role-tables (Builder-Lyra: 4 modes — seated-persona none · Province-spec-authoring subagent · committee-delegate subagent · in-session-Weaver-voice skill; Governor-Maren: 3 modes — QA-round-jurisdictional-audit subagent · committee-delegate subagent · in-session-Care-smell-check skill; Governor-Kael: 3 modes — QA-round-jurisdictional-audit subagent · committee-delegate subagent · in-session-Intelligence-smell-check skill). Each subsection closes with a Binding-chain-state notebox naming the cc-027 rung assignments, synergy pairs, and (for Kael) the PERSONA_REGISTRY reassignment-trigger flag relocated into the spec-body preamble citation to keep cc-013 clean. A second summary table — Seated Instance subtotals (10 modes · 6 subagent · 3 skill · 1 non-primitive) — was added beneath the existing role-level Summary TOTALS, with the existing TOTALS left untouched and a Reading-the-table note clarifying that role-level and instance-level counts do not re-sum. References block extended to add cc-008 and cc-025 to the existing-canons list, add a seated-instance spec-bodies line (six file paths), and add a seated-instance companion-profiles line naming todo-0059's Consul surface. Meta-table dependencies extended from cc-022 + cc-023 to cc-022 + cc-023 + cc-026 + cc-027 to reflect the seated-instance registration shape.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "Registration shape: instance-level bindings enumerated as subsections under a new top-level §Seated Companion Instances, additive to (not replacing) the existing §Ladder Rungs and §Institutional Seats role-level declarations. Each subsection carries its own role-table (five-column Mode · Trigger · Produces · Binding · Rationale) and a Binding-chain-state notebox. Role-level Summary TOTALS left untouched to preserve their role-level meaning; a parallel INSTANCE SUBTOTALS table added beneath to enumerate the seated-Companion counts separately.",
+            "Lyra registered as four-mode (not three): the role-level §Builder's _seated persona_ mode at binding `none` is inherited by Lyra (Province-seated Builder of SproutLab; the session-is-the-Builder shape pre-dates any subagent or skill primitive invocation), and the three primitive-invoked modes from her paired spec bodies add on top — _Province spec authoring_ (subagent, per docs/specs/subagents/lyra.md Mode 1), _committee delegate_ (subagent, per Mode 2), and _in-session Weaver voice_ (skill, per docs/specs/skills/lyra.md). Summary row: 4 modes · 2 subagent · 1 skill · 1 none.",
+            "Maren and Kael each registered as three-mode, no _seated persona_ row: canon-gov-002 review-only discipline forbids build-time Governor activation, so the Governors carry no non-primitive session-is-the-Governor mode. The three modes are _QA-round jurisdictional audit_ (subagent), _committee delegate_ (subagent), and the in-session smell-check skill (_Care smell-check_ for Maren, _Intelligence smell-check_ for Kael). Each Summary row: 3 modes · 2 subagent · 1 skill · 0 none.",
+            "cc-027 rung trail chronicled in each Binding-chain-state notebox: Rung 1 authored by Aurelius this session (Chronicler draft committed to branch claude/register-invocation-modes-4o5qp). Rung 2 for Builder-Lyra falls to Cipher as Cluster A Censor (standard §Censor-Self-Review-Case non-applicability — Lyra is not a Censor). Rung 2 for Governor-Maren falls to Kael, and Rung 2 for Governor-Kael falls to Maren, under the cross-Governor peer-review clause named in the paired Maren/Kael spec-body preambles (canon-gov-002 forbids Governor self-review, applied by analogy to canon-cc-027 §Censor-Self-Review-Case). Rung 3 for all three routes through the Consul under canon-cc-014 bridging pending canon-cc-019 Post Box ratification. Rung 4 Sovereign canonical ratification terminates governance. Rung 5 deploy of the amended Typst source commits from Codex canonical; no per-Province mirror applies — the registry is Codex-only under canon-cc-026 §Cross-Province-Layout (it is not a per-Province deployable).",
+            "cc-013 source-first discipline exercised on every References-block citation: canon-cc-022 / cc-023 / cc-025 / cc-026 / cc-027 resolve in data/canons.json (slots 1404/1427/1466/1486/1506); canon-cc-008 resolves at slot 1111; canon-gov-002 / canon-gov-003 at slots 852/868. cc-009 / cc-012 / cc-014 / cc-017 / cc-018 / Edict I / Edict II / lore-sync-003 retained from the pre-amendment References block and verified live. Seated-instance spec bodies verified on disk (six files across docs/specs/subagents/ and docs/specs/skills/ matching the naming under cc-026). Companion profiles verified at data/companions.json lines 1623 (lyra), 2064 (maren), 2477 (kael). One citation loosened to preserve cc-013 cleanliness: the Kael reassignment-trigger note originally cited PERSONA_REGISTRY.md §Persona Reassignment Process directly, but PERSONA_REGISTRY.md lives in the sproutlab Province and does not resolve in this Codex-only registry — rewritten to cite the paired Kael spec-body preamble (`docs/specs/subagents/kael.md`) where the reassignment note is canon-verbatim.",
+            "Guardrails honored: no amendment to root CLAUDE.md (canon-pers-001 excludes the Chronicler from Rung 1 on Codex's own Persona Briefing — that surface belongs to Orinth under the 22 Apr 2026 Sovereign-override reconciliation already in-flight); no amendment to data/companions.json profile blocks (todo-0059's Consul surface; Chronicler-excluded per canon-cc-012 drafting discipline); no amendment to the paired spec bodies themselves (those are at cc-026-canonical v1.0 with byte-identity mirrors already landed in sproutlab#1).",
+            "Canon-cc-026 placement rule honored: the Invocation Modes Registry is a Codex-only spec (not per-Province-deployable), so Rung 5 deploy is the git-commit-to-branch step rather than a .claude/ mirror. The three subsection entries exist in canonical form only in docs/specs/persona-binding/invocation-modes-registry.typ and do not need byte-identity mirrors.",
+            "Summary subtotals arithmetic check: Builder-Lyra (4 modes = 2 subagent + 1 skill + 1 none) + Governor-Maren (3 = 2 + 1 + 0) + Governor-Kael (3 = 2 + 1 + 0) = 10 modes · 6 subagent · 3 skill · 1 none. Matches the INSTANCE SUBTOTALS row. Role-level TOTALS (18 · 13 · 4 · 1) unchanged.",
+            "todo-0058 resolved at Rung 1 closure: the task prompt's done-criteria (registry carries all three subsections; References resolve clean; journal logs the rung trail; WAL pushed) are satisfied at Rung 1 of the cc-027 chain. Downstream rungs 2–5 are chronicled as chain state in the Binding-chain-state noteboxes and will run in subsequent sessions by the named actors (Cipher / Maren+Kael cross-peer / Consul / Sovereign / Province-Builder-equivalent commit). Closure of todo-0058 does not close the cc-027 chain; the chain closure is a downstream milestone owed to the Sovereign's Rung 4 ratification."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": null,
+          "open_todos": [
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0045-non-cc-province-deploys",
+            "todo-0046-right-hand-scope-canon-draft",
+            "todo-0026-cluster-persona-subagents",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven",
+            "todo-0059-companions-json-profile-blocks-lyra-maren-kael-paired-specs",
+            "todo-0061-sproutlab-side-byte-identity-verification",
+            "todo-0062-companion-set-volume-question",
+            "todo-0063-canon-proc-004-applicability-question-companion-set"
+          ],
+          "new_todos": [],
+          "resolved_todos": [
+            "todo-0058-invocation-modes-registry-amendment-lyra-maren-kael (Rung 1 of the cc-027 chain drafted and committed; Rungs 2–5 chronicled as chain state in the amended Typst source — Cipher Rung 2 on Builder-Lyra, cross-Governor Rung 2 on Maren/Kael, Consul Rung 3 under cc-014 bridging, Sovereign Rung 4, commit-to-canonical Rung 5. Closure scope is the Chronicler's drafting responsibility; downstream rung execution is owed to the named actors in subsequent sessions.)"
+          ],
+          "handoff": "cc-027 Rung 1 draft for Invocation Modes Registry §Seated Companion Instances landed on branch claude/register-invocation-modes-4o5qp. Rung 2 actions owed: (a) Cipher as Cluster A Censor runs architectural pass on §Builder-Lyra — composition against Lyra's voice, preservation of the four-mode enumeration, no drift between canonical spec and profile-chronicled voice; (b) Kael runs cross-Governor peer-review on §Governor-Maren; (c) Maren runs cross-Governor peer-review on §Governor-Kael. Rung 3 Consul working-ratifies all three subsections per-block under canon-cc-014; provisional bridging mode per canon-cc-019's pending ratification. Rung 4 Sovereign canonical ratification via Praetorium queue (bridging mode = direct Sovereign audience). Rung 5 commit of the ratified Typst source as the canonical registry form. Draft PR opened against main for Rung 2 visibility. Secondary next-session candidates unchanged from s-2026-04-21-05's handoff: todo-0059 (Consul amends Lyra/Maren/Kael profile blocks in data/companions.json); todo-0061 (sproutlab-side byte-identity spot-verification); todo-0062 (Companion-Set volume question); todo-0063 (canon-proc-004 applicability to Companion-Set six-file ratification). Post Box cold-review of this drafting session is owed once canon-cc-019 ratifies — Chronicler-authored spec-body amendment at registry altitude carries the same Consul-Chronicler dual-hat interim named in s-2026-04-21-05. No mid-session mode addition was attempted (canon-cc-023 §E forbids it); the registration operation is a registry-level amendment of existing modes cited in already-ratified spec bodies, not a net-new mode declaration.",
+          "screenshots": [],
+          "tags": [
+            "todo-0058-resolved",
+            "invocation-modes-registry-seated-instances",
+            "builder-lyra-registered",
+            "governor-maren-registered",
+            "governor-kael-registered",
+            "cc-027-rung-1-drafted",
+            "cc-027-rung-2-cipher-queued",
+            "cc-027-rung-2-cross-governor-queued",
+            "cc-027-rung-3-consul-queued",
+            "cc-027-rung-4-sovereign-queued",
+            "cc-014-bridging-interim",
+            "cc-013-source-first-exercised",
+            "persona-registry-citation-loosened",
+            "canon-pers-001-honored",
+            "canon-cc-012-honored-no-profile-edit",
+            "branch-claude-register-invocation-modes-4o5qp",
+            "draft-pr-opened"
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-04-21",
       "sessions": [
         {
