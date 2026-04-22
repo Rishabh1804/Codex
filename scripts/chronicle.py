@@ -41,7 +41,28 @@ EXAMPLE_SNIPPETS = [
     SNIPPETS_DIR / "snippet-2026-04-22-constitution-v1.1-publication.json",
 ]
 
-MODEL = "claude-opus-4-7"
+MODEL_CONFIGS: dict[str, dict] = {
+    # Strategic chronicles — full institutional depth, highest cost.
+    "opus": {
+        "model": "claude-opus-4-7",
+        "thinking": {"type": "adaptive"},
+        "output_config": {"effort": "high"},
+    },
+    # Routine chronicles — 3x cheaper, same adaptive thinking, ~95% quality.
+    "sonnet": {
+        "model": "claude-sonnet-4-6",
+        "thinking": {"type": "adaptive"},
+        "output_config": {"effort": "high"},
+    },
+    # Quick/mechanical chronicles — 5x cheaper than Opus. Haiku 4.5 rejects
+    # the `effort` parameter and doesn't support adaptive thinking; omit both.
+    "haiku": {
+        "model": "claude-haiku-4-5",
+        "thinking": {"type": "disabled"},
+    },
+}
+DEFAULT_MODEL = "opus"
+
 _SLUG_RE = re.compile(r"[^a-z0-9]+")
 
 
@@ -146,14 +167,22 @@ def _extract_json(text: str) -> str:
 
 
 def chronicle(
-    transcript: str, date_str: str, *, include_canons: bool = False
-) -> tuple[dict, object]:
+    transcript: str,
+    date_str: str,
+    *,
+    include_canons: bool = False,
+    model_alias: str = DEFAULT_MODEL,
+) -> tuple[dict, object, str]:
+    if model_alias not in MODEL_CONFIGS:
+        raise ValueError(
+            f"unknown model alias {model_alias!r}; "
+            f"choose from {sorted(MODEL_CONFIGS)}"
+        )
+    config = MODEL_CONFIGS[model_alias]
+
     client = Anthropic()
     response = client.messages.create(
-        model=MODEL,
         max_tokens=16000,
-        thinking={"type": "adaptive"},
-        output_config={"effort": "high"},
         system=_build_system_prefix(include_canons=include_canons),
         messages=[
             {
@@ -168,6 +197,7 @@ def chronicle(
                 ),
             }
         ],
+        **config,
     )
 
     text = "".join(
@@ -187,7 +217,7 @@ def chronicle(
             + json.dumps(data, indent=2)[:500]
         )
 
-    return data, response.usage
+    return data, response.usage, config["model"]
 
 
 def _default_slug(snippet: dict) -> str:
@@ -233,6 +263,18 @@ def main() -> int:
             "for richer canon cross-referencing on Tier 2+."
         ),
     )
+    parser.add_argument(
+        "--model",
+        choices=sorted(MODEL_CONFIGS),
+        default=DEFAULT_MODEL,
+        help=(
+            "Which model tier to use. "
+            "opus = Claude Opus 4.7 (strategic, full depth, highest cost). "
+            "sonnet = Claude Sonnet 4.6 (~3x cheaper than opus, adaptive thinking). "
+            "haiku = Claude Haiku 4.5 (~5x cheaper, no thinking — use for "
+            "routine/mechanical chronicles). Default: opus."
+        ),
+    )
     args = parser.parse_args()
 
     transcript_path = pathlib.Path(args.transcript)
@@ -240,14 +282,15 @@ def main() -> int:
         print(f"error: transcript not found: {transcript_path}", file=sys.stderr)
         return 1
 
-    snippet, usage = chronicle(
+    snippet, usage, model_id = chronicle(
         transcript_path.read_text(encoding="utf-8"),
         args.date,
         include_canons=args.with_canons,
+        model_alias=args.model,
     )
 
     print(
-        "tokens: "
+        f"model: {model_id}  tokens: "
         f"input={usage.input_tokens} "
         f"cache_read={usage.cache_read_input_tokens} "
         f"cache_creation={usage.cache_creation_input_tokens} "
