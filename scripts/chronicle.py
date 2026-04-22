@@ -51,10 +51,10 @@ def _slugify(text: str, max_len: int = 60) -> str:
 
 
 def _build_system_prefix() -> list[dict]:
-    claude_md = CLAUDE_MD.read_text()
-    canons = CANONS_JSON.read_text()
+    claude_md = CLAUDE_MD.read_text(encoding="utf-8")
+    canons = CANONS_JSON.read_text(encoding="utf-8")
     examples = "\n\n".join(
-        f"### {p.name}\n\n{p.read_text()}"
+        f"### {p.name}\n\n{p.read_text(encoding='utf-8')}"
         for p in EXAMPLE_SNIPPETS
         if p.exists()
     )
@@ -223,7 +223,9 @@ def main() -> int:
         print(f"error: transcript not found: {transcript_path}", file=sys.stderr)
         return 1
 
-    snippet, usage = chronicle(transcript_path.read_text(), args.date)
+    snippet, usage = chronicle(
+        transcript_path.read_text(encoding="utf-8"), args.date
+    )
 
     print(
         "tokens: "
@@ -244,7 +246,8 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"snippet-{args.date}-{slug}.json"
     out_path.write_text(
-        json.dumps(snippet, indent=2, ensure_ascii=False) + "\n"
+        json.dumps(snippet, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
     )
     print(f"wrote {out_path}")
     return 0
