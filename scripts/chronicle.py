@@ -50,13 +50,20 @@ def _slugify(text: str, max_len: int = 60) -> str:
     return slug[:max_len].rstrip("-") or "session"
 
 
-def _build_system_prefix() -> list[dict]:
+def _build_system_prefix(include_canons: bool = False) -> list[dict]:
     claude_md = CLAUDE_MD.read_text(encoding="utf-8")
-    canons = CANONS_JSON.read_text(encoding="utf-8")
     examples = "\n\n".join(
         f"### {p.name}\n\n{p.read_text(encoding='utf-8')}"
         for p in EXAMPLE_SNIPPETS
         if p.exists()
+    )
+    canons_section = (
+        "## data/canons.json (current canon ledger)\n\n"
+        f"{CANONS_JSON.read_text(encoding='utf-8')}\n\n"
+        if include_canons
+        else "## Canon ledger\n\nNot loaded in this run. Cross-reference canons "
+        "by id only when you are certain from CLAUDE.md or the example snippets; "
+        "otherwise leave the references array empty for the human reviewer.\n\n"
     )
 
     role = """\
@@ -113,8 +120,7 @@ chronicle of what happened and why it matters. Not bullet points.
     prefix = (
         "## CLAUDE.md (Codex project instructions)\n\n"
         f"{claude_md}\n\n"
-        "## data/canons.json (current canon ledger)\n\n"
-        f"{canons}\n\n"
+        f"{canons_section}"
         "## Example snippets (shape reference)\n\n"
         f"{examples}\n\n"
         "## Your role\n\n"
@@ -139,14 +145,16 @@ def _extract_json(text: str) -> str:
     return text
 
 
-def chronicle(transcript: str, date_str: str) -> tuple[dict, object]:
+def chronicle(
+    transcript: str, date_str: str, *, include_canons: bool = False
+) -> tuple[dict, object]:
     client = Anthropic()
     response = client.messages.create(
         model=MODEL,
         max_tokens=16000,
         thinking={"type": "adaptive"},
         output_config={"effort": "high"},
-        system=_build_system_prefix(),
+        system=_build_system_prefix(include_canons=include_canons),
         messages=[
             {
                 "role": "user",
@@ -216,6 +224,15 @@ def main() -> int:
         action="store_true",
         help="Print the snippet to stdout instead of writing a file.",
     )
+    parser.add_argument(
+        "--with-canons",
+        action="store_true",
+        help=(
+            "Include the full data/canons.json in the cached prefix "
+            "(~120K tokens). Off by default to fit lower API tiers; turn on "
+            "for richer canon cross-referencing on Tier 2+."
+        ),
+    )
     args = parser.parse_args()
 
     transcript_path = pathlib.Path(args.transcript)
@@ -224,7 +241,9 @@ def main() -> int:
         return 1
 
     snippet, usage = chronicle(
-        transcript_path.read_text(encoding="utf-8"), args.date
+        transcript_path.read_text(encoding="utf-8"),
+        args.date,
+        include_canons=args.with_canons,
     )
 
     print(
