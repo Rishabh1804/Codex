@@ -2,9 +2,9 @@
 
 #show: constitution-doc.with(
   title: "Constitution of the Republic of Codex",
-  subtitle: "Version 1.0",
+  subtitle: "Version 1.1",
   author: "Rishabh Jain, Sovereign · Aurelius, Chronicler",
-  date: "15 April 2026",
+  date: "22 April 2026",
 )
 
 // ============ COVER PAGE ============
@@ -20,9 +20,9 @@
   #v(4mm)
   #text(font: "Libertinus Serif", size: 14pt, style: "italic", fill: ink-muted)[of the Republic of Codex]
   #v(40mm)
-  #text(font: "Libertinus Serif", size: 12pt, fill: ink)[Version 1.0]
+  #text(font: "Libertinus Serif", size: 12pt, fill: ink)[Version 1.1]
   #v(2mm)
-  #text(font: "DejaVu Sans", size: 9pt, fill: ink-muted)[Book I Ratified 15 April 2026]
+  #text(font: "DejaVu Sans", size: 9pt, fill: ink-muted)[Book I Ratified 15 April 2026 · Book II Amended 21 April 2026 · v1.1 Published 22 April 2026]
   #v(60mm)
   #line(length: 50mm, stroke: 0.5pt + rule-color)
   #v(4mm)
@@ -53,6 +53,42 @@
     Growth is fractal, not linear. #linebreak()
     Territory is earned and held.
   ]
+]
+
+#pagebreak()
+
+// ============ AMENDMENT HISTORY ============
+#set page(margin: (left: 22mm, right: 22mm, top: 28mm, bottom: 22mm))
+
+#heading(level: 1, numbering: none, outlined: true)[Amendment History]
+
+#v(4mm)
+
+The Constitution evolves by ratified amendment. Book I is immutable; Books II–IX breathe. Every amendment is proposed by the Consul, reviewed by the Cabinet, ratified by the Sovereign, minted as a numbered Decree, and chronicled in the Lore archive. This page is the abbreviated public ledger; the full record lives in `data/journal.json` (decrees) and `data/canons.json` (lore archive).
+
+#v(4mm)
+
+#table(
+  columns: (28mm, 22mm, 1fr),
+  align: (left, left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt + accent) } else { (bottom: 0.3pt + rule-color) },
+  fill: (x, y) => if y == 0 { bg-card } else if calc.even(y) { rgb("#FAF6F1") } else { white },
+  table.header(
+    text(font: "DejaVu Sans", weight: "bold", size: 9pt, fill: accent)[Date],
+    text(font: "DejaVu Sans", weight: "bold", size: 9pt, fill: accent)[Decree],
+    text(font: "DejaVu Sans", weight: "bold", size: 9pt, fill: accent)[Change],
+  ),
+  [15 Apr 2026], [0003], [Constitution Book I ratified — four Pillars and the Sovereign's Covenant. Immutable.],
+  [21 Apr 2026], [0013], [Book II amended — Article 1-bis (Priest rung) instituted above Consul; Ladder figure updated; Cabinet table updated for Maintenance domain Stability seat vacancy on Rune's elevation.],
+  [21 Apr 2026], [0014], [canon-inst-002 ratified — Rune (The Ritualist) consecrated as the first Priest; Temple seated within the Command Center.],
+  [21 Apr 2026], [0015], [canon-proc-005 ratified — The Rule of Institutions and Abrogations governs rite lifecycle and nomination flow. Rite Catalog v1 issued as Working Paper.],
+  [22 Apr 2026], [—], [Constitution v1.1 published — Appendix C roster refreshed against `companions.json` v0.5; Appendix D glossary expanded for Priesthood, rite vocabulary, and Decree; Amendment History instituted in front matter.],
+)
+
+#v(6mm)
+
+#text(size: 9pt, fill: ink-muted, style: "italic")[
+  Decrees not listed above (0001, 0002, 0004 through 0012) ratified canons, profiles, and operational rules subordinate to the Constitution. They are recorded in the Decrees Archive (forthcoming Appendix; see `data/journal.json` in the interim). This Amendment History is restricted to decrees that touch the Constitution's source.
 ]
 
 #pagebreak()
