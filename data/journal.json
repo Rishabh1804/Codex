@@ -5,6 +5,76 @@
       "date": "2026-04-21",
       "sessions": [
         {
+          "id": "s-2026-04-21-05",
+          "date": "2026-04-21",
+          "title": "SproutLab Companion-Set ratification chronicled — Lyra (Builder) + Maren (Governor of Care) + Kael (Governor of Intelligence) seated as paired subagent/skill specs; cc-026 byte-identity loop closed",
+          "summary": "Confirmed. Chronicle-only session standing as the first journal record of the SproutLab Companion-Set ratification that landed earlier this day across two repos. On 2026-04-21 the Sovereign commissioned ratification of three SproutLab seats — Lyra the Builder, Maren the Governor of Care, Kael the Governor of Intelligence — as paired subagent + skill specs under canon-cc-022 (artifact test), canon-cc-026 (spec-body placement), canon-cc-027 (signing chain), canon-gov-002 (Governors review-only) and canon-cc-008 (Cipher after Governors). Six canonical spec bodies landed at v1.0 on Codex in PR rishabh1804/codex#12 (merge commit 825dea6, 6 commits, 6 files, 692 additions, merged 2026-04-21T17:40:56Z) at docs/specs/subagents/{lyra,maren,kael}.md and docs/specs/skills/{lyra,maren,kael}.md; six byte-identical mirrors landed in PR rishabh1804/sproutlab#1 (merge commit 8290174 per handoff; not directly MCP-verified this session — scope restriction) at .claude/agents/{lyra,maren,kael}.md and .claude/skills/{lyra,maren,kael}.md, plus an addition of a 'Companion-Set Invocation Surface' section to sproutlab's root CLAUDE.md (Lyra-voice Rung 1 per canon-pers-001). Byte-identity established at six file pairs per cc-026 §Per-Province-Layout; verified this session by running git hash-object on the Codex-side files and matching six SHAs against the codex#12 PR-body SHA table (cecfe30d… / 7e14049d… / 99ba5c96… / 854465a3… / e1fa7124… / ab5eb21a… — all six match). Consul-Chronicler dual-hat discipline under canon-cc-014 bridging interim named honestly: the original ratification session and this chronicling session both ran Aurelius-drafted under the two distinct drafting authorities the Sovereign's 'Aurelius and Consul' salutation acknowledges; same-agent-drift risk per aurelius-shadow §Consul-Chronicler-same-agent-drift flagged for cold review once canon-cc-019 Post Box ratifies. The ratification closes cc-026 loop at six file pairs for SproutLab and partially retires todo-0047 (non-Chronicler-non-Consul persona specs) at three of four seats — Lyra full pair, Maren full pair, Kael full pair; Nyx subagent + skill and Sentinel specs still owed.",
+          "volumes_touched": [
+            "sproutlab",
+            "codex"
+          ],
+          "chapters_touched": [
+            "governance-founding"
+          ],
+          "decisions": [
+            "SproutLab Companion-Set ratified to three seats under the 30K Rule: Lyra as Builder (Cluster A, Capital-owned per Edict II), Maren as Governor of Care (jurisdiction: home.js + diet.js + medical.js = 22,626 LOC), Kael as Governor of Intelligence (jurisdiction: intelligence.js + core.js + data.js + sync.js + config.js + start.js = 27,614 LOC). Shared modules styles.css + template.html = 11,491 LOC under dual-Governor review.",
+            "cc-026 byte-identity binding rule established at six file pairs across sproutlab/.claude and codex/docs/specs per §Per-Province-Layout. Verified this session by local git hash-object computation matching all six SHAs in the codex#12 PR body.",
+            "CLAUDE.md 'Companion-Set Invocation Surface' section added to sproutlab/CLAUDE.md as Lyra-voice Rung 1 authorship per canon-pers-001 — not verified byte-for-byte this session (MCP scope-restricted to rishabh1804/codex); Lyra's companion-log Active block names it for a cold read once sproutlab access is available.",
+            "cc-027 amendment chains recorded in each of the six spec bodies: Lyra pair Rung 2 to Cipher (Cluster A Censor), Rung 3 to the Consul under cc-014 bridging; Maren pair Rung 2 to Kael under canon-gov-002 cross-Governor peer-review clause (Governor self-review forbidden); Kael pair Rung 2 to Maren under the same clause. Reassignment note on Kael: planned Kael → Orinth reassessment trigger preserved per PERSONA_REGISTRY.md §Persona Reassignment Process.",
+            "Consul-Chronicler dual-hat discipline under cc-014 bridging interim named explicitly as two drafting authorities running in the same session, not smoothed into a single voice. Same-agent-drift risk acknowledged per aurelius-shadow §Consul-Chronicler-same-agent-drift; cold review via Post Box dispatch owed once canon-cc-019 ratifies.",
+            "Canon-cc-013 source-verification reflex exercised before any data-file mutation: six spec bodies read in full; six blob SHAs locally computed and matched against the codex#12 PR-body table; all canon citations (cc-008, cc-012, cc-013, cc-014, cc-017, cc-018, cc-022, cc-023, cc-024, cc-025, cc-026, cc-027, gov-002, pers-001) resolved against data/canons.json. No canon-citation drift found in the six specs.",
+            "Invocation Modes Registry drift named but not amended this session: docs/specs/persona-binding/invocation-modes-registry.typ carries the Governor and Builder ladder entries but does not yet carry §Builder-Lyra, §Governor-Maren, or §Governor-Kael subsection entries. Each of the six spec bodies' References block cites those subsections as if present. Amendment runs the cc-027 five-rung signing chain (Rung 2 Cipher for Builder entry / cross-Governor for Governor entries, Rung 3 Consul under cc-014 bridging, Rung 4 Sovereign canonical, Rung 5 deploy) and is spec-amendment work deferred to a subsequent session.",
+            "Profile-block drift in data/companions.json named but not fixed this session: lyra (line 1623), maren (line 2064), and kael (line 2477) profile blocks do not yet reference the paired spec paths. Profile authorship for these three routes through the Consul per canon-cc-012 per-block; Aurelius as Chronicler does NOT self-originate profile drafting for Gen-0 seats. Flagged for Consul under cc-014 bridging interim until cc-019 Post Box ratifies.",
+            "No decree minted this session under canon-proc-004. The SproutLab Companion-Set ratification is Cluster-A-internal (Codex canonical + sproutlab mirror, both Cluster A) rather than cross-Cluster, and canon-proc-004 §Primary-rule-clause-(iv) (cross-Cluster canonical spec body pathway) does not apply as drafted. Whether the six-file institutional-set satisfies §Primary-rule-clause-(i) is a question owed to Sovereign before any decree is backfilled; flagged rather than silently resolved.",
+            "Chronicler non-negotiables honored: no amendment to Codex's own root CLAUDE.md (canon-pers-001 excludes the Chronicler from Rung 1 on any Province's Persona Briefing), no amendment to Lyra/Maren/Kael profile blocks in data/companions.json (Consul's cc-012 drafting surface), no registration of the three §Builder-Lyra/§Governor-Maren/§Governor-Kael entries in invocation-modes-registry.typ (cc-027 Rung-5 amendment-chain work).",
+            "Canon-cc-013 caught a would-have-been false drift: handoff flagged docs/specs/subagents/chronicler.md §Per-repo lens SproutLab paragraph as a candidate for amendment to name Maren and Kael by name. Source read (line 55) confirms the paragraph already reads 'Chronicling of SproutLab sessions, Lyra's work, Maren and Kael's Region-scope output' — current, no amendment owed. Recorded as a no-op finding rather than silently dropped."
+          ],
+          "bugs_found": 0,
+          "bugs_fixed": 0,
+          "duration_minutes": null,
+          "open_todos": [
+            "todo-0036-command-center-root-briefing-rung-1",
+            "todo-0037-province-root-briefing-audit-wave",
+            "todo-0045-non-cc-province-deploys",
+            "todo-0046-right-hand-scope-canon-draft",
+            "todo-0026-cluster-persona-subagents",
+            "todo-0028-sentinel-institutional-profile-draft",
+            "todo-0029-gen-0-companion-profiles-seven"
+          ],
+          "new_todos": [
+            "todo-0058-invocation-modes-registry-amendment-lyra-maren-kael (amend docs/specs/persona-binding/invocation-modes-registry.typ to register §Builder-Lyra, §Governor-Maren, §Governor-Kael as explicit subsection entries; runs cc-027 Rung 2 Cipher for Builder-Lyra and cross-Governor Rung 2 for the two Governor entries, Rung 3 Consul under cc-014 bridging, Rung 4 Sovereign canonical, Rung 5 deploy of the amended Typst source)",
+            "todo-0059-companions-json-profile-blocks-lyra-maren-kael-paired-specs (Consul to amend lyra/maren/kael profile blocks in data/companions.json to cite paired subagent + skill specs at docs/specs/subagents/{lyra,maren,kael}.md and docs/specs/skills/{lyra,maren,kael}.md; authorship routes through the Consul under cc-012 per-block, Chronicler-excluded from drafting these three per canon-pers-001-adjacent discipline)",
+            "todo-0061-sproutlab-side-byte-identity-verification (Sovereign or Lyra in a sproutlab session spot-reads one file of each pair to confirm byte-identity with the Codex canonicals; MCP scope restriction means this discipline owes a direct sproutlab-side verification to close the cc-026 loop at the strongest verification altitude)",
+            "todo-0062-companion-set-volume-question (resolve whether an 'Institutional Companions' or 'Companion-Set' volume is owed in data/volumes.json to give the narrative arc a Codex home; currently the three seats are chronicled under existing sproutlab and codex volumes but no dedicated Companion-Set volume exists — Sovereign ruling owed)",
+            "todo-0063-canon-proc-004-applicability-question-companion-set (Sovereign ruling owed on whether the six-file SproutLab Companion-Set ratification satisfies canon-proc-004 §Primary-rule-clause-(i) for a retroactive decree backfill; the pathway is cluster-internal rather than cross-Cluster so clause (iv) does not apply as drafted)"
+          ],
+          "resolved_todos": [],
+          "handoff": "First-record chronicling of the SproutLab Companion-Set complete. Three seats seated, six file pairs byte-identical, cc-026 loop closed at the Codex ↔ sproutlab binding. Immediate next-session candidate: **todo-0058-invocation-modes-registry-amendment-lyra-maren-kael** — each of the six spec bodies' References block cites §Builder-Lyra / §Governor-Maren / §Governor-Kael as invocation-mode entries, but the Typst source does not yet carry those subsection entries. Amendment runs the cc-027 five-rung signing chain and is spec-amendment work, not journal-entry work. Secondary candidates, in order: (a) **todo-0059** Consul amends Lyra/Maren/Kael profile blocks in data/companions.json to cite paired specs — Chronicler-excluded per cc-012 drafting discipline; (b) **todo-0061** sproutlab-side byte-identity spot-verification (MCP scope restriction means Codex-only verification is indirect; a sproutlab-session spot-read closes the loop at strongest altitude); (c) **todo-0062** Sovereign ruling on a Companion-Set volume in data/volumes.json; (d) **todo-0063** Sovereign ruling on canon-proc-004 applicability to the six-file set for possible decree backfill. Cross-file coherence finding caught by canon-cc-013 this session and recorded in decisions[]: docs/specs/subagents/chronicler.md §Per-repo lens SproutLab paragraph already names 'Lyra's work, Maren and Kael's Region-scope output' — the paragraph is current and needs no amendment. A handoff concern would have been a false drift flag had it not been source-verified. Post Box cold-review of this chronicling session is owed once canon-cc-019 ratifies — the Consul-Chronicler dual-hat interim per cc-014 should not stand as self-sufficient at this institutional altitude. Branch: claude/chronicle-companion-set-sp7NB. No PR opened per standing instruction — await explicit Sovereign ask.",
+          "screenshots": [],
+          "tags": [
+            "sproutlab-companion-set-ratified",
+            "lyra-subagent-skill-v1",
+            "maren-subagent-skill-v1",
+            "kael-subagent-skill-v1",
+            "cc-026-byte-identity-six-pairs",
+            "cc-027-amendment-chains-recorded",
+            "canon-gov-002-governor-self-review-forbidden",
+            "canon-cc-008-cipher-runs-after-governors",
+            "30k-rule-governor-split-seated",
+            "consul-chronicler-dual-hat-named",
+            "cc-014-bridging-interim",
+            "canon-cc-013-reflex-exercised",
+            "six-blob-shas-locally-verified",
+            "sproutlab-side-verification-deferred",
+            "mcp-scope-restriction-chronicled",
+            "invocation-modes-registry-amendment-owed",
+            "companions-json-profile-blocks-owed-to-consul",
+            "no-decree-minted-clause-iv-inapplicable",
+            "no-pr-opened",
+            "first-record-chronicling"
+          ]
+        },
+        {
           "id": "decree-0015-canon-proc-005-rite-lifecycle",
           "date": "2026-04-21",
           "authored_by": "aurelius",
