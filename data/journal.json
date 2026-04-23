@@ -2,6 +2,20 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-04-23",
+      "sessions": [
+        {
+          "id": "decree-0004-basilica-and-priest",
+          "date": "2026-04-23",
+          "authored_by": "aurelius",
+          "province_of_origin": "command-center",
+          "ratified_by": "sovereign",
+          "ratification_mode": "direct Sovereign ratification in-session",
+          "summary": "Fourth decree from the Capital. Three constitutional moves, filed together because they are a single constitutional frame. First: the Basilica is established as the Capital's operational hall; the five Provinces each hold an embassy within it, each embassy carrying its Province's own stylistic register. The Gates and the Visiting Chambers are retired — their functions swallowed into the embassy pattern. Second: Codex's embassy holds the Republic's running books (Constitution, Book of Law, working papers); the Archives, as a Capital room, narrow to lore and chronicles only. Third: the office of the Priest is formalized and seated with Rune, who already carries the Ritualist archetype; each embassy selects a Rite from the Twelve (as recorded in Codex) as its standing civic ritual. Implementation follows in subsequent Builder sessions; this decree is the frame."
+        }
+      ]
+    },
+    {
       "date": "2026-04-22",
       "sessions": [
         {
