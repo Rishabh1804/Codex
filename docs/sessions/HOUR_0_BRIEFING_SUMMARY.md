@@ -106,7 +106,7 @@ War Time has been declared under Book VI, Article 2(c) + (d) — Scope Pivot + V
 ## Technical Context (per province)
 
 ### SproutLab
-- 8-module single-file PWA (8,850 LOC)
+- 8-module single-file PWA (139,171 LOC (split modules) / 61,948 LOC (compiled))
 - Cloud-primary Firestore sync, real-time listeners
 - 19/34 fields syncing (by design)
 - Known Limitation (KL-1): Concurrent-writes-during-debounce — documented, reconcile spec pending (OUT OF SCOPE)

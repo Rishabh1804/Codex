@@ -21,7 +21,7 @@
 ### 🔴 SproutLab
 - **Lead:** Lyra
 - **Type:** PWA Sync Visibility
-- **Size:** 8,850 LOC
+- **Size:** 139,171 LOC (split modules) / 61,948 LOC (compiled)
 - **Status:** Pending
 
 **Phases:**
