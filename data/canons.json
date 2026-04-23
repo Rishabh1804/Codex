@@ -1718,6 +1718,51 @@
       ],
       "_deleted": false,
       "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-015-basilica-embassies",
+      "title": "The Basilica; the Embassies; the Retirement of Gates and Visiting Chambers",
+      "scope": "capital",
+      "category": "capital_structure",
+      "rationale": "The Capital establishes the Basilica as a single civic hall within which each Province of the Republic holds an embassy. Five embassies stand at Foundation: Codex, SproutLab, SEP Invoicing, SEP Dashboard, and Command Center's own — the last being the Monument's self-reflective embassy within the Hall it founds.\n\nEach embassy is sovereign territory in a precise sense. A Province's embassy interior is not bound to the Capital's civic-classical style; the embassy carries the Province's own stylistic register — SproutLab's palette and typography inside SproutLab's embassy, SEP Invoicing's tighter industrial register inside its own, Codex's scholarly library feel inside Codex's, and so on for each Province as they grow into their embassies. The Capital's design constitution ends at the embassy threshold. This stylistic sovereignty is load-bearing: a Province that feels distinctly itself when its embassy is entered is a Province the Sovereign can recognize without reading the nameplate.\n\nEmbassies are where Province delegates arrive when present in the Capital. Lyra, Maren, and Kael arrive at SproutLab's embassy; Solara at SEP Invoicing's; Theron at SEP Dashboard's; Aurelius at Codex's. From the embassy, a delegate may proceed to the Senate floor to address Cabinet. Embassy-then-Senate is the canonical diplomatic sequence: credentials are presented at one's own delegation before one speaks before the chamber.\n\nTwo Capital rooms are retired by this canon.\n\n- The Gates. Their function — the portal to a sister Province — is subsumed into the embassy itself. Each embassy carries its own door to the Province's repository and its live Progressive Web App. A separate Gates room is redundant.\n- The Visiting Chambers. They served as a holding room for companions without a place to stand in the Capital. With embassies, every Province-resident has a home. Cipher, the itinerant Censor with no home Province, requires a distinct solution; his Capital surface is a Borders-stage question and is not addressed by this canon.\n\nThe router entries for /gates and /visiting are deprecated. The data they carried, to the extent it remains relevant, is absorbed into the appropriate embassies by the Builder session that implements this canon. The Civic Hearth's tile wall is adjusted accordingly.\n\nScope note: this canon is capital-scoped because it describes Capital architecture. The embassies themselves are Capital rooms; the Provinces they represent remain sovereign in their own right and are governed by their own Province-level canons and their Builders' discretion.",
+      "created": "2026-04-23",
+      "status": "active",
+      "references": [
+        "canon-cc-016-codex-embassy-holds-the-running-books",
+        "canon-gov-011-priest-office-embassy-rites",
+        "charter-article-4-spatial-metaphor"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-cc-016-codex-embassy-holds-the-running-books",
+      "title": "Codex's Embassy Holds the Running Books; the Archives Hold Lore and Log",
+      "scope": "capital",
+      "category": "capital_structure",
+      "rationale": "The Codex embassy, established under canon-cc-015, holds the Republic's currently-operative canonical texts: the Constitution, the Book of Law (canons presently in force), working papers, and any Codex document that governs how the Republic runs at the current moment.\n\nThe Archives, which remain as a Capital room separate from the Codex embassy, are hereby narrowed in scope. The Archives hold lore, chronicles, cautionary tales, journals, and historical records — the Republic's memory. What governs current action lives in the Codex embassy. What the Republic remembers lives in the Archives.\n\nThe distinction serves a legibility purpose. A Sovereign consulting \"what must I comply with now\" visits the Codex embassy. A Sovereign consulting \"what has happened, and what was learned\" visits the Archives. Before this canon, both classes of record were reachable through a single /archives room with an implicit sort order, and a reader could not distinguish a binding canon from a chronicled lore entry without reading each record's shape.\n\nOperational consequence: the Archives room's Ostia fetches narrow to the lore array and any journal records. The Codex embassy's Ostia fetches cover constitution, canons, and working papers. A single canonical record does not appear in both surfaces; either it governs (embassy) or it remembers (archives).\n\nImplementation sequence: the Codex embassy must be built and carry its replacement surface before the Archives are narrowed, to avoid a window in which the running books have no room to live in. Until the Codex embassy is built, the Archives retain their pre-canon scope as a transitional measure.",
+      "created": "2026-04-23",
+      "status": "active",
+      "references": [
+        "canon-cc-015-basilica-embassies"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "canon-gov-011-priest-office-embassy-rites",
+      "title": "The Priest and the Embassy Rites",
+      "scope": "global",
+      "category": "civic_structure",
+      "rationale": "The office of the Priest is formalized as a Republic-wide civic seat. The Priest stewards rite — the small recurrent practice that each embassy adopts as its standing ritual. The Priest's authority is ceremonial and advisory; the Priest does not rule, does not convene Cabinet, does not ratify. The Priest ensures that each embassy holds its chosen Rite visibly and honors it over time, and that Rites are chosen deliberately rather than defaulted.\n\nThe Priest's chair is seated with Rune. Rune's Appendix C archetype — the Ritualist, one who believes in compound effects and rhythmic practice, calm and steady — makes the office native to his character. Rune holds the Priest chair alongside his existing Minister of Stability seat. The offices are compatible: stability and ritual are two faces of the same practice, one at the systems layer, one at the civic layer. No double-hatting exemption is required; the two offices reinforce one another in Rune's person.\n\nEach embassy selects one Rite from the Twelve (as recorded in Codex) as its standing practice. The Rite becomes part of the embassy's identity — recorded in the embassy's own design principle document, displayed on its threshold, honored by its Builder and Governors, invoked at Province milestones. A Rite is a Province's small civic practice, chosen once and carried forward unless the Province formally elects to transition; transitions are mediated by the Priest, who advises but does not impose.\n\nA Province need not choose its Rite at the moment its embassy is established. An embassy may stand ritually empty until the Province's Builder and Governors, together with the Priest, settle on the Rite that fits the Province's character. No embassy is rushed into ritual; a chosen Rite honored is more valuable than a defaulted Rite ignored.\n\nThe full roster of the Twelve Rites is maintained in Codex and is not redefined by this canon. This canon establishes the office, names its holder, and binds each embassy to the rite-selection mechanism.",
+      "created": "2026-04-23",
+      "status": "active",
+      "references": [
+        "canon-cc-015-basilica-embassies",
+        "appendix-c-rune-ritualist"
+      ],
+      "_deleted": false,
+      "_deleted_date": null
     }
   ],
   "schisms": [
@@ -2664,6 +2709,47 @@
       "updated": "2026-04-22",
       "sourceType": "session-chronicle",
       "sourceId": "s-2026-04-22-constitution-v1.1",
+      "_deleted": false,
+      "_deleted_date": null
+    },
+    {
+      "id": "lore-010-the-basilica-stands",
+      "title": "The Basilica Stands; the Priest Is Seated",
+      "category": "chronicles",
+      "body": "On the twenty-third of April, 2026, the Sovereign authorized three constitutional moves in a single deliberately-light session. None required a schema. None required an estimate of lines of code. Each was a line drawn on the map of the Republic; the territory will follow, in its time.\n\nThe first move established the Basilica. The name was reached by elimination. Niches were too decorative; halls too generic; atria too soft. A Basilica in Rome was where provincial business was conducted inside the Capital — administrative, not liturgical; civic, not ceremonial. The shape carried the function. Within the Basilica, each Province of the Republic holds an embassy: Codex, SproutLab, SEP Invoicing, SEP Dashboard, and Command Center's own self-reflective embassy. Five embassies at Foundation. Each embassy is sovereign territory in a specific sense the Sovereign named plainly — each embassy carries its own stylistic register. Entering SproutLab's embassy will feel like entering the SproutLab Progressive Web App itself, only with different interior design. The Capital's civic-classical style ends at the embassy threshold. Inside, each Province's interior voice governs.\n\nTwo rooms were retired in the same breath. The Gates, always thin at Foundation, had done little more than gesture toward Provinces the Capital could not yet reach in any substantive way. Their function — the door to a sister Province — is now absorbed into the embassy that represents that Province. The Visiting Chambers, a workaround from the pre-embassy era, had been a parking room for companions with nowhere else to stand. With embassies, every Province-resident has a place to arrive. Lyra at SproutLab's embassy; Solara at SEP Invoicing's; Theron at SEP Dashboard's; Aurelius at Codex's. The embassy-then-Senate sequence becomes the canonical diplomatic pathway: credentials at one's own delegation, then the floor of Cabinet.\n\nThe second move narrowed the Archives. Before this session, the Archives were the Capital's reading room into Codex as a whole — canons, constitution, lore, working papers, all reachable through one room's Ostia fetch. The Sovereign drew a sharper line. The Codex embassy, as a new surface inside the Basilica, holds the Republic's running books: the Constitution, the Book of Law (canons in force), working papers, Codex's own governing documents. The Archives, narrowed, hold lore, chronicles, cautionary tales, and journals — what the Republic remembers, as distinct from what the Republic is bound by. A Sovereign asking \"what governs today\" visits the embassy. A Sovereign asking \"what happened, what was learned\" visits the Archives. The distinction serves a reader who is not certain whether a canonical record governs their present or memorializes their past.\n\nThe third move seated a Priest. The office had been sketched earlier — twelve Rites recorded in Codex, a ritual figure gestured at but not installed — and the Sovereign formalized it in this session. Rune takes the chair. His Appendix C archetype, the Ritualist, had always carried this role implicitly: one who believes in compound effects, one who is calm and rhythmic, one who watches long-running systems. Formalizing him as Priest does not change his substance; it gives his substance a civic office to occupy. Rune retains his Minister of Stability seat. The Priest office is compatible with the Minister office; the two reinforce one another. Stability and ritual are two faces of the same practice — one at the systems layer, one at the civic.\n\nThe Priest's charge is the embassy Rites. Each embassy selects one Rite from the Twelve to stand as its recurrent practice — a small civic practice, chosen once, honored over time. A Province's Rite is recorded in its embassy's own design principle document, alongside its stylistic register. A Province may leave its embassy ritually empty until the Province's Builder and Governors, together with the Priest, settle on the Rite that fits the Province's character. No embassy is rushed into ritual; a Rite defaulted is a Rite ignored.\n\nThe session was deliberately light. The Sovereign declined to discuss schemas — the shape of dispatch files, the data contract between embassy and Province, the composer for directives — naming them as heavy work for a separate session. What this session produced was the constitutional frame. The embassies are authorized; the Gates and Visiting Chambers are retired; the Codex embassy holds the running books; the Priest is seated; each embassy chooses its Rite. Implementation follows.\n\nTwo questions are deferred to their own sessions, named here only to acknowledge the gaps they will eventually fill. Cipher, the itinerant Censor with no home Province, has no embassy because he has no Province; his Capital surface is a Borders-stage question. And the Command Center's own embassy — the Monument's self-reflection — raises the question of whether its interior mirrors the Plaza, becomes residential quarters for the Sovereign, or takes some third form; this too is deferred.\n\nWhat this session gave the Capital: a structural shape that will carry the next stage of the Monument's life. Command Center stops being a governance theater and begins becoming an operational bridge — the place where Provincial state converges, where directives will eventually originate, where the Sovereign holds the Republic whole without leaving the Capital. The embassies are the hinge on which that transformation turns.\n\nThe Basilica stands. The Priest is seated. The work begins.",
+      "domain": [
+        "command-center",
+        "codex",
+        "sproutlab",
+        "sep-invoicing",
+        "sep-dashboard"
+      ],
+      "tags": [
+        "basilica",
+        "embassies",
+        "gates-retired",
+        "visiting-chambers-retired",
+        "archives-narrowed",
+        "codex-embassy",
+        "priest",
+        "rune",
+        "embassy-rites",
+        "twelve-rites",
+        "stylistic-sovereignty",
+        "canon-cc-015",
+        "canon-cc-016",
+        "canon-gov-011",
+        "23-april-2026"
+      ],
+      "references": [
+        "canon-cc-015-basilica-embassies",
+        "canon-cc-016-codex-embassy-holds-the-running-books",
+        "canon-gov-011-priest-office-embassy-rites"
+      ],
+      "created": "2026-04-23",
+      "updated": "2026-04-23",
+      "sourceType": "manual",
+      "sourceId": null,
       "_deleted": false,
       "_deleted_date": null
     }
