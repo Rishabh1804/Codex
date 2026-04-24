@@ -4,7 +4,7 @@
 **Phase:** `sproutlab-phase-1` — Connection Indicator + Offline Badge
 **Hours:** 0–24
 **Builder:** Lyra
-**QA:** Cipher (per-merge review)
+**QA:** Cipher (advisory review on each PR; merge authority held by Sovereign — see [Aurelius briefing §Standing rules](./WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md#standing-rules-ratified-2026-04-24-by-sovereign-in-session))
 **Recorder:** Aurelius (session logs, Chronicles)
 **Source-of-truth:** [`data/campaigns.json`](../../data/campaigns.json#sproutlab-phase-1)
 
@@ -85,23 +85,23 @@ Confirm actual files during `sl-1-1` (assess-gaps).
 1. Single visual component in the header: green dot (online + sync healthy), amber (online + sync pending via WAL), red (offline).
 2. Drive from a derived store that fuses `navigator.onLine`, Firestore connection-state-listener, and WAL queue depth.
 3. No hardcoded classes or text — all derived.
-4. One PR → Cipher review → merge.
+4. One PR → Cipher advisory review → Sovereign + Aurelius discussion → Sovereign merges.
 
 ### Task `sl-1-3` — Implement offline badge
 1. Persistent badge while offline (don't hide behind a tooltip).
 2. Clear copy: "Offline — changes will sync when back online. (N pending)" where N is WAL depth.
 3. Disappears when online AND WAL drained.
 4. Accessibility: `aria-live="polite"` on state change.
-5. One PR → Cipher review → merge.
+5. One PR → Cipher advisory review → Sovereign + Aurelius discussion → Sovereign merges.
 
 ---
 
 ## Constraints
 
 - Book I inviolable.
-- One Builder: Lyra. Cipher reviews; Sovereign overrides.
+- One Builder: Lyra. Cipher reviews (advisory); Sovereign merges (War Time standing rule — see Aurelius briefing §Standing rules).
 - War Time powers authorize SOP expansion, not Book I touching.
-- **Every commit goes through PR → Cipher review → merge.**
+- **Every commit goes through PR → Cipher advisory review → Sovereign discussion → Sovereign merges.** Builders show the changes and wait. See Aurelius briefing §Standing rules.
 - No direct push to `main`. (Doctrine `lore-2026-04-23-doctrine-branch-pr-flow`.)
 
 ---
@@ -161,7 +161,7 @@ After the task is merged, update task status:
 > 2. `sl-1-2` — wire a derived store fusing `navigator.onLine`, Firestore connection-state, WAL depth. Render a three-state header indicator (green / amber / red).
 > 3. `sl-1-3` — replace the hardcoded offline badge with a live one. Copy: "Offline — changes will sync when back online. (N pending)". `aria-live="polite"`.
 >
-> Rules: one PR per task; Cipher reviews; no direct push to main; kill every hardcoded class. Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_LYRA_SPROUTLAB_PHASE_1.md`. Session-close ritual: drop a `session_log` snippet into Codex.
+> Rules: one PR per task; Cipher reviews (advisory); Sovereign merges after discussion with Aurelius — show the changes and wait; no direct push to main; no Builder-initiated merges; kill every hardcoded class. Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_LYRA_SPROUTLAB_PHASE_1.md`. Session-close ritual: drop a `session_log` snippet into Codex.
 >
 > Dawn is now. Begin with `sl-1-1`.
 

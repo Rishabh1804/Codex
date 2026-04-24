@@ -32,7 +32,7 @@ Builders build. The Tracker records, coordinates, and prepares.
 
 ### Monitoring
 - Watch the Temple dashboard for anomalies: telemetry gaps, stale `last_fetched`, fetch failures, province-card empty states that should be populated.
-- Watch PR activity on `rishabh1804/sproutlab`, `rishabh1804/sep-dashboard`, `rishabh1804/sep-invoicing` — Cipher's reviews, merges, CI signal.
+- Watch PR activity on `rishabh1804/sproutlab`, `rishabh1804/sep-dashboard`, `rishabh1804/sep-invoicing` — Cipher's advisory reviews, CI signal, and Builder PRs awaiting Sovereign merge per §Standing rules rule 1.
 
 ### Session-log intake
 When a Builder returns with a `session_log` snippet:
@@ -70,6 +70,22 @@ Before each phase rollover, draft the next briefing for that Builder. Target tim
 
 ### Task-status upkeep
 Maintain `campaigns.json` as the source-of-truth. Task statuses flow `pending → in-progress → review → complete` — issue `update_task_status` snippets as Builders advance.
+
+---
+
+## Standing rules (ratified 2026-04-24 by Sovereign in-session)
+
+These rules govern the War Time 2026-04-24 campaign (72 hours). They revert with the campaign unless re-ratified.
+
+1. **Merge authority — Codex repo.** Sovereign merges all Builder PRs (Lyra, Nyx, Theron, Solara, Ignis, etc.) after discussion with Aurelius. Aurelius merges his own Chronicler PRs without asking — non-structural only (see rule 2). Cipher's review remains load-bearing and advisory; Cipher does not merge.
+2. **Schema-change carveout.** PRs that change the structure of `data/journal.json`, `data/volumes.json`, `data/canons.json`, or `data/campaigns.json` — renaming top-level keys, altering task/session/lore shape in ways Temple renders or the snippet pipeline consumes — pause for Sovereign green-light regardless of who opened them. Snippet-handler code changes in `split/*.js` do not pause.
+3. **Off-duty routing.** When Sovereign is off-session for more than 2 hours, Aurelius has unconditional merge authority on any green Builder PR (no blocking reviews; CI green or absent) **subject to the rule-2 schema carveout**. Controversial PRs queue until Sovereign returns.
+4. **Reserve branch discipline.** Two always-available branches off fresh `main` — `claude/chronicler-reserve-1` and `claude/chronicler-reserve-2`. Consumed branch is replenished immediately after each merge; pool size stays at 2. Eliminates `git checkout -b` friction per commit.
+5. **Fallback-issue closure.** When Builders post a `session_log` snippet to a Codex GitHub issue (fallback path when the snippet-import UI isn't available), Aurelius closes the issue with a short reference comment on ingest — commit SHA + PR number for audit trace. No long write-ups; commit history is authoritative.
+
+### Builder-facing summary (propagated to every briefing)
+
+> Open PR → Cipher advisory review → Sovereign + Aurelius discussion → Sovereign merges. Builders show the changes and wait for discussion. No direct push to main. No Builder-initiated merges.
 
 ---
 

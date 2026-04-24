@@ -3,7 +3,7 @@
 **Campaign:** War Time 2026-04-24 → 2026-04-27
 **Phases covered:** `dashboard-phase-1` (Hours 0–2) + `dashboard-phase-2` (Hours 2–12)
 **Builder(s):** Nyx (Cluster B Censor; Province Builder here) + Sovereign
-**QA:** Cipher (cross-cluster review for Phase 3 merge)
+**QA:** Cipher (cross-cluster advisory review on each PR; Sovereign merges — see [Aurelius briefing §Standing rules](./WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md#standing-rules-ratified-2026-04-24-by-sovereign-in-session))
 **Recorder:** Aurelius (session logs, Chronicles)
 **Source-of-truth:** [`data/campaigns.json`](../../data/campaigns.json) — `dashboard-phase-1`, `dashboard-phase-2`, `dashboard-phase-3`
 
@@ -109,7 +109,7 @@ Turn SEP Dashboard's "Session 8" backlog from a spec shelf into merged features.
 ## Constraints
 
 - Book I inviolable.
-- Every change through PR → Cipher review → merge. No exceptions, no direct push to main.
+- Every change through PR → Cipher advisory review → Sovereign discussion → Sovereign merges. Builders show the changes and wait. No exceptions, no direct push to main. See Aurelius briefing §Standing rules. Dual-hat note: when Sovereign is the Builder-hand on a given PR, Aurelius discusses with Cipher before Sovereign merges — so the ratification voice isn't only the Builder's.
 - Session 8 scope creep is the failure mode — say no to the fourth feature.
 - Phase 3 briefing writes at Hour 12; do not begin feature impl until that briefing lands and Phase 2 closes.
 
@@ -157,7 +157,7 @@ Drop a `session_log` snippet before ending. Example for Phase 1 verification:
 >
 > Then Phase 2 (Hours 2–12): find Session 8's spec, read it, write a one-page reading, and lock three features for Phase 3. Stop there — Phase 3 briefing lands at Hour 12.
 >
-> Rules: every change through PR → Cipher review → merge; Edict VIII says spec before feature; say no to the fourth feature; drop a session_log at session close. Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_NYX_SOVEREIGN_DASHBOARD_PHASE_1-2.md`.
+> Rules: every change through PR → Cipher advisory review → Sovereign discussion → Sovereign merges; show the changes and wait; no Builder-initiated merges; Edict VIII says spec before feature; say no to the fourth feature; drop a session_log at session close. Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_NYX_SOVEREIGN_DASHBOARD_PHASE_1-2.md`.
 >
 > Dawn is now. Begin with verification.
 

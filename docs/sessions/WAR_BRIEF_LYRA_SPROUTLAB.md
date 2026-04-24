@@ -80,7 +80,7 @@
 ---
 
 ## QA Strategy
-- Cipher reviews each merge (per-merge, no cadence requirement)
+- Cipher reviews each PR (advisory, no cadence requirement); Sovereign merges after discussion with Aurelius (War Time standing rule, ratified 2026-04-24 Hour 0 — see `docs/briefings/WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md` §Standing rules)
 - Manual testing: offline/online state transitions, cache-busting on version bump, auto-refresh on listener fire
 - Cross-device testing: verify sync on two devices simultaneously
 

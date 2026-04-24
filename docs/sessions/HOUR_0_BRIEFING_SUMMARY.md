@@ -154,7 +154,7 @@ War Time has been declared under Book VI, Article 2(c) + (d) — Scope Pivot + V
 
 **All three provinces:**
 - Work on main branch (or feature branches that merge to main)
-- Cipher reviews per merge
+- Cipher reviews per PR (advisory); Sovereign merges after discussion with Aurelius (War Time standing rule, ratified 2026-04-24 Hour 0 — see Aurelius briefing §Standing rules)
 - GitHub Pages deployment automatic on merge to main
 - Zero-downtime continuous deployment
 

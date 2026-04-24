@@ -113,7 +113,7 @@ git push origin main
 ---
 
 ## QA Strategy
-- Cipher reviews each merge (per-merge, no continuous cadence)
+- Cipher reviews each PR (advisory, no continuous cadence); Sovereign merges after discussion with Aurelius (War Time standing rule, ratified 2026-04-24 Hour 0 — see `docs/briefings/WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md` §Standing rules)
 - Manual testing: Both UI changes (visual) + Margin Dashboard (calculations)
 - Regression check: Existing features (Create, Register, Stats) unaffected
 - Cross-browser: Chrome (Termux) + Desktop (if available)
