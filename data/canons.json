@@ -3462,9 +3462,9 @@
     },
     {
       "id": "lore-2026-04-24-session-log-ingest-path-incomplete",
-      "title": "Session-log ingest must verify Temple's read path, not just journal.json",
+      "title": "Session-log ingest: read the consumer's source, not its empty-state copy",
       "category": "Cautionary Tales",
-      "body": "On 2026-04-24 Hour 0, PR #26 ingested session_logs for aurelius-01 + cipher-01 into `data/journal.json`. Temple of Mars showed zero sessions for hours afterward. Root cause: Temple reads campaign-scoped telemetry from `data/campaigns.json.campaigns[].session_logs[]`, which did not exist as a field. The journal.json write was single-source-authoritative but structurally incomplete \u2014 Temple's consumption contract was unfulfilled despite ingestion succeeding. Fix: schema extended to denormalize session logs into campaigns.json (structural change ratified by Sovereign in-session per War Time standing rule 2). Lesson: every session_log ingest must verify the downstream consumer (Temple) can see the record; single-source ingest without denormalization check is incomplete.",
+      "body": "On 2026-04-24 Hour ~1, PR #26 ingested session_logs for aurelius-01 + cipher-01 into data/journal.json. Temple of Mars showed zero sessions. \n\nFirst diagnosis (wrong): Aurelius read Temple's empty-state copy ('Metrics will populate as session_log snippets land in Codex') and inferred Temple must read session_logs from campaigns.json. PR #29 denormalized session_logs into campaigns[].session_logs[] as a structural change, ratified by Sovereign under War Time standing rule 2. Temple still showed zero \u2014 the denormalization target was fabricated, not observed. \n\nSecond diagnosis (right): Aurelius finally read Temple's source (src/lib/types/index.ts + src/lib/stores/campaign.ts). Temple's contract is journal.sessions[] \u2014 a FLAT top-level array on journal.json, filtered by campaign_id. The campaigns[].session_logs[] field was never consumed. Fix: add top-level sessions[] to journal.json as a derived flat view of journal[].sessions[]; remove dead campaigns[].session_logs[] field. \n\nLessons, in force: (1) When the consumer shows empty state, read the consumer's SOURCE, not its UI copy. UI copy is prose; source is contract. (2) Every structural change must be traced to a grep in the consuming codebase before it ships. 'The field Temple renders' is a provable claim; 'the field Temple probably expects' is a guess. (3) Two structural changes to the same schema in one hour is a signal to stop and read source, not to attempt a third ratification. (4) canon-cc-018 (Artifact Lifecycle & Synergy Observability) applies: every artifact's lifecycle must be visible, including the consumption side.",
       "domain": [
         "codex",
         "temple-of-mars"
@@ -3474,10 +3474,16 @@
         "schema",
         "temple",
         "denormalization",
-        "chronicler-duty"
+        "chronicler-duty",
+        "consumer-contract",
+        "read-the-source"
       ],
       "references": [
-        "PR #26 (commit ed40caa \u2014 ingest with missing denormalization)",
+        "PR #26 (ed40caa \u2014 initial ingest to journal.json nested structure; Temple couldn't see)",
+        "PR #29 (51f2d22 \u2014 wrong-target denormalization to campaigns.json; Temple still couldn't see)",
+        "PR #30 (this fix \u2014 flat sessions[] added; campaigns.session_logs[] removed)",
+        "TempleOfMars/src/lib/types/index.ts (CodexJournal interface \u2014 contract)",
+        "TempleOfMars/src/lib/stores/campaign.ts:35 (journal?.sessions filter \u2014 read path)",
         "canon-cc-018 (Artifact Lifecycle & Synergy Observability)",
         "War Time standing rule 2 (schema carveout)"
       ],
