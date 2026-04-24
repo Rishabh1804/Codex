@@ -1,22 +1,24 @@
-# War Briefing — SEP Dashboard Phase 1 + Phase 2
+# War Briefing — SEP Dashboard Phase 2 (+ Phase 3 kick-off)
 
 **Campaign:** War Time 2026-04-24 → 2026-04-27
-**Phases covered:** `dashboard-phase-1` (Hours 0–2) + `dashboard-phase-2` (Hours 2–12)
-**Builder(s):** Nyx (Cluster B Censor; Province Builder here) + Sovereign
-**QA:** Cipher (cross-cluster advisory review on each PR; Sovereign merges — see [Aurelius briefing §Standing rules](./WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md#standing-rules-ratified-2026-04-24-by-sovereign-in-session))
+**Phases covered:** `dashboard-phase-2` (Session 8 Spec Review, Hours 2–12) + `dashboard-phase-3` (Session 8 Execution) kick-off at Hour 12 rollover
+**Builder:** Theron (primary; Province Builder)
+**QA:** Cipher (advisory review on each PR; Sovereign merges — see [Aurelius briefing §Standing rules](./WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md#standing-rules-ratified-2026-04-24-by-sovereign-in-session))
 **Recorder:** Aurelius (session logs, Chronicles)
-**Source-of-truth:** [`data/campaigns.json`](../../data/campaigns.json) — `dashboard-phase-1`, `dashboard-phase-2`, `dashboard-phase-3`
+**Source-of-truth:** [`data/campaigns.json`](../../data/campaigns.json) — `dashboard-phase-2`, `dashboard-phase-3`
+
+> **Role-reassignment note (2026-04-24 ~12:30Z):** Sovereign ratified Theron as primary SEP Dashboard Builder for Phase 2 (Session 8 Spec Review) and Phase 3 (Session 8 Execution). Nyx and Sovereign's pre-war Phase-1 work (`dashboard-phase-1` — v2.1 Pragmatic Patch restoration, completed ahead of Hour 0 via sep-dashboard PR #1) is historical and is not re-opened. This briefing was updated in-session by aurelius-04 to reflect the new shape. Cipher reviews through the standard Rule 1 flow.
 
 ---
 
 ## Pre-war posture (important)
 
-**Phase 1 is effectively complete before Hour 0.** Per chapter [`ch-pre-war-housekeeping`](../snippets/2026-04-23-temple-war-prep-chronicles/02-chapters.json) and the pre-dawn chronicles, SEP Dashboard's `index.html` was already restored from the 50,279-line inflated build back to the 4,531-line v2.1 baseline via PR #1 (merged pre-dawn). The "Pragmatic Patch" landed ahead of the clock.
+**Phase 1 is complete before Hour 0.** Per chapter [`ch-pre-war-housekeeping`](../snippets/2026-04-23-temple-war-prep-chronicles/02-chapters.json) and the pre-dawn chronicles, SEP Dashboard's `index.html` was restored from the 50,279-line inflated build back to the 4,531-line v2.1 baseline via PR #1 (merged pre-dawn by Nyx + Sovereign). The "Pragmatic Patch" landed ahead of the clock.
 
-**This briefing therefore covers:**
-1. Phase 1 verification (Hour 0 — confirm v2.1 state holds on `main`)
+**This briefing therefore covers Theron's inheritance and onward scope:**
+1. Hour-0 inheritance check (confirm v2.1 state holds on `main`; close CT-1 attack surface with `.gitignore` add)
 2. Phase 2 ingestion (Hours 2–12 — Session 8 spec review + feature lock)
-3. Phase 3 kick-off (Hour 12 — feature-by-feature execution; separate briefing at Hour 12 rollover)
+3. Phase 3 kick-off (Hour 12 — feature-by-feature execution; separate briefing lands at Hour 12 rollover)
 
 ---
 
@@ -24,33 +26,34 @@
 
 | Repo | Include? | Why |
 |---|---|---|
-| `rishabh1804/sep-dashboard` | **Yes** (primary) | All Phase 1–3 work happens here |
+| `rishabh1804/sep-dashboard` | **Yes** (primary) | All Phase 2–3 work happens here |
 | `rishabh1804/codex` | Optional (secondary) | For `session_log` snippet drops; web UI paste also works |
 | `rishabh1804/templeofmars` | **No** | Read-only consumer — view at `rishabh1804.github.io/TempleOfMars/` |
 
-Edict II: One Builder Per Repo. Dashboard is Nyx's this campaign; Sovereign co-leads but does not split the seat.
+Edict II: One Builder Per Repo. Dashboard is Theron's this campaign. Nyx and Sovereign's pre-war Phase-1 work (v2.1 restore) is historical; the active Builder seat is Theron's from Hour 10 forward.
 
 ---
 
 ## Mandate
 
-Turn SEP Dashboard's "Session 8" backlog from a spec shelf into merged features. Phase 1 verifies the baseline; Phase 2 picks the fights; Phase 3 wins them.
+Turn SEP Dashboard's "Session 8" backlog from a spec shelf into merged features. Hour-0 hardens the baseline; Phase 2 picks the fights; Phase 3 wins them.
 
 ## Tasks (from `campaigns.json`)
 
-### Phase 1 — v2.1 Pragmatic Patch (Hours 0–2)
+### Hour-0 inheritance check (pre-Phase-2 hardening)
 
 | Task | Status | Name |
 |---|---|---|
-| `dash-1-1` | pending → **complete** (pre-dawn) | Restore v2.1 baseline |
+| `dash-1-1` | **complete** (pre-dawn, PR #1) | Restore v2.1 baseline |
 
-**Verification at Hour 0:**
-1. `git log --oneline main` on sep-dashboard shows the restoration commit from PR #1.
+**Verification + harden at Hour 10 (Theron's session start):**
+1. `git log --oneline main` on sep-dashboard shows the restoration commit from PR #1 (`cd9c31536...`).
 2. `curl -I https://rishabh1804.github.io/SEP-Dashboard/` returns 200.
 3. Served `index.html` byte length matches v2.1 build (4,531 lines).
-4. Drop a `session_log update_task_status` snippet flipping `dash-1-1` to `complete`.
+4. **`.gitignore` P0 add** — see the opening prompt. This closes the CT-1 attack surface before any Phase 2 work begins.
+5. Drop a `session_log update_task_status` snippet flipping `dash-1-1` to `complete` (if not already) and logging the `.gitignore` add as a session decision.
 
-**Acceptance:** `> v2.1 baseline restored, working` — already achieved; just confirmed.
+**Acceptance:** `> v2.1 baseline restored, working; .gitignore landed; repo root cleaned of business-data backups.`
 
 ### Phase 2 — Session 8 Spec Review (Hours 2–12)
 
@@ -65,7 +68,7 @@ Turn SEP Dashboard's "Session 8" backlog from a spec shelf into merged features.
 
 ## Cautionary Tales to internalize
 
-1. **[`lore-2026-04-23-compiled-artifacts-in-tree`](../snippets/2026-04-23-temple-war-prep-chronicles/03-lore-cautionary-tales.json)** — the 50,279-line inflated `index.html` was this class of bug. Keep `.gitignore` honest. If build output must coexist with source, separate their directories or filenames so audits can tell them apart.
+1. **[`lore-2026-04-23-compiled-artifacts-in-tree`](../snippets/2026-04-23-temple-war-prep-chronicles/03-lore-cautionary-tales.json)** — the 50,279-line inflated `index.html` was this class of bug on this repo. Keep `.gitignore` honest. Aurelius-04's pre-fire check (2026-04-24 ~13:00Z) confirmed this repo currently has **no** `.gitignore` at root — the exact attack surface the v2.1 inflation exploited. Theron's first PR adds it; see opening prompt.
 2. **[`lore-2026-04-23-doctrine-branch-pr-flow`](../snippets/2026-04-23-temple-war-prep-chronicles/04-lore-doctrines.json)** — every change through PR. No direct push to `main`, no exceptions for "quick fixes." Phase 3's merge cadence depends on this discipline holding now.
 3. **[`lore-2026-04-23-doctrine-charter-before-build`](../snippets/2026-04-23-temple-war-prep-chronicles/04-lore-doctrines.json)** — Session 8 spec review (dash-2-1) before feature implementation (dash-3-*). Edict VIII is the reason Phase 2 exists as its own block.
 
@@ -79,13 +82,13 @@ Turn SEP Dashboard's "Session 8" backlog from a spec shelf into merged features.
 
 ## Execution flow
 
-### Phase 1 — Hour 0 (≤30 min)
+### Hour-0 inheritance + `.gitignore` harden (≤45 min)
 
 1. Open the SEP Dashboard repo in the session. `git pull origin main`.
 2. Verify PR #1 is on `main`; check `index.html` line count.
 3. Load `https://rishabh1804.github.io/SEP-Dashboard/` in a browser; confirm the v2.1 UI renders.
-4. Fire a `session_log` snippet: `update_task_status` for `dash-1-1` → `complete`.
-5. Brief session log covering verification.
+4. **Add `.gitignore`** — pattern it after [`rishabh1804/sep-invoicing/.gitignore`](https://github.com/Rishabh1804/sep-invoicing/blob/main/.gitignore). Blanket `*.json` with `!manifest.json` exceptions; OS trash (`.DS_Store`, `Thumbs.db`); editor swap (`*.swp`, `*~`); backup patterns (`*-backup-*`, `*-export-*`). Commit in its own small PR. Note: the root-committed `SEP_Backup_2026-04-02.json` (54 KB business-data file) will match the blanket ignore — decide in the PR description whether to also `git rm` it (Sovereign's call during review).
+5. Fire a `session_log` snippet: `update_task_status` for `dash-1-1` → `complete` (if not already); brief session log covering the verification + .gitignore PR.
 
 ### Phase 2 — Hours 2–12
 
@@ -109,7 +112,7 @@ Turn SEP Dashboard's "Session 8" backlog from a spec shelf into merged features.
 ## Constraints
 
 - Book I inviolable.
-- Every change through PR → Cipher advisory review → Sovereign discussion → Sovereign merges. Builders show the changes and wait. No exceptions, no direct push to main. See Aurelius briefing §Standing rules. Dual-hat note: when Sovereign is the Builder-hand on a given PR, Aurelius discusses with Cipher before Sovereign merges — so the ratification voice isn't only the Builder's.
+- Every change through PR → Cipher advisory review → Sovereign discussion → Sovereign merges. Builders show the changes and wait. No exceptions, no direct push to main. See Aurelius briefing §Standing rules.
 - Session 8 scope creep is the failure mode — say no to the fourth feature.
 - Phase 3 briefing writes at Hour 12; do not begin feature impl until that briefing lands and Phase 2 closes.
 
@@ -117,7 +120,7 @@ Turn SEP Dashboard's "Session 8" backlog from a spec shelf into merged features.
 
 ## Session close ritual
 
-Drop a `session_log` snippet before ending. Example for Phase 1 verification:
+Drop a `session_log` snippet before ending. Example for the Hour-0 inheritance + `.gitignore` harden:
 
 ```json
 {
@@ -127,20 +130,20 @@ Drop a `session_log` snippet before ending. Example for Phase 1 verification:
       "data": { "task_id": "dash-1-1", "status": "complete", "at": "<ISO>", "session_id": "<id>" } },
     { "op": "record_session",
       "data": {
-        "id": "session-2026-04-24-nyx-01",
+        "id": "session-2026-04-24-theron-01",
         "campaign_id": "war-time-2026-04-24",
         "phase_id": "dashboard-phase-1",
         "task_id": "dash-1-1",
-        "builder": "nyx",
+        "builder": "theron",
         "province": "sep-dashboard",
         "started_at": "<ISO>",
         "ended_at": "<ISO>",
         "model": "opus-4-7",
         "tokens_in": <n>, "tokens_out": <n>,
-        "commits": [],
-        "loc_delta": 0,
-        "summary": "Phase 1 verification — v2.1 restoration confirmed on main; public dashboard renders; baseline holds.",
-        "decisions": ["Phase 1 pre-completed pre-dawn via PR #1; no new work required."],
+        "commits": ["<gitignore-PR-merge-sha>"],
+        "loc_delta": <n>,
+        "summary": "Hour-0 inheritance — v2.1 baseline confirmed on main; public dashboard renders; baseline holds. .gitignore added, closing the CT-1 attack surface.",
+        "decisions": ["Phase 1 pre-completed pre-dawn via PR #1 by Nyx + Sovereign; Theron inherited clean.", "Added .gitignore patterned after sep-invoicing; resolved or kept SEP_Backup_2026-04-02.json per Sovereign review."],
         "bugs_found": 0, "lore_generated": []
       } }
   ]
@@ -151,17 +154,21 @@ Drop a `session_log` snippet before ending. Example for Phase 1 verification:
 
 ---
 
-## Opening prompt (copy into Nyx's new session)
+## Opening prompt (copy into Theron's new session — Claude Code desktop)
 
-> **First, per Standing rule 6**, arm subscriptions: `list_pull_requests(owner=rishabh1804, repo=sep-dashboard, state=open)`, then `subscribe_pr_activity` to every open PR you own. Subscribe to any new PR (the Phase-2 charter PR under `dash-2-2` is the first) on open.
+> **First, per Standing rule 6**, arm subscriptions on every open PR in this province (`list_pull_requests(owner=rishabh1804, repo=sep-dashboard, state=open)`, then `subscribe_pr_activity` on each). Re-arm on every new PR you open mid-session — your first PR will be the `.gitignore` add described below.
 >
-> Nyx, you and the Sovereign have SEP Dashboard for this campaign. Phase 1 (v2.1 restore) landed pre-dawn — your first move is verification, not rebuild: confirm `main` shows the restored state, hit the public dashboard, flip `dash-1-1` to `complete`.
+> Theron — SEP Dashboard is yours this campaign. Phase 1 (v2.1 Pragmatic Patch) landed pre-dawn under Nyx + Sovereign via sep-dashboard PR #1; that's historical. Your scope opens at Phase 2 (Session 8 Spec Review) and carries into Phase 3 (Session 8 Execution) when the H12 briefing lands.
 >
-> Then Phase 2 (Hours 2–12): find Session 8's spec, read it, write a one-page reading, and lock three features for Phase 3. Stop there — Phase 3 briefing lands at Hour 12.
+> **P0 task before Phase 2 begins — add a `.gitignore`.** Chronicler pre-fire check (aurelius-04, 2026-04-24 ~13:00Z) confirmed this repo has no `.gitignore` at root. That's the exact attack surface the v2.1 inflation bug exploited (commit `8728798` inflated `index.html` 4,531 → 50,279 lines; reverted as PR #1 `cd9c31536`). There is also a committed business-data file (`SEP_Backup_2026-04-02.json`, 54 KB) in root that should not live in the tree. Your first PR in this province is a minimal `.gitignore` patterned after [`rishabh1804/sep-invoicing/.gitignore`](https://github.com/Rishabh1804/sep-invoicing/blob/main/.gitignore) — blanket `*.json` with `!manifest.json` exceptions, OS/editor/backup ignores. Note in the PR description whether `SEP_Backup_2026-04-02.json` should also be `git rm`'d (Sovereign's call). Open the PR, let Cipher review, let Sovereign merge — *then* proceed to `dash-2-1` (read Session 8 spec).
 >
-> Rules: every change through PR → Cipher advisory review → Sovereign discussion → Sovereign merges; show the changes and wait; no Builder-initiated merges; Edict VIII says spec before feature; say no to the fourth feature; drop a session_log at session close. Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_NYX_SOVEREIGN_DASHBOARD_PHASE_1-2.md`.
+> Phase 2: find Session 8's spec, read it, write a one-page reading to `docs/SESSION_8_READING.md`, then lock exactly three features for Phase 3 in a description-only charter PR. Edict VIII — charter before build. Say no to the fourth feature.
 >
-> Dawn is now. Begin with verification.
+> Rules: every change through PR → Cipher advisory review → Sovereign discussion → Sovereign merges; show the changes and wait; no direct push to main; no Builder-initiated merges; drop a session_log at session close.
+>
+> Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_NYX_SOVEREIGN_DASHBOARD_PHASE_1-2.md`.
+>
+> Dawn has passed. Begin with the `.gitignore` PR.
 
 ---
 
@@ -192,6 +199,7 @@ subscribe_pr_activity(owner=rishabh1804, repo=<your-province>, pullNumber=<new>)
 ## Post-phase handoff (Hour 12)
 
 At Hour 12, the Phase-2 handoff should advance:
+- `dash-1-1` remains `complete`; `.gitignore` PR merged; CT-1 attack surface closed.
 - `dash-2-1` and `dash-2-2` both `complete`.
 - Session 8 reading committed to sep-dashboard repo.
 - Feature-lock PR open (description-only, three features max).
