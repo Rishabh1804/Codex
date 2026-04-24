@@ -3495,6 +3495,45 @@
       "_deleted_date": null,
       "rationale": "Captured as a Cautionary Tale so future Chroniclers (human and otherwise) verify downstream consumption, not just source-of-truth ingestion, when adding session_logs or any Temple-visible data.",
       "status": "active"
+    },
+    {
+      "id": "lore-2026-04-24-session-subscriptions-not-baked-in",
+      "title": "Session subscriptions must be baked into the opening prompt, not inferred from generic defaults",
+      "category": "Cautionary Tales",
+      "body": "On 2026-04-24 Hour ~5, Lyra pushed sl-1-2 r2 / r3 / r4 (PR #4) and rebased sl-1-3 (PR #5) onto r4 across roughly 90 minutes. None of those push events reached Cipher's running review session. Cipher's r1 opening prompt (dispatched via PR #31 combined-review briefing) had inherited the generic webhook-subscription default — 'investigate; fix if small; ask if ambiguous; skip if no action needed' — without an explicit subscribe_pr_activity directive. Subscriptions were therefore never armed; webhooks routed nowhere; the revisions sat unseen until the Architect pinged Cipher manually to resume.\n\nRecovery was cheap (one instruction nudge restored the tab), but the gap was systemic. Every War Time briefing had inherited the same omission, and the generic default was structurally Builder-posture (fix small/obvious on-branch) — which is wrong for the Reviewer seat (verdicts are PR comments, never commits) and wrong for the Chronicler seat (read-only on province repos per Edict II, never push fixes). A Builder-posture default imposed on a Reviewer produces the exact 'fix it on their branch' failure mode Edict II forbids.\n\nFix, in force: Standing rule 6 (Subscription & event posture) ratified 2026-04-24 in-session. Every War Time briefing's opening prompt now leads with an explicit subscribe_pr_activity directive scoped to the seat (Builder → PRs they own; Reviewer → PRs under review; Chronicler → all active province PRs + open Codex PRs; Sovereign → discretion). Every briefing now carries a Session-start ritual section with a role-specific event posture that overrides the generic default. Reverts with the campaign unless re-ratified, per rules-1-5 precedent.\n\nLessons, in force: (1) Generic webhook-subscription defaults are Builder-biased; the Reviewer and Chronicler seats require seat-specific overrides. (2) A subscription directive belongs literally in the opening-prompt text that gets copied into a new session — not in the briefing body, not inferred from the role, not assumed. Copy-paste semantics mean if it's not in the blockquote, it didn't happen. (3) Webhook wiring is not observable from the inside of a session; the failure mode is silent and recovery requires external nudge. Treat the subscribe call as part of session bootstrap, not as optional hygiene. (4) canon-cc-018 (Artifact Lifecycle & Synergy Observability) applies: a session's subscription state is part of its observable lifecycle.",
+      "domain": [
+        "codex",
+        "sproutlab",
+        "war-time"
+      ],
+      "tags": [
+        "subscription",
+        "webhooks",
+        "event-posture",
+        "opening-prompt",
+        "chronicler-duty",
+        "reviewer-duty",
+        "standing-rule-6",
+        "edict-ii"
+      ],
+      "references": [
+        "Standing rule 6 (Subscription & event posture) — ratified 2026-04-24 in-session",
+        "PR #31 (e4b1975 — Cipher combined re-review briefing that first surfaced the gap)",
+        "PR #35 (98db82f — SL-1-1 R2 re-review briefing; pre-rule-6, baked in retroactively on this branch)",
+        "sproutlab PR #4 (r2/r3/r4 push sequence that went unseen)",
+        "sproutlab PR #5 (rebase-onto-r4 push that went unseen)",
+        "Edict II (One Builder Per Repo) — the structural reason Reviewer/Chronicler seats cannot inherit Builder posture",
+        "canon-cc-018 (Artifact Lifecycle & Synergy Observability)",
+        "aurelius-02 session_log (de458cc) — handoff that left subscriptions un-armed"
+      ],
+      "created": "2026-04-24",
+      "updated": "2026-04-24",
+      "sourceType": "chronicler-miss",
+      "sourceId": "aurelius-hour-5",
+      "_deleted": false,
+      "_deleted_date": null,
+      "rationale": "Captured as a Cautionary Tale to preserve the reasoning behind Standing rule 6: generic webhook defaults are structurally wrong for non-Builder seats, and the fix is an explicit in-prompt subscribe directive, not a more permissive default. Future briefings must bake in the directive or inherit the same silent-failure mode.",
+      "status": "active"
     }
   ]
 }
