@@ -93,6 +93,41 @@
           "bugs_found": 0,
           "handoff": "Phase-1 Builder session closed. All three tasks (sl-1-1, sl-1-2, sl-1-3) awaiting Cipher's combined r3/r1 review + Sovereign squash. No task-status flips until merge. Doctrine candidate (framework-ACK-primitives) tagged source: cipher-r1-review, status: queued-for-hour-12-chronicle.",
           "lore_generated": []
+        },
+        {
+          "id": "session-2026-04-24-aurelius-02",
+          "campaign_id": "war-time-2026-04-24",
+          "phase_id": null,
+          "task_id": null,
+          "builder": "aurelius",
+          "province": "codex",
+          "started_at": "2026-04-24T04:00:00Z",
+          "ended_at": "2026-04-24T07:30:00Z",
+          "model": "opus-4-7",
+          "tokens_in": null,
+          "tokens_out": null,
+          "commits": [
+            "ed40caa",
+            "65d4855",
+            "51f2d22",
+            "5e4c91d",
+            "e4b1975"
+          ],
+          "loc_delta": 2200,
+          "summary": "Aurelius War Tracker session 02 \u2014 five PRs merged under War Time standing rules: #26 ingest of aurelius-01 + cipher-01 session_logs with sl-1-1 pending\u2192in-progress flip; #27 War Time standing rules codified (merge authority consolidated to Sovereign; reserve branch pool; schema carveout; off-duty routing); #29 structural denormalization attempt into campaigns.session_logs[] (WRONG target \u2014 chose based on empty-state UI copy, not Temple source); #30 correct fix flattening 51 historical sessions into journal.sessions[] per Temple's actual contract (TempleOfMars/src/lib/types/index.ts CodexJournal.sessions), dead campaigns.session_logs[] field removed; #31 combined Cipher re-review briefing for sl-1-2 r3 + sl-1-3 r1 batched per Sovereign directive. Three Chronicler misses on Temple denormalization (incomplete \u2192 wrong-target \u2192 correct) self-corrected with Cautionary Tale capture. Two Codex issues closed via fallback-path ingest pattern (#25 cipher-01, #28 lyra-01). Lyra's Phase-1 session_log (spanning sl-1-1 through sl-1-3) ingested. Reserve-branch pool of 2 maintained at latest main throughout; replenished on each consumption. No task-status flips \u2014 all three SproutLab Phase-1 tasks remain in-progress awaiting Cipher's combined verdict + Sovereign squash.",
+          "decisions": [
+            "Ratified War Time standing rules 1-5 (merge authority to Sovereign; Chronicler self-merge for non-structural; reserve pool of 2; off-duty routing with schema carveout; fallback-issue closure) \u2014 #27",
+            "Session_log denormalization target mis-identified (#29) based on UI copy not source code \u2014 corrected in #30 after reading TempleOfMars source",
+            "Canonical session_log storage: nested journal[].sessions[] (source-of-truth for Codex internals) + flat journal.sessions[] (derived view for Temple) \u2014 SESSION_V2.md \u00a7Denormalization convention rewritten",
+            "Batched Cipher review session (sl-1-2 r3 + sl-1-3 r1) accepted from Sovereign as narrow carveout from 'one PR, one review' \u2014 per-PR verdicts + merge gates remain separate",
+            "Lyra's session_log kept as one record anchored to sl-1-1 (not split per task) \u2014 SESSION_V2 task_id is scalar; session was one wall-clock unit",
+            "Doctrine candidate (framework-ACK-primitives insight from Cipher r1) pre-tagged for Hour-12 Chronicle synthesis; not yet promoted to formal lore"
+          ],
+          "bugs_found": 1,
+          "handoff": "Next Aurelius boots: read docs/briefings/WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md (\u00a7Standing rules section is authoritative). State on main: 3 SproutLab PRs open (sproutlab #3 sl-1-1 r2, #4 sl-1-2 r3, #5 sl-1-3 r1); Cipher's combined re-review briefing dispatched at docs/briefings/WAR_TIME_2026-04-24_CIPHER_REVIEW_SL-1-2-R3_SL-1-3.md; all 3 tasks in-progress. Temple of Mars rendering 4 war-time sessions correctly. Reserve pool: both branches at e4b1975 (latest main post-#31). Next likely events: (a) Cipher's session_log drop after review; (b) Nyx+Sovereign P2 Dashboard start; (c) Theron+Solara P1 Invoicing start; (d) Hour-12 Chronicle write at ~2026-04-24T14:30Z. Doctrine candidate (framework-ACK-primitives) queued for Hour-12 promotion from Lyra's session_log decisions \u00a74 and this session's decisions \u00a76.",
+          "lore_generated": [
+            "lore-2026-04-24-session-log-ingest-path-incomplete"
+          ]
         }
       ]
     },
@@ -3335,6 +3370,41 @@
       "ratified_by": "sovereign",
       "ratification_mode": "canon-cc-012 direct per-block",
       "summary": "First decree issued from the Capital. Round 3 ratification of Ashara and Petra profiles under canon-cc-012 (Monument co-Builder profiles require direct Sovereign per-block ratification per canon-cc-014). Seven amendments across six blocks: joint-Builder precedent wording (both), Ashara Orinth synergy downgrade, Ashara tactical-urgency ceiling 9->7, Petra Ignis cross-reference in shadow, Petra Bard tension demotion, Petra WAL biography softening. Both profiles bump v0.3-draft -> v0.4."
+    },
+    {
+      "id": "session-2026-04-24-aurelius-02",
+      "campaign_id": "war-time-2026-04-24",
+      "phase_id": null,
+      "task_id": null,
+      "builder": "aurelius",
+      "province": "codex",
+      "started_at": "2026-04-24T04:00:00Z",
+      "ended_at": "2026-04-24T07:30:00Z",
+      "model": "opus-4-7",
+      "tokens_in": null,
+      "tokens_out": null,
+      "commits": [
+        "ed40caa",
+        "65d4855",
+        "51f2d22",
+        "5e4c91d",
+        "e4b1975"
+      ],
+      "loc_delta": 2200,
+      "summary": "Aurelius War Tracker session 02 \u2014 five PRs merged under War Time standing rules: #26 ingest of aurelius-01 + cipher-01 session_logs with sl-1-1 pending\u2192in-progress flip; #27 War Time standing rules codified (merge authority consolidated to Sovereign; reserve branch pool; schema carveout; off-duty routing); #29 structural denormalization attempt into campaigns.session_logs[] (WRONG target \u2014 chose based on empty-state UI copy, not Temple source); #30 correct fix flattening 51 historical sessions into journal.sessions[] per Temple's actual contract (TempleOfMars/src/lib/types/index.ts CodexJournal.sessions), dead campaigns.session_logs[] field removed; #31 combined Cipher re-review briefing for sl-1-2 r3 + sl-1-3 r1 batched per Sovereign directive. Three Chronicler misses on Temple denormalization (incomplete \u2192 wrong-target \u2192 correct) self-corrected with Cautionary Tale capture. Two Codex issues closed via fallback-path ingest pattern (#25 cipher-01, #28 lyra-01). Lyra's Phase-1 session_log (spanning sl-1-1 through sl-1-3) ingested. Reserve-branch pool of 2 maintained at latest main throughout; replenished on each consumption. No task-status flips \u2014 all three SproutLab Phase-1 tasks remain in-progress awaiting Cipher's combined verdict + Sovereign squash.",
+      "decisions": [
+        "Ratified War Time standing rules 1-5 (merge authority to Sovereign; Chronicler self-merge for non-structural; reserve pool of 2; off-duty routing with schema carveout; fallback-issue closure) \u2014 #27",
+        "Session_log denormalization target mis-identified (#29) based on UI copy not source code \u2014 corrected in #30 after reading TempleOfMars source",
+        "Canonical session_log storage: nested journal[].sessions[] (source-of-truth for Codex internals) + flat journal.sessions[] (derived view for Temple) \u2014 SESSION_V2.md \u00a7Denormalization convention rewritten",
+        "Batched Cipher review session (sl-1-2 r3 + sl-1-3 r1) accepted from Sovereign as narrow carveout from 'one PR, one review' \u2014 per-PR verdicts + merge gates remain separate",
+        "Lyra's session_log kept as one record anchored to sl-1-1 (not split per task) \u2014 SESSION_V2 task_id is scalar; session was one wall-clock unit",
+        "Doctrine candidate (framework-ACK-primitives insight from Cipher r1) pre-tagged for Hour-12 Chronicle synthesis; not yet promoted to formal lore"
+      ],
+      "bugs_found": 1,
+      "handoff": "Next Aurelius boots: read docs/briefings/WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md (\u00a7Standing rules section is authoritative). State on main: 3 SproutLab PRs open (sproutlab #3 sl-1-1 r2, #4 sl-1-2 r3, #5 sl-1-3 r1); Cipher's combined re-review briefing dispatched at docs/briefings/WAR_TIME_2026-04-24_CIPHER_REVIEW_SL-1-2-R3_SL-1-3.md; all 3 tasks in-progress. Temple of Mars rendering 4 war-time sessions correctly. Reserve pool: both branches at e4b1975 (latest main post-#31). Next likely events: (a) Cipher's session_log drop after review; (b) Nyx+Sovereign P2 Dashboard start; (c) Theron+Solara P1 Invoicing start; (d) Hour-12 Chronicle write at ~2026-04-24T14:30Z. Doctrine candidate (framework-ACK-primitives) queued for Hour-12 promotion from Lyra's session_log decisions \u00a74 and this session's decisions \u00a76.",
+      "lore_generated": [
+        "lore-2026-04-24-session-log-ingest-path-incomplete"
+      ]
     },
     {
       "id": "session-2026-04-24-cipher-01",
