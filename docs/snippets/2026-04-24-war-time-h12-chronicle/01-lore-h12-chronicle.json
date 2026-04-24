@@ -1,0 +1,82 @@
+{
+  "snippet_type": "lore",
+  "operations": [
+    {
+      "op": "new_lore_entries",
+      "data": {
+        "entries": [
+          {
+            "id": "lore-2026-04-24-chronicle-hour-12",
+            "category": "Chronicles",
+            "title": "H12 Chronicle — Phase 1 closed; first Doctrine anchored; backlog cleared",
+            "domain": ["campaign", "war-time-2026-04-24", "sproutlab"],
+            "tags": ["h12-chronicle", "phase-1-close", "sync-visibility", "doctrine-anchor", "backlog-clear"],
+            "references": [
+              "rishabh1804/sproutlab#3",
+              "rishabh1804/sproutlab#4",
+              "rishabh1804/sproutlab#5",
+              "rishabh1804/sproutlab#6",
+              "rishabh1804/Codex#40",
+              "sproutlab@afbc7a5",
+              "sproutlab@d8743c8",
+              "sproutlab@e931a08",
+              "codex@f5098f7d",
+              "lore-2026-04-24-doctrine-framework-ack-primitives",
+              "lore-2026-04-24-session-id-collision-parallel-tabs",
+              "lore-2026-04-24-session-subscriptions-not-baked-in"
+            ],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-24-aurelius-03",
+            "rationale": "Twelve hours into War Time, the first Phase is on main across all three SproutLab tasks. sl-1-1 (audit) at afbc7a5, sl-1-2 (connection indicator) at d8743c8, sl-1-3 (offline badge) at e931a08. The deliverable the Architect marked as the highest-variance unknown — the honest observability of a tab's sync state — now renders as a green/amber/red pill in the header and a persistent offline/halted banner below it, driven by a single derived store that reads Firestore's own ACK primitives instead of hand-rolled counters.\n\nThe arc from diagnosis to shipped code to reconciled charter ran five stages across three parallel sessions. Cipher diagnosed the sin in r1 on sproutlab #3: the audit formula ignored `enablePersistence`'s IndexedDB queue and would lie with 'online, 0 pending' when writes were actually server-pending. Lyra r2 rewrote the architecture to name `onSnapshotsInSync` + `hasPendingWrites` as the drain primitives. sl-1-2 r2/r3/r4 implemented them (`_syncPendingByKey` + `{ includeMetadataChanges: true }`). sl-1-3 r1 consumed the derived store. Cipher sl-1-1 r2 ran a Territory↔Map pass against the shipped code at e931a08 and found it clean. One nit — equation-ordering in §Architecture contradicting shipped evaluation order — Lyra resolved pre-emptively in r3 without being asked. Phase 1 closed at ~Hour 9.5.\n\nBacklog cleared: four session_logs (cipher-02, cipher-03, cipher-04, lyra-02) ingested via Codex PR #40 (f5098f7d), including two (cipher-02, cipher-03) filed during earlier sessions and never picked up. `journal.sessions[]` full drain deferred to Orinth's handler — snippets are durable under `docs/snippets/2026-04-24-war-time-session-logs/` pending.\n\nDoctrine promoted this hour: framework-ACK-primitives (see `lore-2026-04-24-doctrine-framework-ack-primitives`). Cautionary Tale captured: `lore-2026-04-24-session-id-collision-parallel-tabs`, sibling to the earlier `lore-2026-04-24-session-subscriptions-not-baked-in`.\n\nDashboard and Invoicing provinces have not seen work this Phase. They remain in queue — Dashboard Phase 2 (Session 8 Spec Review) and Invoicing Phase 1 (polish window under Edict V) open when their Builders come online.\n\nDeployed visibility: Phase 1 code is on sproutlab main, but not yet live on the deployed PWA. The existing service worker caches the old shell; until a cache name bump or Phase 2's full cache-busting strategy lands, PWA users see the pre-Phase-1 UI. The sync-visibility state this campaign just shipped is, ironically, unobservable to its intended audience until Phase 2 ships or a manual SW CACHE_NAME bump lands. The Chronicle records this not as a regression but as the same friction Phase 2 is chartered to resolve, now visible through code.\n\nNext gate: H24 rollover opens SproutLab Phase 2 (Cache Busting + SW Version). Lyra on standby; briefing pre-drafted. sproutlab#6 tracking issue names the AT smoke-pass as a gate before any sl-2-N lands code.",
+            "status": "active"
+          },
+          {
+            "id": "lore-2026-04-24-doctrine-framework-ack-primitives",
+            "category": "Doctrines",
+            "title": "Use framework-provided ACK primitives; do not hand-roll counters that mirror SDK state",
+            "domain": ["engineering", "firestore", "sync-pipeline", "pillar-ii"],
+            "tags": ["doctrine", "framework-ack-primitives", "sync-visibility", "anti-hand-rolled", "pillar-ii", "sproutlab"],
+            "references": [
+              "rishabh1804/sproutlab#3",
+              "rishabh1804/sproutlab#4",
+              "rishabh1804/sproutlab#5",
+              "sproutlab@afbc7a5",
+              "sproutlab@d8743c8",
+              "sproutlab@e931a08",
+              "rishabh1804/Codex#25",
+              "rishabh1804/Codex#28",
+              "rishabh1804/Codex#33",
+              "rishabh1804/Codex#38",
+              "lore-2026-04-24-chronicle-hour-12"
+            ],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-24-aurelius-03",
+            "rationale": "Rule: When a framework (Firestore, RxJS, Immer, any durable-state SDK) exposes ACK-state primitives for drain (`onSnapshotsInSync`, observable `.complete`, equivalent) and per-operation pending signals (`snapshot.metadata.hasPendingWrites`, per-subject `.hasPending`, equivalent), use them as the single source of truth. Do not hand-roll parallel counters. Your counter will race the SDK, miss the framework's internal queue, and lie under load.\n\nRationale: Firestore with `enablePersistence({ synchronizeTabs: true })` maintains an IndexedDB write queue. `.set()` / `.update()` promises resolve on local-cache write, not server ACK. Any counter that increments pre-`.set()` and decrements on promise resolution cannot see server-pending writes sitting in the IDB queue. The UI will report 'online, 0 pending' with a dozen writes waiting for network. `onSnapshotsInSync(cb)` fires when local + IDB are both clear. `hasPendingWrites` per-listener gives post-submit truth. Together they are complete.\n\nDisjointness contract (for derived pending-count):\n- pre-submit = active local debounce timers + pending-flush map (before `.set()` is invoked)\n- post-submit = count of keys with `hasPendingWrites === true` (after `.set()`, awaiting server ACK)\nThe transition — debounce fire-callback nulls the timer entry BEFORE `.set()` is invoked, whose subsequent snapshot metadata flips post-submit — is atomic for any given write. The two sets are mutually exclusive by construction, so `pending = pre-submit + post-submit` is safe addition, not guarded defense.\n\nSource thread (five stages):\n1. Diagnosis — Cipher r1 on sproutlab #3; session-2026-04-24-cipher-01\n2. Charter-fix — Lyra r2 on sproutlab #3; session-2026-04-24-lyra-01\n3. Implementation — sl-1-2 r2/r3/r4, shipped as d8743c8; session-2026-04-24-cipher-02\n4. Consumption — sl-1-3 r1, shipped as e931a08; session-2026-04-24-cipher-02\n5. Audit-text reconciliation — sl-1-1 r2 Territory↔Map pass against shipped code; session-2026-04-24-cipher-04\n\nCounter-example: The original sl-1-1 r1 formula: `state = offline if !navigator.onLine || _syncDisabled; = pending if online && (pendingWrites > 0 || any _syncPendingFlush || any debounceTimer); = online otherwise`. Three local JS counters. No reading of Firestore's ACK state. Declared 'online' when those counters were zero — exactly when the IDB queue was full.\n\nApplies to: sync-visibility derivations, gap audits, pending-count UI, any signal that mirrors framework-side state. Generalizes beyond Firestore to any durable-state SDK with exposed ACK primitives.",
+            "status": "active"
+          },
+          {
+            "id": "lore-2026-04-24-session-id-collision-parallel-tabs",
+            "category": "Cautionary Tales",
+            "title": "Session IDs collide across parallel Builder/Reviewer tabs",
+            "domain": ["chronicler", "session-log", "parallel-sessions"],
+            "tags": ["cautionary-tale", "session-id-collision", "parallel-tabs", "chronicler-auto-resolve", "canon-cc-018"],
+            "references": [
+              "rishabh1804/Codex#34",
+              "rishabh1804/Codex#38",
+              "rishabh1804/Codex#40",
+              "codex@f5098f7d",
+              "lore-2026-04-24-session-subscriptions-not-baked-in",
+              "lore-2026-04-24-session-log-ingest-path-incomplete",
+              "lore-2026-04-24-chronicle-hour-12"
+            ],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-24-aurelius-03",
+            "rationale": "During War Time 2026-04-24, Cipher ran multiple parallel sessions from different Claude Code tabs over the morning. Each tab's per-session counter was local to that tab. Two different sessions — a monitor episode started at 07:30Z (sl-1-2/sl-1-3 merge watch, filed as Codex issue #34) and the sl-1-1 r2 review started at 09:40Z (filed as #38) — both claimed the ID `session-2026-04-24-cipher-03`.\n\nThe collision surfaced at Chronicler ingest (PR #40). First-filed won on timestamp precedence; the later session was renamed to `cipher-04` per Chronicler auto-resolve pattern, with the rename + original-issue citation captured in the renamed session's `decisions[0]` entry. Sovereign ratified the rename in-session before commit.\n\nAt one Reviewer in one campaign this was absorbable. At two or three Reviewers each running parallel tabs, or any Chronicler running reserves off fresh main, collisions are inevitable.\n\nLessons:\n1. Session IDs derived from {role, date, counter} are not collision-free when `counter` is per-tab. Parallel sessions will collide.\n2. The Chronicler seat is the last line of defense. Auto-resolve-and-document is the right move — rename the later session by chronological order (earliest-filed keeps original ID; later renames by +1), preserve the audit trail via citation in `decisions[]`.\n3. Never silently rename. Ratify with Sovereign in-session. The original Codex issue number must be discoverable from the renamed entry.\n\nFix proposals (non-blocking, future work):\n- Session IDs include a 6-char random suffix or ULID-style timestamp hash, trading some readability for uniqueness.\n- Session_log handler (Orinth) detects collision on ingest, proposes rename by timestamp precedence, requires ratification before commit (current manual pattern codified).\n\nCanon anchor: canon-cc-018 (Artifact Lifecycle & Synergy Observability) — session IDs are part of the observable lifecycle; collisions are a Pillar I (Nothing Wasted) risk because they blur two separate sessions into one audit entry if not resolved.\n\nRelated lore:\n- `lore-2026-04-24-session-subscriptions-not-baked-in` — sibling; both surface at Chronicler ingest time from parallel-session dynamics.\n- `lore-2026-04-24-session-log-ingest-path-incomplete` — earlier Chronicler miss on ingest-path correctness."
+          ,
+            "status": "active"
+          }
+        ]
+      }
+    }
+  ]
+}
