@@ -8,7 +8,7 @@
       "started_at": "2026-04-24T02:30:00Z",
       "ends_at": "2026-04-27T02:30:00Z",
       "duration_hours": 72,
-      "trigger": "Book VI Article 2(c)+(d) \u2014 Scope Pivot + Velocity Event",
+      "trigger": "Book VI Article 2(c)+(d) — Scope Pivot + Velocity Event",
       "provinces": [
         "sproutlab",
         "sep-dashboard",
@@ -38,7 +38,7 @@
               "id": "sl-1-1",
               "phase_id": "sproutlab-phase-1",
               "name": "Assess sync visibility gaps",
-              "status": "in-progress",
+              "status": "complete",
               "status_history": [
                 {
                   "status": "in-progress",
@@ -51,6 +51,30 @@
                   "at": "2026-04-24T03:55:00Z",
                   "session_id": "session-2026-04-24-cipher-01",
                   "note": "Cipher review posted on PR #3: 5 blockers + 5 nits; changes requested. Task remains in-progress pending Lyra revision."
+                },
+                {
+                  "status": "in-progress",
+                  "at": "2026-04-24T04:07:23Z",
+                  "session_id": "session-2026-04-24-lyra-01",
+                  "note": "Lyra pushed r2 (4c65ea7) addressing Cipher's blockers 1–5 + all five comment-level items."
+                },
+                {
+                  "status": "review",
+                  "at": "2026-04-24T09:49:24Z",
+                  "session_id": "session-2026-04-24-cipher-04",
+                  "note": "Cipher r2 review on sproutlab #3 at 4c65ea7 — approve (posted as COMMENT per self-account APPROVE rejection pattern) with one comment-level nit on §Architecture piecewise equation ordering. Phase 1 unblocked from Censor's seat. Original submission at Codex issue #38 as cipher-03; renamed to cipher-04 on ingest due to collision with #34's cipher-03 (monitor episode)."
+                },
+                {
+                  "status": "review",
+                  "at": "2026-04-24T09:50:58Z",
+                  "session_id": "session-2026-04-24-lyra-02",
+                  "note": "Lyra pushed r3 (628a41f) pre-emptively resolving Cipher's equation-ordering nit. Reordered §Architecture piecewise equation to match shipped evaluation order (halted → offline → connecting → syncing → online). Prose unchanged."
+                },
+                {
+                  "status": "complete",
+                  "at": "2026-04-24T09:55:00Z",
+                  "session_id": "session-2026-04-24-aurelius-03",
+                  "note": "sproutlab PR #3 squash-merged as afbc7a5 by Sovereign. Phase 1 closes with sl-1-1 + sl-1-2 + sl-1-3 all on main. Framework-ACK-primitives doctrine arc five-stage complete (r1 → r2 charter-fix → sl-1-2 r2/r3/r4 → sl-1-3 r1 → sl-1-1 r2 audit-text reconciliation); ready for Hour-12 Chronicle promotion. Tracking issue sproutlab#6 filed for follow-ups (HR-3 gaps, .gitignore hardening, sl-1-3 AT smoke pass GATE before sl-2-N)."
                 }
               ]
             },
