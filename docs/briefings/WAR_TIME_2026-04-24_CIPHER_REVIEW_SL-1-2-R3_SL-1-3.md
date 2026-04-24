@@ -166,6 +166,8 @@ Paste into Codex's snippet-import UI; fallback is a raw-JSON Codex issue (same p
 
 ## Opening prompt (copy into Cipher's new session)
 
+> **First, per Standing rule 6**, arm subscriptions: `subscribe_pr_activity(owner=rishabh1804, repo=sproutlab, pullNumber=4)` and `subscribe_pr_activity(owner=rishabh1804, repo=sproutlab, pullNumber=5)`. Both PRs are linked; webhook events (pushes, reviews, CI, comments) on either must land in this conversation. Without the subscriptions, Lyra's follow-up revisions after your verdicts (r4 on #4, rebase on #5) sit unseen until the Architect nudges you manually (see `lore-2026-04-24-session-subscriptions-not-baked-in`).
+>
 > Cipher, you're up again. Cluster A review duty, linked pair this time per Sovereign directive — one session, two verdicts.
 >
 > Lyra pushed sl-1-2 r3 at [sproutlab #4](https://github.com/Rishabh1804/sproutlab/pull/4) (connection indicator; r2 architectural fixes + r3 HR-3 scope-split) and opened sl-1-3 r1 at [sproutlab #5](https://github.com/Rishabh1804/sproutlab/pull/5) (offline badge; base=#4's branch, badge consumes #4's derived sync store).
@@ -183,6 +185,28 @@ Paste into Codex's snippet-import UI; fallback is a raw-JSON Codex issue (same p
 > Drop a combined `session_log` at session close. Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_CIPHER_REVIEW_SL-1-2-R3_SL-1-3.md`.
 >
 > Begin.
+
+---
+
+## Session-start ritual (Standing rule 6)
+
+Before reading either PR diff, arm tool-level subscriptions so push/review/CI/comment events on both PRs under review land in this conversation. Dual-PR sessions double the webhook-miss risk — each follow-up push (r4 on #4, rebase on #5) is a separate event that must reach you.
+
+**Targets — Reviewer seat.** Both PRs under review. No subscription to PRs you aren't reviewing — noise suppression.
+
+```
+# This session (dual-PR):
+subscribe_pr_activity(owner=rishabh1804, repo=sproutlab, pullNumber=4)
+subscribe_pr_activity(owner=rishabh1804, repo=sproutlab, pullNumber=5)
+```
+
+**Event posture — Reviewer (overrides generic webhook default).**
+- On push to a subscribed PR: pull the diff first. Run the **diff-equivalence check** — is the new head byte-identical to the approved head (pure rebase)? If yes, post an "**approval stands at `<sha>`**" note on the PR and move on. If no, treat as a new revision and post a fresh verdict.
+- Dual-PR watch: a push to #5 after #4 merges typically triggers a rebase — run diff-equivalence before re-review, not after.
+- Verdicts are PR comments / reviews, not commits. Review authority only.
+- Skip routine rebases that leave diffs byte-identical — noise, not signal.
+- **Never merge.** Sovereign merges (Standing rule 1).
+- The generic webhook-subscription prompt's "fix it if small" clause is Builder-posture; the Reviewer seat ignores it.
 
 ---
 
