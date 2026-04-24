@@ -23,7 +23,10 @@
           "acceptance": "Connection indicator live, offline badge visible, merged to main",
           "leads": ["lyra"],
           "tasks": [
-            { "id": "sl-1-1", "phase_id": "sproutlab-phase-1", "name": "Assess sync visibility gaps", "status": "pending" },
+            { "id": "sl-1-1", "phase_id": "sproutlab-phase-1", "name": "Assess sync visibility gaps", "status": "in-progress", "status_history": [
+              { "status": "in-progress", "at": "2026-04-24T02:45:00Z", "session_id": "session-2026-04-24-lyra-01", "note": "Lyra opened draft PR #3 on sproutlab (docs-only audit)." },
+              { "status": "in-progress", "at": "2026-04-24T03:55:00Z", "session_id": "session-2026-04-24-cipher-01", "note": "Cipher review posted on PR #3: 5 blockers + 5 nits; changes requested. Task remains in-progress pending Lyra revision." }
+            ] },
             { "id": "sl-1-2", "phase_id": "sproutlab-phase-1", "name": "Implement connection indicator", "status": "pending" },
             { "id": "sl-1-3", "phase_id": "sproutlab-phase-1", "name": "Implement offline badge", "status": "pending" }
           ]
