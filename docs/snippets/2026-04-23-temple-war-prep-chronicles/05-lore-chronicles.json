@@ -1,0 +1,49 @@
+{
+  "snippet_type": "lore",
+  "operations": [
+    {
+      "op": "new_lore_entries",
+      "data": {
+        "entries": [
+          {
+            "id": "lore-2026-04-23-chronicle-war-prep",
+            "category": "Chronicles",
+            "title": "Pre-Dawn War-Prep — 2026-04-23",
+            "domain": ["campaign", "war-time-2026-04-24", "all-provinces"],
+            "tags": ["war-prep", "pre-dawn", "hour-minus-one"],
+            "references": [
+              "rishabh1804/sproutlab#2",
+              "rishabh1804/Codex#19",
+              "rishabh1804/Codex#20",
+              "rishabh1804/sep-dashboard#1",
+              "rishabh1804/TempleOfMars#1",
+              "rishabh1804/TempleOfMars#2",
+              "rishabh1804/TempleOfMars#3",
+              "rishabh1804/TempleOfMars#4"
+            ],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-23-aurelius-war-prep",
+            "rationale": "A single pre-dawn working session, driven by Aurelius on behalf of the Sovereign, bridging the gap between war preparation (Session closed 2026-04-23) and War Time Hour 0 (2026-04-24 08:00 IST).\n\nArc: the session opened with a status check on the already-merged pragmatic patch (SEP Dashboard v2.1 restore), surfaced the SproutLab LOC inflation bug during verification, cleaned the cruft (PR #2 on sproutlab: -77,226 lines), disposed of Codex PR #19 (the War Time declaration PR that was doc-only after its content had already landed on main — closed with pointer comment), then pivoted to the Temple of Mars founding.\n\nTemple arc: four charter decisions (permanent-not-one-shot, live-Codex-fetch, SvelteKit stack, GH Pages hosting), metrics decision (Priority 1 + 2 via session_log snippet), 41-file scaffold streamed across 9 commits (after first attempt hit stream timeout), Codex integration (#20 campaigns.json + Session v2 schema), then a four-step deploy fire-drill that birthed three Cautionary Tales before going green at 23s.\n\nThe temple stands. The clock ticks. The Order is ready.",
+            "status": "active"
+          },
+          {
+            "id": "lore-2026-04-23-chronicle-temple-founding",
+            "category": "Chronicles",
+            "title": "The Founding of Temple of Mars",
+            "domain": ["temple-of-mars", "governance", "pillar-1"],
+            "tags": ["founding", "watchtower", "first-modern-toolchain-pwa", "ignis"],
+            "references": [
+              "templeofmars/docs/CHARTER.md",
+              "templeofmars/docs/SCHEMA.md",
+              "rishabh1804/TempleOfMars#1"
+            ],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-23-aurelius-war-prep",
+            "rationale": "Temple of Mars became the second Monument-class artifact of the Order — sibling to the Command Center, proposed under a new structural class called `Watchtower`. It is the first repository in the Order to deliberately break from the single-file HTML PWA pattern, adopting Stack B (SvelteKit + adapter-static + Tailwind v4 + Vite-PWA + TypeScript strict + Biome + Vitest).\n\nBuilder: Ignis. First project. Per Sovereign decree 2026-04-23, Ignis vacated a Cabinet Minister seat to assume this Builder seat; formal canon-inst-* entry queued (chapter `ch-ignis-canon-entry`).\n\nInaugural function: campaign dashboard for War Time 2026-04-24. But Temple is permanent — the first campaign is not its only purpose. It will outlast the war, render Peacetime views, grow a Lore browser, archive campaigns, and stand as the Order's institutional-memory surface going forward.\n\nLive at `https://rishabh1804.github.io/TempleOfMars/` as of 2026-04-23. Pillar I honored: every session logged, every decision captured, every discovery recorded. Nothing is wasted.",
+            "status": "active"
+          }
+        ]
+      }
+    }
+  ]
+}

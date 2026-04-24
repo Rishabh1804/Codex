@@ -1,0 +1,80 @@
+{
+  "snippet_type": "journal",
+  "operations": [
+    {
+      "op": "new_session",
+      "data": {
+        "id": "session-2026-04-23-aurelius-war-prep",
+        "summary": "Pre-dawn war preparation session: SproutLab cruft purge (-77,226 LOC), SEP Dashboard v2.1 baseline verified, Codex PR #19 (War Time declaration) closed with main-branch ratification noted, Temple of Mars v0.1 founded (charter + Stack B SvelteKit + 41-file scaffold + Codex campaigns.json + Session v2 schema + live GH Pages deploy at 23s after three CI hotfixes), Ignis seated as Temple Builder per Sovereign decree. The temple stands ready for War Time Hour 0.",
+        "volumes_touched": ["sproutlab", "sep-dashboard", "codex", "temple-of-mars"],
+        "decisions": [
+          "SproutLab cruft: remove split/sproutlab.html (61,948-line compiled artifact duplicate) + .trashed-1778272350-intelligence.js (15,278-line OS-trash). Real split-module surface: ~61,933 lines, not 139,171.",
+          "Codex PR #19: close without merge; content already ratified on main via commits 8f843d9 / 2e271a1 / d522295.",
+          "Temple of Mars: permanent Watchtower, not one-shot. War Time is first campaign, not only purpose.",
+          "Temple data architecture: live fetch from Codex raw JSON; Temple subscribes, never writes. Map != Territory enforced by construction (no credentials shipped).",
+          "Temple stack: Stack B (SvelteKit 2 + adapter-static + Tailwind v4 + @vite-pwa/sveltekit + TypeScript strict + Biome + Vitest). Rejected Stack A (Astro + islands), Stack C (React SPA), Stack D (Vite + Svelte without SvelteKit), and single-file HTML province pattern.",
+          "Temple hosting: GitHub Pages at https://rishabh1804.github.io/TempleOfMars/.",
+          "Temple fonts: Playfair Display + Work Sans (Codex design system inherited verbatim). Rejected system-font-stack-for-speed.",
+          "Campaign metrics: Priority 1 + 2. Sessions per task/phase, tokens in+out, model, estimated USD cost, wall-clock duration, commits, LOC delta, efficiency ratio.",
+          "Campaign capture: extend Codex snippet-import pipeline with new session_log snippet type (record_session, update_task_status, log_blocker). Zero new infrastructure.",
+          "Codex Session schema v2: extend journal.json Session with optional campaign_id, phase_id, task_id, builder, province, started_at, ended_at, model, tokens_in, tokens_out, commits[], loc_delta, lore_generated[]. Non-breaking.",
+          "Temple Builder: Ignis (first project; Cabinet Minister seat vacated per Sovereign decree 2026-04-23 — canon-inst-* entry queued).",
+          "Watchtower sibling class proposed under Edict VI — observational counterpart to Monument. Working Committee to ratify post-war.",
+          "Branch + PR discipline held for every change, including one-line deploy hotfixes. No direct push to main.",
+          "Agent-commit strategy: stream commits in small batches (2-5 files each) rather than one large push_files. Avoids stream timeouts.",
+          "Auto-delete merged head branches enabled on both TempleOfMars and Codex."
+        ],
+        "bugs_found": 0,
+        "handoff": "Temple of Mars v0.1 live at https://rishabh1804.github.io/TempleOfMars/ with Codex-backed telemetry. Dashboard flips from Seed to Codex-live once campaigns.json merges (already merged in Codex #20). War Time Hour 0 is 2026-04-24 08:00 IST. Ignis assumes Temple Builder seat at Hour 0. session_log handler implementation in Codex import pipeline queued (chapter ch-session-log-handler). Canon entry for Ignis reassignment queued (chapter ch-ignis-canon-entry). PNG icon set queued for v0.2. Working Committee review of Watchtower class queued post-war.",
+        "campaign_id": "war-time-2026-04-24",
+        "phase_id": null,
+        "task_id": null,
+        "builder": "aurelius",
+        "province": "temple-of-mars",
+        "started_at": "2026-04-23T13:30:00Z",
+        "ended_at": "2026-04-23T17:30:00Z",
+        "model": "opus-4-7",
+        "tokens_in": null,
+        "tokens_out": null,
+        "commits": [
+          "5724d52f46785473672177647726fc8f531b7586",
+          "a7d2981065c3734310ea1257996323953bebf384",
+          "e52f176bd766df5d1fe03e35a4f0122718768cc5",
+          "a6f272dc46c38f7cd488326036015791534efbc9",
+          "f340fa7af9c317b88188db9d0f40da10745cf820",
+          "edaa7cff6be53c9cbba668d5d2219d4564e527b6",
+          "22bd1c3899ff10dd8dd2caafbe6028e89ac1a30b",
+          "258fbffba2abbbb0db5505846fd7fd3b0771baa6",
+          "df3202904042b53b92116815d470ffe5a059953a",
+          "b56606880064cfa6599973c93e385abf8eff35e7",
+          "40ab29456fa20d8c5b72423929a66281f786f870",
+          "a1f92616597d85bd0da85ebd2f5cc0ecffccae47",
+          "4517c8be1aaf9f8b22559cbff9b395979942fadf",
+          "0e44caa27b41ca48db296950f8f50a8b9fa346f7",
+          "35a2887e2e78e3a6c6f3cc6421ae18a5bff495a2",
+          "07a708ea9c14cc3518004ca8d303a16f80832d1a",
+          "8c424b6bfe7a02f15a9fbb216efd7d1696905ef3"
+        ],
+        "loc_delta": null,
+        "lore_generated": [
+          "lore-2026-04-23-compiled-artifacts-in-tree",
+          "lore-2026-04-23-pages-path-case-sensitivity",
+          "lore-2026-04-23-pnpm-action-setup-version-conflict",
+          "lore-2026-04-23-setup-node-cache-requires-lockfile",
+          "lore-2026-04-23-vite-plugin-svelte-peer-dep",
+          "lore-2026-04-23-commit-signing-env-quirk",
+          "lore-2026-04-23-push-files-stream-timeout",
+          "lore-2026-04-23-doctrine-single-file-vs-stack-b",
+          "lore-2026-04-23-doctrine-map-territory-by-construction",
+          "lore-2026-04-23-doctrine-novice-friendliness",
+          "lore-2026-04-23-doctrine-charter-before-build",
+          "lore-2026-04-23-doctrine-stream-commits",
+          "lore-2026-04-23-doctrine-watchtower-class",
+          "lore-2026-04-23-doctrine-branch-pr-flow",
+          "lore-2026-04-23-chronicle-war-prep",
+          "lore-2026-04-23-chronicle-temple-founding"
+        ]
+      }
+    }
+  ]
+}

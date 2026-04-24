@@ -1,0 +1,181 @@
+{
+  "snippet_type": "chapters",
+  "operations": [
+    {
+      "op": "new_chapters",
+      "data": {
+        "volume_id": "temple-of-mars",
+        "chapters": [
+          {
+            "id": "ch-pre-war-housekeeping",
+            "name": "Pre-War Housekeeping",
+            "status": "complete",
+            "started": "2026-04-23",
+            "completed": "2026-04-23",
+            "ended": null,
+            "summary": "Before the war, the house. Three pre-dawn cleanups across sibling repos to clear launch-pad cruft.",
+            "spec_url": null,
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 1,
+            "content": "## What happened\n\n1. **SproutLab cruft purge** (PR #2 on sproutlab): removed `split/sproutlab.html` (61,948-line duplicate of the compiled entry point, same SHA as `/index.html`) and `split/.trashed-1778272350-intelligence.js` (15,278-line OS-trashed prior version). Together these had inflated Lyra's War Time brief by 77,226 lines (~2×). Real SproutLab split-module surface: ~61,933 lines, not 139,171.\n\n2. **SEP Dashboard v2.1 baseline verification** (PR #1 merged pre-dawn): Nyx + Sovereign restored `index.html` from the 50,279-line bloat back to the 4,531-line v2.1 build. War-time Phase 1 (Pragmatic Patch) effectively completed before Hour 0.\n\n3. **Codex PR #19 disposition**: the formal War Time declaration PR was found to be doc-only (all content already on `main` via commits `8f843d9`, `2e271a1`, `d522295`). Closed without merge; commented with the ratifying-commits pointer.\n\n## Why it mattered\n\nThe two compiled-artifact-in-tree cases (SproutLab + SEP Dashboard) are sibling patterns of the same bug class — see Cautionary Tale `lore-compiled-artifacts-in-tree`. Cleaning both before dawn gave all three province Builders a truthful starting line."
+          },
+          {
+            "id": "ch-charter-stack-selection",
+            "name": "Charter + Stack Selection",
+            "status": "complete",
+            "started": "2026-04-23",
+            "completed": "2026-04-23",
+            "ended": null,
+            "summary": "Four decisions ratified before a single file of code was written. Edict VIII honored mechanically.",
+            "spec_url": "docs/CHARTER.md",
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 2,
+            "content": "## Decisions ratified (Sovereign, 2026-04-23)\n\n1. **Temple is permanent, not one-shot** — the War Time dashboard is its first campaign, not its only one. The Temple outlasts any war.\n2. **Live fetch from Codex JSON** — Codex is territory, Temple is map. Temple subscribes via `raw.githubusercontent.com`; no local cache of source-of-truth.\n3. **Stack B: SvelteKit** — chosen over Stack A (Astro + Svelte islands), Stack C (React SPA), and Stack D (Vite + Svelte without SvelteKit). See Schism entries.\n4. **GitHub Pages hosting** — at `https://rishabh1804.github.io/TempleOfMars/`.\n\n## Why Stack B specifically\n\nAstro + Svelte islands would technically ship less JS, but it imposes two mental models on a novice Builder. SvelteKit alone is one mental model end-to-end. The tell that flipped the pick: SproutLab migration scenario. SproutLab is app-shaped; Astro's islands fight that. SvelteKit fits both Temple (content-ish) and a future SproutLab rewrite (app-shaped). Learning cost dominates performance cost at this stage.\n\n## Charter before build\n\nREADME + CHARTER.md + SCHEMA.md drafted before any Svelte component code. Edict VIII honored."
+          },
+          {
+            "id": "ch-metrics-capture",
+            "name": "Metrics + Capture Mechanism",
+            "status": "complete",
+            "started": "2026-04-23",
+            "completed": "2026-04-23",
+            "ended": null,
+            "summary": "Priority 1 + 2 metrics locked. Capture via extension to existing snippet-import pipeline.",
+            "spec_url": "docs/SCHEMA.md",
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 3,
+            "content": "## Metrics\n\n**Priority 1:** Sessions per task/phase, tokens in+out, model, estimated USD cost (tokens × rate).\n**Priority 2:** Wall-clock duration, commits, LOC delta, efficiency ratio (out/in).\n**Priority 3 (deferred):** QA bounces, blockers, scope drift. Captured opportunistically via `log_blocker` op.\n\n## Capture\n\nCodex already has a snippet-import pipeline. Extended with a new `session_log` snippet type — three ops: `record_session`, `update_task_status`, `log_blocker`. Zero new infrastructure. Edict III by construction: Temple has no write credentials."
+          },
+          {
+            "id": "ch-v01-scaffold-deploy",
+            "name": "v0.1 Scaffold + Deploy Pipeline",
+            "status": "complete",
+            "started": "2026-04-23",
+            "completed": "2026-04-23",
+            "ended": null,
+            "summary": "41 files, 9 commits, three hotfix PRs on the deploy pipeline. Green at 23s.",
+            "spec_url": null,
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 4,
+            "content": "## What shipped\n\nSvelteKit 2 + adapter-static + Svelte 5 runes (TypeScript strict), Tailwind v4 via @tailwindcss/vite, @vite-pwa/sveltekit (Workbox) honoring Canon 0034, SW runtime-cache for Codex raw JSON, campaign store + Codex fetchers with null-tolerant error handling, phase/campaign aggregation with USD derivation, dashboard components (Countdown, ProvinceCard, Timeline, Checkpoint, LoreSchema, CampaignSummary), design system port (Playfair + Work Sans, theme, fs-base slider, 17-glyph Icon registry), GH Actions → Pages deploy.\n\n## Deploy fire-drill\n\nFour failed runs before the first green. Three hotfix PRs:\n\n1. **#2 (casing):** path base was `/templeofmars/` but GH Pages serves `/TempleOfMars/`. Assets 404'd silently.\n2. **#3 (pnpm/action-setup + vite-plugin-svelte):** `version: 9` input conflicted with `packageManager` field. v4 action rejects that combo. Also: vite-plugin-svelte@^5 needs Vite 6; downgraded to ^4.\n3. **#4 (setup-node cache):** `cache: pnpm` needs a lockfile to hash. We ship without one. Dropped the cache input.\n\nFinal run green at 23s.\n\n## Streaming pattern\n\nInitial monolithic push_files hit stream idle timeouts. Broke into 4–6 smaller batches. See Doctrine `doctrine-stream-commits-not-monoliths`."
+          },
+          {
+            "id": "ch-codex-integration",
+            "name": "Codex Integration — campaigns.json + Session v2",
+            "status": "complete",
+            "started": "2026-04-23",
+            "completed": "2026-04-23",
+            "ended": null,
+            "summary": "campaigns.json declared as Temple's source; Session schema extended with optional campaign/telemetry fields.",
+            "spec_url": "docs/schema/SESSION_V2.md",
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 5,
+            "content": "## Landed on Codex main (#20)\n\n- `data/campaigns.json` — War Time 2026-04-24 with 8 phases across 3 provinces, 17 tasks, leads + acceptance per phase. Authoritative source; Temple reads live.\n- `docs/schema/SESSION_V2.md` — draft extension to Session schema. All new fields optional (campaign_id, phase_id, task_id, builder, province, started_at, ended_at, model, tokens_in, tokens_out, commits[], loc_delta, lore_generated[]). Existing sessions render unchanged.\n- `session_log` snippet type declared with three operations.\n\n## Edict III by construction\n\nTemple ships no credentials. The only path for session telemetry is Codex snippet-import → journal.json → raw.githubusercontent.com → Temple's SW cache. No bypass possible."
+          },
+          {
+            "id": "ch-war-time-campaign-2026-04-24",
+            "name": "War Time 2026-04-24 — First Campaign",
+            "status": "in-progress",
+            "started": "2026-04-24",
+            "completed": null,
+            "ended": null,
+            "summary": "The first campaign rendered by Temple of Mars. 72-hour intervention across SproutLab, SEP Dashboard, SEP Invoicing.",
+            "spec_url": null,
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 6,
+            "content": "Trigger: Book VI Article 2(c)+(d) — Scope Pivot + Velocity Event.\n\nStart: 2026-04-24 08:00 IST. End: 2026-04-27 08:00 IST.\n\nProvinces + leads:\n- SproutLab — Lyra — 3 phases\n- SEP Dashboard — Nyx + Sovereign — 3 phases\n- SEP Invoicing — Theron + Solara — 2 phases\n\nQA: Cipher. Recorder: Aurelius.\n\nLive at https://rishabh1804.github.io/TempleOfMars/. Chapter advances to `review` at Hour 72, `complete` after Working Committee post-war review."
+          },
+          {
+            "id": "ch-ignis-canon-entry",
+            "name": "Canon Entry: Ignis Builder Reassignment",
+            "status": "planned",
+            "started": null,
+            "completed": null,
+            "ended": null,
+            "summary": "Canon-inst-* entry formalizing Ignis's vacation of Minister seat and assumption of Temple Builder seat.",
+            "spec_url": null,
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 7,
+            "content": "Sovereign decree 2026-04-23 reassigns Ignis from Cabinet Minister seat to Builder of Temple of Mars. First project.\n\nPrecedent: canon-inst-001 (Aurelius → Orinth), canon-inst-002 (Rune → Priest). Likely canon-inst-003.\n\nContent to ratify: which Minister seat was vacated, pro-tempore distributive care, Cluster assignment, Builder authority scope. Queued for Sovereign hand."
+          },
+          {
+            "id": "ch-session-log-handler",
+            "name": "Codex Import Pipeline — session_log Handler",
+            "status": "spec-drafting",
+            "started": "2026-04-23",
+            "completed": null,
+            "ended": null,
+            "summary": "Schema declared. Handler implementation pending.",
+            "spec_url": "docs/schema/SESSION_V2.md",
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 8,
+            "content": "## Exists\n\nSESSION_V2.md documents the three ops + data shapes. campaigns.json exists for update_task_status. journal.json accepts the new optional fields.\n\n## Missing\n\nHandler code in the snippet-import dispatcher. Dedup by session id; update_task_status traverses phases until it finds the task.\n\n## Acceptance\n\nFirst War Time session logs via snippet paste. Temple dashboard shows non-zero aggregates after refresh."
+          },
+          {
+            "id": "ch-png-icon-set",
+            "name": "PNG Icon Set (192 / 512)",
+            "status": "planned",
+            "started": null,
+            "completed": null,
+            "ended": null,
+            "summary": "v0.1 ships with a single SVG icon. iOS Safari prefers PNG.",
+            "spec_url": null,
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 9,
+            "content": "Current: static/icon.svg + static/favicon.svg. Manifest declares SVG for both 192 and 512. Chromium accepts; iOS Safari prefers PNG.\n\nAction: rasterize icon.svg at 192×192 and 512×512, commit, update manifest. Queue for v0.2."
+          },
+          {
+            "id": "ch-lore-browser",
+            "name": "v0.2 — Lore Browser",
+            "status": "planned",
+            "started": null,
+            "completed": null,
+            "ended": null,
+            "summary": "mdsvex-backed content collections over Chronicles, Doctrines, Cautionary Tales.",
+            "spec_url": null,
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 10,
+            "content": "Reads canons.json lore[] and/or embeds markdown in src/content/. Searchable, filterable by category/domain/tag. References resolvable. Fits Pillar III."
+          },
+          {
+            "id": "ch-province-detail-views",
+            "name": "v0.2 — Province Detail Views",
+            "status": "planned",
+            "started": null,
+            "completed": null,
+            "ended": null,
+            "summary": "Per-province deep-dive pages at /provinces/[id]/.",
+            "spec_url": null,
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 11,
+            "content": "SvelteKit dynamic routes. Reads volumes.json for project metadata, filters journal.json sessions by province. Extends ProvinceCard into a full surface."
+          },
+          {
+            "id": "ch-working-committee-watchtower",
+            "name": "Working Committee — Watchtower Class Designation",
+            "status": "planned",
+            "started": null,
+            "completed": null,
+            "ended": null,
+            "summary": "Formal ratification of Watchtower as sibling-class to Monument under Edict VI.",
+            "spec_url": null,
+            "_deleted": false,
+            "_deleted_date": null,
+            "order": 12,
+            "content": "CHARTER proposes Watchtower as a new structural class. Command Center directs; Temple observes. Working Committee to ratify post-war. Alternative (rejected in schism-temple-as-another-monument): strip Watchtower language."
+          }
+        ]
+      }
+    }
+  ]
+}

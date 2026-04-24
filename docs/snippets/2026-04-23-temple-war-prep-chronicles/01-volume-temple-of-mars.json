@@ -1,0 +1,33 @@
+{
+  "snippet_type": "volumes",
+  "operations": [
+    {
+      "op": "new_volume",
+      "data": {
+        "id": "temple-of-mars",
+        "name": "Temple of Mars",
+        "shelf": "active",
+        "description": "Watchtower of the Order. Sister Monument to the Command Center. A read-only Progressive Web App that aggregates live state from every active province — SproutLab, SEP Dashboard, SEP Invoicing, Codex, Command Center — and renders campaign dashboards, province telemetry, and lore. First non-HTML PWA in the Order (deliberate departure from the single-file province pattern, per Sovereign decree 2026-04-23).",
+        "domain_color": "#C41E3A",
+        "tags": ["pwa", "watchtower", "monument", "telemetry", "sveltekit", "modern-toolchain"],
+        "repo": "Rishabh1804/TempleOfMars",
+        "current_phase": "v0.1 live. War Time 2026-04-24 is the first campaign. Ignis assumes Builder seat at Hour 0.",
+        "chapters": [],
+        "todos": [],
+        "shelf_history": [
+          {
+            "shelf": "active",
+            "date": "2026-04-23",
+            "reason": "Founded by Sovereign decree to serve as Watchtower sibling to the Command Center Monument. First modern-toolchain PWA in the Order. Builder: Ignis (first project; Minister seat vacated)."
+          }
+        ],
+        "design_principles": {
+          "status": "ported",
+          "spec_path": "docs/CHARTER.md",
+          "republic_principles_applied": true,
+          "notes": "Inherits Codex design system verbatim — Playfair Display (display) + Work Sans (body), .dark on :root, --fs-base 3-tier slider (12/14/17px), stroke-1.5 SVG icon system (port of cx(name)), mars red/cyan + province color tokens. Stack B documented in CHARTER.md: SvelteKit 2 + adapter-static + Tailwind v4 + @vite-pwa/sveltekit + TypeScript strict + Biome + Vitest."
+        }
+      }
+    }
+  ]
+}
