@@ -1,0 +1,196 @@
+{
+  "snippet_type": "schisms",
+  "operations": [
+    {
+      "op": "new_schism_entries",
+      "data": {
+        "entries": [
+          {
+            "id": "schism-2026-04-23-stack-a-astro-islands",
+            "title": "Stack A — Astro + Svelte Islands + Tailwind v4 + @vite-pwa/astro",
+            "context": "Temple of Mars stack selection",
+            "proposal": "Adopt Astro 5 with Svelte 5 islands, Content Collections for MDX-backed lore, @vite-pwa/astro for PWA.",
+            "pros": [
+              "Best runtime performance — islands ship ~0 JS by default, hydrate only interactive cards.",
+              "Content Collections + MDX make the lore browser nearly free.",
+              "Highest Lighthouse scores realistically achievable on GH Pages.",
+              "No framework lock-in on islands — add React/Solid per-page later."
+            ],
+            "cons": [
+              "Two mental models — .astro files AND .svelte files, with island hydration semantics to learn.",
+              "Ill-suited to future SproutLab migration (SproutLab is app-shaped — islands fight that).",
+              "Higher cognitive load for a novice Builder."
+            ],
+            "resolution": "Rejected in favor of Stack B. Performance edge is real but invisible on 2026 mobile; learning-cost and cross-province transferability favored single-framework pick.",
+            "date": "2026-04-23",
+            "references": ["templeofmars/docs/CHARTER.md", "lore-2026-04-23-doctrine-novice-friendliness"],
+            "status": "resolved"
+          },
+          {
+            "id": "schism-2026-04-23-stack-c-react-spa",
+            "title": "Stack C — React SPA + Vite + TanStack Query + shadcn/ui + Tailwind + vite-plugin-pwa",
+            "context": "Temple of Mars stack selection",
+            "proposal": "React 18+ Vite SPA, TanStack Query for Codex-JSON, shadcn/ui, vite-plugin-pwa.",
+            "pros": [
+              "Largest ecosystem; shadcn/ui components polished and fully customizable.",
+              "TanStack Query ideal for live Codex reads.",
+              "Most abundant documentation and community support."
+            ],
+            "cons": [
+              "Largest JS bundle of the three — worst mobile-install UX.",
+              "Biggest dependency tree; slowest installs in CI.",
+              "Same novice-friendliness issue as Stack A."
+            ],
+            "resolution": "Rejected. Stack B offers comparable capability with smaller bundle and simpler mental model.",
+            "date": "2026-04-23",
+            "references": ["templeofmars/docs/CHARTER.md"],
+            "status": "resolved"
+          },
+          {
+            "id": "schism-2026-04-23-stack-d-vite-svelte-no-sveltekit",
+            "title": "Stack D — Vite + Svelte 5 + Tailwind + vite-plugin-pwa (no SvelteKit)",
+            "context": "Temple of Mars stack selection",
+            "proposal": "Plain Vite + Svelte + Tailwind, no SvelteKit. Smallest possible mental footprint.",
+            "pros": [
+              "Absolute minimum cognitive load.",
+              "Fewest concepts to learn.",
+              "Works fine if Temple stays one page forever."
+            ],
+            "cons": [
+              "No file-based routing.",
+              "No Content Collections — lore-as-markdown DIY.",
+              "Doesn't generalize to future SproutLab migration."
+            ],
+            "resolution": "Rejected. SvelteKit's routing and content-collection machinery pay back their small extra learning cost within a week.",
+            "date": "2026-04-23",
+            "references": ["templeofmars/docs/CHARTER.md"],
+            "status": "resolved"
+          },
+          {
+            "id": "schism-2026-04-23-single-file-html-for-temple",
+            "title": "Use the Province Pattern (Single-File HTML PWA) for Temple",
+            "context": "Temple of Mars stack selection",
+            "proposal": "Ship Temple as a single-file HTML PWA matching SproutLab / SEP Dashboard / SEP Invoicing / Command Center.",
+            "pros": [
+              "Consistent with every other repo in the Order.",
+              "Zero build pipeline; install-anywhere-zero-config.",
+              "No dependency management burden."
+            ],
+            "cons": [
+              "Temple's scope outgrows the single-file ceiling quickly.",
+              "Manifest + SW maintenance by hand is brittle at Temple's complexity.",
+              "No type-safety, no test harness, no component reuse.",
+              "Would hit Edict I (30K Rule) structurally rather than by growth."
+            ],
+            "resolution": "Rejected. This is exactly the case where Stack B pays for itself. Deliberate first departure from the province pattern.",
+            "date": "2026-04-23",
+            "references": ["templeofmars/docs/CHARTER.md", "lore-2026-04-23-doctrine-single-file-vs-stack-b"],
+            "status": "resolved"
+          },
+          {
+            "id": "schism-2026-04-23-external-capture-sheets",
+            "title": "External Capture Mechanism — Google Sheets or Airtable",
+            "context": "Temple campaign-telemetry capture mechanism",
+            "proposal": "Use a Google Sheet or Airtable base for session logs via form submissions; Temple reads via JSON export APIs.",
+            "pros": [
+              "Lowest-friction data entry — web form, phone-friendly.",
+              "Zero code to write for the capture UI.",
+              "Built-in dashboards / filters."
+            ],
+            "cons": [
+              "External dependency outside the Order's repo-based governance.",
+              "Session data lives off-Codex; violates 'Codex is source-of-truth' in spirit.",
+              "No versioning, no PR review trail.",
+              "Edict III only mechanically respected, not structurally."
+            ],
+            "resolution": "Rejected. Codex's snippet-import pipeline is canonical; extending with session_log type is zero-new-infrastructure.",
+            "date": "2026-04-23",
+            "references": ["templeofmars/docs/SCHEMA.md", "codex/docs/schema/SESSION_V2.md"],
+            "status": "resolved"
+          },
+          {
+            "id": "schism-2026-04-23-direct-push-to-main",
+            "title": "Direct Push to Main for One-Line Hotfixes",
+            "context": "Temple deploy fire-drill under time pressure",
+            "proposal": "Push the one-line deploy workflow fixes directly to main, skipping branch + PR.",
+            "pros": [
+              "Saves ~30 seconds per fix in PR-opening overhead.",
+              "Fewer entries in the branches list."
+            ],
+            "cons": [
+              "No atomic ratification record.",
+              "No test-plan checkbox trail for each fix.",
+              "Breaks the 'every change goes through PR' discipline.",
+              "Encourages the wrong default for future agent-driven work."
+            ],
+            "resolution": "Rejected. Held to branch + PR flow for all three deploy hotfixes.",
+            "date": "2026-04-23",
+            "references": ["rishabh1804/TempleOfMars#2", "rishabh1804/TempleOfMars#3", "rishabh1804/TempleOfMars#4", "lore-2026-04-23-doctrine-branch-pr-flow"],
+            "status": "resolved"
+          },
+          {
+            "id": "schism-2026-04-23-temple-as-another-monument",
+            "title": "Classify Temple as Another Monument, Not a Watchtower",
+            "context": "Temple of Mars structural classification",
+            "proposal": "Strip the Watchtower terminology. Call Temple a sibling Monument to Command Center.",
+            "pros": [
+              "Doesn't introduce a new class into Book III.",
+              "Simpler for post-war Working Committee review.",
+              "Edict VI already covers Monuments; no amendment needed."
+            ],
+            "cons": [
+              "Conflates observe and direct — distinct functional roles.",
+              "Command Center issues decrees; Temple cannot. Papers over a real asymmetry.",
+              "Future observer-class artifacts would benefit from Watchtower label."
+            ],
+            "resolution": "Unresolved. CHARTER proposes Watchtower; Working Committee to ratify post-war.",
+            "date": "2026-04-23",
+            "references": ["templeofmars/docs/CHARTER.md"],
+            "status": "pending"
+          },
+          {
+            "id": "schism-2026-04-23-system-fonts-for-speed",
+            "title": "Use System Font Stack for MVP to Defer Font Decision",
+            "context": "Temple of Mars design-system port",
+            "proposal": "Ship v0.1 with ui-sans-serif, system-ui stack. Defer Playfair Display + Work Sans to v0.2.",
+            "pros": [
+              "Saves a Google Fonts network fetch on first paint.",
+              "Zero font-related layout shift risk.",
+              "Font decision reconsiderable after dawn."
+            ],
+            "cons": [
+              "Visual regression from Codex design system.",
+              "Temple looks generic where it should feel kin to Codex.",
+              "Saves trivial runtime cost."
+            ],
+            "resolution": "Rejected by Sovereign decree. Playfair + Work Sans locked for v0.1.",
+            "date": "2026-04-23",
+            "references": ["templeofmars/src/app.css", "templeofmars/src/app.html"],
+            "status": "resolved"
+          },
+          {
+            "id": "schism-2026-04-23-hardcoded-telemetry-in-temple",
+            "title": "Store Campaign State Inside Temple Repo",
+            "context": "Temple data architecture",
+            "proposal": "Keep campaigns.json inside Temple rather than fetching from Codex. Updates via Temple PRs.",
+            "pros": [
+              "Single-repo simplicity.",
+              "No cross-repo network dependency at runtime.",
+              "Faster page load (no live fetch)."
+            ],
+            "cons": [
+              "Violates Pillar II (Map ≠ Territory) — Temple becomes both map and territory.",
+              "Splits source-of-truth.",
+              "Every campaign update requires Temple PR + redeploy.",
+              "Schism with the snippet-import pipeline."
+            ],
+            "resolution": "Rejected. campaigns.json lives in Codex; Temple subscribes via raw.githubusercontent.com.",
+            "date": "2026-04-23",
+            "references": ["templeofmars/src/lib/codex/config.ts", "codex/data/campaigns.json", "lore-2026-04-23-doctrine-map-territory-by-construction"],
+            "status": "resolved"
+          }
+        ]
+      }
+    }
+  ]
+}
