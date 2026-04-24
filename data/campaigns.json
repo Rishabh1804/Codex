@@ -8,10 +8,16 @@
       "started_at": "2026-04-24T02:30:00Z",
       "ends_at": "2026-04-27T02:30:00Z",
       "duration_hours": 72,
-      "trigger": "Book VI Article 2(c)+(d) — Scope Pivot + Velocity Event",
-      "provinces": ["sproutlab", "sep-dashboard", "sep-invoicing"],
+      "trigger": "Book VI Article 2(c)+(d) \u2014 Scope Pivot + Velocity Event",
+      "provinces": [
+        "sproutlab",
+        "sep-dashboard",
+        "sep-invoicing"
+      ],
       "qa_lead": "cipher",
-      "recorders": ["aurelius"],
+      "recorders": [
+        "aurelius"
+      ],
       "phases": [
         {
           "id": "sproutlab-phase-1",
@@ -19,16 +25,47 @@
           "province": "sproutlab",
           "name": "Connection Indicator + Offline Badge",
           "order": 1,
-          "hours": [0, 24],
+          "hours": [
+            0,
+            24
+          ],
           "acceptance": "Connection indicator live, offline badge visible, merged to main",
-          "leads": ["lyra"],
+          "leads": [
+            "lyra"
+          ],
           "tasks": [
-            { "id": "sl-1-1", "phase_id": "sproutlab-phase-1", "name": "Assess sync visibility gaps", "status": "in-progress", "status_history": [
-              { "status": "in-progress", "at": "2026-04-24T02:45:00Z", "session_id": "session-2026-04-24-lyra-01", "note": "Lyra opened draft PR #3 on sproutlab (docs-only audit)." },
-              { "status": "in-progress", "at": "2026-04-24T03:55:00Z", "session_id": "session-2026-04-24-cipher-01", "note": "Cipher review posted on PR #3: 5 blockers + 5 nits; changes requested. Task remains in-progress pending Lyra revision." }
-            ] },
-            { "id": "sl-1-2", "phase_id": "sproutlab-phase-1", "name": "Implement connection indicator", "status": "pending" },
-            { "id": "sl-1-3", "phase_id": "sproutlab-phase-1", "name": "Implement offline badge", "status": "pending" }
+            {
+              "id": "sl-1-1",
+              "phase_id": "sproutlab-phase-1",
+              "name": "Assess sync visibility gaps",
+              "status": "in-progress",
+              "status_history": [
+                {
+                  "status": "in-progress",
+                  "at": "2026-04-24T02:45:00Z",
+                  "session_id": "session-2026-04-24-lyra-01",
+                  "note": "Lyra opened draft PR #3 on sproutlab (docs-only audit)."
+                },
+                {
+                  "status": "in-progress",
+                  "at": "2026-04-24T03:55:00Z",
+                  "session_id": "session-2026-04-24-cipher-01",
+                  "note": "Cipher review posted on PR #3: 5 blockers + 5 nits; changes requested. Task remains in-progress pending Lyra revision."
+                }
+              ]
+            },
+            {
+              "id": "sl-1-2",
+              "phase_id": "sproutlab-phase-1",
+              "name": "Implement connection indicator",
+              "status": "pending"
+            },
+            {
+              "id": "sl-1-3",
+              "phase_id": "sproutlab-phase-1",
+              "name": "Implement offline badge",
+              "status": "pending"
+            }
           ]
         },
         {
@@ -37,12 +74,27 @@
           "province": "sproutlab",
           "name": "Cache Busting + Service Worker Version",
           "order": 2,
-          "hours": [24, 48],
+          "hours": [
+            24,
+            48
+          ],
           "acceptance": "Cache invalidation working, SW version bumped",
-          "leads": ["lyra"],
+          "leads": [
+            "lyra"
+          ],
           "tasks": [
-            { "id": "sl-2-1", "phase_id": "sproutlab-phase-2", "name": "Cache busting strategy", "status": "pending" },
-            { "id": "sl-2-2", "phase_id": "sproutlab-phase-2", "name": "SW version bump", "status": "pending" }
+            {
+              "id": "sl-2-1",
+              "phase_id": "sproutlab-phase-2",
+              "name": "Cache busting strategy",
+              "status": "pending"
+            },
+            {
+              "id": "sl-2-2",
+              "phase_id": "sproutlab-phase-2",
+              "name": "SW version bump",
+              "status": "pending"
+            }
           ]
         },
         {
@@ -51,12 +103,27 @@
           "province": "sproutlab",
           "name": "Auto-Refresh on Listener Fire",
           "order": 3,
-          "hours": [48, 72],
+          "hours": [
+            48,
+            72
+          ],
           "acceptance": "Auto-refresh implemented and tested, merged to main",
-          "leads": ["lyra"],
+          "leads": [
+            "lyra"
+          ],
           "tasks": [
-            { "id": "sl-3-1", "phase_id": "sproutlab-phase-3", "name": "Auto-refresh implementation", "status": "pending" },
-            { "id": "sl-3-2", "phase_id": "sproutlab-phase-3", "name": "Edge case testing", "status": "pending" }
+            {
+              "id": "sl-3-1",
+              "phase_id": "sproutlab-phase-3",
+              "name": "Auto-refresh implementation",
+              "status": "pending"
+            },
+            {
+              "id": "sl-3-2",
+              "phase_id": "sproutlab-phase-3",
+              "name": "Edge case testing",
+              "status": "pending"
+            }
           ]
         },
         {
@@ -65,11 +132,23 @@
           "province": "sep-dashboard",
           "name": "v2.1 Pragmatic Patch",
           "order": 1,
-          "hours": [0, 2],
+          "hours": [
+            0,
+            2
+          ],
           "acceptance": "Dashboard operational on v2.1 baseline",
-          "leads": ["nyx", "sovereign"],
+          "leads": [
+            "nyx",
+            "sovereign"
+          ],
           "tasks": [
-            { "id": "dash-1-1", "phase_id": "dashboard-phase-1", "name": "Restore v2.1 baseline", "status": "complete", "notes": "Resolved pre-war via sep-dashboard PR #1" }
+            {
+              "id": "dash-1-1",
+              "phase_id": "dashboard-phase-1",
+              "name": "Restore v2.1 baseline",
+              "status": "complete",
+              "notes": "Resolved pre-war via sep-dashboard PR #1"
+            }
           ]
         },
         {
@@ -78,12 +157,28 @@
           "province": "sep-dashboard",
           "name": "Session 8 Spec Review",
           "order": 2,
-          "hours": [2, 12],
+          "hours": [
+            2,
+            12
+          ],
           "acceptance": "Session 8 spec locked and agreed",
-          "leads": ["nyx", "sovereign"],
+          "leads": [
+            "nyx",
+            "sovereign"
+          ],
           "tasks": [
-            { "id": "dash-2-1", "phase_id": "dashboard-phase-2", "name": "Read Session 8 spec", "status": "pending" },
-            { "id": "dash-2-2", "phase_id": "dashboard-phase-2", "name": "Lock features", "status": "pending" }
+            {
+              "id": "dash-2-1",
+              "phase_id": "dashboard-phase-2",
+              "name": "Read Session 8 spec",
+              "status": "pending"
+            },
+            {
+              "id": "dash-2-2",
+              "phase_id": "dashboard-phase-2",
+              "name": "Lock features",
+              "status": "pending"
+            }
           ]
         },
         {
@@ -92,13 +187,34 @@
           "province": "sep-dashboard",
           "name": "Session 8 Execution",
           "order": 3,
-          "hours": [12, 72],
+          "hours": [
+            12,
+            72
+          ],
           "acceptance": "Session 8 features merged to main",
-          "leads": ["nyx", "sovereign"],
+          "leads": [
+            "nyx",
+            "sovereign"
+          ],
           "tasks": [
-            { "id": "dash-3-1", "phase_id": "dashboard-phase-3", "name": "Feature 1 design + impl", "status": "pending" },
-            { "id": "dash-3-2", "phase_id": "dashboard-phase-3", "name": "Feature 2 design + impl", "status": "pending" },
-            { "id": "dash-3-3", "phase_id": "dashboard-phase-3", "name": "QA & merge", "status": "pending" }
+            {
+              "id": "dash-3-1",
+              "phase_id": "dashboard-phase-3",
+              "name": "Feature 1 design + impl",
+              "status": "pending"
+            },
+            {
+              "id": "dash-3-2",
+              "phase_id": "dashboard-phase-3",
+              "name": "Feature 2 design + impl",
+              "status": "pending"
+            },
+            {
+              "id": "dash-3-3",
+              "phase_id": "dashboard-phase-3",
+              "name": "QA & merge",
+              "status": "pending"
+            }
           ]
         },
         {
@@ -107,12 +223,28 @@
           "province": "sep-invoicing",
           "name": "UI Enhancements",
           "order": 1,
-          "hours": [0, 48],
+          "hours": [
+            0,
+            48
+          ],
           "acceptance": "UI enhancements merged to main, tested",
-          "leads": ["theron", "solara"],
+          "leads": [
+            "theron",
+            "solara"
+          ],
           "tasks": [
-            { "id": "inv-1-1", "phase_id": "invoicing-phase-1", "name": "Lock UI targets", "status": "pending" },
-            { "id": "inv-1-2", "phase_id": "invoicing-phase-1", "name": "Inputs, buttons, charts polish", "status": "pending" }
+            {
+              "id": "inv-1-1",
+              "phase_id": "invoicing-phase-1",
+              "name": "Lock UI targets",
+              "status": "pending"
+            },
+            {
+              "id": "inv-1-2",
+              "phase_id": "invoicing-phase-1",
+              "name": "Inputs, buttons, charts polish",
+              "status": "pending"
+            }
           ]
         },
         {
@@ -121,13 +253,121 @@
           "province": "sep-invoicing",
           "name": "Margin Dashboard (IL-4)",
           "order": 2,
-          "hours": [48, 72],
+          "hours": [
+            48,
+            72
+          ],
           "acceptance": "Margin Dashboard Phase IL-4 merged",
-          "leads": ["theron", "solara"],
+          "leads": [
+            "theron",
+            "solara"
+          ],
           "tasks": [
-            { "id": "inv-2-1", "phase_id": "invoicing-phase-2", "name": "Margin core features", "status": "pending" },
-            { "id": "inv-2-2", "phase_id": "invoicing-phase-2", "name": "Integration testing", "status": "pending" }
+            {
+              "id": "inv-2-1",
+              "phase_id": "invoicing-phase-2",
+              "name": "Margin core features",
+              "status": "pending"
+            },
+            {
+              "id": "inv-2-2",
+              "phase_id": "invoicing-phase-2",
+              "name": "Integration testing",
+              "status": "pending"
+            }
           ]
+        }
+      ],
+      "session_logs": [
+        {
+          "id": "session-2026-04-24-aurelius-01",
+          "summary": "War Time Hour 0 \u2014 War Tracker init. Imported 7-snippet war-prep chronicles package into Codex (1 volume + 12 chapters + 16 lore + 9 schisms + 1 session record); flagged three schema mismatches (journal date-grouped not flat; lore rationale\u2194body; schism v2 vs v1 shape). Drafted canon-inst-003 formalizing Ignis's Temple Builder seat + Minister: Output vacation (queued for Sovereign hand with cluster-assignment marked PENDING_SOVEREIGN). Drafted session_log snippet-handler spec (consumer of SESSION_V2.md) for Orinth implementation, unblocking Lyra's first telemetry drop. Drafted two missing Hour-0 briefings (Dashboard Phase 1\u20132 for Nyx+Sovereign; Invoicing Phase 1 for Theron+Solara). Verified Temple of Mars GH Pages serving at 200; Codex raw CDN endpoints all 200; Temple fetcher config confirmed reading `main` branch \u2014 Temple will reflect these imports on merge.",
+          "volumes_touched": [
+            "codex",
+            "temple-of-mars"
+          ],
+          "decisions": [
+            "Snippets 01\u201307 from 2026-04-23-temple-war-prep-chronicles applied via direct Python write (Codex snippet-import UI was not invoked because the existing dispatcher does not yet recognize the `{snippet_type, operations}` envelope used by the war-prep package). Future war-prep snippets should use the legacy `{_snippet_version, <type_key>}` envelope OR wait for operations-envelope bridge in the session_log handler work.",
+            "Schema mismatch #1: journal.json is date-grouped `[{date, sessions[]}]`, not a flat `sessions[]` as SESSION_V2 implies. Session 07 routed into the existing 2026-04-23 date group via `started_at.slice(0,10)`. The session_log handler spec makes this routing explicit.",
+            "Schema mismatch #2: lore schema uses `body` + timestamps; war-prep snippets use `rationale` + `status`. Compat shim applied: body = rationale, status preserved as extra field, created/updated set to session end. Future lore snippets should include both for renderer compat until Codex views migrate.",
+            "Schema mismatch #3: schisms have two shapes in the tree \u2014 legacy {context, volumes, rejected, chosen, reason, canon_id} and v2 {title, proposal, pros, cons, resolution, references, status}. Applied v2 fields verbatim and back-filled legacy {rejected, reason} from {proposal, resolution} for renderer compat.",
+            "canon-inst-003 cluster-assignment left PENDING_SOVEREIGN with three candidates enumerated in the rationale (new Cluster C / attach to Cluster A under Cipher / Monument-class cluster-less like Command Center). Sovereign selects at ratification.",
+            "Watchtower structural class recognized provisionally in canon-inst-003 for the duration of War Time + Working Committee review. Book III amendment (if warranted) is post-war work.",
+            "Session-log handler spec adopted the legacy `{_snippet_version, session_log: [{op, data}]}` envelope over the `{snippet_type, operations}` envelope \u2014 keeps dispatcher changes to three `if` branches rather than a full rewrite; tolerant-reader bridge is future work.",
+            "Handler spec upgrades error handling from silent-skip to accumulate-and-warn \u2014 wartime telemetry cannot afford silently-dropped task_status updates.",
+            "Dashboard Phase 1 briefing notes Phase 1 is effectively pre-completed (v2.1 restoration landed pre-dawn); Nyx+Sovereign's Hour 0 move is verification + Phase 2 ingestion, not rebuild.",
+            "Invoicing briefing locks Phase 1 as polish-only (no new screens, no schema changes, \u2264200 LOC per PR). Any deeper bug found during polish becomes its own branched task under Edict V (Capital Protection)."
+          ],
+          "bugs_found": 0,
+          "handoff": "Snippets 01\u201307 live on branch claude/war-time-chronicler-teVed (pending merge to main). Temple will reflect on merge. canon-inst-003 and session_log handler spec queued under docs/ for Sovereign/Orinth. Two new briefings live at docs/briefings/. This session_log also queued. Next War Tracker responsibilities: (a) monitor Temple dashboard as Builders post session_logs; (b) hand-merge session_log payloads into journal.json + campaigns.json until Orinth's handler ratifies; (c) write Hour 12 Chronicle at next rollover (first of six canonical checkpoints).",
+          "campaign_id": "war-time-2026-04-24",
+          "phase_id": null,
+          "task_id": null,
+          "builder": "aurelius",
+          "province": "codex",
+          "started_at": "2026-04-24T02:30:00Z",
+          "ended_at": "2026-04-24T04:30:00Z",
+          "model": "opus-4-7",
+          "tokens_in": null,
+          "tokens_out": null,
+          "commits": [],
+          "loc_delta": null,
+          "lore_generated": []
+        },
+        {
+          "id": "session-2026-04-24-cipher-01",
+          "campaign_id": "war-time-2026-04-24",
+          "phase_id": "sproutlab-phase-1",
+          "task_id": "sl-1-1",
+          "builder": "cipher",
+          "province": "sproutlab",
+          "started_at": "2026-04-24T03:05:00Z",
+          "ended_at": "2026-04-24T03:55:00Z",
+          "model": "opus-4-7",
+          "tokens_in": null,
+          "tokens_out": null,
+          "commits": [],
+          "loc_delta": 0,
+          "summary": "Review of sl-1-1 audit PR #3 \u2014 blocking feedback posted as COMMENT event (GitHub rejects self-account REQUEST_CHANGES; treat as changes-requested). Frame assessment: citations accurate, 'lie by omission' promotion over briefing's 'hardcoded' framing is correct, but the derived-store contract is incomplete. Abstraction assessment: under-indexed \u2014 three-state collapses _syncDisabled (local fault) into offline (network fault), the architecture formula never reads the onSnapshotsInSync drain it commits to adding, pending-count disjointness is undefined, and initial-boot (listener-not-yet-fired) state is unhandled. Five blockers plus five comment-level nits; no out-of-scope bugs filed.",
+          "decisions": [
+            "Request changes (posted as COMMENT) on sproutlab PR #3; do not merge until blockers 1-5 resolved.",
+            "Answer Lyra review-ask #2 (_syncDisabled -> offline collapse): NO. Add a fourth state ('halted') with distinct copy and reload affordance; collapsing trades a pixel-lie for a semantic-lie.",
+            "Answer Lyra review-ask #3 (pending-count double-count): YES, risk is real. Resolve by disjointness contract (debounceTimers = pre-submit; hasPendingWrites across shadows = post-submit) or by leaning on onSnapshotsInSync as single source of truth.",
+            "Answer Lyra review-ask #1 (architecture contract soundness): NO. Formula must read the drain signal it lists as required (onSnapshotsInSync); must acknowledge sync.js:177 enablePersistence({synchronizeTabs:true}) \u2014 offline writes live in Firestore's IndexedDB queue, not in _syncDebounceTimers.",
+            "Flagged existing #syncToast (sync.js:970-999) as a second feedback channel the audit does not address; sl-1-2 must pick delete / unify-from-store / keep-with-divergence.",
+            "Flagged initial-boot lie: _syncReady listed as reusable but never used in derived equation; cold-start formula returns 'online' before any listener has fired."
+          ],
+          "bugs_found": 0,
+          "handoff": "sl-1-1 blocked pending Lyra revision. Re-review queued for next push. Doctrine candidate flagged to Aurelius (not yet drafted): 'gap audits must use framework-provided ACK primitives (onSnapshotsInSync / hasPendingWrites) instead of hand-rolled counters when available.' No out-of-scope bugs filed. Issue #25 carried the session_log payload per briefing fallback path.",
+          "lore_generated": []
+        },
+        {
+          "id": "session-2026-04-24-lyra-01",
+          "campaign_id": "war-time-2026-04-24",
+          "phase_id": "sproutlab-phase-1",
+          "task_id": "sl-1-1",
+          "builder": "lyra",
+          "province": "sproutlab",
+          "started_at": "2026-04-24T02:55:00Z",
+          "ended_at": "2026-04-24T06:10:00Z",
+          "model": "opus-4-7",
+          "tokens_in": null,
+          "tokens_out": null,
+          "commits": [],
+          "loc_delta": 480,
+          "summary": "Phase-1 Builder session \u2014 anchor task sl-1-1 (charter revision r2), work spans sl-1-1 r2 + sl-1-2 r2/r3 (5-state model, toast retirement, _syncTrackWrite removal with {includeMetadataChanges} listeners, HR-3 scope-split to r3) + sl-1-3 r1 (offline badge additive, 108/2 diff, base retargeted to sl-1-2 branch). 7 local commits (force-pushed 54b5fe3 excluded from history); SHAs canonicalized at Sovereign squash-merge. loc_delta approximate; authoritative at squash-merge time.",
+          "decisions": [
+            "sl-1-1 r2 charter revision addressing Cipher r1 verdict (5 architectural blockers)",
+            "Five-state sync model (replaces three-state) \u2014 green / syncing / amber / red / offline, disjoint",
+            "Toast retirement \u2014 #syncToast removed; offline badge (sl-1-3) replaces surface",
+            "_syncTrackWrite hand-rolled counter removed; onSnapshotsInSync + hasPendingWrites via {includeMetadataChanges} listeners (framework-provided ACK primitives per Cipher r1 insight)",
+            "HR-3 (data-action delegation) compliance fix scope-split to sl-1-2 r3 \u2014 kept separate from r2's architectural fixes for review clarity",
+            "sl-1-3 scope strictly badge-additive: styles.css + sync.js + template.html; core.js untouched",
+            "PR #5 (sl-1-3) base retargeted to sl-1-2 branch pre-commit \u2014 avoids r2 re-review contamination in sl-1-3 diff"
+          ],
+          "bugs_found": 0,
+          "handoff": "Phase-1 Builder session closed. All three tasks (sl-1-1, sl-1-2, sl-1-3) awaiting Cipher's combined r3/r1 review + Sovereign squash. No task-status flips until merge. Doctrine candidate (framework-ACK-primitives) tagged source: cipher-r1-review, status: queued-for-hour-12-chronicle.",
+          "lore_generated": []
         }
       ]
     }
