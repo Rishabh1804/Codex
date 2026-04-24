@@ -1,0 +1,132 @@
+{
+  "campaigns": [
+    {
+      "id": "war-time-2026-04-24",
+      "type": "war-time",
+      "status": "pending",
+      "title": "War Time: Scope Pivot + Velocity Event",
+      "started_at": "2026-04-24T02:30:00Z",
+      "ends_at": "2026-04-27T02:30:00Z",
+      "duration_hours": 72,
+      "trigger": "Book VI Article 2(c)+(d) — Scope Pivot + Velocity Event",
+      "provinces": ["sproutlab", "sep-dashboard", "sep-invoicing"],
+      "qa_lead": "cipher",
+      "recorders": ["aurelius"],
+      "phases": [
+        {
+          "id": "sproutlab-phase-1",
+          "campaign_id": "war-time-2026-04-24",
+          "province": "sproutlab",
+          "name": "Connection Indicator + Offline Badge",
+          "order": 1,
+          "hours": [0, 24],
+          "acceptance": "Connection indicator live, offline badge visible, merged to main",
+          "leads": ["lyra"],
+          "tasks": [
+            { "id": "sl-1-1", "phase_id": "sproutlab-phase-1", "name": "Assess sync visibility gaps", "status": "pending" },
+            { "id": "sl-1-2", "phase_id": "sproutlab-phase-1", "name": "Implement connection indicator", "status": "pending" },
+            { "id": "sl-1-3", "phase_id": "sproutlab-phase-1", "name": "Implement offline badge", "status": "pending" }
+          ]
+        },
+        {
+          "id": "sproutlab-phase-2",
+          "campaign_id": "war-time-2026-04-24",
+          "province": "sproutlab",
+          "name": "Cache Busting + Service Worker Version",
+          "order": 2,
+          "hours": [24, 48],
+          "acceptance": "Cache invalidation working, SW version bumped",
+          "leads": ["lyra"],
+          "tasks": [
+            { "id": "sl-2-1", "phase_id": "sproutlab-phase-2", "name": "Cache busting strategy", "status": "pending" },
+            { "id": "sl-2-2", "phase_id": "sproutlab-phase-2", "name": "SW version bump", "status": "pending" }
+          ]
+        },
+        {
+          "id": "sproutlab-phase-3",
+          "campaign_id": "war-time-2026-04-24",
+          "province": "sproutlab",
+          "name": "Auto-Refresh on Listener Fire",
+          "order": 3,
+          "hours": [48, 72],
+          "acceptance": "Auto-refresh implemented and tested, merged to main",
+          "leads": ["lyra"],
+          "tasks": [
+            { "id": "sl-3-1", "phase_id": "sproutlab-phase-3", "name": "Auto-refresh implementation", "status": "pending" },
+            { "id": "sl-3-2", "phase_id": "sproutlab-phase-3", "name": "Edge case testing", "status": "pending" }
+          ]
+        },
+        {
+          "id": "dashboard-phase-1",
+          "campaign_id": "war-time-2026-04-24",
+          "province": "sep-dashboard",
+          "name": "v2.1 Pragmatic Patch",
+          "order": 1,
+          "hours": [0, 2],
+          "acceptance": "Dashboard operational on v2.1 baseline",
+          "leads": ["nyx", "sovereign"],
+          "tasks": [
+            { "id": "dash-1-1", "phase_id": "dashboard-phase-1", "name": "Restore v2.1 baseline", "status": "complete", "notes": "Resolved pre-war via sep-dashboard PR #1" }
+          ]
+        },
+        {
+          "id": "dashboard-phase-2",
+          "campaign_id": "war-time-2026-04-24",
+          "province": "sep-dashboard",
+          "name": "Session 8 Spec Review",
+          "order": 2,
+          "hours": [2, 12],
+          "acceptance": "Session 8 spec locked and agreed",
+          "leads": ["nyx", "sovereign"],
+          "tasks": [
+            { "id": "dash-2-1", "phase_id": "dashboard-phase-2", "name": "Read Session 8 spec", "status": "pending" },
+            { "id": "dash-2-2", "phase_id": "dashboard-phase-2", "name": "Lock features", "status": "pending" }
+          ]
+        },
+        {
+          "id": "dashboard-phase-3",
+          "campaign_id": "war-time-2026-04-24",
+          "province": "sep-dashboard",
+          "name": "Session 8 Execution",
+          "order": 3,
+          "hours": [12, 72],
+          "acceptance": "Session 8 features merged to main",
+          "leads": ["nyx", "sovereign"],
+          "tasks": [
+            { "id": "dash-3-1", "phase_id": "dashboard-phase-3", "name": "Feature 1 design + impl", "status": "pending" },
+            { "id": "dash-3-2", "phase_id": "dashboard-phase-3", "name": "Feature 2 design + impl", "status": "pending" },
+            { "id": "dash-3-3", "phase_id": "dashboard-phase-3", "name": "QA & merge", "status": "pending" }
+          ]
+        },
+        {
+          "id": "invoicing-phase-1",
+          "campaign_id": "war-time-2026-04-24",
+          "province": "sep-invoicing",
+          "name": "UI Enhancements",
+          "order": 1,
+          "hours": [0, 48],
+          "acceptance": "UI enhancements merged to main, tested",
+          "leads": ["theron", "solara"],
+          "tasks": [
+            { "id": "inv-1-1", "phase_id": "invoicing-phase-1", "name": "Lock UI targets", "status": "pending" },
+            { "id": "inv-1-2", "phase_id": "invoicing-phase-1", "name": "Inputs, buttons, charts polish", "status": "pending" }
+          ]
+        },
+        {
+          "id": "invoicing-phase-2",
+          "campaign_id": "war-time-2026-04-24",
+          "province": "sep-invoicing",
+          "name": "Margin Dashboard (IL-4)",
+          "order": 2,
+          "hours": [48, 72],
+          "acceptance": "Margin Dashboard Phase IL-4 merged",
+          "leads": ["theron", "solara"],
+          "tasks": [
+            { "id": "inv-2-1", "phase_id": "invoicing-phase-2", "name": "Margin core features", "status": "pending" },
+            { "id": "inv-2-2", "phase_id": "invoicing-phase-2", "name": "Integration testing", "status": "pending" }
+          ]
+        }
+      ]
+    }
+  ]
+}
