@@ -66,6 +66,19 @@ New snippet type in the import pipeline. Full operation catalog in the Temple sc
 - `update_task_status` — advances a task's status in `campaigns.json`. Accepts: pending | in-progress | review | complete | blocked.
 - `log_blocker` — optional Priority 3 capture for post-war Cautionary Tale synthesis. Attaches to a session.
 
+## Denormalization convention (ratified 2026-04-24 by Sovereign in-session)
+
+**Session logs are written to BOTH files on every `record_session` op:**
+
+1. **`data/journal.json`** — authoritative per-date append under `journal[].sessions[]` (source of truth for historical and per-date queries).
+2. **`data/campaigns.json`** — denormalized mirror under `campaigns[].session_logs[]` filtered by `campaign_id` (Temple's campaign-scoped telemetry read path).
+
+Both writes are required for a session_log ingest to be complete. Ingesting to journal.json alone leaves Temple's contract unfulfilled — telemetry renders zero despite the record existing. See `lore-2026-04-24-session-log-ingest-path-incomplete`.
+
+Dedup in both locations is by `id`. Re-ingest of the same `id` is idempotent.
+
+**Schema shape of `campaigns[].session_logs[]` entries:** identical to `journal[].sessions[]` entries (full record, not a reference).
+
 ## Pricing table
 
 USD per 1M tokens. Reconcile quarterly against Anthropic public rates.
