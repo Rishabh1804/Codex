@@ -1,0 +1,45 @@
+{
+  "_snippet_version": 1,
+  "session_log": [
+    {
+      "op": "record_session",
+      "data": {
+        "id": "session-2026-04-24-cipher-04",
+        "campaign_id": "war-time-2026-04-24",
+        "phase_id": "sproutlab-phase-1",
+        "task_id": "sl-1-1",
+        "builder": "cipher",
+        "province": "sproutlab",
+        "started_at": "2026-04-24T09:40:00Z",
+        "ended_at": "2026-04-24T10:05:00Z",
+        "model": "opus-4-7",
+        "tokens_in": null,
+        "tokens_out": null,
+        "commits": [],
+        "loc_delta": 0,
+        "volumes_touched": [
+          "sproutlab"
+        ],
+        "summary": "sl-1-1 r2 re-review on sproutlab #3 at 4c65ea7 — approve (posted as COMMENT per self-account APPROVE rejection, same pattern as r1). All five r1 blockers resolved as claimed: drain signal now reads onSnapshotsInSync + hasPendingWrites with enablePersistence row in Current-state; five logical states (connecting/online/syncing/offline/halted) collapse to three visual colors with aria-label disambiguating the two reds; disjointness contract stated as phases-of-a-write (debounce-fire nulls timer BEFORE .set()); connecting state gates on !_syncHasEverFired && pending===0 with _syncDetachListeners honesty; 'Sync paused' toast retired and remote-change toast explicitly excluded in §Architecture. All five comment-level items landed (grep scope, line numbers against audit's declared 82901743 snapshot, enablePersistence row, effectiveType scoped out, 'lying by omission' framing preserved). Territory↔Map pass against e931a08 is clean: architecture formula, disjoint counters, debounce→.set() ordering, derived-store 120ms notifier, CSS data-state → three tokens, template markup for #syncStatus + #offlineBadge, and syncReload dispatcher all match shipped. One drift flagged as comment-level: §Architecture piecewise equation lists 'connecting' first but shipped syncVisibilityState evaluates halted→offline→connecting; prose below clarifies halted-vs-offline only. Doc-ordering nit, not a Phase 1 blocker. Framework-ACK-primitives doctrine arc is now four-stage complete (r1 diagnosis → r2 charter-fix → sl-1-2 r2/r3/r4 implementation → sl-1-3 r1 consumption → sl-1-1 r2 audit confirmation); ready for Hour-12 Chronicle promotion.",
+        "decisions": [
+          "Renamed from session-2026-04-24-cipher-03 on ingest due to collision with the earlier cipher-03 monitor session (source: Codex issue #34, started 07:30Z). Chronological ordering preserved: cipher-02 (06:30Z) → cipher-03 (07:30Z, monitor) → cipher-04 (09:40Z, sl-1-1 r2 approve). Original submission at Codex issue #38. Rename ratified by Sovereign in-session.",
+          "Verdict: approve sl-1-1 r2 at 4c65ea7. Blockers 1–5 resolved; all comment-level items landed; Territory↔Map pass is clean against shipped split/sync.js at e931a08. Posted as COMMENT per self-account APPROVE rejection (same pattern as r1's blocking COMMENT).",
+          "Comment-level nit filed, not a blocker: §Architecture equation lists 'connecting' as the first case in the piecewise formula, but shipped syncVisibilityState at sync.js:1377–1387 evaluates halted→offline→connecting. Prose below states halted-before-offline but is silent on connecting's placement. A literal transcription would yield incorrect ordering (crash-halted sync on offline device with no listener yet would mis-report as connecting). Suggested reorder in the review body; Sovereign may fold into squash commit or defer to follow-up amendment.",
+          "No sproutlab commits (review authority only per War Time standing rule 1; Sovereign merges).",
+          "Subscription armed on sproutlab #3 per Standing rule 6 (lore-2026-04-24-session-subscriptions-not-baked-in) before reading the diff; any r3 push from Lyra will land as webhook activity.",
+          "Phase 1 close unblocked from the Censor's seat: after Sovereign squash-merges #3, sl-1-1 flips to complete; the full arc (sl-1-1 r2 + sl-1-2 r4 + sl-1-3 r1) is then on main. Hour-12 Chronicle may promote 'framework-ACK-primitives' to formal Doctrine lore with the charter text as the anchoring 'doctrine origin' reference."
+        ],
+        "bugs_found": 0,
+        "lore_generated": [
+          {
+            "class": "doctrine-candidate",
+            "source": "cipher-r1-review",
+            "status": "ready-for-hour-12-chronicle-promotion",
+            "text": "Gap audits must use framework-provided ACK primitives (onSnapshotsInSync / hasPendingWrites) instead of hand-rolled counters when available. Validating arc now complete: diagnosed in sl-1-1 r1 review; charter-fixed in sl-1-1 r2; implemented in sl-1-2 r2 via _syncPendingByKey + {includeMetadataChanges:true}; consumed by sl-1-3 r1; charter text re-confirmed by sl-1-1 r2 audit against shipped e931a08."
+          }
+        ],
+        "handoff": "sl-1-1 r2 approved. Sovereign merge of sproutlab #3 unblocks Phase 1 close and sl-1-1 → complete flip. Framework-ACK-primitives doctrine arc five-stage complete (r1 → r2 charter-fix → sl-1-2 r2/r3/r4 → sl-1-3 r1 → sl-1-1 r2 audit-text reconciliation); ready for Hour-12 Chronicle promotion."
+      }
+    }
+  ]
+}
