@@ -4,7 +4,7 @@
 **Phase:** `invoicing-phase-1` — UI Enhancements
 **Hours:** 0–48 (long phase)
 **Builder(s):** Theron (Cluster B; Province Builder here) + Solara
-**QA:** Cipher (Cluster A cross-review at merge)
+**QA:** Cipher (Cluster A cross-advisory-review on each PR; Sovereign merges — see [Aurelius briefing §Standing rules](./WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md#standing-rules-ratified-2026-04-24-by-sovereign-in-session))
 **Recorder:** Aurelius (session logs, Chronicles)
 **Source-of-truth:** [`data/campaigns.json`](../../data/campaigns.json) — `invoicing-phase-1`
 
@@ -42,7 +42,7 @@ Phase 2 (`invoicing-phase-2` — Margin Dashboard IL-4, Hours 48–72) is the ne
 ## Cautionary Tales to internalize
 
 1. **[`lore-2026-04-23-doctrine-charter-before-build`](../snippets/2026-04-23-temple-war-prep-chronicles/04-lore-doctrines.json)** — lock targets (`inv-1-1`) before touching components (`inv-1-2`). Edict VIII at the intra-phase grain.
-2. **[`lore-2026-04-23-doctrine-branch-pr-flow`](../snippets/2026-04-23-temple-war-prep-chronicles/04-lore-doctrines.json)** — every change through PR → Cipher review → merge. On a revenue tool this discipline is load-bearing, not optional.
+2. **[`lore-2026-04-23-doctrine-branch-pr-flow`](../snippets/2026-04-23-temple-war-prep-chronicles/04-lore-doctrines.json)** — every change through PR → Cipher advisory review → Sovereign merges (War Time standing rule). On a revenue tool this discipline is load-bearing, not optional.
 3. **[`lore-2026-04-23-compiled-artifacts-in-tree`](../snippets/2026-04-23-temple-war-prep-chronicles/03-lore-cautionary-tales.json)** — if Invoicing has a compiled `index.html` alongside `split/` source, confirm `.gitignore` separation before the Phase's first PR.
 
 ## Pillar anchors
@@ -79,7 +79,7 @@ Phase 2 (`invoicing-phase-2` — Margin Dashboard IL-4, Hours 48–72) is the ne
    - Title: `[polish] <short description>`
    - Description: reference the target from `inv-1-1`; describe the before/after; include a screenshot pair if visual.
    - Diff: ≤ 200 LOC.
-   - Cipher review → merge.
+   - Cipher advisory review → Sovereign merges after discussion with Aurelius.
 3. Solara pairs: one drafts, the other reviews-via-Cipher. Swap per PR.
 4. After each merge, `session_log`:
    - `record_session` for the polish item (commits, LOC delta, tokens).
@@ -93,7 +93,7 @@ Phase 2 (`invoicing-phase-2` — Margin Dashboard IL-4, Hours 48–72) is the ne
 
 - Book I inviolable.
 - **Edict V (Capital Protection)** — no regressions in the three critical flows. Test end-to-end after each merge in a live browser. A failed end-to-end test reverts the PR.
-- Every change through PR → Cipher review → merge. No direct push to main.
+- Every change through PR → Cipher advisory review → Sovereign discussion → Sovereign merges. Builders show the changes and wait. No direct push to main. No Builder-initiated merges. See Aurelius briefing §Standing rules.
 - No new screens. No new data models. No schema changes. This is polish, not build.
 - If any polish change reveals a deeper bug, **stop polishing, file a bug, branch to a new task** — do not fold bug-fix into polish PR. Bugs get their own ratification trail.
 
@@ -137,7 +137,7 @@ Drop a `session_log` snippet before ending. Example:
 
 > Theron, Solara — SEP Invoicing is yours this campaign. Phase 1 is bounded UI polish on a live-revenue tool. Two tasks, 48 hours: lock 3–6 polish items (`inv-1-1`), then land them one PR at a time (`inv-1-2`).
 >
-> Constraints: each polish item ≤ 200 LOC, view-layer only; no new screens, no schema changes; every PR tested end-to-end in browser against invoice-create / invoice-send / payment-record. Cipher reviews; merge only on green. Drop a session_log at each task close.
+> Constraints: each polish item ≤ 200 LOC, view-layer only; no new screens, no schema changes; every PR tested end-to-end in browser against invoice-create / invoice-send / payment-record. Cipher reviews (advisory); Sovereign merges after discussion with Aurelius — show the changes and wait; merge only on green. Drop a session_log at each task close.
 >
 > Edict V is the governing law here — Capital Protection. If polish reveals a deeper bug, stop, file a bug, branch a task. Don't fold bug-fix into polish.
 >

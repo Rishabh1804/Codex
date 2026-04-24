@@ -45,7 +45,7 @@ Post your review on [sproutlab #3](https://github.com/Rishabh1804/sproutlab/pull
 - **Request changes** — gap in the audit or wrong abstraction. Be specific: which file/function/flow is missing, or which abstraction fails and what's the simpler correct form. Include a comment on the specific line of the doc where the issue is.
 - **Comment (neutral)** — observations without blocking, for cases where the audit is correct-but-underweighted. Use sparingly.
 
-**Do not merge this PR yourself.** Approval is the signal; Lyra merges (or Sovereign merges if Lyra is offline). This is the branch-and-PR discipline from [`lore-2026-04-23-doctrine-branch-pr-flow`](../snippets/2026-04-23-temple-war-prep-chronicles/04-lore-doctrines.json).
+**Do not merge this PR yourself.** Your review is the signal; Sovereign merges after discussion with Aurelius (War Time standing rule, ratified 2026-04-24 Hour 0 — see [Aurelius briefing §Standing rules](./WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md#standing-rules-ratified-2026-04-24-by-sovereign-in-session)). This is the branch-and-PR discipline from [`lore-2026-04-23-doctrine-branch-pr-flow`](../snippets/2026-04-23-temple-war-prep-chronicles/04-lore-doctrines.json), now with merge authority consolidated to Sovereign for the campaign duration.
 
 ## Cadence note — sl-1-2 in parallel
 
@@ -103,7 +103,7 @@ Drop a `session_log` snippet before ending. Example:
 }
 ```
 
-If the review APPROVES and Lyra merges: Aurelius will follow up with `update_task_status` → `sl-1-1` = `complete` once merge lands. Your session_log + the merge event together are the ratification trail.
+If the review APPROVES and Sovereign merges (after discussion with Aurelius): Aurelius will follow up with `update_task_status` → `sl-1-1` = `complete` once merge lands. Your session_log + the merge event together are the ratification trail.
 
 If the review REQUESTS CHANGES: do not flip status. Lyra addresses, re-pushes, you re-review.
 
@@ -117,7 +117,7 @@ If the review REQUESTS CHANGES: do not flip status. Lyra addresses, re-pushes, y
 >
 > Read the PR diff. Check: did she map all sync surfaces (listeners, `navigator.onLine`, WAL replay, current badge code paths)? Is the three-state fusion (`navigator.onLine + Firestore + WAL`) the smallest correct abstraction? Does the design derive UI from sync, not the other way? Is the hardcoded badge named as a lie-to-fix?
 >
-> Post approve / request-changes / comment on the PR. Don't merge (Lyra does). If you request changes, be specific — name the file, function, or abstraction.
+> Post approve / request-changes / comment on the PR. Don't merge (Sovereign does, after discussion with Aurelius — War Time standing rule). If you request changes, be specific — name the file, function, or abstraction.
 >
 > Cadence: sl-1-1 FIRST. Lyra is drafting sl-1-2 in parallel on a fresh branch; ignore that work until its PR opens separately. One PR, one review.
 >

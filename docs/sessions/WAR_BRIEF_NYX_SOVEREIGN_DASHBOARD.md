@@ -72,7 +72,7 @@ git push origin main
 - Service Worker + manifest.json
 - GitHub Pages deployment
 
-**QA:** Cipher reviews per merge  
+**QA:** Cipher reviews per PR (advisory); Sovereign merges after discussion with Aurelius (War Time standing rule, ratified 2026-04-24 Hour 0 — see `docs/briefings/WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md` §Standing rules)  
 
 ---
 
