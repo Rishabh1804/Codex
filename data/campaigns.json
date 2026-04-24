@@ -58,13 +58,29 @@
               "id": "sl-1-2",
               "phase_id": "sproutlab-phase-1",
               "name": "Implement connection indicator",
-              "status": "pending"
+              "status": "complete",
+              "status_history": [
+                {
+                  "status": "complete",
+                  "at": "2026-04-24T08:31:48Z",
+                  "session_id": "session-2026-04-24-aurelius-03",
+                  "note": "sproutlab PR #4 squash-merged as d8743c8 after Cipher approved r3 (verified at r4 as comment-only diff). Task held at pending through build cycle per War Time no-flips-until-merge directive; direct pending→complete on merge."
+                }
+              ]
             },
             {
               "id": "sl-1-3",
               "phase_id": "sproutlab-phase-1",
               "name": "Implement offline badge",
-              "status": "pending"
+              "status": "complete",
+              "status_history": [
+                {
+                  "status": "complete",
+                  "at": "2026-04-24T08:33:01Z",
+                  "session_id": "session-2026-04-24-aurelius-03",
+                  "note": "sproutlab PR #5 squash-merged as e931a08 after Cipher approved r1 (verified post-rebase onto sl-1-2 r4 as pure rebase diff). Branch rebased onto new main locally (41f0ff4) and force-pushed with lease before merge to clear DIRTY state from sl-1-2 squash. Task held at pending through build cycle per War Time no-flips-until-merge directive; direct pending→complete on merge."
+                }
+              ]
             }
           ]
         },
