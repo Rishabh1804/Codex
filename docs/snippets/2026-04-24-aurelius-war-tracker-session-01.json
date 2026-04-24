@@ -1,0 +1,67 @@
+{
+  "_snippet_version": 1,
+  "_note": "Aurelius's War Tracker session at Hour 0 of War Time 2026-04-24. Queued as a legacy-envelope snippet since the session_log handler has not yet ratified (spec drafted this session: docs/specs/CODEX_SESSION_LOG_HANDLER_SPEC.md). This snippet is ALSO encoded as a session_log[] array below so that once the handler lands it can re-ingest from this single file either way (tolerant-reader). The file mirrors its own session into journal.json and, on handler ratification, into campaigns.json as a no-op-valued task check (no task completion — Aurelius's work is meta, not a campaigns.json task).",
+  "session": {
+    "id": "session-2026-04-24-aurelius-01",
+    "date": "2026-04-24",
+    "summary": "War Time Hour 0 — War Tracker init. Imported 7-snippet war-prep chronicles package into Codex (1 volume + 12 chapters + 16 lore + 9 schisms + 1 session record); flagged three schema mismatches (journal date-grouped not flat; lore rationale↔body; schism v2 vs v1 shape). Drafted canon-inst-003 formalizing Ignis's Temple Builder seat + Minister: Output vacation (queued for Sovereign hand with cluster-assignment marked PENDING_SOVEREIGN). Drafted session_log snippet-handler spec (consumer of SESSION_V2.md) for Orinth implementation, unblocking Lyra's first telemetry drop. Drafted two missing Hour-0 briefings (Dashboard Phase 1–2 for Nyx+Sovereign; Invoicing Phase 1 for Theron+Solara). Verified Temple of Mars GH Pages serving at 200; Codex raw CDN endpoints all 200; Temple fetcher config confirmed reading `main` branch — Temple will reflect these imports on merge.",
+    "volumes_touched": ["codex", "temple-of-mars"],
+    "decisions": [
+      "Snippets 01–07 from 2026-04-23-temple-war-prep-chronicles applied via direct Python write (Codex snippet-import UI was not invoked because the existing dispatcher does not yet recognize the `{snippet_type, operations}` envelope used by the war-prep package). Future war-prep snippets should use the legacy `{_snippet_version, <type_key>}` envelope OR wait for operations-envelope bridge in the session_log handler work.",
+      "Schema mismatch #1: journal.json is date-grouped `[{date, sessions[]}]`, not a flat `sessions[]` as SESSION_V2 implies. Session 07 routed into the existing 2026-04-23 date group via `started_at.slice(0,10)`. The session_log handler spec makes this routing explicit.",
+      "Schema mismatch #2: lore schema uses `body` + timestamps; war-prep snippets use `rationale` + `status`. Compat shim applied: body = rationale, status preserved as extra field, created/updated set to session end. Future lore snippets should include both for renderer compat until Codex views migrate.",
+      "Schema mismatch #3: schisms have two shapes in the tree — legacy {context, volumes, rejected, chosen, reason, canon_id} and v2 {title, proposal, pros, cons, resolution, references, status}. Applied v2 fields verbatim and back-filled legacy {rejected, reason} from {proposal, resolution} for renderer compat.",
+      "canon-inst-003 cluster-assignment left PENDING_SOVEREIGN with three candidates enumerated in the rationale (new Cluster C / attach to Cluster A under Cipher / Monument-class cluster-less like Command Center). Sovereign selects at ratification.",
+      "Watchtower structural class recognized provisionally in canon-inst-003 for the duration of War Time + Working Committee review. Book III amendment (if warranted) is post-war work.",
+      "Session-log handler spec adopted the legacy `{_snippet_version, session_log: [{op, data}]}` envelope over the `{snippet_type, operations}` envelope — keeps dispatcher changes to three `if` branches rather than a full rewrite; tolerant-reader bridge is future work.",
+      "Handler spec upgrades error handling from silent-skip to accumulate-and-warn — wartime telemetry cannot afford silently-dropped task_status updates.",
+      "Dashboard Phase 1 briefing notes Phase 1 is effectively pre-completed (v2.1 restoration landed pre-dawn); Nyx+Sovereign's Hour 0 move is verification + Phase 2 ingestion, not rebuild.",
+      "Invoicing briefing locks Phase 1 as polish-only (no new screens, no schema changes, ≤200 LOC per PR). Any deeper bug found during polish becomes its own branched task under Edict V (Capital Protection)."
+    ],
+    "bugs_found": 0,
+    "handoff": "Snippets 01–07 live on branch claude/war-time-chronicler-teVed (pending merge to main). Temple will reflect on merge. canon-inst-003 and session_log handler spec queued under docs/ for Sovereign/Orinth. Two new briefings live at docs/briefings/. This session_log also queued. Next War Tracker responsibilities: (a) monitor Temple dashboard as Builders post session_logs; (b) hand-merge session_log payloads into journal.json + campaigns.json until Orinth's handler ratifies; (c) write Hour 12 Chronicle at next rollover (first of six canonical checkpoints).",
+    "campaign_id": "war-time-2026-04-24",
+    "phase_id": null,
+    "task_id": null,
+    "builder": "aurelius",
+    "province": "codex",
+    "started_at": "2026-04-24T02:30:00Z",
+    "ended_at": "2026-04-24T04:30:00Z",
+    "model": "opus-4-7",
+    "tokens_in": null,
+    "tokens_out": null,
+    "commits": [],
+    "loc_delta": null,
+    "lore_generated": []
+  },
+  "session_log": [
+    {
+      "op": "record_session",
+      "data": {
+        "id": "session-2026-04-24-aurelius-01",
+        "campaign_id": "war-time-2026-04-24",
+        "phase_id": null,
+        "task_id": null,
+        "builder": "aurelius",
+        "province": "codex",
+        "started_at": "2026-04-24T02:30:00Z",
+        "ended_at": "2026-04-24T04:30:00Z",
+        "model": "opus-4-7",
+        "tokens_in": null,
+        "tokens_out": null,
+        "commits": [],
+        "loc_delta": null,
+        "summary": "War Tracker init at Hour 0; seven-snippet war-prep package ingested; canon-inst-003 + session_log handler spec drafted; Dashboard + Invoicing Hour-0 briefings drafted.",
+        "decisions": [
+          "Three schema mismatches flagged and papered over for ingest (journal grouping, lore rationale↔body, schism v1↔v2).",
+          "canon-inst-003 queued with cluster-assignment PENDING_SOVEREIGN and Watchtower class provisionally recognized.",
+          "session_log handler spec adopts legacy envelope + accumulate-and-warn errors + status-history task audit trail.",
+          "Dashboard Phase 1 documented as pre-completed; briefing pivots to verification + Phase 2 ingestion.",
+          "Invoicing Phase 1 locked as polish-only under Edict V discipline."
+        ],
+        "bugs_found": 0,
+        "lore_generated": []
+      }
+    }
+  ]
+}
