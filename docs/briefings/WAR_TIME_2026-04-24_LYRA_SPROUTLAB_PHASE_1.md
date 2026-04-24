@@ -156,6 +156,8 @@ After the task is merged, update task status:
 
 ## Opening prompt (copy into Lyra's new session)
 
+> **First, per Standing rule 6**, arm subscriptions: `list_pull_requests(owner=rishabh1804, repo=sproutlab, state=open)`, then `subscribe_pr_activity` to every open PR you own. Subscribe to any new PR you open mid-session (on open, before first push).
+>
 > Lyra, you're up. War Time Phase 1 — Connection Indicator + Offline Badge. Mandate: make sync visibility honest. Sprint:
 > 1. `sl-1-1` — audit the current sync/offline UX in `split/core.js` + wherever the header badge lives. Write a one-page gap summary.
 > 2. `sl-1-2` — wire a derived store fusing `navigator.onLine`, Firestore connection-state, WAL depth. Render a three-state header indicator (green / amber / red).
@@ -164,6 +166,30 @@ After the task is merged, update task status:
 > Rules: one PR per task; Cipher reviews (advisory); Sovereign merges after discussion with Aurelius — show the changes and wait; no direct push to main; no Builder-initiated merges; kill every hardcoded class. Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_LYRA_SPROUTLAB_PHASE_1.md`. Session-close ritual: drop a `session_log` snippet into Codex.
 >
 > Dawn is now. Begin with `sl-1-1`.
+
+---
+
+## Session-start ritual (Standing rule 6)
+
+On session start, before beginning the task, arm tool-level subscriptions so webhook events (pushes, reviews, CI, comments) land in this conversation. The generic webhook default doesn't know which PRs you own — you name them.
+
+**Targets — Builder seat.** Every open PR you own in this province, plus any new PR you open during the session (subscribe on open).
+
+```
+# Initial list-then-subscribe:
+list_pull_requests(owner=rishabh1804, repo=<your-province>, state=open)
+for each PR you own:
+    subscribe_pr_activity(owner=rishabh1804, repo=<your-province>, pullNumber=PR.number)
+
+# After opening a new PR mid-session:
+subscribe_pr_activity(owner=rishabh1804, repo=<your-province>, pullNumber=<new>)
+```
+
+**Event posture — Builder.**
+- Triage every event. Fix small/obvious issues on-branch.
+- Ask on ambiguity — Sovereign / Aurelius, not self-resolved.
+- Skip when no action is required.
+- **Never merge.** Sovereign merges (Standing rule 1).
 
 ---
 

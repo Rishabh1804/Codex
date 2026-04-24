@@ -153,6 +153,8 @@ Drop a `session_log` snippet before ending. Example for Phase 1 verification:
 
 ## Opening prompt (copy into Nyx's new session)
 
+> **First, per Standing rule 6**, arm subscriptions: `list_pull_requests(owner=rishabh1804, repo=sep-dashboard, state=open)`, then `subscribe_pr_activity` to every open PR you own. Subscribe to any new PR (the Phase-2 charter PR under `dash-2-2` is the first) on open.
+>
 > Nyx, you and the Sovereign have SEP Dashboard for this campaign. Phase 1 (v2.1 restore) landed pre-dawn — your first move is verification, not rebuild: confirm `main` shows the restored state, hit the public dashboard, flip `dash-1-1` to `complete`.
 >
 > Then Phase 2 (Hours 2–12): find Session 8's spec, read it, write a one-page reading, and lock three features for Phase 3. Stop there — Phase 3 briefing lands at Hour 12.
@@ -160,6 +162,30 @@ Drop a `session_log` snippet before ending. Example for Phase 1 verification:
 > Rules: every change through PR → Cipher advisory review → Sovereign discussion → Sovereign merges; show the changes and wait; no Builder-initiated merges; Edict VIII says spec before feature; say no to the fourth feature; drop a session_log at session close. Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_NYX_SOVEREIGN_DASHBOARD_PHASE_1-2.md`.
 >
 > Dawn is now. Begin with verification.
+
+---
+
+## Session-start ritual (Standing rule 6)
+
+On session start, before beginning the task, arm tool-level subscriptions so webhook events (pushes, reviews, CI, comments) land in this conversation. The generic webhook default doesn't know which PRs you own — you name them.
+
+**Targets — Builder seat.** Every open PR you own in this province, plus any new PR you open during the session (subscribe on open).
+
+```
+# Initial list-then-subscribe:
+list_pull_requests(owner=rishabh1804, repo=<your-province>, state=open)
+for each PR you own:
+    subscribe_pr_activity(owner=rishabh1804, repo=<your-province>, pullNumber=PR.number)
+
+# After opening a new PR mid-session:
+subscribe_pr_activity(owner=rishabh1804, repo=<your-province>, pullNumber=<new>)
+```
+
+**Event posture — Builder.**
+- Triage every event. Fix small/obvious issues on-branch.
+- Ask on ambiguity — Sovereign / Aurelius, not self-resolved.
+- Skip when no action is required.
+- **Never merge.** Sovereign merges (Standing rule 1).
 
 ---
 

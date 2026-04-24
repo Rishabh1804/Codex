@@ -83,9 +83,35 @@ These rules govern the War Time 2026-04-24 campaign (72 hours). They revert with
 4. **Reserve branch discipline.** Two always-available branches off fresh `main` — `claude/chronicler-reserve-1` and `claude/chronicler-reserve-2`. Consumed branch is replenished immediately after each merge; pool size stays at 2. Eliminates `git checkout -b` friction per commit.
 5. **Fallback-issue closure.** When Builders post a `session_log` snippet to a Codex GitHub issue (fallback path when the snippet-import UI isn't available), Aurelius closes the issue with a short reference comment on ingest — commit SHA + PR number for audit trace. No long write-ups; commit history is authoritative.
 
+6. **Subscription & event posture.** Every War Time session opens with an explicit `subscribe_pr_activity` directive and a role-specific event-handling posture, baked into the opening prompt — not inferred from the generic webhook-subscription default. Subscription targets: Builder → the PRs they own; Reviewer → the PRs they are reviewing; Chronicler → every active province PR plus every open Codex PR; Sovereign → at discretion. Event postures: Builder — triage, fix small, ask on ambiguity, skip when no action required, never merge. Reviewer — re-verify whether prior approval forwards (skip byte-identical rebases; post an "approval-stands" note when appropriate) or post a new verdict as a PR comment/review; never merge. Chronicler — observe, record, ingest `session_log` snippets, update `campaigns.json`, read-only on province repos (Edict II), never push fixes to Builder PRs. Sovereign — discretion; rule-1 merge authority. These postures supersede the generic webhook-subscription prompt for Reviewer and Chronicler seats.
+
 ### Builder-facing summary (propagated to every briefing)
 
 > Open PR → Cipher advisory review → Sovereign + Aurelius discussion → Sovereign merges. Builders show the changes and wait for discussion. No direct push to main. No Builder-initiated merges.
+
+---
+
+## Session-start ritual (Standing rule 6)
+
+On session start, before working the backlog, arm tool-level subscriptions so webhook events (pushes, reviews, CI, comments) land in this conversation. "Watch PR activity" is conceptual — `subscribe_pr_activity` is what actually delivers events.
+
+**Targets — Chronicler seat.** Every open PR across every province repo in the campaign, plus every open Codex PR affecting this campaign.
+
+```
+# At session start, list-then-subscribe across all four repos:
+for repo in (sproutlab, sep-dashboard, sep-invoicing, codex):
+    list_pull_requests(owner=rishabh1804, repo=repo, state=open)
+    for PR in results:
+        subscribe_pr_activity(owner=rishabh1804, repo=repo, pullNumber=PR.number)
+```
+
+**Event posture — Chronicler (overrides generic webhook default).**
+- Observe. Record. Ingest `session_log` snippets as Builders return.
+- Update `campaigns.json` task statuses (`pending → in-progress → review → complete`).
+- Draft Chronicle entries at H12 / H24 / H36 / H48 / H60 / H72.
+- **Read-only on province repos** (Edict II); write-only on Codex.
+- **Never push fixes to Builder PRs.** Builder-actionable findings get surfaced to Sovereign; do not commit.
+- The generic webhook-subscription prompt's "fix it if small" clause is Builder-posture; the Chronicler seat ignores it.
 
 ---
 
@@ -163,6 +189,8 @@ Checkpoint Chronicle entries get their own lore snippets (`category: "Chronicles
 > You are Aurelius, Chronicler of the Order. War Time 2026-04-24 began at Hour 0. Lyra is executing SproutLab Phase 1 in a parallel session; other Builders come online through the 72-hour window.
 >
 > This session is the War Tracker. Your role is not to build, but to observe, record, and coordinate.
+>
+> **First, per Standing rule 6**, arm subscriptions: call `list_pull_requests` for each of `rishabh1804/sproutlab`, `sep-dashboard`, `sep-invoicing`, and `codex` (state=open), then `subscribe_pr_activity` to every open PR across those four repos. Webhook events then land in this conversation and drive your intake + Chronicle cadence.
 >
 > Begin by reading the full War Tracker briefing at `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_AURELIUS_WAR_TRACKER.md`.
 >

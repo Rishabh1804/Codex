@@ -113,6 +113,8 @@ If the review REQUESTS CHANGES: do not flip status. Lyra addresses, re-pushes, y
 
 ## Opening prompt (copy into Cipher's new session)
 
+> **First, per Standing rule 6**, arm subscription: `subscribe_pr_activity(owner=rishabh1804, repo=sproutlab, pullNumber=3)`. Webhook events (pushes, reviews, CI, comments) on #3 then land in this conversation. Without this, Lyra's revision pushes sit unseen until the Architect nudges you manually (see `lore-2026-04-24-session-subscriptions-not-baked-in`).
+>
 > Cipher, you're up. Cluster A review duty. Lyra opened [sproutlab #3](https://github.com/Rishabh1804/sproutlab/pull/3) for sl-1-1 — the sync-visibility audit. Docs-only PR; it's the charter for sl-1-2's implementation, so if the frame is wrong here, everything downstream inherits the wrongness.
 >
 > Read the PR diff. Check: did she map all sync surfaces (listeners, `navigator.onLine`, WAL replay, current badge code paths)? Is the three-state fusion (`navigator.onLine + Firestore + WAL`) the smallest correct abstraction? Does the design derive UI from sync, not the other way? Is the hardcoded badge named as a lie-to-fix?
@@ -126,6 +128,26 @@ If the review REQUESTS CHANGES: do not flip status. Lyra addresses, re-pushes, y
 > Drop a `session_log` at session close (briefing has the template). Briefing: `https://github.com/Rishabh1804/Codex/blob/main/docs/briefings/WAR_TIME_2026-04-24_CIPHER_REVIEW_SL-1-1.md`.
 >
 > Begin.
+
+---
+
+## Session-start ritual (Standing rule 6)
+
+Before reading the PR diff, arm tool-level subscriptions so push/review/CI/comment events on the PR under review land in this conversation. Webhook events are how Lyra's next push reaches you — absent the subscription, the revision sits unseen until the Architect nudges you manually.
+
+**Targets — Reviewer seat.** Only the PR(s) under review in this session. No subscription to PRs you aren't reviewing — noise suppression.
+
+```
+# This session:
+subscribe_pr_activity(owner=rishabh1804, repo=sproutlab, pullNumber=3)
+```
+
+**Event posture — Reviewer (overrides generic webhook default).**
+- On push to a subscribed PR: pull the diff first. Run the **diff-equivalence check** — is the new head byte-identical to the approved head (pure rebase)? If yes, post an "**approval stands at `<sha>`**" note on the PR and move on. If no, treat as a new revision and post a fresh verdict.
+- Verdicts are PR comments / reviews, not commits. Review authority only.
+- Skip routine rebases that leave diffs byte-identical — noise, not signal.
+- **Never merge.** Sovereign merges (Standing rule 1).
+- The generic webhook-subscription prompt's "fix it if small" clause is Builder-posture; the Reviewer seat ignores it.
 
 ---
 
