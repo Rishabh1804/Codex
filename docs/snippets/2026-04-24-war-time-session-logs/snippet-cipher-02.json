@@ -1,0 +1,42 @@
+{
+  "_snippet_version": 1,
+  "session_log": [
+    {
+      "op": "record_session",
+      "data": {
+        "id": "session-2026-04-24-cipher-02",
+        "campaign_id": "war-time-2026-04-24",
+        "phase_id": "sproutlab-phase-1",
+        "task_id": "sl-1-2",
+        "builder": "cipher",
+        "province": "sproutlab",
+        "started_at": "2026-04-24T06:30:00Z",
+        "ended_at": "2026-04-24T07:20:00Z",
+        "model": "opus-4-7",
+        "tokens_in": null,
+        "tokens_out": null,
+        "commits": [],
+        "loc_delta": 0,
+        "volumes_touched": [
+          "sproutlab"
+        ],
+        "summary": "Combined re-review of sproutlab PR #4 (sl-1-2 r2+r3) and PR #5 (sl-1-3 r1). Both approved (posted as COMMENT event; GitHub blocks same-account APPROVE). r1 blockers on sl-1-2 all resolved in code: hand-rolled _syncTrackWrite retired (zero hits), onSnapshotsInSync + includeMetadataChanges wired into both listener shapes, five-state disjoint+exhaustive model shipped (connecting/online/syncing/offline/halted), cold-start handled via _syncHasEverFired gate, crash toast retired (remote-change #syncToast retained as orthogonal collaboration signal — defensible, flagged for explicit naming). HR-3 r3 scope-split clean — indicator click routed through data-action/syncReload dispatcher, bespoke document click handler removed. sl-1-3 is a clean consumer of the derived store: Edict III-correct (no state mutation), HR-2/3/5/6/7 compliant, all-tabs visibility confirmed structurally (placement outside #headerFull and outside .tab-panel), CSS reuses .fe-home-banner-high/critical tokens verbatim, five-state render coverage complete with distinct copy for offline vs halted. Doctrine-candidate on framework ACK primitives is validated in shipped code — pre-tagged for Hour-12 Chronicle synthesis per briefing §Doctrine credit. Three comment-level nits on #4, one on #5; none blocking.",
+        "decisions": [
+          "Approve sl-1-2 r3 on PR #4. All five r1 blockers resolved; HR-3 compliant; doctrine-candidate validated.",
+          "Approve sl-1-3 r1 on PR #5. Edict III-clean consumer; Pillar II satisfied by structural placement; five-state render coverage complete.",
+          "Comment-level nit on #4: PR body still describes stale r1 architecture (_syncPendingWriteCount / _syncTrackWrite / three-state) — code shipped r2 five-state + ACK-primitives. Update body to match shipped code.",
+          "Comment-level nit on #4: _syncPendingByKey reads QuerySnapshot-level hasPendingWrites (per-collection boolean), so 'N pending' undercounts when multiple writes queue to the same collection. Directionally honest; numerically fuzzy. Options: iterate docChanges() per doc, or document the semantics as 'N = active pending phases' and update copy. Not a blocker for Phase 1.",
+          "Comment-level nit on #4: remote-change #syncToast (sync.js:1005–1045) retained while crash toast retired. Defensible (orthogonal collab signal) but PR body silent; one-line architecture note closes the loop.",
+          "Comment-level nit on #5: vertical stack on Home (headerFull → offlineBadge → welcomeGuide → hero) compresses above-fold in landscape narrow viewports; visual smoke during manual test plan sufficient.",
+          "Do not merge either PR — Sovereign merges per War Time standing rule. Recommended merge order: #4 first, then #5 (base auto-retargets to main or via rebase).",
+          "Pre-existing HR-3 gaps (template.html:103 onchange=handleAvatar; sync.js:1035 toast addEventListener) filed as out-of-scope; issue candidates but not blockers on Phase 1."
+        ],
+        "bugs_found": 0,
+        "lore_generated": [
+          "doctrine-candidate (validated by r3): 'gap audits and sync-visibility derivations must prefer framework-provided ACK primitives (onSnapshotsInSync / hasPendingWrites) over hand-rolled counters when the framework exposes them.' Source: cipher r1 on PR #3. Validated in cipher r3 on PR #4 (zero _syncTrackWrite refs in shipped code; ACK primitives wired). Ready for Hour-12 Chronicle promotion by Aurelius."
+        ],
+        "handoff": "Approvals posted on PR #4 (sl-1-2 r3) and PR #5 (sl-1-3 r1). Awaiting Sovereign merge. Doctrine-candidate (ACK-primitives pattern) validated in r3 code; pre-tagged for Hour-12 Chronicle promotion."
+      }
+    }
+  ]
+}
