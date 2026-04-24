@@ -66,18 +66,18 @@ New snippet type in the import pipeline. Full operation catalog in the Temple sc
 - `update_task_status` — advances a task's status in `campaigns.json`. Accepts: pending | in-progress | review | complete | blocked.
 - `log_blocker` — optional Priority 3 capture for post-war Cautionary Tale synthesis. Attaches to a session.
 
-## Denormalization convention (ratified 2026-04-24 by Sovereign in-session)
+## Denormalization convention (ratified 2026-04-24 by Sovereign in-session; corrected second pass)
 
-**Session logs are written to BOTH files on every `record_session` op:**
+**`journal.json` carries two views of the same data.**
 
-1. **`data/journal.json`** — authoritative per-date append under `journal[].sessions[]` (source of truth for historical and per-date queries).
-2. **`data/campaigns.json`** — denormalized mirror under `campaigns[].session_logs[]` filtered by `campaign_id` (Temple's campaign-scoped telemetry read path).
+1. **Nested-by-date (canonical source):** `journal[].sessions[]` — the `journal[]` array is ordered by date descending; each entry has `date` + `sessions[]`. This is the source of truth for Codex internal reads (data.js, core.js iterate this structure).
+2. **Flat top-level (derived view, Temple contract):** `journal.sessions[]` — every session across every date, flattened into a single array, ordered by `started_at` descending (id-ties broken lexically). This is what Temple of Mars consumes per `CodexJournal.sessions[]` in its type definition (`TempleOfMars/src/lib/types/index.ts`) and reads at `TempleOfMars/src/lib/stores/campaign.ts:35` — filtered by `campaign_id`.
 
-Both writes are required for a session_log ingest to be complete. Ingesting to journal.json alone leaves Temple's contract unfulfilled — telemetry renders zero despite the record existing. See `lore-2026-04-24-session-log-ingest-path-incomplete`.
+**Invariant:** `journal.sessions[]` MUST equal the concatenation of all `journal[].sessions[]` (modulo sort). On every `record_session` ingest, `sessions[]` is rebuilt from `journal[]`. Never edit `sessions[]` without the corresponding nested update — drift is the failure mode.
 
-Dedup in both locations is by `id`. Re-ingest of the same `id` is idempotent.
+**Dedup:** by `id`. Re-ingest of the same id is idempotent.
 
-**Schema shape of `campaigns[].session_logs[]` entries:** identical to `journal[].sessions[]` entries (full record, not a reference).
+**Not a Temple target:** `campaigns[].session_logs[]` does NOT exist and MUST NOT be added — an earlier attempt (PR #29) added this field as a misguided denormalization; PR #30 removed it. Temple does not consume campaigns.session_logs. See `lore-2026-04-24-session-log-ingest-path-incomplete` for the full story.
 
 ## Pricing table
 
