@@ -1,0 +1,96 @@
+{
+  "snippet_type": "lore",
+  "operations": [
+    {
+      "op": "new_lore_entries",
+      "data": {
+        "entries": [
+          {
+            "id": "lore-2026-04-23-doctrine-single-file-vs-stack-b",
+            "category": "Doctrines",
+            "title": "When Single-File HTML Is Insufficient, Adopt Stack B",
+            "domain": ["architecture", "pwa", "tech-stack-selection"],
+            "tags": ["sveltekit", "tailwind", "vite-pwa", "modern-toolchain"],
+            "references": ["templeofmars/docs/CHARTER.md"],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-23-aurelius-war-prep",
+            "rationale": "The province pattern (single-file HTML PWA — SproutLab, SEP Dashboard, SEP Invoicing, Command Center) is the Order's default and should remain so when surface is small, interactivity is local to one screen, no cross-repo aggregation, no multi-route content, install-anywhere-zero-build is a virtue.\n\nStack B (SvelteKit 2 + adapter-static + Tailwind v4 + @vite-pwa/sveltekit + TypeScript strict + Biome + Vitest) is the right escalation when: cross-repo aggregation, content-heavy, long-lived with schema evolution, multi-route, rich interactivity. Temple is the founding exemplar.\n\nDoctrine: don't modernize a province that doesn't need it. Don't keep a single-file HTML when scope has outgrown it. The tell: when your index.html crosses ~30K LOC or your split/ directory needs its own build pipeline docs, Stack B pays for itself.",
+            "status": "active"
+          },
+          {
+            "id": "lore-2026-04-23-doctrine-map-territory-by-construction",
+            "category": "Doctrines",
+            "title": "Observers Ship No Write Credentials — Edict III by Construction",
+            "domain": ["architecture", "security", "pillar-2"],
+            "tags": ["edict-iii", "read-only", "sync-pipeline", "pillar-map-territory"],
+            "references": ["templeofmars/docs/CHARTER.md", "templeofmars/src/lib/codex/fetchers.ts"],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-23-aurelius-war-prep",
+            "rationale": "Edict III (Sync Pipeline Authoritative) can be honored by policy ('don't write through a back door') or by construction ('no back door exists'). The latter is strictly stronger. Temple ships with no GitHub token, no API key, no write credentials of any kind; it can only read Codex JSON via anonymous raw.githubusercontent.com. Bypassing the sync pipeline would require code changes to Temple itself (visible in PR review).\n\nDoctrine for all observer-class surfaces: close the write path at the architecture layer, not the process layer. Make the policy tautological.",
+            "status": "active"
+          },
+          {
+            "id": "lore-2026-04-23-doctrine-novice-friendliness",
+            "category": "Doctrines",
+            "title": "Novice-Friendliness Dominates Stack Selection in Early Projects",
+            "domain": ["tech-stack-selection", "team-formation"],
+            "tags": ["learning-cost", "one-mental-model", "sveltekit"],
+            "references": ["templeofmars/docs/CHARTER.md"],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-23-aurelius-war-prep",
+            "rationale": "When the Builder is a novice, learning-cost dominates runtime performance cost. Astro + Svelte islands is technically-best for content-heavy dashboards (ships ~0 JS), but it requires holding two mental models — .astro frontmatter and .svelte island hydration. SvelteKit alone is one mental model end-to-end. The few kB of extra JS is invisible on 2026 networks.\n\nDoctrine: for a novice Builder, pick the stack with fewer concepts, not the stack with better benchmarks. Migrate to the more-optimized stack later if needed — the rewrite is cheap; the learning debt is not.",
+            "status": "active"
+          },
+          {
+            "id": "lore-2026-04-23-doctrine-charter-before-build",
+            "category": "Doctrines",
+            "title": "Charter Before Build, Always",
+            "domain": ["governance", "edict-viii"],
+            "tags": ["edict-viii", "readme", "charter", "schema"],
+            "references": ["templeofmars/README.md", "templeofmars/docs/CHARTER.md", "templeofmars/docs/SCHEMA.md"],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-23-aurelius-war-prep",
+            "rationale": "Temple's README, CHARTER, and SCHEMA were drafted and reviewed before any Svelte component code. Edict VIII honored in letter and spirit. The practical payoff: every architectural question during scaffold had a pre-answered reference — the Charter itself. Zero mid-build rework on structural questions.\n\nDoctrine: for every new Volume, the documents come before the code. If the README can't be written coherently, the code isn't ready to be written either.",
+            "status": "active"
+          },
+          {
+            "id": "lore-2026-04-23-doctrine-stream-commits",
+            "category": "Doctrines",
+            "title": "Stream Commits, Not Monoliths — Agent-Managed Scaffolding",
+            "domain": ["agent-tooling", "claude-code", "git"],
+            "tags": ["batching", "push-files", "mcp"],
+            "references": ["rishabh1804/TempleOfMars#1"],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-23-aurelius-war-prep",
+            "rationale": "Agent-driven scaffolding benefits from commit-streaming over monolithic pushes. Rationale: observable progress, resilience to stream timeouts, clearer commit history, atomic scope per commit. For Temple (41 files, ~70KB), 7 batches landed reliably after first monolithic attempt timed out twice.\n\nDoctrine: batch agent commits by semantic unit — configs, app shell, types, components, routes, docs. Under ~10 files or ~15KB content each. Reviewer sees a readable story; agent sees observable progress.",
+            "status": "active"
+          },
+          {
+            "id": "lore-2026-04-23-doctrine-watchtower-class",
+            "category": "Doctrines",
+            "title": "Watchtower Sibling Class to Monument — Observe vs Direct",
+            "domain": ["governance", "book-iii", "edict-vi"],
+            "tags": ["monument", "watchtower", "command-center", "temple-of-mars"],
+            "references": ["templeofmars/docs/CHARTER.md"],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-23-aurelius-war-prep",
+            "rationale": "Command Center is the Order's first Monument. Temple of Mars is its complement: where Command Center directs (decrees, handoffs), Temple observes (state, telemetry, lore). The functional split is real and worth formalizing. Proposed class: Watchtower — observational counterpart to Monument.\n\nDoctrine (pending Working Committee ratification): structural classes are tools for clarifying role, not prestige. Watchtowers observe without directing; Monuments direct without necessarily observing; Provinces build. Each has its role, Builder seat, governance path.",
+            "status": "active"
+          },
+          {
+            "id": "lore-2026-04-23-doctrine-branch-pr-flow",
+            "category": "Doctrines",
+            "title": "Branch + PR Flow Even for One-Line Hotfixes",
+            "domain": ["governance", "git-discipline"],
+            "tags": ["no-direct-push", "ratification-trail", "hotfix"],
+            "references": ["rishabh1804/TempleOfMars#2", "rishabh1804/TempleOfMars#3", "rishabh1804/TempleOfMars#4"],
+            "sourceType": "session",
+            "sourceId": "session-2026-04-23-aurelius-war-prep",
+            "rationale": "During the Temple deploy fire-drill, direct push to main was tempting for each tiny fix. Held to branch + PR flow anyway. Payoff: each fix has a PR with a commit message, a testable description, a merge SHA. Post-mortem clarity is free. PR overhead in seconds; clarity in weeks of future work.\n\nDoctrine: branch + PR for every change. No exceptions for one-line fixes, no exceptions for 'urgent' hotfixes. The ratification trail is what makes post-war lore synthesis possible.",
+            "status": "active"
+          }
+        ]
+      }
+    }
+  ]
+}
