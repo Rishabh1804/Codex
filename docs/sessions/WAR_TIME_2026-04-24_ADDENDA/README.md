@@ -1,7 +1,7 @@
 # War Time 2026-04-24 — Addenda (Aurelius shift)
 
 **Chronicler:** Aurelius (`aurelius-05`)
-**Drafted:** 2026-04-24 (Hour ~14) → updated 2026-04-25 (Hour ~31)
+**Drafted:** 2026-04-25 (Hour ~31)
 **Scope:** War Time 2026-04-24 → 2026-04-27 (72-hour campaign per `docs/sessions/WAR_TIME_SESSION_2026-04-24.md`)
 **Authority:** Chronicler's working record. **Not constitutional.** Surfaces candidate doctrine for post-war Cabinet review per §"Post-War Review (Within 7 Days)" of the campaign declaration.
 
@@ -23,17 +23,20 @@ Three properties this bundle tries to hold:
 
 | File | Subject |
 |---|---|
-| [`01-rulings.md`](./01-rulings.md) | Doctrines (D-series) and operational rulings (R-series) ratified mid-PR during the shift |
+| [`01a-doctrines.md`](./01a-doctrines.md) | Doctrines (D-series, 8 doctrines) — observed patterns about how the system works |
+| [`01b-operational-rulings.md`](./01b-operational-rulings.md) | Operational rulings (R-series, 15 rulings) — specific decisions made during the campaign |
 | [`02-habits.md`](./02-habits.md) | Process habits — standing orders for Builders / Cipher / Aurelius |
 | [`03-drafts.md`](./03-drafts.md) | Reusable prompts and directives — Cipher opening prompt, arming directives, handoff templates |
 | [`04-cautionary-tales.md`](./04-cautionary-tales.md) | Failures, near-misses, and infrastructure discoveries worth recording |
 | [`05-process-flow.md`](./05-process-flow.md) | Builder → Cipher → Aurelius + Sovereign loop, merge authority boundaries, escalation paths |
 
+The rulings are split into `01a` (doctrines, ~7 KB) and `01b` (operational rulings, ~9 KB) for easier storage and reading. They were originally drafted as a single `01-rulings.md` file but split per Sovereign's "smaller files broken into segments" directive.
+
 Hour-based chronicle entries live as separate files at this directory's parent level (`docs/sessions/`), per the convention established by the campaign declaration:
 
 | Chronicle file | Status |
 |---|---|
-| `WAR_TIME_2026-04-24_HOUR_24_CHRONICLE.md` | Drafted at Hour ~31 (backdated; lateness disclosed in-file) |
+| [`WAR_TIME_2026-04-24_HOUR_24_CHRONICLE.md`](../WAR_TIME_2026-04-24_HOUR_24_CHRONICLE.md) | Drafted at Hour ~31 (backdated; lateness disclosed in-file) |
 | `WAR_TIME_2026-04-24_HOUR_48_CHRONICLE.md` | Skipped per Sovereign's A3 sequencing (rolled into Hour 72 synthesis) |
 | `WAR_TIME_2026-04-24_HOUR_72_CHRONICLE.md` | Pending — drafted at War Time close |
 
@@ -51,7 +54,7 @@ Hour-based chronicle entries live as separate files at this directory's parent l
 
 For a Chronicler / Sovereign reviewing post-war:
 
-1. `01-rulings.md` — what was ratified, with citations to the originating PRs.
+1. `01a-doctrines.md` + `01b-operational-rulings.md` — what was ratified, with citations to the originating PRs.
 2. `04-cautionary-tales.md` — what we learned the hard way; pairs with §Cautionary Tales of the campaign declaration's lore-recording schema.
 3. `05-process-flow.md` — the operating system that emerged across the shift.
 4. `02-habits.md` — practices that held under stress; carry-forward candidates.
@@ -61,7 +64,7 @@ For a future Builder picking up an inheriting campaign (e.g. `inv-1-3`, sep-dash
 
 1. `02-habits.md` — what to do.
 2. `03-drafts.md` — paste-ready arming.
-3. `01-rulings.md` — what's settled, what's still candidate.
+3. `01a-doctrines.md` + `01b-operational-rulings.md` — what's settled, what's still candidate.
 4. `04-cautionary-tales.md` — what to avoid.
 
 ---
@@ -70,12 +73,13 @@ For a future Builder picking up an inheriting campaign (e.g. `inv-1-3`, sep-dash
 
 Following Codex `data/canons.json` numbering and `WAR_BRIEF_*.md` voice:
 
-- **Doctrines:** `D1`, `D2`, … (named in `01-rulings.md`)
-- **Rulings:** `R-1`, `R-2`, … (operational; named in `01-rulings.md`)
+- **Doctrines:** `D1`, `D2`, … (named in `01a-doctrines.md`)
+- **Rulings:** `R-1`, `R-2`, … (operational; named in `01b-operational-rulings.md`)
 - **Canons (existing Codex):** `canon-{type}-{number}` (e.g. `canon-0007-zi-innerhtml`, `canon-cc-016`)
 - **Edicts:** Roman numerals (Edict V, Edict VIII)
 - **Pillars:** Pillar I–IV
 - **PR references:** `<repo>#<number>` (e.g. `sep-dashboard#7`)
+- **Cautionary tales:** `CT-N` (named in `04-cautionary-tales.md`)
 
 War Time canon-scope ruling (R-1) applies throughout: cite canons by number regardless of `"scope"` field for the campaign window.
 
@@ -85,7 +89,7 @@ War Time canon-scope ruling (R-1) applies throughout: cite canons by number rega
 
 | Date | Author | Note |
 |---|---|---|
-| 2026-04-25 (Hour ~31) | Aurelius (`aurelius-05`) | Initial draft — bundle created from in-flight session context per Sovereign's "close this phase of war properly" directive |
+| 2026-04-25 (Hour ~31) | Aurelius (`aurelius-05`) | Initial draft — bundle created from in-flight session context per Sovereign's "close this phase of war properly" directive. Rulings file split into 01a (doctrines) + 01b (operational rulings) per Sovereign's "smaller files" directive. |
 
 ---
 
