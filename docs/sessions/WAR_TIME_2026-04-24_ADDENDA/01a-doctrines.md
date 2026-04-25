@@ -67,7 +67,7 @@ D-series captures observed patterns about how the system works. Named after enou
 
 | PR | Cycles to clean | Doctrines applied |
 |---|---|---|
-| #7 dash-3-1 | 2 (request-changes + delta-check) | R-3 partial → R-3 + D2 |
+| #7 dash-3-1 | 2 (request-changes + delta-check) | D2 partial round-1 → D2 (full) + R-3 |
 | #8 dash-3-2a | 1 (clean) | R-3, D2, R-9 |
 | #9 dash-3-2b | 1 (clean) | R-3, D2, D5 |
 | #10 dash-3-3 | 1 (clean) | R-3, D2, D5, hygiene-queue |
@@ -99,7 +99,7 @@ Three independent instances → pattern.
 
 ### D7 — Lock guards writes, not reads
 
-**Ratified:** sep-dashboard#10 merge.
+**Ratified:** sep-dashboard#10 merge (CSV export).
 
 **Substance:** Locks gate edit affordances. Reads remain accessible by default. Made explicit by Theron's read-availability framing on the export buttons (exports remain available under month-lock because they're read actions on locked-month records).
 
@@ -109,7 +109,7 @@ Three independent instances → pattern.
 
 ### D8 — Citation-integrity as a Cipher-canonical review surface
 
-**Ratified:** sep-dashboard#11 merge.
+**Ratified:** sep-dashboard#11 merge (hygiene sweep).
 
 **Substance:** Citation integrity is first-class Cipher review jurisdiction, not polish nit. Pattern: *Builder reads change correctly; description drifts.* Cipher's externalized eyes catch what the Builder's mental model can't see.
 
@@ -122,6 +122,8 @@ Three independent instances → pattern.
 | sep-dashboard#11 | "byte-for-byte" for CSV refactor | semantically equivalent under RFC 4180 |
 
 **Implication:** Citation slip is signal that Builder's mental model and the artifact disagreed somewhere. Treat citations with the same care as code.
+
+**Self-validation note (Codex#45 round-1 review):** Cipher caught 2–3 D8-class slips inside *this very addenda* — D2-vs-R-3 misframing in the D5 table, D7 misattribution in CT-7's mitigation line, hour-number drift in the Hour 24 chronicle. The doctrine self-validates within its own ratification artifact, mirroring D3's 16-minute cycle. *Catch → iterate → ratify → next surface* applies recursively to the addenda itself.
 
 ---
 
