@@ -93,7 +93,7 @@ Each tale: what happened, what we learned, what to do differently.
 
 **Lesson:** Production bugs surfaced during infrastructure work are filed forward, not retrofitted. Scope discipline is doctrine-level.
 
-**Mitigation:** D7 ratification (lock guards writes, not reads — orthogonal but co-discovered). Hardening PR shipped same day, separate atomic concern.
+**Mitigation:** D1 ratified (`serviceWorker.ready` for SW activation waits — uncovered while debugging the regression-guard test). D2 ratified (sibling sweep: Theron extended the race fix to `smoke.spec.ts` test 3). D6 instance #1 (Theron's `serviceWorker.ready` improvement on Cipher's `reg.active` prescription — first occurrence of the prescription dance). Hardening PR shipped same day, separate atomic concern.
 
 ---
 
