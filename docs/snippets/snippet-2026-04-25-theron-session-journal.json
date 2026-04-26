@@ -1,0 +1,77 @@
+{
+  "_snippet_version": 1,
+  "session_log": [
+    { "op": "update_task_status", "data": { "task_id": "dash-1-1", "status": "complete", "at": "2026-04-24T18:07:39Z", "session_id": "session-2026-04-24-theron-01" } },
+    { "op": "update_task_status", "data": { "task_id": "dash-2-1", "status": "complete", "at": "2026-04-25T02:52:24Z", "session_id": "session-2026-04-24-theron-01" } },
+    { "op": "update_task_status", "data": { "task_id": "dash-2-2", "status": "complete", "at": "2026-04-25T02:52:24Z", "session_id": "session-2026-04-24-theron-01" } },
+    { "op": "update_task_status", "data": { "task_id": "dash-3-1", "status": "complete", "at": "2026-04-25T07:39:58Z", "session_id": "session-2026-04-24-theron-01" } },
+    { "op": "update_task_status", "data": { "task_id": "dash-3-2", "status": "complete", "at": "2026-04-25T09:00:00Z", "session_id": "session-2026-04-24-theron-01" } },
+    { "op": "update_task_status", "data": { "task_id": "dash-3-3", "status": "complete", "at": "2026-04-25T13:20:23Z", "session_id": "session-2026-04-24-theron-01" } },
+    { "op": "record_session", "data": {
+      "id": "session-2026-04-24-theron-01",
+      "campaign_id": "war-time-2026-04-24",
+      "phase_ids": ["dashboard-phase-1", "dashboard-phase-2", "dashboard-phase-3"],
+      "task_ids": ["dash-1-1", "dash-2-1", "dash-2-2", "dash-3-1", "dash-3-2", "dash-3-3"],
+      "builder": "theron",
+      "province": "sep-dashboard",
+      "started_at": "2026-04-24T16:55:00Z",
+      "ended_at": "2026-04-25T14:16:02Z",
+      "model": "opus-4-7",
+      "hour_window": "10..32 of 72",
+      "prs": [
+        { "n": 2,  "title": "chore: add .gitignore + untrack SEP_Backup_2026-04-02.json",                         "merge_sha": "55a0128", "merged_at": "2026-04-24T18:07:39Z" },
+        { "n": 3,  "title": "test: arm Playwright + chromium baseline smoke + amend Build Rule #1",                "merge_sha": "e37d08c", "merged_at": "2026-04-24T19:12:51Z" },
+        { "n": 4,  "title": "test: align CI retries to 0 (Aurelius cross-province ruling)",                       "merge_sha": "8ee1dd5", "merged_at": "2026-04-25T02:30:18Z" },
+        { "n": 5,  "title": "docs: Session 8 reading + three-feature charter (A1+A4, A2, B2)",                    "merge_sha": "01a5bfc", "merged_at": "2026-04-25T02:52:24Z" },
+        { "n": 6,  "title": "fix(sw): per-asset best-effort install (Promise.allSettled regression guard)",       "merge_sha": "8175fa7", "merged_at": "2026-04-25T07:39:58Z" },
+        { "n": 7,  "title": "feat(month-lock): enforce edits + History badge (dash-3-1, A1+A4 bundled)",          "merge_sha": "30a7b21", "merged_at": "2026-04-25T08:00:00Z" },
+        { "n": 8,  "title": "feat(validation): inv-layer guards (dash-3-2a, A2 guards 1+5)",                      "merge_sha": "c3eb047", "merged_at": "2026-04-25T08:57:24Z" },
+        { "n": 9,  "title": "feat(validation): ops-layer guards + helper extraction (dash-3-2b)",                 "merge_sha": "1c4915f", "merged_at": "2026-04-25T09:30:00Z" },
+        { "n": 10, "title": "feat(export): monthly CSV export — attendance + payroll + costs (dash-3-3)",         "merge_sha": "546bf10", "merged_at": "2026-04-25T13:20:23Z" },
+        { "n": 11, "title": "chore(hygiene): sweep #1 — dead code, helper-backport, perm test gap",               "merge_sha": "8fed119", "merged_at": "2026-04-25T14:16:02Z" }
+      ],
+      "loc_delta_total": "+1,562 / -2,750 across all merges (cumulative); index.html net change ≈ +220 source LOC; tests 0 → 31 across 5 spec files",
+      "tests_added": 31,
+      "stress_runs_clean": "ranged 110/110 (PR #7) → 341/341 (PR #11), zero flakes throughout",
+      "summary": "Phase 1 P0 hygiene + Phase 2 charter + Phase 3 (4/4 slots) + post-Phase-3 hygiene sweep. Charter scope met (A2 closes 4/5, Guard 3 documented-deferred — no surface). Playwright arming landed in PR #3; SW install bug surfaced + closed in PR #6; full validation matrix shipped across PRs #7-#10. Hygiene queue closed in #11.",
+      "decisions_load_bearing": [
+        "PR #1 historical (Nyx + Sovereign pre-dawn). Phase 1 P0 was sep-dashboard PR #2 (.gitignore + SEP_Backup rm).",
+        "Build Rule #1 amendment ratified (production artifact single-file, dev-deps permitted gitignored). PR #3.",
+        "retries: 0 cross-province alignment (Aurelius R1, PR #4).",
+        "sw.js Promise.allSettled hardening (Aurelius R2, PR #6).",
+        "Phase 3 lock: A1+A4 / A2 / B2; rejected B1 (design-surface risk on locked 4.5/5).",
+        "dash-3-2 pre-split into 2a inv-layer / 2b ops-layer per Aurelius R3, saved a round-2 cycle (D5 in action)."
+      ],
+      "doctrines_surfaced_or_ratified": [
+        "D1 — navigator.serviceWorker.ready is canonical SW-activation wait (PR #6, Aurelius merge).",
+        "D2 — Fix sibling races on discovery (PR #6, ratified at merge; applied PR #7 round 2 + PR #8 + PR #10).",
+        "D3 — Doctrine self-validation cycle (catch → iterate → ratify → next surface, 16-min interval) (PR #7).",
+        "D4 — Independent convergence on workarounds = stability signal (PR #7).",
+        "R10 refinement — split-threshold gates UI/feature scope, not data-integrity remediation (PR #7).",
+        "D5 — Doctrine compounding flattens cycles via proactive application (PR #8, empirically validated PR #9).",
+        "Dead-code hygiene-sweep doctrine — findings queue, batch into atomic sweeps (PR #8 → executed PR #11).",
+        "attachDialogScript extraction blessed (PR #8, applied PR #9).",
+        "D6 — Builder-may-improve-on-prescription (3 instances on-record: serviceWorker.ready PR #6, _helpers.ts PR #9, csvCell defensiveness PR #10) (PR #10).",
+        "D7 — Lock guards writes, not reads (boundary doctrine) (PR #10, made explicit by export-buttons-stay-available framing).",
+        "Guard 4 defense-in-depth endorsed under R10 (PR #9)."
+      ],
+      "doctrine_candidates_pending_aurelius": [
+        "D8 — Citation-integrity is a Cipher-canonical review surface (3 on-record catches: HR-7→HR-5 PR #8, canon-0002→canon-0006 PR #9, byte-for-byte→semantically PR #11). Pattern: Builder reads change correctly, description drifts, Cipher's externalized eyes catch it."
+      ],
+      "production_bugs_closed": [
+        "sw.js cache.addAll all-or-nothing fragility — any user blocked from Google Fonts got zero offline support. Closed PR #6 with Promise.allSettled + per-asset cache.add."
+      ],
+      "lore_generated": [
+        "Cycle-count table for D5 empirical validation (Aurelius PR #9 merge).",
+        "First Builder-pass / Cipher-fail divergence under Playwright arming (PR #6 round 1; round 2 closed it).",
+        "First D2 incompleteness round-1 / round-2 cycle on Builder side (PR #7 togglePeriod cluster).",
+        "Citation-integrity catches across PRs #8, #9, #11 (D8 candidate)."
+      ],
+      "bugs_found": 1,
+      "hygiene_queue_status": "empty (all carried-forward items closed in PR #11; 1 trivial item — monthDates JS-trick comment — logged for next sweep)",
+      "tokens_in": null,
+      "tokens_out": null,
+      "tokens_note": "Token-spend snapshot per Aurelius PR #6 merge ruling — fill from server-side metrics; conversation-side estimate not authoritative."
+    } }
+  ]
+}
