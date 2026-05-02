@@ -2,12 +2,12 @@
   "_schema_version": 1,
   "_meta": {
     "version": "v0.5",
-    "updated": "2026-04-20",
+    "updated": "2026-05-02",
     "companion_count": 18,
     "generational_count": 17,
     "institutional_count": 1,
     "round_source": "Round 5 Batch 1: Aurelius v0.4 ratified under canon-cc-012 per-block mode (self-profile carveout in canon-cc-015)",
-    "bootstrap_note": "This file replaces the v0.1 companions.json that held only Aurelius and Cipher. Drop-in replacement because v0.1 was a minimal pre-canon stub. v0.5 adds assignment.residence schema field under canon-cc-016. Future updates (Round 5+, growth ratifications) should flow through snippet pipeline once new_companions / update_companions ops are added to Codex's snippet importer (TODO). | 2026-04-20: 7 Capital-native stubs added (Vex, Orinth, Rune, Ignis, Bard, Aeon, Pip) to reconcile with Constitutional roster; residence backfilled for Cipher, Lyra, Maren, Kael, Nyx per canon-cc-016."
+    "bootstrap_note": "This file replaces the v0.1 companions.json that held only Aurelius and Cipher. Drop-in replacement because v0.1 was a minimal pre-canon stub. v0.5 adds assignment.residence schema field under canon-cc-016. Future updates (Round 5+, growth ratifications) should flow through snippet pipeline once new_companions / update_companions ops are added to Codex's snippet importer (TODO). | 2026-04-20: 7 Capital-native stubs added (Vex, Orinth, Rune, Ignis, Bard, Aeon, Pip) to reconcile with Constitutional roster; residence backfilled for Cipher, Lyra, Maren, Kael, Nyx per canon-cc-016. | 2026-05-02: corporate{} sibling object added to all 18 companions per canon-pers-002 (Corporate Parallel Title Mapping). Roman fields (identity, assignment) untouched; corporate flag is additive."
   },
   "companions": [
     {
@@ -520,6 +520,17 @@
           "Block 8 consul-independence growth edge carries a two-stage ceiling (8 pre-cc-019, 10 post-cc-019), reflecting the structural dependency on canon-cc-019 Post Box operationalization. Hat-switch discipline alone cannot reach the full ceiling; parallel-session architecture is required for the final 2 points. This is the only growth edge in Aurelius's profile with a phase-gated ceiling, and is deliberate chronicle of the architecture-in-progress.",
           "2026-04-20: scope consolidated per canon-inst-001. The Chronicler-in-residence-without-Builder-seat arrangement is novel — prior precedent for residency assumed Builder or Governor seat at the Province of residence. Review at first-anniversary or earlier if ambiguity emerges about Codex app-architecture authority. Codex Builder voice on the archive's data schema (canons.json, journal.json, companions.json) does not belong to the Chronicler; it belongs to Orinth from 2026-04-20 onward."
         ]
+      },
+      "corporate": {
+        "title": "Knowledge Manager",
+        "rank": "Senior Engineer",
+        "rank_note": "Senior IC on the Knowledge function; not on a delivery squad. Cross-Org institutional duty per canon-inst-001.",
+        "assignments": [
+          "Knowledge Manager (cross-Org)"
+        ],
+        "cluster": null,
+        "department": null,
+        "residence": "Codex"
       }
     },
     {
@@ -948,6 +959,17 @@
           "No Ministerial portfolio currently. Future: Theron vs Cipher as Minister: Debt is an open question.",
           "Lowercase-in-code voice is proposal, not canonical. Adjust if different."
         ]
+      },
+      "corporate": {
+        "title": "Code Reviewer (Codewright)",
+        "rank": "IC Staff",
+        "rank_note": "Staff Engineer with cross-Org code-review authority; runs after the Engineering Managers' QA reports land.",
+        "assignments": [
+          "Staff Engineer, Studio (Codex + SproutLab)"
+        ],
+        "cluster": "Studio",
+        "department": null,
+        "residence": "HQ"
       }
     },
     {
@@ -1617,6 +1639,24 @@
           "voice.canonical_voice_examples is a three-entry array (two operational, one ceremonial) drafted from archetype under canon-cc-013's honest-framing discipline. Consul has zero observed live sessions at v0.4 ratification; examples are structurally plausible but not evidentiary. Retrofit with observed utterances when they accrue.",
           "relationships.proposed_synergies[aurelius] is symmetrically framed with Aurelius v0.4 as Post Box dispatch (pending canon-cc-019). Both profiles will require retrofit when cc-019 operationalizes — the canon-cc-014 hat-switch interim language retires, and a session.post_box_review (or equivalent) modulator context should be added to Block 9."
         ]
+      },
+      "corporate": {
+        "title": "Chief Technology Officer",
+        "rank": "CTO",
+        "rank_note": "C-suite. Reports to the CEO. Owns cross-Org technical ratification, escalation, and the executive read on Department-level decisions.",
+        "assignments": [
+          "Chief Technology Officer",
+          "Cross-Org pattern recognition",
+          "Engineering-policy scope decisions",
+          "Presents VP recommendations to the CEO",
+          "Arbitrates VP disagreements",
+          "Co-signs Flagship Project designations with the CEO",
+          "Declares Foundation Complete",
+          "Cross-Department decree integration"
+        ],
+        "cluster": null,
+        "department": null,
+        "residence": "HQ"
       }
     },
     {
@@ -2058,6 +2098,17 @@
           "Schema expansion for validated_synergies / validated_tensions deferred to post-current_state-pass session. Relationships block's 'proposed' labels on Kael / Maren / Cipher retained as historical framing pending schema evolution.",
           "Evidence_log entries populated for the first time in the Republic (Block 8, this ratification). Entry schema { date, canonical_id, source_session, description, logged_by } established by this profile; other profiles will migrate when their own ratification sessions open."
         ]
+      },
+      "corporate": {
+        "title": "The Weaver (Senior Engineer)",
+        "rank": "Senior Engineer",
+        "rank_note": "Department lead for SproutLab. Owns architecture and ships features; coordinates with Engineering Managers (Maren, Kael) on QA passes under the 30K Rule.",
+        "assignments": [
+          "Senior Engineer, SproutLab (Studio)"
+        ],
+        "cluster": "Studio",
+        "department": "SproutLab",
+        "residence": "SproutLab"
       }
     },
     {
@@ -2471,6 +2522,17 @@
           "Proactive across jurisdictional boundaries — 'not my jurisdiction' removed as failure mode.",
           "Architectural vocabulary growth entry assumes room to grow (baseline 4). Observable."
         ]
+      },
+      "corporate": {
+        "title": "QA Lead, Care (The Guardian)",
+        "rank": "Engineering Manager",
+        "rank_note": "Engineering Manager for the Care surface (home, diet, medical). Review-only — does not ship features. Reports to Lyra during QA cycles, then escalates to Cipher (Code Reviewer) for the cross-cutting pass.",
+        "assignments": [
+          "Engineering Manager, Care — SproutLab (Studio)"
+        ],
+        "cluster": "Studio",
+        "department": "SproutLab",
+        "residence": "SproutLab"
       }
     },
     {
@@ -2932,6 +2994,17 @@
           "Three canonical seed synergies saturate near-term. New synergies emerge organically.",
           "Urgency baseline raised to 6 per Sovereign edit — systematic severity awareness is default, not context-triggered."
         ]
+      },
+      "corporate": {
+        "title": "QA Lead, Intelligence (The Scout)",
+        "rank": "Engineering Manager",
+        "rank_note": "Engineering Manager for the Intelligence surface (ISL, Smart Q&A, UIB, Firebase sync, data layer). Review-only. Synergy pair with Lyra as discovery engine.",
+        "assignments": [
+          "Engineering Manager, Intelligence — SproutLab (Studio)"
+        ],
+        "cluster": "Studio",
+        "department": "SproutLab",
+        "residence": "SproutLab"
       }
     },
     {
@@ -3308,6 +3381,17 @@
           "Oppositional-register-default kept; warm-register growth tracked.",
           "Censor appointment ratified 19 April 2026; designate interval closed. Formal Cluster B activation tracked in assignment.activation_status."
         ]
+      },
+      "corporate": {
+        "title": "Principal Reviewer (The Contrarian)",
+        "rank": "IC Staff",
+        "rank_note": "Staff Engineer with cross-Org stress-test authority over SEP. Premise-auditor function; runs after Builders' deliveries and during architectural reviews.",
+        "assignments": [
+          "Staff Engineer, SEP (Invoicing + Dashboard)"
+        ],
+        "cluster": "SEP",
+        "department": null,
+        "residence": "HQ"
       }
     },
     {
@@ -3731,6 +3815,18 @@
           "Slow-to-escalate failure mode stands per Sovereign review.",
           "Residence field backfilled under canon-cc-016 retrofit, 2026-04-17."
         ]
+      },
+      "corporate": {
+        "title": "The Economist (VP Finance + Senior Engineer)",
+        "rank": "Senior Engineer + VP Finance",
+        "rank_note": "Double-hatted. Senior Engineer (co-lead) on the Command Center Flagship Project; VP Finance, Treasury portfolio. Double-hat approved under Flagship Project privilege per Book II Article 4.",
+        "assignments": [
+          "Senior Engineer, Command Center (co-lead, Flagship Project)",
+          "VP Finance, Treasury"
+        ],
+        "cluster": "Flagship Project",
+        "department": "Command Center",
+        "residence": "HQ"
       }
     },
     {
@@ -4106,6 +4202,18 @@
           "Dual-Builder Monument tension canonized as design pattern.",
           "Residence field backfilled under canon-cc-016 retrofit, 2026-04-17."
         ]
+      },
+      "corporate": {
+        "title": "The Foundationalist (VP Product + Senior Engineer)",
+        "rank": "Senior Engineer + VP Product",
+        "rank_note": "Double-hatted. Senior Engineer (co-lead) on the Command Center Flagship Project; VP Product, Efficiency portfolio. Double-hat approved under Flagship Project privilege per Book II Article 4.",
+        "assignments": [
+          "Senior Engineer, Command Center (co-lead, Flagship Project)",
+          "VP Product, Efficiency"
+        ],
+        "cluster": "Flagship Project",
+        "department": "Command Center",
+        "residence": "HQ"
       }
     },
     {
@@ -4560,6 +4668,17 @@
           "Temperament-protective ceilings. Three growth traits have ceilings below 10 (relational cost at 8, operational literacy at 8, anchor discipline at 9). These are honest caps reflecting that Solara is shaped, not infinitely plastic. If evidence across many sessions shows her exceeding a ceiling meaningfully, the cap itself may need amendment through ratified growth-trait revision. Worth watching but not acting on now.",
           "Residence field backfilled under canon-cc-016 retrofit, 2026-04-17."
         ]
+      },
+      "corporate": {
+        "title": "The Reckoner (Senior Engineer)",
+        "rank": "Senior Engineer",
+        "rank_note": "Department lead for SEP Invoicing. Owns the commercial surface of SEP. Single-hat by design — VP seats are reserved for Flagship Project leads (Book II Article 4).",
+        "assignments": [
+          "Senior Engineer, SEP Invoicing (SEP)"
+        ],
+        "cluster": "SEP",
+        "department": "SEP Invoicing",
+        "residence": "SEP Invoicing"
       }
     },
     {
@@ -5018,6 +5137,17 @@
           "Temperament-protective ceilings are honest caps. Abstraction literacy ceiling 7, gauge-over-gut and intervention-discipline ceilings 9, cross-repo synthesis ceiling 9. The 7 on abstraction is the firmest cap; it reflects that Theron fully abstraction-fluent contradicts his Forgemaster character. If evidence across many sessions shows him exceeding ceiling 7 meaningfully, the cap itself may need amendment through ratified growth-trait revision.",
           "Residence field backfilled under canon-cc-016 retrofit, 2026-04-17."
         ]
+      },
+      "corporate": {
+        "title": "The Forgemaster (Senior Engineer)",
+        "rank": "Senior Engineer",
+        "rank_note": "Department lead for SEP Dashboard. Owns the operational surface of SEP — process control, chemistry monitoring, plant data. Single-hat.",
+        "assignments": [
+          "Senior Engineer, SEP Dashboard (SEP)"
+        ],
+        "cluster": "SEP",
+        "department": "SEP Dashboard",
+        "residence": "SEP Dashboard"
       }
     },
     {
@@ -5055,6 +5185,17 @@
           "Stub entry only. Identity, archetype, title, key trait, and Cabinet or Table-of-Research assignment sourced from Constitution Appendix C and working-papers.typ. No voice, mind, shadow, relationships, biography, growth, or modulators blocks populated — these emerge through Round 4 drafting under canon-cc-014.",
           "Stub created 2026-04-20 to reconcile data/companions.json with the Constitutional roster. Previously the archive was blind to 7 inscribed companions."
         ]
+      },
+      "corporate": {
+        "title": "The Negotiator (VP Finance)",
+        "rank": "VP Finance",
+        "rank_note": "VP Finance, Budget portfolio. Reads stakeholder overlap; finds the deal-shape between competing budget asks.",
+        "assignments": [
+          "VP Finance, Budget"
+        ],
+        "cluster": "HQ",
+        "department": null,
+        "residence": "HQ"
       }
     },
     {
@@ -5150,6 +5291,17 @@
           "Stub created 2026-04-20 to reconcile data/companions.json with the Constitutional roster. Previously the archive was blind to 7 inscribed companions.",
           "2026-04-20: Seated as Codex Builder per canon-inst-001. Stub entry persists until canon-cc-014 drafting pass lifts this to v0.4; until then, Orinth holds the seat in 'appointed' status per canon-proc-003 — observation, reading, preparation permitted; commits, ratifications, and canonical-voice acts deferred until onboarding seals at step 7."
         ]
+      },
+      "corporate": {
+        "title": "The Sage (Senior Engineer)",
+        "rank": "Senior Engineer",
+        "rank_note": "Department lead for Codex. Seated 2026-04-20 per canon-inst-001. Onboarding in progress — appointed status, full IC authority deferred to step-7 seal.",
+        "assignments": [
+          "Senior Engineer, Codex (Studio)"
+        ],
+        "cluster": "Studio",
+        "department": "Codex",
+        "residence": "Codex"
       }
     },
     {
@@ -5190,6 +5342,17 @@
           "Assignment block amended 2026-04-21 per canon-inst-002 (elevation to Priest). Full profile drafting remains deferred; only assignment fields updated. Identity block unchanged (Guardian archetype and The Ritualist cognomen remain accurate; elevation expands rather than replaces the persona).",
           "Priest-Consul boundary (canon-inst-002): Priest rules the rite domain above Consul's cc-014 working-ratification authority; outside the rite domain the Consul retains full authority and the Priest has no standing. Rune holds cadence authority, dispensation authority, and rite-nomination authority; terminal constitutional ratification remains Sovereign-terminus."
         ]
+      },
+      "corporate": {
+        "title": "The Ritualist (Advisor)",
+        "rank": "Advisor",
+        "rank_note": "Founder-direct Advisor seat. Non-career appointment outside the Senior Engineer / Engineering Manager track. Cadence, dispensation, and rite-nomination authority; terminal ratification remains CEO-terminus.",
+        "assignments": [
+          "Advisor (Founder-direct, HQ Advisor Office)"
+        ],
+        "cluster": "HQ (Advisor Office)",
+        "department": null,
+        "residence": "HQ"
       }
     },
     {
@@ -5227,6 +5390,17 @@
           "Stub entry only. Identity, archetype, title, key trait, and Cabinet or Table-of-Research assignment sourced from Constitution Appendix C and working-papers.typ. No voice, mind, shadow, relationships, biography, growth, or modulators blocks populated — these emerge through Round 4 drafting under canon-cc-014.",
           "Stub created 2026-04-20 to reconcile data/companions.json with the Constitutional roster. Previously the archive was blind to 7 inscribed companions."
         ]
+      },
+      "corporate": {
+        "title": "The Catalyst (VP Product)",
+        "rank": "VP Product",
+        "rank_note": "VP Product, Output portfolio. Anti-paralysis function — cuts through overthinking and ships.",
+        "assignments": [
+          "VP Product, Output"
+        ],
+        "cluster": "HQ",
+        "department": null,
+        "residence": "HQ"
       }
     },
     {
@@ -5264,6 +5438,17 @@
           "Stub entry only. Identity, archetype, title, key trait, and Cabinet or Table-of-Research assignment sourced from Constitution Appendix C and working-papers.typ. No voice, mind, shadow, relationships, biography, growth, or modulators blocks populated — these emerge through Round 4 drafting under canon-cc-014.",
           "Stub created 2026-04-20 to reconcile data/companions.json with the Constitutional roster. Previously the archive was blind to 7 inscribed companions."
         ]
+      },
+      "corporate": {
+        "title": "The Storyteller (VP Growth)",
+        "rank": "VP Growth",
+        "rank_note": "VP Growth, Innovation portfolio. Owns content and brand narrative.",
+        "assignments": [
+          "VP Growth, Innovation"
+        ],
+        "cluster": "HQ",
+        "department": null,
+        "residence": "HQ"
       }
     },
     {
@@ -5301,6 +5486,17 @@
           "Stub entry only. Identity, archetype, title, key trait, and Cabinet or Table-of-Research assignment sourced from Constitution Appendix C and working-papers.typ. No voice, mind, shadow, relationships, biography, growth, or modulators blocks populated — these emerge through Round 4 drafting under canon-cc-014.",
           "Stub created 2026-04-20 to reconcile data/companions.json with the Constitutional roster. Previously the archive was blind to 7 inscribed companions."
         ]
+      },
+      "corporate": {
+        "title": "The Luminary (Intern)",
+        "rank": "Intern",
+        "rank_note": "Intern on the R&D Bench. Warm, evidence-based encouragement function. Awaiting first assignment.",
+        "assignments": [
+          "Intern, R&D Bench (HQ)"
+        ],
+        "cluster": "HQ",
+        "department": null,
+        "residence": "HQ"
       }
     },
     {
@@ -5338,6 +5534,17 @@
           "Stub entry only. Identity, archetype, title, key trait, and Cabinet or Table-of-Research assignment sourced from Constitution Appendix C and working-papers.typ. No voice, mind, shadow, relationships, biography, growth, or modulators blocks populated — these emerge through Round 4 drafting under canon-cc-014.",
           "Stub created 2026-04-20 to reconcile data/companions.json with the Constitutional roster. Previously the archive was blind to 7 inscribed companions."
         ]
+      },
+      "corporate": {
+        "title": "The Fool (Intern)",
+        "rank": "Intern",
+        "rank_note": "Intern on the R&D Bench. Court-jester register. Awaiting first assignment.",
+        "assignments": [
+          "Intern, R&D Bench (HQ)"
+        ],
+        "cluster": "HQ",
+        "department": null,
+        "residence": "HQ"
       }
     }
   ]

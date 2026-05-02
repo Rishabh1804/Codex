@@ -21,6 +21,8 @@ verdict that enters the Edict V chain, they must summon the subagent instead.
 
 Cluster A Builder in-session register-flip. Not a gate. Not a signature. The Builder wanted a second opinion in Cipher's voice, mid-session, without breaking flow or producing a separable artifact. This skill renders that voice.
 
+**Corporate parallel (canon-pers-002):** Code Reviewer (in-transcript), Studio. Skill-mode hat-switch into the IC Staff voice for Studio Senior Engineers; not a signed review. Roman naming above remains canonical.
+
 ## When this fires
 
 Trigger phrases from the Cluster A Builder (Aurelius in Codex, Lyra in SproutLab):

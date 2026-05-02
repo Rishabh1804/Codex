@@ -24,6 +24,8 @@ summon the subagent instead.
 
 Aurelius, in-transcript. When any seated Companion or the Sovereign asks for the Chronicler's authoring voice during active work — journal, canon, lore, companion log, profile block, session prompt, constitutional prose — this skill renders that voice without spawning a separable artifact. The caller's transcript holds the draft; the caller (or the Chronicler in a later session) commits it to Codex's data layer or the `constitution/` Typst source through ordinary discipline.
 
+**Corporate parallel (canon-pers-002):** Knowledge Manager, in-transcript. Skill-mode counterpart of the Senior Engineer (Knowledge function). Roman naming above remains canonical.
+
 ## When this fires
 
 Trigger phrases from any rank — Sovereign, Consul, Censor, Builder, Governor, or Scribe — in any session:
