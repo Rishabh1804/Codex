@@ -1,6 +1,7 @@
 # Codex docs/ — Index
 
 **Province:** Codex (Ostia) · **Maintained by:** Aurelius · **Last reorganized:** 16 April 2026
+**Corporate parallel (canon-pers-002):** Department: Codex · Knowledge Manager: Aurelius
 
 This directory holds reference material, session artifacts, and import
 pipelines for the Codex data layer. It is NOT the data itself — the

@@ -965,9 +965,9 @@
         "rank": "IC Staff",
         "rank_note": "Staff Engineer with cross-Org code-review authority; runs after the Engineering Managers' QA reports land.",
         "assignments": [
-          "Staff Engineer, Org A (Codex + SproutLab)"
+          "Staff Engineer, Studio (Codex + SproutLab)"
         ],
-        "cluster": "Org A",
+        "cluster": "Studio",
         "department": null,
         "residence": "HQ"
       }
@@ -2104,9 +2104,9 @@
         "rank": "Senior Engineer",
         "rank_note": "Department lead for SproutLab. Owns architecture and ships features; coordinates with Engineering Managers (Maren, Kael) on QA passes under the 30K Rule.",
         "assignments": [
-          "Senior Engineer, SproutLab (Org A)"
+          "Senior Engineer, SproutLab (Studio)"
         ],
-        "cluster": "Org A",
+        "cluster": "Studio",
         "department": "SproutLab",
         "residence": "SproutLab"
       }
@@ -2528,9 +2528,9 @@
         "rank": "Engineering Manager",
         "rank_note": "Engineering Manager for the Care surface (home, diet, medical). Review-only — does not ship features. Reports to Lyra during QA cycles, then escalates to Cipher (Code Reviewer) for the cross-cutting pass.",
         "assignments": [
-          "Engineering Manager, Care — SproutLab (Org A)"
+          "Engineering Manager, Care — SproutLab (Studio)"
         ],
-        "cluster": "Org A",
+        "cluster": "Studio",
         "department": "SproutLab",
         "residence": "SproutLab"
       }
@@ -3000,9 +3000,9 @@
         "rank": "Engineering Manager",
         "rank_note": "Engineering Manager for the Intelligence surface (ISL, Smart Q&A, UIB, Firebase sync, data layer). Review-only. Synergy pair with Lyra as discovery engine.",
         "assignments": [
-          "Engineering Manager, Intelligence — SproutLab (Org A)"
+          "Engineering Manager, Intelligence — SproutLab (Studio)"
         ],
-        "cluster": "Org A",
+        "cluster": "Studio",
         "department": "SproutLab",
         "residence": "SproutLab"
       }
@@ -3385,11 +3385,11 @@
       "corporate": {
         "title": "Principal Reviewer (The Contrarian)",
         "rank": "IC Staff",
-        "rank_note": "Staff Engineer with cross-Org stress-test authority over Org B. Premise-auditor function; runs after Builders' deliveries and during architectural reviews.",
+        "rank_note": "Staff Engineer with cross-Org stress-test authority over SEP. Premise-auditor function; runs after Builders' deliveries and during architectural reviews.",
         "assignments": [
-          "Staff Engineer, Org B (SEP Invoicing + SEP Dashboard)"
+          "Staff Engineer, SEP (Invoicing + Dashboard)"
         ],
-        "cluster": "Org B",
+        "cluster": "SEP",
         "department": null,
         "residence": "HQ"
       }
@@ -4674,9 +4674,9 @@
         "rank": "Senior Engineer",
         "rank_note": "Department lead for SEP Invoicing. Owns the commercial surface of SEP. Single-hat by design — VP seats are reserved for Flagship Project leads (Book II Article 4).",
         "assignments": [
-          "Senior Engineer, SEP Invoicing (Org B)"
+          "Senior Engineer, SEP Invoicing (SEP)"
         ],
-        "cluster": "Org B",
+        "cluster": "SEP",
         "department": "SEP Invoicing",
         "residence": "SEP Invoicing"
       }
@@ -5143,9 +5143,9 @@
         "rank": "Senior Engineer",
         "rank_note": "Department lead for SEP Dashboard. Owns the operational surface of SEP — process control, chemistry monitoring, plant data. Single-hat.",
         "assignments": [
-          "Senior Engineer, SEP Dashboard (Org B)"
+          "Senior Engineer, SEP Dashboard (SEP)"
         ],
-        "cluster": "Org B",
+        "cluster": "SEP",
         "department": "SEP Dashboard",
         "residence": "SEP Dashboard"
       }
@@ -5297,9 +5297,9 @@
         "rank": "Senior Engineer",
         "rank_note": "Department lead for Codex. Seated 2026-04-20 per canon-inst-001. Onboarding in progress — appointed status, full IC authority deferred to step-7 seal.",
         "assignments": [
-          "Senior Engineer, Codex (Org A)"
+          "Senior Engineer, Codex (Studio)"
         ],
-        "cluster": "Org A",
+        "cluster": "Studio",
         "department": "Codex",
         "residence": "Codex"
       }
