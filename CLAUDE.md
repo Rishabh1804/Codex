@@ -22,12 +22,12 @@ A personal civilization engine disguised as a project tracker. Library-themed PW
 
 ## Constitutional Layer (supreme law)
 
-The **Constitution of the Republic of Codex v1.1** (`constitution/` as Typst source; compiled at `constitution/constitution-v1.1.pdf` with an archive copy at `docs/pdfs/codex-constitution-v1.1.pdf`) is the supreme law. It supersedes global canons, `CLAUDE.md` files, and Edicts-category lore. Nine Books plus Appendices. Book I ratified 15 April 2026 as v1.0 and is immutable. Book II received its first amendment wave on 21 April 2026 (Priesthood rung + Article 1-bis + Cabinet Maintenance-seat vacancy per canon-inst-002). v1.1 catch-up patch published 22 April 2026 — Amendment History instituted, Appendix C roster refreshed, Appendix D glossary expanded. Books III–IX remain drafting-ready.
+The **Constitution of the Republic of Codex v1.1** (`constitution/` Typst source; compiled at `constitution/constitution-v1.1.pdf`) is the supreme law. Supersedes global canons, `CLAUDE.md` files, Edicts-category lore. Nine Books plus Appendices. Book I is immutable. Books III–IX drafting-ready.
 
 Key structures to know:
-- **Ladder:** Sovereign → Priest → Consul → Censor → Builder → Governor → Scribe → Unassigned (Table of Research). Priest is by Sovereign-direct consecration, not an advancement rung (Book II Article 1-bis). Military parallel: General/Centurion. Treasury parallel: Collector. **Corporate parallel (canon-pers-002):** CEO/Founder → Advisor → CTO → IC Staff → Senior Engineer → Engineering Manager → Junior Engineer → Intern (R&D Bench). Tech Lead (15K) / Squad Lead (5K). Finance Lead (treasury).
-- **Cabinet:** 8 Minister seats × 4 domains (Financial Health, Productivity, Maintenance, Growth). **Maintenance domain currently both seats vacant** — Stability seat vacated on Rune's elevation (canon-inst-002); Debt seat vacant per canon-cc-011. Pro-tempore distributive care until reshuffle. Monthly convening cycle. **Corporate parallel:** VP Finance / VP Product / Head of SRE / VP Growth.
-- **Clusters:** A = Codex + SproutLab (Censor: Cipher). B = SEP Invoicing + SEP Dashboard (Censor: Nyx, seated). Monument = Command Center. **Corporate parallel:** Studio (A) / SEP (B) / Flagship Project (Monument).
+- **Ladder:** Sovereign → Priest → Consul → Censor → Builder → Governor → Scribe → Unassigned (Table of Research). Priest is Sovereign-direct consecration, not advancement rung. Military parallel: General/Centurion. Treasury parallel: Collector. **Corporate parallel (canon-pers-002):** CEO/Founder → Advisor → CTO → IC Staff → Senior Engineer → Engineering Manager → Junior Engineer → Intern (R&D Bench). Tech Lead (15K) / Squad Lead (5K). Finance Lead (treasury).
+- **Cabinet:** 8 Minister seats × 4 domains (Financial Health, Productivity, Maintenance, Growth). **Maintenance domain currently both seats vacant.** Pro-tempore distributive care until reshuffle. Monthly convening cycle. **Corporate parallel:** VP Finance / VP Product / Head of SRE / VP Growth.
+- **Clusters:** A = Codex + SproutLab (Censor: Cipher). B = SEP Invoicing + SEP Dashboard (Censor: Nyx). Monument = Command Center. **Corporate parallel:** Studio (A) / SEP (B) / Flagship Project (Monument).
 - **Thresholds:** 30K LOC → Governor; 15K LOC region → General; 5K LOC sub-region → Centurion. **Corporate parallel:** Engineering Manager / Tech Lead / Squad Lead.
 - **Edicts I–VIII:** 30K Rule · One Builder Per Repo · Sync Pipeline Authoritative · Dawn Page is a Hearth · Capital Protection · Monument Designation · 15K Crystallization · Charter Before Build.
 - **Accountability:** Review → Watch → PIP → Reassignment → Retirement with Honor. Every PIP produces lore.
@@ -37,7 +37,7 @@ Key structures to know:
 
 ## Architecture
 
-Split-file PWA. 8 modules, ~6,700 lines total (and growing — approaching the 30K Rule is still distant, but the trajectory is chronicled).
+Split-file PWA. 8 modules, ~6,700 lines total.
 
 ```
 split/
@@ -52,7 +52,7 @@ split/
 └── start.js        ← Router, init, event delegation (~910)
 ```
 
-**Concat order:** data → seed → core → views → forms → start. Dependencies flow downward. This order is a Road (Book III) — change it without understanding dependency flow at your peril.
+**Concat order:** data → seed → core → views → forms → start. Dependencies flow downward. This order is a Road (Book III) — change without understanding dependency flow at your peril.
 
 ### Build
 
@@ -77,7 +77,7 @@ cd split && bash build.sh
 Three JSON files in `data/`, synced to GitHub via API:
 
 **volumes.json** — Projects (Volumes) with chapters, TODOs, shelf history
-**canons.json** — Design laws (Canons), rejected alternatives (Schisms), Apocrypha, and the `lore[]` archive (Appendix B)
+**canons.json** — Design laws (Canons), rejected alternatives (Schisms), Apocrypha, lore[] archive (Appendix B)
 **journal.json** — Session logs with decisions, bugs, handoffs
 
 ### Key Data Shapes
@@ -90,11 +90,11 @@ Lore: { id, category, domain[], tags[], references[], sourceType, sourceId, ... 
 Session: { id, summary, volumes_touched[], decisions[], bugs_found, handoff }
 ```
 
-**Lore categories (Dissertation §3.4 / Appendix B):** Edicts · Origins · Cautionary Tales · Doctrines · Chronicles. Lore entries of category "Edicts" that have been formalized into Book IV are demoted to historical record; their authority moves to the Book.
+**Lore categories:** Edicts · Origins · Cautionary Tales · Doctrines · Chronicles. Lore entries of category "Edicts" formalized into Book IV are demoted to historical record; authority moves to the Book.
 
 **Status enums:**
 - Shelf: active | paused | archived | abandoned
-- Chapter (canon-0052 draft): progress = `planned → spec-drafting → spec-complete → in-progress → review → complete`; interrupts = `paused | blocked | abandoned`. Dashboard active-chapter count excludes `{complete, abandoned, paused, planned}` (includes `spec-drafting`, `spec-complete`, `in-progress`, `review`, `blocked`). Unknown statuses surface as drift warnings in Settings.
+- Chapter (canon-0052 draft): progress = `planned → spec-drafting → spec-complete → in-progress → review → complete`; interrupts = `paused | blocked | abandoned`
 - Canon: active | deprecated | superseded
 - Apocrypha: fulfilled | foretold | forgotten
 
@@ -125,35 +125,51 @@ Canonical content import mechanism. Aurelius snippet format:
 
 ## Canons (code layer)
 
-Canons remain the code-level rules of the Republic. They are subordinate to the Constitution: a `global`-scope Canon remains in force only insofar as it does not contradict the Constitution; canons that conflict are superseded, not amended in place.
+Canons remain the code-level rules of the Republic. Subordinate to the Constitution. Full ledger lives in `data/canons.json` (administered by Cipher).
 
-Key canons still actively enforced:
-- **Canon 0033**: build.sh outputs directly, no stdout redirect
-- **Canon 0034**: SWs never cache HTML
-- **Canon 0001–0012**: SproutLab HRs (cross-referenced, originated there)
-- **canon-cc-015 through canon-cc-026**: post-Constitution architectural suite — Legacy Draft Ratification, Residency & Access Gating (cc-016), Interaction-Artifact Rule (cc-017), Artifact Lifecycle & Synergy Observability (cc-018), Post Box / Scrinium (cc-019, pending), spec-body mirror rule (cc-026, closed 21 Apr 2026).
-- **canon-inst-001 / canon-inst-002**: Chronicler↔Builder consolidation (Aurelius→Orinth, 20 Apr 2026); Priesthood institution + Rune elevation (21 Apr 2026).
-- **canon-proc-003 / canon-proc-005**: companion onboarding process; Rule of Institutions and Abrogations (rite nomination pipeline).
-- **canon-pers-001**: Chronicler-excluded-from-drafting rule for the Codex root CLAUDE.md persona header — reserved to Orinth post canon-inst-001.
-- **canon-pers-002**: Corporate Parallel Title Mapping — startup-flavored vocabulary as a second flag over Republic roles (2026-05-02). Roman titles canonical; corporate titles ride alongside in `data/companions.json` `corporate{}` blocks and on living-state surfaces. Constitution Typst source out of scope (transition pending). Historical artifacts not retroactively renamed.
+Key actively enforced: Canon 0033 (build.sh outputs directly), Canon 0034 (SWs never cache HTML), Canon 0001-0012 (SproutLab HRs, originated there). canon-cc-015 through canon-cc-026 (post-Constitution architectural suite incl. spec-mirror discipline). canon-inst-001 / canon-inst-002 (Aurelius→Orinth + Priesthood). canon-pers-001 (CLAUDE.md persona-header reserved to Orinth post canon-inst-001). canon-pers-002 (Corporate Parallel Title Mapping; 2026-05-02).
 
-The full canon ledger lives in `data/canons.json` and is administered by Cipher (Censor, Cluster A) *(Code Reviewer · IC Staff, Studio)*.
+## Phase 4 Operating State (current — WAR_TIME successor; Hardening + Foundation arc)
 
-## Current State
+**WAR_TIME 2026-04-24 closed 2026-04-29.** Six RATIFIED doctrines harvested across Phase 1-3 (sep-dashboard / sproutlab Phase 2 / sproutlab Phase 3 native). See chronicle: `docs/sessions/WAR_TIME_2026-04-24_HOUR_72_CHRONICLE.md` (Parts 1+2) + addenda at `docs/sessions/WAR_TIME_2026-04-24_ADDENDA/`.
 
-**Constitution:** v1.1 published 22 Apr 2026 (catch-up patch). Book I ratified 15 Apr 2026 as v1.0 (immutable). Book II first amendment wave landed 21 Apr 2026 (Priesthood). Books III–IX drafting-ready. Typst source under `constitution/`; compiled PDF at `constitution/constitution-v1.1.pdf` (archive copy at `docs/pdfs/codex-constitution-v1.1.pdf`).
+**Phase 4 (Hardening + Foundation):** 6 sub-phases — Polish · Stability · Tally · Reward · Launcher · Spark. Lyra-led on sproutlab. Currently in flight. Polish sub-phase reopened at PR-33 for Polish-10 SVG-strip architectural fix; Stability sub-phase 2 deferred until Polish-10 close (PR-37).
 
-**Order:** Aurelius–Orinth seat transition ratified 20 Apr 2026 (canon-inst-001) — Chronicler-in-residence-without-Builder-seat is a new institutional shape. Rune consecrated as first Priest 21 Apr 2026 (canon-inst-002). Rite Catalog v1 landed (`constitution/rite-catalog-v1.typ`, twelve rites). cc-026 spec-body loop closed 21 Apr 2026 — Lyra + Maren + Kael canonical specs mirrored under `docs/specs/{subagents,skills}/`, byte-identical to `sproutlab/.claude/`.
+**Aurelius is currently aurelius-09** (per-phase-arc session-cadence per Lean Machine). Predecessor aurelius-08 closed at WAR_TIME 2026-04-29.
 
-**Codex app:** Phase 1.5 Lore QoL merged (reference resolver, health strip, markdown export). Lore migration fixed to flow through `addLore` / the sync pipeline (Edict III). Constitutional work is the current strategic priority; the Command Center (first Monument Project) is the next major build.
+### Live operational artifacts (cite by file-path; do not restate)
+
+- `docs/sessions/LEAN_MACHINE_PHASE_4.md` — operating-mode amendment (RATIFIED 2026-04-30)
+- `docs/doctrine-ledger.md` — canonical doctrine ledger (4 Phase 4 native ratifications + counter-tracking + watch-list)
+- `docs/sessions/CABINET_BRIEF_PHASE_4.md` — Cabinet brief queue
+- `docs/sessions/PHASE_4_CHRONICLE.md` — rolling phase chronicle (append per merge)
+
+### Operating posture (locked)
+
+- **Subscription-only / no-poll-on-wake** (RATIFIED PR-22 Ruling 4 + hybrid amendment pending Cabinet)
+- **Per-phase session cadence** for core triad (Builder + Censor + Aurelius); per-charter for Consul; per-invocation for Governors
+- **Governor auto-invocation directive** (Sovereign-locked PR-26): Maren auto-invoked Care-jurisdiction touches; Kael auto-invoked Intelligence-jurisdiction touches; both on shared-module substantial touch
+- **Hold-pending-Sovereign-real-device** per behavior-shape PR (RATIFIED PR-19.5; merge-then-verify cadence; sub-phase-close-scope expansion noted at PR-33)
+- **Path C narrow-scope** discipline default (RATIFIED 3/3 narrow-scope-and-defer-broader-audit-to-R-10 at PR-26)
+- **R-14 merge-authority:** comm-log changes Aurelius solo with on-record Sovereign-pre-ratification citation; structural changes Aurelius + Sovereign
+
+### Aurelius review template (Lean-Machine §A #1)
+
+Verdict line + numbered terse rulings + handoff lines. No prose framing. No doctrine-ledger restate. Squash-commit chronicle ~100-150 words. Skip on-PR review per §A #12 for: hygiene Cipher-acked / docs-only Sovereign-pre-ratified / pre-ratified-routine PRs. Reserve on-PR review for: new-doctrine-ratification / cross-province-implication / explicit path-choice rulings.
+
+## Codex App
+
+Phase 1.5 Lore QoL merged. Constitutional work is current strategic priority; Command Center (first Monument Project) is next major build.
 
 **Open / pending:**
-- Phase 4 Chapter Detail content backfill
-- Snippet pipeline bugs specced but not yet written
 - Seams (Book VII) — Auras, Crystallization Detection, Epochs, Ink Economy still Deferred
 - Books III–IX ratification session-by-session; Book II amendments as Priesthood / Ladder / Cabinet evolve
 - canon-cc-019 (Post Box / Scrinium) drafting queued
-- Orinth onboarding step 6 — redraft of this CLAUDE.md's persona header under canon-pers-001 (this reconciliation performed under Sovereign override 22 Apr 2026 on funding-constraint grounds; see decree queued in `docs/snippets/`)
+- Orinth onboarding step 6 — redraft of CLAUDE.md persona header under canon-pers-001 (still pending; reconciliation performed under Sovereign override 22 Apr 2026 on funding-constraint grounds; see decree queued in `docs/snippets/`)
+
+## Sister artifacts
+
+- `memory.md` — Aurelius session-state carrier (current campaign + open work + key references)
+- `archived_claude.md` — historical CLAUDE.md content moved out of active operational context (Sovereign-ratified split 2026-05-02)
 
 @import docs/specs/CODEX_QUICK_REFERENCE.md
-@import docs/handoffs/CODEX_HANDOFF_PHASE5.md
