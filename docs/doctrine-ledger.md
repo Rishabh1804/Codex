@@ -1,7 +1,7 @@
 # Doctrine Ledger — WAR_TIME 2026-04-24 Campaign
 
 **Maintainer:** Aurelius (Chronicler)
-**Last update:** 2026-05-03 (post-PR-39 Polish sub-phase actual close)
+**Last update:** 2026-05-03 (post-PR-39 + Lyra/Cipher session-close harvest)
 **Threshold rule (per `LEAN_MACHINE_PHASE_4.md`):** First-instance pattern → watch-list (observational, no number). Candidate named + counter-tracked on 2nd independent instance. Ratification at 3/3 OR campaign-wide-implications branch.
 
 ## RATIFIED doctrines
@@ -42,6 +42,10 @@
 | generic-dispatcher-pattern-collapses-display-toggle-DOM-mutation-chain | 1/3 | Polish-10b first + Polish-10c 2nd; per §B counter starts |
 | architectural-sweep-PR-misses-sibling-sites | 1/3 | Polish-10a r1 catch + Polish-10d r1 catch = 2nd; counter-tracking ratified PR-38 |
 | sub-phase-close-was-premature | 1/3 | PR-32→PR-33 reopen + PR-37→PR-38 hotfix = 2nd at sub-phase-scope; counter-tracking ratified PR-38 (Consul naming candidate: `sub-phase-close-is-conditional-on-production-verification`) |
+| architectural-shift-PRs-bias-toward-r1-catch-cycle | 1/3 | Cipher session-close harvest 2026-05-03; PR-34 r1 + PR-38 r1 = 2nd-instance; sweep/vocabulary/class-extraction PRs (PR-22/25/27/29/30/31) all clean on r1 — architectural-shift PRs caught real bugs. Cipher prophylactic: stricter pre-stress audit on data-shape-changing PRs. **Highest-signal flag for Stability sub-phase 2 prophylactic discipline (activities-tab PR-α + medChecks/feedingData = architectural-shift territory)** |
+| Cipher-self-ack-as-doctrine-seed-cycle | 1/3 | Cipher session-close harvest; meta-doctrine. PR-34 r1 self-ack → seeded source-grep-verification-should-mirror-regression-guard-regex; PR-38 r1 self-ack → seeded defensive-fallback-needs-shape-homogeneity-verification. Process-improvement discipline scales with self-acknowledgment cadence; recursive |
+| Kael-Mode-2-predictions-verify-empirically | 1/3 | Cipher session-close harvest; F-35.1 (PR-35) confirmed at PR-36 byte-precision phase + PR-35-rebased re-verification + F-36.2 (PR-36) confirmed at PR-36 rebase. Distinct from Maren Mode 1 audit catches (different jurisdictional cadence) |
+| manifest-auto-bump-guarantees-parallel-PR-rebase-conflicts | 2/3 | Cipher session-close harvest; observed 3 times across PR-34/35/36 cycle (date-stamped auto-bump as guaranteed conflict surface). Lyra resolved cleanly each time but pattern is structural. **Ratification-eligible at next instance.** Possible mitigation: defer manifest bump to merge-time hook OR reserve version-slot per PR |
 
 ## First-instance canonical doctrine landed (Phase 4 Polish)
 
@@ -65,11 +69,14 @@
 - screen-bug-shares-root-with-other-render-paths (Cipher PR-33)
 - pattern-shape-guards-over-hardcoded-enumerations (Polish-10d unified Cipher source-grep mirror + Lyra test-pattern guard)
 - defensive-fallback-needs-shape-homogeneity-verification (Polish-10d Cipher + Lyra co-acknowledged)
-- visible-bug-deferral-bounds-bypass-narrow-scope-discipline (Polish-10d operating-discipline)
+- visible-bug-deferral-bounds-bypass-narrow-scope-discipline (Polish-10d operating-discipline) — **refined 2026-05-03 per Lyra session-close:** "reachable-through-this-PR-surface-area" discriminator-test (Lyra Polish-10d retrospective: when Maren/Kael flags a NIT that's pre-existing on main AND reachable through this PR's surface area, routing is ABSORB, not defer)
 - source-grep-verification-should-mirror-regression-guard-regex (Cipher operational; Polish-10a)
 - monitor-track-can-outlive-actual-process-tree (Polish-10c Cipher operational)
 - same-line-co-edits-can-be-text-merge-resolvable-when-edits-compose-not-collide (Kael F-36.2 Polish-10c)
 - multi-day-break-warrants-session-refresh (Polish→Stability transition first-instance; cadence-rule refinement candidate)
+- verification-jurisdiction-count-compounds-catches (Cipher session-close harvest 2026-05-03; sister to cross-Governor-symmetric-catch family but distinct dimension — about jurisdiction COUNT not Governor SYMMETRY; 3-way concurrent verification empirically catches more than 2-way; 4-way with prod more than 3-way)
+- R-10-queue-heterogeneous-fix-shape-clusters-need-atomic-canon-decomposition (Lyra session-close harvest 2026-05-03; 16-item Polish-close R-10 queue clusters into ~5-6 fix-shape families; original 3-5 threshold band assumed homogeneous fix-shapes)
+- verification-floor-needs-attention-threshold (Lyra session-close harvest 2026-05-03; Cabinet-eligible at ~15-PR Sovereign verification stack breach; hermetic-floor doctrine carries but hotfix-budget-allocation risk compounds at scale; consider active-disposition cadence between Stability-N PRs)
 
 ## Phase-5-prep candidates (Spark territory)
 
