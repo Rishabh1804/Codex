@@ -7,7 +7,7 @@
 **Closed:** 2026-05-03 post-PR-39 merge (sl-main@`c69b7090`)
 **Refresh trigger:** Sovereign-ratified Posture 2 (symmetric Lyra+Cipher refresh) at multi-day break before Stability sub-phase 2
 
-> **Transport note (Aurelius `aurelius-09`):** Lyra's session-close handoff relayed by Sovereign for transport-only commit per `canon-cc-025 §G`. Authorship is Lyra's; the commit is transport. Voice preserved verbatim. Post-relay annotations follow the verbatim section.
+> **Transport note (Aurelius `aurelius-09`):** Lyra's session-close handoff relayed by Sovereign for transport-only commit per `canon-cc-025 §G`. Authorship is Lyra's; the commit is transport. Voice preserved verbatim. Post-relay annotations follow the verbatim sections.
 
 ---
 
@@ -38,7 +38,7 @@ Thanks for the careful Polish cycle. Until the next weave.
 
 ---
 
-## Lyra session-final substantive observations (verbatim)
+## Lyra session-final substantive observations (verbatim — items 1-5 + 2 nice-to-haves; judgment-surface concerns)
 
 Yes — five items beyond §10 documentation that next-Lyra should have on-record:
 
@@ -70,9 +70,35 @@ These plus §10 should give next-Lyra a clean read-in. Session ready to close.
 
 ---
 
+## Lyra session-final addendum (verbatim — items 8-11; operational concerns)
+
+Addendum to the prior 5 + 2 — four more worth on-record (held back from prior list as second-tier; surfacing now per your re-ask):
+
+**8. `narrow-scope-and-defer-broader-audit-to-R-10` is RATIFIED but my Polish-10 application over-applied it.** The doctrine itself is correct: narrow-scope when axis-of-resolution explicitly justifies; defer broader-audit per atomic-canon. My calibration error at Polish-10a r3 was reading the doctrine as "default to defer" when the correct reading is "narrow-scope WHEN axis-of-resolution justifies AND reachability test passes." Specifically: if a deferral candidate is reachable through the current PR's surface area (Polish-10a r3 consumer fallback ternary made sections.diet bug accessible through Polish-10a's own fix), narrow-scope discipline does NOT justify the defer. Next-Lyra: read RATIFIED doctrine 3 (PR-26) with the reachability discriminator engaged.
+
+**9. Aurelius Ruling 1 framing for close-doc routing should be on-record.** PR-37 was in-place amendment to existing close artifact (initial-cycle-continuation: Polish-10 reopen extended Polish-8 close). PR-39 was sibling close-doc per Aurelius Ruling 1 (close-shift-prematurity-pattern: third close declaration after two prior premature-close events). The routing rule isn't explicit anywhere on-record but Aurelius's Ruling 1 implicitly established: sibling close-doc when `sub-phase-close-was-premature` pattern manifests; in-place amendment when initial-cycle-continuation extends prior close. Stability close-routing should follow the same logic.
+
+**10. Test-authoring default rule from PR-38 lesson.** The `pattern-shape-guards-over-hardcoded-enumerations` watch-list is captured but the SPECIFIC application rule isn't: when authoring a regression-guard test for an architectural-sweep PR, start with grep-pattern guard; only fall back to hardcoded enumeration if grep-pattern would produce false positives in legitimate code. The hardcoded enumeration is the secondary check (positive-presence assertion); grep-pattern is the primary (negative-absence assertion). Stability sub-phase will have multiple architectural-sweep candidates from the R-10 queue; this rule should be the test-authoring default, not the corrective.
+
+**11. Smoke spec append-to-end conflict pattern is operational, not architectural.** All Polish-N test describe blocks append at smoke.spec.ts tail. PR-35 rebase had to resolve `<<<<<<< HEAD` markers because both Polish-10a and Polish-10b appended at the same file-tail position. Resolution is mechanical (place each describe block in sequence with explicit `})` closures between) but takes 2-3 minutes per rebase. Stability sub-phase will have more rebase chains given the R-10 queue clustering; expect this pattern. Cipher's source-grep-mirror discipline catches if a describe block goes missing during rebase.
+
+Cleaner read-in for next-Lyra:
+- The 5 items in the prior list (Stability's tighter visible-bug-surface; R-10 queue fix-shape heterogeneity; PR-α scope still Aurelius's; medChecks/feedingData Maren auto-invoke; verification stack size concern) are the judgment-surface concerns — the kind that compound across the sub-phase if mis-calibrated.
+- These 4 additions (8-11) are the operational concerns — the kind that bite during execution but recover quickly when caught.
+
+Together: 9 items + 2 nice-to-haves on-record. That's the complete in-head state from this session.
+
+Session ready to close cleanly.
+
+— Lyra (The Weaver)
+
+---
+
 ## Aurelius post-relay annotations (`aurelius-09`)
 
 These reconcile Lyra's verbatim relay against canonical record. Voice above preserved verbatim.
+
+**Items 1-5 + nice-to-haves (judgment-surface concerns):**
 
 - **§5 + concern-#1 fold to ledger.** Lyra's "reachable-through-this-PR-surface-area" discriminator-test refines `visible-bug-deferral-bounds-bypass-narrow-scope-discipline` watch-list seed (folded into `docs/doctrine-ledger.md` per session 2026-05-03).
 - **Concern #2 → new watch-list seed.** `R-10-queue-heterogeneous-fix-shape-clusters-need-atomic-canon-decomposition` first-instance observational; folded.
@@ -81,6 +107,13 @@ These reconcile Lyra's verbatim relay against canonical record. Voice above pres
 - **Cadence projection.** Lyra's Polish ~10 days observation aligns with `multi-day-break-warrants-session-refresh` watch-list + Aurelius's per-phase per-sub-phase cadence-flexibility framing. Don't pre-commit to per-sub-phase Lyra cadence; Sovereign-call per sub-phase shape.
 - **R-11 token telemetry.** Pending Sovereign relay for canon-0053 v1 companion-log authoring (Lyra Polish-cycle log added to queue alongside Phase 3 carry-forwards).
 - **Watch-list flag for next Lyra.** Lyra's note on `architectural-sweep-PR-misses-sibling-sites` + `pattern-shape-guards-over-hardcoded-enumerations` prophylactic application aligns with Cipher's session-close `architectural-shift-PRs-bias-toward-r1-catch-cycle` 1/3 candidate-entry. Both apply to Stability sub-phase 2 architectural-shift PRs (PR-α + medChecks/feedingData carryforward).
+
+**Items 8-11 (operational concerns):**
+
+- **Item 8 → Cabinet-eligible meta-observation.** Lyra's calibration-error reflection on RATIFIED doctrine 3 surfaces a meta-observation: "RATIFIED doctrines may need calibration-clarification when application errors emerge — discriminator-tests refine without re-litigating the doctrine itself." Cabinet brief queue addition (next codex ledger update).
+- **Item 9 → new watch-list seed.** `close-doc-routing-discipline-by-pattern-shape`: sibling close-doc when `sub-phase-close-was-premature` pattern manifests; in-place amendment when initial-cycle-continuation extends prior close. First-instance observational per §B; crystallizes Aurelius PR-38 Ruling 1 implicit framing.
+- **Item 10 → refinement to existing watch-list.** Refines `pattern-shape-guards-over-hardcoded-enumerations` watch-list seed with test-authoring default rule: grep-pattern primary (negative-absence assertion) / hardcoded enumeration secondary (positive-presence assertion).
+- **Item 11 → new watch-list seed.** `test-spec-append-to-end-rebase-conflict-pattern`: operational; mechanical resolution (~2-3 min per rebase); expected to recur in heterogeneous rebase chains during Stability sub-phase. Cipher source-grep-mirror discipline catches missing describe blocks during rebase.
 
 ---
 
