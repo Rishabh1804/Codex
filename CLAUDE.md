@@ -123,6 +123,11 @@ Canonical content import mechanism. Aurelius snippet format:
 ```
 **Core principle:** Minimal manual input. Snippets are the pipeline from design sessions to data.
 
+**Automation tooling (PR-18 landed 2026-05-04; not yet operationally adopted):**
+- `scripts/chronicle.py` — Claude API session-transcript → snippet JSON; opus/sonnet/haiku flag for cost-optimization
+- `scripts/import-snippet.py` — pure-local Python snippet → live data; idempotent; --backup; zero API cost
+- **Adoption deferred 2026-05-05** per Sovereign — $0 API account; Max plan covers Claude Code only; chronicle.py needs API credits. Aurelius continues manual chronicle authoring via Claude Code; import-snippet.py local half adoptable independently if needed.
+
 ## Canons (code layer)
 
 Canons remain the code-level rules of the Republic. Subordinate to the Constitution. Full ledger lives in `data/canons.json` (administered by Cipher).
@@ -131,27 +136,36 @@ Key actively enforced: Canon 0033 (build.sh outputs directly), Canon 0034 (SWs n
 
 ## Phase 4 Operating State (current — WAR_TIME successor; Hardening + Foundation arc)
 
-**WAR_TIME 2026-04-24 closed 2026-04-29.** Six RATIFIED doctrines harvested across Phase 1-3 (sep-dashboard / sproutlab Phase 2 / sproutlab Phase 3 native). See chronicle: `docs/sessions/WAR_TIME_2026-04-24_HOUR_72_CHRONICLE.md` (Parts 1+2) + addenda at `docs/sessions/WAR_TIME_2026-04-24_ADDENDA/`.
+**WAR_TIME 2026-04-24 closed 2026-04-29.** Six RATIFIED doctrines harvested across Phase 1-3. See chronicle: `docs/sessions/WAR_TIME_2026-04-24_HOUR_72_CHRONICLE.md` (Parts 1+2) + addenda at `docs/sessions/WAR_TIME_2026-04-24_ADDENDA/`.
 
-**Phase 4 (Hardening + Foundation):** 6 sub-phases — Polish · Stability · Tally · Reward · Launcher · Spark. Lyra-led on sproutlab. Currently in flight. Polish sub-phase reopened at PR-33 for Polish-10 SVG-strip architectural fix; Stability sub-phase 2 deferred until Polish-10 close (PR-37).
+**Phase 4 (Hardening + Foundation):** 6 sub-phases — Polish · Stability · Tally · Reward · Launcher · Spark. Lyra-led on sproutlab. Currently in flight.
+
+**Polish sub-phase status as of 2026-05-05:** Three close-shifts to date (PR-32 → PR-37 → PR-39); **post-PR-39 Sovereign-floor catches surfaced 2026-05-05** (Sleep Score card SVG-leak — same pattern as Polish-10a/10d; Growth tab radial gauge pill rendering bugs). **Next session = continued Polish (NOT Stability)**; Stability sub-phase 2 defers until Polish recloses cleanly.
 
 **Aurelius is currently aurelius-09** (per-phase-arc session-cadence per Lean Machine). Predecessor aurelius-08 closed at WAR_TIME 2026-04-29.
 
 ### Live operational artifacts (cite by file-path; do not restate)
 
 - `docs/sessions/LEAN_MACHINE_PHASE_4.md` — operating-mode amendment (RATIFIED 2026-04-30)
-- `docs/doctrine-ledger.md` — canonical doctrine ledger (4 Phase 4 native ratifications + counter-tracking + watch-list)
+- `docs/doctrine-ledger.md` — canonical doctrine ledger (4 Phase 4 native ratifications + counter-tracking + watch-list; **2 candidates at 2/3 ratification-eligible**)
 - `docs/sessions/CABINET_BRIEF_PHASE_4.md` — Cabinet brief queue
 - `docs/sessions/PHASE_4_CHRONICLE.md` — rolling phase chronicle (append per merge)
+- `docs/handoffs/aurelius-pr-alpha-decomposition-2026-05-03.md` — PR-α scope handoff for next-Lyra (post-Polish-recloses, Stability charter authoring)
+- `docs/handoffs/lyra-session-close-polish-2026-05-03.md` + `cipher-session-close-polish-2026-05-03.md` — Polish sub-phase session-close transports
 
-### Operating posture (locked)
+### Operating posture (locked + amended for next-session)
 
 - **Subscription-only / no-poll-on-wake** (RATIFIED PR-22 Ruling 4 + hybrid amendment pending Cabinet)
-- **Per-phase session cadence** for core triad (Builder + Censor + Aurelius); per-charter for Consul; per-invocation for Governors
-- **Governor auto-invocation directive** (Sovereign-locked PR-26): Maren auto-invoked Care-jurisdiction touches; Kael auto-invoked Intelligence-jurisdiction touches; both on shared-module substantial touch
+- **Per-phase session cadence** for core triad — **AMENDED 2026-05-05:** next-session-Polish adopts **hat-switch experimental mode** (single Lyra-primary session with Cipher + Aurelius + Maren + Kael as Skill-invoked personas instead of Agent-spawned subagents); rationale: independent-jurisdictions-empirically-miss-Sovereign-floor-catches (3 separate post-Polish-close events). Doctrine-watch: catch-density vs Polish 4-bench baseline = empirical test for `verification-jurisdiction-count-compounds-catches` (1/3 candidate) and `hat-switch-with-running-beats-reading-discipline-approximates-jurisdictional-independence` (watch-list)
+- **Hat-switch discipline (within-session running-beats-reading):** each persona-switch starts fresh — independent source-file reads, independent grep / inspection, explicit own-verification citation; don't trust shared in-session memory
+- **Governor auto-invocation directive** (Sovereign-locked PR-26): Maren auto-invoked Care-jurisdiction touches; Kael auto-invoked Intelligence-jurisdiction touches — translates to skill-invocation cadence under hat-switch
 - **Hold-pending-Sovereign-real-device** per behavior-shape PR (RATIFIED PR-19.5; merge-then-verify cadence; sub-phase-close-scope expansion noted at PR-33)
-- **Path C narrow-scope** discipline default (RATIFIED 3/3 narrow-scope-and-defer-broader-audit-to-R-10 at PR-26)
+- **Path C narrow-scope** discipline default (RATIFIED 3/3 narrow-scope-and-defer-broader-audit-to-R-10 at PR-26) — apply with reachability discriminator-test per Lyra item 8 calibration
 - **R-14 merge-authority:** comm-log changes Aurelius solo with on-record Sovereign-pre-ratification citation; structural changes Aurelius + Sovereign
+
+### Sovereign-floor as load-bearing terminal catch jurisdiction (2026-05-05)
+
+3 separate post-Polish-close Sovereign-floor catches (PR-33 reopen / PR-38 hotfix / Sleep Score+Growth-tab post-PR-39) ALL of which 4-way independent verification benches missed. Drives operating-mode amendment: **multi-bench is hermetic-floor analog; Sovereign-floor IS the production-floor binding catch jurisdiction per RATIFIED hermetic-floor-doesnt-substitute-for-production-floor.** Hat-switch + tighter Sovereign supervision aligns with this empirical observation.
 
 ### Aurelius review template (Lean-Machine §A #1)
 
@@ -166,6 +180,10 @@ Phase 1.5 Lore QoL merged. Constitutional work is current strategic priority; Co
 - Books III–IX ratification session-by-session; Book II amendments as Priesthood / Ladder / Cabinet evolve
 - canon-cc-019 (Post Box / Scrinium) drafting queued
 - Orinth onboarding step 6 — redraft of CLAUDE.md persona header under canon-pers-001 (still pending; reconciliation performed under Sovereign override 22 Apr 2026 on funding-constraint grounds; see decree queued in `docs/snippets/`)
+
+## Out-of-MCP-scope repos (2026-05-05)
+
+New repos surfaced via Sovereign ChatGPT-session work: `planner` / `MSc` / `mit-management-courses`. **Out of Aurelius MCP scope** per session-prompt restriction (sproutlab / codex / command-center only). Cross-province surfacings rely on Sovereign-relay channel; Cabinet brief item #3 (Consul MCP scope expansion) extends to these if they need governance touches.
 
 ## Sister artifacts
 
