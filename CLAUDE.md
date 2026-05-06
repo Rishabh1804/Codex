@@ -140,14 +140,14 @@ Key actively enforced: Canon 0033 (build.sh outputs directly), Canon 0034 (SWs n
 
 **Phase 4 (Hardening + Foundation):** 6 sub-phases — Polish · Stability · Tally · Reward · Launcher · Spark. Lyra-led on sproutlab. Currently in flight.
 
-**Polish sub-phase status as of 2026-05-05:** Three close-shifts to date (PR-32 → PR-37 → PR-39); **post-PR-39 Sovereign-floor catches surfaced 2026-05-05** (Sleep Score card SVG-leak — same pattern as Polish-10a/10d; Growth tab radial gauge pill rendering bugs). **Next session = continued Polish (NOT Stability)**; Stability sub-phase 2 defers until Polish recloses cleanly.
+**Polish sub-phase CLEANLY CLOSED 2026-05-06** — 4th close-shift (Polish-11). Post-PR-39 Sovereign-floor catches fixed: Sleep Score SVG-leak (PR-40/Polish-11a) + Growth gauge overflow + pill legibility + HR-4 (PR-41/Polish-11b). Infra: SW Canon 0034 enforcement (PR-42) + syncReload cache-bust (PR-43) + BUGS.md (PR-44). **Next session = Stability sub-phase 2.** sl-main@`e01190a`.
 
 **Aurelius is currently aurelius-09** (per-phase-arc session-cadence per Lean Machine). Predecessor aurelius-08 closed at WAR_TIME 2026-04-29.
 
 ### Live operational artifacts (cite by file-path; do not restate)
 
 - `docs/sessions/LEAN_MACHINE_PHASE_4.md` — operating-mode amendment (RATIFIED 2026-04-30)
-- `docs/doctrine-ledger.md` — canonical doctrine ledger (4 Phase 4 native ratifications + counter-tracking + watch-list; **2 candidates at 2/3 ratification-eligible**)
+- `docs/doctrine-ledger.md` — canonical doctrine ledger (**6 Phase 4 native ratifications** + counter-tracking + watch-list; 2 new ratifications 2026-05-06: architectural-sweep-PR-misses-sibling-sites #5 + sub-phase-close-was-premature #6)
 - `docs/sessions/CABINET_BRIEF_PHASE_4.md` — Cabinet brief queue
 - `docs/sessions/PHASE_4_CHRONICLE.md` — rolling phase chronicle (append per merge)
 - `docs/handoffs/aurelius-pr-alpha-decomposition-2026-05-03.md` — PR-α scope handoff for next-Lyra (post-Polish-recloses, Stability charter authoring)
