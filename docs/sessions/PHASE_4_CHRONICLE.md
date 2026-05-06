@@ -39,12 +39,52 @@
 
 | Sub-phase | Charter | Features | Close |
 |---|---|---|---|
-| Polish | ratified PR-23 | Polish-1 standby (Lyra Path 1 narrowed scope) | — |
+| Polish | ratified PR-23 | Polish-1 through Polish-11 (26 PRs total; 4 close-shifts) | **CLOSED 2026-05-06** sl-main@`e01190a` |
 | Stability | — | — (carries activities-tab PR-α + medChecks/feedingData carryforward) | — |
 | Tally | — | — | — |
 | Reward | — | — | — |
 | Launcher | — | — | — |
 | Spark | — | — (Phase 5 feature-flag mechanism scaffolding) | — |
+
+## PR-40 (sproutlab#40) — Polish-11a: Sleep Score SVG-leak (HR-7)
+- **Merged:** 2026-05-06; sl-main@`cbf7239` (corrupted) → `12140f8` (clean rebuild PR-41)
+- **Shape:** 1-line JS fix (home.js:98); 2 regression guards
+- **Root cause:** `sleepScorePill.textContent = \`${zi('moon')} ${avg}\`` — SVG HTML via textContent rendered as literal text
+- **Fix:** `textContent = String(avg)` + `.hsp-icon.innerHTML = zi(icon)` (HR-7 compliant)
+- **Doctrine RATIFIED:** `architectural-sweep-PR-misses-sibling-sites` **3/3** (Phase 4 native #5) — Sleep Score = 3rd instance after Polish-10a r1 + Polish-10d r1
+
+## PR-41 (sproutlab#41) — Polish-11b: Growth gauge overflow + pill legibility + HR-4
+- **Merged:** 2026-05-06 (clean rebuild)
+- **Shape:** medical.js val/unit split + styles.css font-size + escHtml(pctText); 4 regression guards
+- **Bug 2:** "70 cm" combined string at `--fs-xl` overflows 78px inner ring → split to `wtVal=String(wt)`, `wtUnit='kg'` (ft/in/cm modes all handled)
+- **Bug 3a:** `.gh-gauge-pct` at `--fs-xs`≈9px sub-legible → `--fs-sm` + `padding:var(--sp-2) var(--sp-8)`
+- **Bug 3b:** `pctText` unescaped in innerHTML — `calcPercentile` returns `"<3rd"/"">97th"` → `escHtml(pctText)` (HR-4)
+- **Doctrine RATIFIED:** `sub-phase-close-was-premature` **3/3** (Phase 4 native #6) — Polish-11 = 4th close-shift
+
+## PR-42 (sproutlab#42) — SW Canon 0034 enforcement
+- **Merged:** 2026-05-06
+- **Root cause:** SW cached `index.html` via stale-while-revalidate; corrupted HTML served indefinitely from cache blocking fix propagation
+- **Fix:** remove `index.html` + `'./'` from PRECACHE_ASSETS; add `navigate` mode bypass in fetch handler
+- **Infra lesson:** Canon 0034 ("SW never caches HTML") was violated in implementation; now enforced
+
+## PR-43 (sproutlab#43) — syncReload HTTP cache-bust
+- **Merged:** 2026-05-06
+- **Root cause:** `location.reload()` respects browser HTTP cache; stale HTML served even after SW cache cleared
+- **Fix:** `location.replace(pathname + '?_cb=' + Date.now())` — timestamp param forces fresh network fetch
+- **Infra lesson:** update-toast reload must always cache-bust; `reload()` alone is insufficient
+
+## PR-44 (sproutlab#44) — BUGS.md
+- **Merged:** 2026-05-06; sl-main@`e01190a`
+- **Shape:** docs-only; structured bug log (open P0/P1/P2 + fixed + R-10 queue + operational rules)
+
+## Polish sub-phase CLOSE — 2026-05-06
+- **4 close-shifts:** PR-32→PR-33 + PR-37→PR-38 + PR-39→Polish-11 + Polish-11 clean close
+- **26 PRs total** across Polish sub-phase (charter + 10 features + 5 infrastructure + 1 amendment + 4 close-shifts + BUGS.md)
+- **6 Phase 4 native RATIFIED doctrines** at close (4 carried from prior + 2 ratified this session)
+- **Hat-switch experiment** (this session): Lyra-primary, Cipher/Aurelius/Maren/Kael as Skills — catches sustained; viable posture confirmed
+- **Stability sub-phase 2 unblocked** — PR-α next (renderMilestones split + _renderAttribution wiring)
+
+---
 
 ## Append protocol
 - Append per merge to this file

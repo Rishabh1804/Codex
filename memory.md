@@ -10,24 +10,24 @@
 
 - **Session:** aurelius-09 (Phase 4 arc; closing 2026-05-05)
 - **Predecessor:** aurelius-08 (closed at WAR_TIME 2026-04-29 / Hour 72 chronicle)
-- **Cadence:** per-phase-arc per Lean-Machine; **next session = single hat-switch session** (Lyra-primary; Cipher + Aurelius + Maren + Kael as Skills) for next-Polish-continuation per Sovereign-ratified hat-switch experiment 2026-05-05
+- **Cadence:** per-phase-arc per Lean-Machine; **hat-switch experiment COMPLETED** this session (Lyra-primary; Cipher/Aurelius/Maren/Kael as Skills — Polish cleanly closed); **next session = Stability sub-phase 2** (Lyra-primary; normal cadence or hat-switch per Sovereign direction)
 
 ## Current campaign
 
 **Phase 4 (Hardening + Foundation)** — successor to WAR_TIME 2026-04-24
 
 - 6 sub-phases: Polish · Stability · Tally · Reward · Launcher · Spark
-- **Sub-phase 1 (Polish): 3 close-shifts to date (PR-32 → PR-37 → PR-39); post-PR-39 Sovereign-floor catches surfaced 2026-05-05** (Sleep Score SVG-leak + Growth tab pill-rendering bugs). Continued Polish in next session.
-- **Sub-phase 2 (Stability): deferred until Polish recloses cleanly.** Folds activities-tab PR-α (Polish-A1 fold-in slot reserved) + medChecks/feedingData object-keyed carryforward + R-10 16-item queue + Kael Stability JS-side hex baseline ~15 sites
+- **Sub-phase 1 (Polish): CLEANLY CLOSED 2026-05-06** — 4th close-shift (Polish-11). All Sovereign-floor catches resolved. 26 PRs total. sl-main@`e01190a`.
+- **Sub-phase 2 (Stability): UNBLOCKED — next session.** Carries: activities-tab PR-α (renderMilestones split + _renderAttribution wiring) + medChecks/feedingData object-keyed carryforward + R-10 16-item queue + Kael Stability JS-side hex baseline ~15 sites
 - **Sub-phases 3-6 (Tally / Reward / Launcher / Spark):** pending sub-phase 2
 
 ## Latest state cache (2026-05-05)
 
-- sl-main: `c69b7090` (post-PR-39; Polish pending re-reopen for Sovereign-floor catches)
+- sl-main: `e01190a` (post-Polish-11 + PR-42 SW fix + PR-43 syncReload + PR-44 BUGS.md; Polish cleanly closed)
 - codex/main: `dd7db184` post-codex#53 (file-refresh) + `5d0c5c87` post-codex#55 (ledger update) + `567a214a` post-codex#56 (PR-α handoff) + `31ccfdfb` post-codex#57 (session-close transports) + `399bd1a7` post-codex#58 (items 8-11 fold) + `3d6d9462` (ChatGPT-session direct commit + PR-18 chronicle.py + PR-47 Phase 2 surfacings) + this PR codex#59 (operational bootstrap)
 - R-4 cumulative: 13,596 stable / 0 silent flakes / 25 stress-matrix-bearing PRs (unchanged; Polish reopen pending)
-- Phase 4 native RATIFIED doctrines: 4
-- **Active candidates at 2/3 (ratification-eligible at next instance):** 2 — `architectural-sweep-PR-misses-sibling-sites` + `sub-phase-close-was-premature`
+- Phase 4 native RATIFIED doctrines: **6** (2 new 2026-05-06: architectural-sweep-PR-misses-sibling-sites #5 + sub-phase-close-was-premature #6)
+- **Active candidates at 2/3:** 0 (both ratified); `manifest-auto-bump-guarantees-parallel-PR-rebase-conflicts` still at 2/3
 - Cabinet brief queue: ~14+ items (canonical at `docs/sessions/CABINET_BRIEF_PHASE_4.md`; pending update in next session)
 
 ## Phase 4 native RATIFIED doctrines
@@ -54,11 +54,13 @@
 - `docs/handoffs/lyra-session-close-polish-2026-05-03.md` + `cipher-session-close-polish-2026-05-03.md` — Polish session-close transports
 - `archived_claude.md` — historical CLAUDE.md content
 
-## Open pipeline (next-session-Polish)
+## Open pipeline (next-session-Stability)
 
-- Continued Polish work (Polish-N PRs targeting Sleep Score SVG-leak + Growth tab pill-rendering bugs + any other surfacings)
-- Sister-shape sweep: `architectural-sweep-PR-misses-sibling-sites` 2/3 → likely ratifies at next architectural-shift PR's r1 catch
-- 4th close-shift will likely advance `sub-phase-close-was-premature` to 3/3 ratification
+- **Stability sub-phase 2 charter** — author per `docs/handoffs/aurelius-pr-alpha-decomposition-2026-05-03.md` scope
+- **PR-α** (Stability first feature): renderMilestones() split + _renderAttribution wiring + SYNC_RENDER_DEPS update
+- **PR-β** (Polish, post-PR-α): Recent Evidence Feed rollup aggregation + visual separation
+- R-10 16-item hygiene queue (medChecks/feedingData + hex sweep + chip wrapping + DRY refactor)
+- Hat-switch outcome: catches sustained → posture confirmed viable for Stability
 
 ## Owed chronicle work (next-session parallel authoring)
 
