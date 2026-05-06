@@ -1,7 +1,7 @@
 # Doctrine Ledger — WAR_TIME 2026-04-24 Campaign
 
 **Maintainer:** Aurelius (Chronicler)
-**Last update:** 2026-05-05 (post-Sovereign-floor catches on PR-39 actual-final-close + hat-switch experiment ratified for next-session-Polish)
+**Last update:** 2026-05-06 (Polish-11a/11b: architectural-sweep-PR-misses-sibling-sites 3/3 RATIFIED at PR-40; sub-phase-close-was-premature 3/3 RATIFIED at Polish-11 4th close-shift)
 **Threshold rule (per `LEAN_MACHINE_PHASE_4.md`):** First-instance pattern → watch-list (observational, no number). Candidate named + counter-tracked on 2nd independent instance. Ratification at 3/3 OR campaign-wide-implications branch.
 
 ## RATIFIED doctrines
@@ -26,6 +26,8 @@
 | — | r2-stress-rerun-elective-on-pure-doc-text-correction | Phase 4 native #2 | 3 (PR-9 + PR-22 + PR-23) | Standard 3/3 (PR-23 close) |
 | — | narrow-scope-and-defer-broader-audit-to-R-10 | Phase 4 native #3 | 3 (PR-23 r2 + Polish-1 + Polish-2) | Standard 3/3 (PR-26 close) — calibration discriminator-test added 2026-05-03 per Lyra item 8: read with reachability discriminator engaged ("narrow-scope WHEN axis-of-resolution justifies AND reachability test passes") |
 | — | concurrent-operations-interfere-with-parallel-stress-matrix | Phase 4 native #4 | 3 (Polish-4 + Polish-5 + Polish-6) | Standard 3/3 (PR-30 close) |
+| — | architectural-sweep-PR-misses-sibling-sites | Phase 4 native #5 | 3 (Polish-10a r1 + Polish-10d r1 + Sleep Score post-PR-39 Sovereign-floor catch → PR-40 fix) | Standard 3/3 (PR-40 close) |
+| — | sub-phase-close-was-premature | Phase 4 native #6 | 4 close-shifts (PR-32→33 + PR-37→38 + PR-39→next + Polish-11 reopen) | Standard 3/3 (Polish-11 = 4th close-shift; Consul naming candidate: `sub-phase-close-is-conditional-on-production-verification`) |
 
 ## Active candidates (counter-tracked per §B 2nd-instance threshold)
 
@@ -40,8 +42,8 @@
 | cross-Governor-three-way-refinement-on-design-system-decisions | 1/3 | Polish-4 first + Polish-6 sustainment = 2nd; counter-tracking ratified PR-30 |
 | cross-Governor-jurisdictional-discipline (umbrella) | 2/3 | Polish-3 bilateral + Polish-4 three-way + Polish-5 Kael-solo + Polish-10b Maren-solo F-35-1 (4 shape variations); umbrella naming per Aurelius PR-29 ruling |
 | generic-dispatcher-pattern-collapses-display-toggle-DOM-mutation-chain | 1/3 | Polish-10b first + Polish-10c 2nd; per §B counter starts |
-| **architectural-sweep-PR-misses-sibling-sites** | **2/3** | **Advanced 2026-05-05 by Sovereign-floor catch on PR-39 actual-final-close (Sleep Score card SVG-leak: same pattern as Polish-10a Food Reaction Timeline + Polish-10d sections.diet 'bowl' literal). 3rd independent instance: Polish-10a r1 catch + Polish-10d r1 catch + Sleep Score sibling missed by Polish-10 sweep. Ratification-eligible at next instance.** Doctrine self-validating: architectural-sweep PR misses siblings; this very catch IS the doctrine producing its corroborating evidence. |
-| **sub-phase-close-was-premature** | **2/3** | **Advanced 2026-05-05 by Sovereign-floor catches post-PR-39. 3rd close-shift event: PR-32→PR-33 reopen + PR-37→PR-38 hotfix + PR-39→next-Polish-reopen (Sleep Score + Growth tab bugs). 4-close-shift sequence on single sub-phase. Ratification-eligible at next instance.** (Consul naming candidate: `sub-phase-close-is-conditional-on-production-verification`) |
+| ~~architectural-sweep-PR-misses-sibling-sites~~ | **RATIFIED** | Moved to RATIFIED table 2026-05-06 (Phase 4 native #5). 3/3: Polish-10a r1 + Polish-10d r1 + Sleep Score post-PR-39 catch fixed at PR-40. |
+| ~~sub-phase-close-was-premature~~ | **RATIFIED** | Moved to RATIFIED table 2026-05-06 (Phase 4 native #6). 4th close-shift = Polish-11 reopen. Consul naming candidate: `sub-phase-close-is-conditional-on-production-verification`. |
 | architectural-shift-PRs-bias-toward-r1-catch-cycle | 1/3 | Cipher session-close harvest 2026-05-03; PR-34 r1 + PR-38 r1 = 2nd-instance; sweep/vocabulary/class-extraction PRs (PR-22/25/27/29/30/31) all clean on r1 — architectural-shift PRs caught real bugs. Cipher prophylactic: stricter pre-stress audit on data-shape-changing PRs. **Highest-signal flag for next-session-Polish prophylactic discipline** |
 | Cipher-self-ack-as-doctrine-seed-cycle | 1/3 | Cipher session-close harvest; meta-doctrine. PR-34 r1 self-ack → seeded source-grep-verification-should-mirror-regression-guard-regex; PR-38 r1 self-ack → seeded defensive-fallback-needs-shape-homogeneity-verification. Process-improvement discipline scales with self-acknowledgment cadence; recursive |
 | Kael-Mode-2-predictions-verify-empirically | 1/3 | Cipher session-close harvest; F-35.1 (PR-35) confirmed at PR-36 byte-precision phase + PR-35-rebased re-verification + F-36.2 (PR-36) confirmed at PR-36 rebase. Distinct from Maren Mode 1 audit catches (different jurisdictional cadence) |
