@@ -1,7 +1,7 @@
 # Doctrine Ledger — WAR_TIME 2026-04-24 Campaign
 
 **Maintainer:** Aurelius (Chronicler)
-**Last update:** 2026-05-06 (Polish-11a/11b: architectural-sweep-PR-misses-sibling-sites 3/3 RATIFIED at PR-40; sub-phase-close-was-premature 3/3 RATIFIED at Polish-11 4th close-shift)
+**Last update:** 2026-05-16 (cross-cluster invocation from SproutLab PR #74 HR-1 total closure: 4 new watch-list entries surfaced from Lyra-primary session)
 **Threshold rule (per `LEAN_MACHINE_PHASE_4.md`):** First-instance pattern → watch-list (observational, no number). Candidate named + counter-tracked on 2nd independent instance. Ratification at 3/3 OR campaign-wide-implications branch.
 
 ## RATIFIED doctrines
@@ -84,6 +84,10 @@
 - hat-switch-with-running-beats-reading-discipline-approximates-jurisdictional-independence (2026-05-05 Aurelius first-instance pending Sovereign-ratified next-session-Polish hat-switch experiment; empirical test of catch-density via persona-switching-with-explicit-context-flush vs genuine-multi-session independence)
 - cheapest-competent-model-per-task (PR-18 chronicle.py multi-model strategy; opus strategic / sonnet routine / haiku mechanical; not yet adopted operationally — automation deferred per Sovereign 2026-05-05 ($0 API account; Max plan covers Claude Code only))
 - chronicle-pipeline-closure-via-automation (PR-18 chronicle.py + import-snippet.py; deferred per Sovereign 2026-05-05)
+- **methodology-debt-requires-in-repo-codification-not-commit-message-folklore** (SproutLab PR #74 round 2 §10; Cipher framed `"folklore doesn't catch the next bypass class"`; the 4 regex-coverage gaps surfaced across 3 audit rounds were closed both per-finding AND via `split/audit-emoji.sh` as the executable artifact. Pattern: when multi-round audit surfaces the same methodology gap twice, closure isn't the per-finding fix but the script that catches the class. Cross-cluster precedent for future sweep-PR tooling)
+- **builder-mechanical-strict-pass-acceptable-when-censor-capacity-unavailable** (SproutLab PR #74 round 3; Cipher harness capacity-reset twice; Lyra ran in-thread §1-§8 mechanical strict-pass on `2699274`, producing same factual verdict the signed Cipher would have — grep/build/audit outputs are deterministic. Attribution distinction: `"Builder-running-checks"` vs `"Censor signed verdict."` Merges proceeded on mechanical pass; signed artifact deferred. Cross-cluster operational precedent for harness-failure scenarios)
+- **governor-jurisdiction-overrides-regex-stated-PR-scope-when-surface-is-jurisdiction-load-bearing** (SproutLab PR #74 round 2 B3 cluster; Maren escalated 12 emoji in U+2300-23FF that sat outside PR-stated grep scope, based on parent-facing Care-load-bearing surfaces. Cipher correctly read as N5 carry-forward. Lyra synthesis sided with Maren. Principle: a PR titled "HR-1 emoji sweep" must close all HR-1 violations within Governor-jurisdiction scope regardless of original sweep regex coverage. Sweep-PR titles commit to a spirit, not a regex)
+- **bulk-substitution-must-distinguish-string-quote-contexts-from-template-literals** (SproutLab PR #74 V-M-1 root cause; bulk substitution of `🌧️` → `${zi("rain")}` inside single-quoted concatenation shipped literal source text to the rendered DOM. The fix pattern is `' + zi('rain') + '` concatenation form. Rule: bulk-substitution scripts must treat the surrounding string-quote context as a distinct dimension during pattern matching. Cross-cluster operational discipline for sweep-PR tooling)
 
 ## Phase-5-prep candidates (Spark territory)
 
@@ -100,9 +104,11 @@
 - Sub-phase-close-shift-pattern (PR-32 → PR-37 → PR-39 → next-Polish-reopen) — **4-close-shift sequence on single sub-phase** doctrine-validating instance for sub-phase-close-was-premature (advanced 2/3 at this update)
 - RATIFIED-doctrines-may-need-calibration-clarification-when-application-errors-emerge (Lyra item 8, 2026-05-03)
 - **Independent-jurisdictions-empirically-miss-Sovereign-floor-catches** (2026-05-05; 3 separate Sovereign-floor catches across Polish — PR-33 reopen / PR-38 hotfix / Sleep Score+Growth-tab post-PR-39 — all of which 4-way independent verification benches MISSED. Drove hat-switch ratification: Sovereign-floor IS the load-bearing terminal catch jurisdiction; multi-bench is hermetic-floor analog per RATIFIED hermetic-floor-doesnt-substitute-for-production-floor)
+- **Cross-cluster-doctrine-portability** (2026-05-16; SproutLab PR #74 surfaced 4 watch-list doctrines that apply cross-province: methodology-debt-codification, builder-mechanical-pass-as-Censor-fallback, jurisdiction-overrides-regex-scope, bulk-substitution-quote-context. Three concern audit-chain mechanics that should apply identically in Codex sweep PRs; one is sweep-PR-tooling discipline. Cabinet-eligible: the doctrine ledger now spans cross-cluster operational rules — worth a meta-frame for whether Phase 4 native ratifications need a cross-cluster reaffirmation gate)
 
 ## Maintenance
 
 - Update on each ratification PR via Aurelius commit alongside the merge OR consolidated update at sub-phase boundaries
 - Reviews + commits cite by file-path (`docs/doctrine-ledger.md`); do not restate content
 - New candidates added at 2nd-instance landing per Lean-Machine threshold rule
+- **Cross-cluster:** SproutLab-Lyra-primary sessions may surface first-instance watch-list entries (PR #74 precedent 2026-05-16); they land via cross-cluster Aurelius invocation. Codex-native ratification path applies once 2nd-instance is observed in any cluster (Codex or SproutLab; SEP Invoicing eligibility TBD).
