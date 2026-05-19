@@ -83,6 +83,7 @@ The Constitution evolves by ratified amendment. Book I is immutable; Books II–
   [21 Apr 2026], [0014], [canon-inst-002 ratified — Rune (The Ritualist) consecrated as the first Priest; Temple seated within the Command Center.],
   [21 Apr 2026], [0015], [canon-proc-005 ratified — The Rule of Institutions and Abrogations governs rite lifecycle and nomination flow. Rite Catalog v1 issued as Working Paper.],
   [22 Apr 2026], [—], [Constitution v1.1 published — Appendix C roster refreshed against `companions.json` v0.5; Appendix D glossary expanded for Priesthood, rite vocabulary, and Decree; Amendment History instituted in front matter.],
+  [19 May 2026], [0016], [canon-inst-004 ratified — Cluster A extended to include MSc (Codex + SproutLab + MSc); Cipher's censorial jurisdiction extends to MSc; Book III Article 4 Cluster table + prose updated; Appendix C Cipher row + Appendix D Cluster glossary refreshed. Cluster admission criterion relaxed from architectural-pairing-only to also recognize censorial-absorbability.],
 )
 
 #v(6mm)
