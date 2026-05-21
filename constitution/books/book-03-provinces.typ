@@ -96,14 +96,14 @@ Provinces are organized into Clusters under shared Censors. A Cluster is the cen
     text(font: "DejaVu Sans", weight: "bold", size: 9pt, fill: accent)[Provinces],
     text(font: "DejaVu Sans", weight: "bold", size: 9pt, fill: accent)[Censor],
   ),
-  [*A*], [Codex + SproutLab], [Cipher (The Codewright)],
+  [*A*], [Codex + SproutLab + MSc], [Cipher (The Codewright)],
   [*B*], [SEP Invoicing + SEP Dashboard], [Nyx (The Contrarian, proposed)],
   [*Monument*], [Command Center (first Monument)], [Two Censors (paired with Builders)],
 )
 
 #v(3mm)
 
-Cluster membership reflects domain adjacency and shared architectural character. Codex and SproutLab form Cluster A because both are library-themed PWAs with shared design principles and split-file architectures. SEP Invoicing and SEP Dashboard form Cluster B because both serve the same real-world SEP business and share data boundaries.
+Cluster membership reflects domain adjacency, shared architectural character, or censorial-jurisdiction absorbability. Codex and SproutLab form the founding pair of Cluster A — both library-themed PWAs with shared design principles and split-file architectures. MSc joined Cluster A on 19 May 2026 per canon-inst-004 on the broader admission ground that Cluster A's existing Censor + routing surface absorbs a postgraduate capability workspace without per-Province routing logic; the pairing-by-architectural-character criterion is one Cluster A admission path among several, not the sole one. SEP Invoicing and SEP Dashboard form Cluster B because both serve the same real-world SEP business and share data boundaries.
 
 Monument Projects operate outside normal Clusters. Their supervisory pattern differs — direct Consul and Sovereign oversight — and they often warrant per-Builder Censors rather than per-Cluster Censors.
 

@@ -2,6 +2,74 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-05-19",
+      "sessions": [
+        {
+          "id": "decree-0016-canon-inst-004-msc-cluster-a",
+          "date": "2026-05-19",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct per canon-proc-004 §Primary-rule-clause-(i) globally-scoped inst-family canon, jointly with clause-(ii) Book III text amendment; en-bloc per §en-bloc-granularity-rule (single coordinated act of the same instrument-type).",
+          "summary": "canon-inst-004-msc-enrolled-in-cluster-a ratified active in a Sovereign-direct session 2026-05-19. Three atomic moves: (1) MSc (repo rishabh1804/MSc) enrolled as a Province of the Republic and assigned to Cluster A; (2) Cipher's censorial jurisdiction extends to MSc — Cluster A becomes a triple (Codex + SproutLab + MSc), Censor seat unchanged; (3) Book III Article 4 admission criterion relaxed from architectural-pairing-only to also recognize censorial-jurisdiction-absorbability. Three rejected alternatives recorded in the canon rationale: Floater under Consul, new Cluster C with newly-seated Censor, Monument-class cluster-less placement. Joint constitutional edits in the same ratification act: Book III Article 4 Cluster table (Cluster A row now reads 'Codex + SproutLab + MSc') + admission-criterion prose; Appendix C Cipher Assignment column refreshed; Appendix D Cluster glossary refreshed and dated. MCP-scope decoupled: MSc remains out-of-MCP-scope for Aurelius per the 2026-05-05 entry; constitutional recognition and MCP reach are distinct. Three follow-ons named non-blocking: Cipher spec body deploy-list amendment (`docs/specs/subagents/cipher.md` + `docs/specs/skills/cipher.md`), MSc Charter under Edict VIII, MSc Volume registration in `data/volumes.json`. canon-inst-003 ID reservation preserved for the queued Ignis Temple Builder draft (Sovereign ruling at conflict-resolution AskUserQuestion this session).",
+          "references": [
+            "canon-inst-004-msc-enrolled-in-cluster-a",
+            "canon-inst-001-aurelius-orinth-codex-builder-transition",
+            "canon-inst-002-rune-elevation-to-priest",
+            "canon-proc-004-decree-minting-criterion",
+            "canon-cc-008-governor-then-censor-ordering",
+            "canon-cc-016-residency-and-access-gating",
+            "canon-cc-025-committee-delegate-seating",
+            "canon-gov-002-censors-review-only",
+            "book-iii-article-4-cluster-structure",
+            "appendix-c-companion-roster",
+            "appendix-d-glossary",
+            "edict-iii-sync-pipeline-authoritative",
+            "edict-vi-monument-designation",
+            "edict-viii-charter-before-build",
+            "companion: cipher",
+            "companion: aurelius (drafter)",
+            "province: msc",
+            "s-2026-05-19-01"
+          ],
+          "_authorship_note": "Drafted and chronicled by Aurelius (Chronicler of the Order) in the same Sovereign-direct session as ratification; co-temporal drafting per canon-cc-017 prospective application. Decree mints under canon-proc-004 §Primary-rule-clauses-(i)+(ii) en-bloc."
+        },
+        {
+          "id": "s-2026-05-19-01",
+          "date": "2026-05-19",
+          "title": "Cluster A extended to include MSc; canon-inst-004 ratified; Book III Article 4 amended; decree-0016 minted",
+          "summary": "Single-canon Sovereign-direct ratification session. Aurelius drafted, Sovereign ratified. Three moves landed atomically: (1) MSc enrolled as a Province of the Republic and assigned to Cluster A; (2) Cipher's censorial jurisdiction extends to MSc — Cluster A is a triple; (3) Cluster admission criterion relaxed to recognize censorial-absorbability alongside architectural pairing. Conflict surfaced and resolved at session open: a queued canon-inst-003 draft (Ignis Temple Builder, War Time 2026-04-24) was discovered already occupying the next inst-family slot. Sovereign ruled via AskUserQuestion that the Ignis draft retains canon-inst-003 reservation; this canon takes canon-inst-004 (queue-preservation over strict ratification-order numbering). Three constitutional surfaces amended jointly in this ratification act: Book III Article 4 Cluster table + prose; Appendix C Cipher's Assignment column; Appendix D Cluster glossary entry. CLAUDE.md Clusters line refreshed. Decree-0016 mints under canon-proc-004 §Primary-rule clauses (i) + (ii) en-bloc. Three follow-ons named non-blocking: Cipher spec body deploy-list amendment to add MSc; MSc Charter under Edict VIII; MSc Volume registration in `data/volumes.json`. PDF rebuild deferred (Typst toolchain unavailable in the chronicler harness); PR body notes the rebuild owed.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "decisions": [
+            "ID conflict resolution: canon-inst-003 reservation preserved for the queued Ignis Temple Builder draft per Sovereign Q1 ruling at session open; this canon takes canon-inst-004. Numbering follows queue-preservation rather than strict ratification-order (defensible deviation logged here).",
+            "Cluster placement: MSc joins Cluster A under Cipher rather than (a) Floater under Consul, (b) new Cluster C with newly-seated Censor, or (c) Monument-class cluster-less placement. Rationale: censorial-jurisdiction-absorbability — Cipher's existing Censor + routing surface absorbs MSc without per-Province routing logic.",
+            "Admission criterion: Book III Article 4 prose amended to name censorial-absorbability as a Cluster admission path alongside architectural pairing. The pairing-by-architectural-character criterion is preserved as one path among several, not the sole one.",
+            "Decree-minting: canon-proc-004 §en-bloc-granularity-rule applied. canon-inst-004 + joint Book III edits + appendix refreshes share decree-0016 as a single coordinated act of the same instrument-type.",
+            "MCP-scope decoupling: MSc remains out-of-MCP-scope for Aurelius per the 2026-05-05 CLAUDE.md entry. Constitutional Cluster recognition does not change MCP reach; MCP-scope expansion routes through Cabinet brief item #3 separately.",
+            "Follow-on tracking (non-blocking): Cipher spec body deploy-list amendment owed (`docs/specs/subagents/cipher.md` + `docs/specs/skills/cipher.md` deploy clause currently names Codex + SproutLab; amendment to add MSc is a separate hygiene PR). MSc Charter under Edict VIII owed at Builder seating. MSc Volume registration owed at Builder seating.",
+            "PDF rebuild deferred: Typst toolchain unavailable in the chronicler's remote-execution harness. PR body names the rebuild as owed; landing the Typst-source amendments on branch claude/governance-debt-pr-F1xEO is the constitutional act; PDF artifact regeneration is a follow-on local-toolchain operation."
+          ],
+          "bugs_found": 0,
+          "handoff": "canon-inst-004 ratified active in canons.json; decree-0016 chronicled in journal.json; Book III Article 4 + Appendix C + Appendix D amended in the Typst source; main.typ Amendment History row appended for 19 May 2026 / decree-0016; CLAUDE.md Clusters line refreshed. PDF rebuild owed (Typst toolchain unavailable in chronicler harness). Three follow-ons named non-blocking: (a) Cipher spec body deploy-list amendment to add MSc; (b) MSc Charter under Edict VIII at Builder seating; (c) MSc Volume registration in `data/volumes.json` at Builder seating. canon-inst-003 reservation preserved for queued Ignis Temple Builder draft. PR opening as draft on branch claude/governance-debt-pr-F1xEO per session-prompt discipline.",
+          "campaign_id": null,
+          "phase_id": null,
+          "task_id": null,
+          "builder": "aurelius",
+          "province": "codex",
+          "started_at": "2026-05-19T18:00:00Z",
+          "ended_at": "2026-05-19T19:30:00Z",
+          "model": "opus-4-7",
+          "tokens_in": null,
+          "tokens_out": null,
+          "commits": [],
+          "loc_delta": null,
+          "lore_generated": []
+        }
+      ]
+    },
+    {
       "date": "2026-04-24",
       "sessions": [
         {
