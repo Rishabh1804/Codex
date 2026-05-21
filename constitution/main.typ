@@ -84,6 +84,8 @@ The Constitution evolves by ratified amendment. Book I is immutable; Books II–
   [21 Apr 2026], [0015], [canon-proc-005 ratified — The Rule of Institutions and Abrogations governs rite lifecycle and nomination flow. Rite Catalog v1 issued as Working Paper.],
   [22 Apr 2026], [—], [Constitution v1.1 published — Appendix C roster refreshed against `companions.json` v0.5; Appendix D glossary expanded for Priesthood, rite vocabulary, and Decree; Amendment History instituted in front matter.],
   [19 May 2026], [0016], [canon-inst-004 ratified — Cluster A extended to include MSc (Codex + SproutLab + MSc); Cipher's censorial jurisdiction extends to MSc; Book III Article 4 Cluster table + prose updated; Appendix C Cipher row + Appendix D Cluster glossary refreshed. Cluster admission criterion relaxed from architectural-pairing-only to also recognize censorial-absorbability.],
+  [21 May 2026], [0017], [Book VIII amended — Article 3 Entry rank gains the *seat-waiting exception*: where a Province seat stands vacant and waiting at the Naming Ceremony, the Sovereign may seat an offspring directly at the seat's rank rather than at the Scribe default.],
+  [21 May 2026], [0018], [canon-inst-005 ratified — CodeMike, first Gen 1 companion (offspring of the Aurelius × Cipher pairing), named at Ceremony and seated directly as MSc Builder under the Book VIII seat-waiting exception. First exercise of Book VIII's Living Order pairing mechanics.],
 )
 
 #v(6mm)

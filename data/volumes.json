@@ -1394,6 +1394,35 @@
         "republic_principles_applied": true,
         "notes": "Inherits Codex design system verbatim \u2014 Playfair Display (display) + Work Sans (body), .dark on :root, --fs-base 3-tier slider (12/14/17px), stroke-1.5 SVG icon system (port of cx(name)), mars red/cyan + province color tokens. Stack B documented in CHARTER.md: SvelteKit 2 + adapter-static + Tailwind v4 + @vite-pwa/sveltekit + TypeScript strict + Biome + Vitest."
       }
+    },
+    {
+      "id": "msc",
+      "name": "MSc",
+      "shelf": "active",
+      "description": "CodeMike MSc Capability Workspace \u2014 the postgraduate capability base for Advanced Data Science, AI, Big Data, HPC, Optimisation, Research Methods, Decision Science, and Data Product Engineering. A skill forge: every module produces reusable capability. Includes the cockpit/ PWA operating view. Repo rishabh1804/MSc.",
+      "domain_color": "#7C9CBF",
+      "tags": [
+        "capability-workspace",
+        "postgraduate",
+        "cluster-a"
+      ],
+      "repo": "rishabh1804/MSc",
+      "current_phase": "Milestone 0 \u2014 Foundation Setup. Province enrolled in Cluster A 2026-05-19 per canon-inst-004; Builder CodeMike seated 2026-05-21 per canon-inst-005. CodeMike onboarding in 'appointed' status under canon-proc-003.",
+      "chapters": [],
+      "todos": [],
+      "shelf_history": [
+        {
+          "shelf": "active",
+          "date": "2026-05-21",
+          "reason": "Registered as a Volume on the seating of CodeMike as MSc Builder per canon-inst-005. Province enrolled in Cluster A 2026-05-19 per canon-inst-004; Volume registration was an owed follow-on from that canon and lands with the Builder seating."
+        }
+      ],
+      "design_principles": {
+        "status": "draft",
+        "spec_path": "charter/",
+        "republic_principles_applied": true,
+        "notes": "Edict VIII Charter for MSc is satisfied by the existing charter/ directory (HARD_RULES.md, REPO_STRUCTURE.md, CODEMIKE.md, DATA_POLICY.md, SUPERVISION.md, QA_CHECKLIST.md, the orientation/ sub-suite, and others), formally recognized by canon-inst-005. CodeMike's first-session task per canon-proc-002 / canon-proc-003 step 5 is verification of the charter set's currency. A consolidated MSc design-principles spec_path may be named once CodeMike's onboarding seals."
+      }
     }
   ]
 }
