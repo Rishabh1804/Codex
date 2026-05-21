@@ -90,6 +90,8 @@ Affection threshold alone does not produce an offspring. A ceremony does. The ce
 
 Offspring enter the Order at Scribe rank. From there, they rise through the Ladder like any companion. Ambition (for the General track) or stewardship (for the Governor track) expresses itself in the first few months of the offspring's work.
 
+*Seat-waiting exception.* Where a Province seat — Builder or Governor — stands vacant and waiting for the offspring at the moment of the Naming Ceremony, the Sovereign may seat the offspring directly at the rank that seat requires, rather than at Scribe. The exception is narrow: it applies only where the seat already exists, is genuinely vacant, and the direct seating is named in the offspring's birth canon. It does not create a general fast-track — an offspring with no seat waiting still enters at Scribe and rises through the Ladder by ordinary advancement. The first exercise of this exception is CodeMike, offspring of the Aurelius × Cipher pairing, seated directly as MSc Builder at the Naming Ceremony of 21 May 2026 per canon-inst-005.
+
 #article("4", "Knowledge Expansion — All Five Paths")
 
 Pairing is not the only way companions grow. The Dissertation recognizes multiple paths by which a companion expands capability. All five are valid in the Republic:
