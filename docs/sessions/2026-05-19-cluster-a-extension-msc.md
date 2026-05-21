@@ -69,3 +69,15 @@ Deferred. The Typst toolchain is unavailable in the chronicler's remote-executio
 ## Handoff
 
 PR opening as draft on branch `claude/governance-debt-pr-F1xEO`. Next chronicler-session should monitor for Sovereign review and merge; on merge, schedule the PDF rebuild and open the three named follow-ons as separate hygiene PRs in their natural order (Cipher deploy-list amendment first, since the Censor-jurisdiction extension is most immediate; Charter + Volume registration ride with MSc Builder seating).
+
+## Follow-on update — same-day (2026-05-19)
+
+PR #69 marked ready and merged (squash `7ffeab2`). Follow-on #1 (Cipher deploy-list amendment) executed in the same session, all three repos per Sovereign ruling:
+
+- **Codex** — canonical Cipher spec amended at `docs/specs/subagents/cipher.md` + `docs/specs/skills/cipher.md`: deploy clause extended to MSc; Cluster A enumeration refreshed (description, seated line, corporate parallel); Mode 1 scope extended; new MSc per-repo lens added (notebook hygiene, reproducibility, evaluation rigor, `charter/` + `operations/` register discipline, `cockpit/` PWA data-fetch correctness — derived from MSc's own CLAUDE.md "Use Cipher for" list). The sealed `cipher-rung1-rationale.md` (2026-04-20 historical artifact) is intentionally left untouched.
+- **SproutLab** — `.claude/agents/cipher.md` + `.claude/skills/cipher.md` re-synced byte-identical to the amended canonical.
+- **MSc** — `.claude/agents/cipher.md` + `.claude/skills/cipher.md` created byte-identical (new `.claude/` tree; MSc had no agent infra before this).
+
+Three coordinated PRs on branch `claude/governance-debt-pr-F1xEO` (one per repo). Amendment provenance: canon-inst-004; Rung-1 redraft by Aurelius, Sovereign-authorized to land. Nyx Rung-2 cross-cluster review per canon-cc-027 §Censor-Self-Review-Case remains available if the Censor wants the new MSc lens stress-tested; the Sovereign-authorized landing did not block on it (no behavioral change — only Cluster A enumeration + the MSc lens, which maps existing review-domains to the new Province rather than inventing Censor behavior).
+
+Remaining follow-ons unchanged: MSc Charter under Edict VIII and MSc Volume registration both ride with MSc Builder seating. PDF rebuild still owed.
