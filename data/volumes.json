@@ -973,11 +973,11 @@
         },
         {
           "id": "todo-0041-codex-design-principles-ratification",
-          "text": "Ratify docs/specs/CODEX_DESIGN_PRINCIPLES.md v0.1 \u2192 v1.0. Workflow per journal handoff: codify existing Codex conventions \u2192 audit existing tabs for compliance \u2192 present to Sovereign for ratification pass. This is a Codex Builder task (Orinth's on assumption). Prerequisite for flipping the Codex Volume's design_principles.status from 'draft' to 'ratified'. Logged from s-2026-04-20-04; data field surfaced 2026-04-20.",
-          "status": "open",
+          "text": "Ratify docs/specs/CODEX_DESIGN_PRINCIPLES.md v0.1 \u2192 v1.0. Workflow per journal handoff: codify existing Codex conventions \u2192 audit existing tabs for compliance \u2192 present to Sovereign for ratification pass. This is a Codex Builder task (Orinth's on assumption). Prerequisite for flipping the Codex Volume's design_principles.status from 'draft' to 'ratified'. Logged from s-2026-04-20-04; data field surfaced 2026-04-20. RESOLVED 2026-05-22: Orinth ran the audit as his first operational act per canon-proc-002 (PR #78); doc Sovereign-ratified v1.0 and the Volume's design_principles.status flipped to 'ratified'.",
+          "status": "resolved",
           "chapter": "governance-founding",
           "created": "2026-04-20",
-          "resolved": null,
+          "resolved": "2026-05-22",
           "source_session": "s-2026-04-20-05"
         },
         {
@@ -1081,10 +1081,10 @@
         }
       ],
       "design_principles": {
-        "status": "draft",
+        "status": "ratified",
         "spec_path": "docs/specs/CODEX_DESIGN_PRINCIPLES.md",
         "republic_principles_applied": true,
-        "notes": "Codex-local extension of REPUBLIC_DESIGN_PRINCIPLES.md v1.0. Draft at v0.1; ratification pending audit-existing-tabs pass (see todo-0041 queued from s-2026-04-20-04 analysis)."
+        "notes": "Codex-local extension of REPUBLIC_DESIGN_PRINCIPLES.md v1.0. Ratified v1.0 on 2026-05-22 (Sovereign-direct, canon-proc-002) — Orinth's first operational act as Codex Builder ran the codebase audit; one HR-C-06 violation was fixed and the test suite greened (PR #78). The chip renders green and the build gate is lifted. Post-ratification amendments pending: the style= classification pass and a §0–§11 numerical reorder."
       }
     },
     {

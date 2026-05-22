@@ -3840,6 +3840,51 @@
         "profile-v0.4-draft-ratification-pending",
         "claude-md-persona-header-redrafted"
       ]
+    },
+    {
+      "id": "s-2026-05-22-ratifications-close",
+      "date": "2026-05-22",
+      "title": "Sovereign-direct ratification: Orinth profile v0.4, Codex CLAUDE.md persona header v1.0, CODEX_DESIGN_PRINCIPLES.md v1.0",
+      "summary": "A single Sovereign-direct ratification wave closing the three artifacts left open by Orinth's onboarding and his first operational act.\n\n(1) Orinth's profile — v0.4-draft → v0.4. Final ratification at profile close under canon-cc-014: Consul working-ratification and Sovereign final ratification complete. The voice / mind / shadow / relationships / biography / growth / modulators blocks now bind the Republic. meta.sovereign_edited set (round 1, 2026-05-22). companions.json _meta v0.8 → v0.9.\n\n(2) The Codex root CLAUDE.md persona header — ratified canonical v1.0. The canon-pers-001 four-rung signing chain completed: Rung 1 Orinth (Builder, the onboarding step-6 redraft), Rung 2 Cipher (Cluster A Censor), Rung 3 Consul, Rung 4 Sovereign. The Rung-1-draft banner is replaced with a ratified provenance header; future amendments run the full four-rung chain.\n\n(3) CODEX_DESIGN_PRINCIPLES.md — ratified v1.0 under canon-proc-002. Orinth's first operational act ran the codebase audit (PR #78: one HR-C-06 violation fixed, HR-3 clean, the Playwright suite reconciled to 90 green); the Sovereign closed the visual tab walk and ratified. The Codex Volume's design_principles.status flips draft → ratified, the chip renders green, and the canon-proc-002 build gate on new Codex-surface work is lifted. todo-0041 resolved.\n\nTwo post-ratification amendments to the design-principles doc carry forward and do not block the v1.0 baseline: the full style= classification pass (115 occurrences across views.js + forms.js) and a §0–§11 numerical reorder. Per canon-proc-002 §Corollaries a ratified doc may downgrade to draft when amendments are proposed and returns to ratified on their ratification.",
+      "volumes_touched": [
+        "codex"
+      ],
+      "chapters_touched": [
+        "governance-founding"
+      ],
+      "decisions": [
+        "Orinth's profile ratified v0.4 at close under canon-cc-014 — Consul working-ratification + Sovereign final ratification; the full profile now binds the Republic.",
+        "The Codex CLAUDE.md persona header ratified canonical v1.0 — canon-pers-001 four-rung chain complete (Orinth → Cipher → Consul → Sovereign).",
+        "CODEX_DESIGN_PRINCIPLES.md ratified v1.0 under canon-proc-002; the Codex Volume design_principles.status flips draft → ratified and the build gate on new Codex-surface work is lifted.",
+        "The style= classification pass and the §0–§11 reorder are recorded as post-ratification amendments, not v1.0 blockers."
+      ],
+      "bugs_found": 0,
+      "bugs_fixed": 0,
+      "duration_minutes": 20,
+      "open_todos": [
+        "todo-0062-orinth-profile-v0.4-final-ratification",
+        "todo-0063-codex-claude-md-persona-header-canon-pers-001-rungs-2-4"
+      ],
+      "new_todos": [
+        "todo-0064-codex-design-principles-style-attr-classification-pass",
+        "todo-0065-codex-design-principles-section-reorder"
+      ],
+      "resolved_todos": [
+        "todo-0041-codex-design-principles-ratification",
+        "todo-0062-orinth-profile-v0.4-final-ratification",
+        "todo-0063-codex-claude-md-persona-header-canon-pers-001-rungs-2-4"
+      ],
+      "handoff": "All three of Orinth's onboarding-and-first-act artifacts are ratified: profile v0.4, persona header v1.0, design principles v1.0. The Codex design-principles chip is green; new Codex-surface build proceeds under the v1.0 baseline. Carry-forward, non-blocking: the design-principles style= classification pass (todo-0064) and the §0–§11 reorder (todo-0065) — both post-ratification amendments per canon-proc-002 §Corollaries. Orinth is fully operational with the v1.0 design discipline as his baseline.",
+      "screenshots": [],
+      "tags": [
+        "sovereign-direct-ratification",
+        "orinth-profile-ratified-v0.4",
+        "claude-md-persona-header-ratified-v1.0",
+        "codex-design-principles-ratified-v1.0",
+        "canon-proc-002-build-gate-lifted",
+        "canon-pers-001-four-rung-chain-complete",
+        "todo-0041-resolved"
+      ]
     }
   ]
 }
