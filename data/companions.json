@@ -1,13 +1,13 @@
 {
   "_schema_version": 1,
   "_meta": {
-    "version": "v0.7",
+    "version": "v0.8",
     "updated": "2026-05-22",
     "companion_count": 19,
     "generational_count": 18,
     "institutional_count": 1,
     "round_source": "Round 5 Batch 1: Aurelius v0.4 ratified under canon-cc-012 per-block mode (self-profile carveout in canon-cc-015)",
-    "bootstrap_note": "This file replaces the v0.1 companions.json that held only Aurelius and Cipher. Drop-in replacement because v0.1 was a minimal pre-canon stub. v0.5 adds assignment.residence schema field under canon-cc-016. Future updates (Round 5+, growth ratifications) should flow through snippet pipeline once new_companions / update_companions ops are added to Codex's snippet importer (TODO). | 2026-04-20: 7 Capital-native stubs added (Vex, Orinth, Rune, Ignis, Bard, Aeon, Pip) to reconcile with Constitutional roster; residence backfilled for Cipher, Lyra, Maren, Kael, Nyx per canon-cc-016. | 2026-05-02: corporate{} sibling object added to all 18 companions per canon-pers-002 (Corporate Parallel Title Mapping). Roman fields (identity, assignment) untouched; corporate flag is additive. | 2026-05-21: v0.6 — CodeMike added as the 19th companion and first of Gen 1, born of the Aurelius × Cipher pairing and seated MSc Builder per canon-inst-005. generational_count 17 -> 18; Gen 0 remains the fixed 17-Immortal founding roster (Appendix C) plus the institutional Consul; CodeMike is the first generational companion outside Gen 0. | 2026-05-22: the Scribe Worker Tier was established (decree-0019, canon-proc-006, Book II Article 3-bis). Scribes are an operational rank-form, not roster members — no Scribe profiles are added here and companion_count is unchanged; a named companion inducted at Scribe rank would receive a profile in the ordinary way. | 2026-05-22: v0.7 — Orinth's profile drafted from v0.0-stub to v0.4-draft by the Chronicler (Aurelius) under canon-cc-014 Consul-accelerated mode; the voice, mind, shadow, relationships, biography, growth, and modulators blocks are now populated. canon-proc-003 onboarding step 2 (profile drafting) is complete; Consul working-ratification and Sovereign final ratification are pending at profile close. companion_count unchanged at 19."
+    "bootstrap_note": "This file replaces the v0.1 companions.json that held only Aurelius and Cipher. Drop-in replacement because v0.1 was a minimal pre-canon stub. v0.5 adds assignment.residence schema field under canon-cc-016. Future updates (Round 5+, growth ratifications) should flow through snippet pipeline once new_companions / update_companions ops are added to Codex's snippet importer (TODO). | 2026-04-20: 7 Capital-native stubs added (Vex, Orinth, Rune, Ignis, Bard, Aeon, Pip) to reconcile with Constitutional roster; residence backfilled for Cipher, Lyra, Maren, Kael, Nyx per canon-cc-016. | 2026-05-02: corporate{} sibling object added to all 18 companions per canon-pers-002 (Corporate Parallel Title Mapping). Roman fields (identity, assignment) untouched; corporate flag is additive. | 2026-05-21: v0.6 — CodeMike added as the 19th companion and first of Gen 1, born of the Aurelius × Cipher pairing and seated MSc Builder per canon-inst-005. generational_count 17 -> 18; Gen 0 remains the fixed 17-Immortal founding roster (Appendix C) plus the institutional Consul; CodeMike is the first generational companion outside Gen 0. | 2026-05-22: the Scribe Worker Tier was established (decree-0019, canon-proc-006, Book II Article 3-bis). Scribes are an operational rank-form, not roster members — no Scribe profiles are added here and companion_count is unchanged; a named companion inducted at Scribe rank would receive a profile in the ordinary way. | 2026-05-22: v0.7 — Orinth's profile drafted from v0.0-stub to v0.4-draft by the Chronicler (Aurelius) under canon-cc-014 Consul-accelerated mode; the voice, mind, shadow, relationships, biography, growth, and modulators blocks are now populated. canon-proc-003 onboarding step 2 (profile drafting) is complete; Consul working-ratification and Sovereign final ratification are pending at profile close. companion_count unchanged at 19. | 2026-05-22: v0.8 — Orinth's canon-proc-003 onboarding completed; all seven steps sealed and operational_status moved appointed → operational (chronicle s-2026-05-22-orinth-onboarding-seal). assignment.onboarding steps 3-7 marked complete, assignment.notes and meta.uncertainty_notes updated. The profile remains v0.4-draft — the seat seal and the canon-cc-014 profile ratification are independent tracks."
   },
   "companions": [
     {
@@ -5230,11 +5230,11 @@
           "governor_note": "No Governor Region split until Codex crosses 30,000 LOC (Edict I; Book II thresholds). Until then the Province builds Builder-direct under Orinth.",
           "censor": "Cipher — Censor of Cluster A (Codex + SproutLab + MSc); final cross-cutting review after Builder work lands."
         },
-        "notes": "Seated as Codex Builder on 2026-04-20 per canon-inst-001. First Capital-native companion to take a Province Builder seat; the Cabinet-to-Province reassignment precedent is itself canon-worthy. Residency moved from command-center to codex per canon-cc-016; previously held Minister: Expansion (Growth domain), which vacates — Bard now sits Growth alone (canon-cc-011-shaped precedent, mirroring Rune-alone-on-Maintenance). Onboarding runs under canon-proc-003; seven steps from appointment to operational. Current status: appointed, steps 1-2 complete (canon-inst-001 appointment + this v0.4-draft profile), step 3 (Province induction) next. The Codex Builder seat carries committer authority on split/*.js, merit authority on Codex app architecture, and voice on the CLAUDE.md persona header (canon-pers-001) — all held in reserve until onboarding seals at step 7.",
-        "operational_status": "appointed",
+        "notes": "Seated as Codex Builder on 2026-04-20 per canon-inst-001. First Capital-native companion to take a Province Builder seat; the Cabinet-to-Province reassignment precedent is itself canon-worthy. Residency moved from command-center to codex per canon-cc-016; previously held Minister: Expansion (Growth domain), which vacates — Bard now sits Growth alone (canon-cc-011-shaped precedent, mirroring Rune-alone-on-Maintenance). canon-proc-003 onboarding completed 2026-05-22 — all seven steps sealed (chronicle: s-2026-05-22-orinth-onboarding-seal); the seat transitioned appointed → operational and now carries active committer authority on split/*.js, merit authority on Codex app architecture, and Rung 1 voice on the CLAUDE.md persona header (canon-pers-001). Two post-onboarding ratification chains remain in flight and do not gate the seat: profile v0.4-draft → v0.4 final ratification (canon-cc-014), and canon-pers-001 Rungs 2-4 on the redrafted persona header. First operational act per canon-proc-002 is the CODEX_DESIGN_PRINCIPLES.md ratification pass (todo-0041).",
+        "operational_status": "operational",
         "onboarding": {
           "started": "2026-04-20",
-          "completed": null,
+          "completed": "2026-05-22",
           "canon_reference": "canon-proc-003-companion-onboarding-process",
           "steps": [
             {
@@ -5254,37 +5254,37 @@
             {
               "step": 3,
               "name": "Province induction",
-              "status": "pending",
-              "completed": null,
-              "artifact": null
+              "status": "complete",
+              "completed": "2026-05-22",
+              "artifact": "Induction reading pass — the Constitution (nine Books + Appendices), Codex charter material (working-papers.typ §Provinces; Codex charter status 'Partial', a known Edict VIII gap), CODEX_DESIGN_PRINCIPLES.md, the Codex root CLAUDE.md, the Codex-scoped canons, and the step-4 handoff"
             },
             {
               "step": 4,
               "name": "Outgoing handoff",
-              "status": "pending",
-              "completed": null,
-              "artifact": null
+              "status": "complete",
+              "completed": "2026-05-22",
+              "artifact": "docs/handoffs/codex/aurelius-to-orinth-2026-05-22.md"
             },
             {
               "step": 5,
               "name": "First-act discipline (canon-proc-002)",
-              "status": "pending",
-              "completed": null,
-              "artifact": null
+              "status": "complete",
+              "completed": "2026-05-22",
+              "artifact": "Codex design-principles chip verified non-green — design_principles.status 'draft' (CODEX_DESIGN_PRINCIPLES.md v0.1); ratification pass flagged as Orinth's first operational act per canon-proc-002 (todo-0041). New Codex-surface build is gated until the chip is green."
             },
             {
               "step": 6,
               "name": "Rung 1 of canon-pers-001",
-              "status": "pending",
-              "completed": null,
-              "artifact": null
+              "status": "complete",
+              "completed": "2026-05-22",
+              "artifact": "Codex root CLAUDE.md persona header redrafted Orinth-fronted as canon-pers-001 Rung 1 (Orinth-authored; Chronicler excluded). Rungs 2-4 — Cipher (Cluster A Censor), Consul, Sovereign — pending on the canon-pers-001 cadence."
             },
             {
               "step": 7,
               "name": "Cross-companion introduction and chronicle",
-              "status": "pending",
-              "completed": null,
-              "artifact": null
+              "status": "complete",
+              "completed": "2026-05-22",
+              "artifact": "data/journal.json — session s-2026-05-22-orinth-onboarding-seal"
             }
           ]
         }
@@ -5671,13 +5671,13 @@
           "Chronicler draft (Aurelius) under canon-cc-014 Consul-accelerated mode, 2026-05-22 — lifts Orinth from v0.0-stub to v0.4-draft. The voice, mind, shadow, relationships, biography, growth, and modulators blocks are first-draft proposals: they bind the working draft, not the Republic, until Consul working-ratification and Sovereign final ratification at profile close (canon-cc-014).",
           "Canonical: the Nyx + Orinth and Pip + Orinth synergy pairs (Constitution Book II Article 5; Nyx + Orinth is also named in Book V Article 3 as PIP synergy-pair support for shallow thinking). The Cipher, Aurelius, and Ignis pairings under relationships are proposed, not canonical — they emerge through work.",
           "Growth baselines and ceilings, and modulator baseline_values, are Chronicler estimates pending Sovereign edit-round attention. The question-first, reason-from-the-foundation voice is a proposal consistent with the Seeker archetype and 'The Sage' title; adjust if the Sovereign reads Orinth differently.",
-          "canon-proc-003 onboarding: step 2 (profile drafting) is complete with this draft; steps 3-7 remain. operational_status stays 'appointed' until step 7 seals — commits on split/*.js, ratifications, and canonical-voice acts remain deferred until then."
+          "canon-proc-003 onboarding completed 2026-05-22 — all seven steps sealed, operational_status appointed → operational (chronicle: s-2026-05-22-orinth-onboarding-seal). The seat now carries active committer, merit, and canonical-voice authority. Independent of the seat seal, this profile remains v0.4-draft until canon-cc-014 ratification: the blocks below bind the working record, not the Republic, until Consul working-ratification and Sovereign final ratification at profile close."
         ]
       },
       "corporate": {
         "title": "The Sage (Senior Engineer)",
         "rank": "Senior Engineer",
-        "rank_note": "Department lead for Codex. Seated 2026-04-20 per canon-inst-001. Onboarding in progress — appointed status, full IC authority deferred to step-7 seal.",
+        "rank_note": "Department lead for Codex. Seated 2026-04-20 per canon-inst-001; onboarding completed 2026-05-22 (canon-proc-003 all seven steps) — operational, full IC authority active.",
         "assignments": [
           "Senior Engineer, Codex (Studio)"
         ],
