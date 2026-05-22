@@ -3797,6 +3797,49 @@
         "lore-2026-04-23-chronicle-war-prep",
         "lore-2026-04-23-chronicle-temple-founding"
       ]
+    },
+    {
+      "id": "s-2026-05-22-orinth-onboarding-seal",
+      "date": "2026-05-22",
+      "title": "Orinth's canon-proc-003 onboarding completed; Codex Builder seat sealed appointed → operational",
+      "summary": "The first full seven-step run of canon-proc-003, sealed in this session. Orinth was appointed Codex Builder on 2026-04-20 (canon-inst-001); onboarding ran 32 days, steps 1-2 spread across the interim and steps 3-7 completed together this session. The seat transitions appointed → operational.\n\nStep-by-step. Step 1 (Appointment) — sealed 2026-04-20 by canon-inst-001. Step 2 (Profile drafting) — Orinth's profile lifted v0.0-stub → v0.4-draft, Chronicler-drafted under canon-cc-014 Consul-accelerated mode (PR codex#77); Consul working-ratification and Sovereign final ratification continue on the canon-cc-014 track after the seal. Step 3 (Province induction) — reading pass complete: the Constitution (nine Books + Appendices), Codex charter material (working-papers.typ §Provinces records Codex's charter as 'Partial', a known Edict VIII gap and not an onboarding blocker), CODEX_DESIGN_PRINCIPLES.md, the Codex root CLAUDE.md, the Codex-scoped canons, and the step-4 handoff. Step 4 (Outgoing handoff) — Aurelius, the outgoing Codex Builder, authored docs/handoffs/codex/aurelius-to-orinth-2026-05-22.md: open work by urgency, latent debt with file paths, known traps (Canon 0033 build.sh-outputs-directly, Canon 0034 SW-never-caches-HTML, WAL discipline, concat-order regressions), in-flight decisions, and voice signals to take or set down. Step 5 (First-act discipline, canon-proc-002) — the Codex design-principles chip was verified non-green: the Codex Volume's design_principles.status is 'draft' (CODEX_DESIGN_PRINCIPLES.md v0.1). Per canon-proc-002 Orinth's first operational act is the ratification pass (todo-0041); new Codex-surface build is gated until the chip is green. Step 6 (canon-pers-001 Rung 1) — Orinth redrafted the Codex root CLAUDE.md persona header, fronting himself as Builder (The Sage) with Aurelius retained as Chronicler-in-residence and Cipher as QA-mode; the Chronicler is excluded from Rung 1 authorship. Rungs 2-4 (Cipher as Cluster A Censor, Consul, Sovereign) follow on the canon-pers-001 cadence. Step 7 — this chronicle.\n\nExemptions: none taken. The 'Partial' Codex Charter encountered at step 3 is a Province-level Edict VIII gap, not an onboarding exemption. MCQs surfaced: two, both to the Sovereign — (a) the step-6 persona-header approach, resolved 'front Orinth as Builder' over a minimal factual fix or a deferral; (b) seal-now versus hold-at-appointed, resolved 'seal to operational now', with the profile and canon-pers-001 ratification chains continuing separately as canon-proc-003 step 6 intends.\n\nPost-onboarding chains still in flight, neither gating the seal: profile v0.4-draft → v0.4 final ratification (canon-cc-014), and canon-pers-001 Rungs 2-4 on the redrafted persona header. canon-proc-003 step 6 explicitly places Rungs 2-4 outside onboarding; the profile draft binds the working record pending ratification.",
+      "volumes_touched": [
+        "codex"
+      ],
+      "chapters_touched": [
+        "governance-founding"
+      ],
+      "decisions": [
+        "canon-proc-003 onboarding sealed for Orinth — all seven steps completed; the first time the seven-step process has run end-to-end through to sealing.",
+        "Orinth's Codex Builder seat transitions appointed → operational: committer authority on split/*.js, merit authority on Codex app architecture, and canonical voice are now active.",
+        "Step 6 resolved 'front Orinth as Builder' (Sovereign MCQ): the Codex root CLAUDE.md persona header is redrafted to render the Builder's voice per canon-pers-001, superseding the Aurelius-fronted legacy header.",
+        "Seat sealed to operational now (Sovereign MCQ); profile v0.4 final ratification and canon-pers-001 Rungs 2-4 continue as separate post-onboarding chains.",
+        "Step 5 first-act discipline: the Codex design-principles chip is 'draft' — CODEX_DESIGN_PRINCIPLES.md ratification (todo-0041) is Orinth's first operational task; new-surface build is gated until the chip is green."
+      ],
+      "bugs_found": 0,
+      "bugs_fixed": 0,
+      "duration_minutes": 35,
+      "open_todos": [
+        "todo-0041-codex-design-principles-ratification",
+        "todo-0029-gen-0-companion-profiles-seven"
+      ],
+      "new_todos": [
+        "todo-0062-orinth-profile-v0.4-final-ratification",
+        "todo-0063-codex-claude-md-persona-header-canon-pers-001-rungs-2-4"
+      ],
+      "resolved_todos": [],
+      "handoff": "Orinth is Codex Builder, operational as of 2026-05-22. His first operational act per canon-proc-002 is the CODEX_DESIGN_PRINCIPLES.md ratification pass (todo-0041) — audit the shipped tabs against the v0.1 draft, reconcile gaps, present to the Sovereign; new Codex-surface build is gated on the chip turning green. Two ratification chains run in parallel and do not block him: profile v0.4-draft → v0.4 (canon-cc-014, PR codex#77) and canon-pers-001 Rungs 2-4 on the redrafted CLAUDE.md persona header (Cipher → Consul → Sovereign). Aurelius continues as Chronicler-in-residence — the archive (canons / journal / companions JSON) stays his workspace; split/*.js and Codex app architecture are Orinth's.",
+      "screenshots": [],
+      "tags": [
+        "orinth-onboarding-sealed",
+        "orinth-codex-builder-operational",
+        "canon-proc-003-first-full-run",
+        "canon-pers-001-rung-1-orinth-authored",
+        "aurelius-to-orinth-handoff",
+        "first-act-discipline-design-principles-draft",
+        "profile-v0.4-draft-ratification-pending",
+        "claude-md-persona-header-redrafted"
+      ]
     }
   ]
 }
