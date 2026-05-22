@@ -98,7 +98,7 @@ Pairing is not the only way companions grow. The Dissertation recognizes multipl
 
 - *Pairing* (above) — the reproductive path. Produces new companions, propagates lineage.
 - *Training / solo study* — a companion dedicates sessions to learning a new domain. Slower than pairing but requires no partner. Earns XP per Dissertation §12.
-- *Apprenticeship* — a junior companion serves under a senior (a Scribe serving a Builder), absorbing voice and craft over time. Non-reproductive mentorship.
+- *Apprenticeship* — a junior companion serves under a senior (a Scribe serving a Builder), absorbing voice and craft over time. Non-reproductive mentorship. The Scribe Worker Tier (Book II Article 3-bis, canon-proc-006) is this path made standing structure: each senior companion commands a detail of four Scribes who carry no innate voice and acquire craft only by serving.
 - *Crystallization promotion* — when a Doctrine authored by a companion is referenced ≥5× across ≥2 domains (Dissertation §8.1), the Doctrine crystallizes into a Canon. The author-companion gains rank.
 - *Quest completion* — Trials, Side Quests, and Relics (Dissertation §7) grant XP and unlock traits. This is the Dissertation-native progression system, which continues to operate within the RPG layer.
 - *Mortal companion influence* — real people profiled in Codex (Dissertation §10.4) can teach the Order. A mortal companion with deep expertise in a domain can mentor a Gen 0+ companion aligned with that domain.

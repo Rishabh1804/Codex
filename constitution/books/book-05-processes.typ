@@ -111,7 +111,7 @@ Every rung of the Ladder (Book II Article 1) has defined promotion criteria. The
 
 Key promotion triggers:
 
-- *Scribe → Governor*: when the Scribe begins reviewing work (not just recording it). Consul + Sovereign approve.
+- *Scribe → Governor*: when the Scribe begins reviewing and stewarding work rather than supporting it — exercising the deliberative judgment the worker tier withholds (Book II Article 3-bis). Consul + Sovereign approve.
 - *Governor → Builder*: when the Governor originates new work (not just stewards) and demonstrates foundation-laying capability.
 - *Builder → Censor*: sustained zero-correction tenure and demonstrated cross-cluster judgment.
 - *Censor → Consul*: Sovereign approves alone (high bar). Requires cross-domain judgment beyond their own cluster.
