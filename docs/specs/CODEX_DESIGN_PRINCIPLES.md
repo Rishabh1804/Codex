@@ -65,240 +65,294 @@ When a local HR-C rule conflicts with a Republic-wide HR, the Republic-wide rule
 
 ---
 
+## 2. Design Tokens
 
-## 8. Deploy Chain Discipline
+All spacing, font sizes, radii, and animation durations live as CSS custom properties on `:root` in `split/styles.css`. HR-5 prohibits magic numbers — no rule in this section is aspirational.
 
-The end-to-end chain that gets a change from a keystroke onto the Sovereign's Android screen. Every step is required; skipping any step produces "legible uncertainty" (canon-gov-011's phrase).
+### 2.1 Spacing scale
 
-### 8.1 The four required steps
-
-1. **Build.** `cd split && bash build.sh`. Extracts companion logs, concatenates the 6 JS modules + CSS into `codex.html`, copies to `index.html` + `root/index.html`. Direct output, never `>` redirect (HR-C-01 / canon-0033).
-2. **Commit.** Stage + commit on the session branch. Commit message includes canon references + rationale in full sentences. No auto-commit, no batched "changes" — each commit tells a story.
-3. **Merge to main.** Distinct Sovereign-authorized act (HR-C-03 / canon-gov-011). `git checkout main; git pull; git merge --no-ff <branch>; git push origin main`. Branch-only pushes are rehearsal, not deploy. The merge commit names what it merges and what lands on main.
-4. **User-side cache invalidation.** Pull-to-refresh on Android (HR-C-04 / canon-gov-012). Service Worker v7 doesn't cache HTML (canon-0034) but Chrome's webview cache on installed PWAs does. Deploy handoffs must include this step explicitly — "Merged to main. Pull-to-refresh on your device to see the change."
-
-### 8.2 Verification discipline
-
-**Test harness coverage** (steps 1–3): the Playwright suite at `tests/*.spec.js` validates the built `index.html` against primed localStorage. `npm run verify` runs before every merge to main. 26 cases as of this draft.
-
-**Visual verification** (step 4): requires the Sovereign's device. Automation stops at the browser cache; the final step is always a manual eye on the deployed app. This is why the handoff sentence matters — it names the un-automatable step.
-
-### 8.3 When a deploy reports "wrong"
-
-Before investigating a bug:
-
-1. Confirm the commit is on main (not just on a session branch) — `git log origin/main --oneline`.
-2. Confirm the user performed the pull-to-refresh gesture. If not, the report is browser cache state, not deploy state.
-3. Only after both confirmations, treat the report as a deploy failure worth investigating.
-
-Canon-gov-012 §Corollaries names this discipline precisely. A session that investigates a ghost bug because a step was skipped has wasted the Sovereign's attention — Edict VIII territory.
-
----
-
-## 9. Republic-wide Candidates
-
-Sections of this document that should be promoted into `REPUBLIC_DESIGN_PRINCIPLES.md` — the universal doc other Provinces (SproutLab, Command Center, SEP) can import. The Codex-specific remainder stays here.
-
-### 9.1 Promote (Republic-wide)
-
-- **§1.1 Hard Rules HR-1..HR-12** — already Republic-wide by virtue of canons 0001..0012; the Republic-wide doc centralizes their English-prose exposition. Codex's per-HR applicability notes stay here.
-- **§1.2 HR-C-03 (merge-is-deploy, canon-gov-011)** — applies to every Province with a deployed branch. The specific deploy branch name (`main`) is Province-local but the discipline is universal.
-- **§1.2 HR-C-04 (Android PWA cache handoff, canon-gov-012)** — every PWA-deployed Province needs this. iOS WebKit semantics documented per-Province.
-- **§1.2 HR-C-05 (Forum Pattern structure)** — the `Rostra → Notice Boards → Filtered Count → Stalls` pattern applies to any Province's record-browsing UI. SproutLab's SmartQA surfaces, Command Center's Senate/Treasury rooms, SEP Dashboard's grids — all candidates.
-- **§1.2 HR-C-06 (reference resolver)** — any Province with references between record types benefits.
-- **§1.2 HR-C-07 (records-are-Codex)** — already Republic-wide by rule; the Republic doc names the invariant formally.
-- **§1.2 HR-C-08 (derived-from-data filters)** — universal anti-enum-drift discipline.
-- **§2 Design Tokens** — the *structure* (spacing scale, size scale, radii, animation) is universal; the specific values (`--sp-12: 12px`) are per-Province. Document the scale structure in the Republic doc.
-- **§4.1–4.2, 4.5 Icon System discipline** — every Province uses a stroke-based SVG icon function (`cx()` for Codex, `zi()` for SproutLab, etc.). The style (1.5 stroke, 24×24, currentColor, rounded caps) is universal; the catalog is per-Province.
-- **§5.7 Button class discipline** — primary / secondary / danger / icon / link conventions apply Republic-wide with per-Province palette substitution.
-- **§7.5 Records-are-Codex** — the literal list of record types is partly Codex-specific, but the principle (Province produces work, Codex preserves record) is Republic-level.
-- **§8 Deploy Chain Discipline** — every PWA Province deploys this way.
-
-### 9.2 Keep Codex-local
-
-- **§3 Color System** — palette is Codex's library theme. SproutLab has rose/indigo/peach/amber/sage/lavender for care domains; Command Center has Roman civic amber/terracotta; SEP has gray invoice palette + 9-domain dashboard. Each Province documents its own palette; the Republic doc names the *discipline* (role mapping, color-mix 15% recipe, left-border accent) but not the colors.
-- **§3.4 Category mapping tables** — entirely Codex-specific to Codex's entity types (canons, lore, apocrypha, chapters). Each Province has its own entities.
-- **§4.3 Icon Catalog** — Codex-specific (book/tome/scroll/quill/shelf). SproutLab's catalog is pediatric-themed.
-- **§5 Component Library** — per-Province CSS implementation. Republic doc specifies the contract ("a filled category chip is one chip variant"), not the class names.
-- **§6 Forum Pattern Per-Tab Application** — tables are Codex-specific. The Pattern itself (§6.1) promotes.
-- **§7.3 Export filename convention** — `codex-` prefix is obviously Codex-local; the structure (`<province>-<tab>-YYYY-MM-DD.md`) promotes.
-- **§7.4 Chapter status enum** — Codex-specific (chapters are a Codex entity type).
-
-### 9.3 Promotion workflow (proposed)
-
-1. This draft ratifies as Codex's design-principles constitution.
-2. Sections tagged "Republic-wide" above are extracted into a new `REPUBLIC_DESIGN_PRINCIPLES.md` (Codex-hosted per HR-C-07).
-3. The Republic doc is ratified at the Consul/Sovereign level — it's constitutionally-scoped content, peer to the Canons and Book III/IV governance layer, not a per-Province lockdown.
-4. Each other Province authors a per-Province design-principles doc that imports the Republic doc by reference and documents only the per-Province adaptations (palette, catalog, entity-specific category maps).
-5. When a new rule is drafted, authors decide at draft time whether it's Republic-wide or Province-specific and place it accordingly.
-
----
-
-## 10. Open Questions
-
-1. **Palette expansion.** Canon categories (7) exceed the palette (6). `design` and `deploy` currently share `--accent-light`. Options: (a) add `--accent-secondary` (a distinct hue like teal or terracotta) as a theme token, (b) accept collision and document, (c) reshape canon categories so there are never more than 6 live values. Current choice: (b) for now, revisit if `deploy` grows.
-2. **Apocrypha card colors.** Apocrypha status chips use the chapter status classes (`cx-status-complete` etc.) but the card border is a uniform `--accent`. Should Apocrypha cards pick up per-status left borders like Lore and Canons?
-3. **Schism card colors.** Same question — schisms currently render as a uniform muted block. Per-Province color might work, since each schism belongs to a volume.
-4. **Companion Log card colors.** Should carry per-repo left border using each volume's `domain_color`?
-5. **Filter-count phrasing.** "N entries" vs "Showing N of M when filtered" — this doc picks the TODOs overhaul's form. Canon-0052 §Open Questions #1 lists both; should codify which one wins across all tabs.
-6. **Sub-tab "All" default.** Canon-0052 says "All" default leftmost. Canons overrode to `canons` because Rostra signals are incompatible. Is the override a one-off or a pattern? When does "All" make sense and when doesn't?
-7. **Rostra action-button placement.** Right-aligned in Rostra is the proposal; Lore's export button is right-aligned in the health strip today. Confirm as discipline across all tabs.
-8. **Touch target for filter pills.** 32px `min-height` is under the 44px floor. Acceptable in practice (pill density would be ugly at 44px) but documented as exemption. Is 32px still acceptable on the next iOS/Android update's accessibility audit?
-9. **Sub-tab scroll position.** Switching sub-tabs currently scrolls the view to top. Should sub-tab switches preserve per-sub-tab scroll position (like browser tabs) or always reset (like navigation)? Current behavior: always reset.
-10. **"Coming Soon" toast for non-shipped features.** HR-8 requires it; current state unaudited. Trash room, Specs tab, canon export — any of these currently show dead UI with no toast?
-
----
-
-## 11. Audit checklist (for the ratification session)
-
-Before this document ratifies, a single-session audit should:
-
-- [x] Grep `references.*\.join` → **1 genuine violation found and fixed.** `views.js` canon-detail view rendered references as `escHtml(canon.references.join(', '))` — the exact anti-pattern §7.1 names. The canon *card* already used `renderReferenceLink()`; the *detail* view was the sibling site the Canons polish missed. Fixed 2026-05-22. The 3 remaining `.join` matches are not violations: `forms.js` ×2 are form-input pre-fill (editing references as a comma-separated text field), `forms.js` ×1 is markdown-export string assembly — neither is a UI render site.
-- [~] Grep `style="` in `split/views.js` + `split/forms.js` → **115 occurrences** (views 89, forms 26). Spot-checks confirm the bulk are data-driven color waivers (§1.1) and layout one-offs (`margin:0`). A full match-by-match classification into {HR-2 waiver, layout one-off needing a token/class, genuine violation} is owed before ratification — sized as its own sub-audit.
-- [x] Grep `onclick=|onchange=` → **0 actual inline handlers** (HR-3 PASS). The single grep hit is canon rationale *text* in `seed.js` describing the rule itself, not a handler.
-- [ ] Walk every tab visually in both light and dark mode, with filters at default and with filters applied. Capture screenshots for the audit chronicle. **Owed — needs the Sovereign's device per §8.2.**
-- [ ] Confirm every card variant carries category color treatment where §3.4 specifies one. The Canons polish commit is the precedent — no entity-type card should ship without the left-border + filled chip treatment when a primary classification exists. **Owed — folds into the visual walk.**
-- [x] Run `npx playwright test` → **90 cases green.** The audit found 4 stale assertions in `order-view.spec.js` (companion count 18→19 post-CodeMike/canon-inst-005; cabinet vacancies 2→3 post-canon-inst-002; the Scribes Ladder row post-canon-proc-006; Orinth's profile chip stub→v0.4-draft). The app behaviour was correct in all four — the tests lagged ratified canon. Tests reconciled 2026-05-22.
-- [x] Read CLAUDE.md and confirm the design-principles reference is wired in → present in the Codex App §Open/pending block.
-
-Audit findings become amendments to the draft before ratification. Post-ratification, this document's discipline is the baseline for every new feature.
-
-### 11.1 Audit log — 2026-05-22 (Orinth, first-act per canon-proc-002)
-
-The mechanical sweep is complete; the visual layer is not. State for the Sovereign:
-
-- **Ready to ratify on:** the Hard-Rule code disciplines (HR-3, HR-C-06) — swept, one violation found and corrected, suite green.
-- **Owed before ratification:** (a) the full `style="` classification pass; (b) the visual tab walk, light + dark, which §8.2 names as un-automatable and device-bound.
-- **Recommended amendment (not yet applied):** §0–§11 are assembled out of numerical order in the file (the reading order runs 0,1,8,9,10,11,6,7,5,4,3,2). A pure-reorder pass is recommended once the substantive audit closes, kept as its own commit so the diff stays reviewable.
-- **Not build-gating yet:** per canon-proc-002 the Codex design-principles chip stays `draft` until ratification; new Codex-surface build remains gated on the chip turning green.
-
-### 11.2 Ratification close — 2026-05-22 (Sovereign-direct)
-
-The Sovereign closed the visual tab walk and ratified this document to **v1.0**. Consequences:
-
-- The Codex Volume's `design_principles.status` flips `draft → ratified`; the chip renders green and the canon-proc-002 build gate is lifted. todo-0041 resolved.
-- The two items §11.1 listed as owed — the full `style="` classification pass and the §0–§11 numerical reorder — carry forward as **post-ratification amendments**. Per canon-proc-002 §Corollaries a ratified doc may downgrade to `draft` when amendments are proposed and returns to `ratified` on their ratification; neither item blocks the v1.0 baseline.
-
----
-
-*This is a working draft. It guides the audit; the audit refines the draft; the refined draft is what we ratify. Per the Republic's discipline, we do not legislate ahead of evidence.*
-
-
-## 6. Forum Pattern (canon-0052 draft — summarized)
-
-The Forum Pattern is Codex's tab-layer architecture. Full draft at `docs/specs/CODEX_FORUM_PATTERN_DRAFT.md`. This section summarizes the binding structural rules; the full draft is the authority until this document is ratified.
-
-### 6.1 The five-layer structure
-
-Every tab renders these layers top-to-bottom, always in this order:
-
-1. **Header** — app title + search + settings. Sticky. No per-tab variation.
-2. **Sub-tab pill row** — when the tab serves multiple entity types (Journal, Canons). Same visual language as filter pills; selection persists per primary-tab in `localStorage` under `codex-subtab-<tab>`. "All" default leftmost **when sub-tabs can meaningfully coexist** (Journal); default = primary entity when they can't (Canons — different Rostra shapes per sub-tab).
-3. **Rostra** — health strip card (§5.4). Always present. An empty Rostra is a meaningful signal.
-4. **Notice Boards** — three pill rows (canon-0052 base): primary classification / secondary / sort. Canons is the documented exception with four rows (Scope / Category / Status / Sort — per §Canons). Rows may carry a row label when there are 3+ rows (HR-C-10).
-5. **Filtered count** — one italic line under the pills: "N entries" default, "Showing N of M" when filters narrow the view. This is the TODOs overhaul's resolution of the canon-0052 §Filtered Count open question — "Showing N of M" reads cleaner under active filters.
-6. **Stalls** — the content cards. Per-entity structure (§5.1).
-
-### 6.2 Per-tab application (current state)
-
-| Tab | Status | Sub-tabs | Primary classification | Secondary | Export |
-|---|---|---|---|---|---|
-| Library (Dashboard) | **pending** overhaul | — | Shelf | Cluster | — |
-| Journal | overhauled | All / Sessions / Decrees / Logs | Range | Volume | markdown chronicle (pending impl) |
-| Canons | overhauled | Canons / Schisms / Apocrypha | Category | Scope + Status | markdown ledger (pending impl) |
-| Lore | **reference implementation** | — | Category | Domain | markdown (shipped) |
-| TODOs | overhauled | — | Status (open/resolved) | Volume | none (per §Export Policy) |
-| Specs | **not yet built** | — | Category (impl-spec / design-spec / canon-draft / handoff) | Volume | markdown bundle (pending) |
-
-### 6.3 Sub-tab pattern
-
-Codified in §5.3. Selection persists per primary tab. Default sub-tab is:
-
-- `all` when sub-tabs carry compatible Rostra signals (Journal)
-- the primary entity's sub-tab when they don't (Canons defaults to `canons`)
-
-The choice is per-tab. Document the default in the tab's implementation comment.
-
-### 6.4 Three-row filter baseline
-
-Per canon-0052 §Notice Boards:
-
-1. Primary classification (Category / Type / Status — the strongest filter)
-2. Secondary classification (Domain / Volume / Scope)
-3. Sort
-
-Tabs with more categories (Canons has 4) extend the baseline. Tabs with no secondary (TODOs effectively merges them) collapse to 2 rows. The baseline is the shape; the deviation is documented.
-
-### 6.5 "All" leftmost discipline
-
-Every filter row starts with an "All" pill that clears the filter when clicked. Derived-from-data pills follow, sorted by count descending (per the Lore reference).
-
-Active-pill state: filled with `--accent`, white text, `--accent` border. Only one pill per row is active at a time — clicking another auto-clears the prior.
-
----
-
-## 7. Cross-Cutting Disciplines
-
-Rules that span every tab. Each one is either a HR-C (§1.2) or a canon-0052 discipline; this section gives the usage shape.
-
-### 7.1 Reference resolver (HR-C-06, canon-0052)
-
-Use `renderReferenceLink(id)` from `split/core.js` for every `references[]` rendering site. It returns either a clickable navigate button (resolved) or a plain `<span>` (unresolved).
-
-**Never** do `escHtml(refs.join(', '))` — this is the pattern the Canons overhaul shipped with and the Canons polish commit corrected. A grep for `references.join` is the audit:
+Ten steps. Token name encodes the pixel value:
 
 ```
-grep -rn 'references.*\.join' split/*.js
+--sp-2:  2px    (hairline — chip border, inline dot row gap)
+--sp-4:  4px    (tight — chip padding, meta-line gap)
+--sp-6:  6px    (chip row gap)
+--sp-8:  8px    (base — card internal padding, filter row spacing)
+--sp-10: 10px   (button vertical padding)
+--sp-12: 12px   (card padding-horizontal, Rostra stat spacing)
+--sp-16: 16px   (card horizontal, overlay padding)
+--sp-20: 20px   (section margin)
+--sp-24: 24px   (rare — overlay title margin)
+--sp-32: 32px   (largest — top-level section separators)
 ```
 
-Zero matches is the goal state.
+New spacing values require a new token, not a local override. If a design calls for 14px that has no token, either use `--sp-12` or `--sp-16` (pick the closer one) or add `--sp-14` to `:root` with a justification. Do not inline `padding: 14px`.
 
-### 7.2 Delete affordance + Trash (canon-0052 §Delete Affordance — not yet implemented)
+### 2.2 Font-size scale
 
-Planned pattern (defer to implementation commit):
+Relative to `--fs-base` (14px default, user-adjustable via Settings text-size slider low/med/high = 12/14/17px):
 
-- Trash icon **hidden by default** on cards
-- Long-press (touch) or hover + "…" menu (desktop) reveals destructive actions
-- Soft-delete only — sets `_deleted: true` + `_deleted_date`
-- Soft-deleted entities move to a Trash room in Settings
-- Trash auto-cleans entities where `_deleted_date > 30 days ago`, on app init
-- Restore + Permanent Delete actions in Trash
+```
+--fs-2xs: base − 4px  (chip text, filter pill, card meta)
+--fs-xs:  base − 2px  (secondary meta, footer)
+--fs-sm:  base        (body copy)
+--fs-md:  base + 2px
+--fs-lg:  base + 4px  (card titles, header app-title)
+--fs-xl:  base + 6px  (page titles)
+--fs-2xl: base + 10px (rare — settings row primary label)
+--fs-3xl: base + 16px (Rostra headline, wizard hero)
+```
 
-Scope: TODOs, journal sessions, decrees, canons, schisms, apocrypha, lore, companions, volumes, chapters, specs, companion logs.
+The slider mutation at `:root` level means every token-using element scales proportionally. Any pixel value written inline (`font-size: 14px`) breaks the slider.
 
-Current state: partial — canons/chapters already have soft-delete in the data layer, but the "hidden by default" UI affordance is inconsistent. Full pass pending.
+### 2.3 Border radii
 
-### 7.3 Export policy (canon-0052 §Export Policy — partial)
+```
+--r-sm:   4px    (small chips — mostly unused)
+--r-md:   8px    (buttons, inputs, inner cards)
+--r-lg:   12px   (standard card, Rostra card)
+--r-xl:   16px   (overlay)
+--r-2xl:  20px   (hero card — rare)
+--r-full: 9999px (pills, dots, circular avatars)
+```
 
-| Tab | Export | Filename | Status |
+### 2.4 Animation durations
+
+```
+--anim-overlay:    300ms  (overlay open/close, confirm dialog)
+--anim-toast:      200ms  (toast enter/exit)
+--anim-tab-switch: 150ms  (tab-active color transition)
+--anim-expand:     200ms  (Read more / collapsed section expand)
+```
+
+All transitions should reference one of these tokens. Never inline a duration.
+
+### 2.5 Font families
+
+```
+--ff-heading: 'Playfair Display', Georgia, 'Times New Roman', serif
+--ff-body:    'Work Sans', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif
+```
+
+Applied via `h1, h2, h3 { font-family: var(--ff-heading) }` and `body { font-family: var(--ff-body) }`. Italic Playfair Display is Codex's narrative-voice idiom (used for Lore body, Apocrypha narrative, voice subtitles).
+
+### 2.6 Touch target minimum
+
+44px minimum hit area for every tap target on mobile. Buttons and icon-buttons in `styles.css` hit this via `min-height: 44px` (or `min-height: 36px` for `cx-btn-sm` with explicit justification — the Sort pill row, filter pills, etc.). Sub-44px targets are HR-5-adjacent — they're not about tokens but about accessibility baseline.
+
+---
+
+## 3. Color System
+
+Codex's palette is library-themed: warm earth tones (aged paper, leather, bronze) in both modes. Six functional color tokens plus three text-weight tokens. All tokens defined per-theme in `[data-theme="light"]` and `[data-theme="dark"]` blocks.
+
+### 3.1 Palette (role-mapped)
+
+| Token | Role | Light | Dark |
 |---|---|---|---|
-| Lore | Markdown ledger | `codex-lore-YYYY-MM-DD.md` | shipped |
-| Canons | Markdown ledger (category/scope/status grouping) | `codex-canons-YYYY-MM-DD.md` | **pending** |
-| Journal | Markdown chronicle (sessions + decrees + logs as autobiography) | `codex-journal-YYYY-MM-DD.md` | **pending** |
-| Specs | Markdown bundle + coverage-gap report prepended | `codex-specs-YYYY-MM-DD.md` | **pending** |
-| TODOs | — | — | deliberately no export (operational, not institutional) |
+| `--accent` | Primary brand / gold / architectural | `#8B7355` | `#C4A87A` |
+| `--accent-light` | Secondary / muted / design-facing | `#B09A7E` | `#A08C6A` |
+| `--success` | Positive state / process complete / green | `#4A7C59` | `#6AAF7B` |
+| `--warning` | Caution / overdue / governance | `#C4883A` | `#E0A850` |
+| `--error` | Destructive / blocked / discipline | `#B84C4C` | `#D46A6A` |
+| `--focus-ring` | Accessibility focus outline | `#5C4A35` | `#D4BC94` |
+| `--text-primary` | Body text | `#2C2417` | `#E8E0D4` |
+| `--text-secondary` | Meta, labels, secondary | `#6B5E50` | `#B0A494` |
+| `--text-tertiary` | Tertiary, muted, disabled | `#9C8E7E` | `#7A6E60` |
 
-Export is a right-aligned action button in the Rostra. Filename convention: `codex-<tab>-YYYY-MM-DD.md`.
+Palette slots: six functional colors. This is **one fewer than SproutLab's six domain colors + accent** — Codex's six-slot system is tight for entity types with seven+ categories. When a category count exceeds six, either:
 
-### 7.4 Chapter status enum (canon-0052 — shipped)
+1. Collapse two semantically-close categories onto one color (and document the collision in the entity's mapping table below), or
+2. Add a new theme token — e.g. a proposed `--accent-secondary` for a distinct hue — documented in a Schism (canon process for rejected alternatives) or a canon amendment.
 
-Nine values; Dashboard active-count excludes `{complete, abandoned, paused, planned}`. Full mapping in §3.4.4. Unknown statuses surface as drift warnings in Settings via `detectChapterStatusDrift()`.
+**Current known collisions:** canon category `deploy` shares `--accent-light` with `design` (§3.4.2 below). Acceptable because `deploy` is rare (4 canons today) and semantically adjacent ("shipping concern" ↔ "design polish"). Revisit if `deploy` grows past ~10 entries.
 
-### 7.5 Records-are-Codex (HR-C-07)
+### 3.2 Color-mix recipe for filled chips
 
-Every institutional record lives in the Codex repo regardless of authoring Province:
+Filled category chips use the same recipe everywhere:
 
-- Canons, schisms, apocrypha, lore → `data/canons.json`
-- Session journal entries, decrees → `data/journal.json`
-- Volumes + chapters + TODOs → `data/volumes.json`
-- Companion profiles → `data/companions.json`
-- Companion logs → `docs/companion-logs/<repo>/companion-log-<id>-<author3>.md` (canon-0053)
-- Specs → `docs/specs/<slug>.md` + `data/specs.json` (pending, per canon-0052 §Specs)
-- Interaction artifacts → pending cc-017/cc-018 implementation
+```css
+background: color-mix(in srgb, var(--<color>) 15%, transparent);
+color: var(--<color>);
+font-weight: 600;
+```
 
-Provinces produce the work; Codex preserves the record.
+The 15% tint gives a legible filled appearance without overwhelming the card; the foreground color matches the tint hue at full saturation. Chip examples: `.cx-lore-cat-edicts-chip`, `.cx-canon-cat-architecture-chip`. When adding a new chip category class, follow this recipe exactly — do not invent per-category percentages.
 
+### 3.3 Card left-border accent
 
+Cards that carry a primary classification use a 3px colored left border in the category color:
+
+```css
+.cx-<entity>-card { border-left: 3px solid var(--accent); transition: border-color 0.2s }
+.cx-<entity>-card.cx-<entity>-cat-<category> { border-left-color: var(--<color>) }
+```
+
+Applied to Lore cards (reference), Apocrypha cards, and — as of the Canons polish commit — Canon cards. Schism cards and Companion Log cards should adopt the same pattern; open question §10.
+
+### 3.4 Category color mapping tables
+
+These tables are **the lockdown**. When a new category is added to data, this table must be updated in the same commit as the CSS class. Failing to update the table is how Canons shipped without colors for `governance` / `builder_discipline` / `philosophy` / `deploy`.
+
+#### 3.4.1 Lore categories (5, reference implementation)
+
+| Category | Color token | Voice |
+|---|---|---|
+| `edicts` | `--accent` | "We decree X because Y" |
+| `origins` | `--success` | "This is how it began" |
+| `cautionary_tales` | `--error` | "This is what went wrong" |
+| `doctrines` | `--warning` | "This is what always works" |
+| `chronicles` | `--accent-light` | "This is the context you need" |
+
+#### 3.4.2 Canon categories (7, collision at `deploy`/`design`)
+
+| Category | Color token | Rationale |
+|---|---|---|
+| `architecture` | `--accent` | Primary — structural law |
+| `design` | `--accent-light` | Soft complement to architecture |
+| `process` | `--success` | Reliable, repeatable |
+| `governance` | `--warning` | Authority + caution-weighted |
+| `builder_discipline` | `--error` | Discipline carries weight (accountability) |
+| `philosophy` | `--text-tertiary` | Reflective, quiet |
+| `deploy` | `--accent-light` | **Collision with `design`** — both "shipping concern"; revisit when `deploy` count > 10 |
+
+#### 3.4.3 Apocrypha statuses (3)
+
+| Status | Color class | Reused from |
+|---|---|---|
+| `fulfilled` | `cx-status-complete` (`--success`) | Chapter status mapping |
+| `foretold` | `cx-status-in-progress` (`--accent`) | Chapter status mapping |
+| `forgotten` | `cx-status-abandoned` (`--error`) | Chapter status mapping |
+
+Reuse is deliberate — fulfilled/foretold/forgotten map naturally to the success/in-progress/abandoned semantic.
+
+#### 3.4.4 Chapter statuses (9, canon-0052)
+
+| Status | Color token | Icon |
+|---|---|---|
+| `planned` | `--text-tertiary` | bookmark |
+| `spec-drafting` | `--accent` (0.85 opacity) | quill |
+| `spec-complete` | `--accent` | scroll |
+| `in-progress` | `--accent` | clock |
+| `review` | `--warning` | search |
+| `complete` | `--success` | check |
+| `paused` | `--warning` | clock |
+| `blocked` | `--error` (0.75 opacity) | lock |
+| `abandoned` | `--error` | alert |
+
+#### 3.4.5 Canon statuses (3, shipped data)
+
+| Status | Color |
+|---|---|
+| `active` | chip: `cx-status-active` — filled green |
+| `deprecated` | chip: `cx-status-deprecated` — muted |
+| `superseded` | chip: `cx-status-superseded` — muted |
+| `pending` (in data but not in original enum) | chip: neutral outline — **needs a color**, currently unstyled. Drift case. |
+
+#### 3.4.6 Shelf states (volumes)
+
+| State | Color | Token source |
+|---|---|---|
+| `active` | green | `--success` |
+| `paused` | amber | `--warning` |
+| `archived` | muted | `--text-tertiary` |
+| `abandoned` | red | `--error` |
+
+#### 3.4.7 Per-volume domain colors
+
+Each volume carries a `domain_color` (hex) in `data/volumes.json`. Used for:
+
+- Rostra per-volume dots (TODOs, Journal, Schisms)
+- Volume-identifying chips in per-volume views
+- Companion log per-repo dots (Logs sub-tab)
+
+Inline `style="background: <hex>"` on Rostra dots is a documented HR-2 waiver (§1.1) because the color is data-driven, not a class enum.
+
+### 3.5 Chip variants
+
+Two variants, not five:
+
+1. **Outline-neutral** (`cx-chip cx-chip-sm`): transparent background, border, secondary text color. Used for scope, volume, generic tags, stage chips.
+2. **Filled-tinted** (`cx-chip cx-chip-sm cx-<entity>-cat-<category>-chip`): `color-mix` 15% tint + matching text color + bold (600). Used **only** for the primary classification on a card.
+
+A card should carry **exactly one** filled chip. Multiple filled chips dilute the signal — the primary classification is the one loud thing; everything else is the outline supporting cast.
+
+### 3.6 Status chip color coupling
+
+Status colors (`.cx-status-active`, `.cx-status-complete`, `.cx-status-in-progress`, etc.) are shared across entity types — a chapter's `complete` and an apocryphon's `fulfilled` and a todo's `resolved` should all render with `--success`. Consistency across entity types reinforces that the color *means* something (positive terminal state) independent of entity.
+
+### 3.7 Focus ring
+
+`--focus-ring` is a dedicated token distinct from `--accent` so keyboard users can see focus even on already-accent elements. Applied via `outline: 2px solid var(--focus-ring); outline-offset: 2px` on focused inputs and buttons. Never remove focus outline — accessibility floor.
+
+---
+
+## 4. Icon System — `cx()`
+
+### 4.1 Signature
+
+```js
+cx(name) → string  // SVG HTML, or '<span class="cx-missing"></span>' for unknown names
+```
+
+Called at render time, result inserted via `innerHTML` (HR-7). Returns raw SVG markup, not a DOM node. Never pass `cx()`'s return value through `escHtml` — escHtml is for user-supplied strings crossing the render boundary; cx() output is trusted framework markup.
+
+### 4.2 Style — "Style C" locked
+
+All cx() icons share:
+
+- 24×24 viewBox
+- `stroke="currentColor"` (inherits container color)
+- `stroke-width="1.5"`
+- `stroke-linecap="round"`, `stroke-linejoin="round"`
+- `fill="none"` by default; `fill="currentColor"` with `opacity="0.15"` or `0.3` for filled variants
+
+This is Codex's locked icon idiom. Not negotiable without a design session — don't import icons from other icon sets with different strokes/weights. Consistency of stroke weight is load-bearing for visual coherence.
+
+### 4.3 Catalog (current)
+
+23 icons in `split/core.js`:
+
+| Name | Usage |
+|---|---|
+| `book` | Volume label in Library, default volume icon |
+| `bookmark` | Canon card default; planned chapter status |
+| `scroll` | Apocrypha; companion log cards; spec-complete chapter |
+| `quill` | Edit action; spec-drafting chapter status |
+| `shelf` | Shelf / library structural |
+| `search` | Search action; review chapter status |
+| `check` | Complete state; confirm |
+| `clock` | Duration, paused, in-progress |
+| `lock` | Blocked state, locked content |
+| `sun` | Light theme toggle |
+| `moon` | Dark theme toggle |
+| `plus` | Create / add |
+| `trash` | Delete (shown revealed when destructive affordance enabled) |
+| `arrow-left` | Back navigation |
+| `link` | External / reference link |
+| `alert` | Error, warning, abandoned |
+| `close` | Dismiss overlay / toast |
+| `download` | Export, save |
+| `info` | Informational |
+| `github` | GitHub connection UI |
+| `refresh` | Sync / reload |
+| `gear` | Settings |
+| `tome` | Lore entry default |
+
+### 4.4 Adding a new icon
+
+1. Design the SVG at 24×24 following Style C (stroke 1.5, `currentColor`, rounded caps/joins).
+2. Add to the `icons` map in `split/core.js` `cx()` function.
+3. Document in §4.3 table here in the same commit.
+4. If the icon carries semantic weight (e.g. `blocked` mapping to `lock`), update the appropriate mapping helper (§3.4) so the semantic is preserved end-to-end.
+
+### 4.5 Never
+
+- **Never emoji** (HR-1). Emojis render inconsistently across devices, can't be themed, don't inherit currentColor, break the stroke-weight system.
+- **Never text-as-icon fallback**. The middle-dot `·` placeholder in Aurelius's original CC scaffold (chronicled in canon-cc-018 lineage) is the counterexample — visually forgivable for a session but structurally a drift case. Every icon slot gets a real SVG glyph.
+- **Never call `cx()` in untrusted contexts**. The icon name itself must not be derived from user input — the function returns SVG markup destined for `innerHTML`, and a name collision risk is trivial; the trust boundary is that the name is a developer constant.
+
+---
 
 ## 5. Component Library
 
@@ -502,293 +556,255 @@ Every button class uses token-based spacing + sizes (HR-5). Every button meets t
 - Used when a filtered set returns zero results, or when the entity type has no entries yet.
 - Always actionable when possible — prefer "Create First Canon" over a bare "No canons yet."
 
+---
 
+## 6. Forum Pattern (canon-0052 draft — summarized)
 
-## 4. Icon System — `cx()`
+The Forum Pattern is Codex's tab-layer architecture. Full draft at `docs/specs/CODEX_FORUM_PATTERN_DRAFT.md`. This section summarizes the binding structural rules; the full draft is the authority until this document is ratified.
 
-### 4.1 Signature
+### 6.1 The five-layer structure
 
-```js
-cx(name) → string  // SVG HTML, or '<span class="cx-missing"></span>' for unknown names
+Every tab renders these layers top-to-bottom, always in this order:
+
+1. **Header** — app title + search + settings. Sticky. No per-tab variation.
+2. **Sub-tab pill row** — when the tab serves multiple entity types (Journal, Canons). Same visual language as filter pills; selection persists per primary-tab in `localStorage` under `codex-subtab-<tab>`. "All" default leftmost **when sub-tabs can meaningfully coexist** (Journal); default = primary entity when they can't (Canons — different Rostra shapes per sub-tab).
+3. **Rostra** — health strip card (§5.4). Always present. An empty Rostra is a meaningful signal.
+4. **Notice Boards** — three pill rows (canon-0052 base): primary classification / secondary / sort. Canons is the documented exception with four rows (Scope / Category / Status / Sort — per §Canons). Rows may carry a row label when there are 3+ rows (HR-C-10).
+5. **Filtered count** — one italic line under the pills: "N entries" default, "Showing N of M" when filters narrow the view. This is the TODOs overhaul's resolution of the canon-0052 §Filtered Count open question — "Showing N of M" reads cleaner under active filters.
+6. **Stalls** — the content cards. Per-entity structure (§5.1).
+
+### 6.2 Per-tab application (current state)
+
+| Tab | Status | Sub-tabs | Primary classification | Secondary | Export |
+|---|---|---|---|---|---|
+| Library (Dashboard) | **pending** overhaul | — | Shelf | Cluster | — |
+| Journal | overhauled | All / Sessions / Decrees / Logs | Range | Volume | markdown chronicle (pending impl) |
+| Canons | overhauled | Canons / Schisms / Apocrypha | Category | Scope + Status | markdown ledger (pending impl) |
+| Lore | **reference implementation** | — | Category | Domain | markdown (shipped) |
+| TODOs | overhauled | — | Status (open/resolved) | Volume | none (per §Export Policy) |
+| Specs | **not yet built** | — | Category (impl-spec / design-spec / canon-draft / handoff) | Volume | markdown bundle (pending) |
+
+### 6.3 Sub-tab pattern
+
+Codified in §5.3. Selection persists per primary tab. Default sub-tab is:
+
+- `all` when sub-tabs carry compatible Rostra signals (Journal)
+- the primary entity's sub-tab when they don't (Canons defaults to `canons`)
+
+The choice is per-tab. Document the default in the tab's implementation comment.
+
+### 6.4 Three-row filter baseline
+
+Per canon-0052 §Notice Boards:
+
+1. Primary classification (Category / Type / Status — the strongest filter)
+2. Secondary classification (Domain / Volume / Scope)
+3. Sort
+
+Tabs with more categories (Canons has 4) extend the baseline. Tabs with no secondary (TODOs effectively merges them) collapse to 2 rows. The baseline is the shape; the deviation is documented.
+
+### 6.5 "All" leftmost discipline
+
+Every filter row starts with an "All" pill that clears the filter when clicked. Derived-from-data pills follow, sorted by count descending (per the Lore reference).
+
+Active-pill state: filled with `--accent`, white text, `--accent` border. Only one pill per row is active at a time — clicking another auto-clears the prior.
+
+---
+
+## 7. Cross-Cutting Disciplines
+
+Rules that span every tab. Each one is either a HR-C (§1.2) or a canon-0052 discipline; this section gives the usage shape.
+
+### 7.1 Reference resolver (HR-C-06, canon-0052)
+
+Use `renderReferenceLink(id)` from `split/core.js` for every `references[]` rendering site. It returns either a clickable navigate button (resolved) or a plain `<span>` (unresolved).
+
+**Never** do `escHtml(refs.join(', '))` — this is the pattern the Canons overhaul shipped with and the Canons polish commit corrected. A grep for `references.join` is the audit:
+
+```
+grep -rn 'references.*\.join' split/*.js
 ```
 
-Called at render time, result inserted via `innerHTML` (HR-7). Returns raw SVG markup, not a DOM node. Never pass `cx()`'s return value through `escHtml` — escHtml is for user-supplied strings crossing the render boundary; cx() output is trusted framework markup.
+Zero matches is the goal state.
 
-### 4.2 Style — "Style C" locked
+### 7.2 Delete affordance + Trash (canon-0052 §Delete Affordance — not yet implemented)
 
-All cx() icons share:
+Planned pattern (defer to implementation commit):
 
-- 24×24 viewBox
-- `stroke="currentColor"` (inherits container color)
-- `stroke-width="1.5"`
-- `stroke-linecap="round"`, `stroke-linejoin="round"`
-- `fill="none"` by default; `fill="currentColor"` with `opacity="0.15"` or `0.3` for filled variants
+- Trash icon **hidden by default** on cards
+- Long-press (touch) or hover + "…" menu (desktop) reveals destructive actions
+- Soft-delete only — sets `_deleted: true` + `_deleted_date`
+- Soft-deleted entities move to a Trash room in Settings
+- Trash auto-cleans entities where `_deleted_date > 30 days ago`, on app init
+- Restore + Permanent Delete actions in Trash
 
-This is Codex's locked icon idiom. Not negotiable without a design session — don't import icons from other icon sets with different strokes/weights. Consistency of stroke weight is load-bearing for visual coherence.
+Scope: TODOs, journal sessions, decrees, canons, schisms, apocrypha, lore, companions, volumes, chapters, specs, companion logs.
 
-### 4.3 Catalog (current)
+Current state: partial — canons/chapters already have soft-delete in the data layer, but the "hidden by default" UI affordance is inconsistent. Full pass pending.
 
-23 icons in `split/core.js`:
+### 7.3 Export policy (canon-0052 §Export Policy — partial)
 
-| Name | Usage |
-|---|---|
-| `book` | Volume label in Library, default volume icon |
-| `bookmark` | Canon card default; planned chapter status |
-| `scroll` | Apocrypha; companion log cards; spec-complete chapter |
-| `quill` | Edit action; spec-drafting chapter status |
-| `shelf` | Shelf / library structural |
-| `search` | Search action; review chapter status |
-| `check` | Complete state; confirm |
-| `clock` | Duration, paused, in-progress |
-| `lock` | Blocked state, locked content |
-| `sun` | Light theme toggle |
-| `moon` | Dark theme toggle |
-| `plus` | Create / add |
-| `trash` | Delete (shown revealed when destructive affordance enabled) |
-| `arrow-left` | Back navigation |
-| `link` | External / reference link |
-| `alert` | Error, warning, abandoned |
-| `close` | Dismiss overlay / toast |
-| `download` | Export, save |
-| `info` | Informational |
-| `github` | GitHub connection UI |
-| `refresh` | Sync / reload |
-| `gear` | Settings |
-| `tome` | Lore entry default |
-
-### 4.4 Adding a new icon
-
-1. Design the SVG at 24×24 following Style C (stroke 1.5, `currentColor`, rounded caps/joins).
-2. Add to the `icons` map in `split/core.js` `cx()` function.
-3. Document in §4.3 table here in the same commit.
-4. If the icon carries semantic weight (e.g. `blocked` mapping to `lock`), update the appropriate mapping helper (§3.4) so the semantic is preserved end-to-end.
-
-### 4.5 Never
-
-- **Never emoji** (HR-1). Emojis render inconsistently across devices, can't be themed, don't inherit currentColor, break the stroke-weight system.
-- **Never text-as-icon fallback**. The middle-dot `·` placeholder in Aurelius's original CC scaffold (chronicled in canon-cc-018 lineage) is the counterexample — visually forgivable for a session but structurally a drift case. Every icon slot gets a real SVG glyph.
-- **Never call `cx()` in untrusted contexts**. The icon name itself must not be derived from user input — the function returns SVG markup destined for `innerHTML`, and a name collision risk is trivial; the trust boundary is that the name is a developer constant.
-
-
-
-## 3. Color System
-
-Codex's palette is library-themed: warm earth tones (aged paper, leather, bronze) in both modes. Six functional color tokens plus three text-weight tokens. All tokens defined per-theme in `[data-theme="light"]` and `[data-theme="dark"]` blocks.
-
-### 3.1 Palette (role-mapped)
-
-| Token | Role | Light | Dark |
+| Tab | Export | Filename | Status |
 |---|---|---|---|
-| `--accent` | Primary brand / gold / architectural | `#8B7355` | `#C4A87A` |
-| `--accent-light` | Secondary / muted / design-facing | `#B09A7E` | `#A08C6A` |
-| `--success` | Positive state / process complete / green | `#4A7C59` | `#6AAF7B` |
-| `--warning` | Caution / overdue / governance | `#C4883A` | `#E0A850` |
-| `--error` | Destructive / blocked / discipline | `#B84C4C` | `#D46A6A` |
-| `--focus-ring` | Accessibility focus outline | `#5C4A35` | `#D4BC94` |
-| `--text-primary` | Body text | `#2C2417` | `#E8E0D4` |
-| `--text-secondary` | Meta, labels, secondary | `#6B5E50` | `#B0A494` |
-| `--text-tertiary` | Tertiary, muted, disabled | `#9C8E7E` | `#7A6E60` |
+| Lore | Markdown ledger | `codex-lore-YYYY-MM-DD.md` | shipped |
+| Canons | Markdown ledger (category/scope/status grouping) | `codex-canons-YYYY-MM-DD.md` | **pending** |
+| Journal | Markdown chronicle (sessions + decrees + logs as autobiography) | `codex-journal-YYYY-MM-DD.md` | **pending** |
+| Specs | Markdown bundle + coverage-gap report prepended | `codex-specs-YYYY-MM-DD.md` | **pending** |
+| TODOs | — | — | deliberately no export (operational, not institutional) |
 
-Palette slots: six functional colors. This is **one fewer than SproutLab's six domain colors + accent** — Codex's six-slot system is tight for entity types with seven+ categories. When a category count exceeds six, either:
+Export is a right-aligned action button in the Rostra. Filename convention: `codex-<tab>-YYYY-MM-DD.md`.
 
-1. Collapse two semantically-close categories onto one color (and document the collision in the entity's mapping table below), or
-2. Add a new theme token — e.g. a proposed `--accent-secondary` for a distinct hue — documented in a Schism (canon process for rejected alternatives) or a canon amendment.
+### 7.4 Chapter status enum (canon-0052 — shipped)
 
-**Current known collisions:** canon category `deploy` shares `--accent-light` with `design` (§3.4.2 below). Acceptable because `deploy` is rare (4 canons today) and semantically adjacent ("shipping concern" ↔ "design polish"). Revisit if `deploy` grows past ~10 entries.
+Nine values; Dashboard active-count excludes `{complete, abandoned, paused, planned}`. Full mapping in §3.4.4. Unknown statuses surface as drift warnings in Settings via `detectChapterStatusDrift()`.
 
-### 3.2 Color-mix recipe for filled chips
+### 7.5 Records-are-Codex (HR-C-07)
 
-Filled category chips use the same recipe everywhere:
+Every institutional record lives in the Codex repo regardless of authoring Province:
 
-```css
-background: color-mix(in srgb, var(--<color>) 15%, transparent);
-color: var(--<color>);
-font-weight: 600;
-```
+- Canons, schisms, apocrypha, lore → `data/canons.json`
+- Session journal entries, decrees → `data/journal.json`
+- Volumes + chapters + TODOs → `data/volumes.json`
+- Companion profiles → `data/companions.json`
+- Companion logs → `docs/companion-logs/<repo>/companion-log-<id>-<author3>.md` (canon-0053)
+- Specs → `docs/specs/<slug>.md` + `data/specs.json` (pending, per canon-0052 §Specs)
+- Interaction artifacts → pending cc-017/cc-018 implementation
 
-The 15% tint gives a legible filled appearance without overwhelming the card; the foreground color matches the tint hue at full saturation. Chip examples: `.cx-lore-cat-edicts-chip`, `.cx-canon-cat-architecture-chip`. When adding a new chip category class, follow this recipe exactly — do not invent per-category percentages.
+Provinces produce the work; Codex preserves the record.
 
-### 3.3 Card left-border accent
+---
 
-Cards that carry a primary classification use a 3px colored left border in the category color:
+## 8. Deploy Chain Discipline
 
-```css
-.cx-<entity>-card { border-left: 3px solid var(--accent); transition: border-color 0.2s }
-.cx-<entity>-card.cx-<entity>-cat-<category> { border-left-color: var(--<color>) }
-```
+The end-to-end chain that gets a change from a keystroke onto the Sovereign's Android screen. Every step is required; skipping any step produces "legible uncertainty" (canon-gov-011's phrase).
 
-Applied to Lore cards (reference), Apocrypha cards, and — as of the Canons polish commit — Canon cards. Schism cards and Companion Log cards should adopt the same pattern; open question §10.
+### 8.1 The four required steps
 
-### 3.4 Category color mapping tables
+1. **Build.** `cd split && bash build.sh`. Extracts companion logs, concatenates the 6 JS modules + CSS into `codex.html`, copies to `index.html` + `root/index.html`. Direct output, never `>` redirect (HR-C-01 / canon-0033).
+2. **Commit.** Stage + commit on the session branch. Commit message includes canon references + rationale in full sentences. No auto-commit, no batched "changes" — each commit tells a story.
+3. **Merge to main.** Distinct Sovereign-authorized act (HR-C-03 / canon-gov-011). `git checkout main; git pull; git merge --no-ff <branch>; git push origin main`. Branch-only pushes are rehearsal, not deploy. The merge commit names what it merges and what lands on main.
+4. **User-side cache invalidation.** Pull-to-refresh on Android (HR-C-04 / canon-gov-012). Service Worker v7 doesn't cache HTML (canon-0034) but Chrome's webview cache on installed PWAs does. Deploy handoffs must include this step explicitly — "Merged to main. Pull-to-refresh on your device to see the change."
 
-These tables are **the lockdown**. When a new category is added to data, this table must be updated in the same commit as the CSS class. Failing to update the table is how Canons shipped without colors for `governance` / `builder_discipline` / `philosophy` / `deploy`.
+### 8.2 Verification discipline
 
-#### 3.4.1 Lore categories (5, reference implementation)
+**Test harness coverage** (steps 1–3): the Playwright suite at `tests/*.spec.js` validates the built `index.html` against primed localStorage. `npm run verify` runs before every merge to main. 26 cases as of this draft.
 
-| Category | Color token | Voice |
-|---|---|---|
-| `edicts` | `--accent` | "We decree X because Y" |
-| `origins` | `--success` | "This is how it began" |
-| `cautionary_tales` | `--error` | "This is what went wrong" |
-| `doctrines` | `--warning` | "This is what always works" |
-| `chronicles` | `--accent-light` | "This is the context you need" |
+**Visual verification** (step 4): requires the Sovereign's device. Automation stops at the browser cache; the final step is always a manual eye on the deployed app. This is why the handoff sentence matters — it names the un-automatable step.
 
-#### 3.4.2 Canon categories (7, collision at `deploy`/`design`)
+### 8.3 When a deploy reports "wrong"
 
-| Category | Color token | Rationale |
-|---|---|---|
-| `architecture` | `--accent` | Primary — structural law |
-| `design` | `--accent-light` | Soft complement to architecture |
-| `process` | `--success` | Reliable, repeatable |
-| `governance` | `--warning` | Authority + caution-weighted |
-| `builder_discipline` | `--error` | Discipline carries weight (accountability) |
-| `philosophy` | `--text-tertiary` | Reflective, quiet |
-| `deploy` | `--accent-light` | **Collision with `design`** — both "shipping concern"; revisit when `deploy` count > 10 |
+Before investigating a bug:
 
-#### 3.4.3 Apocrypha statuses (3)
+1. Confirm the commit is on main (not just on a session branch) — `git log origin/main --oneline`.
+2. Confirm the user performed the pull-to-refresh gesture. If not, the report is browser cache state, not deploy state.
+3. Only after both confirmations, treat the report as a deploy failure worth investigating.
 
-| Status | Color class | Reused from |
-|---|---|---|
-| `fulfilled` | `cx-status-complete` (`--success`) | Chapter status mapping |
-| `foretold` | `cx-status-in-progress` (`--accent`) | Chapter status mapping |
-| `forgotten` | `cx-status-abandoned` (`--error`) | Chapter status mapping |
+Canon-gov-012 §Corollaries names this discipline precisely. A session that investigates a ghost bug because a step was skipped has wasted the Sovereign's attention — Edict VIII territory.
 
-Reuse is deliberate — fulfilled/foretold/forgotten map naturally to the success/in-progress/abandoned semantic.
+---
 
-#### 3.4.4 Chapter statuses (9, canon-0052)
+## 9. Republic-wide Candidates
 
-| Status | Color token | Icon |
-|---|---|---|
-| `planned` | `--text-tertiary` | bookmark |
-| `spec-drafting` | `--accent` (0.85 opacity) | quill |
-| `spec-complete` | `--accent` | scroll |
-| `in-progress` | `--accent` | clock |
-| `review` | `--warning` | search |
-| `complete` | `--success` | check |
-| `paused` | `--warning` | clock |
-| `blocked` | `--error` (0.75 opacity) | lock |
-| `abandoned` | `--error` | alert |
+Sections of this document that should be promoted into `REPUBLIC_DESIGN_PRINCIPLES.md` — the universal doc other Provinces (SproutLab, Command Center, SEP) can import. The Codex-specific remainder stays here.
 
-#### 3.4.5 Canon statuses (3, shipped data)
+### 9.1 Promote (Republic-wide)
 
-| Status | Color |
-|---|---|
-| `active` | chip: `cx-status-active` — filled green |
-| `deprecated` | chip: `cx-status-deprecated` — muted |
-| `superseded` | chip: `cx-status-superseded` — muted |
-| `pending` (in data but not in original enum) | chip: neutral outline — **needs a color**, currently unstyled. Drift case. |
+- **§1.1 Hard Rules HR-1..HR-12** — already Republic-wide by virtue of canons 0001..0012; the Republic-wide doc centralizes their English-prose exposition. Codex's per-HR applicability notes stay here.
+- **§1.2 HR-C-03 (merge-is-deploy, canon-gov-011)** — applies to every Province with a deployed branch. The specific deploy branch name (`main`) is Province-local but the discipline is universal.
+- **§1.2 HR-C-04 (Android PWA cache handoff, canon-gov-012)** — every PWA-deployed Province needs this. iOS WebKit semantics documented per-Province.
+- **§1.2 HR-C-05 (Forum Pattern structure)** — the `Rostra → Notice Boards → Filtered Count → Stalls` pattern applies to any Province's record-browsing UI. SproutLab's SmartQA surfaces, Command Center's Senate/Treasury rooms, SEP Dashboard's grids — all candidates.
+- **§1.2 HR-C-06 (reference resolver)** — any Province with references between record types benefits.
+- **§1.2 HR-C-07 (records-are-Codex)** — already Republic-wide by rule; the Republic doc names the invariant formally.
+- **§1.2 HR-C-08 (derived-from-data filters)** — universal anti-enum-drift discipline.
+- **§2 Design Tokens** — the *structure* (spacing scale, size scale, radii, animation) is universal; the specific values (`--sp-12: 12px`) are per-Province. Document the scale structure in the Republic doc.
+- **§4.1–4.2, 4.5 Icon System discipline** — every Province uses a stroke-based SVG icon function (`cx()` for Codex, `zi()` for SproutLab, etc.). The style (1.5 stroke, 24×24, currentColor, rounded caps) is universal; the catalog is per-Province.
+- **§5.7 Button class discipline** — primary / secondary / danger / icon / link conventions apply Republic-wide with per-Province palette substitution.
+- **§7.5 Records-are-Codex** — the literal list of record types is partly Codex-specific, but the principle (Province produces work, Codex preserves record) is Republic-level.
+- **§8 Deploy Chain Discipline** — every PWA Province deploys this way.
 
-#### 3.4.6 Shelf states (volumes)
+### 9.2 Keep Codex-local
 
-| State | Color | Token source |
-|---|---|---|
-| `active` | green | `--success` |
-| `paused` | amber | `--warning` |
-| `archived` | muted | `--text-tertiary` |
-| `abandoned` | red | `--error` |
+- **§3 Color System** — palette is Codex's library theme. SproutLab has rose/indigo/peach/amber/sage/lavender for care domains; Command Center has Roman civic amber/terracotta; SEP has gray invoice palette + 9-domain dashboard. Each Province documents its own palette; the Republic doc names the *discipline* (role mapping, color-mix 15% recipe, left-border accent) but not the colors.
+- **§3.4 Category mapping tables** — entirely Codex-specific to Codex's entity types (canons, lore, apocrypha, chapters). Each Province has its own entities.
+- **§4.3 Icon Catalog** — Codex-specific (book/tome/scroll/quill/shelf). SproutLab's catalog is pediatric-themed.
+- **§5 Component Library** — per-Province CSS implementation. Republic doc specifies the contract ("a filled category chip is one chip variant"), not the class names.
+- **§6 Forum Pattern Per-Tab Application** — tables are Codex-specific. The Pattern itself (§6.1) promotes.
+- **§7.3 Export filename convention** — `codex-` prefix is obviously Codex-local; the structure (`<province>-<tab>-YYYY-MM-DD.md`) promotes.
+- **§7.4 Chapter status enum** — Codex-specific (chapters are a Codex entity type).
 
-#### 3.4.7 Per-volume domain colors
+### 9.3 Promotion workflow (proposed)
 
-Each volume carries a `domain_color` (hex) in `data/volumes.json`. Used for:
+1. This draft ratifies as Codex's design-principles constitution.
+2. Sections tagged "Republic-wide" above are extracted into a new `REPUBLIC_DESIGN_PRINCIPLES.md` (Codex-hosted per HR-C-07).
+3. The Republic doc is ratified at the Consul/Sovereign level — it's constitutionally-scoped content, peer to the Canons and Book III/IV governance layer, not a per-Province lockdown.
+4. Each other Province authors a per-Province design-principles doc that imports the Republic doc by reference and documents only the per-Province adaptations (palette, catalog, entity-specific category maps).
+5. When a new rule is drafted, authors decide at draft time whether it's Republic-wide or Province-specific and place it accordingly.
 
-- Rostra per-volume dots (TODOs, Journal, Schisms)
-- Volume-identifying chips in per-volume views
-- Companion log per-repo dots (Logs sub-tab)
+---
 
-Inline `style="background: <hex>"` on Rostra dots is a documented HR-2 waiver (§1.1) because the color is data-driven, not a class enum.
+## 10. Open Questions
 
-### 3.5 Chip variants
+1. **Palette expansion.** Canon categories (7) exceed the palette (6). `design` and `deploy` currently share `--accent-light`. Options: (a) add `--accent-secondary` (a distinct hue like teal or terracotta) as a theme token, (b) accept collision and document, (c) reshape canon categories so there are never more than 6 live values. Current choice: (b) for now, revisit if `deploy` grows.
+2. **Apocrypha card colors.** Apocrypha status chips use the chapter status classes (`cx-status-complete` etc.) but the card border is a uniform `--accent`. Should Apocrypha cards pick up per-status left borders like Lore and Canons?
+3. **Schism card colors.** Same question — schisms currently render as a uniform muted block. Per-Province color might work, since each schism belongs to a volume.
+4. **Companion Log card colors.** Should carry per-repo left border using each volume's `domain_color`?
+5. **Filter-count phrasing.** "N entries" vs "Showing N of M when filtered" — this doc picks the TODOs overhaul's form. Canon-0052 §Open Questions #1 lists both; should codify which one wins across all tabs.
+6. **Sub-tab "All" default.** Canon-0052 says "All" default leftmost. Canons overrode to `canons` because Rostra signals are incompatible. Is the override a one-off or a pattern? When does "All" make sense and when doesn't?
+7. **Rostra action-button placement.** Right-aligned in Rostra is the proposal; Lore's export button is right-aligned in the health strip today. Confirm as discipline across all tabs.
+8. **Touch target for filter pills.** 32px `min-height` is under the 44px floor. Acceptable in practice (pill density would be ugly at 44px) but documented as exemption. Is 32px still acceptable on the next iOS/Android update's accessibility audit?
+9. **Sub-tab scroll position.** Switching sub-tabs currently scrolls the view to top. Should sub-tab switches preserve per-sub-tab scroll position (like browser tabs) or always reset (like navigation)? Current behavior: always reset.
+10. **"Coming Soon" toast for non-shipped features.** HR-8 requires it; current state unaudited. Trash room, Specs tab, canon export — any of these currently show dead UI with no toast?
 
-Two variants, not five:
+---
 
-1. **Outline-neutral** (`cx-chip cx-chip-sm`): transparent background, border, secondary text color. Used for scope, volume, generic tags, stage chips.
-2. **Filled-tinted** (`cx-chip cx-chip-sm cx-<entity>-cat-<category>-chip`): `color-mix` 15% tint + matching text color + bold (600). Used **only** for the primary classification on a card.
+## 11. Audit checklist (for the ratification session)
 
-A card should carry **exactly one** filled chip. Multiple filled chips dilute the signal — the primary classification is the one loud thing; everything else is the outline supporting cast.
+Before this document ratifies, a single-session audit should:
 
-### 3.6 Status chip color coupling
+- [x] Grep `references.*\.join` → **1 genuine violation found and fixed.** `views.js` canon-detail view rendered references as `escHtml(canon.references.join(', '))` — the exact anti-pattern §7.1 names. The canon *card* already used `renderReferenceLink()`; the *detail* view was the sibling site the Canons polish missed. Fixed 2026-05-22. The 3 remaining `.join` matches are not violations: `forms.js` ×2 are form-input pre-fill (editing references as a comma-separated text field), `forms.js` ×1 is markdown-export string assembly — neither is a UI render site.
+- [x] Grep `style="` in `split/views.js` + `split/forms.js` → **119 occurrences** classified in §11.3 (todo-0064). 13 are data-driven HR-2 waivers (sanctioned by §1.1); ~104 are token-based/keyword static layout (HR-5-clean, HR-2 policy gap); 2 are genuine HR-5 magic-number concerns.
+- [x] Grep `onclick=|onchange=` → **0 actual inline handlers** (HR-3 PASS). The single grep hit is canon rationale *text* in `seed.js` describing the rule itself, not a handler.
+- [ ] Walk every tab visually in both light and dark mode, with filters at default and with filters applied. Capture screenshots for the audit chronicle. **Owed — needs the Sovereign's device per §8.2.**
+- [ ] Confirm every card variant carries category color treatment where §3.4 specifies one. The Canons polish commit is the precedent — no entity-type card should ship without the left-border + filled chip treatment when a primary classification exists. **Owed — folds into the visual walk.**
+- [x] Run `npx playwright test` → **90 cases green.** The audit found 4 stale assertions in `order-view.spec.js` (companion count 18→19 post-CodeMike/canon-inst-005; cabinet vacancies 2→3 post-canon-inst-002; the Scribes Ladder row post-canon-proc-006; Orinth's profile chip stub→v0.4-draft). The app behaviour was correct in all four — the tests lagged ratified canon. Tests reconciled 2026-05-22.
+- [x] Read CLAUDE.md and confirm the design-principles reference is wired in → present in the Codex App §Open/pending block.
 
-Status colors (`.cx-status-active`, `.cx-status-complete`, `.cx-status-in-progress`, etc.) are shared across entity types — a chapter's `complete` and an apocryphon's `fulfilled` and a todo's `resolved` should all render with `--success`. Consistency across entity types reinforces that the color *means* something (positive terminal state) independent of entity.
+Audit findings become amendments to the draft before ratification. Post-ratification, this document's discipline is the baseline for every new feature.
 
-### 3.7 Focus ring
+### 11.1 Audit log — 2026-05-22 (Orinth, first-act per canon-proc-002)
 
-`--focus-ring` is a dedicated token distinct from `--accent` so keyboard users can see focus even on already-accent elements. Applied via `outline: 2px solid var(--focus-ring); outline-offset: 2px` on focused inputs and buttons. Never remove focus outline — accessibility floor.
+The mechanical sweep is complete; the visual layer is not. State for the Sovereign:
 
+- **Ready to ratify on:** the Hard-Rule code disciplines (HR-3, HR-C-06) — swept, one violation found and corrected, suite green.
+- **Owed before ratification:** (a) the full `style="` classification pass; (b) the visual tab walk, light + dark, which §8.2 names as un-automatable and device-bound.
+- **Recommended amendment (not yet applied):** §0–§11 are assembled out of numerical order in the file (the reading order runs 0,1,8,9,10,11,6,7,5,4,3,2). A pure-reorder pass is recommended once the substantive audit closes, kept as its own commit so the diff stays reviewable.
+- **Not build-gating yet:** per canon-proc-002 the Codex design-principles chip stays `draft` until ratification; new Codex-surface build remains gated on the chip turning green.
 
+### 11.2 Ratification close — 2026-05-22 (Sovereign-direct)
 
-## 2. Design Tokens
+The Sovereign closed the visual tab walk and ratified this document to **v1.0**. Consequences:
 
-All spacing, font sizes, radii, and animation durations live as CSS custom properties on `:root` in `split/styles.css`. HR-5 prohibits magic numbers — no rule in this section is aspirational.
+- The Codex Volume's `design_principles.status` flips `draft → ratified`; the chip renders green and the canon-proc-002 build gate is lifted. todo-0041 resolved.
+- The two items §11.1 listed as owed — the full `style="` classification pass and the §0–§11 numerical reorder — carry forward as **post-ratification amendments**. Per canon-proc-002 §Corollaries a ratified doc may downgrade to `draft` when amendments are proposed and returns to `ratified` on their ratification; neither item blocks the v1.0 baseline.
 
-### 2.1 Spacing scale
+### 11.3 `style=` classification pass — 2026-05-22 (todo-0064)
 
-Ten steps. Token name encodes the pixel value:
+The `style="` sweep §11.1 deferred. 119 occurrences across `views.js` and `forms.js`, classified into three buckets:
 
-```
---sp-2:  2px    (hairline — chip border, inline dot row gap)
---sp-4:  4px    (tight — chip padding, meta-line gap)
---sp-6:  6px    (chip row gap)
---sp-8:  8px    (base — card internal padding, filter row spacing)
---sp-10: 10px   (button vertical padding)
---sp-12: 12px   (card padding-horizontal, Rostra stat spacing)
---sp-16: 16px   (card horizontal, overlay padding)
---sp-20: 20px   (section margin)
---sp-24: 24px   (rare — overlay title margin)
---sp-32: 32px   (largest — top-level section separators)
-```
+**A — Data-driven color / position (13). HR-2 waivers per §1.1 — sanctioned, no action.**
+Rostra dots and the `cx-vol-chip` carry a per-entity colour the data supplies (`domain_color`, status colour); the `cx-vol-accent` carries `domain_color`; the text-size slider fill/thumb carry a computed position. Inline `style=` is the documented HR-2 exception (§1.1, §3.4.7) because the value is data, not a class enum.
 
-New spacing values require a new token, not a local override. If a design calls for 14px that has no token, either use `--sp-12` or `--sp-16` (pick the closer one) or add `--sp-14` to `:root` with a justification. Do not inline `padding: 14px`.
+**B — Token-based / keyword-only static layout (≈104). HR-5-clean; HR-2 policy gap.**
+The bulk — `margin-top:var(--sp-12)`, `display:flex;gap:var(--sp-8)`, `flex:1`, `margin:0`, `text-align:right`, and similar. None carries a magic number: every metric is a `--sp-*` / `--fs-*` token or a CSS keyword, so HR-5 is satisfied and the theme / text-size slider is unaffected. But HR-2 as written ("No inline styles") admits only the data-driven-colour exception, so under a strict reading all ≈104 read as deviations.
 
-### 2.2 Font-size scale
+*Finding.* Forbidding `style="margin-top:var(--sp-12)"` buys little — it is already token-disciplined and theme-safe — while a 104-site extraction into single-use CSS classes is high-churn and visual-regression-prone. *Recommendation:* amend HR-2 to name a **second documented waiver class — token-based / keyword-only layout inline styles are permitted**; only magic-number and raw-colour inline styles remain violations. This sanctions the ≈104 with no code churn. The amendment runs the canon-proc-002 path; the strict-HR-2 alternative (the extraction refactor) stays available if the Sovereign prefers it.
 
-Relative to `--fs-base` (14px default, user-adjustable via Settings text-size slider low/med/high = 12/14/17px):
+**C — Genuine HR-5 magic-number concerns (2). Fix owed.**
+- `views.js:1142` — `style="margin:0;line-height:1.6"` on the canon-rationale card body. `line-height:1.6` is a magic number; §2 defines no line-height token. Fix: add a `--lh-*` token or a `.cx-prose-body` class.
+- `views.js:2300` — `cx-vol-accent` carries `width:4px;height:28px;border-radius:2px` inline alongside its data-driven background. The three dimensions belong in the `.cx-vol-accent` CSS class. Note: the sibling `cx-vol-accent` at `views.js:2192` has no inline dimensions — confirm whether the two are meant to be the same size before consolidating.
 
-```
---fs-2xs: base − 4px  (chip text, filter pill, card meta)
---fs-xs:  base − 2px  (secondary meta, footer)
---fs-sm:  base        (body copy)
---fs-md:  base + 2px
---fs-lg:  base + 4px  (card titles, header app-title)
---fs-xl:  base + 6px  (page titles)
---fs-2xl: base + 10px (rare — settings row primary label)
---fs-3xl: base + 16px (Rostra headline, wizard hero)
-```
+Bucket A is closed. Bucket B is a Sovereign policy decision (recommended HR-2 amendment above). Bucket C is a small targeted fix. todo-0064 (the classification pass) is complete with this record; the HR-2 amendment and the Bucket-C fix are its successors.
 
-The slider mutation at `:root` level means every token-using element scales proportionally. Any pixel value written inline (`font-size: 14px`) breaks the slider.
+---
 
-### 2.3 Border radii
-
-```
---r-sm:   4px    (small chips — mostly unused)
---r-md:   8px    (buttons, inputs, inner cards)
---r-lg:   12px   (standard card, Rostra card)
---r-xl:   16px   (overlay)
---r-2xl:  20px   (hero card — rare)
---r-full: 9999px (pills, dots, circular avatars)
-```
-
-### 2.4 Animation durations
-
-```
---anim-overlay:    300ms  (overlay open/close, confirm dialog)
---anim-toast:      200ms  (toast enter/exit)
---anim-tab-switch: 150ms  (tab-active color transition)
---anim-expand:     200ms  (Read more / collapsed section expand)
-```
-
-All transitions should reference one of these tokens. Never inline a duration.
-
-### 2.5 Font families
-
-```
---ff-heading: 'Playfair Display', Georgia, 'Times New Roman', serif
---ff-body:    'Work Sans', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif
-```
-
-Applied via `h1, h2, h3 { font-family: var(--ff-heading) }` and `body { font-family: var(--ff-body) }`. Italic Playfair Display is Codex's narrative-voice idiom (used for Lore body, Apocrypha narrative, voice subtitles).
-
-### 2.6 Touch target minimum
-
-44px minimum hit area for every tap target on mobile. Buttons and icon-buttons in `styles.css` hit this via `min-height: 44px` (or `min-height: 36px` for `cx-btn-sm` with explicit justification — the Sort pill row, filter pills, etc.). Sub-44px targets are HR-5-adjacent — they're not about tokens but about accessibility baseline.
-
-
+*This is a working draft. It guides the audit; the audit refines the draft; the refined draft is what we ratify. Per the Republic's discipline, we do not legislate ahead of evidence.*
