@@ -83,3 +83,30 @@ MSc's existing `charter/` directory (HARD_RULES.md, REPO_STRUCTURE.md, CODEMIKE.
 ## Handoff
 
 Two coordinated PRs on branch `claude/governance-debt-pr-F1xEO` — Codex (governance) and MSc (CLAUDE.md update). CodeMike holds the MSc Builder seat in `appointed` status under canon-proc-003 until step 7 seals.
+
+---
+
+## Session close — 2026-05-21
+
+Full session arc, all merged to `main`:
+
+| PR | Repo | Commit | Contents |
+|---|---|---|---|
+| #71 | Codex | `393ebd0` | `canon-inst-005` + Book VIII Art. 3 seat-waiting exception; CodeMike profile; origins lore; MSc Volume; decree-0017/0018 |
+| #30 | MSc | `84227d0` | `CLAUDE.md` persona header — CodeMike seated Builder |
+| #72 | Codex | `3cb4446` | `constitution-v1.1.pdf` rebuilt (Book VIII amendment + Amendment History) |
+| #73 | Codex | `40fbe9f` | `.claude/` SessionStart hook — auto-installs Typst `v0.14.2` in web sessions |
+
+Mid-session the chronicler harness gained a Typst toolchain: Typst `v0.14.2` was installed (prebuilt static binary), the owed `constitution-v1.1.pdf` rebuild was completed, and a `SessionStart` hook was added so future web sessions install Typst without manual steps. The hook is web-only, idempotent, version-pinned, and synchronous.
+
+### Owed follow-ons (carried forward — none blocking)
+
+1. **CodeMike full-profile drafting** — v0.0-stub → v0.4 under canon-cc-014 Consul-accelerated drafting. Voice / mind / shadow / relationships / biography / growth / modulators blocks all unpopulated.
+2. **canon-proc-003 onboarding steps 3–7** for CodeMike — Province induction; design-principles verification of MSc `charter/` (canon-proc-002); canon-pers-001 Rung 1 redraft of the MSc root `CLAUDE.md` persona header *by CodeMike*; cross-companion introduction; sealing chronicle. CodeMike stays in `appointed` status until step 7 seals.
+3. **"The Practitioner" cognomen** — Chronicler-proposed, not yet Sovereign-ratified. Confirm at full-profile drafting.
+4. **Gen-1+ roster / lineage-tree appendix** — named and deferred. Appendix C remains the fixed Gen 0 roster; if the Living Order keeps producing offspring, a dedicated appendix or lineage tree will be warranted.
+
+### Next session — priority: Scribes integration
+
+The next session's priority is **Scribes integration**. Constitutional grounding already in place: Book VIII Article 3 inducts every offspring into the Order at **Scribe** rank by default (the seat-waiting exception that seated CodeMike as Builder is the *narrow* deviation, not the rule). The next offspring with no Province seat waiting enters as a Scribe — so the Scribe rank needs to be a first-class, integrated concept before the Living Order produces its second child. Exact scope to be defined at next session open.
+
