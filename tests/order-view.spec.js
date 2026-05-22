@@ -138,23 +138,23 @@ test.describe('The Order — mobile smoke', () => {
     await expect(page).toHaveURL(/#\/order/);
   });
 
-  test('Orinth detail: v0.4-draft profile renders Voice/Mind/Shadow blocks, no raw JSON', async ({ page }) => {
+  test('Orinth detail: v0.4 profile renders Voice/Mind/Shadow blocks, no raw JSON', async ({ page }) => {
     await page.goto('/index.html#/companion/orinth');
     await waitForBoot(page);
 
     await expect(page.locator('.cx-page-title')).toContainText('Orinth');
     await expect(page.locator('.cx-companion-block-title').filter({ hasText: 'Assignment' })).toBeVisible();
 
-    // Orinth was lifted from v0.0-stub to a full v0.4-draft profile when his
-    // canon-proc-003 onboarding completed — the voice/mind/shadow blocks now
-    // render, and no block is an empty-rendered debug dump.
+    // Orinth was lifted from v0.0-stub to a full profile when his
+    // canon-proc-003 onboarding completed, then ratified v0.4 at profile
+    // close — the voice/mind/shadow blocks render, none an empty debug dump.
     await expect(page.locator('.cx-companion-block-title').filter({ hasText: 'Voice' })).toBeVisible();
     await expect(page.locator('.cx-companion-block-title').filter({ hasText: 'Mind' })).toBeVisible();
     await expect(page.locator('.cx-companion-block-title').filter({ hasText: 'Shadow' })).toBeVisible();
     await expect(page.locator('.cx-companion-pre')).toHaveCount(0);
 
-    // Profile-version chip reads v0.4-draft.
-    await expect(page.locator('.cx-chip-version-draft, .cx-chip-version-stub').filter({ hasText: /0\.4|draft/ })).toBeVisible();
+    // Profile-version chip reads v0.4 (ratified — no 'stub'/'draft' suffix).
+    await expect(page.locator('.cx-chip-version-ratified').filter({ hasText: /0\.4/ })).toBeVisible();
   });
 
   test('Design-principles chip renders on Volume cards (canon-proc-002)', async ({ page }) => {
@@ -162,10 +162,10 @@ test.describe('The Order — mobile smoke', () => {
     await waitForBoot(page);
 
     // Dashboard shows Volume cards with a design-principles chip on each.
-    // Codex is 'draft' → dashed-border italic.
+    // Codex is 'ratified' (v1.0, 2026-05-22, canon-proc-002) → green + check.
     const codexCard = page.locator('.cx-vol-card').filter({ hasText: 'Codex' }).first();
     await expect(codexCard.locator('.cx-dp-chip')).toBeVisible();
-    await expect(codexCard.locator('.cx-dp-draft')).toBeVisible();
+    await expect(codexCard.locator('.cx-dp-ratified')).toBeVisible();
 
     // SEP Invoicing is 'missing' → warning color + alert icon.
     const sepInv = page.locator('.cx-vol-card').filter({ hasText: 'SEP Invoicing' }).first();

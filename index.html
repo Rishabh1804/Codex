@@ -70,6 +70,7 @@
   --fs-base:14px;
   --fs-2xs:calc(var(--fs-base) - 4px);--fs-xs:calc(var(--fs-base) - 2px);--fs-sm:var(--fs-base);--fs-md:calc(var(--fs-base) + 2px);
   --fs-lg:calc(var(--fs-base) + 4px);--fs-xl:calc(var(--fs-base) + 6px);--fs-2xl:calc(var(--fs-base) + 10px);--fs-3xl:calc(var(--fs-base) + 16px);
+  --lh-snug:1.5;--lh-relaxed:1.6;
   --r-sm:4px;--r-md:8px;--r-lg:12px;--r-xl:16px;--r-2xl:20px;--r-full:9999px;
   --anim-overlay:300ms;--anim-toast:200ms;--anim-tab-switch:150ms;--anim-expand:200ms;
   --ff-heading:'Playfair Display',Georgia,'Times New Roman',serif;
@@ -167,6 +168,7 @@ a{color:inherit;text-decoration:none}
 
 /* Volume card accent bar */
 .cx-vol-accent{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch}
+.cx-vol-accent-header{height:28px}
 .cx-vol-card{display:flex;gap:var(--sp-12)}
 .cx-vol-card-content{flex:1;min-width:0}
 
@@ -1218,6 +1220,73 @@ body {
   .cx-tab-btn .cx-tab-label{font-size:10px}
   #tabBar{padding:0 2px}
 }
+
+/* --- Semantic layout + message classes ---
+   HR-2 strict: these replace token-based inline styles extracted from
+   views.js / forms.js. Each names the role of the element it dresses. */
+.cx-btn-grow{flex:1}
+.cx-form-stack{display:flex;flex-direction:column;gap:var(--sp-8)}
+.cx-field-row{display:flex;gap:var(--sp-8)}
+.cx-overlay-intro{color:var(--text-secondary);margin-bottom:var(--sp-12)}
+.cx-snippet-intro{font-size:var(--fs-xs);color:var(--text-secondary);margin-bottom:var(--sp-12)}
+.cx-hidden{display:none}
+.cx-file-choose-btn{padding:var(--sp-16);margin-bottom:var(--sp-12)}
+.cx-form-note{color:var(--text-secondary);font-size:var(--fs-sm)}
+.cx-msg-error{color:var(--error)}
+.cx-msg-success{color:var(--success)}
+.cx-msg-detail{color:var(--text-tertiary)}
+.cx-snippet-error{display:block;margin-top:var(--sp-8)}
+.cx-snippet-preview{margin-top:var(--sp-12)}
+
+/* views.js extraction (batch 2). Header/layout rows, detail-view
+   typography, card-body + meta + chip-row spacing modifiers, and the
+   shared colour-message classes. Values carried over verbatim. */
+.cx-msg-warning{color:var(--warning)}
+.cx-card-prose{margin:0;line-height:var(--lh-relaxed)}
+.cx-card-body-flush{margin:0}
+.cx-card-body-sub{font-size:var(--fs-xs);color:var(--text-secondary)}
+.cx-schism-chosen{font-size:var(--fs-xs)}
+.cx-card-body-phase{color:var(--accent);font-size:var(--fs-xs)}
+.cx-meta-gap{margin-top:var(--sp-4)}
+.cx-meta-gap-lg{margin-top:var(--sp-8)}
+.cx-meta-gap-xl{margin-top:var(--sp-16)}
+.cx-meta-gap-below{margin-bottom:var(--sp-8)}
+.cx-chip-row-tight{margin:var(--sp-4) 0}
+.cx-chip-row-detail{margin-bottom:var(--sp-16)}
+.cx-chip-row-gap{margin-bottom:var(--sp-12)}
+.cx-hint-gap{margin-bottom:var(--sp-12)}
+.cx-hint-gap-lg{margin-bottom:var(--sp-16)}
+.cx-subview-header{display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)}
+.cx-setting-head{display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)}
+.cx-detail-header{display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-8)}
+.cx-toolbar-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-12)}
+.cx-split-row{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-8)}
+.cx-icon-actions{display:flex;gap:var(--sp-4);flex-shrink:0}
+.cx-btn-row{display:flex;gap:var(--sp-8);margin-top:var(--sp-12)}
+.cx-page-title-flush{margin:0}
+.cx-detail-desc{color:var(--text-secondary);margin-bottom:var(--sp-12);line-height:var(--lh-relaxed)}
+.cx-detail-phase{color:var(--accent);font-size:var(--fs-xs);font-weight:500;margin-bottom:var(--sp-12)}
+.cx-empty-note{color:var(--text-tertiary);font-size:var(--fs-xs);margin-bottom:var(--sp-16)}
+.cx-chapter-summary-text{color:var(--text-secondary);font-size:var(--fs-sm);line-height:var(--lh-relaxed);margin-bottom:var(--sp-16)}
+.cx-spec-url-row{margin-bottom:var(--sp-16)}
+.cx-mini-title{font-size:var(--fs-sm);font-weight:500}
+.cx-mini-sub{font-size:var(--fs-xs);color:var(--text-tertiary)}
+.cx-mini-summary{font-size:var(--fs-xs);color:var(--text-secondary);margin-top:var(--sp-4);line-height:var(--lh-snug)}
+.cx-preview-aa{font-family:var(--ff-heading);font-size:var(--fs-lg)}
+.cx-preview-sample{font-size:var(--fs-sm)}
+.cx-icon-flip{display:inline-block;transform:scaleX(-1)}
+.cx-tag-inline-gap{margin-bottom:var(--sp-12)}
+.cx-chapter-nav-btn-next{text-align:right}
+.cx-carryover-card{margin-top:var(--sp-12)}
+.cx-todo-item-note{font-style:italic}
+.cx-heatmap-cell-filler{visibility:hidden}
+.cx-callout-warning{padding:var(--sp-16);border-left:3px solid var(--warning)}
+.cx-card-pad{padding:var(--sp-16)}
+.cx-sync-close-btn{min-width:28px;min-height:28px;padding:var(--sp-4)}
+.cx-sync-force-btn{margin-top:var(--sp-8)}
+.cx-linked-row{margin-top:var(--sp-4)}
+.cx-drift-list{margin:var(--sp-8) 0 0 var(--sp-16);padding:0;font-size:var(--fs-sm);color:var(--text-secondary)}
+.cx-clickable{cursor:pointer}
 </style>
 <script>
 /* CODEX — Data Layer (Phase 5: Chapter Detail + Apocrypha; Phase 1 Lore) */
@@ -3439,7 +3508,7 @@ function renderCompanionLogCard(log) {
   html += '<div class="cx-card-header">';
   html += '<div class="cx-card-title">' + cx('scroll') + ' ' + escHtml(log.session_title || log.session_id || '') + '</div>';
   html += '</div>';
-  html += '<div class="cx-chip-row" style="margin:var(--sp-4) 0">';
+  html += '<div class="cx-chip-row cx-chip-row-tight">';
   if (log.repo) html += '<span class="cx-chip cx-chip-sm">' + escHtml(lookupVolumeName(log.repo)) + '</span>';
   if (log.session_type) html += '<span class="cx-chip cx-chip-sm">' + escHtml(log.session_type) + '</span>';
   if (log.same_agent_drift_acknowledged) html += '<span class="cx-chip cx-chip-sm cx-overdue-chip">drift ack</span>';
@@ -3449,11 +3518,11 @@ function renderCompanionLogCard(log) {
     html += '<div class="cx-card-meta">' + escHtml(log.authors.join(' \u00B7 ')) + '</div>';
   }
   if (log.stage) {
-    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">' + escHtml(log.stage) + '</div>';
+    html += '<div class="cx-card-meta cx-meta-gap">' + escHtml(log.stage) + '</div>';
   }
   if (log.path) {
     var url = 'https://github.com/Rishabh1804/Codex/blob/main/' + escAttr(log.path);
-    html += '<div class="cx-card-meta" style="margin-top:var(--sp-8)"><a href="' + url + '" target="_blank" rel="noopener" class="cx-link-btn">' + escHtml(log.session_id || 'view log') + ' \u2192</a></div>';
+    html += '<div class="cx-card-meta cx-meta-gap-lg"><a href="' + url + '" target="_blank" rel="noopener" class="cx-link-btn">' + escHtml(log.session_id || 'view log') + ' \u2192</a></div>';
   }
   html += '</div>';
   return html;
@@ -3748,9 +3817,9 @@ function renderApocryphaSubTab() {
   apocryphon.forEach(function(a) {
     var statusCls = a.status === 'fulfilled' ? 'cx-status-complete' : a.status === 'foretold' ? 'cx-status-in-progress' : 'cx-status-abandoned';
     html += '<div class="cx-apocrypha-card">';
-    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-8)">';
+    html += '<div class="cx-split-row">';
     html += '<div class="cx-apocrypha-title">' + escHtml(a.title) + '</div>';
-    html += '<div style="display:flex;gap:var(--sp-4);flex-shrink:0">';
+    html += '<div class="cx-icon-actions">';
     html += '<button class="cx-btn-icon" data-action="editApocryphon" data-id="' + escAttr(a.id) + '" title="Edit">' + cx('quill') + '</button>';
     html += '<button class="cx-btn-icon" data-action="deleteApocryphonAction" data-id="' + escAttr(a.id) + '" title="Delete">' + cx('trash') + '</button>';
     html += '</div></div>';
@@ -3761,7 +3830,7 @@ function renderApocryphaSubTab() {
       a.volumes.forEach(function(vid) { ameta.push(lookupVolumeName(vid)); });
     }
     if (a.date) ameta.push(formatAbsoluteDate(a.date));
-    if (ameta.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-8)">' + escHtml(ameta.join(' \u00B7 ')) + '</div>';
+    if (ameta.length > 0) html += '<div class="cx-card-meta cx-meta-gap-lg">' + escHtml(ameta.join(' \u00B7 ')) + '</div>';
     html += '</div>';
   });
   return html;
@@ -3830,7 +3899,7 @@ function renderCanonCard(canon) {
   // §Cross-Cutting Discipline. Each ref becomes a clickable navigation
   // button; unresolved IDs fall back to plain text.
   if (canon.references && canon.references.length > 0) {
-    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">Refs: ';
+    html += '<div class="cx-card-meta cx-meta-gap">Refs: ';
     canon.references.forEach(function(refId, idx) {
       if (idx > 0) html += ', ';
       html += renderReferenceLink(refId);
@@ -3849,9 +3918,9 @@ function renderCanonCard(canon) {
 function renderSchismCard(rej) {
   var html = '<div class="cx-card cx-schism-card">';
   html += '<div class="cx-card-header"><div class="cx-card-meta cx-schism-title">Rejected: ' + escHtml(rej.rejected) + '</div></div>';
-  html += '<div class="cx-card-body" style="font-size:var(--fs-xs)"><span style="color:var(--success)">Chosen:</span> ' + escHtml(rej.chosen) + '</div>';
+  html += '<div class="cx-card-body cx-schism-chosen"><span class="cx-msg-success">Chosen:</span> ' + escHtml(rej.chosen) + '</div>';
   if (rej.reason) {
-    html += '<div class="cx-card-body" style="font-size:var(--fs-xs);color:var(--text-secondary)">' + renderTruncated(rej.reason, 120, rej.id, 'reason') + '</div>';
+    html += '<div class="cx-card-body cx-card-body-sub">' + renderTruncated(rej.reason, 120, rej.id, 'reason') + '</div>';
   }
 
   // Context + volumes + date
@@ -3866,12 +3935,12 @@ function renderSchismCard(rej) {
   }
   if (rej.date) meta.push(formatAbsoluteDate(rej.date));
   if (meta.length > 0) {
-    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
+    html += '<div class="cx-card-meta cx-meta-gap">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
   }
 
   // Linked canon
   if (rej.canon_id) {
-    html += '<div style="margin-top:var(--sp-4)"><button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(rej.canon_id) + '">Canon: ' + escHtml(rej.canon_id) + '</button></div>';
+    html += '<div class="cx-linked-row"><button class="cx-link-btn" data-action="goToCanon" data-id="' + escAttr(rej.canon_id) + '">Canon: ' + escHtml(rej.canon_id) + '</button></div>';
   }
 
   html += '</div>';
@@ -3897,7 +3966,7 @@ function renderCanonDetail(route) {
   html += '<h1 class="cx-page-title">' + cx('bookmark') + ' ' + escHtml(canon.title) + '</h1>';
 
   // Badges row
-  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-16)">';
+  html += '<div class="cx-chip-row cx-chip-row-detail">';
   var scopeLabel = canon.scope === 'global' ? 'Global' : (function() { var v = store.volumes.find(function(x) { return x.id === canon.scope; }); return v ? v.name : canon.scope; })();
   html += '<span class="cx-chip cx-chip-sm">' + escHtml(scopeLabel) + '</span>';
   html += '<span class="cx-chip cx-chip-sm">' + escHtml(canon.category) + '</span>';
@@ -3910,7 +3979,7 @@ function renderCanonDetail(route) {
   // Rationale (full)
   if (canon.rationale) {
     html += '<div class="cx-section-title">Rationale</div>';
-    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0;line-height:1.6">' + escHtml(canon.rationale) + '</div></div>';
+    html += '<div class="cx-card"><div class="cx-card-body cx-card-prose">' + escHtml(canon.rationale) + '</div></div>';
   }
 
   // References — resolved via renderReferenceLink per HR-C-06 / canon-0052
@@ -3918,7 +3987,7 @@ function renderCanonDetail(route) {
   // this; the detail view was the sibling site the Canons polish missed.
   if (canon.references && canon.references.length > 0) {
     html += '<div class="cx-section-title">References</div>';
-    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    html += '<div class="cx-card"><div class="cx-card-body cx-card-body-flush">';
     canon.references.forEach(function(refId, idx) {
       if (idx > 0) html += ', ';
       html += renderReferenceLink(refId);
@@ -4100,7 +4169,7 @@ function renderLore() {
     lore.sort(function(a, b) { return (b.created || '').localeCompare(a.created || ''); });
   }
 
-  html += '<div class="cx-card-meta" style="margin-bottom:var(--sp-8)">' + lore.length + ' lore entr' + (lore.length === 1 ? 'y' : 'ies') + '</div>';
+  html += '<div class="cx-card-meta cx-meta-gap-below">' + lore.length + ' lore entr' + (lore.length === 1 ? 'y' : 'ies') + '</div>';
 
   // If sorted by category, group with headers; else flat list
   if (_loreSort === 'category') {
@@ -4182,7 +4251,7 @@ function renderLoreCard(l) {
   var meta = [];
   if (l.tags && l.tags.length > 0) meta.push('#' + l.tags.join(' #'));
   if (l.created) meta.push(formatAbsoluteDate(l.created));
-  if (meta.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
+  if (meta.length > 0) html += '<div class="cx-card-meta cx-meta-gap">' + escHtml(meta.join(' \u00B7 ')) + '</div>';
 
   html += '</div>';
   return html;
@@ -4209,7 +4278,7 @@ function renderLoreDetail(route) {
   }
 
   // Badges row
-  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-16)">';
+  html += '<div class="cx-chip-row cx-chip-row-detail">';
   html += '<span class="cx-chip cx-chip-sm cx-lore-cat-chip ' + catClass + '-chip">' + escHtml(LORE_CATEGORY_LABELS[l.category] || l.category) + '</span>';
   if (l.domain && l.domain.length > 0) {
     l.domain.forEach(function(d) {
@@ -4242,7 +4311,7 @@ function renderLoreDetail(route) {
   // References — resolve against all known entity types (Phase 1.5 B1)
   if (l.references && l.references.length > 0) {
     html += '<div class="cx-section-title">References</div>';
-    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    html += '<div class="cx-card"><div class="cx-card-body cx-card-body-flush">';
     l.references.forEach(function(refId, idx) {
       if (idx > 0) html += ', ';
       html += renderReferenceLink(refId);
@@ -4253,7 +4322,7 @@ function renderLoreDetail(route) {
   // Source (if auto-generated)
   if (l.sourceType && l.sourceType !== 'manual' && l.sourceId) {
     html += '<div class="cx-section-title">Auto-Generated From</div>';
-    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    html += '<div class="cx-card"><div class="cx-card-body cx-card-body-flush">';
     html += '<span class="cx-card-meta">' + escHtml(l.sourceType.replace(/_/g, ' ')) + ':</span> ';
     html += '<span>' + escHtml(l.sourceId) + '</span>';
     html += '</div></div>';
@@ -4402,7 +4471,7 @@ function renderSpecs() {
     html += '</div>';
   }
   if (stats.coverageGap.length > 0) {
-    html += '<div class="cx-rostra-stats" style="color:var(--warning)"><span class="cx-rostra-stat-label">Coverage gap:</span> ' + stats.coverageGap.length + ' active chapter' + (stats.coverageGap.length === 1 ? '' : 's') + ' without spec</div>';
+    html += '<div class="cx-rostra-stats cx-msg-warning"><span class="cx-rostra-stat-label">Coverage gap:</span> ' + stats.coverageGap.length + ' active chapter' + (stats.coverageGap.length === 1 ? '' : 's') + ' without spec</div>';
   }
   html += '</div>';
 
@@ -4466,7 +4535,7 @@ function renderSpecCard(spec) {
     html += '<div class="cx-card-body">' + renderTruncated(spec.summary, 160, spec.id, 'summary') + '</div>';
   }
   if (spec.references && spec.references.length > 0) {
-    html += '<div class="cx-card-meta" style="margin-top:var(--sp-4)">Refs: ';
+    html += '<div class="cx-card-meta cx-meta-gap">Refs: ';
     spec.references.forEach(function(refId, idx) {
       if (idx > 0) html += ', ';
       html += renderReferenceLink(refId);
@@ -4490,7 +4559,7 @@ function renderSpecDetail(route) {
   }
   var catClass = 'cx-spec-cat-' + escAttr(spec.category || 'unknown');
   var html = '<h1 class="cx-page-title">' + cx('quill') + ' ' + escHtml(spec.title || spec.id) + '</h1>';
-  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-16)">';
+  html += '<div class="cx-chip-row cx-chip-row-detail">';
   html += '<span class="cx-chip cx-chip-sm cx-spec-cat-chip ' + catClass + '-chip">' + escHtml(spec.category || '') + '</span>';
   if (spec.status) html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(spec.status) + '">' + escHtml(spec.status) + '</span>';
   (spec.volumes || []).forEach(function(v) {
@@ -4500,11 +4569,11 @@ function renderSpecDetail(route) {
 
   if (spec.summary) {
     html += '<div class="cx-section-title">Summary</div>';
-    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">' + escHtml(spec.summary).replace(/\n/g, '<br>') + '</div></div>';
+    html += '<div class="cx-card"><div class="cx-card-body cx-card-body-flush">' + escHtml(spec.summary).replace(/\n/g, '<br>') + '</div></div>';
   }
   if (spec.references && spec.references.length > 0) {
     html += '<div class="cx-section-title">References</div>';
-    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    html += '<div class="cx-card"><div class="cx-card-body cx-card-body-flush">';
     spec.references.forEach(function(refId, idx) {
       if (idx > 0) html += ', ';
       html += renderReferenceLink(refId);
@@ -4514,12 +4583,12 @@ function renderSpecDetail(route) {
   if (spec.path) {
     var url = 'https://github.com/Rishabh1804/Codex/blob/main/' + escAttr(spec.path);
     html += '<div class="cx-section-title">Document</div>';
-    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0"><a href="' + url + '" target="_blank" rel="noopener" class="cx-link-btn">' + escHtml(spec.path) + ' \u2192</a></div></div>';
+    html += '<div class="cx-card"><div class="cx-card-body cx-card-body-flush"><a href="' + url + '" target="_blank" rel="noopener" class="cx-link-btn">' + escHtml(spec.path) + ' \u2192</a></div></div>';
   }
   var metaBits = [];
   if (spec.authored_by) metaBits.push('Authored by ' + spec.authored_by);
   if (spec.created) metaBits.push('Created ' + formatAbsoluteDate(spec.created));
-  if (metaBits.length > 0) html += '<div class="cx-card-meta" style="margin-top:var(--sp-16)">' + escHtml(metaBits.join(' \u00B7 ')) + '</div>';
+  if (metaBits.length > 0) html += '<div class="cx-card-meta cx-meta-gap-xl">' + escHtml(metaBits.join(' \u00B7 ')) + '</div>';
 
   vc.innerHTML = html;
 }
@@ -4632,7 +4701,7 @@ function renderHeatmap() {
 
   // Fill remaining cells to complete the last column (reach Saturday)
   while (cursor.getDay() !== 0) {
-    html += '<div class="cx-heatmap-cell" style="visibility:hidden"></div>';
+    html += '<div class="cx-heatmap-cell cx-heatmap-cell-filler"></div>';
     cursor.setDate(cursor.getDate() + 1);
   }
 
@@ -4666,7 +4735,7 @@ function toggleSyncDetailPanel() {
 
   var html = '<div id="syncDetailPanel" class="cx-sync-panel">';
   html += '<div class="cx-sync-panel-header"><span class="cx-sync-panel-title">Sync</span>';
-  html += '<button class="cx-btn-icon" data-action="closeSyncPanel" style="min-width:28px;min-height:28px;padding:var(--sp-4)">' + cx('close') + '</button></div>';
+  html += '<button class="cx-btn-icon cx-sync-close-btn" data-action="closeSyncPanel">' + cx('close') + '</button></div>';
   html += '<div class="cx-sync-panel-status"><div class="cx-sync-panel-dot" style="background:' + statusColor + '"></div>' + escHtml(statusLabel) + '</div>';
   html += '<div class="cx-sync-panel-row"><span>Pending</span><span class="cx-sync-panel-val">' + pending + '</span></div>';
   html += '<div class="cx-sync-panel-row"><span>Syncing</span><span class="cx-sync-panel-val">' + syncing + '</span></div>';
@@ -4674,7 +4743,7 @@ function toggleSyncDetailPanel() {
   html += '<div class="cx-sync-panel-row"><span>Failed</span><span class="cx-sync-panel-val">' + failed + '</span></div>';
   html += '<div class="cx-sync-panel-meta">Last fetch: ' + escHtml(lastFetchLabel) + '</div>';
   if (hasRepo) {
-    html += '<button class="cx-btn-primary cx-btn-sm cx-full-width" data-action="forceSyncFromPanel" style="margin-top:var(--sp-8)">' + cx('refresh') + ' Force Sync</button>';
+    html += '<button class="cx-btn-primary cx-btn-sm cx-full-width cx-sync-force-btn" data-action="forceSyncFromPanel">' + cx('refresh') + ' Force Sync</button>';
   }
   html += '</div>';
 
@@ -4697,9 +4766,9 @@ function renderTrashView() {
   var deletedApocrypha = store.apocrypha.filter(function(a) { return a._deleted; });
   var deletedLore = store.lore.filter(function(l) { return l._deleted; });
 
-  var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
+  var html = '<div class="cx-subview-header">';
   html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
-  html += '<h2 class="cx-page-title" style="margin:0">Trash</h2></div>';
+  html += '<h2 class="cx-page-title cx-page-title-flush">Trash</h2></div>';
 
   if (deletedCanons.length === 0 && deletedChapters.length === 0 && deletedApocrypha.length === 0 && deletedLore.length === 0) {
     html += renderEmptyState('trash', 'Trash is empty', 'Deleted canons, chapters, apocrypha, and lore appear here');
@@ -4779,9 +4848,9 @@ function renderErrorLogView() {
   var log = [];
   try { log = JSON.parse(localStorage.getItem(KEYS.ERROR_LOG) || '[]'); } catch(e) {}
 
-  var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
+  var html = '<div class="cx-subview-header">';
   html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
-  html += '<h2 class="cx-page-title" style="margin:0">Error Log</h2></div>';
+  html += '<h2 class="cx-page-title cx-page-title-flush">Error Log</h2></div>';
 
   if (log.length === 0) {
     html += renderEmptyState('check', 'No errors', 'Error log is clean');
@@ -4789,7 +4858,7 @@ function renderErrorLogView() {
     return;
   }
 
-  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-12)">';
+  html += '<div class="cx-toolbar-row">';
   html += '<span class="cx-card-meta">' + log.length + ' entries</span>';
   html += '<button class="cx-btn-danger cx-btn-sm" data-action="clearErrorLog">' + cx('trash') + ' Clear All</button>';
   html += '</div>';
@@ -4835,9 +4904,9 @@ function renderStorageUsage() {
     return (bytes / 1024).toFixed(1) + ' KB';
   }
 
-  var html = '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-16)">';
+  var html = '<div class="cx-subview-header">';
   html += '<button class="cx-btn-icon" data-action="openSettings">' + cx('arrow-left') + '</button>';
-  html += '<h2 class="cx-page-title" style="margin:0">Storage Usage</h2></div>';
+  html += '<h2 class="cx-page-title cx-page-title-flush">Storage Usage</h2></div>';
 
   html += '<div class="cx-card">';
   rows.forEach(function(r) {
@@ -4968,10 +5037,10 @@ function renderVolumeCard(vol) {
   var chipRow = '';
   if (cluster) chipRow += '<span class="cx-chip cx-chip-sm">' + escHtml(getClusterLabel(cluster)) + '</span>';
   chipRow += renderDesignPrinciplesChip(vol.design_principles);
-  if (chipRow) html += '<div class="cx-chip-row" style="margin:var(--sp-4) 0">' + chipRow + '</div>';
+  if (chipRow) html += '<div class="cx-chip-row cx-chip-row-tight">' + chipRow + '</div>';
 
-  if (vol.current_phase) html += '<div class="cx-card-body" style="color:var(--accent);font-size:var(--fs-xs)">' + escHtml(vol.current_phase) + '</div>';
-  if (vol.description) html += '<div class="cx-card-body" style="font-size:var(--fs-xs);color:var(--text-secondary)">' + escHtml(vol.description) + '</div>';
+  if (vol.current_phase) html += '<div class="cx-card-body cx-card-body-phase">' + escHtml(vol.current_phase) + '</div>';
+  if (vol.description) html += '<div class="cx-card-body cx-card-body-sub">' + escHtml(vol.description) + '</div>';
   if (meta.length > 0) html += '<div class="cx-card-meta">' + cx('clock') + ' ' + escHtml(meta.join(' \u00B7 ')) + '</div>';
   if (vol.tags && vol.tags.length > 0) {
     html += '<div class="cx-tag-inline">';
@@ -5067,15 +5136,15 @@ function renderVolumeDetail(route) {
   var html = '';
 
   // Header
-  html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-8)">';
-  html += '<div class="cx-vol-accent" style="background:' + escAttr(vol.domain_color) + ';width:4px;height:28px;border-radius:2px"></div>';
-  html += '<h1 class="cx-page-title" style="margin:0">' + escHtml(vol.name) + '</h1>';
+  html += '<div class="cx-detail-header">';
+  html += '<div class="cx-vol-accent cx-vol-accent-header" style="background:' + escAttr(vol.domain_color) + '"></div>';
+  html += '<h1 class="cx-page-title cx-page-title-flush">' + escHtml(vol.name) + '</h1>';
   html += '<span class="cx-shelf-badge cx-shelf-' + escAttr(vol.shelf) + '">' + escHtml(vol.shelf) + '</span>';
   html += '</div>';
-  if (vol.description) html += '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12);line-height:1.6">' + escHtml(vol.description) + '</p>';
-  if (vol.current_phase) html += '<p style="color:var(--accent);font-size:var(--fs-xs);font-weight:500;margin-bottom:var(--sp-12)">' + cx('info') + ' ' + escHtml(vol.current_phase) + '</p>';
+  if (vol.description) html += '<p class="cx-detail-desc">' + escHtml(vol.description) + '</p>';
+  if (vol.current_phase) html += '<p class="cx-detail-phase">' + cx('info') + ' ' + escHtml(vol.current_phase) + '</p>';
   if (vol.tags && vol.tags.length > 0) {
-    html += '<div class="cx-tag-inline" style="margin-bottom:var(--sp-12)">';
+    html += '<div class="cx-tag-inline cx-tag-inline-gap">';
     vol.tags.forEach(function(t) { html += '<span class="cx-chip cx-chip-sm">' + escHtml(t) + '</span>'; });
     html += '</div>';
   }
@@ -5092,12 +5161,12 @@ function renderVolumeDetail(route) {
 
   html += '<div class="cx-section-title">' + cx('check') + ' TODOs (' + openTodos.length + ' open)</div>';
   if (openTodos.length === 0 && resolvedTodos.length === 0) {
-    html += '<p style="color:var(--text-tertiary);font-size:var(--fs-xs);margin-bottom:var(--sp-16)">No TODOs yet</p>';
+    html += '<p class="cx-empty-note">No TODOs yet</p>';
   } else {
     html += '<div class="cx-card">';
     openTodos.forEach(function(t) { html += renderTodoItem(vol.id, t); });
     if (resolvedTodos.length > 0) {
-      html += '<div class="cx-todo-chapter-label" style="margin-top:var(--sp-8)">Resolved (' + resolvedTodos.length + ')</div>';
+      html += '<div class="cx-todo-chapter-label cx-meta-gap-lg">Resolved (' + resolvedTodos.length + ')</div>';
       resolvedTodos.forEach(function(t) { html += renderTodoItem(vol.id, t); });
     }
     html += '</div>';
@@ -5107,7 +5176,7 @@ function renderVolumeDetail(route) {
   var chapters = getSortedChapters(vol);
   html += '<div class="cx-section-title">' + cx('bookmark') + ' Chapters (' + chapters.length + ')</div>';
   if (chapters.length === 0) {
-    html += '<p style="color:var(--text-tertiary);font-size:var(--fs-xs);margin-bottom:var(--sp-16)">No chapters yet</p>';
+    html += '<p class="cx-empty-note">No chapters yet</p>';
   } else {
     html += '<div class="cx-card">';
     chapters.forEach(function(ch) {
@@ -5164,17 +5233,17 @@ function renderChapterDetail(route) {
   html += '<h1 class="cx-page-title">' + escHtml(ch.name) + '</h1>';
 
   // Badges
-  html += '<div class="cx-chip-row" style="margin-bottom:var(--sp-12)">';
+  html += '<div class="cx-chip-row cx-chip-row-gap">';
   html += '<span class="cx-chip cx-chip-sm cx-status-' + escAttr(ch.status) + '">' + cx(statusIcon) + ' ' + escHtml(ch.status) + '</span>';
   if (ch.started) html += '<span class="cx-chip cx-chip-sm">Started ' + escHtml(formatAbsoluteDate(ch.started)) + '</span>';
   if (ch.completed) html += '<span class="cx-chip cx-chip-sm">Done ' + escHtml(formatAbsoluteDate(ch.completed)) + '</span>';
   html += '</div>';
 
   // Summary
-  if (ch.summary) html += '<p style="color:var(--text-secondary);font-size:var(--fs-sm);line-height:1.6;margin-bottom:var(--sp-16)">' + escHtml(ch.summary) + '</p>';
+  if (ch.summary) html += '<p class="cx-chapter-summary-text">' + escHtml(ch.summary) + '</p>';
 
   // Spec URL
-  if (ch.spec_url) html += '<p style="margin-bottom:var(--sp-16)"><a href="' + escAttr(ch.spec_url) + '" target="_blank" rel="noopener" class="cx-link-btn">' + cx('link') + ' View Spec</a></p>';
+  if (ch.spec_url) html += '<p class="cx-spec-url-row"><a href="' + escAttr(ch.spec_url) + '" target="_blank" rel="noopener" class="cx-link-btn">' + cx('link') + ' View Spec</a></p>';
 
   // Content
   var contentHtml = renderChapterContent(ch.content);
@@ -5192,8 +5261,8 @@ function renderChapterDetail(route) {
     html += '<div class="cx-section-title">' + cx('bookmark') + ' Linked Canons (' + linkedCanons.length + ')</div>';
     linkedCanons.forEach(function(canon) {
       html += '<div class="cx-mini-card" data-action="navigate" data-route="#/canon/' + encodeURIComponent(canon.id) + '">';
-      html += '<div style="font-size:var(--fs-sm);font-weight:500">' + escHtml(canon.title) + '</div>';
-      html += '<div style="font-size:var(--fs-xs);color:var(--text-tertiary)">' + escHtml(canon.id) + '</div>';
+      html += '<div class="cx-mini-title">' + escHtml(canon.title) + '</div>';
+      html += '<div class="cx-mini-sub">' + escHtml(canon.id) + '</div>';
       html += '</div>';
     });
   }
@@ -5207,8 +5276,8 @@ function renderChapterDetail(route) {
       var s = ls.session;
       var dur = s.duration_minutes ? s.duration_minutes + 'm' : '';
       html += '<div class="cx-mini-card">';
-      html += '<div style="font-size:var(--fs-sm);font-weight:500">' + escHtml(s.id) + ' \u00B7 ' + escHtml(formatAbsoluteDate(ls.date)) + (dur ? ' \u00B7 ' + escHtml(dur) : '') + '</div>';
-      if (s.summary) html += '<div style="font-size:var(--fs-xs);color:var(--text-secondary);margin-top:var(--sp-4);line-height:1.5">' + escHtml(s.summary.length > 150 ? s.summary.substring(0, 150) + '\u2026' : s.summary) + '</div>';
+      html += '<div class="cx-mini-title">' + escHtml(s.id) + ' \u00B7 ' + escHtml(formatAbsoluteDate(ls.date)) + (dur ? ' \u00B7 ' + escHtml(dur) : '') + '</div>';
+      if (s.summary) html += '<div class="cx-mini-summary">' + escHtml(s.summary.length > 150 ? s.summary.substring(0, 150) + '\u2026' : s.summary) + '</div>';
       html += '</div>';
     });
   }
@@ -5235,16 +5304,16 @@ function renderChapterDetail(route) {
     html += '<div class="cx-chapter-nav">';
     if (prev) {
       html += '<div class="cx-chapter-nav-btn" data-action="navigate" data-route="#/chapter/' + encodeURIComponent(vol.id) + '/' + encodeURIComponent(prev.id) + '">';
-      html += '<span style="font-size:var(--fs-xs);color:var(--text-tertiary)">' + cx('arrow-left') + ' Previous</span>';
-      html += '<span style="font-size:var(--fs-sm);font-weight:500">' + escHtml(prev.name) + '</span>';
+      html += '<span class="cx-mini-sub">' + cx('arrow-left') + ' Previous</span>';
+      html += '<span class="cx-mini-title">' + escHtml(prev.name) + '</span>';
       html += '</div>';
     } else {
       html += '<div></div>';
     }
     if (next) {
-      html += '<div class="cx-chapter-nav-btn" style="text-align:right" data-action="navigate" data-route="#/chapter/' + encodeURIComponent(vol.id) + '/' + encodeURIComponent(next.id) + '">';
-      html += '<span style="font-size:var(--fs-xs);color:var(--text-tertiary)">Next <span style="display:inline-block;transform:scaleX(-1)">' + cx('arrow-left') + '</span></span>';
-      html += '<span style="font-size:var(--fs-sm);font-weight:500">' + escHtml(next.name) + '</span>';
+      html += '<div class="cx-chapter-nav-btn cx-chapter-nav-btn-next" data-action="navigate" data-route="#/chapter/' + encodeURIComponent(vol.id) + '/' + encodeURIComponent(next.id) + '">';
+      html += '<span class="cx-mini-sub">Next <span class="cx-icon-flip">' + cx('arrow-left') + '</span></span>';
+      html += '<span class="cx-mini-title">' + escHtml(next.name) + '</span>';
       html += '</div>';
     }
     html += '</div>';
@@ -5327,9 +5396,9 @@ function renderTodos() {
   // surface, not a normal TODO entity.
   if (carryover) {
     var s = carryover.session;
-    html += '<div class="cx-card cx-todo-volume-group" style="margin-top:var(--sp-12)">';
+    html += '<div class="cx-card cx-todo-volume-group cx-carryover-card">';
     html += '<div class="cx-todo-volume-title">' + cx('clock') + ' Session carryover \u2014 ' + escHtml(s.id) + '</div>';
-    html += '<div class="cx-session-todo-item" style="font-style:italic">Historical snapshot from session close. Promote to a volume TODO to track as active work.</div>';
+    html += '<div class="cx-session-todo-item cx-todo-item-note">Historical snapshot from session close. Promote to a volume TODO to track as active work.</div>';
     s.open_todos.forEach(function(t) {
       html += '<div class="cx-session-todo-item">\u2022 ' + escHtml(t) + '</div>';
     });
@@ -5389,7 +5458,7 @@ function renderTodos() {
     groupOrder.forEach(function(volId) {
       var g = grouped[volId];
       html += '<div class="cx-card cx-todo-volume-group">';
-      html += '<div class="cx-todo-volume-title" data-action="goToVolume" data-id="' + escAttr(volId) + '" style="cursor:pointer">' + cx('book') + escHtml(g.volume.name) + '</div>';
+      html += '<div class="cx-todo-volume-title cx-clickable" data-action="goToVolume" data-id="' + escAttr(volId) + '">' + cx('book') + escHtml(g.volume.name) + '</div>';
       g.todos.forEach(function(t) { html += renderTodoItem(volId, t); });
       html += '</div>';
     });
@@ -5495,8 +5564,8 @@ function renderSettings() {
   html += '</div></div>';
 
   // Text size
-  html += '<div class="cx-settings-section"><div class="cx-card" style="padding:var(--sp-16)">';
-  html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)">' + cx('book') + '<div><div class="cx-settings-label">Text size</div><div class="cx-settings-hint">Adjust reading comfort</div></div></div>';
+  html += '<div class="cx-settings-section"><div class="cx-card cx-card-pad">';
+  html += '<div class="cx-setting-head">' + cx('book') + '<div><div class="cx-settings-label">Text size</div><div class="cx-settings-hint">Adjust reading comfort</div></div></div>';
   html += '<div class="cx-slider-wrap"><div class="cx-slider-track" id="cxSliderTrack">';
   html += '<div class="cx-slider-fill" id="cxSliderFill" style="width:' + TEXT_SIZE_POS[currentSize] + '%"></div>';
   html += '<div class="cx-slider-thumb" id="cxSliderThumb" style="left:' + TEXT_SIZE_POS[currentSize] + '%"></div></div>';
@@ -5505,30 +5574,30 @@ function renderSettings() {
     html += '<span class="cx-slider-label' + (s === currentSize ? ' cx-slider-label-active' : '') + '" data-action="setTextSize" data-size="' + s + '">' + s.toUpperCase() + '</span>';
   });
   html += '</div></div>';
-  html += '<div class="cx-preview-pill"><span style="font-family:var(--ff-heading);font-size:var(--fs-lg)">Aa</span> \u2014 <span style="font-size:var(--fs-sm)">This is how text will look</span></div>';
+  html += '<div class="cx-preview-pill"><span class="cx-preview-aa">Aa</span> \u2014 <span class="cx-preview-sample">This is how text will look</span></div>';
   html += '</div></div>';
 
   // GitHub Sync
-  html += '<div class="cx-settings-section"><div class="cx-section-title">GitHub Sync</div><div class="cx-card" style="padding:var(--sp-16)">';
+  html += '<div class="cx-settings-section"><div class="cx-section-title">GitHub Sync</div><div class="cx-card cx-card-pad">';
   if (hasGitHub) {
-    html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)">';
+    html += '<div class="cx-setting-head">';
     html += '<span class="cx-sync-badge cx-sync-badge-connected">' + cx('check') + ' Connected</span>';
     html += '</div>';
-    html += '<div class="cx-settings-hint" style="margin-bottom:var(--sp-12)">Repository: ' + escHtml(repoUrl) + '</div>';
+    html += '<div class="cx-settings-hint cx-hint-gap">Repository: ' + escHtml(repoUrl) + '</div>';
     var pending = store._wal.filter(function(e) { return e.status === 'pending' || e.status === 'failed'; }).length;
     if (pending > 0) {
-      html += '<div class="cx-settings-hint" style="color:var(--warning)">' + pending + ' pending change' + (pending !== 1 ? 's' : '') + '</div>';
+      html += '<div class="cx-settings-hint cx-msg-warning">' + pending + ' pending change' + (pending !== 1 ? 's' : '') + '</div>';
     }
-    html += '<div style="display:flex;gap:var(--sp-8);margin-top:var(--sp-12)">';
+    html += '<div class="cx-btn-row">';
     html += '<button class="cx-btn-secondary cx-btn-sm" data-action="syncNow">' + cx('refresh') + ' Sync Now</button>';
     html += '<button class="cx-btn-secondary cx-btn-sm" data-action="disconnectGitHub">Disconnect</button>';
     html += '</div>';
   } else {
-    html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-12)">' + cx('github');
+    html += '<div class="cx-setting-head">' + cx('github');
     html += '<div><div class="cx-settings-label">Connect GitHub</div><div class="cx-settings-hint">Sync data to a repository for backup and cross-device access</div></div></div>';
     html += renderTextField('settings-repo', 'Repository URL', '', { placeholder: 'owner/repo or https://github.com/owner/repo' });
     html += renderTextField('settings-token', 'Personal Access Token', '', { placeholder: 'ghp_...', type: 'password' });
-    html += '<div class="cx-settings-hint" style="margin-bottom:var(--sp-12)">Token needs repo Contents read/write permission</div>';
+    html += '<div class="cx-settings-hint cx-hint-gap">Token needs repo Contents read/write permission</div>';
     html += '<button class="cx-btn-primary" data-action="validateAndSaveGitHub">' + cx('check') + ' Connect</button>';
     html += '<div id="github-validation-status"></div>';
   }
@@ -5544,10 +5613,10 @@ function renderSettings() {
   // Data Integrity — chapter status drift (canon-0052 §Chapter Status Enum)
   var statusDrift = detectChapterStatusDrift();
   if (statusDrift.length > 0) {
-    html += '<div class="cx-settings-section"><div class="cx-section-title">Data Integrity</div><div class="cx-card" style="padding:var(--sp-16);border-left:3px solid var(--warning)">';
-    html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-8)">' + cx('alert');
+    html += '<div class="cx-settings-section"><div class="cx-section-title">Data Integrity</div><div class="cx-card cx-callout-warning">';
+    html += '<div class="cx-detail-header">' + cx('alert');
     html += '<div><div class="cx-settings-label">Unknown chapter status</div><div class="cx-settings-hint">' + statusDrift.length + ' chapter' + (statusDrift.length !== 1 ? 's' : '') + ' carry a status not in the canon-0052 enum</div></div></div>';
-    html += '<ul style="margin:var(--sp-8) 0 0 var(--sp-16);padding:0;font-size:var(--fs-sm);color:var(--text-secondary)">';
+    html += '<ul class="cx-drift-list">';
     statusDrift.forEach(function(d) {
       html += '<li><code>' + escHtml(d.status) + '</code> \u2014 ' + escHtml(d.volumeName) + ' / ' + escHtml(d.chapterName) + '</li>';
     });
@@ -5633,7 +5702,7 @@ function renderWizardGitHub() {
     + '<div class="cx-wizard-form">'
     + renderTextField('wizard-repo', 'Repository URL', '', { placeholder: 'owner/repo or https://github.com/owner/repo' })
     + renderTextField('wizard-token', 'Personal Access Token', '', { placeholder: 'ghp_...', type: 'password' })
-    + '<div class="cx-settings-hint" style="margin-bottom:var(--sp-16)">Create a fine-grained token with Contents read/write on the target repo.</div>'
+    + '<div class="cx-settings-hint cx-hint-gap-lg">Create a fine-grained token with Contents read/write on the target repo.</div>'
     + '<div id="wizard-validation-status"></div>'
     + '</div>'
     + '<div class="cx-wizard-progress">Step 2 of 4</div>'
@@ -6438,7 +6507,7 @@ function openVolumeForm(volumeId) {
   body += renderTextField('repo', 'Repo', vol ? vol.repo || '' : '', { placeholder: 'owner/repo' });
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveVolume" data-id="' + escAttr(volumeId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + '<button data-action="handleSaveVolume" data-id="' + escAttr(volumeId || '') + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
 
   openOverlay(isEdit ? 'Edit Volume' : 'New Volume', body, footer);
@@ -6495,7 +6564,7 @@ function openChapterForm(volumeId, chapterId) {
   if (isEdit) {
     footer += '<button data-action="handleDeleteChapter" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(chapterId) + '" class="cx-btn-danger cx-btn-sm">' + cx('trash') + '</button>';
   }
-  footer += '<button data-action="handleSaveChapter" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(chapterId || '') + '" class="cx-btn-primary" style="flex:1">'
+  footer += '<button data-action="handleSaveChapter" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(chapterId || '') + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' ' + (isEdit ? 'Save' : 'Add') + '</button>';
 
   openOverlay(isEdit ? 'Edit Chapter' : 'New Chapter', body, footer);
@@ -6547,7 +6616,7 @@ function openCreateTodo(volumeId) {
     body += renderSelect('todo_chapter', 'Chapter (optional)', '', opts);
   }
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveTodo" data-vol="' + escAttr(volumeId) + '" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
+    + '<button data-action="handleSaveTodo" data-vol="' + escAttr(volumeId) + '" class="cx-btn-primary cx-btn-grow">' + cx('check') + ' Add</button>';
   openOverlay('New TODO', body, footer);
   setTimeout(function() { var el = document.getElementById('field-todo_text'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
 }
@@ -6590,7 +6659,7 @@ function openShelfTransition(volumeId) {
   var body = renderSelect('shelf', 'Move to', opts[0].value, opts);
   body += renderTextField('shelf_reason', 'Reason', '', { placeholder: 'Why? (required for Abandoned)' });
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleConfirmShelfTransition" data-id="' + escAttr(volumeId) + '" class="cx-btn-primary" style="flex:1">' + cx('shelf') + ' Move</button>';
+    + '<button data-action="handleConfirmShelfTransition" data-id="' + escAttr(volumeId) + '" class="cx-btn-primary cx-btn-grow">' + cx('shelf') + ' Move</button>';
   openOverlay('Move Shelf — ' + vol.name, body, footer);
 }
 
@@ -6623,7 +6692,7 @@ function handleFabAction() {
 }
 
 function openFabChoice(volumeId) {
-  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  var body = '<div class="cx-form-stack">';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="fabAddChapter" data-vol="' + escAttr(volumeId) + '">' + cx('bookmark') + ' New Chapter</button>';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="fabAddTodo" data-vol="' + escAttr(volumeId) + '">' + cx('check') + ' New TODO</button>';
   body += '</div>';
@@ -6633,7 +6702,7 @@ function openFabChoice(volumeId) {
 function openTodoVolumeChoice() {
   var vols = store.volumes.filter(function(v) { return v.shelf === 'active'; });
   if (vols.length === 0) { showToast('No active volumes', 'warning'); return; }
-  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  var body = '<div class="cx-form-stack">';
   vols.forEach(function(v) {
     body += '<button class="cx-btn-secondary cx-full-width" data-action="fabAddTodo" data-vol="' + escAttr(v.id) + '">' + cx('book') + ' ' + escHtml(v.name) + '</button>';
   });
@@ -6657,13 +6726,13 @@ function handleExportData() {
 
 /* --- Restore from Backup --- */
 function openRestoreData() {
-  var body = '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12)">Select a Codex JSON export to restore all data. This replaces your current library.</p>';
-  body += '<input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none">';
-  body += '<button data-action="triggerRestoreFile" class="cx-btn-secondary" style="width:100%;padding:var(--sp-16);margin-bottom:var(--sp-12)">' + cx('download') + ' Choose Backup File</button>';
-  body += '<div id="restoreFileStatus" style="color:var(--text-secondary);font-size:var(--fs-sm)"></div>';
+  var body = '<p class="cx-overlay-intro">Select a Codex JSON export to restore all data. This replaces your current library.</p>';
+  body += '<input type="file" id="restoreFileInput" accept=".json,application/json" class="cx-hidden">';
+  body += '<button data-action="triggerRestoreFile" class="cx-btn-secondary cx-full-width cx-file-choose-btn">' + cx('download') + ' Choose Backup File</button>';
+  body += '<div id="restoreFileStatus" class="cx-form-note"></div>';
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleRestoreData" class="cx-btn-primary" style="flex:1" id="restoreBtn" disabled>' + cx('check') + ' Restore</button>';
+    + '<button data-action="handleRestoreData" class="cx-btn-primary cx-btn-grow" id="restoreBtn" disabled>' + cx('check') + ' Restore</button>';
 
   openOverlay('Restore from Backup', body, footer);
   setTimeout(function() {
@@ -6689,7 +6758,7 @@ function handleRestoreFileSelect(e) {
     try {
       var data = JSON.parse(ev.target.result);
       if (!data.volumes || !Array.isArray(data.volumes)) {
-        if (status) status.innerHTML = '<span style="color:var(--error)">Invalid backup: missing volumes array</span>';
+        if (status) status.innerHTML = '<span class="cx-msg-error">Invalid backup: missing volumes array</span>';
         _restoreParsed = null;
         if (btn) btn.disabled = true;
         return;
@@ -6698,10 +6767,10 @@ function handleRestoreFileSelect(e) {
       var summary = data.volumes.length + ' volumes, ' + (data.canons || []).length + ' canons, '
         + (data.apocrypha || []).length + ' apocrypha, ' + (data.lore || []).length + ' lore, '
         + (data.journal || []).flatMap(function(d) { return d.sessions || []; }).length + ' sessions';
-      if (status) status.innerHTML = '<span style="color:var(--success)">' + cx('check') + ' ' + escHtml(file.name) + '</span><br><span style="color:var(--text-tertiary)">' + escHtml(summary) + '</span>';
+      if (status) status.innerHTML = '<span class="cx-msg-success">' + cx('check') + ' ' + escHtml(file.name) + '</span><br><span class="cx-msg-detail">' + escHtml(summary) + '</span>';
       if (btn) btn.disabled = false;
     } catch(err) {
-      if (status) status.innerHTML = '<span style="color:var(--error)">Invalid JSON: ' + escHtml(err.message) + '</span>';
+      if (status) status.innerHTML = '<span class="cx-msg-error">Invalid JSON: ' + escHtml(err.message) + '</span>';
       _restoreParsed = null;
       if (btn) btn.disabled = true;
     }
@@ -6751,7 +6820,7 @@ function openCreateSession() {
 
   body += renderTextField('session_chapters', 'Chapters Touched', '', { placeholder: 'Comma-separated chapter slugs' });
   body += renderTextField('session_decisions', 'Decisions', '', { placeholder: 'Comma-separated (canon IDs or descriptions)' });
-  body += '<div style="display:flex;gap:var(--sp-8)">';
+  body += '<div class="cx-field-row">';
   body += renderTextField('session_bugs_found', 'Bugs Found', '', { type: 'number', min: '0' });
   body += renderTextField('session_bugs_fixed', 'Bugs Fixed', '', { type: 'number', min: '0' });
   body += '</div>';
@@ -6760,7 +6829,7 @@ function openCreateSession() {
   body += renderTextField('session_open_todos', 'Open TODOs (snapshot)', '', { placeholder: 'Comma-separated TODO texts' });
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveSession" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Log Session</button>';
+    + '<button data-action="handleSaveSession" class="cx-btn-primary cx-btn-grow">' + cx('check') + ' Log Session</button>';
   openOverlay('New Session', body, footer);
 }
 
@@ -6823,7 +6892,7 @@ function handleDeleteSession(date, sessionId) {
    ============================================================ */
 
 function openCanonFabChoice() {
-  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  var body = '<div class="cx-form-stack">';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateCanon">' + cx('bookmark') + ' New Canon</button>';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateSchism">' + cx('alert') + ' New Schism</button>';
   body += '</div>';
@@ -6866,7 +6935,7 @@ function openCanonForm(canonId) {
   body += renderTextField('canon_created', 'Created (YYYY-MM)', canon ? canon.created || '' : localDateStr().substring(0, 7), { placeholder: '2026-04' });
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveCanon" data-id="' + escAttr(canonId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + '<button data-action="handleSaveCanon" data-id="' + escAttr(canonId || '') + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
 
   openOverlay(isEdit ? 'Edit Canon' : 'New Canon', body, footer);
@@ -6954,7 +7023,7 @@ function openEditApocryphon(apoId) {
   body += renderTextField('apo_date', 'Date', apo.date || '', { placeholder: 'YYYY-MM-DD' });
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveApocryphon" data-id="' + escAttr(apoId) + '" class="cx-btn-primary" style="flex:1">'
+    + '<button data-action="handleSaveApocryphon" data-id="' + escAttr(apoId) + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' Save</button>';
 
   openOverlay('Edit Apocryphon', body, footer);
@@ -7038,7 +7107,7 @@ function openLoreForm(loreId, prefill) {
   }
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveLore" data-id="' + escAttr(loreId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + '<button data-action="handleSaveLore" data-id="' + escAttr(loreId || '') + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
 
   openOverlay(isEdit ? 'Edit Lore' : 'New Lore', body, footer);
@@ -7196,7 +7265,7 @@ function openCreateSchism() {
     body += renderTextField('rej_canon_id', 'Linked Canon (optional)', '', { placeholder: 'canon-NNNN-slug' });
 
     var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-      + '<button data-action="handleSaveSchism" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
+      + '<button data-action="handleSaveSchism" class="cx-btn-primary cx-btn-grow">' + cx('check') + ' Add</button>';
     openOverlay('New Schism', body, footer);
     setTimeout(function() { var el = document.getElementById('field-rej_rejected'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
   }, OVERLAY_ANIM_MS + 50);
@@ -7257,13 +7326,13 @@ var _snippetParsed = null;
 
 function openSnippetImport() {
   _snippetParsed = null;
-  var body = '<p style="font-size:var(--fs-xs);color:var(--text-secondary);margin-bottom:var(--sp-12)">Paste an Aurelius JSON snippet from a build session.</p>';
+  var body = '<p class="cx-snippet-intro">Paste an Aurelius JSON snippet from a build session.</p>';
   body += '<textarea id="snippetInput" class="cx-form-textarea cx-snippet-input" rows="8" placeholder="Paste JSON here\u2026"></textarea>';
   body += '<div id="snippetPreview"></div>';
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
     + '<button data-action="previewSnippet" class="cx-btn-secondary">' + cx('search') + ' Preview</button>'
-    + '<button data-action="importSnippet" class="cx-btn-primary" style="flex:1" disabled id="snippetImportBtn">' + cx('download') + ' Import</button>';
+    + '<button data-action="importSnippet" class="cx-btn-primary cx-btn-grow" disabled id="snippetImportBtn">' + cx('download') + ' Import</button>';
   openOverlay('Import Aurelius Snippet', body, footer);
 }
 
@@ -7281,18 +7350,18 @@ function handlePreviewSnippet() {
     var parsed = JSON.parse(raw);
     _snippetParsed = parsed;
   } catch(e) {
-    preview.innerHTML = '<div class="cx-form-error" style="display:block;margin-top:var(--sp-8)">Invalid JSON: ' + escHtml(e.message) + '</div>';
+    preview.innerHTML = '<div class="cx-form-error cx-snippet-error">Invalid JSON: ' + escHtml(e.message) + '</div>';
     if (importBtn) importBtn.disabled = true;
     return;
   }
 
   if (!_snippetParsed._snippet_version) {
-    preview.innerHTML = '<div class="cx-form-error" style="display:block;margin-top:var(--sp-8)">Missing _snippet_version field</div>';
+    preview.innerHTML = '<div class="cx-form-error cx-snippet-error">Missing _snippet_version field</div>';
     if (importBtn) importBtn.disabled = true;
     return;
   }
 
-  var html = '<div style="margin-top:var(--sp-12)">';
+  var html = '<div class="cx-snippet-preview">';
 
   // Preview session
   if (_snippetParsed.session) {
