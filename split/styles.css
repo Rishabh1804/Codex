@@ -1159,3 +1159,20 @@ body {
   .cx-tab-btn .cx-tab-label{font-size:10px}
   #tabBar{padding:0 2px}
 }
+
+/* --- Semantic layout + message classes ---
+   HR-2 strict: these replace token-based inline styles extracted from
+   views.js / forms.js. Each names the role of the element it dresses. */
+.cx-btn-grow{flex:1}
+.cx-form-stack{display:flex;flex-direction:column;gap:var(--sp-8)}
+.cx-field-row{display:flex;gap:var(--sp-8)}
+.cx-overlay-intro{color:var(--text-secondary);margin-bottom:var(--sp-12)}
+.cx-snippet-intro{font-size:var(--fs-xs);color:var(--text-secondary);margin-bottom:var(--sp-12)}
+.cx-hidden{display:none}
+.cx-file-choose-btn{padding:var(--sp-16);margin-bottom:var(--sp-12)}
+.cx-form-note{color:var(--text-secondary);font-size:var(--fs-sm)}
+.cx-msg-error{color:var(--error)}
+.cx-msg-success{color:var(--success)}
+.cx-msg-detail{color:var(--text-tertiary)}
+.cx-snippet-error{display:block;margin-top:var(--sp-8)}
+.cx-snippet-preview{margin-top:var(--sp-12)}

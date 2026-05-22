@@ -17,7 +17,7 @@ function openVolumeForm(volumeId) {
   body += renderTextField('repo', 'Repo', vol ? vol.repo || '' : '', { placeholder: 'owner/repo' });
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveVolume" data-id="' + escAttr(volumeId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + '<button data-action="handleSaveVolume" data-id="' + escAttr(volumeId || '') + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
 
   openOverlay(isEdit ? 'Edit Volume' : 'New Volume', body, footer);
@@ -74,7 +74,7 @@ function openChapterForm(volumeId, chapterId) {
   if (isEdit) {
     footer += '<button data-action="handleDeleteChapter" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(chapterId) + '" class="cx-btn-danger cx-btn-sm">' + cx('trash') + '</button>';
   }
-  footer += '<button data-action="handleSaveChapter" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(chapterId || '') + '" class="cx-btn-primary" style="flex:1">'
+  footer += '<button data-action="handleSaveChapter" data-vol="' + escAttr(volumeId) + '" data-id="' + escAttr(chapterId || '') + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' ' + (isEdit ? 'Save' : 'Add') + '</button>';
 
   openOverlay(isEdit ? 'Edit Chapter' : 'New Chapter', body, footer);
@@ -126,7 +126,7 @@ function openCreateTodo(volumeId) {
     body += renderSelect('todo_chapter', 'Chapter (optional)', '', opts);
   }
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveTodo" data-vol="' + escAttr(volumeId) + '" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
+    + '<button data-action="handleSaveTodo" data-vol="' + escAttr(volumeId) + '" class="cx-btn-primary cx-btn-grow">' + cx('check') + ' Add</button>';
   openOverlay('New TODO', body, footer);
   setTimeout(function() { var el = document.getElementById('field-todo_text'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
 }
@@ -169,7 +169,7 @@ function openShelfTransition(volumeId) {
   var body = renderSelect('shelf', 'Move to', opts[0].value, opts);
   body += renderTextField('shelf_reason', 'Reason', '', { placeholder: 'Why? (required for Abandoned)' });
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleConfirmShelfTransition" data-id="' + escAttr(volumeId) + '" class="cx-btn-primary" style="flex:1">' + cx('shelf') + ' Move</button>';
+    + '<button data-action="handleConfirmShelfTransition" data-id="' + escAttr(volumeId) + '" class="cx-btn-primary cx-btn-grow">' + cx('shelf') + ' Move</button>';
   openOverlay('Move Shelf — ' + vol.name, body, footer);
 }
 
@@ -202,7 +202,7 @@ function handleFabAction() {
 }
 
 function openFabChoice(volumeId) {
-  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  var body = '<div class="cx-form-stack">';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="fabAddChapter" data-vol="' + escAttr(volumeId) + '">' + cx('bookmark') + ' New Chapter</button>';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="fabAddTodo" data-vol="' + escAttr(volumeId) + '">' + cx('check') + ' New TODO</button>';
   body += '</div>';
@@ -212,7 +212,7 @@ function openFabChoice(volumeId) {
 function openTodoVolumeChoice() {
   var vols = store.volumes.filter(function(v) { return v.shelf === 'active'; });
   if (vols.length === 0) { showToast('No active volumes', 'warning'); return; }
-  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  var body = '<div class="cx-form-stack">';
   vols.forEach(function(v) {
     body += '<button class="cx-btn-secondary cx-full-width" data-action="fabAddTodo" data-vol="' + escAttr(v.id) + '">' + cx('book') + ' ' + escHtml(v.name) + '</button>';
   });
@@ -236,13 +236,13 @@ function handleExportData() {
 
 /* --- Restore from Backup --- */
 function openRestoreData() {
-  var body = '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12)">Select a Codex JSON export to restore all data. This replaces your current library.</p>';
-  body += '<input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none">';
-  body += '<button data-action="triggerRestoreFile" class="cx-btn-secondary" style="width:100%;padding:var(--sp-16);margin-bottom:var(--sp-12)">' + cx('download') + ' Choose Backup File</button>';
-  body += '<div id="restoreFileStatus" style="color:var(--text-secondary);font-size:var(--fs-sm)"></div>';
+  var body = '<p class="cx-overlay-intro">Select a Codex JSON export to restore all data. This replaces your current library.</p>';
+  body += '<input type="file" id="restoreFileInput" accept=".json,application/json" class="cx-hidden">';
+  body += '<button data-action="triggerRestoreFile" class="cx-btn-secondary cx-full-width cx-file-choose-btn">' + cx('download') + ' Choose Backup File</button>';
+  body += '<div id="restoreFileStatus" class="cx-form-note"></div>';
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleRestoreData" class="cx-btn-primary" style="flex:1" id="restoreBtn" disabled>' + cx('check') + ' Restore</button>';
+    + '<button data-action="handleRestoreData" class="cx-btn-primary cx-btn-grow" id="restoreBtn" disabled>' + cx('check') + ' Restore</button>';
 
   openOverlay('Restore from Backup', body, footer);
   setTimeout(function() {
@@ -268,7 +268,7 @@ function handleRestoreFileSelect(e) {
     try {
       var data = JSON.parse(ev.target.result);
       if (!data.volumes || !Array.isArray(data.volumes)) {
-        if (status) status.innerHTML = '<span style="color:var(--error)">Invalid backup: missing volumes array</span>';
+        if (status) status.innerHTML = '<span class="cx-msg-error">Invalid backup: missing volumes array</span>';
         _restoreParsed = null;
         if (btn) btn.disabled = true;
         return;
@@ -277,10 +277,10 @@ function handleRestoreFileSelect(e) {
       var summary = data.volumes.length + ' volumes, ' + (data.canons || []).length + ' canons, '
         + (data.apocrypha || []).length + ' apocrypha, ' + (data.lore || []).length + ' lore, '
         + (data.journal || []).flatMap(function(d) { return d.sessions || []; }).length + ' sessions';
-      if (status) status.innerHTML = '<span style="color:var(--success)">' + cx('check') + ' ' + escHtml(file.name) + '</span><br><span style="color:var(--text-tertiary)">' + escHtml(summary) + '</span>';
+      if (status) status.innerHTML = '<span class="cx-msg-success">' + cx('check') + ' ' + escHtml(file.name) + '</span><br><span class="cx-msg-detail">' + escHtml(summary) + '</span>';
       if (btn) btn.disabled = false;
     } catch(err) {
-      if (status) status.innerHTML = '<span style="color:var(--error)">Invalid JSON: ' + escHtml(err.message) + '</span>';
+      if (status) status.innerHTML = '<span class="cx-msg-error">Invalid JSON: ' + escHtml(err.message) + '</span>';
       _restoreParsed = null;
       if (btn) btn.disabled = true;
     }
@@ -330,7 +330,7 @@ function openCreateSession() {
 
   body += renderTextField('session_chapters', 'Chapters Touched', '', { placeholder: 'Comma-separated chapter slugs' });
   body += renderTextField('session_decisions', 'Decisions', '', { placeholder: 'Comma-separated (canon IDs or descriptions)' });
-  body += '<div style="display:flex;gap:var(--sp-8)">';
+  body += '<div class="cx-field-row">';
   body += renderTextField('session_bugs_found', 'Bugs Found', '', { type: 'number', min: '0' });
   body += renderTextField('session_bugs_fixed', 'Bugs Fixed', '', { type: 'number', min: '0' });
   body += '</div>';
@@ -339,7 +339,7 @@ function openCreateSession() {
   body += renderTextField('session_open_todos', 'Open TODOs (snapshot)', '', { placeholder: 'Comma-separated TODO texts' });
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveSession" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Log Session</button>';
+    + '<button data-action="handleSaveSession" class="cx-btn-primary cx-btn-grow">' + cx('check') + ' Log Session</button>';
   openOverlay('New Session', body, footer);
 }
 
@@ -402,7 +402,7 @@ function handleDeleteSession(date, sessionId) {
    ============================================================ */
 
 function openCanonFabChoice() {
-  var body = '<div style="display:flex;flex-direction:column;gap:var(--sp-8)">';
+  var body = '<div class="cx-form-stack">';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateCanon">' + cx('bookmark') + ' New Canon</button>';
   body += '<button class="cx-btn-secondary cx-full-width" data-action="openCreateSchism">' + cx('alert') + ' New Schism</button>';
   body += '</div>';
@@ -445,7 +445,7 @@ function openCanonForm(canonId) {
   body += renderTextField('canon_created', 'Created (YYYY-MM)', canon ? canon.created || '' : localDateStr().substring(0, 7), { placeholder: '2026-04' });
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveCanon" data-id="' + escAttr(canonId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + '<button data-action="handleSaveCanon" data-id="' + escAttr(canonId || '') + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
 
   openOverlay(isEdit ? 'Edit Canon' : 'New Canon', body, footer);
@@ -533,7 +533,7 @@ function openEditApocryphon(apoId) {
   body += renderTextField('apo_date', 'Date', apo.date || '', { placeholder: 'YYYY-MM-DD' });
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveApocryphon" data-id="' + escAttr(apoId) + '" class="cx-btn-primary" style="flex:1">'
+    + '<button data-action="handleSaveApocryphon" data-id="' + escAttr(apoId) + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' Save</button>';
 
   openOverlay('Edit Apocryphon', body, footer);
@@ -617,7 +617,7 @@ function openLoreForm(loreId, prefill) {
   }
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-    + '<button data-action="handleSaveLore" data-id="' + escAttr(loreId || '') + '" class="cx-btn-primary" style="flex:1">'
+    + '<button data-action="handleSaveLore" data-id="' + escAttr(loreId || '') + '" class="cx-btn-primary cx-btn-grow">'
     + cx('check') + ' ' + (isEdit ? 'Save' : 'Create') + '</button>';
 
   openOverlay(isEdit ? 'Edit Lore' : 'New Lore', body, footer);
@@ -775,7 +775,7 @@ function openCreateSchism() {
     body += renderTextField('rej_canon_id', 'Linked Canon (optional)', '', { placeholder: 'canon-NNNN-slug' });
 
     var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
-      + '<button data-action="handleSaveSchism" class="cx-btn-primary" style="flex:1">' + cx('check') + ' Add</button>';
+      + '<button data-action="handleSaveSchism" class="cx-btn-primary cx-btn-grow">' + cx('check') + ' Add</button>';
     openOverlay('New Schism', body, footer);
     setTimeout(function() { var el = document.getElementById('field-rej_rejected'); if (el) el.focus(); }, OVERLAY_ANIM_MS);
   }, OVERLAY_ANIM_MS + 50);
@@ -836,13 +836,13 @@ var _snippetParsed = null;
 
 function openSnippetImport() {
   _snippetParsed = null;
-  var body = '<p style="font-size:var(--fs-xs);color:var(--text-secondary);margin-bottom:var(--sp-12)">Paste an Aurelius JSON snippet from a build session.</p>';
+  var body = '<p class="cx-snippet-intro">Paste an Aurelius JSON snippet from a build session.</p>';
   body += '<textarea id="snippetInput" class="cx-form-textarea cx-snippet-input" rows="8" placeholder="Paste JSON here\u2026"></textarea>';
   body += '<div id="snippetPreview"></div>';
 
   var footer = '<button data-action="closeOverlay" class="cx-btn-secondary">Cancel</button>'
     + '<button data-action="previewSnippet" class="cx-btn-secondary">' + cx('search') + ' Preview</button>'
-    + '<button data-action="importSnippet" class="cx-btn-primary" style="flex:1" disabled id="snippetImportBtn">' + cx('download') + ' Import</button>';
+    + '<button data-action="importSnippet" class="cx-btn-primary cx-btn-grow" disabled id="snippetImportBtn">' + cx('download') + ' Import</button>';
   openOverlay('Import Aurelius Snippet', body, footer);
 }
 
@@ -860,18 +860,18 @@ function handlePreviewSnippet() {
     var parsed = JSON.parse(raw);
     _snippetParsed = parsed;
   } catch(e) {
-    preview.innerHTML = '<div class="cx-form-error" style="display:block;margin-top:var(--sp-8)">Invalid JSON: ' + escHtml(e.message) + '</div>';
+    preview.innerHTML = '<div class="cx-form-error cx-snippet-error">Invalid JSON: ' + escHtml(e.message) + '</div>';
     if (importBtn) importBtn.disabled = true;
     return;
   }
 
   if (!_snippetParsed._snippet_version) {
-    preview.innerHTML = '<div class="cx-form-error" style="display:block;margin-top:var(--sp-8)">Missing _snippet_version field</div>';
+    preview.innerHTML = '<div class="cx-form-error cx-snippet-error">Missing _snippet_version field</div>';
     if (importBtn) importBtn.disabled = true;
     return;
   }
 
-  var html = '<div style="margin-top:var(--sp-12)">';
+  var html = '<div class="cx-snippet-preview">';
 
   // Preview session
   if (_snippetParsed.session) {
