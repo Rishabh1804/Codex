@@ -1072,6 +1072,12 @@ body {
 .cx-ladder-empty{font-size:var(--fs-xs);color:var(--text-tertiary);font-style:italic;padding:var(--sp-4) var(--sp-8)}
 .cx-ladder-seat-sovereign{font-family:var(--ff-heading);font-size:var(--fs-md);font-weight:700;color:var(--accent);padding:var(--sp-6) var(--sp-12);background:var(--bg-secondary);border-radius:var(--r-md);border:1px solid var(--accent-light);letter-spacing:0.3px}
 .cx-ladder-footnote{font-size:var(--fs-xs);color:var(--text-tertiary);font-style:italic;line-height:1.5;padding:var(--sp-8) 0;border-top:1px solid var(--border);margin-top:var(--sp-8)}
+.cx-ladder-tier{display:flex;flex-direction:column;gap:var(--sp-6);width:100%;padding:var(--sp-8) var(--sp-10);background:var(--bg-secondary);border:1px dashed var(--border);border-radius:var(--r-md)}
+.cx-ladder-tier-label{font-family:var(--ff-mono,monospace);font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.6px;font-weight:600}
+.cx-ladder-tier-note{font-size:var(--fs-xs);color:var(--text-secondary);line-height:1.5;margin:0}
+.cx-ladder-tier-specs{display:flex;flex-wrap:wrap;gap:var(--sp-6)}
+.cx-ladder-tier-spec{font-size:var(--fs-2xs);color:var(--text-secondary);background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-full);padding:var(--sp-2) var(--sp-8)}
+.cx-ladder-tier-spec strong{color:var(--text-primary);font-weight:700}
 
 /* ---- Companion Detail ---- */
 .cx-companion-detail-hero{background:var(--bg-card);border-radius:var(--r-lg);padding:var(--sp-20) var(--sp-16);margin-bottom:var(--sp-12);box-shadow:var(--card-shadow);border-left:3px solid var(--accent)}
