@@ -42,7 +42,7 @@ async function waitForBoot(page) {
 test.describe('The Order — mobile smoke', () => {
   test.beforeEach(async ({ page }) => { await seedAppData(page); });
 
-  test('Order tab is reachable, Roster renders 18 companions', async ({ page }) => {
+  test('Order tab is reachable, Roster renders 19 companions', async ({ page }) => {
     await page.goto('/index.html');
     await waitForBoot(page);
 
@@ -50,21 +50,22 @@ test.describe('The Order — mobile smoke', () => {
     await page.locator('[data-action="switchTab"][data-tab="order"]').click();
     await expect(page).toHaveURL(/#\/order/);
 
-    // Hero title + stats.
+    // Hero title + stats. 19 total = 18 generational + 1 institutional
+    // (CodeMike is the 19th, first Gen 1, seated per canon-inst-005).
     await expect(page.locator('.cx-page-title')).toContainText('The Order');
     const stats = page.locator('.cx-order-stat-value');
-    await expect(stats.nth(0)).toHaveText('18');
-    await expect(stats.nth(1)).toHaveText('17');
+    await expect(stats.nth(0)).toHaveText('19');
+    await expect(stats.nth(1)).toHaveText('18');
     await expect(stats.nth(2)).toHaveText('1');
 
-    // All 18 companions present as cards (match on companion-card title).
-    const names = ['Aurelius','Cipher','Consul','Ashara','Petra','Lyra','Maren','Kael','Nyx','Solara','Theron','Vex','Orinth','Rune','Ignis','Bard','Aeon','Pip'];
+    // All 19 companions present as cards (match on companion-card title).
+    const names = ['Aurelius','Cipher','Consul','Ashara','Petra','Lyra','Maren','Kael','Nyx','Solara','Theron','Vex','Orinth','Rune','Ignis','Bard','Aeon','Pip','CodeMike'];
     for (const name of names) {
       await expect(page.locator('.cx-companion-card').filter({ hasText: name }).first()).toBeVisible();
     }
   });
 
-  test('Cabinet subtab: 7 of 8 seats filled, Debt vacant', async ({ page }) => {
+  test('Cabinet subtab: 5 of 8 seats filled, three vacancies', async ({ page }) => {
     await page.goto('/index.html#/order');
     await waitForBoot(page);
 
@@ -75,14 +76,14 @@ test.describe('The Order — mobile smoke', () => {
       await expect(page.locator('.cx-cabinet-domain-title').filter({ hasText: domain })).toBeVisible();
     }
 
-    // Two vacancies after canon-inst-001 (Debt per cc-011, Expansion per inst-001).
+    // Three vacancies: Debt (canon-cc-011), Stability (canon-inst-002 — Rune
+    // elevated to Priest), Expansion (canon-inst-001 — Orinth to Codex Builder).
     const vacant = page.locator('.cx-cabinet-seat-vacant');
-    await expect(vacant).toHaveCount(2);
+    await expect(vacant).toHaveCount(3);
 
     // Occupants landed on their expected portfolios.
     await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Treasury' }).filter({ hasText: 'Ashara' })).toBeVisible();
     await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Efficiency' }).filter({ hasText: 'Petra' })).toBeVisible();
-    await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Stability' }).filter({ hasText: 'Rune' })).toBeVisible();
     await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Innovation' }).filter({ hasText: 'Bard' })).toBeVisible();
   });
 
@@ -103,7 +104,7 @@ test.describe('The Order — mobile smoke', () => {
     }
   });
 
-  test('Ladder subtab: Sovereign → Scribes with empty state', async ({ page }) => {
+  test('Ladder subtab: Sovereign → Scribes Worker Tier row', async ({ page }) => {
     await page.goto('/index.html#/order');
     await waitForBoot(page);
     await page.locator('[data-action="setSubTab"][data-tab="order"][data-key="ladder"]').click();
@@ -112,7 +113,9 @@ test.describe('The Order — mobile smoke', () => {
     for (const rank of ['Consul', 'Censors', 'Builders', 'Governors']) {
       await expect(page.locator('.cx-ladder-row').filter({ hasText: rank })).toBeVisible();
     }
-    await expect(page.locator('.cx-ladder-row').filter({ hasText: 'Scribes' })).toContainText(/None seated/i);
+    // The Scribes row surfaces the Worker Tier (canon-proc-006) — an unrostered
+    // rank-form, not named individuals.
+    await expect(page.locator('.cx-ladder-row').filter({ hasText: 'Scribes' })).toContainText(/Worker Tier/i);
   });
 
   test('Companion detail: Aurelius card → detail page renders Voice/Mind/Shadow blocks, no raw JSON', async ({ page }) => {
@@ -135,19 +138,23 @@ test.describe('The Order — mobile smoke', () => {
     await expect(page).toHaveURL(/#\/order/);
   });
 
-  test('Stub companion (Orinth): detail renders identity + assignment, no pre dumps', async ({ page }) => {
+  test('Orinth detail: v0.4-draft profile renders Voice/Mind/Shadow blocks, no raw JSON', async ({ page }) => {
     await page.goto('/index.html#/companion/orinth');
     await waitForBoot(page);
 
     await expect(page.locator('.cx-page-title')).toContainText('Orinth');
     await expect(page.locator('.cx-companion-block-title').filter({ hasText: 'Assignment' })).toBeVisible();
 
-    // Stubs don't populate voice/mind/shadow blocks — verify they're absent
-    // rather than empty-rendered with debug dumps.
+    // Orinth was lifted from v0.0-stub to a full v0.4-draft profile when his
+    // canon-proc-003 onboarding completed — the voice/mind/shadow blocks now
+    // render, and no block is an empty-rendered debug dump.
+    await expect(page.locator('.cx-companion-block-title').filter({ hasText: 'Voice' })).toBeVisible();
+    await expect(page.locator('.cx-companion-block-title').filter({ hasText: 'Mind' })).toBeVisible();
+    await expect(page.locator('.cx-companion-block-title').filter({ hasText: 'Shadow' })).toBeVisible();
     await expect(page.locator('.cx-companion-pre')).toHaveCount(0);
 
-    // Stub profile-version chip.
-    await expect(page.locator('.cx-chip-version-draft, .cx-chip-version-stub').filter({ hasText: /stub|0\.0/ })).toBeVisible();
+    // Profile-version chip reads v0.4-draft.
+    await expect(page.locator('.cx-chip-version-draft, .cx-chip-version-stub').filter({ hasText: /0\.4|draft/ })).toBeVisible();
   });
 
   test('Design-principles chip renders on Volume cards (canon-proc-002)', async ({ page }) => {

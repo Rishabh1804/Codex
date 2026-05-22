@@ -3913,10 +3913,17 @@ function renderCanonDetail(route) {
     html += '<div class="cx-card"><div class="cx-card-body" style="margin:0;line-height:1.6">' + escHtml(canon.rationale) + '</div></div>';
   }
 
-  // References
+  // References — resolved via renderReferenceLink per HR-C-06 / canon-0052
+  // §Cross-Cutting Discipline. The canon card at the list level already does
+  // this; the detail view was the sibling site the Canons polish missed.
   if (canon.references && canon.references.length > 0) {
     html += '<div class="cx-section-title">References</div>';
-    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">' + escHtml(canon.references.join(', ')) + '</div></div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0">';
+    canon.references.forEach(function(refId, idx) {
+      if (idx > 0) html += ', ';
+      html += renderReferenceLink(refId);
+    });
+    html += '</div></div>';
   }
 
   // Supersession Chain

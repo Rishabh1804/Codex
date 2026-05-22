@@ -1,6 +1,6 @@
 # CODEX_DESIGN_PRINCIPLES.md — Draft v0.1
 
-**Status:** draft (pending codification, audit of existing tabs, ratification)
+**Status:** draft — codebase audit completed 2026-05-22 (Orinth, first operational act per canon-proc-002; see §11). Pending: the visual tab walk (needs the Sovereign's device per §8.2) and Sovereign ratification.
 **Scope:** Codex PWA visual + interaction discipline. Extends and adapts the Republic-wide principles that originated in SproutLab's `docs/chapters/ch06-designprinciples.json` (the Hard Rules HR-1..HR-12). Codex-specific rules are numbered `HR-C-*` to keep the namespaces distinct.
 **Workflow:** draft → codify (this document) → audit existing tabs for compliance → ratify as Codex's constitution → extract a `REPUBLIC_DESIGN_PRINCIPLES.md` for the universal subset.
 
@@ -153,15 +153,24 @@ Sections of this document that should be promoted into `REPUBLIC_DESIGN_PRINCIPL
 
 Before this document ratifies, a single-session audit should:
 
-- [ ] Grep `references.*\.join` → expect zero matches (HR-C-06).
-- [ ] Grep `style="` in `split/views.js` + `split/forms.js` → audit every match; most should be HR-2 waivers (data-driven color) and nothing else.
-- [ ] Grep `onclick=|onchange=` → expect zero (HR-3).
-- [ ] Walk every tab visually in both light and dark mode, with filters at default and with filters applied. Capture screenshots for the audit chronicle.
-- [ ] Confirm every card variant carries category color treatment where §3.4 specifies one. The Canons polish commit is the precedent — no entity-type card should ship without the left-border + filled chip treatment when a primary classification exists.
-- [ ] Run `npx playwright test` — all cases green.
-- [ ] Read CLAUDE.md and confirm the design-principles reference is wired in.
+- [x] Grep `references.*\.join` → **1 genuine violation found and fixed.** `views.js` canon-detail view rendered references as `escHtml(canon.references.join(', '))` — the exact anti-pattern §7.1 names. The canon *card* already used `renderReferenceLink()`; the *detail* view was the sibling site the Canons polish missed. Fixed 2026-05-22. The 3 remaining `.join` matches are not violations: `forms.js` ×2 are form-input pre-fill (editing references as a comma-separated text field), `forms.js` ×1 is markdown-export string assembly — neither is a UI render site.
+- [~] Grep `style="` in `split/views.js` + `split/forms.js` → **115 occurrences** (views 89, forms 26). Spot-checks confirm the bulk are data-driven color waivers (§1.1) and layout one-offs (`margin:0`). A full match-by-match classification into {HR-2 waiver, layout one-off needing a token/class, genuine violation} is owed before ratification — sized as its own sub-audit.
+- [x] Grep `onclick=|onchange=` → **0 actual inline handlers** (HR-3 PASS). The single grep hit is canon rationale *text* in `seed.js` describing the rule itself, not a handler.
+- [ ] Walk every tab visually in both light and dark mode, with filters at default and with filters applied. Capture screenshots for the audit chronicle. **Owed — needs the Sovereign's device per §8.2.**
+- [ ] Confirm every card variant carries category color treatment where §3.4 specifies one. The Canons polish commit is the precedent — no entity-type card should ship without the left-border + filled chip treatment when a primary classification exists. **Owed — folds into the visual walk.**
+- [x] Run `npx playwright test` → **90 cases green.** The audit found 4 stale assertions in `order-view.spec.js` (companion count 18→19 post-CodeMike/canon-inst-005; cabinet vacancies 2→3 post-canon-inst-002; the Scribes Ladder row post-canon-proc-006; Orinth's profile chip stub→v0.4-draft). The app behaviour was correct in all four — the tests lagged ratified canon. Tests reconciled 2026-05-22.
+- [x] Read CLAUDE.md and confirm the design-principles reference is wired in → present in the Codex App §Open/pending block.
 
 Audit findings become amendments to the draft before ratification. Post-ratification, this document's discipline is the baseline for every new feature.
+
+### 11.1 Audit log — 2026-05-22 (Orinth, first-act per canon-proc-002)
+
+The mechanical sweep is complete; the visual layer is not. State for the Sovereign:
+
+- **Ready to ratify on:** the Hard-Rule code disciplines (HR-3, HR-C-06) — swept, one violation found and corrected, suite green.
+- **Owed before ratification:** (a) the full `style="` classification pass; (b) the visual tab walk, light + dark, which §8.2 names as un-automatable and device-bound.
+- **Recommended amendment (not yet applied):** §0–§11 are assembled out of numerical order in the file (the reading order runs 0,1,8,9,10,11,6,7,5,4,3,2). A pure-reorder pass is recommended once the substantive audit closes, kept as its own commit so the diff stays reviewable.
+- **Not build-gating yet:** per canon-proc-002 the Codex design-principles chip stays `draft` until ratification; new Codex-surface build remains gated on the chip turning green.
 
 ---
 
