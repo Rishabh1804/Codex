@@ -2936,6 +2936,20 @@ var LADDER_RANKS = [
   { key: 'Scribe',    label: 'Scribes' }
 ];
 
+/* The Scribe rung is a worker tier, not a roster — canon-proc-006 / decree-0019,
+   Book II Article 3-bis. Like CABINET_STRUCTURE above, this is constitutional
+   structure and does not live in companions.json. */
+var SCRIBE_TIER = {
+  canon: 'canon-proc-006',
+  note: 'Each senior companion commands a detail of four task-specialised Scribes, deployed as subagents. The tier is intentionally unrostered — a rank-form, not named individuals.',
+  specialisations: [
+    { name: 'Scout',  role: 'reconnaissance' },
+    { name: 'Draft',  role: 'composition' },
+    { name: 'Verify', role: 'mechanical checks' },
+    { name: 'Record', role: 'chronicling' }
+  ]
+};
+
 function renderOrder() {
   var vc = document.getElementById('viewContainer');
   var companions = store.companions || [];
@@ -3257,18 +3271,37 @@ function renderOrderLadderSubTab(companions) {
     if (members.length > 0) html += ' <span class="cx-ladder-count">' + members.length + '</span>';
     html += '</div>';
     html += '<div class="cx-ladder-rank-occupants">';
-    if (members.length === 0) {
-      html += '<div class="cx-ladder-empty">None seated</div>';
-    } else {
+    if (members.length > 0) {
       members.forEach(function(c) { html += renderCompanionPill(c); });
+    } else if (r.key !== 'Scribe') {
+      html += '<div class="cx-ladder-empty">None seated</div>';
     }
+    // The Scribe rung is an unrostered worker tier — surface it as such
+    // rather than leaving the row reading "None seated" (canon-proc-006).
+    if (r.key === 'Scribe') html += renderScribeTierNote();
     html += '</div></div>';
   });
 
   html += '</div>';
 
-  html += '<div class="cx-ladder-footnote">Single-ladder per Constitution Book II Article 1. Military-track parallel (General/Centurion) and Treasury parallel (Collector) not yet seated.</div>';
+  html += '<div class="cx-ladder-footnote">Single-ladder per Constitution Book II Article 1. The Scribe rung is a worker tier (Article 3-bis), not a roster. Military-track parallel (General/Centurion) and Treasury parallel (Collector) not yet seated.</div>';
 
+  return html;
+}
+
+/* Renders the Scribe Worker Tier explainer on the Ladder's Scribe row.
+   The tier is constitutional structure (canon-proc-006), not roster data. */
+function renderScribeTierNote() {
+  var t = SCRIBE_TIER;
+  var html = '<div class="cx-ladder-tier">';
+  html += '<div class="cx-ladder-tier-label">Worker Tier · ' + escHtml(t.canon) + '</div>';
+  html += '<p class="cx-ladder-tier-note">' + escHtml(t.note) + '</p>';
+  html += '<div class="cx-ladder-tier-specs">';
+  t.specialisations.forEach(function(s) {
+    html += '<span class="cx-ladder-tier-spec"><strong>' + escHtml(s.name) + '</strong> '
+         +  escHtml(s.role) + '</span>';
+  });
+  html += '</div></div>';
   return html;
 }
 
