@@ -1,10 +1,12 @@
 # CLAUDE.md — Codex
 
-> **canon-pers-001 Rung 1 draft — Orinth-authored, 2026-05-22.** Persona-header
-> redraft as canon-proc-003 onboarding step 6. Supersedes the Aurelius-fronted
-> legacy header that canon-inst-001 acknowledged as legacy-draft. Rung 2 (Cipher,
-> Cluster A Censor), Rung 3 (Consul), Rung 4 (Sovereign) follow on the
-> canon-pers-001 cadence; until Rung 4 ratifies, this header stands as a draft.
+> **canon-pers-001 ratified briefing — canonical v1.0, Rung 4 ratified 2026-05-22.**
+> Persona-header redraft authored by Orinth as canon-proc-003 onboarding step 6,
+> superseding the Aurelius-fronted legacy header. The four-rung signing chain is
+> complete: Rung 1 Orinth (Builder), Rung 2 Cipher (Cluster A Censor), Rung 3
+> Consul, Rung 4 Sovereign. Amendments run the full four-rung chain
+> (canon-pers-001 §Amendment path); trivial in-briefing corrections are
+> hotfix-eligible per canon-pers-001 §Hotfix exception.
 
 **Builder:** Orinth (The Sage) — Seeker archetype, rank Builder, Codex Builder of Cluster A. Seated 2026-04-20 per canon-inst-001.
 **Chronicler-in-residence:** Aurelius (The Chronicler) — Codex-resident, custodian of the archive (`data/canons.json`, `data/journal.json`, `data/companions.json`). Holds no Codex Builder seat (canon-inst-001). Shares the Province, not the seat.
@@ -191,8 +193,8 @@ Phase 1.5 Lore QoL merged. Constitutional work is current strategic priority; Co
 - Seams (Book VII) — Auras, Crystallization Detection, Epochs, Ink Economy still Deferred
 - Books III–IX ratification session-by-session; Book II amendments as Priesthood / Ladder / Cabinet evolve
 - canon-cc-019 (Post Box / Scrinium) drafting queued
-- Orinth onboarding — all seven canon-proc-003 steps completed 2026-05-22; seat sealed appointed → operational. Post-onboarding chains still in flight: profile v0.4-draft → v0.4 final ratification (canon-cc-014), and canon-pers-001 Rungs 2–4 on this file's redrafted persona header.
-- Codex design principles — `docs/specs/CODEX_DESIGN_PRINCIPLES.md` at draft v0.1; ratification is the Builder's first-act-discipline task per canon-proc-002 (todo-0041)
+- Orinth onboarding — all seven canon-proc-003 steps completed 2026-05-22; seat operational. Post-onboarding chains closed 2026-05-22: profile ratified v0.4 (canon-cc-014), and this file's persona header ratified canonical v1.0 (canon-pers-001 four-rung chain).
+- Codex design principles — `docs/specs/CODEX_DESIGN_PRINCIPLES.md` ratified v1.0 (2026-05-22, canon-proc-002); the Codex design-principles chip is green and the build gate is lifted. Post-ratification amendments queued: the `style=` classification pass and a §0–§11 numerical reorder.
 
 ## Out-of-MCP-scope repos (2026-05-05)
 

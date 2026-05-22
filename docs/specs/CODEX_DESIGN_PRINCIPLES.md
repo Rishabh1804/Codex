@@ -1,6 +1,6 @@
-# CODEX_DESIGN_PRINCIPLES.md — Draft v0.1
+# CODEX_DESIGN_PRINCIPLES.md — v1.0 (ratified)
 
-**Status:** draft — codebase audit completed 2026-05-22 (Orinth, first operational act per canon-proc-002; see §11). Pending: the visual tab walk (needs the Sovereign's device per §8.2) and Sovereign ratification.
+**Status:** ratified v1.0 — Sovereign-ratified 2026-05-22. The codebase audit was completed by Orinth as his first operational act per canon-proc-002 (see §11); the visual tab walk and the ratification pass were closed by the Sovereign. This document is now peer to the canon layer (§1.3) and the baseline discipline for every new Codex feature.
 **Scope:** Codex PWA visual + interaction discipline. Extends and adapts the Republic-wide principles that originated in SproutLab's `docs/chapters/ch06-designprinciples.json` (the Hard Rules HR-1..HR-12). Codex-specific rules are numbered `HR-C-*` to keep the namespaces distinct.
 **Workflow:** draft → codify (this document) → audit existing tabs for compliance → ratify as Codex's constitution → extract a `REPUBLIC_DESIGN_PRINCIPLES.md` for the universal subset.
 
@@ -171,6 +171,13 @@ The mechanical sweep is complete; the visual layer is not. State for the Soverei
 - **Owed before ratification:** (a) the full `style="` classification pass; (b) the visual tab walk, light + dark, which §8.2 names as un-automatable and device-bound.
 - **Recommended amendment (not yet applied):** §0–§11 are assembled out of numerical order in the file (the reading order runs 0,1,8,9,10,11,6,7,5,4,3,2). A pure-reorder pass is recommended once the substantive audit closes, kept as its own commit so the diff stays reviewable.
 - **Not build-gating yet:** per canon-proc-002 the Codex design-principles chip stays `draft` until ratification; new Codex-surface build remains gated on the chip turning green.
+
+### 11.2 Ratification close — 2026-05-22 (Sovereign-direct)
+
+The Sovereign closed the visual tab walk and ratified this document to **v1.0**. Consequences:
+
+- The Codex Volume's `design_principles.status` flips `draft → ratified`; the chip renders green and the canon-proc-002 build gate is lifted. todo-0041 resolved.
+- The two items §11.1 listed as owed — the full `style="` classification pass and the §0–§11 numerical reorder — carry forward as **post-ratification amendments**. Per canon-proc-002 §Corollaries a ratified doc may downgrade to `draft` when amendments are proposed and returns to `ratified` on their ratification; neither item blocks the v1.0 baseline.
 
 ---
 
