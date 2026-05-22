@@ -1139,7 +1139,7 @@ function renderCanonDetail(route) {
   // Rationale (full)
   if (canon.rationale) {
     html += '<div class="cx-section-title">Rationale</div>';
-    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0;line-height:1.6">' + escHtml(canon.rationale) + '</div></div>';
+    html += '<div class="cx-card"><div class="cx-card-body" style="margin:0;line-height:var(--lh-relaxed)">' + escHtml(canon.rationale) + '</div></div>';
   }
 
   // References — resolved via renderReferenceLink per HR-C-06 / canon-0052
@@ -2297,11 +2297,11 @@ function renderVolumeDetail(route) {
 
   // Header
   html += '<div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-8)">';
-  html += '<div class="cx-vol-accent" style="background:' + escAttr(vol.domain_color) + ';width:4px;height:28px;border-radius:2px"></div>';
+  html += '<div class="cx-vol-accent cx-vol-accent-header" style="background:' + escAttr(vol.domain_color) + '"></div>';
   html += '<h1 class="cx-page-title" style="margin:0">' + escHtml(vol.name) + '</h1>';
   html += '<span class="cx-shelf-badge cx-shelf-' + escAttr(vol.shelf) + '">' + escHtml(vol.shelf) + '</span>';
   html += '</div>';
-  if (vol.description) html += '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12);line-height:1.6">' + escHtml(vol.description) + '</p>';
+  if (vol.description) html += '<p style="color:var(--text-secondary);margin-bottom:var(--sp-12);line-height:var(--lh-relaxed)">' + escHtml(vol.description) + '</p>';
   if (vol.current_phase) html += '<p style="color:var(--accent);font-size:var(--fs-xs);font-weight:500;margin-bottom:var(--sp-12)">' + cx('info') + ' ' + escHtml(vol.current_phase) + '</p>';
   if (vol.tags && vol.tags.length > 0) {
     html += '<div class="cx-tag-inline" style="margin-bottom:var(--sp-12)">';
@@ -2400,7 +2400,7 @@ function renderChapterDetail(route) {
   html += '</div>';
 
   // Summary
-  if (ch.summary) html += '<p style="color:var(--text-secondary);font-size:var(--fs-sm);line-height:1.6;margin-bottom:var(--sp-16)">' + escHtml(ch.summary) + '</p>';
+  if (ch.summary) html += '<p style="color:var(--text-secondary);font-size:var(--fs-sm);line-height:var(--lh-relaxed);margin-bottom:var(--sp-16)">' + escHtml(ch.summary) + '</p>';
 
   // Spec URL
   if (ch.spec_url) html += '<p style="margin-bottom:var(--sp-16)"><a href="' + escAttr(ch.spec_url) + '" target="_blank" rel="noopener" class="cx-link-btn">' + cx('link') + ' View Spec</a></p>';
@@ -2437,7 +2437,7 @@ function renderChapterDetail(route) {
       var dur = s.duration_minutes ? s.duration_minutes + 'm' : '';
       html += '<div class="cx-mini-card">';
       html += '<div style="font-size:var(--fs-sm);font-weight:500">' + escHtml(s.id) + ' \u00B7 ' + escHtml(formatAbsoluteDate(ls.date)) + (dur ? ' \u00B7 ' + escHtml(dur) : '') + '</div>';
-      if (s.summary) html += '<div style="font-size:var(--fs-xs);color:var(--text-secondary);margin-top:var(--sp-4);line-height:1.5">' + escHtml(s.summary.length > 150 ? s.summary.substring(0, 150) + '\u2026' : s.summary) + '</div>';
+      if (s.summary) html += '<div style="font-size:var(--fs-xs);color:var(--text-secondary);margin-top:var(--sp-4);line-height:var(--lh-snug)">' + escHtml(s.summary.length > 150 ? s.summary.substring(0, 150) + '\u2026' : s.summary) + '</div>';
       html += '</div>';
     });
   }

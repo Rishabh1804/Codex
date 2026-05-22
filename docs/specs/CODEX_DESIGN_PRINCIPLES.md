@@ -140,6 +140,15 @@ Applied via `h1, h2, h3 { font-family: var(--ff-heading) }` and `body { font-fam
 
 44px minimum hit area for every tap target on mobile. Buttons and icon-buttons in `styles.css` hit this via `min-height: 44px` (or `min-height: 36px` for `cx-btn-sm` with explicit justification — the Sort pill row, filter pills, etc.). Sub-44px targets are HR-5-adjacent — they're not about tokens but about accessibility baseline.
 
+### 2.7 Line-height
+
+```
+--lh-snug:    1.5   (compact summaries — e.g. session-list summary lines)
+--lh-relaxed: 1.6   (prose body — canon rationale, volume + chapter descriptions)
+```
+
+Multi-line running text references a line-height token rather than an inline literal, so the value stays auditable and consistent. Headings and single-line UI text use the browser default; only prose needs a token. Added 2026-05-22 as a post-ratification amendment alongside the §11.3 Bucket-C fix.
+
 ---
 
 ## 3. Color System
@@ -799,11 +808,16 @@ The bulk — `margin-top:var(--sp-12)`, `display:flex;gap:var(--sp-8)`, `flex:1`
 
 *Finding.* Forbidding `style="margin-top:var(--sp-12)"` buys little — it is already token-disciplined and theme-safe — while a 104-site extraction into single-use CSS classes is high-churn and visual-regression-prone. *Recommendation:* amend HR-2 to name a **second documented waiver class — token-based / keyword-only layout inline styles are permitted**; only magic-number and raw-colour inline styles remain violations. This sanctions the ≈104 with no code churn. The amendment runs the canon-proc-002 path; the strict-HR-2 alternative (the extraction refactor) stays available if the Sovereign prefers it.
 
-**C — Genuine HR-5 magic-number concerns (2). Fix owed.**
-- `views.js:1142` — `style="margin:0;line-height:1.6"` on the canon-rationale card body. `line-height:1.6` is a magic number; §2 defines no line-height token. Fix: add a `--lh-*` token or a `.cx-prose-body` class.
-- `views.js:2300` — `cx-vol-accent` carries `width:4px;height:28px;border-radius:2px` inline alongside its data-driven background. The three dimensions belong in the `.cx-vol-accent` CSS class. Note: the sibling `cx-vol-accent` at `views.js:2192` has no inline dimensions — confirm whether the two are meant to be the same size before consolidating.
+**C — Genuine magic-number inline styles. Fixed 2026-05-22.**
+A closer sweep — the §11.1 grep had excluded token-bearing `style=` attributes, undercounting this bucket — found the `line-height` magic number recurring at four sites plus one redundant-dimension case:
+- `line-height:1.6` at `views.js:1142` (canon rationale), `:2304` (volume description), `:2403` (chapter summary); `line-height:1.5` at `:2440` (session-list summary). §2 defined no line-height token. **Fixed:** added `--lh-relaxed: 1.6` and `--lh-snug: 1.5` (§2.7); the four sites now reference the tokens.
+- `views.js:2300` — `cx-vol-accent` carried `width:4px;height:28px;border-radius:2px` inline. `width:4px` and `border-radius:2px` were already set by the `.cx-vol-accent` class — pure duplication. **Fixed:** dropped the redundant pair; `height:28px` moved to a new `.cx-vol-accent-header` modifier class.
 
-Bucket A is closed. Bucket B is a Sovereign policy decision (recommended HR-2 amendment above). Bucket C is a small targeted fix. todo-0064 (the classification pass) is complete with this record; the HR-2 amendment and the Bucket-C fix are its successors.
+All values are preserved exactly — the fix is pixel-identical, no visual change.
+
+Left as-is and noted, not magic-number violations in HR-5's `--sp-*/--fs-*/--r-*` sense: `views.js:1898` (`min-width:28px;min-height:28px` on the sync-panel close button — a §2.6 touch-target question, not a token cleanup) and `views.js:2776` (`border-left:3px` — `3px` is the value §3.3 specifies).
+
+Bucket A is closed. Bucket B is the Sovereign HR-2-amendment decision above. Bucket C is fixed. The §2.7 line-height tokens are a post-ratification amendment to this v1.0 doc.
 
 ---
 

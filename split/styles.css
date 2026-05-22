@@ -9,6 +9,7 @@
   --fs-base:14px;
   --fs-2xs:calc(var(--fs-base) - 4px);--fs-xs:calc(var(--fs-base) - 2px);--fs-sm:var(--fs-base);--fs-md:calc(var(--fs-base) + 2px);
   --fs-lg:calc(var(--fs-base) + 4px);--fs-xl:calc(var(--fs-base) + 6px);--fs-2xl:calc(var(--fs-base) + 10px);--fs-3xl:calc(var(--fs-base) + 16px);
+  --lh-snug:1.5;--lh-relaxed:1.6;
   --r-sm:4px;--r-md:8px;--r-lg:12px;--r-xl:16px;--r-2xl:20px;--r-full:9999px;
   --anim-overlay:300ms;--anim-toast:200ms;--anim-tab-switch:150ms;--anim-expand:200ms;
   --ff-heading:'Playfair Display',Georgia,'Times New Roman',serif;
@@ -106,6 +107,7 @@ a{color:inherit;text-decoration:none}
 
 /* Volume card accent bar */
 .cx-vol-accent{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch}
+.cx-vol-accent-header{height:28px}
 .cx-vol-card{display:flex;gap:var(--sp-12)}
 .cx-vol-card-content{flex:1;min-width:0}
 
