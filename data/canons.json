@@ -138,7 +138,7 @@
       "rationale": "After every build session: multi-round QA continuing until only cosmetic bugs remain. List cosmetic bugs at end. Check all HRs, functional flows, null guards, class coverage, overlay close, escHtml/escAttr.",
       "created": "2026-03",
       "status": "superseded",
-      "superseded_by": "canon-0014-multi-round-qa",
+      "superseded_by": "canon-0054-multi-round-qa",
       "references": [
         "HR-9"
       ],
@@ -458,7 +458,7 @@
       "_deleted_date": null
     },
     {
-      "id": "canon-0014-multi-round-qa",
+      "id": "canon-0054-multi-round-qa",
       "family": "proc",
       "scope": "global",
       "category": "process",
@@ -475,7 +475,7 @@
       "_deleted_date": null
     },
     {
-      "id": "canon-0033-gitignore-data-protection",
+      "id": "canon-0056-gitignore-data-protection",
       "family": "build",
       "scope": "global",
       "category": "process",
@@ -489,7 +489,7 @@
       "_deleted_date": null
     },
     {
-      "id": "canon-0028-tab-persistence",
+      "id": "canon-0055-tab-persistence",
       "family": "design",
       "scope": "global",
       "category": "architecture",
@@ -1719,6 +1719,28 @@
       "_deleted_date": null
     },
     {
+      "id": "canon-inst-003-ignis-temple-builder-cluster-c-monument-class",
+      "family": "inst",
+      "title": "Ignis Seated Temple of Mars Builder; Cluster C Established as Monument Class; Cipher Named Interim Censor of Cluster C",
+      "scope": "global",
+      "category": "governance",
+      "rationale": "This canon ratifies three institutional moves bound into a single act: the seating of Ignis as Builder of Temple of Mars, the establishment of Cluster C as the Monument-class cluster containing Command Center and Temple of Mars, and the naming of Cipher as interim Censor of Cluster C pending a successor.\n\n**Move 1 — Ignis seated Temple of Mars Builder.** The canon-inst-003 slot has been reserved for Ignis's Temple Builder seating since the Sovereign decree of 2026-04-23 at Temple of Mars's founding (chronicled at lore-2026-04-23-chronicle-temple-founding and journal session-2026-04-23-aurelius-war-prep). The seat has been operationally implicit across volumes.json (chapter ch-ignis-canon-entry tracked the pending seat), journal.json (the founding session recorded the canon as queued for Sovereign hand), and Temple of Mars's current_phase strings (which named Ignis as Builder despite the canon being unminted). This canon formalizes what every adjacent record has assumed since 2026-04-23.\n\nIgnis is reassigned from the Cabinet seat 'Minister: Output (Productivity domain)' to Builder, Temple of Mars. The Minister seat is vacated; pro-tempore distributive care covers the Productivity-Output domain until a successor lands or the Cabinet reshuffles per its monthly cadence. The reassignment is a horizontal move on the Ladder (Minister and Builder are both rank-4 institutional seats per Book II Article 2). Ignis's companion profile is updated accordingly: current_rank Minister → Builder, cluster Capital → C, province null → temple-of-mars, residence command-center → temple-of-mars.\n\n**Move 2 — Cluster C established as the Monument class.** The Republic's Cluster taxonomy is amended: Cluster A (Codex + SproutLab + MSc; Censor: Cipher) and Cluster B (SEP Invoicing + SEP Dashboard; Censor: Nyx) remain unchanged. Cluster C is established as the Monument-class cluster, containing Command Center (the founding Monument per Edict VI) and Temple of Mars (the Watchtower sibling Monument). The 'Monument' designation that previously applied to Command Center alone is preserved as a Province-class attribute; Cluster C is the constitutional grouping that contains all Monument-class Provinces. Future Monument designations enrol into Cluster C. The corporate-parallel mapping of canon-pers-002 extends: Studio (A), SEP (B), Monument Bloc (C).\n\n**Move 3 — Cipher named interim Censor of Cluster C.** Cipher's Censor authority over Cluster A continues. Cipher is named interim Censor of Cluster C pending a successor named in Cipher's place. This double-cluster jurisdiction is explicitly interim: the operating expectation is that a new Censor will be seated for Cluster C, at which point Cipher returns to Cluster-A-only. The Cabinet should treat the Cluster C Censor seat as open for recruitment and Sovereign-direct seating; until that seating happens, Cipher's per-repo lens extends to command-center and temple-of-mars. Cipher's companion profile is updated to reflect this: current_assignments lists Cluster A + Cluster C interim; per_repo_lens adds command-center and temple-of-mars entries; the interim status is named explicitly so the seat does not silently calcify into permanent.\n\n**Companion-side updates landing with this canon:**\n- Ignis profile reassigned (rank, cluster, province, residence, current_assignments).\n- Cipher profile expanded (current_assignments, per_repo_lens) with interim note.\n- ch-ignis-canon-entry in temple-of-mars Volume marked complete.\n- temple-of-mars Volume current_phase refreshed to reflect Builder seated.\n- command-center + temple-of-mars Volume tags updated to reflect Cluster C membership.\n- Cluster C is added as a recognized cluster value in companion profiles and Volume metadata; existing Monument tag on command-center remains as Province-class attribute.\n\nRatified within the bulk-ingestion campaign Tier 0.6 (2026-05-24) alongside the decree-0004 ratification (canon-cc-028-basilica-embassies + canon-cc-029-codex-embassy-holds-the-running-books). The two ratifications together resolve the longest-standing institutional asymmetries surfaced by the campaign's scribe-scout surveys (canon-inst-003 ghost slot per the Temple of Mars Scout report; decree-0004 unratified per the Command-Center Scout report).",
+      "status": "active",
+      "ratified": "2026-05-24",
+      "ratification_mode": "sovereign_direct_within_bulk_ingestion_campaign_tier_0.6",
+      "ratified_by": "sovereign",
+      "references": [
+        "canon-inst-001-aurelius-orinth-codex-builder-transition",
+        "canon-inst-002-rune-elevation-to-priest",
+        "canon-inst-004-msc-enrolled-in-cluster-a",
+        "canon-inst-005-codemike-msc-builder-seating",
+        "canon-cc-016-residency-and-access-gating",
+        "canon-cc-028-basilica-embassies",
+        "decree-0004-basilica-and-priest",
+        "lore-2026-04-23-chronicle-temple-founding"
+      ]
+    },
+    {
       "id": "canon-inst-004-msc-enrolled-in-cluster-a",
       "family": "inst",
       "title": "MSc Enrolled in Cluster A; Censorial Jurisdiction Extended; Admission Criterion Relaxed",
@@ -1813,7 +1835,7 @@
       "_deleted_date": null
     },
     {
-      "id": "canon-cc-015-basilica-embassies",
+      "id": "canon-cc-028-basilica-embassies",
       "title": "The Basilica; the Embassies; the Retirement of Gates and Visiting Chambers",
       "scope": "capital",
       "category": "capital_structure",
@@ -1821,15 +1843,19 @@
       "created": "2026-04-23",
       "status": "active",
       "references": [
-        "canon-cc-016-codex-embassy-holds-the-running-books",
+        "canon-cc-029-codex-embassy-holds-the-running-books",
         "canon-gov-014-priest-office-embassy-rites",
         "charter-article-4-spatial-metaphor"
       ],
       "_deleted": false,
-      "_deleted_date": null
+      "_deleted_date": null,
+      "ratified": "2026-05-24",
+      "ratification_mode": "sovereign_direct_within_bulk_ingestion_campaign_tier_0.6",
+      "ratified_by": "sovereign",
+      "parent_decree": "decree-0004-basilica-and-priest"
     },
     {
-      "id": "canon-cc-016-codex-embassy-holds-the-running-books",
+      "id": "canon-cc-029-codex-embassy-holds-the-running-books",
       "title": "Codex's Embassy Holds the Running Books; the Archives Hold Lore and Log",
       "scope": "capital",
       "category": "capital_structure",
@@ -1837,10 +1863,14 @@
       "created": "2026-04-23",
       "status": "active",
       "references": [
-        "canon-cc-015-basilica-embassies"
+        "canon-cc-028-basilica-embassies"
       ],
       "_deleted": false,
-      "_deleted_date": null
+      "_deleted_date": null,
+      "ratified": "2026-05-24",
+      "ratification_mode": "sovereign_direct_within_bulk_ingestion_campaign_tier_0.6",
+      "ratified_by": "sovereign",
+      "parent_decree": "decree-0004-basilica-and-priest"
     },
     {
       "id": "canon-gov-014-priest-office-embassy-rites",
@@ -1852,7 +1882,7 @@
       "created": "2026-04-23",
       "status": "active",
       "references": [
-        "canon-cc-015-basilica-embassies",
+        "canon-cc-028-basilica-embassies",
         "appendix-c-rune-ritualist"
       ],
       "_deleted": false,
@@ -1975,7 +2005,7 @@
       "chosen": "localStorage-only with manual backup/restore",
       "reason": "SEP has 349KB of live business data with financial records, client rates, and GSTIN numbers. GitHub sync would commit sensitive data to a public repo. Manual backup/restore keeps data local while allowing export for safety.",
       "date": "2026-04-13",
-      "canon_id": "canon-0033-gitignore-data-protection"
+      "canon_id": "canon-0056-gitignore-data-protection"
     },
     {
       "id": "rej-0009-items-8th-tab",
@@ -2014,7 +2044,7 @@
       "canon_id": "canon-0031-single-zip-delivery"
     },
     {
-      "id": "rej-0013-react-vs-vanilla",
+      "id": "rej-0019-react-vs-vanilla",
       "context": "SproutLab architecture decision",
       "volumes": [
         "sproutlab"
@@ -2026,7 +2056,7 @@
       "canon_id": null
     },
     {
-      "id": "rej-0014-backend-database",
+      "id": "rej-0021-backend-database",
       "context": "SproutLab data persistence",
       "volumes": [
         "sproutlab"
@@ -2158,7 +2188,7 @@
       "canon_id": null
     },
     {
-      "id": "rej-0009-8-family-canon-taxonomy",
+      "id": "rej-0018-8-family-canon-taxonomy",
       "context": "canon-proc-001 Canon Identifier Scheme drafting (s-2026-04-20-03)",
       "volumes": [
         "codex"
@@ -2211,7 +2241,7 @@
       "canon_id": "canon-inst-001-aurelius-orinth-codex-builder-transition"
     },
     {
-      "id": "rej-0013-orinth-codex-builder-alternatives",
+      "id": "rej-0020-orinth-codex-builder-alternatives",
       "context": "Codex Builder seat selection from unseated/reassignable companions (s-2026-04-20-06)",
       "volumes": [
         "codex"
@@ -2542,7 +2572,7 @@
       "_deleted_date": null
     },
     {
-      "id": "apo-0006-the-second-child",
+      "id": "apo-0009-the-second-child",
       "title": "The Second Child",
       "narrative": "It is foretold that SproutLab will one day need to track more than one child.\n\nThe signs are already written in the architecture. The localStorage keys carry no child identifier — they assume singularity. The daily summaries speak of \"today\" as if there is only one today, one set of feeds, one sleep schedule. The milestone engine tracks one developmental arc. The intelligence module scores one day for one child against one baseline. The entire system breathes with the rhythm of a single heartbeat.\n\nWhen the second child comes, the data model will fork. Some things will be shared — the food database, the recipe library, the design principles that govern the interface. But growth curves will diverge from day one. Sleep patterns will be independent, though the parents’ sleep will suffer the union of both. Illness tracking will gain a new dimension: sibling transmission, the clockwork regularity with which one child’s cold becomes the other’s three days later.\n\nThe architecture split was the first unconscious preparation, though its builders did not know it at the time. Nine modules can be extended more easily than a monolith. A new child means new data.js entries, new home.js cards, new intelligence.js baselines — but the modules themselves hold. The design principles hold. The Hard Rules hold. HR-1 through HR-12 do not care how many children exist.\n\nThe deeper question is not technical but philosophical: should the second child get their own SproutLab instance, or should the app evolve into a family tracker? A separate instance is simpler — clone the repo, change the name, deploy. But it loses the cross-child intelligence that makes sibling data valuable: comparative growth trajectories, shared illness timelines, feeding pattern evolution from first child to second.\n\nThe prophecy does not specify the answer. It only notes that the single-child assumption runs deep, and that when it breaks, the builder will face a choice between simplicity and insight. Both paths honor the original purpose. Both paths carry cost.\n\nWhat the prophecy does promise: the foundation is sound. The father who built SproutLab at midnight for one daughter built it well enough to hold two.",
       "volumes": [
@@ -2554,7 +2584,7 @@
       "_deleted_date": null
     },
     {
-      "id": "apo-0007-the-machine-that-remembers",
+      "id": "apo-0010-the-machine-that-remembers",
       "title": "The Machine That Remembers",
       "narrative": "There exists a vision — not yet built, perhaps never built — of SproutLab as a time capsule.\n\nEvery feeding logged. Every milestone celebrated. Every sleepless night recorded with the quiet precision of a machine that does not forget. The first smile, captured not in a photograph but in a data point: date, time, context, the parent’s note that read simply \"she smiled at me.\" The first tooth, logged in the medical module with onset date, symptoms, duration, the teething ring that worked and the one that didn’t.\n\nYears from now, when Ziva is old enough to be curious about her own beginning, the data will be there. Not as numbers in a spreadsheet, but as a story reconstructed from data: the night she first slept through without waking, and how her parents lay awake anyway, checking the monitor, unable to trust the silence. The week she discovered bananas and demanded them at every meal until the novelty faded. The afternoon she pulled herself to standing using the coffee table and laughed at her own accomplishment while her father scrambled to record the milestone before the moment passed.\n\nThe machine remembers what the parents will forget. Not because the parents don’t care, but because caring is exhausting, and exhaustion erases the details. Did she have a fever on the Tuesday or the Wednesday? Was the rash before the new food or after? How many times did she wake last night — two or three? The answers live in localStorage, timestamped and categorical, immune to the fog of sleep deprivation.\n\nThere is something tender about this — a father who builds software between factory shifts, not for clients or revenue, but to preserve the ephemeral. Infant care is relentlessly temporary. The feeding schedule that dominates today will be irrelevant in six months. The sleep regression that feels permanent will resolve in weeks. The milestone that seems delayed will arrive suddenly and be superseded by the next. Each phase is consuming while it lasts and invisible in retrospect.\n\nSproutLab fights this disappearance. Every data point is a refusal to let the moment pass unmarked. The machine remembers so that years from now, when the father’s memory has compressed \"the first year\" into a handful of vivid scenes, the full record still exists: 2,000 feeds, 800 sleep sessions, 400 diaper changes, 50 milestone transitions, 12 CareTickets, and one continuous thread of attention that says, more clearly than any photograph: I was here. I was paying attention. None of this was ordinary to me.",
       "volumes": [
@@ -2566,7 +2596,7 @@
       "_deleted_date": null
     },
     {
-      "id": "apo-0008-the-predictive-engine",
+      "id": "apo-0011-the-predictive-engine",
       "title": "The Predictive Engine",
       "narrative": "A prophecy whispered in the intelligence module: that one day, SproutLab will not merely track what happened but anticipate what comes next.\n\nThe seeds are already planted. The intelligence module’s cross-domain analysis computes correlations between feeding patterns and sleep quality. It tracks growth velocity — not just how much Ziva weighs, but how fast the number is changing. It monitors milestone trajectories, comparing observed development against the 506 classification patterns embedded in the engine. These are all rearview mirrors. They tell you where you’ve been. The Predictive Engine will tell you where you’re going.\n\nRegression detection is the first capability that could genuinely predict. A sleep regression doesn’t arrive suddenly — it builds across three to five nights of gradually increasing wake frequency, shorter sleep stretches, and earlier morning wakes. The data shows this pattern before the parent feels it. An alert on night two — \"sleep quality declining, possible regression beginning\" — would give parents time to adjust schedules, prepare emotionally, and recognize the regression for what it is rather than wondering what went wrong.\n\nGrowth velocity forecasting is another seed. If the current feeding volume and caloric density continue at their present rate, will Ziva’s weight trajectory hold? If growth is decelerating, is it within normal variation or does it warrant a conversation with the pediatrician before the next scheduled visit? The data exists to answer these questions. The engine to ask them does not — yet.\n\nFeeding optimization sits further on the horizon. Given Ziva’s historical response to different foods — sleep quality after high-protein dinners versus high-carb, digestion patterns after new food introductions, energy levels correlated with meal timing — the system could suggest meal plans optimized for specific outcomes. Not prescriptive, never prescriptive. Suggestive. \"Based on past data, high-protein dinners correlate with longer first sleep stretches. Consider dal tonight.\"\n\nThe deepest prediction is developmental. The 506 milestone patterns encode not just what comes next, but when. If Ziva is pulling to stand at seven months, the data suggests independent standing by nine months and first steps between ten and twelve. The engine could project a developmental timeline — not as a deadline but as a landscape. Here is where most children are at this age. Here is where Ziva is. Here is where the road ahead likely leads.\n\nThe prophecy carries a warning: prediction in infant care must be humble. Every child is different. Statistical patterns describe populations, not individuals. The Predictive Engine must frame its output as possibilities, never certainties. \"Based on patterns\" is the mandatory prefix. The moment the engine says \"your child will\" instead of \"children with similar patterns often,\" it has overstepped.\n\nBut the potential is real. Sufficient data — a year of daily logging, perhaps two — creates a dataset rich enough for meaningful inference. The patterns will emerge from the data like constellations from scattered stars: always there, waiting for enough points of light to reveal the shape.",
       "volumes": [
@@ -3197,8 +3227,8 @@
         "23-april-2026"
       ],
       "references": [
-        "canon-cc-015-basilica-embassies",
-        "canon-cc-016-codex-embassy-holds-the-running-books",
+        "canon-cc-028-basilica-embassies",
+        "canon-cc-029-codex-embassy-holds-the-running-books",
         "canon-gov-014-priest-office-embassy-rites"
       ],
       "created": "2026-04-23",
