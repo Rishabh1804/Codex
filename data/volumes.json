@@ -1164,10 +1164,11 @@
         "pwa",
         "governance",
         "capital",
-        "monument"
+        "monument",
+        "cluster-c"
       ],
       "repo": "rishabh1804/Command-Center",
-      "current_phase": "Foundation stage \u2014 16 rooms scaffolded (Consul Chamber added PR #2). Foundation 11/13 criteria complete (2 partial: gates-live-state, hard-rules-formal-Cipher). Consul speaks via Matters ledger (PR #3, 2026-04-21). Rung 5 spec-mirror deploy landed 2026-04-21 (commit 4bce7c8). decree-0004 (Basilica + Priest) drafted; ratification pending and will retire Gates + Visiting Chambers in favor of embassies.",
+      "current_phase": "Foundation stage \u2014 16 rooms scaffolded (Consul Chamber added PR #2). Foundation 11/13 criteria complete (2 partial: gates-live-state, hard-rules-formal-Cipher). Consul speaks via Matters ledger (PR #3, 2026-04-21). Rung 5 spec-mirror deploy landed 2026-04-21 (commit 4bce7c8). decree-0004 (Basilica + Priest) RATIFIED 2026-05-24 via canon-cc-028 + canon-cc-029 \u2014 retire Gates + Visiting Chambers, adopt embassies; CC-repo implementation queued as downstream handoff to Ashara + Petra. Cluster C (Monument class) established 2026-05-24 per canon-inst-003 \u2014 Command Center + Temple of Mars; Cipher interim Censor pending successor.",
       "chapters": [],
       "todos": [
         {
@@ -1216,10 +1217,11 @@
         "monument",
         "telemetry",
         "sveltekit",
-        "modern-toolchain"
+        "modern-toolchain",
+        "cluster-c"
       ],
       "repo": "Rishabh1804/TempleOfMars",
-      "current_phase": "v0.1 live, post-War Time 2026-04-24 archived (closed 2026-04-29). Builder seat (canon-inst-003) reserved for Ignis; ratification pending and tracked under ch-ignis-canon-entry. v0.2 (Lore browser + Peacetime view + PNG icon set + Province detail views + Working Committee Watchtower designation) pending Builder seating.",
+      "current_phase": "v0.1 live, post-War Time 2026-04-24 archived (closed 2026-04-29). Builder seat ratified 2026-05-24 (canon-inst-003): Ignis seated as Temple of Mars Builder; Cluster C established as Monument class (Command Center + Temple of Mars); Cipher interim Censor of Cluster C pending successor. v0.2 (Lore browser + Peacetime view + PNG icon set + Province detail views + Working Committee Watchtower designation) pending Builder operational onboarding.",
       "chapters": [
         {
           "id": "ch-pre-war-housekeeping",
@@ -1308,11 +1310,11 @@
         {
           "id": "ch-ignis-canon-entry",
           "name": "Canon Entry: Ignis Builder Reassignment",
-          "status": "planned",
-          "started": null,
-          "completed": null,
+          "status": "complete",
+          "started": "2026-04-23",
+          "completed": "2026-05-24",
           "ended": null,
-          "summary": "Canon-inst-* entry formalizing Ignis's vacation of Minister seat and assumption of Temple Builder seat.",
+          "summary": "Canon-inst-* entry formalizing Ignis's vacation of Minister seat and assumption of Temple Builder seat. RESOLVED 2026-05-24: canon-inst-003 ratified, Ignis seated as Temple of Mars Builder under Cluster C Monument class; Cipher named interim Censor of Cluster C pending successor.",
           "spec_url": null,
           "_deleted": false,
           "_deleted_date": null,
