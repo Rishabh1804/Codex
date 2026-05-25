@@ -559,7 +559,7 @@
           "ended": null,
           "summary": "Search, Heatmap, Stats, Trash, Error Log, Sync Detail Panel, Canon Sort. 4-round QA audit, 8 bugs fixed. Codex v1.0 feature-complete.",
           "spec_url": null,
-          "content": "## What Was Built\n\nSix polish features completing Codex v1.0. Search with weighted scoring (canons 4x, schisms 3x, sessions 2x, volumes 1x) and 300ms debounce. A 90-day GitHub-style activity heatmap on the dashboard. Stats bar with horizontal scroll chips. Trash view for soft-deleted canons and chapters with restore and permanent delete. Error log viewer. Sync detail panel showing WAL breakdown and connection status. Canon sort controls (newest, oldest, title, scope) were added during QA when their absence became obvious.\n\n## Key Decisions\n\nMulti-round QA was formalized as canon-0014-multi-round-qa: four layers (Mechanical, Structural, Logic, Cosmetic), continue until layers 1\u20133 are zero-defect, layer 4 allows at most 2 items as documented debt. This superseded the SproutLab-scoped canon-0009.\n\n## What Broke\n\n8 bugs across 4 QA rounds. The critical one: replayUpdate blocked restore operations because the _deleted guard rejected payloads setting _deleted to false. Fixed by adding an exception for restore payloads. Other notable: heatmap showing oldest dates on screen (fixed with auto-scroll to scrollWidth), search overlay staying open on navigation (fixed with closeSearch at top of handleRouteChange), canon dates showing wrong months (YYYY-MM format forced to day 01, fixed in formatAbsoluteDate).\n\n## State of the World After\n\nCodex v1.0 was feature-complete. 4,758 lines across 8 modules. Dashboard, Volume Detail, Journal, Canons, Canon Detail, TODOs, Settings, Search, Heatmap, Stats, Trash, Error Log, Sync Panel. All deployed and live.",
+          "content": "## What Was Built\n\nSix polish features completing Codex v1.0. Search with weighted scoring (canons 4x, schisms 3x, sessions 2x, volumes 1x) and 300ms debounce. A 90-day GitHub-style activity heatmap on the dashboard. Stats bar with horizontal scroll chips. Trash view for soft-deleted canons and chapters with restore and permanent delete. Error log viewer. Sync detail panel showing WAL breakdown and connection status. Canon sort controls (newest, oldest, title, scope) were added during QA when their absence became obvious.\n\n## Key Decisions\n\nMulti-round QA was formalized as canon-0054-multi-round-qa: four layers (Mechanical, Structural, Logic, Cosmetic), continue until layers 1\u20133 are zero-defect, layer 4 allows at most 2 items as documented debt. This superseded the SproutLab-scoped canon-0009.\n\n## What Broke\n\n8 bugs across 4 QA rounds. The critical one: replayUpdate blocked restore operations because the _deleted guard rejected payloads setting _deleted to false. Fixed by adding an exception for restore payloads. Other notable: heatmap showing oldest dates on screen (fixed with auto-scroll to scrollWidth), search overlay staying open on navigation (fixed with closeSearch at top of handleRouteChange), canon dates showing wrong months (YYYY-MM format forced to day 01, fixed in formatAbsoluteDate).\n\n## State of the World After\n\nCodex v1.0 was feature-complete. 4,758 lines across 8 modules. Dashboard, Volume Detail, Journal, Canons, Canon Detail, TODOs, Settings, Search, Heatmap, Stats, Trash, Error Log, Sync Panel. All deployed and live.",
           "order": 6,
           "_deleted": false,
           "_deleted_date": null
@@ -770,7 +770,7 @@
         },
         {
           "id": "todo-0006-canon-0009-supersede",
-          "text": "Update canon-0009-post-build-qa: status \u2192 superseded, superseded_by \u2192 canon-0014-multi-round-qa",
+          "text": "Update canon-0009-post-build-qa: status \u2192 superseded, superseded_by \u2192 canon-0054-multi-round-qa",
           "status": "resolved",
           "chapter": "phase-4-polish",
           "created": "2026-04-13",
@@ -1070,7 +1070,7 @@
         },
         {
           "id": "todo-0007-canon-0033-collision",
-          "text": "Fix canon number collision: canon-0033-gitignore-data-protection and canon-0033-root-index-sync both use 0033. Renumber root-index-sync to 0035 and sw-never-cache-html to 0036. Requires delete+create (ID rename not patchable).",
+          "text": "Fix canon number collision: canon-0056-gitignore-data-protection and canon-0033-root-index-sync both use 0033. Renumber root-index-sync to 0035 and sw-never-cache-html to 0036. Requires delete+create (ID rename not patchable).",
           "status": "open",
           "chapter": "todo-cleanup-and-backfill",
           "created": "2026-04-14",
