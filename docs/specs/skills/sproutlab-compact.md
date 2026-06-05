@@ -1,6 +1,10 @@
-<!-- CANONICAL BODY (Province-local). Pending promotion to Codex docs/specs/skills/
-     per canon-cc-026; canon-cc-026 mirror then replicates to .claude/skills/.
-     This tracked copy is the durable source until a Codex-scoped session lifts it. -->
+<!-- Canonical spec — authored and maintained in Codex per canon-cc-026.
+     Promoted to the Codex docs/specs/skills/ canonical home 2026-06-04 (PR #85).
+     Province-local utility skill — single-Province deployment. Deploys byte-identical
+     to sproutlab/.claude/skills/sproutlab-compact.md per canon-cc-026 §Per-Province-Layout.
+     DEPLOY GAP (open): the SproutLab mirror at .claude/skills/sproutlab-compact.md is not
+     yet present; a SproutLab-scoped session must drop this byte-identical to close it.
+     Amendment path: canon-cc-027 signing chain. -->
 
 ---
 name: sproutlab-compact
