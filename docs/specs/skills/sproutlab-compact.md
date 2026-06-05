@@ -2,8 +2,8 @@
      Promoted to the Codex docs/specs/skills/ canonical home 2026-06-04 (PR #85).
      Province-local utility skill — single-Province deployment. Deploys byte-identical
      to sproutlab/.claude/skills/sproutlab-compact.md per canon-cc-026 §Per-Province-Layout.
-     DEPLOY GAP (open): the SproutLab mirror at .claude/skills/sproutlab-compact.md is not
-     yet present; a SproutLab-scoped session must drop this byte-identical to close it.
+     DEPLOY: the SproutLab mirror at .claude/skills/sproutlab-compact.md was deployed
+     byte-identical 2026-06-05, closing the prior deploy gap.
      Amendment path: canon-cc-027 signing chain. -->
 
 ---
