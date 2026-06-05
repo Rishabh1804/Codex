@@ -3885,6 +3885,39 @@
         "canon-pers-001-four-rung-chain-complete",
         "todo-0041-resolved"
       ]
+    },
+    {
+      "id": "s-2026-06-05-cc034-signing-chain",
+      "date": "2026-06-05",
+      "title": "canon-cc-034 ratified via the canon-cc-027 five-rung chain \u2014 Operational Skill Deploy Shape",
+      "summary": "Ran the canon-cc-027 spec-body signing chain end-to-end to canonize the skill-deployment-shape doctrine surfaced by the 2026-06-05 SproutLab skill-plumbing close. Rung 1 (Aurelius) drafted canon-cc-034 as a standalone canon refining cc-026 and sharpening cc-027 Rung-5. Rung 2 (Cipher, Cluster A Censor) returned amended \u2014 A1 reconciled byte-identity with the shape-aware canonical-to-deployable path mapping, A2 preserved the graphify carve-out, A3 fixed citations; folded. Rung 3 (Consul) returned ratified-with-amendments \u2014 ruled standalone-canon correct over a cc-026 fold, then C1 softened the loader-presence check from a hard discharge-gate to an operator-asserted step pending the queued Companions Deploy UI (mirroring cc-026's canonical_version posture), C2 routed shape-drift to cc-027's named bridging audit surface; folded. Rung 4 Sovereign ratified. Rung 5 deployed: canon-cc-034 entered data/canons.json (status active), chain recorded as interaction-2026-06-05-001. First cc-027 chain rendered via direct cipher/consul subagent invocation rather than bridging-authorship.",
+      "volumes_touched": [],
+      "chapters_touched": [],
+      "decisions": [
+        "Standalone canon (cc-034) over a cc-026 in-body amendment \u2014 the doctrine reaches two parent canons (cc-026 byte-identity + cc-027 Rung-5), so cc-033's standalone-subordinate precedent governs.",
+        "Loader-presence verification is required but operator-asserted, not yet mechanically enforced \u2014 enforcement altitude lowered to current capability per the Consul's C1."
+      ],
+      "bugs_found": 0,
+      "bugs_fixed": 0,
+      "duration_minutes": null,
+      "open_todos": [
+        "Author the cc-034 typst suite artifact (docs/specs/persona-binding/) + compiled PDF, matching the cc-027 suite convention.",
+        "Add a cc-026 \u00a7Spec-file-format reverse cross-ref to cc-034 (administrative cross-link)."
+      ],
+      "new_todos": [],
+      "resolved_todos": [
+        "Ratify the skill-deployment-shape doctrine into canon (synthesis carry-forward from the 2026-06-05 close)."
+      ],
+      "handoff": "canon-cc-034 is canonical. Two light downstream carry-forwards remain (typst suite artifact; cc-026 reverse cross-ref). No deployed skill needs changing \u2014 all four operational skills already conform.",
+      "screenshots": [],
+      "tags": [
+        "governance",
+        "canon-cc-027",
+        "canon-cc-034",
+        "signing-chain",
+        "persona-binding",
+        "skills"
+      ]
     }
   ]
 }

@@ -263,6 +263,71 @@
         "committee-proposal artifact type recorded as cross-cluster-meeting placeholder; cc-017 type-enum extension pending.",
         "Zero-open-questions resolution (§10) satisfied Nyx's conditional-reject threshold; convening passed cross-Cluster stress-test."
       ]
+    },
+    {
+      "id": "interaction-2026-06-05-001",
+      "type": "spec-signing-chain",
+      "_type_placeholder_note": "Descriptive type pending cc-017 enum-extension to add 'spec-signing-chain'; recorded per cc-024 §D placeholder clause. Subject is a canon-cc-027 five-rung chain on a new standalone canon.",
+      "venue": "cc",
+      "date": "2026-06-05",
+      "participants": [
+        "aurelius",
+        "cipher",
+        "consul",
+        "sovereign"
+      ],
+      "originating_cluster": "A",
+      "subject": "canon-cc-034 (Operational Skill Deploy Shape) — canon-cc-027 five-rung signing chain",
+      "substance": "Ratification of canon-cc-034, a standalone canon refining cc-026 (spec-body-placement) and sharpening cc-027 Rung-5 (deploy accountability). The canon names two skill deploy shapes — persona-mirror skills (bare .claude/skills/<name>.md) vs operational slash-skills (.claude/skills/<name>/SKILL.md, frontmatter line 1) — and adds a loader-presence verification that byte-identity does not cover. Empirical origin: the 2026-06-05 skill-plumbing session in which /sproutlab-compact deployed byte-identical to canon yet never loaded (caught by the Sovereign; fixed in SproutLab #233 / Codex #88).",
+      "decision_or_outcome": "Ratified. canon-cc-034 enters data/canons.json with status active. Downstream carry-forwards: a cc-034 typst suite artifact and a cc-026 §Spec-file-format reverse cross-ref.",
+      "authored_by": "aurelius",
+      "_authorship_note": "Rung-1 draft and the chain record authored by Aurelius (Chronicler). Rung-2 (Cipher) and Rung-3 (Consul) reviews rendered via direct subagent invocation of the deployed cipher and consul specs — not bridging-authored; the cc-027 operational pathway the 2026-04-19 artifact anticipated is now live.",
+      "status": "ratified",
+      "review": {
+        "signing_chain": [
+          {
+            "rung": 1,
+            "role": "chronicler",
+            "reviewer": "aurelius",
+            "action": "drafted",
+            "review_date": "2026-06-05",
+            "note": "Drafted the standalone canon against the synthesis evidence; chose standalone over a cc-026 fold (cc-033 precedent)."
+          },
+          {
+            "rung": 2,
+            "role": "cluster-a-censor",
+            "reviewer": "cipher",
+            "action": "amended",
+            "review_date": "2026-06-05",
+            "note": "Architectural pass; verified doctrine against 10 live deployed skills. Amendments A1 (byte-identity reconciled with shape-aware path mapping; loader-check assigned to Builder Rung-5), A2 (graphify carve-out preserved), A3 (cite cc-026 §Spec file format; add cc-033 precedent). All folded. Did not return to Rung 1."
+          },
+          {
+            "rung": 3,
+            "role": "consul",
+            "reviewer": "consul",
+            "action": "ratified-with-amendments",
+            "review_date": "2026-06-05",
+            "note": "Per-block working-ratification. Ruled standalone canon correct over a cc-026 fold (reaches two parent canons; cc-033 governs). Scope global / family pers confirmed. Amendments C1 (loader-presence softened from hard discharge-gate to operator-asserted pending the queued Companions Deploy UI, mirroring cc-026's canonical_version posture), C2 (shape-drift routed to cc-027's named bridging audit surface). Folded; no fresh Rung-2 pass needed. Cleared to Sovereign."
+          }
+        ],
+        "reviewer": "consul",
+        "review_date": "2026-06-05",
+        "action": "ratified",
+        "amended_fields": [],
+        "sovereign_action": {
+          "action": "ratified",
+          "action_date": "2026-06-05",
+          "action_note": "Rung-4 Sovereign canonical ratification of canon-cc-034 as chain-passed. The canon is canonical; further amendment returns to Rung 1."
+        }
+      },
+      "references": [
+        "canon-cc-034-operational-skill-deploy-shape",
+        "canon-cc-026-spec-body-placement",
+        "canon-cc-027-spec-body-signing-chain",
+        "canon-cc-033-peer-review-and-self-review-complementarity-under-cc-027-rung-2",
+        "sproutlab/docs/SYNTHESIS_2026-06-05_skill-deploy-shape.md"
+      ],
+      "chronicled_notes": "First canon-cc-027 chain rendered end-to-end via direct subagent invocation (Cipher, Consul) rather than bridging-authorship. Both reviewers caught real defects a single pass would have shipped: Cipher a latent contradiction with cc-026's literal zero-diff clause; the Consul an enforcement-altitude over-reach (an obligation the Republic cannot yet mechanically meet). The chain held."
     }
   ]
 }
