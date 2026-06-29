@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>World Cup 2026 — Live Briefing Dashboard</title>
+<meta name="description" content="The complete brief of FIFA World Cup 2026: knockout bracket, results, stats, records, key events and highlights. Updated to the Round of 32." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ Design tokens (HR-5: no magic numbers) ============ */
+:root{
+  /* spacing */
+  --sp-2:2px;--sp-4:4px;--sp-6:6px;--sp-8:8px;--sp-10:10px;--sp-12:12px;--sp-16:16px;--sp-20:20px;--sp-24:24px;--sp-32:32px;--sp-48:48px;
+  /* radii */
+  --r-sm:6px;--r-md:10px;--r-lg:14px;--r-xl:20px;--r-full:9999px;
+  /* type */
+  --ff-head:'Playfair Display',Georgia,serif;--ff-body:'Work Sans','Segoe UI',Roboto,Arial,sans-serif;
+  --fs-2xs:11px;--fs-xs:12px;--fs-sm:14px;--fs-md:15px;--fs-lg:18px;--fs-xl:22px;--fs-2xl:28px;--fs-3xl:40px;
+  --lh-snug:1.5;--lh-relaxed:1.65;
+  --anim:200ms;
+  /* confederation colors (used for flags/identity accents) */
+  --c-live:#ff5a5f;--c-final:#34d399;--c-sched:#fbbf24;
+}
+/* dark (default) */
+:root[data-theme="dark"]{
+  --bg:#070b16;--bg-grad1:#0a1124;--bg-grad2:#0e1830;
+  --card:#121a30;--card2:#0e1528;--card-hi:#16203a;
+  --line:#243150;--line-soft:#1a2440;
+  --text:#eef3ff;--muted:#9fb0d4;--faint:#6f7fa6;
+  --accent:#7aa2ff;--accent2:#b78aff;--gold:#ffd66b;
+  --shadow:0 12px 34px rgba(0,0,0,.34);
+}
+/* light */
+:root[data-theme="light"]{
+  --bg:#eef1f8;--bg-grad1:#f4f6fc;--bg-grad2:#e7ecf7;
+  --card:#ffffff;--card2:#f5f7fc;--card-hi:#eef2fb;
+  --line:#d8e0ef;--line-soft:#e6ebf5;
+  --text:#11192e;--muted:#4a5878;--faint:#8492b0;
+  --accent:#3b66e0;--accent2:#8a52e0;--gold:#c08a1e;
+  --shadow:0 10px 28px rgba(40,60,110,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--ff-body);color:var(--text);
+  background:radial-gradient(1200px 700px at 80% -10%,rgba(122,162,255,.14),transparent 60%),
+             radial-gradient(900px 600px at 0% 0%,rgba(183,138,255,.10),transparent 55%),
+             linear-gradient(180deg,var(--bg),var(--bg-grad2));
+  background-attachment:fixed;min-height:100vh;line-height:var(--lh-relaxed);}
+h1,h2,h3{font-family:var(--ff-head);margin:0;line-height:1.12}
+a{color:var(--accent)}
+.wrap{max-width:1200px;margin:auto;padding:0 var(--sp-20)}
+.section{margin:var(--sp-48) auto}
+.eyebrow{font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:var(--sp-8)}
+.lead{color:var(--muted);font-size:var(--fs-md)}
+
+/* ============ Header ============ */
+header.top{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+  background:linear-gradient(180deg,rgba(7,11,22,.86),rgba(7,11,22,.55));
+  border-bottom:1px solid var(--line-soft)}
+:root[data-theme="light"] header.top{background:linear-gradient(180deg,rgba(244,246,252,.9),rgba(244,246,252,.6))}
+.topbar{display:flex;align-items:center;gap:var(--sp-12);padding:var(--sp-12) var(--sp-20);max-width:1200px;margin:auto}
+.brandmark{width:38px;height:38px;border-radius:var(--r-md);flex:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#fff;box-shadow:var(--shadow)}
+.brandtxt{display:flex;flex-direction:column;line-height:1.05}
+.brandtxt b{font-family:var(--ff-head);font-size:var(--fs-lg);font-weight:800}
+.brandtxt span{font-size:var(--fs-2xs);color:var(--faint);letter-spacing:.08em;text-transform:uppercase}
+.spacer{flex:1}
+.asof{font-size:var(--fs-2xs);color:var(--muted);text-align:right;display:flex;flex-direction:column}
+.asof b{color:var(--text);font-size:var(--fs-xs)}
+.iconbtn{width:40px;height:40px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--card);
+  color:var(--text);cursor:pointer;display:grid;place-items:center;transition:var(--anim)}
+.iconbtn:hover{background:var(--card-hi);border-color:var(--accent)}
+.icon{width:20px;height:20px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.icon.sm{width:16px;height:16px}
+
+/* nav chips */
+nav.chips{display:flex;gap:var(--sp-6);flex-wrap:wrap;padding:0 var(--sp-20) var(--sp-10);max-width:1200px;margin:auto}
+nav.chips a{font-size:var(--fs-xs);color:var(--muted);text-decoration:none;padding:var(--sp-6) var(--sp-12);
+  border:1px solid var(--line-soft);border-radius:var(--r-full);transition:var(--anim);white-space:nowrap}
+nav.chips a:hover{color:var(--text);border-color:var(--accent);background:var(--card)}
+
+/* ============ Hero ============ */
+.hero{padding:var(--sp-48) 0 var(--sp-24)}
+.hero h1{font-size:var(--fs-3xl);font-weight:900;letter-spacing:-.01em}
+.hero .grad{background:linear-gradient(120deg,var(--accent),var(--accent2) 60%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:760px;margin-top:var(--sp-12);color:var(--muted);font-size:var(--fs-md)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-12);margin-top:var(--sp-24)}
+.metric{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-16);box-shadow:var(--shadow)}
+.metric .n{font-family:var(--ff-head);font-size:var(--fs-2xl);font-weight:800;line-height:1}
+.metric .n.grad{background:linear-gradient(120deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.metric .l{color:var(--muted);font-size:var(--fs-xs);margin-top:var(--sp-6)}
+
+/* ============ Generic card ============ */
+.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-20);box-shadow:var(--shadow)}
+.grid{display:grid;gap:var(--sp-16)}
+.two{grid-template-columns:1.15fr .85fr}
+h2.sec{font-size:var(--fs-2xl);font-weight:800;margin-bottom:var(--sp-4)}
+.sec-sub{color:var(--muted);font-size:var(--fs-sm);margin-bottom:var(--sp-20)}
+
+/* pills */
+.pill{display:inline-flex;align-items:center;gap:var(--sp-4);padding:var(--sp-4) var(--sp-10);border-radius:var(--r-full);font-size:var(--fs-2xs);font-weight:700;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--line)}
+.pill .dot{width:7px;height:7px;border-radius:var(--r-full);background:currentColor}
+.pill.final{color:var(--c-final);background:color-mix(in srgb,var(--c-final) 14%,transparent);border-color:color-mix(in srgb,var(--c-final) 40%,transparent)}
+.pill.live{color:#fff;background:var(--c-live);border-color:var(--c-live)}
+.pill.live .dot{animation:pulse 1.1s infinite}
+.pill.sched{color:var(--c-sched);background:color-mix(in srgb,var(--c-sched) 14%,transparent);border-color:color-mix(in srgb,var(--c-sched) 40%,transparent)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.5)}}
+
+/* ============ Match board ============ */
+.filterrow{display:flex;gap:var(--sp-6);flex-wrap:wrap;margin-bottom:var(--sp-16)}
+.fpill{padding:var(--sp-6) var(--sp-14);border:1px solid var(--line);border-radius:var(--r-full);background:transparent;color:var(--muted);font-size:var(--fs-xs);font-weight:600;cursor:pointer;font-family:var(--ff-body);transition:var(--anim)}
+.fpill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fpill:hover:not(.active){border-color:var(--accent);color:var(--text)}
+.match{display:grid;grid-template-columns:88px 1fr auto;gap:var(--sp-12);align-items:center;padding:var(--sp-12);border:1px solid var(--line-soft);border-radius:var(--r-md);margin-bottom:var(--sp-8);background:var(--card2);transition:var(--anim)}
+.match:hover{border-color:var(--accent);background:var(--card-hi)}
+.match .when{font-size:var(--fs-2xs);color:var(--faint);line-height:1.3}
+.match .teams{display:flex;align-items:center;gap:var(--sp-8);flex-wrap:wrap}
+.team{display:inline-flex;align-items:center;gap:var(--sp-6);font-weight:600;font-size:var(--fs-sm)}
+.flag{width:22px;height:15px;border-radius:2px;object-fit:cover;box-shadow:0 0 0 1px var(--line);flex:none;background:var(--line)}
+.score{font-family:var(--ff-head);font-weight:800;font-size:var(--fs-md);padding:0 var(--sp-6)}
+.win{color:var(--c-final)}
+.vs{color:var(--faint);font-size:var(--fs-xs);font-weight:600}
+.match .right{display:flex;flex-direction:column;align-items:flex-end;gap:var(--sp-6)}
+.watch{font-size:var(--fs-2xs);color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.watch:hover{text-decoration:underline}
+.next{font-size:var(--fs-2xs);color:var(--faint)}
+
+/* ============ Bracket ============ */
+.brk-wrap{overflow-x:auto;padding-bottom:var(--sp-8)}
+.bracket{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:var(--sp-32);min-width:620px}
+.brk-col h3{font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-bottom:var(--sp-10);font-family:var(--ff-body);font-weight:700}
+.tie{border:1px solid var(--line-soft);border-radius:var(--r-md);margin-bottom:var(--sp-10);overflow:hidden;background:var(--card2);cursor:default}
+.tie-row{display:flex;align-items:center;gap:var(--sp-8);padding:var(--sp-8) var(--sp-10);font-size:var(--fs-sm)}
+.tie-row+.tie-row{border-top:1px solid var(--line-soft)}
+.tie-row.won{background:color-mix(in srgb,var(--c-final) 9%,transparent)}
+.tie-row.won .nm{font-weight:700}
+.tie-row .nm{flex:1}
+.tie-row .sc{font-family:var(--ff-head);font-weight:800}
+.tie-row.lost{opacity:.5}
+.tie-foot{font-size:var(--fs-2xs);color:var(--faint);padding:var(--sp-4) var(--sp-10) var(--sp-8)}
+
+/* ============ Stats ============ */
+.statgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--sp-16)}
+.scorer{display:flex;align-items:center;gap:var(--sp-10);margin-bottom:var(--sp-10)}
+.scorer .rank{width:22px;color:var(--faint);font-weight:700;font-size:var(--fs-sm);text-align:center;flex:none}
+.scorer .who{width:150px;flex:none}
+.scorer .who b{display:block;font-size:var(--fs-sm)}
+.scorer .who span{font-size:var(--fs-2xs);color:var(--faint)}
+.bar{flex:1;height:22px;border-radius:var(--r-full);background:var(--line-soft);overflow:hidden;position:relative}
+.bar i{display:block;height:100%;border-radius:var(--r-full);background:linear-gradient(90deg,var(--accent),var(--gold))}
+.bar b{position:absolute;right:8px;top:0;line-height:22px;font-size:var(--fs-xs);font-weight:800;color:var(--text)}
+.recgrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-10)}
+.rec{border:1px solid var(--line-soft);border-radius:var(--r-md);padding:var(--sp-12);background:var(--card2)}
+.rec .v{font-family:var(--ff-head);font-size:var(--fs-xl);font-weight:800;background:linear-gradient(120deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.rec .k{font-size:var(--fs-2xs);color:var(--muted);margin-top:var(--sp-4)}
+.minicard{border:1px solid var(--line-soft);border-radius:var(--r-md);padding:var(--sp-10) var(--sp-12);background:var(--card2);margin-bottom:var(--sp-8)}
+.minicard b{font-size:var(--fs-sm)}
+.minicard p{margin:var(--sp-4) 0 0;font-size:var(--fs-xs);color:var(--muted)}
+
+/* ============ Groups ============ */
+.groupgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-12)}
+.group{border:1px solid var(--line-soft);border-radius:var(--r-md);padding:var(--sp-12);background:var(--card2)}
+.group .gt{font-family:var(--ff-head);font-weight:800;font-size:var(--fs-md);margin-bottom:var(--sp-8);display:flex;justify-content:space-between;align-items:center}
+.group .gt span{font-size:var(--fs-2xs);color:var(--faint);font-family:var(--ff-body);font-weight:600}
+.grow{display:flex;align-items:center;gap:var(--sp-6);padding:var(--sp-4) 0;font-size:var(--fs-sm);border-top:1px solid var(--line-soft)}
+.grow:first-of-type{border-top:none}
+.grow .pos{width:16px;color:var(--faint);font-size:var(--fs-2xs);font-weight:700;text-align:center;flex:none}
+.grow .gn{flex:1}
+.grow .pts{font-weight:800;font-family:var(--ff-head)}
+.grow.adv{}
+.grow.adv .gn{font-weight:700}
+.grow.adv .pos{color:var(--c-final)}
+.legend{display:flex;gap:var(--sp-16);margin-top:var(--sp-12);font-size:var(--fs-xs);color:var(--muted);flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--c-final);margin-right:6px;vertical-align:middle}
+
+/* ============ Timeline ============ */
+.timeline{position:relative;padding-left:var(--sp-24)}
+.timeline:before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2))}
+.tev{position:relative;margin-bottom:var(--sp-20)}
+.tev:before{content:"";position:absolute;left:calc(-1 * var(--sp-24) + 1px);top:4px;width:14px;height:14px;border-radius:var(--r-full);background:var(--accent);box-shadow:0 0 0 4px var(--bg)}
+.tev b{display:block;font-size:var(--fs-md);font-family:var(--ff-head);font-weight:700}
+.tev .tag{font-size:var(--fs-2xs);color:var(--accent);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.tev p{margin:var(--sp-4) 0 0;color:var(--muted);font-size:var(--fs-sm)}
+
+/* ============ Video gallery ============ */
+.vidgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-12)}
+.vid{display:block;border:1px solid var(--line-soft);border-radius:var(--r-md);overflow:hidden;background:var(--card2);text-decoration:none;color:inherit;transition:var(--anim)}
+.vid:hover{border-color:var(--accent);transform:translateY(-2px)}
+.vid .thumb{aspect-ratio:16/9;background:linear-gradient(135deg,var(--card-hi),var(--card));display:grid;place-items:center;position:relative}
+.vid .play{width:46px;height:46px;border-radius:var(--r-full);background:rgba(255,255,255,.12);backdrop-filter:blur(4px);display:grid;place-items:center;border:1px solid rgba(255,255,255,.25)}
+.vid .play svg{width:20px;height:20px;fill:#fff;stroke:none;margin-left:2px}
+.vid .src{position:absolute;top:8px;left:8px;font-size:var(--fs-2xs);font-weight:700;background:rgba(0,0,0,.5);color:#fff;padding:2px 8px;border-radius:var(--r-full)}
+.vid .vt{padding:var(--sp-10) var(--sp-12);font-size:var(--fs-sm);font-weight:600}
+.vid .vm{padding:0 var(--sp-12) var(--sp-10);font-size:var(--fs-2xs);color:var(--faint)}
+
+/* ============ Wallpapers ============ */
+.wpgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--sp-16)}
+.wp{border:1px solid var(--line-soft);border-radius:var(--r-lg);overflow:hidden;background:var(--card2)}
+.wp .pv{aspect-ratio:9/19.5;background:var(--card-hi);position:relative;overflow:hidden}
+.wp .pv img{width:100%;height:100%;object-fit:cover;display:block}
+.wp .meta{padding:var(--sp-10) var(--sp-12)}
+.wp .meta b{font-size:var(--fs-sm);display:block}
+.wp .dl{display:flex;gap:var(--sp-6);margin-top:var(--sp-8)}
+.wp .dl a{flex:1;text-align:center;font-size:var(--fs-2xs);font-weight:700;text-decoration:none;padding:var(--sp-6);border-radius:var(--r-sm);border:1px solid var(--line);color:var(--text);transition:var(--anim)}
+.wp .dl a:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ============ Footer ============ */
+footer{border-top:1px solid var(--line-soft);margin-top:var(--sp-48);padding:var(--sp-24) 0 var(--sp-48)}
+footer .srcs{columns:2;column-gap:var(--sp-32);font-size:var(--fs-xs);color:var(--muted)}
+footer .srcs a{display:block;margin-bottom:var(--sp-6);color:var(--accent);text-decoration:none}
+footer .srcs a:hover{text-decoration:underline}
+.note{font-size:var(--fs-xs);color:var(--faint);margin-top:var(--sp-16);line-height:var(--lh-relaxed)}
+
+@media(max-width:920px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .two,.statgrid{grid-template-columns:1fr}
+  .groupgrid{grid-template-columns:repeat(2,1fr)}
+  .vidgrid{grid-template-columns:1fr 1fr}
+  .bracket{grid-template-columns:1fr}
+  .hero h1{font-size:var(--fs-2xl)}
+}
+@media(max-width:560px){
+  .groupgrid,.vidgrid{grid-template-columns:1fr}
+  .recgrid{grid-template-columns:1fr 1fr}
+  .scorer .who{width:120px}
+  .match{grid-template-columns:70px 1fr;}
+  .match .right{grid-column:2;align-items:flex-start}
+  footer .srcs{columns:1}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topbar">
+    <div class="brandmark"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.5 6.5l13 11M18.5 6.5l-13 11"/></svg></div>
+    <div class="brandtxt"><b>World Cup 2026</b><span>USA · Canada · Mexico</span></div>
+    <div class="spacer"></div>
+    <div class="asof"><span>Snapshot</span><b id="asof">30 Jun 2026 · IST</b></div>
+    <button class="iconbtn" id="themeBtn" aria-label="Toggle theme" title="Toggle light/dark">
+      <svg class="icon" id="themeIcon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+  <nav class="chips">
+    <a href="#summary">Summary</a>
+    <a href="#bracket">Bracket</a>
+    <a href="#matches">Matches</a>
+    <a href="#stats">Stats &amp; Records</a>
+    <a href="#groups">Groups</a>
+    <a href="#events">Key Events</a>
+    <a href="#videos">Highlights</a>
+    <a href="#wallpapers">Wallpapers</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">The complete brief · Round of 32</div>
+    <h1>The first <span class="grad">48-team</span> World Cup is in the knockouts.</h1>
+    <p>Group stage done, records already shattered, and the bracket has begun. Canada and Brazil are
+       through to the Round of 16; sixteen giants face their first knockout test. Here's everything
+       that's happened — at a glance.</p>
+    <div class="metrics">
+      <div class="metric"><div class="n grad">48</div><div class="l">teams · biggest World Cup ever</div></div>
+      <div class="metric"><div class="n">32</div><div class="l">reached the Round of 32 knockout</div></div>
+      <div class="metric"><div class="n">215</div><div class="l">group-stage goals · 2.99/game, highest since 1958</div></div>
+      <div class="metric"><div class="n">4.64M</div><div class="l">group-stage attendance · all-time WC record</div></div>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="section" id="summary">
+    <div class="grid two">
+      <div class="card">
+        <h2 class="sec">Executive summary</h2>
+        <p class="sec-sub">Where the tournament stands, in 30 seconds.</p>
+        <p style="margin-top:0">The group phase is complete and the World Cup has entered its first-ever
+          <b>32-team knockout stage</b>. <b>France</b> and <b>Argentina</b> were the only perfect 9-point group
+          winners; Mexico, Brazil, Netherlands, Spain, Colombia and England also topped their groups.</p>
+        <p><b>Canada</b> opened the knockouts beating South Africa 1–0, and <b>Brazil</b> followed with a dramatic
+          stoppage-time 2–1 comeback over Japan — both now in the Round of 16. Germany were under real pressure,
+          trailing Paraguay at the break in the live Round-of-32 tie.</p>
+        <p style="margin-bottom:0">Still to come are the heavyweight openers: France–Sweden, Spain–Austria,
+          Portugal–Croatia, Argentina–Cape Verde, USA–Bosnia and England–DR Congo.</p>
+      </div>
+      <div class="card">
+        <h2 class="sec">The story so far</h2>
+        <p class="sec-sub">Five things you need to know.</p>
+        <div class="minicard"><b>Messi makes history</b><p>Now the all-time World Cup top scorer (18) — including the oldest hat-trick in tournament history.</p></div>
+        <div class="minicard"><b>A record-breaking group stage</b><p>215 goals at 2.99/game, the highest scoring rate since 1958, in front of record crowds.</p></div>
+        <div class="minicard"><b>Canada &amp; Brazil advance</b><p>The only two teams confirmed into the Round of 16 so far.</p></div>
+        <div class="minicard"><b>Upset watch</b><p>Germany trailed Paraguay; the expanded field has made first-round shocks live every night.</p></div>
+        <div class="minicard"><b>Biggest event ever</b><p>4.64M fans through the group stage at ~99.7% capacity across three nations.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRACKET -->
+  <section class="section" id="bracket">
+    <h2 class="sec">Knockout bracket — Round of 32</h2>
+    <p class="sec-sub">Winners advance to the Round of 16. Completed ties are highlighted green; tap a tie for the result.</p>
+    <div class="card">
+      <div class="brk-wrap"><div class="bracket" id="bracket"></div></div>
+    </div>
+  </section>
+
+  <!-- MATCHES -->
+  <section class="section" id="matches">
+    <h2 class="sec">Match board</h2>
+    <p class="sec-sub">All 16 Round-of-32 ties in India time (IST). Filter by status; tap “Highlights” to watch.</p>
+    <div class="card">
+      <div class="filterrow" id="filters">
+        <button class="fpill active" data-f="all">All</button>
+        <button class="fpill" data-f="final">Final</button>
+        <button class="fpill" data-f="live">Live</button>
+        <button class="fpill" data-f="sched">Scheduled</button>
+      </div>
+      <div id="matchlist"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section" id="stats">
+    <h2 class="sec">Stats &amp; records</h2>
+    <p class="sec-sub">The numbers that define this tournament.</p>
+    <div class="statgrid">
+      <div class="card">
+        <div class="eyebrow">Golden Boot race</div>
+        <div id="scorers"></div>
+        <p class="note" style="margin-top:var(--sp-12)">Messi (18) is the outright all-time World Cup goal record holder; Mbappé (16) has drawn level with Klose for second on the all-time list. Chasing pack tracked live.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Tournament records</div>
+        <div class="recgrid" id="records"></div>
+      </div>
+    </div>
+    <div class="grid two" style="margin-top:var(--sp-16)">
+      <div class="card">
+        <div class="eyebrow">Hat-tricks &amp; standout games</div>
+        <div id="hattricks"></div>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Breakout stars</div>
+        <div id="breakouts"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUPS -->
+  <section class="section" id="groups">
+    <h2 class="sec">Group stage — final standings</h2>
+    <p class="sec-sub">All 12 groups. Top two advanced automatically; the eight best third-placed teams joined them.</p>
+    <div class="card">
+      <div class="groupgrid" id="groups-grid"></div>
+      <div class="legend"><span><i></i>Advanced to Round of 32</span><span>Top 2 per group + 8 best third-placed teams = 32</span></div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="section" id="events">
+    <h2 class="sec">Key events &amp; storylines</h2>
+    <p class="sec-sub">The moments that have shaped the tournament.</p>
+    <div class="card"><div class="timeline" id="timeline"></div></div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section class="section" id="videos">
+    <h2 class="sec">Highlights &amp; video</h2>
+    <p class="sec-sub">Official FIFA &amp; established-broadcaster clips. Links open on YouTube.</p>
+    <div class="vidgrid" id="videos-grid"></div>
+    <p class="note">Source priority: official FIFA channel and broadcast partners (ESPN/Telemundo). Per-match links resolve to the official highlights search so they stay live as YouTube updates its library.</p>
+  </section>
+
+  <!-- WALLPAPERS -->
+  <section class="section" id="wallpapers">
+    <h2 class="sec">Wallpaper pack</h2>
+    <p class="sec-sub">World Cup 2026 phone wallpapers — sized for Android (1080×2340) and iOS (1170×2532). Tap to download.</p>
+    <div class="card"><div class="wpgrid" id="wp-grid"></div></div>
+    <p class="note">Original tournament-themed designs incorporating public-domain national flags. Free for personal use.</p>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h2 class="sec" style="font-size:var(--fs-xl)">Sources &amp; methodology</h2>
+    <p class="sec-sub">Every score, standing and stat below was cross-checked against at least two live sources before publishing. Snapshot as of the morning of 30 June 2026 (IST); a live tournament means a few third-place rows differ slightly between outlets.</p>
+    <div class="srcs">
+      <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener">FIFA.com — official tournament hub</a>
+      <a href="https://www.cbssports.com/soccer/news/2026-fifa-world-cup-bracket-round-of-32-results-round-of-16-matchups-final/" target="_blank" rel="noopener">CBS Sports — Round of 32 bracket &amp; results</a>
+      <a href="https://www.nbcsports.com/soccer/news/2026-world-cup-group-stage-table-full-standings-for-all-12-groups" target="_blank" rel="noopener">NBC Sports — full group standings</a>
+      <a href="https://www.reuters.com/sports/soccer/martinelli-rescue-brazil-edge-japan-2-1-last-32-2026-06-29/" target="_blank" rel="noopener">Reuters — Brazil 2–1 Japan</a>
+      <a href="https://apnews.com/article/d5c025da2efeaf08a6b7c694b8e6534e" target="_blank" rel="noopener">AP — Martinelli injury-time winner</a>
+      <a href="https://www.espn.com/soccer/story/_/id/49145571/" target="_blank" rel="noopener">ESPN — Messi all-time goal record</a>
+      <a href="https://news.northeastern.edu/2026/06/28/world-cup-group-stage-standings/" target="_blank" rel="noopener">Northeastern — highest scoring rate since 1958</a>
+      <a href="https://www.olympics.com/en/news/fifa-world-cup-2026-every-match-result-29-june-live-scores" target="_blank" rel="noopener">Olympics.com — 29 June results</a>
+    </div>
+    <p class="note">Built as a Codex artifact. Glanceability standard (the “6-second rule”) applied throughout:
+      every card leads with one fact, status is color-encoded, nothing requires scrolling to read its point.
+      Wallpapers stored in <code>library/world-cup-2026/wallpapers/</code>.</p>
+  </div>
+</footer>
+
+<script>
+/* ===================== DATA (verified snapshot, 30 Jun 2026 IST) ===================== */
+// flag helper — flagcdn (public-domain flag images), 2-letter ISO codes
+const F = c => `https://flagcdn.com/h40/${c}.png`;
+const T = (name,code)=>({name,code});
+
+// teams used (ISO codes)
+const tm = {
+  za:T('South Africa','za'), ca:T('Canada','ca'), br:T('Brazil','br'), jp:T('Japan','jp'),
+  de:T('Germany','de'), py:T('Paraguay','py'), nl:T('Netherlands','nl'), ma:T('Morocco','ma'),
+  ci:T('Ivory Coast','ci'), no:T('Norway','no'), fr:T('France','fr'), se:T('Sweden','se'),
+  mx:T('Mexico','mx'), ec:T('Ecuador','ec'), en:T('England','gb-eng'), cd:T('DR Congo','cd'),
+  be:T('Belgium','be'), sn:T('Senegal','sn'), us:T('USA','us'), ba:T('Bosnia &amp; H.','ba'),
+  es:T('Spain','es'), at:T('Austria','at'), pt:T('Portugal','pt'), hr:T('Croatia','hr'),
+  ch:T('Switzerland','ch'), dz:T('Algeria','dz'), au:T('Australia','au'), eg:T('Egypt','eg'),
+  ar:T('Argentina','ar'), cv:T('Cape Verde','cv'), co:T('Colombia','co'), gh:T('Ghana','gh')
+};
+
+// Round of 32 matches. status: final|live|sched. yt = youtube link.
+const yt = q => `https://www.youtube.com/results?search_query=${encodeURIComponent(q+' FIFA World Cup 2026 highlights')}`;
+const MATCHES = [
+  {d:'29 Jun · 12:30 AM',a:tm.za,b:tm.ca,as:0,bs:1,st:'final',w:'b',next:'Canada → Round of 16',v:'https://www.youtube.com/watch?v=uv-FSqzHXAo'},
+  {d:'29 Jun · 10:30 PM',a:tm.br,b:tm.jp,as:2,bs:1,st:'final',w:'a',next:'Brazil → Round of 16',v:'https://www.youtube.com/watch?v=GiwKDrb6WdA'},
+  {d:'30 Jun · 2:00 AM',a:tm.de,b:tm.py,as:0,bs:1,st:'live',note:'HT · Paraguay lead',next:'Winner faces France/Sweden winner',v:yt('Germany Paraguay')},
+  {d:'30 Jun · 6:30 AM',a:tm.nl,b:tm.ma,st:'sched',next:'Winner faces Canada',v:yt('Netherlands Morocco')},
+  {d:'30 Jun · 10:30 PM',a:tm.ci,b:tm.no,st:'sched',next:'Winner faces Brazil',v:yt('Ivory Coast Norway')},
+  {d:'1 Jul · 2:30 AM',a:tm.fr,b:tm.se,st:'sched',next:'R16',v:yt('France Sweden')},
+  {d:'1 Jul · 6:30 AM',a:tm.mx,b:tm.ec,st:'sched',next:'R16',v:yt('Mexico Ecuador')},
+  {d:'1 Jul · 9:30 PM',a:tm.en,b:tm.cd,st:'sched',next:'R16',v:yt('England DR Congo')},
+  {d:'2 Jul · 1:30 AM',a:tm.be,b:tm.sn,st:'sched',next:'R16',v:yt('Belgium Senegal')},
+  {d:'2 Jul · 5:30 AM',a:tm.us,b:tm.ba,st:'sched',next:'R16',v:yt('USA Bosnia')},
+  {d:'3 Jul · 12:30 AM',a:tm.es,b:tm.at,st:'sched',next:'R16',v:yt('Spain Austria')},
+  {d:'3 Jul · 4:30 AM',a:tm.pt,b:tm.hr,st:'sched',next:'R16',v:yt('Portugal Croatia')},
+  {d:'3 Jul · 8:30 AM',a:tm.ch,b:tm.dz,st:'sched',next:'R16',v:yt('Switzerland Algeria')},
+  {d:'3 Jul · 11:30 PM',a:tm.au,b:tm.eg,st:'sched',next:'R16',v:yt('Australia Egypt')},
+  {d:'4 Jul · 3:30 AM',a:tm.ar,b:tm.cv,st:'sched',next:'R16',v:yt('Argentina Cape Verde')},
+  {d:'4 Jul · 7:00 AM',a:tm.co,b:tm.gh,st:'sched',next:'R16',v:yt('Colombia Ghana')}
+];
+
+const SCORERS = [
+  {p:'Lionel Messi',t:'Argentina',g:18},
+  {p:'Kylian Mbappé',t:'France',g:16},
+  {p:'Vinícius Júnior',t:'Brazil',g:6},
+  {p:'Erling Haaland',t:'Norway',g:5},
+  {p:'Harry Kane',t:'England',g:5}
+];
+const RECORDS = [
+  {v:'4.64M',k:'Group-stage attendance — all-time World Cup record'},
+  {v:'2.99',k:'Goals per game — highest scoring rate since 1958'},
+  {v:'215',k:'Group-stage goals across 48 matches'},
+  {v:'65s',k:'Fastest goal — Galarza (Paraguay) vs Türkiye'},
+  {v:'99.7%',k:'Average stadium fill rate'},
+  {v:'38y',k:'Messi — oldest hat-trick scorer in WC history'}
+];
+const HATTRICKS = [
+  {b:'Lionel Messi — vs Algeria',p:'A hat-trick at 38 years old: the oldest in World Cup history, on the way to the all-time goal record.'},
+  {b:'Ousmane Dembélé — vs Norway (4–1)',p:'Second-fastest hat-trick in World Cup history — completed by the 32nd minute.'},
+  {b:'Jonathan David — vs Qatar (6–0)',p:'Anchored a dominant Canada win that signalled the hosts-region surge.'}
+];
+const BREAKOUTS = [
+  {b:'Ayyoub Bouaddi · Morocco · 18',p:'Outplayed elite midfields; a brace vs Paraguay and a standout display vs Brazil.'},
+  {b:'Yan Diomandé · Ivory Coast · 19',p:'Only player this century with 10+ dribbles and 10+ chances created in his first three games.'},
+  {b:'Johan Manzambi · Switzerland · 20',p:'Three goals, including a decisive double off the bench vs Bosnia.'},
+  {b:'Deniz Undav · Germany',p:'Five goal involvements (3 goals, 2 assists) driving Germany through the group.'}
+];
+
+// Groups — final standings. adv:true => advanced to R32 (top2 auto + 8 best thirds).
+const GROUPS = {
+  A:[['Mexico',9,1],['South Africa',4,1],['South Korea',3,0],['Czechia',1,0]],
+  B:[['Switzerland',7,1],['Canada',4,1],['Bosnia &amp; H.',4,1],['Qatar',1,0]],
+  C:[['Brazil',7,1],['Morocco',7,1],['Scotland',3,0],['Haiti',0,0]],
+  D:[['USA',6,1],['Australia',4,1],['Paraguay',4,1],['Türkiye',3,0]],
+  E:[['Germany',6,1],['Ivory Coast',6,1],['Ecuador',4,1],['Curaçao',1,0]],
+  F:[['Netherlands',7,1],['Japan',5,1],['Sweden',4,1],['Tunisia',0,0]],
+  G:[['Belgium',5,1],['Egypt',5,1],['IR Iran',3,0],['New Zealand',1,0]],
+  H:[['Spain',7,1],['Cape Verde',3,1],['Uruguay',2,0],['Saudi Arabia',1,0]],
+  I:[['France',9,1],['Norway',6,1],['Senegal',3,1],['Iraq',0,0]],
+  J:[['Argentina',9,1],['Austria',4,1],['Algeria',4,1],['Jordan',0,0]],
+  K:[['Colombia',7,1],['Portugal',5,1],['DR Congo',4,1],['Uzbekistan',0,0]],
+  L:[['England',7,1],['Croatia',6,1],['Ghana',4,1],['Panama',0,0]]
+};
+
+const TIMELINE = [
+  {tag:'Knockouts',b:'Canada make history',p:'A late Stephen Eustáquio goal beat South Africa 1–0, sending the co-hosts into the Round of 16.'},
+  {tag:'Knockouts',b:'Brazil survive a Japan scare',p:'Kaishu Sano put Japan ahead; Casemiro levelled and Gabriel Martinelli struck deep in stoppage time to win it 2–1.'},
+  {tag:'Record',b:'Messi becomes the all-time top scorer',p:'A group-stage hat-trick vs Algeria carried Messi to 18 World Cup goals — past Klose and Mbappé — the oldest hat-trick in tournament history.'},
+  {tag:'Record',b:'A record-breaking group stage',p:'215 goals at 2.99 per game (highest since 1958) in front of 4.64M fans — the most-attended group stage ever.'},
+  {tag:'Live',b:'Germany under pressure',p:'A group winner, Germany trailed Paraguay at half-time in the live Round-of-32 tie — the expanded field has made shocks a nightly threat.'},
+  {tag:'Ahead',b:'The heavyweight openers loom',p:'Spain–Austria, Portugal–Croatia, USA–Bosnia, Argentina–Cape Verde and England–DR Congo headline the remaining Round-of-32 ties.'}
+];
+
+const VIDEOS = [
+  {src:'FIFA',t:'South Africa 0–1 Canada',m:'Official Round-of-32 highlights',u:'https://www.youtube.com/watch?v=uv-FSqzHXAo'},
+  {src:'FIFA',t:'Brazil 2–1 Japan',m:'Injury-time drama — Martinelli winner',u:'https://www.youtube.com/watch?v=GiwKDrb6WdA'},
+  {src:'FIFA',t:'Norway 1–4 France',m:'Dembélé hat-trick (group stage)',u:'https://www.youtube.com/watch?v=ABdniNBWtRs'},
+  {src:'FIFA',t:'Argentina 2–0 Austria',m:'Messi brace (group stage)',u:'https://www.youtube.com/watch?v=M4Ccsmk3gcE'},
+  {src:'ESPN FC',t:'Brazil vs Japan — reaction',m:'Late late goal — full reaction',u:'https://www.youtube.com/watch?v=fZXdM6ARAAg'},
+  {src:'FIFA',t:'Full Game Highlights playlist',m:'Every match — official FIFA playlist',u:'https://www.youtube.com/playlist?list=PLSoN6Th-EepMUaxmTobuR_SBwVkdkxdfO'}
+];
+
+// Wallpapers — populated to match files generated in /wallpapers
+const WALLPAPERS = [
+  {b:'Road to the Final',f:'road-to-final'},
+  {b:'Golden Boot — Messi',f:'golden-boot'},
+  {b:'48 Nations',f:'48-nations'},
+  {b:'Knockout Bracket',f:'bracket'},
+  {b:'Host Cities',f:'host-cities'},
+  {b:'Champions Path',f:'champions-path'}
+];
+
+/* ===================== RENDER ===================== */
+const el = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild;};
+const teamHTML = (t)=>`<span class="team"><img class="flag" loading="lazy" src="${F(t.code)}" alt="${t.name}" onerror="this.style.visibility='hidden'">${t.name}</span>`;
+
+// Bracket — split into two columns of 8 ties
+function renderBracket(){
+  const wrap=document.getElementById('bracket');
+  const cols=[MATCHES.slice(0,8),MATCHES.slice(8)];
+  cols.forEach((col,ci)=>{
+    const c=el(`<div class="brk-col"><h3>${ci===0?'Top half':'Bottom half'}</h3></div>`);
+    col.forEach(m=>{
+      const done=m.st==='final';
+      const aWin=done&&m.w==='a', bWin=done&&m.w==='b';
+      const sa=m.as??'', sb=m.bs??'';
+      c.appendChild(el(`<div class="tie">
+        <div class="tie-row ${aWin?'won':done?'lost':''}"><img class="flag" src="${F(m.a.code)}" onerror="this.style.visibility='hidden'"><span class="nm">${m.a.name}</span><span class="sc">${done?sa:''}</span></div>
+        <div class="tie-row ${bWin?'won':done?'lost':''}"><img class="flag" src="${F(m.b.code)}" onerror="this.style.visibility='hidden'"><span class="nm">${m.b.name}</span><span class="sc">${done?sb:''}</span></div>
+        <div class="tie-foot">${m.st==='live'?'● LIVE — '+(m.note||''): m.st==='final'? '✓ '+m.next : m.d}</div>
+      </div>`));
+    });
+    wrap.appendChild(c);
+  });
+}
+
+function statusPill(st,note){
+  if(st==='final')return `<span class="pill final"><span class="dot"></span>Final</span>`;
+  if(st==='live')return `<span class="pill live"><span class="dot"></span>Live${note?' · '+note:''}</span>`;
+  return `<span class="pill sched"><span class="dot"></span>Scheduled</span>`;
+}
+function renderMatches(filter='all'){
+  const list=document.getElementById('matchlist');list.innerHTML='';
+  MATCHES.filter(m=>filter==='all'||m.st===filter).forEach(m=>{
+    const done=m.st==='final';
+    const scoreA=done?`<span class="score ${m.w==='a'?'win':''}">${m.as}</span>`:'';
+    const scoreB=done?`<span class="score ${m.w==='b'?'win':''}">${m.bs}</span>`:'';
+    list.appendChild(el(`<div class="match">
+      <div class="when">${m.d}</div>
+      <div class="teams">${teamHTML(m.a)}${scoreA}<span class="vs">${done?'':'vs'}</span>${scoreB}${teamHTML(m.b)}</div>
+      <div class="right">${statusPill(m.st,m.note)}<a class="watch" href="${m.v}" target="_blank" rel="noopener"><svg class="icon sm" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg>Highlights</a><span class="next">${m.next}</span></div>
+    </div>`));
+  });
+  if(!list.children.length)list.appendChild(el(`<p class="note">No matches in this view yet.</p>`));
+}
+
+function renderScorers(){
+  const box=document.getElementById('scorers');const max=SCORERS[0].g;
+  SCORERS.forEach((s,i)=>{
+    box.appendChild(el(`<div class="scorer">
+      <div class="rank">${i+1}</div>
+      <div class="who"><b>${s.p}</b><span>${s.t}</span></div>
+      <div class="bar"><i style="width:${Math.round(s.g/max*100)}%"></i><b>${s.g}</b></div>
+    </div>`));
+  });
+}
+function renderRecords(){const b=document.getElementById('records');RECORDS.forEach(r=>b.appendChild(el(`<div class="rec"><div class="v">${r.v}</div><div class="k">${r.k}</div></div>`)));}
+function renderList(id,arr){const b=document.getElementById(id);arr.forEach(x=>b.appendChild(el(`<div class="minicard"><b>${x.b}</b><p>${x.p}</p></div>`)));}
+function renderGroups(){
+  const g=document.getElementById('groups-grid');
+  Object.entries(GROUPS).forEach(([k,rows])=>{
+    const card=el(`<div class="group"><div class="gt">Group ${k}<span>PTS</span></div></div>`);
+    rows.forEach((r,i)=>card.appendChild(el(`<div class="grow ${r[2]?'adv':''}"><span class="pos">${i+1}</span><span class="gn">${r[0]}</span><span class="pts">${r[1]}</span></div>`)));
+    g.appendChild(card);
+  });
+}
+function renderTimeline(){const t=document.getElementById('timeline');TIMELINE.forEach(e=>t.appendChild(el(`<div class="tev"><span class="tag">${e.tag}</span><b>${e.b}</b><p>${e.p}</p></div>`)));}
+function renderVideos(){
+  const v=document.getElementById('videos-grid');
+  VIDEOS.forEach(x=>v.appendChild(el(`<a class="vid" href="${x.u}" target="_blank" rel="noopener">
+    <div class="thumb"><span class="src">${x.src}</span><div class="play"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg></div></div>
+    <div class="vt">${x.t}</div><div class="vm">${x.m}</div></a>`)));
+}
+function renderWallpapers(){
+  const w=document.getElementById('wp-grid');
+  WALLPAPERS.forEach(x=>w.appendChild(el(`<div class="wp">
+    <div class="pv"><img loading="lazy" src="wallpapers/android/${x.f}.png" alt="${x.b}" onerror="this.parentNode.innerHTML='<div style=&quot;display:grid;place-items:center;height:100%;color:var(--faint);font-size:var(--fs-xs);padding:8px;text-align:center&quot;>${x.b}</div>'"></div>
+    <div class="meta"><b>${x.b}</b>
+      <div class="dl">
+        <a href="wallpapers/android/${x.f}.png" download>Android</a>
+        <a href="wallpapers/ios/${x.f}.png" download>iOS</a>
+      </div>
+    </div>
+  </div>`)));
+}
+
+/* ===================== THEME ===================== */
+const sun='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+const moon='<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('themeIcon').innerHTML=t==='dark'?sun:moon;try{localStorage.setItem('wc26-theme',t)}catch(e){}}
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+});
+
+/* ===================== FILTERS ===================== */
+document.getElementById('filters').addEventListener('click',e=>{
+  const b=e.target.closest('.fpill');if(!b)return;
+  document.querySelectorAll('.fpill').forEach(p=>p.classList.toggle('active',p===b));
+  renderMatches(b.dataset.f);
+});
+
+/* ===================== INIT ===================== */
+(function init(){
+  try{const saved=localStorage.getItem('wc26-theme');if(saved)setTheme(saved);}catch(e){}
+  renderBracket();renderMatches();renderScorers();renderRecords();
+  renderList('hattricks',HATTRICKS);renderList('breakouts',BREAKOUTS);
+  renderGroups();renderTimeline();renderVideos();renderWallpapers();
+})();
+</script>
+</body>
+</html>

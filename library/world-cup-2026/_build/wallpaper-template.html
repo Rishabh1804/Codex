@@ -1,0 +1,92 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/local-fonts.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%}
+.stage{position:relative;width:100%;height:100%;overflow:hidden;font-family:'Work Sans',sans-serif;color:#fff}
+.bg{position:absolute;inset:0}
+/* texture */
+.grain{position:absolute;inset:0;opacity:.06;background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0);background-size:5px 5px}
+.glow{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55}
+.content{position:absolute;inset:0;display:flex;flex-direction:column;padding:9% 8%}
+.kick{font-size:2.6vh;letter-spacing:.42em;text-transform:uppercase;font-weight:700;opacity:.85}
+.host{font-size:1.8vh;letter-spacing:.3em;text-transform:uppercase;font-weight:600;opacity:.6;margin-top:1.2vh}
+.title{font-family:'Playfair Display',serif;font-weight:900;line-height:.96;margin-top:auto;letter-spacing:-.01em}
+.sub{font-size:2.6vh;font-weight:600;opacity:.85;margin-top:2.5vh;line-height:1.5;max-width:84%}
+.flagrow{display:flex;gap:1.4vh;flex-wrap:wrap;margin-top:3.5vh}
+.flag{width:8.5vh;height:5.7vh;border-radius:.8vh;object-fit:cover;box-shadow:0 .6vh 2vh rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.15)}
+.bigflag{width:18vh;height:12vh;border-radius:1.4vh;object-fit:cover;box-shadow:0 1.4vh 4vh rgba(0,0,0,.5),0 0 0 .3vh rgba(255,255,255,.18)}
+.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;padding-top:5vh}
+.foot .mark{font-family:'Playfair Display',serif;font-weight:800;font-size:3vh;display:flex;align-items:center;gap:1.4vh}
+.foot .mark .ball{width:5vh;height:5vh;border-radius:50%;border:.35vh solid currentColor;position:relative;display:grid;place-items:center}
+.foot .mark .ball:before{content:"";position:absolute;width:120%;height:.3vh;background:currentColor;transform:rotate(45deg)}
+.foot .yr{font-weight:800;font-size:2.4vh;letter-spacing:.2em;opacity:.7}
+.stat{display:flex;gap:6vh;margin-top:3vh}
+.stat .s b{font-family:'Playfair Display',serif;font-size:6vh;display:block;line-height:1}
+.stat .s span{font-size:1.8vh;opacity:.7;text-transform:uppercase;letter-spacing:.12em}
+.bracketArt{position:absolute;right:-6%;top:12%;width:60%;opacity:.14}
+.bracketArt path{stroke:#fff;stroke-width:2;fill:none}
+.num{font-family:'Playfair Display',serif;font-weight:900;font-size:46vh;line-height:.8;opacity:.12;position:absolute;right:-3%;bottom:6%}
+.bigname{font-family:'Playfair Display',serif;font-weight:900;font-size:11vh;line-height:.9;letter-spacing:-.02em}
+</style></head>
+<body>
+<div class="stage" id="stage"></div>
+<script>
+const F=c=>`flags/${c}.png`;
+const P=new URLSearchParams(location.search);const design=P.get('d')||'road-to-final';
+const stage=document.getElementById('stage');
+
+// shared theme palettes
+function bg(a,b,c){return `<div class="bg" style="background:linear-gradient(160deg,${a},${b} 55%,${c})"></div>
+  <div class="glow" style="width:60vh;height:60vh;background:${a};left:-15vh;top:-10vh"></div>
+  <div class="glow" style="width:50vh;height:50vh;background:${c};right:-12vh;bottom:8vh"></div>
+  <div class="grain"></div>`;}
+
+const ball=`<span class="mark"><span class="ball"></span>WC</span>`;
+function foot(){return `<div class="foot">${ball}<div class="yr">2026</div></div>`;}
+
+const designs={
+ 'road-to-final':()=>bg('#0b2a6b','#0a1733','#6b1d5e')+`<div class="content">
+    <div class="kick">FIFA World Cup</div><div class="host">USA · Canada · Mexico</div>
+    <div class="title" style="font-size:13vh">Road<br>to the<br>Final</div>
+    <div class="sub">48 nations. One trophy. The first 32-team knockout begins.</div>
+    ${foot()}</div>`,
+ 'golden-boot':()=>bg('#3a2a07','#140d02','#7a5a12')+`<div class="num" style="color:#ffd76b">18</div><div class="content">
+    <div class="kick" style="color:#ffd76b">Golden Boot</div><div class="host">All-time World Cup record</div>
+    <img class="bigflag" style="margin-top:auto" src="${F('ar')}">
+    <div class="bigname" style="margin-top:3vh">Messi<br><span style="font-size:5vh;-webkit-text-fill-color:#ffd76b">18 goals</span></div>
+    <div class="sub">The oldest hat-trick in World Cup history — and the record that may never fall.</div>
+    ${foot()}</div>`,
+ '48-nations':()=>{const codes=['ar','br','fr','gb-eng','es','pt','nl','de','mx','us','ca','ma','hr','be','co','ch','jp','sn','no','au','eg','dz','ec','gh'];
+    return bg('#06283b','#04101c','#0a4a4a')+`<div class="content">
+    <div class="kick">The Biggest Ever</div><div class="host">FIFA World Cup 2026</div>
+    <div class="title" style="font-size:16vh;margin-top:6vh">48</div>
+    <div class="sub" style="margin-top:1vh">nations · 104 matches · 16 host cities · 3 countries</div>
+    <div class="flagrow">${codes.map(c=>`<img class="flag" src="${F(c)}">`).join('')}</div>
+    ${foot()}</div>`;},
+ 'bracket':()=>bg('#10204a','#070d1c','#2a1450')+`
+    <svg class="bracketArt" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid meet"><path d="M10 30h60v60h-60M10 150h60v60h-60M70 60h40v90h-40M110 105h60M10 250h60v60h-60M10 330h60v60h-60M70 280h40v90h-40M110 325h60M170 105v220M170 215h80"/></svg>
+    <div class="content"><div class="kick">Knockout Stage</div><div class="host">Round of 32 · 2026</div>
+    <div class="title" style="font-size:12vh">The<br>Bracket</div>
+    <div class="stat"><div class="s"><b>32</b><span>Teams left</span></div><div class="s"><b>16</b><span>Ties</span></div><div class="s"><b>5</b><span>Rounds to glory</span></div></div>
+    <div class="sub">Win or go home. Every night, a giant could fall.</div>${foot()}</div>`,
+ 'host-cities':()=>bg('#7a1d2b','#1a0608','#b3471f')+`<div class="content">
+    <div class="kick">Three Nations</div><div class="host">One Tournament</div>
+    <div class="title" style="font-size:11vh;margin-top:auto">United<br>by the<br>Game</div>
+    <div class="flagrow" style="margin-top:4vh"><img class="bigflag" src="${F('us')}"><img class="bigflag" src="${F('ca')}"><img class="bigflag" src="${F('mx')}"></div>
+    <div class="sub">16 host cities across the USA, Canada and Mexico — the World Cup goes continental.</div>
+    ${foot()}</div>`,
+ 'champions-path':()=>bg('#0a3b2e','#04140f','#0a6b4a')+`<div class="num" style="color:#39d98a">★</div><div class="content">
+    <div class="kick" style="color:#39d98a">Champions Path</div><div class="host">Who lifts it on 19 July?</div>
+    <div class="title" style="font-size:12vh;margin-top:6vh">Glory<br>Awaits</div>
+    <div class="stat"><div class="s"><b>9</b><span>France pts</span></div><div class="s"><b>9</b><span>Argentina pts</span></div></div>
+    <div class="sub">France and Argentina were the only perfect group winners. The road to the final runs through them.</div>
+    ${foot()}</div>`
+};
+stage.innerHTML=(designs[design]||designs['road-to-final'])();
+// signal ready when fonts + flag images settle
+window.__ready=false;
+Promise.all([document.fonts.ready, ...Array.from(document.images).map(i=>i.complete?Promise.resolve():new Promise(r=>{i.onload=i.onerror=r}))]).then(()=>{window.__ready=true;});
+</script>
+</body></html>
