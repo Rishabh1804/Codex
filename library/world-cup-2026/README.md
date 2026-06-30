@@ -4,7 +4,10 @@ A self-contained, interactive briefing on the **2026 FIFA Men's World Cup** (USA
 Mexico), captured at the **Round of 32** knockout stage. Built as a permanent Codex library
 artifact and deployed to Vercel.
 
-**Snapshot:** morning of **30 June 2026 (IST)** — group stage complete, knockouts under way.
+**Results current as of:** **30 June 2026, ~17:00 IST** — Round of 32 in progress (Germany & the
+Netherlands out on penalties; Canada, Brazil, Paraguay, Morocco into the R16). The header clock runs
+in real time and countdowns are live; scores are a published snapshot (refreshed on update), not a
+live score feed.
 
 ## What's here
 
