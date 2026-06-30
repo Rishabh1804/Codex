@@ -11,6 +11,9 @@ artifact and deployed to Vercel.
 ```
 library/world-cup-2026/
 ├── index.html              ← the dashboard (open in any browser; self-contained, no build step)
+├── manifest.webmanifest    ← PWA manifest (installable app)
+├── sw.js                   ← service worker (network-first HTML, offline-capable)
+├── icon.svg / icon-192.png / icon-512.png   ← app icons
 ├── wallpapers/             ← downloadable phone wallpaper pack (committed PNGs)
 │   ├── android/  *.png      (1080 × 2340)
 │   └── ios/      *.png      (1170 × 2532)
@@ -20,6 +23,18 @@ library/world-cup-2026/
     ├── fetch-assets.sh           re-download local assets via curl
     └── render.sh                 render all designs → PNGs via chrome-headless-shell
 ```
+
+## Live & app features
+
+- **Live tournament clock** — a ticking IST clock anchored to the snapshot moment and advancing in
+  real time, so countdowns stay internally consistent whenever the page is opened.
+- **Live status strip** — a pulsing "LIVE NOW" card for the in-progress match and a real-time
+  "next kick-off" countdown; per-match countdown chips on the scheduled board.
+- **Match alerts (notifications)** — the bell button requests the Web Notifications permission and
+  schedules a system notification 15 minutes before, and at, each kick-off (falls back to an in-page
+  toast if permission is denied). Preference persists in localStorage.
+- **Installable PWA** — `manifest.webmanifest` + `sw.js` make it installable to a home screen and
+  usable offline; the install button appears when the browser offers it.
 
 ## The dashboard (`index.html`)
 
