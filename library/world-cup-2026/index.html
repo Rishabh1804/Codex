@@ -218,6 +218,13 @@ footer .srcs a{display:block;margin-bottom:var(--sp-6);color:var(--accent);text-
 footer .srcs a:hover{text-decoration:underline}
 .note{font-size:var(--fs-xs);color:var(--faint);margin-top:var(--sp-16);line-height:var(--lh-relaxed)}
 
+/* ============ Live feed badge ============ */
+#feedbadge{display:none;font-size:var(--fs-2xs);font-weight:700;letter-spacing:.04em;color:var(--c-final);
+  background:color-mix(in srgb,var(--c-final) 14%,transparent);border:1px solid color-mix(in srgb,var(--c-final) 40%,transparent);
+  padding:2px 9px;border-radius:var(--r-full);text-transform:none;margin-left:var(--sp-8);vertical-align:middle}
+#feedbadge.on{display:inline-flex;align-items:center;gap:6px}
+#feedbadge .d{width:7px;height:7px;border-radius:var(--r-full);background:var(--c-final);animation:pulse 1.1s infinite}
+.minute{color:var(--c-live);font-weight:800;font-size:var(--fs-2xs);font-variant-numeric:tabular-nums}
 /* ============ Live strip + countdowns ============ */
 .livestrip{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-12);margin-top:var(--sp-20)}
 .lcard{border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-14) var(--sp-16);background:linear-gradient(180deg,var(--card),var(--card2));display:flex;align-items:center;gap:var(--sp-12);box-shadow:var(--shadow)}
@@ -285,7 +292,7 @@ footer .srcs a:hover{text-decoration:underline}
 <div class="wrap">
   <!-- HERO -->
   <section class="hero">
-    <div class="eyebrow">The complete brief · Round of 32</div>
+    <div class="eyebrow">The complete brief · Round of 32 <span id="feedbadge"></span></div>
     <h1>The first <span class="grad">48-team</span> World Cup is in the knockouts.</h1>
     <p>Group stage done, records already shattered — and the bracket is biting. Germany and the
        Netherlands are already out on penalties; Canada, Brazil, Paraguay and Morocco are through.
@@ -566,18 +573,19 @@ const teamHTML = (t)=>`<span class="team"><img class="flag" loading="lazy" src="
 // Bracket — split into two columns of 8 ties
 function renderBracket(){
   const wrap=document.getElementById('bracket');
+  wrap.innerHTML='';
   const cols=[MATCHES.slice(0,8),MATCHES.slice(8)];
   cols.forEach((col,ci)=>{
     const c=el(`<div class="brk-col"><h3>${ci===0?'Top half':'Bottom half'}</h3></div>`);
     col.forEach(m=>{
-      const s=statusOf(m),done=s==='final';
+      const s=statusOf(m),done=s==='final',lv=m._live,showScore=done||!!lv;
       const aWin=done&&m.w==='a', bWin=done&&m.w==='b';
-      const sa=m.as??'', sb=m.bs??'';
+      const sa=done?m.as:(lv?lv.as:''), sb=done?m.bs:(lv?lv.bs:'');
       const foot=done?('✓ '+m.next+(m.pen?` · 1–1 (${m.pen} pens)`:''))
-               : s==='live'||s==='await'?'● In play':m.d;
+               : (s==='live'||s==='await')?('● In play'+(lv&&lv.minute!=null?` · ${lv.minute}'`:'')):m.d;
       c.appendChild(el(`<div class="tie">
-        <div class="tie-row ${aWin?'won':done?'lost':''}"><img class="flag" src="${F(m.a.code)}" onerror="this.style.visibility='hidden'"><span class="nm">${m.a.name}</span><span class="sc">${done?sa:''}</span></div>
-        <div class="tie-row ${bWin?'won':done?'lost':''}"><img class="flag" src="${F(m.b.code)}" onerror="this.style.visibility='hidden'"><span class="nm">${m.b.name}</span><span class="sc">${done?sb:''}</span></div>
+        <div class="tie-row ${aWin?'won':done?'lost':''}"><img class="flag" src="${F(m.a.code)}" onerror="this.style.visibility='hidden'"><span class="nm">${m.a.name}</span><span class="sc">${showScore?sa:''}</span></div>
+        <div class="tie-row ${bWin?'won':done?'lost':''}"><img class="flag" src="${F(m.b.code)}" onerror="this.style.visibility='hidden'"><span class="nm">${m.b.name}</span><span class="sc">${showScore?sb:''}</span></div>
         <div class="tie-foot">${foot}</div>
       </div>`));
     });
@@ -586,9 +594,9 @@ function renderBracket(){
 }
 
 function statusPill(m){
-  const s=statusOf(m);
+  const s=statusOf(m),lv=m._live;
   if(s==='final')return `<span class="pill final"><span class="dot"></span>Final</span>`;
-  if(s==='live')return `<span class="pill live"><span class="dot"></span>Live</span>`;
+  if(s==='live')return `<span class="pill live"><span class="dot"></span>Live${lv&&lv.minute!=null?` ${lv.minute}'`:''}</span>`;
   if(s==='await')return `<span class="pill live"><span class="dot"></span>In play</span>`;
   return `<span class="pill sched"><span class="dot"></span>Scheduled</span>`;
 }
@@ -596,8 +604,11 @@ function renderMatches(filter='all'){
   const list=document.getElementById('matchlist');list.innerHTML='';
   MATCHES.filter(m=>{const s=statusOf(m);return filter==='all'||s===filter||(filter==='live'&&s==='await');}).forEach(m=>{
     const s=statusOf(m),done=s==='final',inplay=(s==='live'||s==='await');
-    const scoreA=done?`<span class="score ${m.w==='a'?'win':''}">${m.as}</span>`:'';
-    const scoreB=done?`<span class="score ${m.w==='b'?'win':''}">${m.bs}</span>`:'';
+    const lv=m._live,showScore=done||(inplay&&lv);
+    const dA=done?m.as:(lv?lv.as:''),dB=done?m.bs:(lv?lv.bs:'');
+    const scoreA=showScore?`<span class="score ${done&&m.w==='a'?'win':''}">${dA}</span>`:'';
+    const scoreB=showScore?`<span class="score ${done&&m.w==='b'?'win':''}">${dB}</span>`:'';
+    const mid=showScore?(inplay&&lv&&lv.minute!=null?`<span class="minute">${lv.minute}'</span>`:'<span class="vs">–</span>'):`<span class="vs">vs</span>`;
     const penTxt=done&&m.pen?`<span class="pennote">pens ${m.pen}</span>`:'';
     const cd=s==='sched'?`<span class="cdchip" data-ko="${m.t}">—</span>`:'';
     const link=inplay
@@ -605,7 +616,7 @@ function renderMatches(filter='all'){
       :`<a class="watch" href="${m.v}" target="_blank" rel="noopener"><svg class="icon sm" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg>${done?'Highlights':'Preview'}</a>`;
     list.appendChild(el(`<div class="match">
       <div class="when">${m.d}</div>
-      <div class="teams">${teamHTML(m.a)}${scoreA}<span class="vs">${done?'':'vs'}</span>${scoreB}${teamHTML(m.b)}${penTxt}</div>
+      <div class="teams">${teamHTML(m.a)}${scoreA}${mid}${scoreB}${teamHTML(m.b)}${penTxt}</div>
       <div class="right">${statusPill(m)}${cd}${link}<span class="next">${m.next}</span></div>
     </div>`));
   });
@@ -661,11 +672,50 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
 });
 
 /* ===================== FILTERS ===================== */
+let curFilter='all';
 document.getElementById('filters').addEventListener('click',e=>{
   const b=e.target.closest('.fpill');if(!b)return;
+  curFilter=b.dataset.f;
   document.querySelectorAll('.fpill').forEach(p=>p.classList.toggle('active',p===b));
-  renderMatches(b.dataset.f);
+  renderMatches(curFilter);
 });
+
+/* ===================== LIVE FEED (api/scores) ===================== */
+// Merge server-normalized live data into MATCHES, handling home/away orientation.
+function applyLive(list){
+  let changed=false;
+  list.forEach(d=>{
+    let m=MATCHES.find(x=>x.a.code===d.a&&x.b.code===d.b), rev=false;
+    if(!m){m=MATCHES.find(x=>x.a.code===d.b&&x.b.code===d.a);rev=true;}
+    if(!m)return;
+    const sA=rev?d.scoreB:d.scoreA, sB=rev?d.scoreA:d.scoreB;
+    const win=d.winner?(rev?(d.winner==='a'?'b':'a'):d.winner):null;
+    const pens=d.pens?(rev?d.pens.split('–').reverse().join('–'):d.pens):null;
+    if(d.status==='final'){
+      if(m.st!=='final'||m.as!==sA||m.bs!==sB)changed=true;
+      m.st='final';m.as=sA;m.bs=sB;if(pens)m.pen=pens;if(win)m.w=win;delete m._live;
+    }else if(d.status==='live'){
+      const prev=m._live;
+      if(!prev||prev.as!==sA||prev.bs!==sB||prev.minute!==d.minute)changed=true;
+      m._live={as:sA,bs:sB,minute:d.minute};
+    }
+  });
+  return changed;
+}
+const hhmmss=ms=>new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(ms));
+async function pollLive(){
+  const badge=document.getElementById('feedbadge');
+  try{
+    const r=await fetch('api/scores',{cache:'no-store'});
+    if(!r.ok)return;
+    const j=await r.json();
+    if(j.source==='api'&&Array.isArray(j.matches)&&j.matches.length){
+      const changed=applyLive(j.matches);
+      if(changed){renderBracket();renderMatches(curFilter);renderLiveStrip();tick();}
+      if(badge){badge.className='on';badge.innerHTML=`<span class="d"></span>LIVE DATA · updated ${hhmmss(new Date(j.updated).getTime())}`;}
+    }else if(badge){badge.className='';} // snapshot/stale → keep curated data, hide badge
+  }catch(e){/* network error → keep snapshot silently */}
+}
 
 /* ===================== LIVE ENGINE ===================== */
 const pad=n=>String(n).padStart(2,'0');
@@ -684,9 +734,11 @@ function renderLiveStrip(){
   const box=document.getElementById('livestrip');if(!box)return;
   const lv=liveMatch(),nx=nextMatch();
   let html='';
-  if(lv){html+=`<div class="lcard islive"><span class="livedot"></span><div class="grow1">
-    <div class="llabel">Live now</div>
-    <div class="lmatch"><img class="flag" src="${F(lv.a.code)}" onerror="this.style.visibility='hidden'">${lv.a.name} vs ${lv.b.name}<img class="flag" src="${F(lv.b.code)}" onerror="this.style.visibility='hidden'"></div>
+  if(lv){const ld=lv._live;
+    const sc=ld?`<b>${ld.as}–${ld.bs}</b>`:'vs';
+    html+=`<div class="lcard islive"><span class="livedot"></span><div class="grow1">
+    <div class="llabel">Live now${ld&&ld.minute!=null?` · ${ld.minute}'`:''}</div>
+    <div class="lmatch"><img class="flag" src="${F(lv.a.code)}" onerror="this.style.visibility='hidden'">${lv.a.name} ${sc} ${lv.b.name}<img class="flag" src="${F(lv.b.code)}" onerror="this.style.visibility='hidden'"></div>
     <div class="lsub">In play · <a href="${lv.v}" target="_blank" rel="noopener">follow live ↗</a></div></div></div>`;}
   else{const lf=latestFinal();if(lf)html+=`<div class="lcard"><div class="grow1">
     <div class="llabel">Latest result</div>
@@ -763,6 +815,8 @@ if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.ser
   // live engine
   renderLiveStrip();lastNextId=(nextMatch()||{}).t||'';
   tick();setInterval(tick,1000);setInterval(maybeRerenderStrip,30000);
+  // live score feed (graceful no-op when no match is live / no API key configured)
+  pollLive();setInterval(pollLive,45000);
   // restore alerts preference (re-arms timers; system permission may already be granted)
   try{if(localStorage.getItem(ALERT_KEY)==='1'&&(!('Notification'in window)||Notification.permission==='granted'))setAlerts(true);}catch(e){}
 })();

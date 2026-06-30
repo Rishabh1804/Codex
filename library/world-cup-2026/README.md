@@ -38,6 +38,27 @@ library/world-cup-2026/
   toast if permission is denied). Preference persists in localStorage.
 - **Installable PWA** — `manifest.webmanifest` + `sw.js` make it installable to a home screen and
   usable offline; the install button appears when the browser offers it.
+- **Live scores (optional)** — a Vercel serverless function (`api/scores.js`) proxies live World Cup
+  scores from API-Football, and the client polls it (~45s) to auto-update the bracket, match board and
+  live strip with real scores + match minute, showing a "LIVE DATA · updated …" badge. Degrades
+  gracefully to the curated snapshot when the feed is unavailable.
+
+## Enabling live scores
+
+The live feed is **off until an API key is configured** (the page still works fully on the curated
+snapshot without it). To turn it on:
+
+1. Get a free API key at **https://www.api-sports.io/** (issued instantly).
+2. In Vercel → project **codex** → **Settings → Environment Variables**, add
+   `FOOTBALL_API_KEY` = your key (Production + Preview), then redeploy.
+
+**How it stays within the free tier (100 req/day):** `api/scores.js` only calls API-Football when a
+fixture is actually inside its live window, and sets `Cache-Control: s-maxage` so Vercel's CDN serves
+most page polls from cache — the upstream API is hit at most ~once every 120s while a match is live,
+and **zero** times when nothing is live. On any error / missing key / rate-limit the function returns
+`{source:'stale'}` and the client keeps the snapshot, so the page never breaks. The key lives only in
+the Vercel environment — it is never shipped to the browser. Heavy match days may approach the daily
+cap; api-sports' cheap paid tiers remove it if bulletproof coverage is wanted.
 
 ## The dashboard (`index.html`)
 
