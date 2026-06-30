@@ -125,6 +125,7 @@ h2.sec{font-size:var(--fs-2xl);font-weight:800;margin-bottom:var(--sp-4)}
 .flag{width:22px;height:15px;border-radius:2px;object-fit:cover;box-shadow:0 0 0 1px var(--line);flex:none;background:var(--line)}
 .score{font-family:var(--ff-head);font-weight:800;font-size:var(--fs-md);padding:0 var(--sp-6)}
 .win{color:var(--c-final)}
+.pennote{font-size:var(--fs-2xs);color:var(--faint);font-weight:600;white-space:nowrap}
 .vs{color:var(--faint);font-size:var(--fs-xs);font-weight:600}
 .match .right{display:flex;flex-direction:column;align-items:flex-end;gap:var(--sp-6)}
 .watch{font-size:var(--fs-2xs);color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
@@ -258,7 +259,7 @@ footer .srcs a:hover{text-decoration:underline}
     <div class="brandmark"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.5 6.5l13 11M18.5 6.5l-13 11"/></svg></div>
     <div class="brandtxt"><b>World Cup 2026</b><span>USA · Canada · Mexico</span></div>
     <div class="spacer"></div>
-    <div class="asof"><span>Tournament clock · IST</span><b id="clock">—</b></div>
+    <div class="asof"><span>Live · IST</span><b id="clock">—</b></div>
     <button class="iconbtn" id="installBtn" aria-label="Install app" title="Install as app" hidden>
       <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>
     </button>
@@ -286,13 +287,13 @@ footer .srcs a:hover{text-decoration:underline}
   <section class="hero">
     <div class="eyebrow">The complete brief · Round of 32</div>
     <h1>The first <span class="grad">48-team</span> World Cup is in the knockouts.</h1>
-    <p>Group stage done, records already shattered, and the bracket has begun. Canada and Brazil are
-       through to the Round of 16; sixteen giants face their first knockout test. Here's everything
-       that's happened — at a glance.</p>
+    <p>Group stage done, records already shattered — and the bracket is biting. Germany and the
+       Netherlands are already out on penalties; Canada, Brazil, Paraguay and Morocco are through.
+       Here's everything that's happened — at a glance, updated live.</p>
     <div id="livestrip" class="livestrip"></div>
     <div class="metrics">
-      <div class="metric"><div class="n grad">48</div><div class="l">teams · biggest World Cup ever</div></div>
-      <div class="metric"><div class="n">32</div><div class="l">reached the Round of 32 knockout</div></div>
+      <div class="metric"><div class="n grad">4</div><div class="l">into the Round of 16: Canada, Brazil, Paraguay, Morocco</div></div>
+      <div class="metric"><div class="n">2</div><div class="l">giants dumped out on pens: Germany &amp; Netherlands</div></div>
       <div class="metric"><div class="n">215</div><div class="l">group-stage goals · 2.99/game, highest since 1958</div></div>
       <div class="metric"><div class="n">4.64M</div><div class="l">group-stage attendance · all-time WC record</div></div>
     </div>
@@ -304,23 +305,24 @@ footer .srcs a:hover{text-decoration:underline}
       <div class="card">
         <h2 class="sec">Executive summary</h2>
         <p class="sec-sub">Where the tournament stands, in 30 seconds.</p>
-        <p style="margin-top:0">The group phase is complete and the World Cup has entered its first-ever
-          <b>32-team knockout stage</b>. <b>France</b> and <b>Argentina</b> were the only perfect 9-point group
-          winners; Mexico, Brazil, Netherlands, Spain, Colombia and England also topped their groups.</p>
-        <p><b>Canada</b> opened the knockouts beating South Africa 1–0, and <b>Brazil</b> followed with a dramatic
-          stoppage-time 2–1 comeback over Japan — both now in the Round of 16. Germany were under real pressure,
-          trailing Paraguay at the break in the live Round-of-32 tie.</p>
+        <p style="margin-top:0">The first-ever <b>32-team knockout stage</b> has already produced history. <b>Germany</b>
+          — four-time champions — were dumped out by <b>Paraguay</b> on penalties (1–1, 4–3) in what's being called the
+          biggest knockout upset ever and Germany's first-ever World Cup shootout defeat. Hours later <b>the
+          Netherlands</b> went the same way, beaten 3–2 on spot-kicks by a fearless <b>Morocco</b>.</p>
+        <p>Earlier, <b>Canada</b> beat South Africa 1–0 and <b>Brazil</b> survived a stoppage-time scare to edge Japan
+          2–1. That makes four into the Round of 16: <b>Canada, Brazil, Paraguay and Morocco</b> — with Morocco now
+          facing co-hosts Canada.</p>
         <p style="margin-bottom:0">Still to come are the heavyweight openers: France–Sweden, Spain–Austria,
           Portugal–Croatia, Argentina–Cape Verde, USA–Bosnia and England–DR Congo.</p>
       </div>
       <div class="card">
         <h2 class="sec">The story so far</h2>
         <p class="sec-sub">Five things you need to know.</p>
+        <div class="minicard"><b>Germany dumped out</b><p>Four-time champions beaten by Paraguay on penalties (1–1, 4–3) — possibly the biggest knockout upset in World Cup history.</p></div>
+        <div class="minicard"><b>Netherlands fall too</b><p>Morocco knock out the Dutch 3–2 on spot-kicks and march on to face co-hosts Canada.</p></div>
+        <div class="minicard"><b>Four into the Round of 16</b><p>Canada, Brazil, Paraguay and Morocco are through; twelve ties still to come.</p></div>
         <div class="minicard"><b>Messi makes history</b><p>Now the all-time World Cup top scorer (18) — including the oldest hat-trick in tournament history.</p></div>
-        <div class="minicard"><b>A record-breaking group stage</b><p>215 goals at 2.99/game, the highest scoring rate since 1958, in front of record crowds.</p></div>
-        <div class="minicard"><b>Canada &amp; Brazil advance</b><p>The only two teams confirmed into the Round of 16 so far.</p></div>
-        <div class="minicard"><b>Upset watch</b><p>Germany trailed Paraguay; the expanded field has made first-round shocks live every night.</p></div>
-        <div class="minicard"><b>Biggest event ever</b><p>4.64M fans through the group stage at ~99.7% capacity across three nations.</p></div>
+        <div class="minicard"><b>Record-breaking group stage</b><p>215 goals at 2.99/game (highest since 1958) and 4.64M fans — the most-attended ever.</p></div>
       </div>
     </div>
   </section>
@@ -413,9 +415,11 @@ footer .srcs a:hover{text-decoration:underline}
 <footer>
   <div class="wrap">
     <h2 class="sec" style="font-size:var(--fs-xl)">Sources &amp; methodology</h2>
-    <p class="sec-sub">Every score, standing and stat below was cross-checked against at least two live sources before publishing. Snapshot as of the morning of 30 June 2026 (IST); a live tournament means a few third-place rows differ slightly between outlets.</p>
+    <p class="sec-sub">Every score, standing and stat below was cross-checked against at least two live sources before publishing. Results current as of <b>30 June 2026, ~17:00 IST</b> — the Round of 32 is in progress, and the header clock runs in real time. Scores update when this page is refreshed (it's a published snapshot, not a live score feed).</p>
     <div class="srcs">
       <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener">FIFA.com — official tournament hub</a>
+      <a href="https://www.aljazeera.com/sports/2026/6/29/paraguay-shock-germany-in-shootout-win-for-one-of-all-time-world-cup-upsets" target="_blank" rel="noopener">Al Jazeera — Paraguay shock Germany on penalties</a>
+      <a href="https://www.espn.com/soccer/story/_/id/49220087/netherlands-morocco-live-world-cup-2026-latest-updates-commentary-score-result" target="_blank" rel="noopener">ESPN — Morocco knock out the Netherlands</a>
       <a href="https://www.cbssports.com/soccer/news/2026-fifa-world-cup-bracket-round-of-32-results-round-of-16-matchups-final/" target="_blank" rel="noopener">CBS Sports — Round of 32 bracket &amp; results</a>
       <a href="https://www.nbcsports.com/soccer/news/2026-world-cup-group-stage-table-full-standings-for-all-12-groups" target="_blank" rel="noopener">NBC Sports — full group standings</a>
       <a href="https://www.reuters.com/sports/soccer/martinelli-rescue-brazil-edge-japan-2-1-last-32-2026-06-29/" target="_blank" rel="noopener">Reuters — Brazil 2–1 Japan</a>
@@ -454,8 +458,8 @@ const yt = q => `https://www.youtube.com/results?search_query=${encodeURICompone
 const MATCHES = [
   {d:'29 Jun · 12:30 AM',t:'2026-06-29T00:30:00+05:30',a:tm.za,b:tm.ca,as:0,bs:1,st:'final',w:'b',next:'Canada → Round of 16',v:'https://www.youtube.com/watch?v=uv-FSqzHXAo'},
   {d:'29 Jun · 10:30 PM',t:'2026-06-29T22:30:00+05:30',a:tm.br,b:tm.jp,as:2,bs:1,st:'final',w:'a',next:'Brazil → Round of 16',v:'https://www.youtube.com/watch?v=GiwKDrb6WdA'},
-  {d:'30 Jun · 2:00 AM',t:'2026-06-30T02:00:00+05:30',a:tm.de,b:tm.py,as:0,bs:1,st:'live',note:'HT · Paraguay lead',next:'Winner faces France/Sweden winner',v:yt('Germany Paraguay')},
-  {d:'30 Jun · 6:30 AM',t:'2026-06-30T06:30:00+05:30',a:tm.nl,b:tm.ma,st:'sched',next:'Winner faces Canada',v:yt('Netherlands Morocco')},
+  {d:'30 Jun · 2:00 AM',t:'2026-06-30T02:00:00+05:30',a:tm.de,b:tm.py,as:1,bs:1,pen:'4–3',st:'final',w:'b',next:'Paraguay → Round of 16',v:yt('Germany Paraguay')},
+  {d:'30 Jun · 6:30 AM',t:'2026-06-30T06:30:00+05:30',a:tm.nl,b:tm.ma,as:1,bs:1,pen:'3–2',st:'final',w:'b',next:'Morocco → R16 (vs Canada)',v:yt('Netherlands Morocco')},
   {d:'30 Jun · 10:30 PM',t:'2026-06-30T22:30:00+05:30',a:tm.ci,b:tm.no,st:'sched',next:'Winner faces Brazil',v:yt('Ivory Coast Norway')},
   {d:'1 Jul · 2:30 AM',t:'2026-07-01T02:30:00+05:30',a:tm.fr,b:tm.se,st:'sched',next:'R16',v:yt('France Sweden')},
   {d:'1 Jul · 6:30 AM',t:'2026-07-01T06:30:00+05:30',a:tm.mx,b:tm.ec,st:'sched',next:'R16',v:yt('Mexico Ecuador')},
@@ -469,12 +473,18 @@ const MATCHES = [
   {d:'4 Jul · 3:30 AM',t:'2026-07-04T03:30:00+05:30',a:tm.ar,b:tm.cv,st:'sched',next:'R16',v:yt('Argentina Cape Verde')},
   {d:'4 Jul · 7:00 AM',t:'2026-07-04T07:00:00+05:30',a:tm.co,b:tm.gh,st:'sched',next:'R16',v:yt('Colombia Ghana')}
 ];
-// Live "tournament clock": anchored to the snapshot moment, advancing in real time so
-// countdowns stay internally consistent whenever the page is opened.
-const SNAP_T0 = new Date('2026-06-30T03:00:00+05:30').getTime();
-const LOAD_EPOCH = Date.now();
-const tnow = () => SNAP_T0 + (Date.now() - LOAD_EPOCH);
+// Genuine real-time clock + time-aware match status (no live score feed, so a match that
+// has kicked off but whose result we don't yet hold is shown as "in play / pending").
+const tnow = () => Date.now();
 const KO = m => new Date(m.t).getTime();
+const PLAY_MS = 150 * 60 * 1000; // ~2.5h window covers 90' + ET + penalties
+function statusOf(m){
+  if(m.st==='final') return 'final';
+  const ko=KO(m), n=tnow();
+  if(n<ko) return 'sched';
+  if(n<ko+PLAY_MS) return 'live';
+  return 'await';
+}
 
 const SCORERS = [
   {p:'Lionel Messi',t:'Argentina',g:18},
@@ -520,15 +530,17 @@ const GROUPS = {
 };
 
 const TIMELINE = [
+  {tag:'Upset',b:'Germany knocked out by Paraguay',p:'Enciso headed Paraguay ahead, Havertz levelled, and after a VAR-ruled-out Tah goal it went to penalties — Paraguay winning 4–3 for, arguably, the biggest knockout upset in World Cup history and Germany’s first-ever WC shootout loss.'},
+  {tag:'Upset',b:'Morocco eliminate the Netherlands',p:'Gakpo struck in the 72nd minute, Issa Diop equalised in the 91st, and Ismael Saibari buried the decisive spot-kick as Morocco won 3–2 on penalties to set up a Round-of-16 tie with Canada.'},
   {tag:'Knockouts',b:'Canada make history',p:'A late Stephen Eustáquio goal beat South Africa 1–0, sending the co-hosts into the Round of 16.'},
   {tag:'Knockouts',b:'Brazil survive a Japan scare',p:'Kaishu Sano put Japan ahead; Casemiro levelled and Gabriel Martinelli struck deep in stoppage time to win it 2–1.'},
   {tag:'Record',b:'Messi becomes the all-time top scorer',p:'A group-stage hat-trick vs Algeria carried Messi to 18 World Cup goals — past Klose and Mbappé — the oldest hat-trick in tournament history.'},
-  {tag:'Record',b:'A record-breaking group stage',p:'215 goals at 2.99 per game (highest since 1958) in front of 4.64M fans — the most-attended group stage ever.'},
-  {tag:'Live',b:'Germany under pressure',p:'A group winner, Germany trailed Paraguay at half-time in the live Round-of-32 tie — the expanded field has made shocks a nightly threat.'},
-  {tag:'Ahead',b:'The heavyweight openers loom',p:'Spain–Austria, Portugal–Croatia, USA–Bosnia, Argentina–Cape Verde and England–DR Congo headline the remaining Round-of-32 ties.'}
+  {tag:'Ahead',b:'The heavyweight openers loom',p:'France–Sweden, Spain–Austria, Portugal–Croatia, USA–Bosnia, Argentina–Cape Verde and England–DR Congo headline the remaining Round-of-32 ties.'}
 ];
 
 const VIDEOS = [
+  {src:'Highlights',t:'Germany 1–1 Paraguay (4–3 pens)',m:'Germany dumped out — shootout drama',u:yt('Germany Paraguay penalties')},
+  {src:'Highlights',t:'Netherlands 1–1 Morocco (3–2 pens)',m:'Morocco knock out the Dutch',u:yt('Netherlands Morocco penalties')},
   {src:'FIFA',t:'South Africa 0–1 Canada',m:'Official Round-of-32 highlights',u:'https://www.youtube.com/watch?v=uv-FSqzHXAo'},
   {src:'FIFA',t:'Brazil 2–1 Japan',m:'Injury-time drama — Martinelli winner',u:'https://www.youtube.com/watch?v=GiwKDrb6WdA'},
   {src:'FIFA',t:'Norway 1–4 France',m:'Dembélé hat-trick (group stage)',u:'https://www.youtube.com/watch?v=ABdniNBWtRs'},
@@ -558,37 +570,46 @@ function renderBracket(){
   cols.forEach((col,ci)=>{
     const c=el(`<div class="brk-col"><h3>${ci===0?'Top half':'Bottom half'}</h3></div>`);
     col.forEach(m=>{
-      const done=m.st==='final';
+      const s=statusOf(m),done=s==='final';
       const aWin=done&&m.w==='a', bWin=done&&m.w==='b';
       const sa=m.as??'', sb=m.bs??'';
+      const foot=done?('✓ '+m.next+(m.pen?` · 1–1 (${m.pen} pens)`:''))
+               : s==='live'||s==='await'?'● In play':m.d;
       c.appendChild(el(`<div class="tie">
         <div class="tie-row ${aWin?'won':done?'lost':''}"><img class="flag" src="${F(m.a.code)}" onerror="this.style.visibility='hidden'"><span class="nm">${m.a.name}</span><span class="sc">${done?sa:''}</span></div>
         <div class="tie-row ${bWin?'won':done?'lost':''}"><img class="flag" src="${F(m.b.code)}" onerror="this.style.visibility='hidden'"><span class="nm">${m.b.name}</span><span class="sc">${done?sb:''}</span></div>
-        <div class="tie-foot">${m.st==='live'?'● LIVE — '+(m.note||''): m.st==='final'? '✓ '+m.next : m.d}</div>
+        <div class="tie-foot">${foot}</div>
       </div>`));
     });
     wrap.appendChild(c);
   });
 }
 
-function statusPill(st,note){
-  if(st==='final')return `<span class="pill final"><span class="dot"></span>Final</span>`;
-  if(st==='live')return `<span class="pill live"><span class="dot"></span>Live${note?' · '+note:''}</span>`;
+function statusPill(m){
+  const s=statusOf(m);
+  if(s==='final')return `<span class="pill final"><span class="dot"></span>Final</span>`;
+  if(s==='live')return `<span class="pill live"><span class="dot"></span>Live</span>`;
+  if(s==='await')return `<span class="pill live"><span class="dot"></span>In play</span>`;
   return `<span class="pill sched"><span class="dot"></span>Scheduled</span>`;
 }
 function renderMatches(filter='all'){
   const list=document.getElementById('matchlist');list.innerHTML='';
-  MATCHES.filter(m=>filter==='all'||m.st===filter).forEach(m=>{
-    const done=m.st==='final';
+  MATCHES.filter(m=>{const s=statusOf(m);return filter==='all'||s===filter||(filter==='live'&&s==='await');}).forEach(m=>{
+    const s=statusOf(m),done=s==='final',inplay=(s==='live'||s==='await');
     const scoreA=done?`<span class="score ${m.w==='a'?'win':''}">${m.as}</span>`:'';
     const scoreB=done?`<span class="score ${m.w==='b'?'win':''}">${m.bs}</span>`:'';
+    const penTxt=done&&m.pen?`<span class="pennote">pens ${m.pen}</span>`:'';
+    const cd=s==='sched'?`<span class="cdchip" data-ko="${m.t}">—</span>`:'';
+    const link=inplay
+      ?`<a class="watch" href="${m.v}" target="_blank" rel="noopener"><svg class="icon sm" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg>Follow live</a>`
+      :`<a class="watch" href="${m.v}" target="_blank" rel="noopener"><svg class="icon sm" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg>${done?'Highlights':'Preview'}</a>`;
     list.appendChild(el(`<div class="match">
       <div class="when">${m.d}</div>
-      <div class="teams">${teamHTML(m.a)}${scoreA}<span class="vs">${done?'':'vs'}</span>${scoreB}${teamHTML(m.b)}</div>
-      <div class="right">${statusPill(m.st,m.note)}${m.st==='sched'?`<span class="cdchip" data-ko="${m.t}">—</span>`:''}<a class="watch" href="${m.v}" target="_blank" rel="noopener"><svg class="icon sm" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg>Highlights</a><span class="next">${m.next}</span></div>
+      <div class="teams">${teamHTML(m.a)}${scoreA}<span class="vs">${done?'':'vs'}</span>${scoreB}${teamHTML(m.b)}${penTxt}</div>
+      <div class="right">${statusPill(m)}${cd}${link}<span class="next">${m.next}</span></div>
     </div>`));
   });
-  if(!list.children.length)list.appendChild(el(`<p class="note">No matches in this view yet.</p>`));
+  if(!list.children.length)list.appendChild(el(`<p class="note">No matches in this view.</p>`));
 }
 
 function renderScorers(){
@@ -656,20 +677,26 @@ function fmtDur(ms){
 // format an epoch in IST as "30 Jun · 03:0x:xx" — used for the live tournament clock
 const fmtIST=ms=>new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})
   .format(new Date(ms)).replace(',','  ·');
-function liveMatch(){return MATCHES.find(m=>m.st==='live');}
-function nextMatch(){const n=tnow();return MATCHES.filter(m=>m.st==='sched'&&KO(m)>n).sort((a,b)=>KO(a)-KO(b))[0];}
+function liveMatch(){return MATCHES.find(m=>{const s=statusOf(m);return s==='live'||s==='await';});}
+function nextMatch(){return MATCHES.filter(m=>statusOf(m)==='sched').sort((a,b)=>KO(a)-KO(b))[0];}
+function latestFinal(){return MATCHES.filter(m=>m.st==='final').sort((a,b)=>KO(b)-KO(a))[0];}
 function renderLiveStrip(){
   const box=document.getElementById('livestrip');if(!box)return;
   const lv=liveMatch(),nx=nextMatch();
   let html='';
   if(lv){html+=`<div class="lcard islive"><span class="livedot"></span><div class="grow1">
     <div class="llabel">Live now</div>
-    <div class="lmatch"><img class="flag" src="${F(lv.a.code)}" onerror="this.style.visibility='hidden'">${lv.a.name} ${lv.as}–${lv.bs} ${lv.b.name}<img class="flag" src="${F(lv.b.code)}" onerror="this.style.visibility='hidden'"></div>
-    <div class="lsub">${lv.note||'In play'} · ${lv.next}</div></div></div>`;}
+    <div class="lmatch"><img class="flag" src="${F(lv.a.code)}" onerror="this.style.visibility='hidden'">${lv.a.name} vs ${lv.b.name}<img class="flag" src="${F(lv.b.code)}" onerror="this.style.visibility='hidden'"></div>
+    <div class="lsub">In play · <a href="${lv.v}" target="_blank" rel="noopener">follow live ↗</a></div></div></div>`;}
+  else{const lf=latestFinal();if(lf)html+=`<div class="lcard"><div class="grow1">
+    <div class="llabel">Latest result</div>
+    <div class="lmatch"><img class="flag" src="${F(lf.a.code)}" onerror="this.style.visibility='hidden'">${lf.a.name} ${lf.as}–${lf.bs} ${lf.b.name}<img class="flag" src="${F(lf.b.code)}" onerror="this.style.visibility='hidden'"></div>
+    <div class="lsub">${lf.pen?`1–1 (${lf.pen} pens) · `:''}${lf.next}</div></div></div>`;}
   if(nx){html+=`<div class="lcard"><div class="grow1">
     <div class="llabel">Next kick-off</div>
     <div class="lmatch"><img class="flag" src="${F(nx.a.code)}" onerror="this.style.visibility='hidden'">${nx.a.name} vs ${nx.b.name}<img class="flag" src="${F(nx.b.code)}" onerror="this.style.visibility='hidden'"></div>
     <div class="lsub">${nx.d} IST</div></div><div class="cd" id="heroCd">—</div></div>`;}
+  else{html+=`<div class="lcard"><div class="grow1"><div class="llabel">Round of 32</div><div class="lmatch">All ties complete</div><div class="lsub">On to the Round of 16</div></div></div>`;}
   box.innerHTML=html;
 }
 function tick(){
