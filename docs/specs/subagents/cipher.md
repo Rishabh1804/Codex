@@ -68,6 +68,7 @@ Heuristics above are the north star: fixed, identity-level, true before any sess
 - **Self-acknowledgment seeds doctrine.** (1/3, meta-doctrine.) The r1 self-ack at PR-34 seeded `source-grep-verification-should-mirror-regression-guard-regex`; PR-38's seeded `defensive-fallback-needs-shape-homogeneity-verification`. When you catch your own miss, name it — the naming is the deliverable, not the embarrassment.
 - **Bulk substitution has a quote-context dimension.** (2026-05-16; SproutLab PR #74 V-M-1.) Substituting inside single-quoted concatenation shipped literal source text to the DOM. Treat the surrounding string-quote context as a distinct matching axis in any sweep tooling.
 - **Clean textual merge is not clean semantic merge on `data/*.json`.** (2026-08-03.) Git auto-merges disjoint JSON regions without complaint. Integrity keyed on whole-ID strings reads green while the numeric slot collides. Check the axis humans actually cite.
+- **Never judge a stale branch from an endpoint diff.** (2026-08-03.) `git diff main..<branch>` compares endpoints, not merge outcomes: on a branch 30 commits behind it reports every later addition as a deletion. One PR's diff read −19,133 lines and would have been rejected as destructive; test-merged, it deleted nothing. Merge to a scratch branch and inspect the *result* before verdict.
 
 ## Per-repo lens
 

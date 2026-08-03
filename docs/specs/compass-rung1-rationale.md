@@ -12,7 +12,7 @@ One new section per spec body, inserted immediately after `## Heuristics` and be
 
 | Spec | Section | Bearings |
 |---|---|---|
-| `subagents/cipher.md` | `## Compass — session-earned bearings` | 7 |
+| `subagents/cipher.md` | `## Compass — session-earned bearings` | 8 |
 | `subagents/chronicler.md` | `## Compass — session-earned bearings` | 6 |
 | `subagents/lyra.md` | `## Compass — session-earned bearings` | 6 |
 | `subagents/maren.md` | `## Compass — session-earned bearings` | 5 |
@@ -52,7 +52,7 @@ The five drafted here are the personas with substantial entries in `docs/doctrin
 
 Every bearing traces to a committed artifact. No bearing is authored from session memory alone.
 
-**Cipher** — `docs/doctrine-ledger.md` RATIFIED rows (`hermetic-floor-doesnt-substitute-for-production-floor`; `architectural-sweep-PR-misses-sibling-sites`, 3/3 at PR-40), active candidates (`architectural-shift-PRs-bias-toward-r1-catch-cycle` 2/3; `Cipher-self-ack-as-doctrine-seed-cycle` 1/3), the watch-list entry `bulk-substitution-must-distinguish-string-quote-contexts-from-template-literals` (SproutLab PR #74 V-M-1), `canon-cc-034` rationale in `data/canons.json` (byte-identity necessary-not-sufficient), and the Cabinet-eligible meta-observation *Independent-jurisdictions-empirically-miss-Sovereign-floor-catches* (2026-05-05). The final bearing (clean textual merge ≠ clean semantic merge) is **first-instance, surfaced 2026-08-03** during the open-PR triage — per Lean-Machine §B it is a watch-list observation and carries no counter.
+**Cipher** — `docs/doctrine-ledger.md` RATIFIED rows (`hermetic-floor-doesnt-substitute-for-production-floor`; `architectural-sweep-PR-misses-sibling-sites`, 3/3 at PR-40), active candidates (`architectural-shift-PRs-bias-toward-r1-catch-cycle` 2/3; `Cipher-self-ack-as-doctrine-seed-cycle` 1/3), the watch-list entry `bulk-substitution-must-distinguish-string-quote-contexts-from-template-literals` (SproutLab PR #74 V-M-1), `canon-cc-034` rationale in `data/canons.json` (byte-identity necessary-not-sufficient), and the Cabinet-eligible meta-observation *Independent-jurisdictions-empirically-miss-Sovereign-floor-catches* (2026-05-05). The final two bearings — *clean textual merge ≠ clean semantic merge* and *never judge a stale branch from an endpoint diff* — are **first-instance, surfaced 2026-08-03** during the open-PR triage and backlog sweep; per Lean-Machine §B both are watch-list observations and carry no counter. The second is evidenced concretely: PR #68's endpoint diff read −19,133 lines and would have been rejected as destructive on that reading; test-merged, it deleted nothing.
 
 **Chronicler** — the carrier-decay bearing is **first-instance, surfaced 2026-08-03**, evidenced by `memory.md`'s own three-month drift and by PR #68 having sat unmerged since 2026-05-17; watch-list, no counter. The remaining bearings cite RATIFIED Phase 4 native #6 (`sub-phase-close-was-premature`, four close-shifts), Lean-Machine §B and §C, the Cabinet-eligible *Cross-cluster-doctrine-portability* observation (2026-05-16), and the deferred structured-records note in commit `b87c517`.
 
