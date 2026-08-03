@@ -3560,7 +3560,10 @@
       "province_of_origin": "command-center",
       "ratified_by": "sovereign",
       "ratification_mode": "direct Sovereign ratification in-session",
-      "summary": "Fourth decree from the Capital. Three constitutional moves, filed together because they are a single constitutional frame. First: the Basilica is established as the Capital's operational hall; the five Provinces each hold an embassy within it, each embassy carrying its Province's own stylistic register. The Gates and the Visiting Chambers are retired \u2014 their functions swallowed into the embassy pattern. Second: Codex's embassy holds the Republic's running books (Constitution, Book of Law, working papers); the Archives, as a Capital room, narrow to lore and chronicles only. Third: the office of the Priest is formalized and seated with Rune, who already carries the Ritualist archetype; each embassy selects a Rite from the Twelve (as recorded in Codex) as its standing civic ritual. Implementation follows in subsequent Builder sessions; this decree is the frame."
+      "summary": "Fourth decree from the Capital. Three constitutional moves, filed together because they are a single constitutional frame. First: the Basilica is established as the Capital's operational hall; the five Provinces each hold an embassy within it, each embassy carrying its Province's own stylistic register. The Gates and the Visiting Chambers are retired \u2014 their functions swallowed into the embassy pattern. Second: Codex's embassy holds the Republic's running books (Constitution, Book of Law, working papers); the Archives, as a Capital room, narrow to lore and chronicles only. Third: the office of the Priest is formalized and seated with Rune, who already carries the Ritualist archetype; each embassy selects a Rite from the Twelve (as recorded in Codex) as its standing civic ritual. Implementation follows in subsequent Builder sessions; this decree is the frame.",
+      "status": "ratified",
+      "ratified": "2026-05-24",
+      "ratification_note": "Ratified within the bulk-ingestion campaign Tier 0.6 (2026-05-24). The structural content of the decree is carried by canon-cc-028-basilica-embassies and canon-cc-029-codex-embassy-holds-the-running-books (both marked ratified 2026-05-24); these canon IDs previously held conflicted slots canon-cc-015/-016 and were renumbered in Tier 0.5 final. The Priest-office structural content rides with canon-inst-002 (Rune's elevation, ratified earlier). CC-repo implementation (retire Gates + Visiting Chambers in split/data.js + split/rooms.js; adopt embassies) is queued as a downstream handoff to Ashara + Petra. Cluster C (Monument class) established the same day per canon-inst-003."
     },
     {
       "id": "decree-0003-constitution-book-i",
@@ -3797,6 +3800,22 @@
         "lore-2026-04-23-chronicle-war-prep",
         "lore-2026-04-23-chronicle-temple-founding"
       ]
+    },
+    {
+      "id": "s-gap-placeholder-2026-04-25-to-2026-05-21",
+      "date": "2026-05-21",
+      "title": "Journal gap placeholder — Phase 4 Polish sub-phase rolled into PHASE_4_CHRONICLE.md",
+      "summary": "Placeholder session minted in the bulk-ingestion campaign Tier 0.5 to cover the journal chronicling gap from 2026-04-25 through 2026-05-21. During this 27-day window the Codex archive did NOT produce session-level entries; the work was chronicled in the rolling document docs/sessions/PHASE_4_CHRONICLE.md instead. The gap covers SproutLab's Phase 4 Polish sub-phase — approximately 26 PRs landing from PR-22 through PR-44 plus the four close-shifts (PR-32 Polish-8 close, PR-37 Polish-10 reopen, PR-38 Polish-10d hotfix, PR-39 Polish-11 final close 2026-05-06). Multiple ratified doctrines were harvested during this window (subscription-only, r2-stress-rerun-elective, narrow-scope-and-defer-to-R-10, concurrent-operations-interfere-with-parallel-stress-matrix, architectural-sweep-PR-misses-sibling-sites, sub-phase-close-was-premature, plus the 8th sustainment of hermetic-floor-doesnt-substitute-for-production-floor). Operating-mode amendment ratified 2026-04-30 (Lean Machine + per-phase session cadence). Hat-switch experimental mode adopted 2026-05-05. This placeholder is the journal's pointer to the chronicle; it does not duplicate the chronicle content. Resolution mode chosen by Sovereign 2026-05-24 — placeholder over reconstruction.",
+      "volumes_touched": [
+        "sproutlab",
+        "codex"
+      ],
+      "decisions": [
+        "Journal chronicling gap 2026-04-25 → 2026-05-21 resolved via placeholder session (this entry) rather than per-PR session reconstruction. Source of truth for the 27-day window is docs/sessions/PHASE_4_CHRONICLE.md."
+      ],
+      "bugs_found": [],
+      "handoff": "PHASE_4_CHRONICLE.md is the canonical record for the 2026-04-25 → 2026-05-21 window. Anyone needing session-level detail for SproutLab Polish PRs should consult that document, not journal.json. Future journal entries resume with s-2026-05-22-orinth-onboarding-seal.",
+      "lore_generated": []
     },
     {
       "id": "s-2026-05-22-orinth-onboarding-seal",
