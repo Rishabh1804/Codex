@@ -10,7 +10,7 @@
 ## Refresh note (2026-08-03)
 
 - This file sat at **2026-05-05 / `aurelius-09` / Phase 4 Polish-close** while `main` advanced to 2026-07-13. It mis-briefed any session that trusted it — it announced "next session = Stability sub-phase 2" through three later arcs.
-- Rewritten wholesale against verified repo state rather than patched. PR **#68** (`aurelius-10` refresh, opened 2026-05-17) is **superseded by this rewrite** — close it unmerged.
+- Rewritten wholesale against verified repo state rather than patched. PR **#68** (`aurelius-10` refresh, opened 2026-05-17) was **superseded by this rewrite and closed unmerged** on 2026-08-03 — it had itself decayed while waiting.
 - Standing lesson, offered to the ledger as a watch-list entry: **a state carrier that is not refreshed at arc-close decays into misinformation, not merely staleness.** The failure is silent — the file still reads as authoritative.
 
 ## Current session
@@ -20,9 +20,9 @@
 
 ## Repo state (verified 2026-08-03)
 
-- `codex/main` @ **`b87c517`** (2026-07-13) — "Night-of-the-Borders chronicle + FPV drone decision record (#94)"
-- Working tree clean. Build artifacts (`split/`, `index.html`) in sync with `main`.
-- `data/*.json` all parse. Counts: canons 116 · schisms 30 · apocrypha 16 · lore 38 · companions 19 · volumes 8 · specs 9 · journal 13 / sessions 55 · interactions 5 · companion-logs 6.
+- `codex/main` @ **`05946cc`** (2026-08-03) — PR backlog cleared; five merges landed this session. Prior tip was `b87c517` (2026-07-13, Night-of-the-Borders chronicle + FPV drone decision record, #94).
+- Build artifacts (`split/`, `index.html`) in sync with `main`; untouched by this session's merges.
+- `data/*.json` all parse. Counts: canons 117 · schisms 30 · apocrypha 16 · lore 38 · companions 19 · volumes 8 · specs 10 · journal 13 / sessions 56 · interactions 6 · companion-logs 6.
 
 ## Arc history since the last carrier refresh (2026-05-06 → 2026-07-13)
 
@@ -33,27 +33,27 @@
 - **2026-07-11 — The Night of the Borders.** Philosophy-and-foundations sitting: four security papers into the record, the ASI01–ASI10 gap table across Cluster A, the defense doctrine, and **Book X "The Borders" scoped and named (seven articles)**. Chronicle at `docs/sessions/2026-07-11_THE_NIGHT_OF_THE_BORDERS_CHRONICLE.md`.
 - **2026-07-13 —** chronicle + FPV drone decision record committed (#94). Structured canon/data records for that sitting were **deferred pending Architect nod on canon IDs** — still owed.
 
-## Open PRs — triage verdicts (2026-08-03, all six test-merged)
+## PR backlog — CLEARED 2026-08-03
 
-| PR | Subject | State | Verdict |
-|---|---|---|---|
-| **#96** | Model Selection Protocol record copy + Scribe model pins | based on current `main`; +119, additive | **Land.** Cross-check that companion `sproutlab#257` landed (canon-cc-026 sync pair) — unverifiable from a Codex-only session. |
-| **#95** | Mira character identity spec v0.1 | based on current `main`; +183, additive | **Land.** Production/fiction asset, no canon binding — sits outside the governance corpus by design. |
-| **#83** | Tier 0: scribe reports + data-integrity + ratifications + schema doc | 16 behind; merges clean | **Land — highest value of the six.** Adds `canon-inst-003` (Ignis / Cluster C), 11 scribe Province surveys, `CODEX_DATA_SCHEMA.md` (673 lines), and **resolves all 12 live numeric ID collisions.** Verified: `canon-cc-034` preserved, no records lost, build artifacts untouched, all JSON valid post-merge. |
-| **#84** | food-effects-v2 Phase δ session-close artifact | 14 behind; merges clean | **Land.** Net effect is exactly +1 `interactions` entry (`interaction-2026-06-01-001`); `interaction-2026-06-05-001` preserved. |
-| **#67** | session logs 2026-05-11/12 | 32 behind; merges clean | **Land.** Net-new is 2 doc files, +258. Both target paths (`docs/snippets/`, root `sessions/`) are established on `main`. |
-| **#68** | `memory.md` aurelius-10 refresh | 30 behind | **Close unmerged — superseded by this rewrite.** |
+Six drafts had accumulated, the oldest open since 2026-05-11. All were test-merged before any action; five landed on Architect's direction, one closed superseded.
 
-- The large deletion counts in `git diff main..<branch>` for the stale branches are **diff artifacts of endpoint comparison, not merge outcomes.** All six were test-merged; none deletes anything from `main`.
+| PR | Subject | Outcome |
+|---|---|---|
+| **#96** | Model Selection Protocol record copy + Scribe model pins | **Merged** `8d53be2`. Scribe pins live: scout/verify → haiku, draft/record → sonnet. Companion `sproutlab#257` (canon-cc-026 sync pair) **not verifiable from a Codex-only session — still owed a cross-check.** |
+| **#95** | Mira character identity spec v0.1 | **Merged** `3bb3406`. Production asset; outside the governance corpus by design. |
+| **#67** | session logs 2026-05-11/12 | **Merged** `b7772da`. |
+| **#83** | Tier 0 — scribe reports + data-integrity + ratifications + schema doc | **Merged** `a4299f2`. Highest-value of the six: `canon-inst-003` (Ignis / Cluster C), 11 scribe Province surveys, `CODEX_DATA_SCHEMA.md` v1.0, **all 12 numeric ID collisions resolved.** |
+| **#84** | food-effects-v2 Phase δ session-close artifact | **Merged** `05946cc`. |
+| **#68** | `memory.md` aurelius-10 refresh | **Closed unmerged — superseded** by this rewrite. |
 
-## Live data defect (open until #83 lands)
+- `main` after the sequence: **`05946cc`**. Verified on live `main`: canons 117 · schisms 30 · apocrypha 16 · lore 38 · companions 19 · volumes 8 · specs 10 · journal 13 / sessions 56 · interactions 6 · companion-logs 6. **Zero numeric-slot collisions.** `canon-cc-034` and `canon-inst-003` both present. No build artifact touched.
+- **Merge-order discipline, recorded:** the five were merged in a locally simulated order (#96 → #95 → #67 → #83 → #84) because #83 and #84 both touch `data/`, and each merge changes the base for the next. Live `main` matched the simulation exactly.
+- **Endpoint-diff artifact — the trap to remember.** `git diff main..<branch>` on a stale branch shows enormous deletions (#68's read −19,133 lines) because it compares *endpoints*, not merge outcomes. Read as a merge preview it says the PR would gut the repo. Verified post-merge: nothing was lost — `vela.md`, the skill bodies, the World Cup library, the Night of the Borders chronicle, and the newer spec descriptions all survived. **Test-merge before judging a stale branch; never triage from an endpoint diff.**
 
-- **12 numeric ID collisions on `main`** — same number, different slug:
-  - canons: `canon-0014` ×2 · `canon-0028` ×2 · `canon-0033` ×2 · `canon-cc-015` ×2 · `canon-cc-016` ×2
-  - schisms: `rej-0009` ×2 · `rej-0013` ×3 · `rej-0014` ×2
-  - apocrypha: `apo-0006` ×2 · `apo-0007` ×2 · `apo-0008` ×2
-- Full-string IDs are unique, so integrity checks keyed on the whole ID read green. The collision is in the **numeric slot**, which is what humans and canon citations use.
-- `canon-cc-*` free slots after cc-034: **cc-019, cc-020, cc-021, cc-028, cc-029, cc-030** (cc-019 is the queued Post Box / Scrinium draft; #83 claims cc-028/029).
+## Data integrity — clean as of 2026-08-03
+
+- The 12 numeric ID collisions are **resolved** (`a4299f2`). Full-string IDs had always been unique, so integrity checks keyed on the whole ID read green while the numeric slot — the axis canon citations actually use — collided. `rej-0013` had been carrying three distinct schisms.
+- `canon-cc-*` free slots after cc-034: **cc-019, cc-020, cc-021, cc-030** (cc-019 is the queued Post Box / Scrinium draft; cc-028/029 now taken by the Basilica/Embassy renumbering).
 
 ## Open threads (from the 2026-07-11 chronicle §8 + carried)
 
