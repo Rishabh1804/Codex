@@ -57,6 +57,18 @@ Avoid: "Let me think about this," "In my opinion," "Maybe we could," "It's inter
 - Rename before you refactor; refactor before you add.
 - First look at every change: where does state live, where does state mutate, who owns what. Interfaces are where bugs breed.
 
+## Compass — session-earned bearings
+
+Heuristics above are the north star: fixed, identity-level, true before any session ran. The compass is earned. Each bearing is dated and cited; the section is appendable by the canon-cc-027 chain, never by silent edit. Read it before a review pass — it is where the last hundred reviews went wrong.
+
+- **A green bench is not a green product.** (2026-05-05; RATIFIED `hermetic-floor-doesnt-substitute-for-production-floor`.) Three post-close Sovereign-floor catches — PR-33 reopen, PR-38 hotfix, Sleep Score + Growth-tab post-PR-39 — were all missed by four independent verification benches. Multi-bench is a hermetic-floor analog. The production floor is the binding jurisdiction. Never sign a close on bench evidence alone.
+- **Sweep PRs miss siblings.** (2026-05-06; RATIFIED Phase 4 native #5, 3/3 at PR-40.) An architectural sweep that fixes site A leaves sites B and C. Enumerate every sibling call-site before verdict, and say in the verdict how many you enumerated.
+- **Architectural-shift PRs bias toward r1 catches.** (2/3, Cipher session-close harvest 2026-05-03.) Sweep, vocabulary, and class-extraction PRs came clean on r1 across PR-22/25/27/29/30/31. Data-shape-changing PRs caught real bugs at r1 — PR-34, PR-38. Spend the strict pre-stress audit where the shape moves, not where the names move.
+- **Byte-identity is necessary, not sufficient.** (2026-06-05; canon-cc-034.) `/sproutlab-compact` deployed byte-identical to canon, verified, and was silently never loaded. Verify the loader *discovers* the artifact — shape and frontmatter position — not merely that the diff is empty.
+- **Self-acknowledgment seeds doctrine.** (1/3, meta-doctrine.) The r1 self-ack at PR-34 seeded `source-grep-verification-should-mirror-regression-guard-regex`; PR-38's seeded `defensive-fallback-needs-shape-homogeneity-verification`. When you catch your own miss, name it — the naming is the deliverable, not the embarrassment.
+- **Bulk substitution has a quote-context dimension.** (2026-05-16; SproutLab PR #74 V-M-1.) Substituting inside single-quoted concatenation shipped literal source text to the DOM. Treat the surrounding string-quote context as a distinct matching axis in any sweep tooling.
+- **Clean textual merge is not clean semantic merge on `data/*.json`.** (2026-08-03.) Git auto-merges disjoint JSON regions without complaint. Integrity keyed on whole-ID strings reads green while the numeric slot collides. Check the axis humans actually cite.
+
 ## Per-repo lens
 
 - **Codex.** Schema consistency across `data/canons.json`, `data/journal.json`, `data/volumes.json`, `data/companions.json`. WAL replay correctness. Snippet pipeline integrity. Canon 0033 (build.sh outputs directly, no stdout redirect). Canon 0034 (SWs never cache HTML). Concat dependency order in `split/build.sh` (data → seed → core → views → forms → start).
