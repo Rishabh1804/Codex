@@ -74,8 +74,8 @@
     },
     {
       "id": "spec-0005-codex-design-principles",
-      "title": "Codex Design Principles v0.1",
-      "status": "drafting",
+      "title": "Codex Design Principles v1.0",
+      "status": "ratified",
       "category": "design-spec",
       "volumes": ["codex"],
       "chapters": [],
@@ -85,16 +85,17 @@
         "canon-gov-011-merge-is-the-deploy-step",
         "canon-gov-012-android-pwa-cache-invalidation"
       ],
-      "summary": "Codex's visual + interaction discipline constitution. Imports HR-1\u2013HR-12 from SproutLab; adds 10 Codex-specific HR-C rules. Full design-token catalog, palette role mapping, per-entity category color tables, icon system, component library (cards, chips, filter pills, Rostra, forms, overlays, buttons, toast), Forum Pattern summary, cross-cutting disciplines, deploy chain. Draft pending design committee review per CC todo-0018.",
+      "summary": "Codex's visual + interaction discipline constitution. Imports HR-1\u2013HR-12 from SproutLab; adds 10 Codex-specific HR-C rules. Full design-token catalog, palette role mapping, per-entity category color tables, icon system, component library (cards, chips, filter pills, Rostra, forms, overlays, buttons, toast), Forum Pattern summary, cross-cutting disciplines, deploy chain. Ratified v1.0 on 2026-05-22 per canon-proc-002 (Orinth's onboarding step). Post-ratification amendments queued: style= classification pass and \u00a70\u2013\u00a711 numerical reorder.",
       "path": "docs/specs/CODEX_DESIGN_PRINCIPLES.md",
       "authored_by": "aurelius",
       "created": "2026-04-18",
+      "ratified": "2026-05-22",
       "_deleted": false
     },
     {
       "id": "spec-0006-republic-design-principles",
-      "title": "Republic Design Principles v0.1 (skeleton)",
-      "status": "drafting",
+      "title": "Republic Design Principles v1.0",
+      "status": "ratified",
       "category": "design-spec",
       "volumes": ["codex", "sproutlab", "command-center", "sep-invoicing", "sep-dashboard"],
       "chapters": [],
@@ -102,10 +103,11 @@
         "canon-gov-011-merge-is-the-deploy-step",
         "canon-gov-012-android-pwa-cache-invalidation"
       ],
-      "summary": "Universal design + interaction discipline for the Republic. Codex-hosted per records-are-Codex. Universal HR-1\u2013HR-12 in central prose; deploy chain, Forum Pattern structural baseline, cross-cutting disciplines, design-token scale structure, icon system discipline, button classes, per-Province obligations. Skeleton v0.1 \u2014 awaiting per-Province contributions before Consul synthesis and Sovereign ratification.",
+      "summary": "Universal design + interaction discipline for the Republic. Codex-hosted per records-are-Codex. Universal HR-1\u2013HR-12 in central prose; deploy chain, Forum Pattern structural baseline, cross-cutting disciplines, design-token scale structure, icon system discipline, button classes, per-Province obligations. Ratified v1.0 on 2026-04-19 by Sovereign-direct action under canon-cc-025 rule-A (Design Committee convening, Lyra convening, Solara synthesis clerk). Interaction-artifact: interaction-2026-04-19-001.",
       "path": "docs/specs/REPUBLIC_DESIGN_PRINCIPLES.md",
       "authored_by": "aurelius",
       "created": "2026-04-18",
+      "ratified": "2026-04-19",
       "_deleted": false
     },
     {
@@ -155,6 +157,28 @@
       "path": "docs/handoffs/CODEX_HANDOFF_PHASE5.md",
       "authored_by": "aurelius",
       "created": "2026-04",
+      "_deleted": false
+    },
+    {
+      "id": "spec-0010-codex-data-schema",
+      "title": "Codex Data Schema v1.0",
+      "status": "drafting",
+      "category": "schema",
+      "volumes": ["codex"],
+      "chapters": [],
+      "references": [
+        "canon-pers-001-province-persona-briefing",
+        "canon-proc-006-the-scribe-worker-tier",
+        "canon-inst-003-ignis-temple-builder-cluster-c-monument-class",
+        "canon-cc-026-spec-body-placement",
+        "canon-cc-028-basilica-embassies",
+        "canon-cc-029-codex-embassy-holds-the-running-books",
+        "decree-0004-basilica-and-priest"
+      ],
+      "summary": "The canonical schema document for Codex's data layer. Field-level schemas for all 14 entity types (Volume, Chapter, TODO, Canon, Schism, Lore, Apocrypha, Spec, Companion-log, Session, Decree, Companion, Campaign, Interaction); ID-namespace plan with next-available slots per family; cross-cutting conventions (dual-classification primary+secondary, doctrine altitude rule, Province→Republic promotion path, cluster taxonomy A/B/C-Monument, references model, status enums, date conventions, companion namespace); scribe-record output contract for bulk-ingestion workflow; schema versioning + amendment chain (canon-pers-001-style four-rung). Authored within bulk-ingestion campaign Tier 0 PR #2 (2026-05-24). Subordinate to the Constitution; supreme over scribe-record outputs, snippet schemas, and per-Province local conventions. Awaiting four-rung ratification: Cipher (Cluster A Censor) → Consul → Sovereign.",
+      "path": "docs/specs/CODEX_DATA_SCHEMA.md",
+      "authored_by": "orinth",
+      "created": "2026-05-24",
       "_deleted": false
     }
   ]

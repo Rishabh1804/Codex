@@ -13,7 +13,7 @@
         "parenting"
       ],
       "repo": "rishabh1804/sproutlab",
-      "current_phase": "Device Sync Reconcile \u2014 Session 1 spec R3-locked. Lyra to implement C1\u2013C6 per spec \u00a712. Empirical verification pending on FieldValue sentinel detection.",
+      "current_phase": "Phase 4 sub-phase 1 (Polish) cleanly closed 2026-05-06 (4th close-shift, Polish-11, post-PR-39). Post-Polish PRs #88\u2013#97 merged including Scribe Worker Tier deploy (#97, canon-proc-006). PR-N (food-chemistry DB + educational tips) on hold pending Maren clinical audit. Stability sub-phase 2 charter pending Sovereign green-light. R-10 hygiene queue: 16 items carry-forward.",
       "chapters": [
         {
           "id": "v1-v2-builds",
@@ -240,16 +240,16 @@
     {
       "id": "sep-dashboard",
       "name": "SEP Dashboard",
-      "shelf": "paused",
-      "description": "Single-file PWA for SEP workforce management \u2014 attendance, production, stock, payroll. 7-principle design system, 21-worker roster, full wage calculation engine.",
+      "shelf": "active",
+      "description": "PWA for SEP workforce management \u2014 attendance, production, stock, payroll. 7-principle design system, 20-worker roster, full wage calculation engine. Mid-transit from v2.1 single-file to Phase 2.0 modular esbuild bundle (Stage A complete; Stages B\u2013H pending). Dashboard + Handler dual-PWA topology locked Cowork Session 12+ (2026-05-07).",
       "domain_color": "#7A9E7E",
       "tags": [
         "pwa",
         "manufacturing",
         "workforce"
       ],
-      "repo": null,
-      "current_phase": "v2.0 stable, restructuring data reconciliation in progress",
+      "repo": "Rishabh1804/sep-dashboard",
+      "current_phase": "Phase 2.0 Stage A complete (modular esbuild bundle, 7-layer src/, Jest + Playwright; PR #12 merged 2026-05-07). Stages B–H pending (~35h remaining). v2.1 + construction overlay still on production. Data-capture-first reframe locked 2026-05-07 (Cowork Session 12+). Reactivated under WAR-TIME 2026-04-24 with Theron + Sovereign Phase 2 charter.",
       "chapters": [
         {
           "id": "v1-v2-builds",
@@ -301,6 +301,11 @@
           "shelf": "paused",
           "date": "2026-04-18",
           "reason": null
+        },
+        {
+          "shelf": "active",
+          "date": "2026-04-21",
+          "reason": "War Time 2026-04-24 reactivation under Theron + Sovereign Phase 2 charter; PRs #1–#12 landed 2026-04-21 → 2026-05-07 including Phase 2.0 Stage A modular bundle. Backfilled in Tier 0.5 (bulk-ingestion campaign) — shelf had been stale-paused since the 12-PR work cadence began."
         }
       ],
       "design_principles": {
@@ -321,8 +326,8 @@
         "invoicing",
         "gst"
       ],
-      "repo": null,
-      "current_phase": "Phase 8D in progress \u2014 Desktop mode. Stats + History rework complete.",
+      "repo": "Rishabh1804/sep-invoicing",
+      "current_phase": "Phase 8 complete (8A\u20138E shipped). WAR-TIME inv-1-2 polish slate P1\u2013P9.1 merged (10 PRs, 2026-04-24 \u2192 2026-05-07). IL-4 Phase 1 plumbing landed (default cost per KG). Next: Margin Dashboard IL-4 Phase 2. todo-0012 (Items Master) resolved via cfe2866 + SEP_ITEMS_MASTER_SPEC v1.1.",
       "chapters": [
         {
           "id": "spec",
@@ -473,7 +478,7 @@
         "knowledge-management"
       ],
       "repo": "Rishabh1804/Codex",
-      "current_phase": "Post-Phase 5. BN cleanup done. All content backfilled.",
+      "current_phase": "Constitutional drafting + canon-suite expansion (canon-cc-019 Post Box / canon-cc-020 Summon Companion queued). Forum Pattern shipped. Codex design-principles ratified v1.0 2026-05-22 (canon-proc-002, Orinth onboarding step 6). Scribe Worker Tier instituted 2026-05-22 (canon-proc-006). Orinth seated as Codex Builder 2026-04-20; canon-pers-001 persona-header ratified canonical v1.0 (four-rung chain). Bulk-ingestion campaign Tier 0 in flight.",
       "chapters": [
         {
           "id": "spec",
@@ -554,7 +559,7 @@
           "ended": null,
           "summary": "Search, Heatmap, Stats, Trash, Error Log, Sync Detail Panel, Canon Sort. 4-round QA audit, 8 bugs fixed. Codex v1.0 feature-complete.",
           "spec_url": null,
-          "content": "## What Was Built\n\nSix polish features completing Codex v1.0. Search with weighted scoring (canons 4x, schisms 3x, sessions 2x, volumes 1x) and 300ms debounce. A 90-day GitHub-style activity heatmap on the dashboard. Stats bar with horizontal scroll chips. Trash view for soft-deleted canons and chapters with restore and permanent delete. Error log viewer. Sync detail panel showing WAL breakdown and connection status. Canon sort controls (newest, oldest, title, scope) were added during QA when their absence became obvious.\n\n## Key Decisions\n\nMulti-round QA was formalized as canon-0014-multi-round-qa: four layers (Mechanical, Structural, Logic, Cosmetic), continue until layers 1\u20133 are zero-defect, layer 4 allows at most 2 items as documented debt. This superseded the SproutLab-scoped canon-0009.\n\n## What Broke\n\n8 bugs across 4 QA rounds. The critical one: replayUpdate blocked restore operations because the _deleted guard rejected payloads setting _deleted to false. Fixed by adding an exception for restore payloads. Other notable: heatmap showing oldest dates on screen (fixed with auto-scroll to scrollWidth), search overlay staying open on navigation (fixed with closeSearch at top of handleRouteChange), canon dates showing wrong months (YYYY-MM format forced to day 01, fixed in formatAbsoluteDate).\n\n## State of the World After\n\nCodex v1.0 was feature-complete. 4,758 lines across 8 modules. Dashboard, Volume Detail, Journal, Canons, Canon Detail, TODOs, Settings, Search, Heatmap, Stats, Trash, Error Log, Sync Panel. All deployed and live.",
+          "content": "## What Was Built\n\nSix polish features completing Codex v1.0. Search with weighted scoring (canons 4x, schisms 3x, sessions 2x, volumes 1x) and 300ms debounce. A 90-day GitHub-style activity heatmap on the dashboard. Stats bar with horizontal scroll chips. Trash view for soft-deleted canons and chapters with restore and permanent delete. Error log viewer. Sync detail panel showing WAL breakdown and connection status. Canon sort controls (newest, oldest, title, scope) were added during QA when their absence became obvious.\n\n## Key Decisions\n\nMulti-round QA was formalized as canon-0054-multi-round-qa: four layers (Mechanical, Structural, Logic, Cosmetic), continue until layers 1\u20133 are zero-defect, layer 4 allows at most 2 items as documented debt. This superseded the SproutLab-scoped canon-0009.\n\n## What Broke\n\n8 bugs across 4 QA rounds. The critical one: replayUpdate blocked restore operations because the _deleted guard rejected payloads setting _deleted to false. Fixed by adding an exception for restore payloads. Other notable: heatmap showing oldest dates on screen (fixed with auto-scroll to scrollWidth), search overlay staying open on navigation (fixed with closeSearch at top of handleRouteChange), canon dates showing wrong months (YYYY-MM format forced to day 01, fixed in formatAbsoluteDate).\n\n## State of the World After\n\nCodex v1.0 was feature-complete. 4,758 lines across 8 modules. Dashboard, Volume Detail, Journal, Canons, Canon Detail, TODOs, Settings, Search, Heatmap, Stats, Trash, Error Log, Sync Panel. All deployed and live.",
           "order": 6,
           "_deleted": false,
           "_deleted_date": null
@@ -765,7 +770,7 @@
         },
         {
           "id": "todo-0006-canon-0009-supersede",
-          "text": "Update canon-0009-post-build-qa: status \u2192 superseded, superseded_by \u2192 canon-0014-multi-round-qa",
+          "text": "Update canon-0009-post-build-qa: status \u2192 superseded, superseded_by \u2192 canon-0054-multi-round-qa",
           "status": "resolved",
           "chapter": "phase-4-polish",
           "created": "2026-04-13",
@@ -1065,7 +1070,7 @@
         },
         {
           "id": "todo-0007-canon-0033-collision",
-          "text": "Fix canon number collision: canon-0033-gitignore-data-protection and canon-0033-root-index-sync both use 0033. Renumber root-index-sync to 0035 and sw-never-cache-html to 0036. Requires delete+create (ID rename not patchable).",
+          "text": "Fix canon number collision: canon-0056-gitignore-data-protection and canon-0033-root-index-sync both use 0033. Renumber root-index-sync to 0035 and sw-never-cache-html to 0036. Requires delete+create (ID rename not patchable).",
           "status": "open",
           "chapter": "todo-cleanup-and-backfill",
           "created": "2026-04-14",
@@ -1090,7 +1095,7 @@
     {
       "id": "businessai-simulation",
       "name": "BusinessAI Simulation",
-      "shelf": "paused",
+      "shelf": "abandoned",
       "description": "Business simulation addressed as BAI. ~\u20b930 crore/year business, 14 members, four entities (trading, industry, logistics). Objective: organize from informal to structured.",
       "domain_color": "#A08870",
       "tags": [
@@ -1099,7 +1104,7 @@
         "strategy"
       ],
       "repo": null,
-      "current_phase": "Agenda-setting meeting planned, Shyam ops+culture discussion guide TODO",
+      "current_phase": "Abandoned 2026-05-24 per Sovereign ratification \u2014 no GitHub backing, no active builder, no commits since 2026-04-01. Volume preserved as historical record; ingestion campaign Tier 4 will not target this Province.",
       "chapters": [
         {
           "id": "kickoff",
@@ -1135,6 +1140,11 @@
           "shelf": "paused",
           "date": "2026-04-01",
           "reason": "Focus shifted to SproutLab feature builds and SEP restructuring"
+        },
+        {
+          "shelf": "abandoned",
+          "date": "2026-05-24",
+          "reason": "Sovereign ratification, bulk-ingestion campaign Tier 0.5 — no GitHub backing, no active builder, no commits since 2026-04-01. Volume preserved as historical record."
         }
       ],
       "design_principles": {
@@ -1154,10 +1164,11 @@
         "pwa",
         "governance",
         "capital",
-        "monument"
+        "monument",
+        "cluster-c"
       ],
       "repo": "rishabh1804/Command-Center",
-      "current_phase": "Foundation stage \u2014 all 14 rooms scaffolded, no functions active",
+      "current_phase": "Foundation stage \u2014 16 rooms scaffolded (Consul Chamber added PR #2). Foundation 11/13 criteria complete (2 partial: gates-live-state, hard-rules-formal-Cipher). Consul speaks via Matters ledger (PR #3, 2026-04-21). Rung 5 spec-mirror deploy landed 2026-04-21 (commit 4bce7c8). decree-0004 (Basilica + Priest) RATIFIED 2026-05-24 via canon-cc-028 + canon-cc-029 \u2014 retire Gates + Visiting Chambers, adopt embassies; CC-repo implementation queued as downstream handoff to Ashara + Petra. Cluster C (Monument class) established 2026-05-24 per canon-inst-003 \u2014 Command Center + Temple of Mars; Cipher interim Censor pending successor.",
       "chapters": [],
       "todos": [
         {
@@ -1206,10 +1217,11 @@
         "monument",
         "telemetry",
         "sveltekit",
-        "modern-toolchain"
+        "modern-toolchain",
+        "cluster-c"
       ],
       "repo": "Rishabh1804/TempleOfMars",
-      "current_phase": "v0.1 live. War Time 2026-04-24 is the first campaign. Ignis assumes Builder seat at Hour 0.",
+      "current_phase": "v0.1 live, post-War Time 2026-04-24 archived (closed 2026-04-29). Builder seat ratified 2026-05-24 (canon-inst-003): Ignis seated as Temple of Mars Builder; Cluster C established as Monument class (Command Center + Temple of Mars); Cipher interim Censor of Cluster C pending successor. v0.2 (Lore browser + Peacetime view + PNG icon set + Province detail views + Working Committee Watchtower designation) pending Builder operational onboarding.",
       "chapters": [
         {
           "id": "ch-pre-war-housekeeping",
@@ -1298,11 +1310,11 @@
         {
           "id": "ch-ignis-canon-entry",
           "name": "Canon Entry: Ignis Builder Reassignment",
-          "status": "planned",
-          "started": null,
-          "completed": null,
+          "status": "complete",
+          "started": "2026-04-23",
+          "completed": "2026-05-24",
           "ended": null,
-          "summary": "Canon-inst-* entry formalizing Ignis's vacation of Minister seat and assumption of Temple Builder seat.",
+          "summary": "Canon-inst-* entry formalizing Ignis's vacation of Minister seat and assumption of Temple Builder seat. RESOLVED 2026-05-24: canon-inst-003 ratified, Ignis seated as Temple of Mars Builder under Cluster C Monument class; Cipher named interim Censor of Cluster C pending successor.",
           "spec_url": null,
           "_deleted": false,
           "_deleted_date": null,
@@ -1407,7 +1419,7 @@
         "cluster-a"
       ],
       "repo": "rishabh1804/MSc",
-      "current_phase": "Milestone 0 \u2014 Foundation Setup. Province enrolled in Cluster A 2026-05-19 per canon-inst-004; Builder CodeMike seated 2026-05-21 per canon-inst-005. CodeMike onboarding in 'appointed' status under canon-proc-003.",
+      "current_phase": "DES-001 Topics 1\u20136 closed (cumulative grade v3 = 91/100); Topics 7\u201312 parked at scaffolded depth under STOP per ratified three-topic-push goal. Data-engineering v2 pivot in flight (P19 source registry / P20 no-assumption strategy / P21 source-backed enrichment service, all in NEXT_ACTIONS). Persona-spec formalization workstream parallel and gates P20 substance. Scribe Worker Tier deployed 2026-05-22 (canon-proc-006). CodeMike onboarding in 'appointed' status under canon-proc-003.",
       "chapters": [],
       "todos": [],
       "shelf_history": [
