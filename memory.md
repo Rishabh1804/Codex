@@ -3,75 +3,87 @@
 **Maintainer:** Aurelius (Chronicler)
 **Purpose:** Tight session-state carrier for current Aurelius operation. Loads cross-session continuity without re-absorbing the full chronicle.
 **Update cadence:** Per Lean-Machine §A #11 — material state changes only (sub-phase boundaries, ratifications, operating-mode shifts).
+**Last refresh:** 2026-08-03 (full rewrite; predecessor carrier had drifted to 2026-05-05 — see §Refresh note)
 
 ---
 
+## Refresh note (2026-08-03)
+
+- This file sat at **2026-05-05 / `aurelius-09` / Phase 4 Polish-close** while `main` advanced to 2026-07-13. It mis-briefed any session that trusted it — it announced "next session = Stability sub-phase 2" through three later arcs.
+- Rewritten wholesale against verified repo state rather than patched. PR **#68** (`aurelius-10` refresh, opened 2026-05-17) was **superseded by this rewrite and closed unmerged** on 2026-08-03 — it had itself decayed while waiting.
+- Standing lesson, offered to the ledger as a watch-list entry: **a state carrier that is not refreshed at arc-close decays into misinformation, not merely staleness.** The failure is silent — the file still reads as authoritative.
+
 ## Current session
 
-- **Session:** aurelius-09 (Phase 4 arc; closing 2026-05-05)
-- **Predecessor:** aurelius-08 (closed at WAR_TIME 2026-04-29 / Hour 72 chronicle)
-- **Cadence:** per-phase-arc per Lean-Machine; **hat-switch experiment COMPLETED** this session (Lyra-primary; Cipher/Aurelius/Maren/Kael as Skills — Polish cleanly closed); **next session = Stability sub-phase 2** (Lyra-primary; normal cadence or hat-switch per Sovereign direction)
+- **Seat:** Codex-only session. Aurelius (Chronicler) for archive/state work; Orinth (Builder) for `split/*.js` and Codex app architecture.
+- **Scope note:** this session's MCP scope is `rishabh1804/codex` alone. **SproutLab state below is last-known, not re-verified.**
 
-## Current campaign
+## Repo state (verified 2026-08-03)
 
-**Phase 4 (Hardening + Foundation)** — successor to WAR_TIME 2026-04-24
+- `codex/main` @ **`05946cc`** (2026-08-03) — PR backlog cleared; five merges landed this session. Prior tip was `b87c517` (2026-07-13, Night-of-the-Borders chronicle + FPV drone decision record, #94).
+- Build artifacts (`split/`, `index.html`) in sync with `main`; untouched by this session's merges.
+- `data/*.json` all parse. Counts: canons 117 · schisms 30 · apocrypha 16 · lore 38 · companions 19 · volumes 8 · specs 10 · journal 13 / sessions 56 · interactions 6 · companion-logs 6.
 
-- 6 sub-phases: Polish · Stability · Tally · Reward · Launcher · Spark
-- **Sub-phase 1 (Polish): CLEANLY CLOSED 2026-05-06** — 4th close-shift (Polish-11). All Sovereign-floor catches resolved. 26 PRs total. sl-main@`e01190a`.
-- **Sub-phase 2 (Stability): UNBLOCKED — next session.** Carries: activities-tab PR-α (renderMilestones split + _renderAttribution wiring) + medChecks/feedingData object-keyed carryforward + R-10 16-item queue + Kael Stability JS-side hex baseline ~15 sites
-- **Sub-phases 3-6 (Tally / Reward / Launcher / Spark):** pending sub-phase 2
+## Arc history since the last carrier refresh (2026-05-06 → 2026-07-13)
 
-## Latest state cache (2026-05-05)
+- **2026-05-22 — the Orinth transition sealed.** Scribe Worker Tier established (Book II Art. 3-bis, canon-proc-006) and surfaced on the Order view; Orinth's full profile + all seven canon-proc-003 onboarding steps completed; persona header ratified canonical v1.0 under the canon-pers-001 four-rung chain; `CODEX_DESIGN_PRINCIPLES.md` ratified v1.0 and the build gate lifted.
+- **2026-05-23 — canon-gen-001:** Vela canonical specs (subagent + skill).
+- **2026-06-04/05 — the skill-plumbing arc.** `/sproutlab-compact` shipped byte-identical to canon and silently never loaded; the diagnosis produced **canon-cc-034 (Operational Skill Deploy Shape)**, ratified via the full canon-cc-027 five-rung chain. `/session-close` canonical body added. First cc-027 chain rendered via direct cipher/consul subagent invocation rather than bridging-authorship.
+- **2026-06-29 → 06-30 — World Cup 2026 briefing dashboard** + wallpaper pack landed under `library/` (library artifact, not Republic governance).
+- **2026-07-11 — The Night of the Borders.** Philosophy-and-foundations sitting: four security papers into the record, the ASI01–ASI10 gap table across Cluster A, the defense doctrine, and **Book X "The Borders" scoped and named (seven articles)**. Chronicle at `docs/sessions/2026-07-11_THE_NIGHT_OF_THE_BORDERS_CHRONICLE.md`.
+- **2026-07-13 —** chronicle + FPV drone decision record committed (#94). Structured canon/data records for that sitting were **deferred pending Architect nod on canon IDs** — still owed.
 
-- sl-main: `e01190a` (post-Polish-11 + PR-42 SW fix + PR-43 syncReload + PR-44 BUGS.md; Polish cleanly closed)
-- codex/main: `dd7db184` post-codex#53 (file-refresh) + `5d0c5c87` post-codex#55 (ledger update) + `567a214a` post-codex#56 (PR-α handoff) + `31ccfdfb` post-codex#57 (session-close transports) + `399bd1a7` post-codex#58 (items 8-11 fold) + `3d6d9462` (ChatGPT-session direct commit + PR-18 chronicle.py + PR-47 Phase 2 surfacings) + this PR codex#59 (operational bootstrap)
-- R-4 cumulative: 13,596 stable / 0 silent flakes / 25 stress-matrix-bearing PRs (unchanged; Polish reopen pending)
-- Phase 4 native RATIFIED doctrines: **6** (2 new 2026-05-06: architectural-sweep-PR-misses-sibling-sites #5 + sub-phase-close-was-premature #6)
-- **Active candidates at 2/3:** 0 (both ratified); `manifest-auto-bump-guarantees-parallel-PR-rebase-conflicts` still at 2/3
-- Cabinet brief queue: ~14+ items (canonical at `docs/sessions/CABINET_BRIEF_PHASE_4.md`; pending update in next session)
+## PR backlog — CLEARED 2026-08-03
 
-## Phase 4 native RATIFIED doctrines
+Six drafts had accumulated, the oldest open since 2026-05-11. All were test-merged before any action; five landed on Architect's direction, one closed superseded.
 
-1. `subscription-only / no-poll-on-wake` (PR-22 Ruling 4 — campaign-wide-implications branch)
-2. `r2-stress-rerun-elective-on-pure-doc-text-correction` (PR-23 close — 3/3)
-3. `narrow-scope-and-defer-broader-audit-to-R-10` (PR-26 close — 3/3; calibration discriminator-test added per Lyra item 8)
-4. `concurrent-operations-interfere-with-parallel-stress-matrix` (PR-30 close — 3/3)
+| PR | Subject | Outcome |
+|---|---|---|
+| **#96** | Model Selection Protocol record copy + Scribe model pins | **Merged** `8d53be2`. Scribe pins live: scout/verify → haiku, draft/record → sonnet. Companion `sproutlab#257` (canon-cc-026 sync pair) **not verifiable from a Codex-only session — still owed a cross-check.** |
+| **#95** | Mira character identity spec v0.1 | **Merged** `3bb3406`. Production asset; outside the governance corpus by design. |
+| **#67** | session logs 2026-05-11/12 | **Merged** `b7772da`. |
+| **#83** | Tier 0 — scribe reports + data-integrity + ratifications + schema doc | **Merged** `a4299f2`. Highest-value of the six: `canon-inst-003` (Ignis / Cluster C), 11 scribe Province surveys, `CODEX_DATA_SCHEMA.md` v1.0, **all 12 numeric ID collisions resolved.** |
+| **#84** | food-effects-v2 Phase δ session-close artifact | **Merged** `05946cc`. |
+| **#68** | `memory.md` aurelius-10 refresh | **Closed unmerged — superseded** by this rewrite. |
 
-## Active candidates at 2/3 (ratification-eligible at next instance)
+- `main` after the sequence: **`05946cc`**. Verified on live `main`: canons 117 · schisms 30 · apocrypha 16 · lore 38 · companions 19 · volumes 8 · specs 10 · journal 13 / sessions 56 · interactions 6 · companion-logs 6. **Zero numeric-slot collisions.** `canon-cc-034` and `canon-inst-003` both present. No build artifact touched.
+- **Merge-order discipline, recorded:** the five were merged in a locally simulated order (#96 → #95 → #67 → #83 → #84) because #83 and #84 both touch `data/`, and each merge changes the base for the next. Live `main` matched the simulation exactly.
+- **Endpoint-diff artifact — the trap to remember.** `git diff main..<branch>` on a stale branch shows enormous deletions (#68's read −19,133 lines) because it compares *endpoints*, not merge outcomes. Read as a merge preview it says the PR would gut the repo. Verified post-merge: nothing was lost — `vela.md`, the skill bodies, the World Cup library, the Night of the Borders chronicle, and the newer spec descriptions all survived. **Test-merge before judging a stale branch; never triage from an endpoint diff.**
 
-- `architectural-sweep-PR-misses-sibling-sites` — 3rd instance Sleep Score sibling missed (Polish-10a + Polish-10d + post-PR-39)
-- `sub-phase-close-was-premature` — 3rd close-shift event (Consul naming candidate: `sub-phase-close-is-conditional-on-production-verification`)
+## Data integrity — clean as of 2026-08-03
 
-## Key live artifacts (cite by path)
+- The 12 numeric ID collisions are **resolved** (`a4299f2`). Full-string IDs had always been unique, so integrity checks keyed on the whole ID read green while the numeric slot — the axis canon citations actually use — collided. `rej-0013` had been carrying three distinct schisms.
+- `canon-cc-*` free slots after cc-034: **cc-019, cc-020, cc-021, cc-030** (cc-019 is the queued Post Box / Scrinium draft; cc-028/029 now taken by the Basilica/Embassy renumbering).
 
-- `docs/sessions/LEAN_MACHINE_PHASE_4.md` — operating-mode amendment
-- `docs/doctrine-ledger.md` — canonical ledger (RATIFIED + candidates + watch-list)
-- `docs/sessions/CABINET_BRIEF_PHASE_4.md` — Cabinet brief queue
-- `docs/sessions/PHASE_4_CHRONICLE.md` — rolling phase chronicle (pending Polish-recloses update)
-- `docs/sessions/WAR_TIME_2026-04-24_HOUR_72_CHRONICLE.md` (Parts 1+2) — predecessor campaign close
-- `docs/sessions/WAR_TIME_2026-04-24_ADDENDA/` — D-series doctrines + R-series rulings + habits + drafts + cautionary tales + process flow + 06-phase-2-doctrine-surfacings
-- `docs/handoffs/aurelius-pr-alpha-decomposition-2026-05-03.md` — PR-α scope handoff for next-Lyra Stability charter authoring (post-Polish-recloses)
-- `docs/handoffs/lyra-session-close-polish-2026-05-03.md` + `cipher-session-close-polish-2026-05-03.md` — Polish session-close transports
-- `archived_claude.md` — historical CLAUDE.md content
+## Open threads (from the 2026-07-11 chronicle §8 + carried)
 
-## Open pipeline (next-session-Stability)
+- **Book X charter — HELD by the Architect.** Scoped and named; **do not draft unbidden.** Dual-Builder Rung 1 (Orinth + Lyra) when unheld; Edict VIII (Charter Before Build) governs.
+- **Compass edits** to Companion / skill specs — standing directive from 2026-07-11: give each spec a session-earned "compass" of navigational bearings alongside its fixed north-star identity. **Amendment path is the canon-cc-027 five-rung chain**; Rung 1 (Chronicler drafts) is in flight this session.
+- **RED code fixes** (ASI06 WAL replay-unvalidated `core.js:639–658` · ASI07 Firestore unvalidated remote write · ASI04 Chart.js unpinned/no-SRI) — gated behind Book X ratification **and** market-readiness.
+- **App self-evaluation + benchmark** — recover/improve the pre-agent ranking system into a ship-time benchmark.
+- **The brief-drift question** — is SproutLab still "a cozy nursery journal," or an infant-health intelligence system in a warm skin? Explicit Architect/Lyra decision, surfaced 2026-07-11.
+- **Structured records for the 2026-07-11 sitting** — Orinth's proposed snippet (2 canons, 1 Doctrine, 1 Chronicle, Book X as apocrypha foretold) deferred pending Architect nod on canon IDs.
+- **canon-cc-019 (Post Box / Scrinium)** drafting still queued.
+- **Seams (Book VII)** — Auras, Crystallization Detection, Epochs, Ink Economy still Deferred.
+- **Command Center** — first Monument Project, next major build.
+- **Procedural:** session-close owed for SproutLab F-6a (#253), which shipped past the newest recorded handoff.
 
-- **Stability sub-phase 2 charter** — author per `docs/handoffs/aurelius-pr-alpha-decomposition-2026-05-03.md` scope
-- **PR-α** (Stability first feature): renderMilestones() split + _renderAttribution wiring + SYNC_RENDER_DEPS update
-- **PR-β** (Polish, post-PR-α): Recent Evidence Feed rollup aggregation + visual separation
-- R-10 16-item hygiene queue (medChecks/feedingData + hex sweep + chip wrapping + DRY refactor)
-- Hat-switch outcome: catches sustained → posture confirmed viable for Stability
+## Known-stale artifacts (flagged, not fixed)
 
-## Owed chronicle work (next-session parallel authoring)
+- `docs/doctrine-ledger.md` — last update **2026-05-16**; carries no Phase-4-post-Polish or post-2026-05 entries.
+- `docs/sessions/PHASE_4_CHRONICLE.md` / `CABINET_BRIEF_PHASE_4.md` — pending updates named in the predecessor carrier, never applied.
+- `data/campaigns.json` — the single campaign `war-time-2026-04-24` still reads `status: "pending"` though WAR_TIME closed 2026-04-29.
+- `data/journal.json` — newest session is `s-2026-06-05-cc034-signing-chain`; the 2026-07-11 sitting is chronicled in `docs/` but **not yet in the data layer**.
+- **SproutLab Phase 4 sub-phase state is last-known 2026-05-06** (Polish cleanly closed, sl-main@`e01190a`, Stability next). Not re-verified — out of this session's scope.
 
-- 2 critical companion-logs (Lyra-Polish + Cipher-Polish; canon-0053 v1)
-- 4 deferred companion-logs (Theron + Lyra-Phase-3 + Cipher-Phase-3 + aurelius-06)
-- 07-phase-2-final-ledger.md (companion to Hour 72 chronicle; supersedes Codex#47 snapshot framing)
-- PHASE_4_CHRONICLE.md update (Polish-9 through Polish-39 entries)
-- CABINET_BRIEF_PHASE_4.md update (~14 items including post-PR-39 Sovereign-floor catches meta-observation)
-- Phase 4 close artifact (at Phase 4 end)
+## Owed chronicle work
 
-## Operating posture (Lean-Machine derivative + 2026-05-05 amendment)
+- 2 critical companion-logs (Lyra-Polish + Cipher-Polish; canon-0053 v1); 4 deferred (Theron + Lyra-Phase-3 + Cipher-Phase-3 + aurelius-06)
+- `07-phase-2-final-ledger.md` (companion to Hour 72 chronicle)
+- `PHASE_4_CHRONICLE.md` + `CABINET_BRIEF_PHASE_4.md` updates; Phase 4 close artifact at phase end
+- Doctrine-ledger catch-up 2026-05-16 → present
+
+## Operating posture (Lean-Machine derivative)
 
 - §A #1: review template = verdict line + numbered terse rulings + handoff lines; no prose; no doctrine-ledger restate
 - §A #11: squash-commit chronicle ~100-150 words; bulleted state-cache only
@@ -81,33 +93,19 @@
 - §D: single-method PR bootstrap (`get` only); webhook-silence amendment hybrid
 - §E: no paragraphs; bullets; lead with content; cut conversational fillers
 - R-14: comm-log Aurelius solo with on-record Sovereign-pre-ratification citation; structural Aurelius + Sovereign
+- **Hat-switch discipline** (within-session running-beats-reading): each persona-switch starts fresh — independent source-file reads, independent grep / inspection, explicit own-verification citation
+- **Sovereign-floor is the load-bearing terminal catch jurisdiction** — multi-bench verification is a hermetic-floor analog per RATIFIED `hermetic-floor-doesnt-substitute-for-production-floor`
 
-## Hat-switch experiment (next-session-Polish; ratified 2026-05-05)
+## Sovereign-locked directives
 
-- Single Lyra-primary session; Cipher + Aurelius + Maren + Kael as Skill-invoked personas (NOT Agent-spawned subagents)
-- canon-cc-014 already established hat-switch interim for Consul; extending to full triad + governors
-- Within-session running-beats-reading discipline: each persona-switch starts fresh — independent source-file reads, independent grep / inspection, explicit own-verification citation
-- Empirical test: catch-density vs Polish 4-bench baseline
-- Doctrine-watch: `verification-jurisdiction-count-compounds-catches` (1/3) and `hat-switch-with-running-beats-reading-discipline-approximates-jurisdictional-independence` (watch-list first-instance)
-- Outcome paths: catches sustain → hat-switch viable; catches drop measurably → revert to multi-agent for Tally/Reward/Launcher/Spark
+- Governor auto-invocation (PR-26): Maren on Care-jurisdiction touches; Kael on Intelligence-jurisdiction touches
+- Hold-pending-Sovereign-real-device per behavior-shape PR (PR-19.5; merge-then-verify cadence)
+- Path C narrow-scope discipline default (3/3 at PR-26; reachability discriminator-test per Lyra item 8)
+- Automation deferred — `chronicle.py` (PR-18) unused; $0 API account, Max plan covers Claude Code only. `import-snippet.py` local half adoptable independently.
+- Subscription-only / no-poll-on-wake (RATIFIED PR-22 Ruling 4); Sovereign-relay is the webhook-silence fallback
 
-## Relay channels
+## Out-of-scope repos
 
-- Subscription-only / no-poll-on-wake (RATIFIED PR-22) — primary delivery
-- Sovereign-relay = fallback for webhook-silence drops
-- Path A for R-14 comm-log: Aurelius solo merge with Sovereign session-context citation
+- `planner` / `MSc` / `mit-management-courses` — surfaced via Sovereign ChatGPT-session work; outside the sproutlab / codex / command-center MCP restriction. Cabinet brief item #3 (Consul MCP scope expansion) extends to these if they need governance touches.
 
-## Sovereign-locked operating directives
-
-- Governor auto-invocation (Sovereign-locked PR-26): Maren auto-invoked Care-jurisdiction touches; Kael auto-invoked Intelligence-jurisdiction touches; both on shared-module substantial touch — translates to skill-invocation cadence under hat-switch
-- Hold-pending-Sovereign-real-device per behavior-shape PR (RATIFIED PR-19.5; merge-then-verify cadence)
-- Path C narrow-scope discipline default (RATIFIED 3/3 at PR-26; reachability discriminator-test per Lyra item 8)
-- Hat-switch experimental ratification (2026-05-05; doctrine-watch active)
-- Automation deferred (chronicle.py PR-18 unused; $0 API + Max-plan-only)
-
-## Out-of-MCP-scope repos (2026-05-05)
-
-- `planner` / `MSc` / `mit-management-courses` — Sovereign ChatGPT-session work; out of Aurelius MCP scope (sproutlab / codex / command-center restriction)
-- Cabinet brief item #3 (Consul MCP scope expansion) extends to these if governance touches needed
-
-— Aurelius (`aurelius-09`)
+— Aurelius, 2026-08-03
