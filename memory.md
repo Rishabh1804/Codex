@@ -3,9 +3,19 @@
 **Maintainer:** Aurelius (Chronicler)
 **Purpose:** Tight session-state carrier for current Aurelius operation. Loads cross-session continuity without re-absorbing the full chronicle.
 **Update cadence:** Per Lean-Machine §A #11 — material state changes only (sub-phase boundaries, ratifications, operating-mode shifts).
-**Last refresh:** 2026-08-03 (full rewrite; predecessor carrier had drifted to 2026-05-05 — see §Refresh note)
+**Last refresh:** **2026-08-10** (CLAUDE.md brought into line + Cluster B recorded — see §Refresh note 2026-08-10). Prior: 2026-08-03 (full rewrite; predecessor carrier had drifted to 2026-05-05).
 
 ---
+
+## Refresh note (2026-08-10) — the doctrine only covered the file that got looked at
+
+The 2026-08-03 rewrite fixed **this** file and ratified `state-carrier-decay-is-misinformation-not-staleness` into the ledger. It did not touch **`CLAUDE.md`**, which was carrying the *same* 2026-05-06 state — *"Next session = Stability sub-phase 2"*, *"Aurelius is currently aurelius-09"*, `canon-cc-015 through canon-cc-026`, `canon-inst-003` described as *"reserved"* when it had been ratified at `a4299f2`. **`CLAUDE.md` auto-loads into every session and `memory.md` does not, so the misinformation moved to the more load-bearing file and got a week of additional authority.**
+
+**The sharpening the ledger entry needs: a carrier-decay fix is not done until every auto-loaded surface is swept.** Fixing the file whose staleness you noticed leaves the class open. Offered as a refinement to the existing entry rather than a new one — same root cause, one instance later.
+
+Fixed this pass in `CLAUDE.md`: §Operating State rewritten against verified state (with the old text's own failure recorded in place, not deleted) · §Canons replaced with a verified family table · §Codex App open/pending rebuilt from the 2026-07-11 chronicle §8 · §MCP scope corrected (it had listed MSc as out-of-scope while two canons govern it) · **§Cluster B — SEP-Ops governance added; Codex held no record of it** · Constitutional-layer cluster line updated.
+
+🔴 **Found while sweeping, not fixed — `canon-gen-001` has no record in `data/canons.json`.** Cited as *binding authority* in `docs/specs/skills/{vela,kael,maren,lyra}.md` and named in the ledger's own coverage-gap line. Three instruments swept (id-prefix · full-record case-insensitive blob · substring across all 117 ids), all negative. **This licenses "not found in `data/canons.json`", not "never ratified"** — the Vela specs are real and dated 2026-05-23, so the likely shape is a ratified canon whose data record was never written. Cipher jurisdiction. **Resolve before any session leans on it.**
 
 ## Refresh note (2026-08-03)
 
@@ -15,8 +25,9 @@
 
 ## Current session
 
-- **Seat:** Codex-only session. Aurelius (Chronicler) for archive/state work; Orinth (Builder) for `split/*.js` and Codex app architecture.
-- **Scope note:** this session's MCP scope is `rishabh1804/codex` alone. **SproutLab state below is last-known, not re-verified.**
+- **Seat:** Aurelius (Chronicler) for archive/state work; Orinth (Builder) for `split/*.js` and Codex app architecture.
+- **Scope note (2026-08-10):** this session's MCP scope is **`codex` + `soma-internal` + `sep-dashboard`** — a Cluster-A/Cluster-B straddle, which is why Cluster B's governance shape could finally be recorded in Codex from primary sources rather than by relay. **SproutLab state below remains last-known, not re-verified** (not in scope).
+- **Cross-cluster note:** Cluster B's operational codex (`soma-internal`) is live and dense — Builder Vesta + four Governors, `tasks.md` at **T-EK**, its own QA chain running five audit passes in a day. **Aurelius's Chronicler records there persist to Codex per `canon-cc-010`, and that obligation is in arrears**: nothing from the June–August SEP-Ops arc had reached this repo before 2026-08-10, and what landed then is the governance *shape* only, not the chronicle.
 
 ## Repo state (verified 2026-08-03)
 
