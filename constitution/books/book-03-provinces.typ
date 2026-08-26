@@ -3,7 +3,7 @@
 = Book III — The Provinces
 
 #book-intro[
-  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Clusters group Provinces under shared Censors. Monument Projects are a special designation for developmental work of era-defining importance.
+  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Clusters group Provinces under shared Censors — four of them as of the Cluster D draft, two of which stand without a seated Censor. Monument Projects are a special designation for developmental work of era-defining importance.
 ]
 
 #article("1", "Provincial Geography")
@@ -98,12 +98,28 @@ Provinces are organized into Clusters under shared Censors. A Cluster is the cen
   ),
   [*A*], [Codex + SproutLab + MSc], [Cipher (The Codewright)],
   [*B*], [SEP Invoicing + SEP Dashboard], [Nyx (The Contrarian, proposed)],
-  [*Monument*], [Command Center (first Monument)], [Two Censors (paired with Builders)],
+  [*C*], [Command Center + Temple of Mars (Monument class)], [Cipher — INTERIM, pending successor],
+  [*D*], [MyFin (Finance) — #text(fill: warning)[draft]], [#text(fill: warning)[VACANT]],
 )
 
 #v(3mm)
 
+#block(
+  fill: rgb("#FBF3E8"), inset: 9pt, radius: 3pt, width: 100%,
+  above: 4pt, below: 8pt,
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
+    *Table status.* The Cluster C row is not new law — it propagates `canon-inst-003`,
+    ratified 24 May 2026, which established Cluster C and which this table had not yet
+    recorded. The Cluster D row *is* new and is *draft*, proposed 26 August 2026 alongside
+    the MyFin Charter and Book IX Article 10; it does not bind until decreed.
+  ]
+)
+
 Cluster membership reflects domain adjacency, shared architectural character, or censorial-jurisdiction absorbability. Codex and SproutLab form the founding pair of Cluster A — both library-themed PWAs with shared design principles and split-file architectures. MSc joined Cluster A on 19 May 2026 per canon-inst-004 on the broader admission ground that Cluster A's existing Censor + routing surface absorbs a postgraduate capability workspace without per-Province routing logic; the pairing-by-architectural-character criterion is one Cluster A admission path among several, not the sole one. SEP Invoicing and SEP Dashboard form Cluster B because both serve the same real-world SEP business and share data boundaries.
+
+Cluster C was established on 24 May 2026 by canon-inst-003 as the *Monument class* — the constitutional grouping that contains every Monument-designated Province. Command Center (the founding Monument per Edict VI) and Temple of Mars (its Watchtower sibling) are its members, and future Monument designations enrol into it. The ‘Monument’ label persists as a Province-class attribute; Cluster C is the censorial unit that holds them. Cipher was named its Censor on an explicitly *interim* basis pending a successor — a seat the canon directed should not “silently calcify into permanent,” and which has stood open since.
+
+Cluster D is proposed for MyFin, the Finance Province, on domain-adjacency grounds: its subject matter (the Architect's personal capital, governed by Book IX Article 10) shares no data boundary, architectural character, or censorial surface with any existing Cluster, and Article 10's firewall makes such sharing constitutionally undesirable rather than merely absent. Its Censor seat is vacant. The Republic would then carry two open censorial seats against one Censor already stretched across two Clusters; seating Cluster D is a recruitment question for the Cabinet, not a drafting one.
 
 Monument Projects operate outside normal Clusters. Their supervisory pattern differs — direct Consul and Sovereign oversight — and they often warrant per-Builder Censors rather than per-Cluster Censors.
 
