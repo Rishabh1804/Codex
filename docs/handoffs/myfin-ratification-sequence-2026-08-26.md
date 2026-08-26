@@ -29,7 +29,7 @@ the chain can be walked without reconstructing the dependencies each time.
 | 4 | **Cluster D Censor** | Appointment | 3 | *unfilled — see Blockers* |
 | 5 | **MyFin Charter** | Edict VIII instrument | 2, 3 | `docs/charters/` |
 | 6 | **canon-inst-006** — Ashara × Vex → Builder | Ceremony + seating | 1, 2, 3, 5 | `canons.json`, `pending` |
-| 7 | **Book III Art. 2** — jurisdiction-based Governor activation | Constitutional amendment | — | *not yet drafted* |
+| 7 | **Book III Art. 2** — jurisdiction-based Governor activation | Constitutional amendment | — | `constitution/books/book-03-provinces.typ` |
 | 8 | **canon-inst-007** — Maren × Ashara → Governor of Risk | Ceremony + seating | 1, 2, 3, 5, 7 | `canons.json`, `pending` |
 
 Items 1, 2, 3 and 7 have no dependencies and may ratify in any order or together.
@@ -60,7 +60,9 @@ Constitution source) and Cluster D (new, draft).
 The seat-waiting exception confines itself to cases where *"the seat already exists, is
 genuinely vacant."* Book III Art. 2 activates Governors at 30,000 LOC; MyFin projects
 ~4,700. The exception cannot supply a seat the cascade never triggered — it can only
-fill one. Item 7 is the amendment that creates it, and it is **not yet drafted**.
+fill one. Item 7 is the amendment that creates it. Drafted 2026-08-26: the consequence test settles
+eligibility, an enumerated jurisdiction in the Charter settles scope, and a provisional claim covers
+the unforeseen.
 
 ---
 
@@ -92,12 +94,12 @@ Nyx (The Contrarian — *"stress-tests every idea"*) is the temperamental match 
 Province built on falsifiability, but holds Cluster B. The honest reading is that the
 Republic is short a Censor, and that this is Cabinet recruitment rather than drafting.
 
-### Item 7 is unwritten
-The Book III Art. 2 amendment has not been drafted. `canon-inst-007` cannot ratify
-without it. Recommended over a one-off Sovereign waiver, because the argument — a risk
-function is load-bearing at 500 lines exactly as at 50,000, when the Province counsels
-on real capital from its first commit — will recur for any Province whose failure mode
-is external harm rather than a broken build.
+### ~~Item 7 is unwritten~~ — RESOLVED 2026-08-26
+The Book III Art. 2 amendment is drafted. It was taken as an amendment rather than a
+one-off Sovereign waiver because the argument — a risk function is load-bearing at 500
+lines exactly as at 50,000, when the Province counsels on real capital from its first
+commit — will recur for any Province whose failure mode is external harm rather than a
+broken build. `canon-inst-007` still cannot ratify until it is decreed.
 
 ---
 
@@ -121,8 +123,12 @@ These are proposals. The naming act is the Sovereign's and is final.
 
 **Item 1.** Vex's profile is the only instrument blocking *both* Ceremonies that costs
 nothing to decide — it is drafted, packeted, and awaiting a read. Items 2 and 3 are
-larger constitutional questions that deserve their own attention; item 7 is unwritten;
-item 4 is a recruitment problem no drafting will solve.
+larger constitutional questions that deserve their own attention; item 4 is a
+recruitment problem no drafting will solve.
+
+**Every drafting task on this page is now complete.** What remains is ratification (items
+1, 2, 3, 7 — none of which block each other), one appointment (item 4), and the Sovereign's
+naming act. No further Chronicler work unblocks any of it.
 
 Ratifying item 1 converts two Ceremonies from *blocked on three things* to *blocked on
 two*, and it is the only step on this page that is already finished and merely waiting.
