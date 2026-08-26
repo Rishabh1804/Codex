@@ -50,6 +50,36 @@ Collector's ledger needs all four classes separated, because they price differen
 *cache efficiency is the single largest lever the Republic has* — which is precisely the
 "optimization surfacing" function Article 5 asks for.
 
+### Correction — the meter already exists, half-built
+
+*Added after surveying `Rishabh1804/TempleOfMars`. It overturns the recommendation above and
+is left visible rather than silently rewritten.*
+
+The five null-token records in `journal.json` are not an abandoned experiment. They are
+**Temple of Mars's schema**, and Temple was commissioned to be exactly this instrument.
+
+Its Charter carries Sovereign Decree #5 verbatim: *sessions per task/phase/province; tokens in
+and out per session, aggregated per phase; model used, estimated USD cost; wall-clock duration;
+commits per session; LOC delta; efficiency ratio.* Decree #4 names the capture mechanism — an
+extension of Codex's snippet pipeline via a new `session_log` snippet type. `docs/SCHEMA.md`
+specifies `record_session` with `tokens_in` / `tokens_out`, and the field list matches the five
+WAR_TIME records field-for-field: `campaign_id`, `phase_id`, `task_id`, `builder`, `province`,
+`started_at`, `ended_at`, `model`, `tokens_in`, `tokens_out`, `commits[]`, `loc_delta`.
+
+So the Republic did not neglect to design a meter. It designed one, built the *rendering* end,
+and stalled at the *capture* end — because Decree #4 assumed a human would paste token counts
+into a snippet at session close, and Claude Code surfaces no number a Builder can hand-copy.
+Temple's last push is 2026-04-24, the day War Time opened. It has rendered an empty campaign
+for four months, waiting on data that was never capturable by the means specified.
+
+This changes the instruction. **Do not build a second meter.** Complete the one that exists by
+replacing its manual capture step with automated extraction — the transcript JSONL proven above
+emits precisely the fields `record_session` already declares. Temple then lights up with no
+change to its rendering code, and Ledger B begins on the schema the Republic already ratified.
+
+It also revises what the Collector inherits: not a blank instrument to design, but a working
+Watchtower whose feed was never connected. That is a smaller and better-specified first task.
+
 **Recommended instrument.** A pure-local Python script — `scripts/meter.py` — reading the
 transcript JSONL and emitting per-session token totals attributed to a Province. It follows the
 `import-snippet.py` precedent exactly: local, deterministic, **zero API cost**, and therefore
@@ -121,7 +151,10 @@ should firm or overturn the recommendation before any canon is drafted.
 
 ## Recommended order
 
-1. **`scripts/meter.py`** — the local token meter. Unblocked, zero API cost, no ratification needed.
+1. **`scripts/meter.py`** — emitting `session_log` / `record_session` snippets in **Temple of
+   Mars's existing schema**, not a new one. Unblocked, zero API cost, no ratification needed.
+   Cross-Province: the output contract is Temple's (`docs/SCHEMA.md`), so Ignis should be
+   consulted as its Builder before the shape is fixed.
 2. **Backfill or accept the gap** — 51 sessions predate any instrumentation and cannot be
    recovered where transcripts are gone. The honest move is to declare Ledger B's start date
    rather than fabricate history. *Nothing Is Wasted* does not mean nothing is missing.
