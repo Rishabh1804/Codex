@@ -22,8 +22,17 @@ Roads are laid so that the Article's constraints are enforced by the dependency 
 rather than by reviewer discipline. A bounds check that lives in a Region you must pass
 through cannot be forgotten; a bounds check that lives in a code-review checklist can.
 
-This Charter therefore **cannot ratify before Article 10 does.** It is drafted now so
-the Builder's seat is not held up behind it, but it inherits Article 10's draft status.
+This Charter therefore **cannot ratify before Article 10 does.** It is drafted now so the
+Builder's seat is not held up behind it, but it inherits Article 10's status.
+
+**Second-reading update, 26 August 2026.** Article 10 was rejected at first reading and rebuilt
+around the lifecycle of a piece of counsel. This Charter has been carried across to the new
+section numbering, and one Border materially restated: the outward Border previously read as an
+absolute and permanent bar on ever holding credentials. Article 10 §2 now separates *deciding*
+(inalienable) from *effecting* (grantable by decree, effecting-only, instantly revocable). The
+Border is restated to match — MyFin holds no executing grant and its Regions assume none, so
+acquiring one would be new territory requiring a Charter amendment rather than a switch inside
+the Risk region.
 
 ---
 
@@ -84,12 +93,12 @@ under Book III. Reordering it is a constitutional act, not a refactor.
 
 | Border | Care required |
 |---|---|
-| **Intake → Analysis** | The provenance boundary. Un-stamped data must be structurally incapable of crossing — not merely discouraged. Article 10 §Provenance. |
-| **Analysis → Risk** | The falsifier gate. A thesis lacking falsifier or horizon cannot cross. Article 10 §Falsifier. |
+| **Intake → Analysis** | The provenance boundary. Un-stamped data must be structurally incapable of crossing — not merely discouraged. Article 10 §3. |
+| **Analysis → Risk** | The falsifier gate. A thesis lacking falsifier or horizon cannot cross. Article 10 §3. |
 | **Risk → Ledger** | The write boundary. The sole path by which a position enters the record; stamps disposition and bounds-check outcome. |
 | **Ledger → Interface** | Read-only by construction. Views may never mutate the record. Hindsight editing is Censor-reviewable under Article 10. |
 | **MyFin ↔ Codex** | **The firewall.** MyFin neither reads nor writes Codex's Treasury data, and no Codex allocation may cite MyFin state. Article 10's firewall made geographic. Contamination either way is Censor-reviewable. |
-| **MyFin ↔ the world** | No brokerage credentials, no custody, no payment instruments, no execution or scheduling. Article 10 §Separation of counsel and hand. This Border is absolute and is not a Builder's to move. |
+| **MyFin ↔ the world** | **No companion decides.** MyFin may not open, close or alter a position, by recommendation acted on automatically, by standing instruction, or by any arrangement whose effect is that capital moves without the Sovereign choosing that it move. Article 10 §2, inalienable and not a Builder's to move. *Executing* is a separate question: §2 permits a narrowly-scoped executing facility by Sovereign decree, effecting-only and instantly revocable. **MyFin holds no such grant, and the Charter's Regions assume none** — an executing facility would be new territory requiring its own Charter amendment, not a switch inside the Risk region. |
 
 ## 5 · Builder assignment
 
@@ -137,17 +146,22 @@ There is no other failure mode to govern.
 The Governor of Risk governs these matters and no others, save by provisional claim:
 
 1. **Bounds integrity** — the sizing, concentration and drawdown limits of Article 10
-   §Bounds: that they are recorded, current, and applied to every position before it
-   reaches the Ledger.
+   §4: that they are recorded, current, and applied to every position before it reaches the
+   Ledger — and, should an executing grant ever be decreed under §2, that the same check binds
+   the machine as it binds the companion.
 2. **The falsifier gate** — the Analysis → Risk border. That no thesis crosses without a
    specified falsifier and a stated horizon.
 3. **Provenance and staleness** — the Intake → Analysis border. That no datum crosses
    unstamped, and that data older than its own horizon is disclosed in the
    recommendation rather than in a footnote.
-4. **Ledger integrity** — that the Position Ledger remains append-only, that outcomes
-   are recorded when horizons close, and that no entry is edited in hindsight.
-5. **Recusal discipline** — that the standing recusals of Article 10 are exercised when
-   their conditions hold, and that a decline is chronicled as the competent act it is.
+4. **Ledger integrity** — that the Position Ledger remains append-only, that outcomes are
+   recorded when horizons close, and that the §5 line between *correction* and *revision* holds:
+   corrections of fact appended and linked, never overwritten; changes to a thesis, falsifier or
+   horizon after the horizon has opened refused as revisions whatever they are labelled.
+5. **Disclosure and refusal discipline** — that §3's three disclosed defects (staleness,
+   unsourced claims, unresolved professional questions) are stated inside the recommendation
+   rather than footnoted, and that §6's three refusal grounds are exercised when they hold, with
+   the decline chronicled as the competent act it is.
 6. **The firewall** — that no position cites Treasury state and no allocation cites the
    Architect's capital, in either direction.
 
