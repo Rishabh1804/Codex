@@ -19,6 +19,27 @@ the chain can be walked without reconstructing the dependencies each time.
 
 ---
 
+## Rulings of 2026-08-26
+
+The Sovereign took all four unblocked items at one sitting.
+
+| # | Instrument | Ruling | Effect |
+|---|---|---|---|
+| 1 | Vex's profile | **RATIFIED as drafted** (decree 0021) | `v0.4-draft` → `v0.4`. The parent-DNA constraint is satisfied. |
+| 2 | Book IX Art. 10 | **REJECTED for redraft** | The Charter and both Ceremonies stay blocked. Redraft direction not yet given. |
+| 3 | Cluster C + D | **RATIFIED both** (decree 0020) | Book III Art. 4 carries four Clusters. C's three-month propagation gap closed. |
+| 7 | Book III Art. 2 | **Step-by-step review** | Walkthrough in progress; not ratified. |
+
+**The critical-path item is now item 2, and it is the one that was refused.** Article 10 is the
+instrument the Charter derives its Regions, Roads and Borders from, and the instrument
+`canon-inst-006` names as its second prerequisite. Until it is redrafted and ratified, ratifying
+item 1 unblocks nothing downstream on its own — the constraint it satisfied was never the binding
+one. That is worth stating plainly rather than letting the ratified column look like progress.
+
+Cluster D now exists as a chartered censorial unit containing a Province whose own Charter cannot
+ratify. That is a tolerable interim — a Cluster is a censorial grouping, not a warrant for the
+Province's purpose — but it should not persist long.
+
 ## The chain
 
 | # | Instrument | Kind | Blocks on | Where |

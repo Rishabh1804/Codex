@@ -217,11 +217,13 @@ The Collector reports campaign economics as part of the monthly Cabinet cycle. T
   fill: rgb("#FBF3E8"), inset: 9pt, radius: 3pt, width: 100%,
   above: 6pt, below: 10pt,
   text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
-    *Draft — not yet ratified.* Proposed 26 August 2026 by the Chronicler as the
+    *Rejected for redraft — 26 August 2026.* Proposed the same day as the
     constitutional prerequisite to any companion seated with a market-advisory
-    mandate. Ratification pending Cabinet review (Financial Health domain) and
-    Sovereign decree. Until that decree is minted, no companion holds the mandate
-    this Article defines.
+    mandate, and rejected by the Sovereign at first reading. The text below is the
+    rejected draft, retained until the redraft replaces it so that the archive holds
+    what was refused rather than only what succeeded. No companion holds the mandate
+    this Article defines, and the MyFin Charter and both ceremony canons remain
+    blocked behind it.
   ]
 )
 

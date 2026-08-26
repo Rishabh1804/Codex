@@ -3,7 +3,7 @@
 = Book III — The Provinces
 
 #book-intro[
-  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Oversight activates on accumulated mass, and — under the Article 2 draft — on the character of what a Province can damage. Clusters group Provinces under shared Censors — four of them as of the Cluster D draft, two of which stand without a seated Censor. Monument Projects are a special designation for developmental work of era-defining importance.
+  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Oversight activates on accumulated mass, and — under the Article 2 draft — on the character of what a Province can damage. Four Clusters stand; two of them without a seated Censor. Clusters group Provinces under shared Censors — four of them as of the Cluster D draft, two of which stand without a seated Censor. Monument Projects are a special designation for developmental work of era-defining importance.
 ]
 
 #article("1", "Provincial Geography")
@@ -204,19 +204,20 @@ Provinces are organized into Clusters under shared Censors. A Cluster is the cen
   [*A*], [Codex + SproutLab + MSc], [Cipher (The Codewright)],
   [*B*], [SEP Invoicing + SEP Dashboard], [Nyx (The Contrarian, proposed)],
   [*C*], [Command Center + Temple of Mars (Monument class)], [Cipher — INTERIM, pending successor],
-  [*D*], [MyFin (Finance) — #text(fill: warning)[draft]], [#text(fill: warning)[VACANT]],
+  [*D*], [MyFin (Finance)], [#text(fill: warning)[VACANT]],
 )
 
 #v(3mm)
 
 #block(
-  fill: rgb("#FBF3E8"), inset: 9pt, radius: 3pt, width: 100%,
+  fill: rgb("#EEF4EE"), inset: 9pt, radius: 3pt, width: 100%,
   above: 4pt, below: 8pt,
-  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
-    *Table status.* The Cluster C row is not new law — it propagates `canon-inst-003`,
-    ratified 24 May 2026, which established Cluster C and which this table had not yet
-    recorded. The Cluster D row *is* new and is *draft*, proposed 26 August 2026 alongside
-    the MyFin Charter and Book IX Article 10; it does not bind until decreed.
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: success)[
+    *Table status.* Both rows ratified 26 August 2026 by decree 0020. The Cluster C row was
+    never new law — it propagates `canon-inst-003` of 24 May 2026, which established Cluster C
+    and which this table had gone three months without recording; its ratification here is the
+    Constitution catching up to a decree already minted. The Cluster D row is new. Its Censor
+    seat stands vacant and is not filled by this decree.
   ]
 )
 
