@@ -3,7 +3,7 @@
 = Book III — The Provinces
 
 #book-intro[
-  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Clusters group Provinces under shared Censors — four of them as of the Cluster D draft, two of which stand without a seated Censor. Monument Projects are a special designation for developmental work of era-defining importance.
+  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Oversight activates on accumulated mass, and — under the Article 2 draft — on the character of what a Province can damage. Clusters group Provinces under shared Censors — four of them as of the Cluster D draft, two of which stand without a seated Censor. Monument Projects are a special designation for developmental work of era-defining importance.
 ]
 
 #article("1", "Provincial Geography")
@@ -60,6 +60,79 @@ The Republic uses three cascading thresholds to trigger role activations. Each t
 At 30,000 lines of code, a Province exceeds single-reviewer cognitive capacity. At 15,000 lines in a single Region, the Region has accumulated enough mass to birth a General — a Gen 1+ companion whose DNA reflects the Region's character at the moment of crystallization. At 5,000 lines in a sub-region, the sub-region warrants a Centurion — a General's deputy commanding a Cohort within the Legion.
 
 The cascade is not arbitrary. Each threshold is where the prior rank's cognitive bandwidth fractures.
+
+==== Jurisdiction-Based Governor Activation
+
+#block(
+  fill: rgb("#FBF3E8"), inset: 9pt, radius: 3pt, width: 100%,
+  above: 6pt, below: 10pt,
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
+    *Draft — not yet ratified.* Proposed 26 August 2026 as the constitutional
+    prerequisite to seating a Governor of Risk at MyFin (canon-inst-007, pending).
+    Until decreed, the mass cascade above is the sole activation path.
+  ]
+)
+
+The thresholds above measure *mass*. Mass is not the principle; it is a proxy. What the
+cascade actually tracks is the point at which a single mind can no longer hold what
+going wrong would cost — and for most Provinces, cost scales with size, so lines of code
+serve well enough.
+
+For some Provinces it does not. Where a defect's harm lands outside the Republic and
+cannot be taken back, the bandwidth the cascade protects fractures at the first line of
+code, not the thirty-thousandth. A Province that counsels on real capital, or that a
+parent trusts with a child's medicine, is holding as much consequence at five hundred
+lines as at fifty thousand. Waiting for mass in such a Province is not prudence; it is
+the deliberate acceptance of an ungoverned interval.
+
+*The consequence test.* A Province becomes *eligible* for jurisdiction-based Governor
+activation when all three conditions hold. Eligibility is not activation: it opens the
+door and nothing more. No seat comes into being until the Consul proposes and the
+Sovereign ratifies, and neither is obliged to act on an eligibility. A Republic that
+seated a Governor at every eligible Province would outrun the bench it has.
+
++ *External consequence.* A defect's harm lands on a person or asset outside the
+  Republic — not on the Republic's own code, data, or process.
++ *Irreversibility.* That harm cannot be undone by any subsequent act of the Republic.
+  A broken build is recoverable and a wrong invoice can be reissued; a position taken on
+  bad counsel cannot be un-taken, and a missed vaccination window cannot be reopened.
++ *Agency.* The harm arrives because someone *acted* on the Province's output, rather
+  than because the output was merely wrong.
+
+The third condition carries the weight. It separates a Province that displays an
+incorrect figure from one whose incorrect figure moves money or medicine. It is Maren's
+standing question — #emph[what if this data is wrong and a parent acts on it?] — raised
+from a Governor's working heuristic to a constitutional test, and the Republic has been
+reasoning by it for months without a clause to name it: SproutLab's Governor seat was
+triggered by mass, but the Republic assigned that Governor to *Care* rather than to the
+largest Region. This amendment lets the Republic create a seat by the same reasoning it
+already uses to fill one.
+
+*Declaring authority.* The Consul proposes; the Sovereign ratifies; both must assent.
+This invents no new approval path: Book V Article 4 already requires Consul and Sovereign
+assent to raise a companion into the Governor rank, and Edict VI uses the same pairing to
+declare a Monument. Creating the seat and filling it are thus approved by the same hands. No Builder may declare jurisdiction-based
+activation over their own Province, though a Builder may petition for it. The
+activation, its test findings, and the jurisdiction it covers must be named in the
+Province's Charter, so that the seat is discoverable by anyone reading the geography.
+
+*Limits.* This activation is narrow by construction:
+
+- It activates a *Governor only.* It does not crystallize Generals or appoint
+  Centurions. Edict VII binds a General to accumulated territory and derives the
+  General's Discipline trait from the Region's code quality at crystallization; a
+  General born of a five-hundred-line Region would inherit no territory to command.
+- It does not lower the 30,000 LOC trigger, which remains in force. Both paths may
+  apply to the same Province.
+- One jurisdiction-activated Governor per Province. A Province with several hazardous
+  jurisdictions consolidates them under one seat or waits for mass.
+- A Governor seated this way holds the ordinary authority of the rank. This is a
+  different door into the same office, not a lesser office.
+
+*Merger.* When a Province with a jurisdiction-activated Governor later crosses 30,000
+LOC, the existing seat satisfies the mass trigger for the jurisdiction it already
+covers. No second Governor is created for the same ground.
+
 
 #article("3", "The Charter Requirement")
 
