@@ -111,14 +111,60 @@ Ashara** pairing, Guardian archetype, inheriting Risk from Maren and Finance fro
 Ashara. The Sovereign selected this over reassigning Maren herself.
 
 **This requires an explicit exception and I will not paper over it.** Book III Article 2
-activates Governors on *mass* — 30,000 lines. This seat would be justified by the
-*nature* of the domain rather than its size: the Province counsels on real capital from
-its first line of code, and the risk function is load-bearing at 500 LOC exactly as it
-is at 50,000. That is a sound argument, but it is not the cascade's argument, and the
-cascade does not currently admit it. Seating a Governor here needs either a Sovereign
-act naming the exception or a Book III Article 2 amendment recognising jurisdiction-
-based activation alongside mass-based activation. The Chronicler recommends the latter,
-since the situation will recur.
+activates Governors on *mass* — 30,000 lines. This seat is justified by the *nature* of
+the domain rather than its size: the Province counsels on real capital from its first
+line of code, and the risk function is load-bearing at 500 LOC exactly as it is at
+50,000. That is a sound argument, but it is not the mass cascade's argument. The Book III
+Article 2 amendment drafted 2026-08-26 supplies the missing path; until it ratifies, this
+seat cannot be filled.
+
+### Eligibility findings
+
+Recorded here as Article 2 requires, so the reasoning is auditable rather than asserted:
+
+| Condition | Finding |
+|---|---|
+| **External consequence** | MET. A defective recommendation harms the Architect's personal capital — an asset outside the Republic, held before the Republic existed and not underwritten by it. |
+| **Irreversibility** | MET. No subsequent act of the Republic un-takes a position. Unlike a wrong invoice, which can be reissued, an executed trade is final and its loss is realised. |
+| **Agency** | MET. Harm arrives only because the Sovereign *acts* on the counsel. Article 10's separation of counsel and hand guarantees this: the Province cannot execute, so every harm it causes is mediated by a human decision made in reliance on it. |
+
+The third finding carries a consequence worth stating plainly: because MyFin can only
+ever harm by being believed, its entire risk surface is the quality of what it says.
+There is no other failure mode to govern.
+
+### Enumerated jurisdiction
+
+The Governor of Risk governs these matters and no others, save by provisional claim:
+
+1. **Bounds integrity** — the sizing, concentration and drawdown limits of Article 10
+   §Bounds: that they are recorded, current, and applied to every position before it
+   reaches the Ledger.
+2. **The falsifier gate** — the Analysis → Risk border. That no thesis crosses without a
+   specified falsifier and a stated horizon.
+3. **Provenance and staleness** — the Intake → Analysis border. That no datum crosses
+   unstamped, and that data older than its own horizon is disclosed in the
+   recommendation rather than in a footnote.
+4. **Ledger integrity** — that the Position Ledger remains append-only, that outcomes
+   are recorded when horizons close, and that no entry is edited in hindsight.
+5. **Recusal discipline** — that the standing recusals of Article 10 are exercised when
+   their conditions hold, and that a decline is chronicled as the competent act it is.
+6. **The firewall** — that no position cites Treasury state and no allocation cites the
+   Architect's capital, in either direction.
+
+Each entry was admitted by the three conditions above, applied at drafting rather than
+in the moment. The list is amendable by the authority that declared the activation.
+
+### Why a list rather than a standing judgment
+
+The Governor of Risk is the one seat whose failure is silent. A Builder who ships a bug
+produces a broken build; a risk officer who fails to look produces nothing at all, and
+nothing is hard to notice. Fixing the jurisdiction in advance means the question at
+review is *"were these six things done?"* rather than *"did the Governor feel there was
+a risk?"* — the first is answerable by a third party, the second only by the Governor.
+
+This is the same instrument Article 10 points at counsel, turned to point at oversight:
+commit the judgment before the outcome is known, so that under stress there is a record
+to read instead of a call to make.
 
 ## 7 · General activations
 

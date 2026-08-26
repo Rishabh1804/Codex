@@ -85,9 +85,16 @@ parent trusts with a child's medicine, is holding as much consequence at five hu
 lines as at fifty thousand. Waiting for mass in such a Province is not prudence; it is
 the deliberate acceptance of an ungoverned interval.
 
-*The consequence test.* A Province becomes *eligible* for jurisdiction-based Governor
-activation when all three conditions hold. Eligibility is not activation: it opens the
-door and nothing more. No seat comes into being until the Consul proposes and the
+Activation asks two questions, and they must not be run together. *Whether* a Province
+receives such a Governor is settled by the consequence test below. *What* that Governor
+then governs is settled by an enumerated jurisdiction in the Province's Charter. The
+Republic has always kept these apart without saying so: SproutLab's Governor seat was
+triggered by mass, and the Republic then chose *Care* — not the largest Region — as the
+ground that Governor holds. Trigger and scope were never the same decision.
+
+*The consequence test — eligibility.* A Province becomes *eligible* for jurisdiction-based
+Governor activation when all three conditions hold. Eligibility is not activation: it opens
+the door and nothing more. No seat comes into being until the Consul proposes and the
 Sovereign ratifies, and neither is obliged to act on an eligibility. A Republic that
 seated a Governor at every eligible Province would outrun the bench it has.
 
@@ -112,9 +119,34 @@ already uses to fill one.
 This invents no new approval path: Book V Article 4 already requires Consul and Sovereign
 assent to raise a companion into the Governor rank, and Edict VI uses the same pairing to
 declare a Monument. Creating the seat and filling it are thus approved by the same hands. No Builder may declare jurisdiction-based
-activation over their own Province, though a Builder may petition for it. The
-activation, its test findings, and the jurisdiction it covers must be named in the
-Province's Charter, so that the seat is discoverable by anyone reading the geography.
+activation over their own Province, though a Builder may petition for it.
+
+*Enumerated jurisdiction — scope.* A Governor seated by this path governs an enumerated
+list of matters, written into the Province's Charter alongside the activation and its
+test findings. Each entry is admitted by the same three conditions, applied at drafting
+time rather than in the moment. The list may be amended as a Province grows, by the
+authority that declared the activation.
+
+The point of the list is that judgment is spent once, deliberately and in the open, so
+that at the moment it matters a reader consults a record rather than exercises
+discretion. This is the discipline Book IX Article 10 already imposes on counsel — a
+falsifier is fixed before the outcome is known, precisely so that stress reads it rather
+than argues with it. A jurisdiction fixed in advance is the same instrument pointed at
+the Republic's own oversight.
+
+*Provisional claim.* A list is predictable, and predictability becomes rigidity the first
+time something arises that the list did not foresee. A Governor may therefore claim an
+unlisted matter by applying the three conditions to it *on the record* — naming the
+finding, not merely asserting the interest. The claim holds provisionally from the
+moment it is made; the Province's Censor confirms it into the Charter at the next review
+or strikes it, and either way the decision is recorded. A claim struck on its facts may
+not be re-made on the same facts without Consul assent.
+
+This clause inscribes an instinct the Order already has. Maren's standing heuristic reads:
+#emph[safety doesn't respect jurisdictional lines — if it touches Care, I flag, regardless
+of which Governor owns the code.] A Guardian who waits for a boundary to be redrawn before
+naming a harm is not doing the work. The provisional claim gives that instinct a form that
+leaves a record instead of an argument.
 
 *Limits.* This activation is narrow by construction:
 
