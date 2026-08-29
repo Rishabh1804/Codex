@@ -2,6 +2,27 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-08-29",
+      "sessions": [
+        {
+          "id": "s-2026-08-29-sep-ops-ingest-instrument-nulls",
+          "date": "2026-08-29",
+          "title": "SEP-Ops ingest — three instrument-null watch-list entries",
+          "summary": "Cross-cluster Aurelius invocation from a SEP-Ops (soma-internal) data-ingest session. Three watch-list entries landed in docs/doctrine-ledger.md, all one family: an instrument's negative result licenses nothing beyond the instrument. A byte-prefix continuity test returned False on a content-identical record (14 of 16 diff blocks were one-minute timestamp rendering shifts from a newer app version); a SKU sweep returned six zeros of which four were present under a different separator; and a grep -E pattern written A\\|B matched a literal pipe and reported three known customers as absent. Second instance also recorded for a-fair-copy-normalises-exactly-the-marks-being-counted: register photographs that could not be written to disk now carry load-bearing figures with no byte-preserved original behind them.",
+          "volumes_touched": [
+            "codex"
+          ],
+          "decisions": [
+            "Three entries filed to the watch-list, not to the counter — SEP-Ops eligibility for the ratification path is unresolved.",
+            "Maintenance section amended to state the open eligibility question explicitly and to forbid advancing a counter on SEP-Ops instances until the Consul rules.",
+            "PR #74 (2026-05-16) named as the precedent these entries landed on, and named as precedent rather than ratification."
+          ],
+          "bugs_found": 0,
+          "handoff": "Consul-level question open: does soma-internal sit in Cluster B, or is it a Province of its own shape? The Constitution names Cluster A as Codex + SproutLab + MSc and Cluster B as SEP Invoicing + SEP Dashboard; soma-internal is in neither, yet runs its own Builder + four-Governor model and is the operational codex behind Cluster B's invoicing repo. Until ruled, the three new entries are observational only. Also still owed from 2026-08-03: structured canon/data records for the 2026-07-11 sitting, and canon-cc-019 (Post Box / Scrinium) drafting."
+        }
+      ]
+    },
+    {
       "date": "2026-05-22",
       "sessions": [
         {
@@ -3941,6 +3962,7 @@
     {
       "id": "s-2026-08-29-sep-ops-ingest-instrument-nulls",
       "date": "2026-08-29",
+      "title": "SEP-Ops ingest — three instrument-null watch-list entries",
       "summary": "Cross-cluster Aurelius invocation from a SEP-Ops (soma-internal) data-ingest session. Three watch-list entries landed in docs/doctrine-ledger.md, all one family: an instrument's negative result licenses nothing beyond the instrument. A byte-prefix continuity test returned False on a content-identical record (14 of 16 diff blocks were one-minute timestamp rendering shifts from a newer app version); a SKU sweep returned six zeros of which four were present under a different separator; and a grep -E pattern written A\\|B matched a literal pipe and reported three known customers as absent. Second instance also recorded for a-fair-copy-normalises-exactly-the-marks-being-counted: register photographs that could not be written to disk now carry load-bearing figures with no byte-preserved original behind them.",
       "volumes_touched": [
         "codex"

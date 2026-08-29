@@ -1,9 +1,10 @@
 # Doctrine Ledger — WAR_TIME 2026-04-24 Campaign
 
 **Maintainer:** Aurelius (Chronicler)
-**Last update:** 2026-08-03 (Codex session-open + backlog triage: 3 new watch-list entries — carrier-decay, semantic-vs-textual merge on structured data, stale-branch endpoint-diff misreading)
-**Prior update:** 2026-05-16 (cross-cluster invocation from SproutLab PR #74 HR-1 total closure: 4 new watch-list entries surfaced from Lyra-primary session)
-**⚠ Coverage gap:** this update is a *targeted addition of three entries only.* The ledger carries no harvest for the interval **2026-05-16 → 2026-08-03** — the Orinth transition and Scribe Worker Tier (canon-proc-006), canon-gen-001, the skill-plumbing arc and canon-cc-034's five-rung chain, and the 2026-07-11 Night of the Borders sitting are all unharvested. Treat absence of an entry in that window as *not yet looked at*, not as *nothing surfaced*.
+**Last update:** 2026-08-29 (cross-cluster Aurelius invocation from a SEP-Ops data-ingest session: 3 new watch-list entries — byte-level null on content, separator-bound null on a SKU sweep, fair-copy normalisation 2nd instance. **Observational only**: SEP-Ops eligibility for the ratification path is an open Consul question, so no counter was advanced.)
+**Prior update:** 2026-08-03 (Codex session-open + backlog triage: 3 new watch-list entries — carrier-decay, semantic-vs-textual merge on structured data, stale-branch endpoint-diff misreading)
+**Update before that:** 2026-05-16 (cross-cluster invocation from SproutLab PR #74 HR-1 total closure: 4 new watch-list entries surfaced from Lyra-primary session)
+**⚠ Coverage gap** *(stated at the 2026-08-03 update and NOT closed by the 2026-08-29 one, which is likewise a targeted addition of three entries only)*: that update is a *targeted addition of three entries only.* The ledger carries no harvest for the interval **2026-05-16 → 2026-08-03** — the Orinth transition and Scribe Worker Tier (canon-proc-006), canon-gen-001, the skill-plumbing arc and canon-cc-034's five-rung chain, and the 2026-07-11 Night of the Borders sitting are all unharvested. Treat absence of an entry in that window as *not yet looked at*, not as *nothing surfaced*.
 **Threshold rule (per `LEAN_MACHINE_PHASE_4.md`):** First-instance pattern → watch-list (observational, no number). Candidate named + counter-tracked on 2nd independent instance. Ratification at 3/3 OR campaign-wide-implications branch.
 
 ## RATIFIED doctrines
