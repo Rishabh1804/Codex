@@ -13,6 +13,15 @@
 - Rewritten wholesale against verified repo state rather than patched. PR **#68** (`aurelius-10` refresh, opened 2026-05-17) was **superseded by this rewrite and closed unmerged** on 2026-08-03 — it had itself decayed while waiting.
 - Standing lesson, offered to the ledger as a watch-list entry: **a state carrier that is not refreshed at arc-close decays into misinformation, not merely staleness.** The failure is silent — the file still reads as authoritative.
 
+## 2026-08-29 — cross-cluster invocation from SEP-Ops
+
+- **Seat:** Aurelius (Chronicler), invoked from a `soma-internal` data-ingest session under the PR #74 cross-cluster precedent. Codex touched for the archive only; no Builder work, no `split/*.js`, no build artifact.
+- **Landed:** three watch-list entries in `docs/doctrine-ledger.md` + one session record in `data/journal.json` (**sessions 56 → 57**). All `data/*.json` parse.
+- **The three are one family:** *an instrument's negative licenses nothing beyond the instrument.* A byte-prefix continuity test returned `False` on a **content-identical** record (14 of 16 diff blocks were one-minute timestamp rendering shifts from a newer app version); a SKU sweep returned six zeros of which **four were present under a different separator**; and a `grep -E` pattern written `A\|B` matched a **literal pipe** and reported three known customers as absent.
+- **Second instance recorded** for `a-fair-copy-normalises-exactly-the-marks-being-counted` — counter-eligible on the next observation, **but see the eligibility question below before advancing it.**
+- 🔴 **CONSUL-LEVEL QUESTION OPEN.** The Constitution names Cluster A = Codex + SproutLab + MSc and Cluster B = SEP Invoicing + SEP Dashboard. **`soma-internal` is named in neither**, yet it runs its own Builder + four-Governor model and is the operational codex behind Cluster B's invoicing repo. The ledger's Maintenance section already read *"SEP Invoicing eligibility TBD"*; it now states the SEP-Ops question explicitly and **forbids advancing a counter on a SEP-Ops instance until the Consul rules.** These three entries are **observational only**.
+- 🔧 **A stale claim in this file, corrected**: the *Known-stale artifacts* section below reads *"`docs/doctrine-ledger.md` — last update **2026-05-16**"*. **It was updated 2026-08-03 via PR #98** (three watch-list entries from that session's backlog triage), and again today. **The staleness note was itself stale** — the same failure this carrier's own 2026-08-03 refresh note warns about: *a state carrier that is not refreshed at arc-close decays into misinformation, not merely staleness.*
+
 ## Current session
 
 - **Seat:** Codex-only session. Aurelius (Chronicler) for archive/state work; Orinth (Builder) for `split/*.js` and Codex app architecture.
@@ -70,7 +79,7 @@ Six drafts had accumulated, the oldest open since 2026-05-11. All were test-merg
 
 ## Known-stale artifacts (flagged, not fixed)
 
-- `docs/doctrine-ledger.md` — last update **2026-05-16**; carries no Phase-4-post-Polish or post-2026-05 entries.
+- ~~`docs/doctrine-ledger.md` — last update **2026-05-16**~~ 🔧 **CORRECTED 2026-08-29: updated 2026-08-03 (PR #98) and again 2026-08-29. Not stale.**
 - `docs/sessions/PHASE_4_CHRONICLE.md` / `CABINET_BRIEF_PHASE_4.md` — pending updates named in the predecessor carrier, never applied.
 - `data/campaigns.json` — the single campaign `war-time-2026-04-24` still reads `status: "pending"` though WAR_TIME closed 2026-04-29.
 - `data/journal.json` — newest session is `s-2026-06-05-cc034-signing-chain`; the 2026-07-11 sitting is chronicled in `docs/` but **not yet in the data layer**.
