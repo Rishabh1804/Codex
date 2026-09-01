@@ -179,14 +179,28 @@ leaves a record instead of an argument.
   General born of a five-hundred-line Region would inherit no territory to command.
 - It does not lower the 30,000 LOC trigger, which remains in force. Both paths may
   apply to the same Province.
-- One jurisdiction-activated Governor per Province. A Province with several hazardous
-  jurisdictions consolidates them under one seat or waits for mass.
+- *One Governor per enumerated jurisdiction, not one per Province.* Where a Province holds
+  several genuinely distinct hazardous jurisdictions, each may carry its own seat. The
+  Republic already practises this: SEP-Ops runs four Governors — Iuno over Ops and Finance,
+  Castor over Workforce and Compensation, Vulcanus over Production and Plant, Janus over the
+  Dashboard Programme — divided by the business's own jurisdictions rather than by its mass,
+  and ratified in that shape on 1 June 2026 before this Article had any clause to describe it.
+  The test of distinctness is the Charter's enumerated list: two matters belong to one seat
+  where a single reading of the same evidence settles both, and to two seats where they do
+  not. Multiplying seats past that point is how a bench is exhausted, not how a Province is
+  governed.
 - A Governor seated this way holds the ordinary authority of the rank. This is a
   different door into the same office, not a lesser office.
 
-*Merger.* When a Province with a jurisdiction-activated Governor later crosses 30,000
-LOC, the existing seat satisfies the mass trigger for the jurisdiction it already
-covers. No second Governor is created for the same ground.
+*Merger, and the mass axis undiminished.* Nothing here retires the cascade. Mass remains a
+live and independent trigger, and it becomes load-bearing exactly where Article 2 already says
+it does: past thirty thousand lines a Province exceeds what one reviewer can hold, whatever its
+jurisdictions look like. A Province may therefore activate on consequence early and on mass
+later, and the two do not compete.
+
+When a Province with jurisdiction-activated Governors later crosses 30,000 LOC, those seats
+satisfy the mass trigger for the ground they already cover. No second Governor is created for
+the same jurisdiction. Ground that no seated Governor covers is the mass trigger's to fill.
 
 
 #article("3", "The Charter Requirement")
@@ -225,7 +239,7 @@ Provinces are organized into Clusters under shared Censors. A Cluster is the cen
     text(font: "DejaVu Sans", weight: "bold", size: 9pt, fill: accent)[Censor],
   ),
   [*A*], [Codex + SproutLab + MSc], [Cipher (The Codewright)],
-  [*B*], [SEP Invoicing + SEP Dashboard], [Nyx (The Contrarian, proposed)],
+  [*B*], [SEP Invoicing + SEP Dashboard + SEP-Ops (`soma-internal`)], [Nyx (The Contrarian, proposed)],
   [*C*], [Command Center + Temple of Mars (Monument class)], [Cipher — INTERIM, pending successor],
   [*D*], [MyFin (Finance)], [#text(fill: warning)[VACANT]],
 )
@@ -244,7 +258,7 @@ Provinces are organized into Clusters under shared Censors. A Cluster is the cen
   ]
 )
 
-Cluster membership reflects domain adjacency, shared architectural character, or censorial-jurisdiction absorbability. Codex and SproutLab form the founding pair of Cluster A — both library-themed PWAs with shared design principles and split-file architectures. MSc joined Cluster A on 19 May 2026 per canon-inst-004 on the broader admission ground that Cluster A's existing Censor + routing surface absorbs a postgraduate capability workspace without per-Province routing logic; the pairing-by-architectural-character criterion is one Cluster A admission path among several, not the sole one. SEP Invoicing and SEP Dashboard form Cluster B because both serve the same real-world SEP business and share data boundaries.
+Cluster membership reflects domain adjacency, shared architectural character, or censorial-jurisdiction absorbability. Codex and SproutLab form the founding pair of Cluster A — both library-themed PWAs with shared design principles and split-file architectures. MSc joined Cluster A on 19 May 2026 per canon-inst-004 on the broader admission ground that Cluster A's existing Censor + routing surface absorbs a postgraduate capability workspace without per-Province routing logic; the pairing-by-architectural-character criterion is one Cluster A admission path among several, not the sole one. SEP Invoicing and SEP Dashboard form Cluster B because both serve the same real-world SEP business and share data boundaries. SEP-Ops (`soma-internal`), the operational codex behind that same business, was admitted on 1 September 2026 by Sovereign ruling on the same criterion. It had run since 1 June 2026 under its own ratified charter — Builder Vesta, four Governors — while named in no Cluster and absent from the Province register; the admission regularizes a Province the Republic already had. Two questions stay open: its own charter names Cipher as its Censor where Cluster B's is Nyx, and the founding-Builder lineage between Aurelius and Vesta is unsettled.
 
 Cluster C was established on 24 May 2026 by canon-inst-003 as the *Monument class* — the constitutional grouping that contains every Monument-designated Province. Command Center (the founding Monument per Edict VI) and Temple of Mars (its Watchtower sibling) are its members, and future Monument designations enrol into it. The ‘Monument’ label persists as a Province-class attribute; Cluster C is the censorial unit that holds them. Cipher was named its Censor on an explicitly *interim* basis pending a successor — a seat the canon directed should not “silently calcify into permanent,” and which has stood open since.
 
