@@ -165,8 +165,42 @@ The Governor of Risk governs these matters and no others, save by provisional cl
 6. **The firewall** — that no position cites Treasury state and no allocation cites the
    Architect's capital, in either direction.
 
-Each entry was admitted by the three conditions above, applied at drafting rather than
-in the moment. The list is amendable by the authority that declared the activation.
+Each entry was admitted by the three conditions above, applied at drafting rather than in the
+moment. The list is amendable by the authority that declared the activation.
+
+### How many seats these six warrant
+
+*Added 2026-09-01 on the Sovereign's ruling that jurisdiction-based Governors are seated per
+jurisdiction rather than per Province, SEP-Ops being the standing precedent with four.*
+
+Book III Article 2's distinctness test is evidentiary: two matters share a seat where one reading
+of the same evidence settles both, and take two seats where it does not. Applied to the six:
+
+| Seat | Matters | Evidence read |
+|---|---|---|
+| **Counsel** | 2 falsifier gate · 5 disclosure and refusal | The recommendation as written — one reading settles whether a falsifier and horizon are present *and* whether the §3 defects are stated. |
+| **Provenance** | 3 provenance and staleness | Upstream data lineage: source stamps, as-of timestamps. Reading the recommendation cannot settle this; the evidence sits behind it. |
+| **Bounds** | 1 bounds integrity | The bounds registry against the position's arithmetic. Quantitative, and independent of whether the thesis is sound. |
+| **Ledger** | 4 ledger integrity · 6 the firewall | The record itself — an entry shows both its append-history and what it cites, so one reading settles integrity and contamination together. |
+
+So the logic does extend: **six matters, four genuinely distinct evidentiary jurisdictions** —
+the same count SEP-Ops arrived at independently by dividing on its business's jurisdictions.
+
+**But the Charter does not seat four, and should not yet.** MyFin holds ~4,700 projected lines
+and *zero live positions*. Article 2's own limit warns that multiplying seats past necessity "is
+how a bench is exhausted, not how a Province is governed," and the Republic currently carries two
+Clusters without a seated Censor. Four Governors over a Province with nothing yet to govern would
+be the exhaustion the clause names.
+
+**The staged shape.** One **Governor of Risk** holds all six at founding. The four-way division
+above is the shape the jurisdiction takes when volume warrants it, recorded now so that the split
+is a planned subdivision rather than a later improvisation — and so the first Governor knows which
+of their six will eventually leave them. The trigger for splitting is the Censor's judgment at
+review that one reading can no longer settle a pair, not a line count.
+
+**The mass axis stays live underneath all of it.** Past 30,000 lines MyFin activates a Governor on
+mass whatever its jurisdictions look like, per Book III Article 2 unamended. Consequence-based
+seats cover the ground they enumerate; ground no seat covers remains the cascade's to fill.
 
 ### Why a list rather than a standing judgment
 
