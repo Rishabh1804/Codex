@@ -157,7 +157,11 @@ The Governor of Risk governs these matters and no others, save by provisional cl
 4. **Ledger integrity** — that the Position Ledger remains append-only, that outcomes are
    recorded when horizons close, and that the §5 line between *correction* and *revision* holds:
    corrections of fact appended and linked, never overwritten; changes to a thesis, falsifier or
-   horizon after the horizon has opened refused as revisions whatever they are labelled.
+   horizon after the horizon has opened refused as revisions whatever they are labelled. Should an
+   executing grant ever be decreed under §2, this jurisdiction also covers its **unmatched
+   pre-entries** — an automated act is entered before it executes and confirmed after, so an entry
+   that never receives its confirmation means either a silent failure or a log describing an act
+   that never happened. Either is a defect to surface, not a loose end to tidy.
 5. **Disclosure and refusal discipline** — that §3's three disclosed defects (staleness,
    unsourced claims, unresolved professional questions) are stated inside the recommendation
    rather than footnoted, and that §6's three refusal grounds are exercised when they hold, with

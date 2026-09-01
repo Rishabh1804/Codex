@@ -279,8 +279,15 @@ and never otherwise:
   Sovereign has not authorised individually.
 + *Revocable instantly, by the Sovereign alone.* Revocation requires no cause, no notice,
   and no counter-signature.
-+ *Fully recorded.* Every automated act enters the Position Ledger exactly as a manual act
-  does, flagged as automated, with the authorising decree cited.
++ *Recorded before and confirmed after.* An automated act is entered in the Position Ledger
+  #emph[before] it executes — flagged as automated, citing the authorising decree — and its
+  outcome appended once it has. The pre-entry is a precondition, not a receipt: an automation
+  that cannot write its entry does not act. This holds automation to the same ex-ante discipline
+  §5 imposes on counsel, and for the same reason — a record written afterwards is a record
+  written by whoever survived. #v(2pt) A pre-entry that never receives its confirmation is a
+  #emph[defect], not a loose end: it means either an execution that failed silently or a log that
+  described an act which never happened, and the Censor must establish which. Neither may be left
+  standing in the Ledger unresolved.
 + *Bounded by §4.* An automation may not execute an instruction that breaches the bounds.
   The bounds check binds the machine precisely as it binds the companion.
 
