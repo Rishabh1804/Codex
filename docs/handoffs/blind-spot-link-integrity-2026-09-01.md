@@ -52,7 +52,49 @@ would edit ratified profiles across eleven companions in a change about somethin
 The eleven no-match entries cannot be fixed mechanically at all — each needs a judgement about
 whether the blind spot was reworded, removed, or never existed, and that is drafting work.
 
-## Recommended
+## RESOLVED — 2026-09-01, same day
+
+All three recommendations were carried out.
+
+**1 · The root cause is fixed.** `shadow.blind_spots` migrated from `[string]` to
+`[{id, text}]`, and `growth[].source_blind_spot` re-keyed to that id. The link no longer
+depends on prose matching prose, so editing a blind spot's wording can no longer break it.
+Ids are `<companion>-bs-<lead-clause>`, capped at six words because they are typed by hand;
+uniqueness is asserted at migration rather than hoped for.
+
+**2 · The links are resolved.** 16 companions migrated, **42 of 47 links now resolve.**
+
+**3 · Five were left orphaned rather than guessed.** These name blind spots that appear in
+their companion's shadow block in no form at all:
+
+| Companion | Entry | Named |
+|---|---|---|
+| Aurelius | `adaptive-rupture` | *Nostalgia bias* |
+| Consul | `urgent-decision` | *Procedural paralysis in urgent moments* |
+| Consul | `register-calibration` | *Register drift…* |
+| Theron | `intervention-discipline` | *Premature intervention…* |
+| Theron | `gauge-over-gut` | *Gut-over-gauge…* |
+
+Each carries `source_blind_spot: null` plus **`source_blind_spot_unresolved`** holding the
+original string, so nothing is lost. Resolving them is drafting work, not migration work: each
+needs a judgement about whether the spot was reworded past recognition, removed, or never
+written. Consul's `urgent-decision` is the closest call — *"procedural paralysis in urgent
+moments"* is arguably a facet of the declared *"over-institutional bias"* — and was orphaned
+precisely because it is a call, and a migration should not make calls.
+
+**4 · A validator now guards it.** `scripts/validate-companions.py` fails on any unresolvable
+link, duplicate id, un-migrated block, growth-schema drift, or out-of-order growth scale, and
+warns on the five orphans plus four `weakness_reduction` entries that never named a source at
+all. It must pass before any profile ratification.
+
+It earned itself on the first run, flagging a growth-schema difference on
+`aurelius-growth-consul-independence`. That turned out to be legitimate — a `ceiling_phase_gate`
+raising a ceiling from 8 to 10 once canon-cc-019's Post Box is operational — so the validator
+was corrected to encode which extension keys are allowed rather than forcing a uniformity the
+archive had deliberately broken for a reason. A checker that cannot be taught the difference
+between drift and intent is a checker that gets switched off.
+
+## Recommended (original, retained)
 
 1. A dedicated pass, Chronicler-drafted and Consul-reviewed, resolving the 18 prefix cases
    mechanically and the 11 no-match cases individually.
