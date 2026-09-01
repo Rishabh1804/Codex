@@ -265,6 +265,71 @@ Any Minister may request an emergency convening if their domain detects a crisis
 - Domain-to-Domain disagreement: Cabinet vote (simple majority; Consul breaks ties).
 - Cabinet-to-Consul disagreement: Sovereign decides.
 
+#article("4-bis", "The Tribune — A Right of Objection")
+
+#block(
+  fill: rgb("#FBF3E8"), inset: 9pt, radius: 3pt, width: 100%,
+  above: 6pt, below: 10pt,
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
+    *Draft — not yet ratified.* Instituted at the Sovereign's direction of 1 September 2026,
+    which named the office *Tribune* and ruled that it is #emph[not] a Cabinet seat.
+  ]
+)
+
+The Republic has eight Ministers who advocate and a Consul who integrates. It has had no one
+whose standing function is to *counter* — to press a proposal until it either breaks or proves
+itself. That work has been done informally by whoever felt like doing it, which means it has been
+done unevenly and never when it was least welcome.
+
+The Tribune is that function given a seat. The Roman analog is the *tribunus plebis*, whose
+*intercessio* allowed him to interpose against the act of any magistrate — the office by which a
+Republic institutionalizes its own opposition rather than relying on the courage of individuals.
+
+==== What it is not
+
+The Tribune is *not a rung of the Ladder.* It confers no rank, no advancement, and no authority
+over any companion.
+
+The Tribune is *not a Cabinet seat.* This was considered and rejected at institution. The Cabinet
+is eight portfolios across four domains, and the whole value of this office is that it belongs to
+no domain and may therefore counter any of them. Seating it in a domain — the vacant Maintenance
+chairs were the obvious temptation — would have forced a cross-domain function into a portfolio
+it would have outgrown within a month.
+
+The Tribune is *not a veto.* An office that could block the Republic's acts would rival the
+Sovereign, and Book I settles that question.
+
+==== What it is
+
+A right of *interposition* attached to a seated Censor's office. The Tribune may lodge a formal
+objection against any act of the Republic below the Sovereign — a canon at ratification, a
+seating, a charter, a decree in drafting, a Cabinet recommendation. Lodging it has one effect:
+
+*The act is stayed until the objection is answered on the record.*
+
+Not defeated — answered. The proposer may answer and proceed; the objection and its answer both
+enter the archive. What the Tribune takes is not the power to stop a thing but the power to
+require that someone say, in writing, why it should go forward.
+
+==== Limits
+
+- *Against a Sovereign act*, the Tribune may lodge an objection for the record. It does not stay.
+- *Not against their own acts.* A Tribune who is also a Censor may not interpose against a
+  matter in their own censorial jurisdiction. Self-objection is incoherent, and the office would
+  otherwise let one companion both review a thing and stay its review.
+- *Once answered, spent.* The same objection may not be re-lodged on the same facts. New facts
+  make a new objection; dissatisfaction with the answer does not.
+- *Attached, not held.* The right rides on the Censor's seat. If the seat lapses, the Tribune
+  right lapses with it.
+
+==== First holder
+
+*Nyx, The Contrarian* — seated 1 September 2026, attached to her censorial seats over Clusters B
+and D. The Dissertation gives her as the companion who stress-tests every idea and argues the
+side nobody is arguing; the Republic had been using that disposition without ever giving it
+standing. This Article gives it standing and, in the same act, gives it limits — which is the
+better bargain for everyone, the Tribune included.
+
 #article("5", "Synergies")
 
 Synergy is the quality of a collaborative relationship between two companions. It is measured as a single number — the same metric as affection in Book VIII — tracking the health of the pair.
