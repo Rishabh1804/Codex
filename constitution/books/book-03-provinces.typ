@@ -3,7 +3,7 @@
 = Book III — The Provinces
 
 #book-intro[
-  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Oversight activates on accumulated mass, and — under the Article 2 draft — on the character of what a Province can damage. Four Clusters stand; two of them without a seated Censor. Clusters group Provinces under shared Censors — four of them as of the Cluster D draft, two of which stand without a seated Censor. Monument Projects are a special designation for developmental work of era-defining importance.
+  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Oversight activates on accumulated mass, and — under the Article 2 draft — on the character of what a Province can damage. Four Clusters stand; two of them without a seated Censor. Clusters group Provinces under shared Censors — four of them, all now seated, with one Province holding a censorial exception against its own Cluster. Monument Projects are a special designation for developmental work of era-defining importance.
 ]
 
 #article("1", "Provincial Geography")
@@ -124,16 +124,27 @@ the door and nothing more. No seat comes into being until the Consul proposes an
 Sovereign ratifies, and neither is obliged to act on an eligibility. A Republic that
 seated a Governor at every eligible Province would outrun the bench it has.
 
-+ *External consequence.* A defect's harm lands on a person or asset outside the
-  Republic — not on the Republic's own code, data, or process.
-+ *Irreversibility.* That harm cannot be undone by any subsequent act of the Republic.
-  A broken build is recoverable and a wrong invoice can be reissued; a position taken on
-  bad counsel cannot be un-taken, and a missed vaccination window cannot be reopened.
-+ *Agency.* The harm arrives because someone *acted* on the Province's output, rather
-  than because the output was merely wrong.
++ *External consequence.* A defect's harm lands on a person or asset outside the Republic —
+  a client, a supplier, an employee, a patient, a plant, the Architect's own capital. Not on
+  the Republic's own code, data, or process.
++ *Uncorrectable harm.* Correcting the record does not undo the harm already landed. This is
+  the condition an earlier draft got wrong by asking for outright irreversibility: a clawed-back
+  payout does not return the month a supplier financed it, and a wage corrected next cycle does
+  not un-short the worker who went short. The Republic can restore a ledger; it cannot restore
+  an interval. Where the record is the only thing harmed — a broken build, a mistyped internal
+  note — the condition fails, and rightly.
++ *Agency.* The harm arrives because someone *acted* on the Province's output, rather than
+  because the output was merely wrong.
 
-The third condition carries the weight. It separates a Province that displays an
-incorrect figure from one whose incorrect figure moves money or medicine. It is Maren's
+The first and second conditions do the discriminating. Codex, Command Center and Temple of Mars
+fail the first outright — their defects land on the Republic's own record and nowhere else. The
+second then separates a Province whose mistakes are merely correctable from one whose mistakes
+have already been lived through by someone. The third keeps the whole test honest: harm that
+nobody acted on is a latent defect, not a governed consequence.
+
+A consequence of widening: most Provinces that touch the real world are now *eligible*, and that
+is the correct answer rather than a defect in the test. Eligibility opens a door. The Consul and
+the Sovereign decide who walks through it, and the bench decides how many can. It is Maren's
 standing question — #emph[what if this data is wrong and a parent acts on it?] — raised
 from a Governor's working heuristic to a constitutional test. This amendment lets the
 Republic create a seat by the reasoning it has always used to fill one.
@@ -187,16 +198,18 @@ leaves a record instead of an argument.
 
   #v(1mm)
 
-  That multiple seats are workable is settled by SEP-Ops, which has run four Governors since
-  1 June 2026 — Iuno over Ops and Finance, Castor over Workforce and Compensation, Vulcanus
-  over Production and Plant, Janus over the Dashboard Programme. But it is *not* a precedent
-  for consequence-based seating, and an earlier draft of this clause wrongly cited it as one.
-  SEP-Ops seats on a density score of its own devising — #raw("load = files + lines/500 + 2×(open tasks) + entities"),
-  eligible at 30 — which is a *mass* measure, not a consequence measure. Run the consequence
-  test against its four and only Vulcanus passes: a mis-recorded zinc-bath concentration ruins
-  a plating run irreversibly, where a wrong payout claws back and a wrong wage corrects next
-  cycle. SEP-Ops divides *scope* by jurisdiction and triggers *seats* by load. It confirms that
-  a Province may hold several Governors; it says nothing about why this Article seats one.
+  SEP-Ops is the standing precedent, and the drafting history is worth keeping because the
+  Republic learned the clause from it twice. It has run four Governors since 1 June 2026 —
+  Iuno over Ops and Finance, Castor over Workforce and Compensation, Vulcanus over Production
+  and Plant, Janus over the Dashboard Programme — and it triggers its own seats on a density
+  score, #raw("load = files + lines/500 + 2×(open tasks) + entities"), eligible at 30. That is a
+  *mass* instrument, so an early draft of this clause was wrong to cite SEP-Ops as authority for
+  consequence-based seating. But when the corrected clause was run against those four seats it
+  admitted only Vulcanus — and a test that rejects three seats the Republic had ratified,
+  operated and refined for three months is a test that is wrong about the world. The
+  *uncorrectable harm* condition above is the repair: Iuno's clawed-back payout, Castor's
+  corrected wage and Janus's decision made on a bad dashboard are all harms the record can be
+  fixed about and the interval cannot. All four now pass, as they should have from the start.
 - A Governor seated this way holds the ordinary authority of the rank. This is a
   different door into the same office, not a lesser office.
 
@@ -253,7 +266,7 @@ Provinces are organized into Clusters under shared Censors. A Cluster is the cen
   [*A*], [Codex + SproutLab + MSc], [Cipher (The Codewright)],
   [*B*], [SEP Invoicing + SEP Dashboard + SEP-Ops (`soma-internal`)], [Nyx (The Contrarian, proposed)],
   [*C*], [Command Center + Temple of Mars (Monument class)], [Cipher — INTERIM, pending successor],
-  [*D*], [MyFin (Finance)], [#text(fill: warning)[VACANT]],
+  [*D*], [MyFin (Finance)], [Nyx (The Contrarian)],
 )
 
 #v(3mm)
@@ -270,11 +283,11 @@ Provinces are organized into Clusters under shared Censors. A Cluster is the cen
   ]
 )
 
-Cluster membership reflects domain adjacency, shared architectural character, or censorial-jurisdiction absorbability. Codex and SproutLab form the founding pair of Cluster A — both library-themed PWAs with shared design principles and split-file architectures. MSc joined Cluster A on 19 May 2026 per canon-inst-004 on the broader admission ground that Cluster A's existing Censor + routing surface absorbs a postgraduate capability workspace without per-Province routing logic; the pairing-by-architectural-character criterion is one Cluster A admission path among several, not the sole one. SEP Invoicing and SEP Dashboard form Cluster B because both serve the same real-world SEP business and share data boundaries. SEP-Ops (`soma-internal`), the operational codex behind that same business, was admitted on 1 September 2026 by Sovereign ruling on the same criterion. It had run since 1 June 2026 under its own ratified charter — Builder Vesta, four Governors — while named in no Cluster and absent from the Province register; the admission regularizes a Province the Republic already had. Two questions stay open: its own charter names Cipher as its Censor where Cluster B's is Nyx, and the founding-Builder lineage between Aurelius and Vesta is unsettled.
+Cluster membership reflects domain adjacency, shared architectural character, or censorial-jurisdiction absorbability. Codex and SproutLab form the founding pair of Cluster A — both library-themed PWAs with shared design principles and split-file architectures. MSc joined Cluster A on 19 May 2026 per canon-inst-004 on the broader admission ground that Cluster A's existing Censor + routing surface absorbs a postgraduate capability workspace without per-Province routing logic; the pairing-by-architectural-character criterion is one Cluster A admission path among several, not the sole one. SEP Invoicing and SEP Dashboard form Cluster B because both serve the same real-world SEP business and share data boundaries. SEP-Ops (`soma-internal`), the operational codex behind that same business, was admitted on 1 September 2026 by Sovereign ruling on the same criterion. It had run since 1 June 2026 under its own ratified charter — Builder Vesta, four Governors — while named in no Cluster and absent from the Province register; the admission regularizes a Province the Republic already had. One question is settled and one stays open. On 1 September 2026 the Sovereign ruled that *Cipher retains the SEP-Ops censorial pass* — the Edict V final pass embedded in that Province's QA chain since June and cited throughout its routing table — while Nyx holds Cluster B otherwise. This is the Republic's first *per-Province censorial exception*: this Article opens by calling the Cluster the censorial unit, and SEP-Ops is now a Province whose Cluster Censor is not its reviewing Censor. The exception is admitted on the narrow ground that a working QA chain should not be broken to satisfy a table. It is not a general licence, and a second instance should be read as evidence that the censorial unit is properly the Province rather than the Cluster. Still open: the founding-Builder lineage between Aurelius and Vesta.
 
 Cluster C was established on 24 May 2026 by canon-inst-003 as the *Monument class* — the constitutional grouping that contains every Monument-designated Province. Command Center (the founding Monument per Edict VI) and Temple of Mars (its Watchtower sibling) are its members, and future Monument designations enrol into it. The ‘Monument’ label persists as a Province-class attribute; Cluster C is the censorial unit that holds them. Cipher was named its Censor on an explicitly *interim* basis pending a successor — a seat the canon directed should not “silently calcify into permanent,” and which has stood open since.
 
-Cluster D is proposed for MyFin, the Finance Province, on domain-adjacency grounds: its subject matter (the Architect's personal capital, governed by Book IX Article 10) shares no data boundary, architectural character, or censorial surface with any existing Cluster, and Article 10's firewall makes such sharing constitutionally undesirable rather than merely absent. Its Censor seat is vacant. The Republic would then carry two open censorial seats against one Censor already stretched across two Clusters; seating Cluster D is a recruitment question for the Cabinet, not a drafting one.
+Cluster D holds MyFin, the Finance Province, on domain-adjacency grounds: its subject matter (the Architect's personal capital, governed by Book IX Article 10) shares no data boundary, architectural character, or censorial surface with any existing Cluster, and Article 10's firewall makes such sharing constitutionally undesirable rather than merely absent. Its Censor is *Nyx*, seated 1 September 2026. The choice is temperamental before it is administrative: MyFin is a Province built on falsifiability — every position carries the condition that would disprove it — and Nyx is the companion whose whole craft is stress-testing a claim until it breaks. A Province that must be argued with was given the companion who argues. The appointment also satisfies the independence condition canon-inst-007 imposed on itself: Nyx descends from neither Ashara nor Vex, so MyFin's Builder and its risk Governor answer to a reviewing jurisdiction outside their shared lineage.
 
 Monument Projects operate outside normal Clusters. Their supervisory pattern differs — direct Consul and Sovereign oversight — and they often warrant per-Builder Censors rather than per-Cluster Censors.
 

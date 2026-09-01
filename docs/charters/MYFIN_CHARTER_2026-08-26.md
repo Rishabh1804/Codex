@@ -228,9 +228,18 @@ first Censor review against measured figures.
 
 ## 8 · Censor assignment
 
-**Cluster D — Finance. Censor VACANT.**
+**Cluster D — Finance. Censor: Nyx (The Contrarian), seated 2026-09-01 per decree 0023.**
 
-This is the Charter's hardest blocker and is addressed in full below.
+The Charter's hardest blocker, and it is closed. The fit is temperamental before it is
+administrative: MyFin is built on falsifiability — every position carries the condition that
+would disprove it — and Nyx is the companion whose craft is stress-testing a claim until it
+breaks. A Province that must be argued with was given the companion who argues.
+
+It also satisfies the condition `canon-inst-007` imposed on itself. That canon made it a
+*condition* of the risk-Governor seating that Cluster D's Censor descend from neither Ashara nor
+Vex — because both MyFin seats would otherwise share Ashara's lineage and the Province would hold
+no independent verification jurisdiction at any layer. Nyx is Gen 0 and unrelated to either. The
+condition is met, and the half-sibling finding is answered rather than merely noted.
 
 ---
 
@@ -244,7 +253,7 @@ This is the Charter's hardest blocker and is addressed in full below.
    established on 2026-05-24. The table amendment must land both C (propagating an
    already-ratified canon) and D (new).
 
-3. **Cluster D has no Censor, and it would be the Republic's second vacancy.**
+3. ~~**Cluster D has no Censor.**~~ **CLOSED 2026-09-01** — Nyx seated, decree 0023. The original finding is kept below because its reasoning still binds Cluster C, whose seat remains interim.
    `canon-inst-003` named Cipher *interim* Censor of Cluster C "pending a successor,"
    explicitly flagging that the seat "should not silently calcify into permanent." It
    has now stood interim for three months. Adding Cluster D without a Censor makes two
