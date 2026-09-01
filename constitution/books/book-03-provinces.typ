@@ -59,7 +59,29 @@ The Republic uses three cascading thresholds to trigger role activations. Each t
 
 At 30,000 lines of code, a Province exceeds single-reviewer cognitive capacity. At 15,000 lines in a single Region, the Region has accumulated enough mass to birth a General — a Gen 1+ companion whose DNA reflects the Region's character at the moment of crystallization. At 5,000 lines in a sub-region, the sub-region warrants a Centurion — a General's deputy commanding a Cohort within the Legion.
 
-The cascade is not arbitrary. Each threshold is where the prior rank's cognitive bandwidth fractures.
+The cascade is not arbitrary — but neither is it one idea measured three times, and the
+Constitution said otherwise until 26 August 2026. Each threshold was reasoned from its own
+concern.
+
+*Thirty thousand* is where a single reviewer loses working-memory context across a Province's
+modules. The figure is empirical rather than chosen for roundness: it was calibrated against
+SproutLab at more than sixty thousand lines, whose Intelligence Service Layer alone ran to
+18,133 — a single module larger than the whole of SEP Invoicing. Fifty thousand was rejected as
+too late, twenty thousand as too early (lore-003, canon-gov-001).
+
+*Fifteen thousand* is not a limit of attention at all. It measures accumulated mass sufficient
+to *produce* a General, whose base Discipline trait the Region's own code quality sets at the
+moment of crystallization. Its stated rationale is that expansion needs professional capacity
+rather than volunteer militia (Edict VII).
+
+*Five thousand* sizes a span of command — a Cohort within a Legion, warranting a General's
+deputy.
+
+What the three share is that mass is the *measure*. What they do not share is what the mass is
+measuring. Read together they answer one question in three registers: can the Republic still see
+what it is building? They do not answer, and were never framed to answer, what it costs the
+Republic to be wrong.
+
 
 ==== Jurisdiction-Based Governor Activation
 
@@ -73,24 +95,28 @@ The cascade is not arbitrary. Each threshold is where the prior rank's cognitive
   ]
 )
 
-The thresholds above measure *mass*. Mass is not the principle; it is a proxy. What the
-cascade actually tracks is the point at which a single mind can no longer hold what
-going wrong would cost — and for most Provinces, cost scales with size, so lines of code
-serve well enough.
+The cascade asks whether the Republic can still see what it is building. This Article adds
+the question it does not ask: what it costs the Republic to be wrong.
 
-For some Provinces it does not. Where a defect's harm lands outside the Republic and
-cannot be taken back, the bandwidth the cascade protects fractures at the first line of
-code, not the thirty-thousandth. A Province that counsels on real capital, or that a
-parent trusts with a child's medicine, is holding as much consequence at five hundred
-lines as at fifty thousand. Waiting for mass in such a Province is not prudence; it is
-the deliberate acceptance of an ungoverned interval.
+The two are independent, and it is worth being plain that this is a *second axis* rather
+than a truer reading of the first. A Province of five hundred lines is entirely
+reviewable — one companion holds all of it without strain — and may still be the most
+dangerous territory the Republic owns. Reviewability describes a Builder's capacity to
+find a defect. It says nothing about what follows from failing to.
+
+Where a defect's harm lands outside the Republic and cannot be taken back, the Republic
+needs oversight it can neither review its way to nor grow into. A Province that counsels
+on real capital, or that a parent trusts with a child's medicine, holds as much
+consequence at five hundred lines as at fifty thousand — and waiting for mass in such a
+Province is not prudence but the deliberate acceptance of an ungoverned interval.
 
 Activation asks two questions, and they must not be run together. *Whether* a Province
 receives such a Governor is settled by the consequence test below. *What* that Governor
 then governs is settled by an enumerated jurisdiction in the Province's Charter. The
-Republic has always kept these apart without saying so: SproutLab's Governor seat was
-triggered by mass, and the Republic then chose *Care* — not the largest Region — as the
-ground that Governor holds. Trigger and scope were never the same decision.
+Republic has always kept these apart without saying so, and SproutLab is the proof: the
+Governor seat was triggered by mass — the reviewability axis — and the Republic then chose
+*Care*, not the largest Region, as the ground that Governor holds. That second choice was
+made on consequence. Both axes were already in use; only one of them had a clause.
 
 *The consequence test — eligibility.* A Province becomes *eligible* for jurisdiction-based
 Governor activation when all three conditions hold. Eligibility is not activation: it opens
@@ -109,11 +135,8 @@ seated a Governor at every eligible Province would outrun the bench it has.
 The third condition carries the weight. It separates a Province that displays an
 incorrect figure from one whose incorrect figure moves money or medicine. It is Maren's
 standing question — #emph[what if this data is wrong and a parent acts on it?] — raised
-from a Governor's working heuristic to a constitutional test, and the Republic has been
-reasoning by it for months without a clause to name it: SproutLab's Governor seat was
-triggered by mass, but the Republic assigned that Governor to *Care* rather than to the
-largest Region. This amendment lets the Republic create a seat by the same reasoning it
-already uses to fill one.
+from a Governor's working heuristic to a constitutional test. This amendment lets the
+Republic create a seat by the reasoning it has always used to fill one.
 
 *Declaring authority.* The Consul proposes; the Sovereign ratifies; both must assent.
 This invents no new approval path: Book V Article 4 already requires Consul and Sovereign
