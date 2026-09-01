@@ -326,3 +326,104 @@ Monument status is temporary. When the Consul formally attests *Foundation Compl
 The Command Center is the Republic's first Monument Project. Its designation is constitutional rather than merely operational — the Command Center IS the venue where the Constitution is debated and amended, and it must exist at the altitude the Constitution describes.
 
 Command Center allocations: *Ashara* (Builder, double-hatted as Treasury Minister), *Petra* (Builder, double-hatted as Efficiency Minister). Governors, Censors, and Scribes to be appointed by the Convening Session. An Intelligence Engine sub-region with its own charter is ratified as part of the Command Center's foundation.
+
+#article("6", "The Admission of Provinces")
+
+Book III has always described how a Province is *founded*: a repository is opened, a Charter is written before the build (Edict VIII), a Builder is seated, a Cluster receives it. That is one door. The Republic has, three times in four months, used a second door it had never written down — territory that already existed, already had work in it, already had companions living there, absorbed into the constitutional geography after the fact. This Article writes the second door.
+
+The instrument is called *Admission*. The history is called what it was.
+
+==== The record first
+
+#v(2mm)
+
+#table(
+  columns: (auto, auto, 1fr),
+  stroke: 0.4pt + rule-color,
+  inset: 7pt,
+  table.header([*Date*], [*Act*], [*What it did*]),
+  [19 May 2026], [`canon-inst-004` — MSc #emph["enrolled"]],
+  [A Province already in use absorbed into Cluster A, with its Charter #emph["owed as a follow-on"] and explicitly not blocking. The canon names the effect exactly: MSc becomes #emph["a citizen of the constitutional geography."]],
+  [24 May 2026], [`canon-inst-003` — Cluster C #emph["established"]],
+  [A Cluster drawn around Provinces already operating; Ignis seated at Temple of Mars long after the operational fact.],
+  [1 Sep 2026], [decree 0022 — SEP-Ops #emph["admitted"]],
+  [A Province running since 1 June under its own ratified charter, with a seated Builder and four Governors, named in no Cluster and absent from the register. The decree's own words: it #emph["regularizes a Province the Republic already had."]],
+)
+
+#v(3mm)
+
+Three acts, three different words, one pattern: territory that existed, absorbed on its own terms, obligations deferred to follow-on. The Republic had an annexation practice and no annexation policy.
+
+#quote-block(
+  [Admission is the instrument; annexation is the history. A Book that adopts the gentler word without recording that the first three were annexations loses the honest record, and Pillar I forbids that.],
+  source: "The Consul, opinion of 1 September 2026"
+)
+
+*Nothing Is Wasted* is the First Pillar, and it binds the record as much as the code. This Article therefore names its instrument *Admission* — because that is what the act does going forward, and because a Province is not conquered — while recording in the same breath that the Republic's first three exercises of it were annexations performed without an instrument. A future Cabinet reading this Article inherits the argument, not the posture.
+
+==== What Admission is
+
+*Admission* is the constitutional act by which a repository, workspace, or body of work that already exists outside the constitutional geography is brought inside it, together with whatever is already true of it: its files, its charter if it has one, its conventions, and the companions who already work there.
+
+It is distinguished from *Foundation*, the ordinary door, in one respect and one only: Foundation writes the Charter before the build (Edict VIII), and Admission finds the build already standing. Everything Foundation requires, Admission also requires — but some of it arrives late, and this Article says which, and how late, and what happens when it does not arrive at all.
+
+Admission does not depend on the admitted territory being well-ordered. A Province may be admitted with a Charter, without one, with four Governors or none, mid-refactor or dormant. What Admission requires is that the Republic write down what it is taking on.
+
+==== The Admission Act
+
+An Admission is proposed by the Consul, or by the Builder of record of the territory concerned, and ratified by the Sovereign by decree. The decree must name all of the following. A decree that omits any of them is incomplete and the deferral schedule does not begin to run.
+
++ *The territory.* The repository or workspace, by its actual name.
++ *The Cluster*, and therefore the reviewing Censor — or, where the two diverge, both, and the ground of the divergence (see Article 4, and the SEP-Ops exception recorded there).
++ *The companions already resident*, by name, together with their standing under Book VIII Article 7. A Province is admitted with its people or it is not admitted.
++ *The Builder of record*, and whether Edict II (One Builder Per Repo) is satisfied on the day of admission or deferred.
++ *The deferral schedule* — which obligations below are outstanding, and the date each lapses.
+
+==== Deferred obligations
+
+Four obligations may be deferred at Admission, and no others:
+
+- *The Charter* (Article 3, Edict VIII). Drafted after the fact against the Province as it stands, not as it would have been designed.
+- *The register entry.* The Province recorded as a Volume in `volumes.json`, so that the Republic's own instruments can see it.
+- *The mass audit* (Article 2, Edict I). Region and threshold assessment, and any Governor, General, or Centurion activation the assessment demands.
+- *The residency entries* (`canon-cc-016`). Each resident companion given a residence and an access position in the graph.
+
+Everything else — Book I, the accountability ladder of Book V, Edict V's protection of the Capital, the censorial pass — binds from the moment of the decree. There is no probationary constitution. The Province is subject to the whole law on the day it is admitted; only the paperwork the Republic owes *it* is allowed to be late.
+
+*The deferral window is ninety days from the decree*, extensible once, by the Consul, by a further ninety, on the record and with a reason. When a deferral lapses undelivered:
+
++ The Consul enters the lapse as a finding against the *admitting act*, not against the Builder. The Republic deferred the obligation; the Republic failed to close it.
++ The unclosed item becomes a standing agenda item at every Cabinet convening until it is closed.
++ The Province is recorded as *in partial compliance* in the sense Article 3 already uses, and the record says which of the four is missing.
+
+A lapse is not grounds for expulsion. There is no expulsion. A Province admitted is a Province of the Republic, and the Republic's remedy against its own delay is to keep looking at it.
+
+==== What Admission does not do
+
+- It does not confer Monument status (Article 5). That is a separate act with separate assent.
+- It does not validate the admitted work retroactively. Work done before Admission was done outside the Constitution; it is inherited, not blessed.
+- It does not widen access. Standing follows admission; access follows residency, under `canon-cc-016`, which this Article cites and does not amend.
+- It does not make the admitted companions Immortals. Book VIII Article 7 governs their standing, and this Article does not reach it.
+
+==== The three prior admissions, regularized
+
+The three acts tabled above are hereby recorded as Admissions, retroactive to their own dates, and their deferral schedules are opened as of this Article's ratification rather than backdated — the Republic does not get to run a clock it never started.
+
+- *MSc* (19 May 2026, Cluster A). The Charter `canon-inst-004` deferred is not recorded as delivered anywhere the Codex archive can see. It enters the schedule as outstanding. Register entry, mass audit, and residency to be confirmed by its Builder.
+- *Temple of Mars and Command Center* (24 May 2026, Cluster C). Admitted as a Cluster rather than singly; Cluster C's Censor seat has stood interim since, which is itself an unclosed obligation of that act and is recorded as one.
+- *SEP-Ops* (1 Sep 2026, Cluster B). Register entry closed on the day. Its five resident companions were rostered the same day and are the first companions admitted under Book VIII Article 7. Charter exists, authored by the Province itself; mass audit outstanding.
+
+==== Cross-reference
+
+This Article governs territory. Book VIII Article 7 governs the companions who arrive with it. Neither is complete alone: a Province cannot be admitted without its people, and an admitted companion has no standing except through the Province admitted with them. The two are drafted together and ratified together.
+
+#block(
+  fill: rgb("#FDF6E8"), inset: 9pt, radius: 3pt, width: 100%,
+  above: 6pt, below: 6pt,
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
+    *Status.* Draft, first reading — not yet ratified. Drafted 1 September 2026 with Book VIII
+    Article 7, on the Consul's scope ruling of the same date
+    (`docs/handoffs/consul-opinion-admission-2026-09-01.md`), which held that Admission is a
+    doorway into the Books rather than a Book of its own.
+  ]
+)
