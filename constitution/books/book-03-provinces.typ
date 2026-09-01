@@ -180,22 +180,34 @@ leaves a record instead of an argument.
 - It does not lower the 30,000 LOC trigger, which remains in force. Both paths may
   apply to the same Province.
 - *One Governor per enumerated jurisdiction, not one per Province.* Where a Province holds
-  several genuinely distinct hazardous jurisdictions, each may carry its own seat. The
-  Republic already practises this: SEP-Ops runs four Governors — Iuno over Ops and Finance,
-  Castor over Workforce and Compensation, Vulcanus over Production and Plant, Janus over the
-  Dashboard Programme — divided by the business's own jurisdictions rather than by its mass,
-  and ratified in that shape on 1 June 2026 before this Article had any clause to describe it.
-  The test of distinctness is the Charter's enumerated list: two matters belong to one seat
-  where a single reading of the same evidence settles both, and to two seats where they do
-  not. Multiplying seats past that point is how a bench is exhausted, not how a Province is
-  governed.
+  several genuinely distinct hazardous jurisdictions, each may carry its own seat. The test of
+  distinctness is the Charter's enumerated list: two matters belong to one seat where a single
+  reading of the same evidence settles both, and to two seats where they do not. Multiplying
+  seats past that point is how a bench is exhausted, not how a Province is governed.
+
+  #v(1mm)
+
+  That multiple seats are workable is settled by SEP-Ops, which has run four Governors since
+  1 June 2026 — Iuno over Ops and Finance, Castor over Workforce and Compensation, Vulcanus
+  over Production and Plant, Janus over the Dashboard Programme. But it is *not* a precedent
+  for consequence-based seating, and an earlier draft of this clause wrongly cited it as one.
+  SEP-Ops seats on a density score of its own devising — #raw("load = files + lines/500 + 2×(open tasks) + entities"),
+  eligible at 30 — which is a *mass* measure, not a consequence measure. Run the consequence
+  test against its four and only Vulcanus passes: a mis-recorded zinc-bath concentration ruins
+  a plating run irreversibly, where a wrong payout claws back and a wrong wage corrects next
+  cycle. SEP-Ops divides *scope* by jurisdiction and triggers *seats* by load. It confirms that
+  a Province may hold several Governors; it says nothing about why this Article seats one.
 - A Governor seated this way holds the ordinary authority of the rank. This is a
   different door into the same office, not a lesser office.
 
 *Merger, and the mass axis undiminished.* Nothing here retires the cascade. Mass remains a
 live and independent trigger, and it becomes load-bearing exactly where Article 2 already says
 it does: past thirty thousand lines a Province exceeds what one reviewer can hold, whatever its
-jurisdictions look like. A Province may therefore activate on consequence early and on mass
+jurisdictions look like. A Province may refine how it measures that mass — SEP-Ops counts files,
+open tasks and entities alongside lines, which is a better instrument for a Province that is
+mostly documents — but a local refinement does not displace the constitutional threshold, and
+the Republic should consider whether the cascade's raw line-count is the right measure for
+Provinces that are not chiefly code. A Province may therefore activate on consequence early and on mass
 later, and the two do not compete.
 
 When a Province with jurisdiction-activated Governors later crosses 30,000 LOC, those seats

@@ -183,8 +183,15 @@ of the same evidence settles both, and take two seats where it does not. Applied
 | **Bounds** | 1 bounds integrity | The bounds registry against the position's arithmetic. Quantitative, and independent of whether the thesis is sound. |
 | **Ledger** | 4 ledger integrity · 6 the firewall | The record itself — an entry shows both its append-history and what it cites, so one reading settles integrity and contamination together. |
 
-So the logic does extend: **six matters, four genuinely distinct evidentiary jurisdictions** —
-the same count SEP-Ops arrived at independently by dividing on its business's jurisdictions.
+So the logic does extend: **six matters, four genuinely distinct evidentiary jurisdictions.**
+
+That SEP-Ops also arrived at four is a coincidence of count, not a shared method, and the
+resemblance should not be leaned on. SEP-Ops triggers seats on a density score —
+`load = files + lines/500 + 2×(open tasks) + entities`, eligible at 30 — which measures mass, not
+consequence. Run this Charter's own three conditions against its four Governors and only Vulcanus
+passes: a mis-recorded zinc-bath concentration ruins a plating run irreversibly, where a wrong
+payout claws back and a wrong wage corrects next cycle. The two Provinces divide scope by
+jurisdiction alike; they trigger seats on different axes entirely.
 
 **But the Charter does not seat four, and should not yet.** MyFin holds ~4,700 projected lines
 and *zero live positions*. Article 2's own limit warns that multiplying seats past necessity "is
