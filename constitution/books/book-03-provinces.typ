@@ -411,7 +411,21 @@ The three acts tabled above are hereby recorded as Admissions, retroactive to th
 
 - *MSc* (19 May 2026, Cluster A). The Charter `canon-inst-004` deferred is not recorded as delivered anywhere the Codex archive can see. It enters the schedule as outstanding. Register entry, mass audit, and residency to be confirmed by its Builder.
 - *Temple of Mars and Command Center* (24 May 2026, Cluster C). Admitted as a Cluster rather than singly; Cluster C's Censor seat has stood interim since, which is itself an unclosed obligation of that act and is recorded as one.
-- *SEP-Ops* (1 Sep 2026, Cluster B). Register entry closed on the day. Its five resident companions were rostered the same day and are the first companions admitted under Book VIII Article 7. Charter exists, authored by the Province itself; mass audit outstanding.
+- *SEP-Ops* (1 Sep 2026, Cluster B). Register entry closed on the day. Its five resident companions were rostered the same day and are the first companions admitted under Book VIII Article 7. Charter exists, authored by the Province itself. *Mass audit and residency entries outstanding* — the five carry a `residence` field on their assignment blocks, but the residency table `canon-cc-016` names as its instrument does not yet record them, and a field set in a data file is not the canon updated.
+
+#block(
+  fill: rgb("#FDF6E8"), inset: 9pt, radius: 3pt, width: 100%,
+  above: 6pt, below: 8pt,
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
+    *A caution on the third deferral.* The residency obligation names `canon-cc-016` as its
+    instrument, and that canon's table is a snapshot taken at its own ratification on 17 April
+    2026 which has not been maintained since. It does not record CodeMike at MSc, Ignis's move to
+    Temple of Mars, Orinth's seating at Codex, MyFin, or any of the five admitted with SEP-Ops.
+    A ninety-day clock is worth nothing if it runs against a table nobody is keeping. Closing the
+    residency deferral for any Province therefore requires the table to be brought current first,
+    and the Republic should read this Article's own schedule as evidence that it has not been.
+  ]
+)
 
 ==== Cross-reference
 
