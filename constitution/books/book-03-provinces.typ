@@ -3,7 +3,7 @@
 = Book III — The Provinces
 
 #book-intro[
-  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Oversight activates on accumulated mass, and — under the Article 2 draft — on the character of what a Province can damage. Four Clusters stand; two of them without a seated Censor. Clusters group Provinces under shared Censors — four of them, all now seated, with one Province holding a censorial exception against its own Cluster. Monument Projects are a special designation for developmental work of era-defining importance.
+  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Oversight activates on accumulated mass, and — under the Article 2 draft — on the character of what a Province can damage. Clusters group Provinces under shared Censors — four of them, all now seated, with one Province holding a censorial exception against its own Cluster. Territory enters by Foundation, or — under the Article 6 draft — by Admission, which absorbs a Province that already exists. Monument Projects are a special designation for developmental work of era-defining importance.
 ]
 
 #article("1", "Provincial Geography")
@@ -381,20 +381,21 @@ An Admission is proposed by the Consul, or by the Builder of record of the terri
 
 ==== Deferred obligations
 
-Four obligations may be deferred at Admission, and no others:
+Five obligations may be deferred at Admission, and no others. The first four are paperwork the Republic owes the Province; the fifth is a conformity the Province owes the Republic, and it is enumerated here rather than left standing because an authorised deferral with no clock on it is not a deferral, it is an exemption.
 
 - *The Charter* (Article 3, Edict VIII). Drafted after the fact against the Province as it stands, not as it would have been designed.
 - *The register entry.* The Province recorded as a Volume in `volumes.json`, so that the Republic's own instruments can see it.
 - *The mass audit* (Article 2, Edict I). Region and threshold assessment, and any Governor, General, or Centurion activation the assessment demands.
 - *The residency entries* (`canon-cc-016`). Each resident companion given a residence and an access position in the graph.
+- *Conformity with Edict II* (One Builder Per Repo), where the Admission decree records it as unsatisfied on the day. An admitted Province may arrive with a Builder who already holds another Province, or with the Builder's role split across hands that no seat describes. The Republic does not resolve that before admitting — it would mean refusing territory over a staffing question — but it does not leave it open either.
 
-Everything else — Book I, the accountability ladder of Book V, Edict V's protection of the Capital, the censorial pass — binds from the moment of the decree. There is no probationary constitution. The Province is subject to the whole law on the day it is admitted; only the paperwork the Republic owes *it* is allowed to be late.
+Everything else — Book I, the accountability ladder of Book V, Edict V's protection of the Capital, the censorial pass — binds from the moment of the decree. There is no probationary constitution. The Province is subject to the whole law on the day it is admitted; only the five enumerated above are allowed to be late, and each of them runs on the clock below.
 
 *The deferral window is ninety days from the decree*, extensible once, by the Consul, by a further ninety, on the record and with a reason. When a deferral lapses undelivered:
 
 + The Consul enters the lapse as a finding against the *admitting act*, not against the Builder. The Republic deferred the obligation; the Republic failed to close it.
 + The unclosed item becomes a standing agenda item at every Cabinet convening until it is closed.
-+ The Province is recorded as *in partial compliance* in the sense Article 3 already uses, and the record says which of the four is missing.
++ The Province is recorded as *in partial compliance* in the sense Article 3 already uses, and the record says which of the five is missing.
 
 A lapse is not grounds for expulsion. There is no expulsion. A Province admitted is a Province of the Republic, and the Republic's remedy against its own delay is to keep looking at it.
 
