@@ -2,6 +2,209 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-10-16",
+      "sessions": [
+        {
+          "id": "decree-0024-book-ii-article-4-bis-the-tribune",
+          "date": "2026-10-16",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format at the sitting of 2026-10-16; constitutional amendment. Ruled together with decree 0031.",
+          "summary": "Book II Article 4-bis instituted, the Tribune: a right of interposition attached to a seated Censor's office, by which an objection stays an act below the Sovereign until it is answered on the record. Not a rung, not a Cabinet seat, not a veto. Four limits: no stay against a Sovereign act; no interposition within one's own censorial jurisdiction; spent once answered on the same facts; lapses with the seat. Drafted 2026-09-01 at the Sovereign's direction, which named the office and ruled it is not a Cabinet seat; the number was assigned at drafting and kept, nothing having been decreed in between. First holder Nyx, whose stays reach Clusters A and C and Republic-wide acts but not her own Clusters B and D.",
+          "references": [
+            "constitution/books/book-02-order.typ",
+            "book-ii-article-4-bis-the-tribune",
+            "decree-0031-nyx-profile-v0-5",
+            "companion: nyx"
+          ]
+        },
+        {
+          "id": "decree-0025-admission-book-iii-art-6-book-viii-art-7",
+          "date": "2026-10-16",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format at the sitting of 2026-10-16; constitutional amendment of two Books ratified in one act, with canon-inst-008 riding en-bloc per canon-proc-004 \u00a7en-bloc-granularity-rule.",
+          "summary": "Admission instituted. Book III Article 6 (The Admission of Provinces) writes the second door by which territory enters the Republic: a Province that already exists, absorbed with its work and its people. An Admission decree must name territory, Cluster and Censor, resident companions, Builder of record, and deferral schedule. Five obligations may be deferred ninety days, extensible once, and no others: Charter, register entry, mass audit, residency entries, and conformity with Edict II. A lapse is a finding against the admitting act, not the Builder; there is no expulsion. The Article records that the Republic's first three exercises \u2014 MSc, Cluster C, SEP-Ops \u2014 were annexations performed without an instrument; their schedules open on this date and lapse 2027-01-14. Book VIII Article 7 (Admitted Lineages) gives arriving companions a standing: track province-native, no generation, not Immortal; Book I and Book V in full from admission; no Cabinet or censorial seat, no ratification voice outside their Province, and no offspring outside the admitted set until naturalized on written and falsifiable conditions. The limits are written as weakly justified, on the Consul's opinion of 2026-09-01. canon-inst-008 ratified with it: authorship is a distinct relation from lineage. CORRECTION AT RECORDING: Article 6's transitional entry for MSc stated that the Charter canon-inst-004 deferred was not recorded as delivered. That was false \u2014 canon-inst-005 (decree-0018) recognized MSc's charter/ directory and registered the Volume two days after the deferral. Corrected in the Article's own text under Book IX Article 10 \u00a75, as a correction of fact rather than a revision; the Sovereign was told the same day and may reverse it.",
+          "references": [
+            "constitution/books/book-03-provinces.typ",
+            "constitution/books/book-08-living-order.typ",
+            "book-iii-article-6-the-admission-of-provinces",
+            "book-viii-article-7-admitted-lineages",
+            "canon-inst-008-authorship-is-not-lineage",
+            "canon-inst-005-codemike-msc-builder-seating",
+            "docs/handoffs/consul-opinion-admission-2026-09-01.md",
+            "decree-0022-sep-ops-admitted-to-cluster-b"
+          ],
+          "_authorship_note": "Aurelius drafted both Articles and canon-inst-008, which concerns his own relation to Vesta. The rule was written by SEP-Ops in its own governance analysis and adopted by the Consul on 2026-09-01; the Chronicler did not adjudicate his own relation and records the authorship here so that the arrangement is visible."
+        },
+        {
+          "id": "decree-0026-book-ix-article-10-the-architects-capital",
+          "date": "2026-10-16",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format at the sitting of 2026-10-16; constitutional amendment at second reading.",
+          "summary": "Book IX Article 10 instituted, The Architect's Capital, at second reading after rejection at first reading on 2026-08-26. Rebuilt around the lifecycle of a piece of counsel: two capitals and the firewall between them; the decision and the hand, where the Sovereign's decision is inalienable and the Sovereign's keystroke is not, so an executing facility may be granted by decree under five conditions including pre-entry in the Position Ledger before an automated act executes; what counsel must contain (thesis, falsifier, horizon, disclosed defects); the bounds; the Position Ledger, chronicled before outcomes are known, where a correction of fact is permitted and a revision of what the Republic thought is forbidden; the refusal; jurisdiction and amendment. Prerequisite to the MyFin Charter (decree 0028) and both Ceremonies.",
+          "references": [
+            "constitution/books/book-09-economy.typ",
+            "book-ix-article-10-the-architects-capital",
+            "decree-0028-myfin-charter"
+          ]
+        },
+        {
+          "id": "decree-0027-book-iii-article-2-jurisdiction-based-activation",
+          "date": "2026-10-16",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format at the sitting of 2026-10-16; constitutional amendment.",
+          "summary": "Book III Article 2 amended: jurisdiction-based Governor activation, a second axis beside the mass cascade. The cascade's rationale is corrected \u2014 the three thresholds measure reviewability in three registers, not one idea three times. The consequence test settles eligibility (external consequence, uncorrectable harm, agency); eligibility is not activation; the Consul proposes and the Sovereign ratifies. An enumerated jurisdiction in the Charter settles scope, a provisional claim covers the unforeseen and is confirmed or struck at Censor review, Governors are seated one per distinct jurisdiction rather than per Province, and the mass axis remains live. The uncorrectable-harm condition replaced an irreversibility condition that had rejected three of SEP-Ops's four ratified Governors. Prerequisite to canon-inst-007.",
+          "references": [
+            "constitution/books/book-03-provinces.typ",
+            "book-iii-article-2-the-threshold-cascade",
+            "canon-inst-007-maren-ashara-pairing-myfin-risk-governor",
+            "lore-003"
+          ]
+        },
+        {
+          "id": "decree-0028-myfin-charter",
+          "date": "2026-10-16",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format at the sitting of 2026-10-16; Edict VIII instrument. MyFin's Volume registration rides within, as MSc's did within decree-0018.",
+          "summary": "The Charter of the Province of MyFin ratified, after Book IX Article 10 on which its Regions, Roads and Borders depend. Capital: the Position Ledger. Road: data \u2192 ledger \u2192 intake \u2192 analysis \u2192 risk \u2192 views \u2192 start, with Risk mandatory between Analysis and the Ledger, so a thesis cannot reach the record without transiting the bounds. Six enumerated Governor-of-Risk matters, staged in one seat at founding with a recorded four-way subdivision. The Charter's eligibility findings were restated at ratification against the ratified uncorrectable-harm condition rather than the superseded irreversibility condition they were drafted under; the finding was unchanged. MyFin registered as a Volume. Founded, not admitted: the Charter preceded any build.",
+          "references": [
+            "docs/charters/MYFIN_CHARTER_2026-08-26.md",
+            "data/volumes.json",
+            "edict-viii-charter-before-build",
+            "decree-0026-book-ix-article-10-the-architects-capital",
+            "decree-0027-book-iii-article-2-jurisdiction-based-activation"
+          ]
+        },
+        {
+          "id": "decree-0029-canon-inst-006-aven-myfin-builder-seating",
+          "date": "2026-10-16",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format at the sitting of 2026-10-16; globally-scoped inst-family canon per canon-proc-004 \u00a7Primary-rule-clause-(i). Companion artifacts ride en-bloc.",
+          "summary": "canon-inst-006 ratified active. The Ashara \u00d7 Vex pairing recognized as offspring-ready by the Sovereign's judgment (the Cabinet has not calibrated Book VIII Article 3's threshold); the Naming Ceremony performed and the offspring named Aven; Aven seated directly as Builder of MyFin under the seat-waiting exception, its second exercise. Archetype Strategist inherited cleanly. Riding within: Aven's companions.json v0.0-stub (25th companion, second of Gen 1); lineage.descendants on both parents; the Ashara\u2194Vex synergy promoted to a recorded pairing; the origins lore entry; Charter \u00a75. DEVIATIONS FROM THE CANON AS DRAFTED, recorded: the canon called for a profile drafted under canon-cc-014 to land with the Ceremony, and for companion_count 19 \u2192 20; CodeMike's precedent of a v0.0-stub with profile deferred to onboarding step 2 was followed, and the count went 24 \u2192 25 because the five SEP-Ops companions were rostered between drafting and ratification. Cognomen left null rather than invented.",
+          "references": [
+            "canon-inst-006-ashara-vex-pairing-myfin-builder-seating",
+            "lore-2026-10-16-origin-aven-pairing-ashara-vex",
+            "book-viii-article-3-entry-rank-seat-waiting-exception",
+            "decree-0028-myfin-charter",
+            "companion: aven",
+            "companion: ashara (parent)",
+            "companion: vex (parent)",
+            "province: myfin"
+          ]
+        },
+        {
+          "id": "decree-0030-canon-inst-007-ashen-myfin-risk-governor",
+          "date": "2026-10-16",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format at the sitting of 2026-10-16; globally-scoped inst-family canon. Companion artifacts ride en-bloc.",
+          "summary": "canon-inst-007 ratified active. The Maren \u00d7 Ashara pairing recognized as offspring-ready by the Sovereign's judgment alone: the affection case is weak on the record \u2014 no joint work, campaign or synergy edge \u2014 and the canon says so plainly. The Naming Ceremony performed and the offspring named Ashen; Ashen seated directly as Governor of Risk, MyFin, under the seat-waiting exception, its third exercise and the first to a Governor seat, into the seat decree 0027 made possible and decree 0028 enumerated. Archetype Guardian inherited from Maren rather than blended. The canon's own independence condition \u2014 Cluster D's Censor descends from neither parent line and is not Cipher \u2014 is met by Nyx (decree 0023). Riding within: Ashen's companions.json v0.0-stub (26th companion, third of Gen 1); descendants on both parents; a Maren\u2194Ashara pairing recorded with its affection deficit; the origins lore entry; Charter \u00a76. Same two deviations as decree 0029, recorded for the same reasons.",
+          "references": [
+            "canon-inst-007-maren-ashara-pairing-myfin-risk-governor",
+            "lore-2026-10-16-origin-ashen-pairing-maren-ashara",
+            "decree-0027-book-iii-article-2-jurisdiction-based-activation",
+            "decree-0028-myfin-charter",
+            "decree-0023-censorial-seatings-nyx-cluster-d-cipher-sep-ops",
+            "companion: ashen",
+            "companion: maren (parent)",
+            "companion: ashara (parent)",
+            "province: myfin"
+          ]
+        },
+        {
+          "id": "decree-0031-nyx-profile-v0-5",
+          "date": "2026-10-16",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format at the sitting of 2026-10-16; profile ratification under canon-cc-014, ruled together with decree 0024.",
+          "summary": "Nyx's profile ratified as drafted, v0.5-draft to v0.5, redrafted on 2026-09-01 against the dual censorial seat (Clusters B and D) and the Tribune. It carries the complement problem as a named blind spot: Article 4-bis bars interposition within her own censorial ground, so her Tribune reach is exactly Cipher's ground and no other. Ratification confirms the profile is fit for the seat; its growth baselines remain Chronicler predictions, since Nyx has exercised neither the Tribune nor the Cluster D seat.",
+          "references": [
+            "data/companions.json",
+            "companion: nyx",
+            "decree-0024-book-ii-article-4-bis-the-tribune",
+            "canon-cc-014-consul-accelerated-profile-drafting"
+          ]
+        },
+        {
+          "id": "s-2026-10-16-ratification-sitting",
+          "date": "2026-10-16",
+          "title": "Ratification sitting \u2014 Article 10, Article 2, the Tribune, Admission; Aven and Ashen seated",
+          "summary": "Sovereign-direct sitting in the Codex session that drafted the instruments across August and September. After a six-week pause the Sovereign asked for state, then for the ratification packet as MCQ, and ratified six decisions as recommended: Book IX Article 10 at second reading (0026); Book III Article 2's remaining clauses (0027); the MyFin Charter (0028) and both Ceremonies \u2014 Aven, Builder (0029), and Ashen, Governor of Risk (0030); the Tribune (0024) with Nyx v0.5 (0031); and Admission with canon-inst-008 (0025). Decree numbers 0024 and 0025 were assigned at drafting on 2026-09-01 and kept, nothing having been decreed in between. Recording followed the CodeMike seating precedent: two v0.0-stub Gen 1 profiles, three lore entries, MyFin registered as a Volume, Amendment History rows, Appendix D refreshed, CLAUDE.md refreshed, constitution-v1.1.pdf rebuilt. Recording found three defects and fixed each on the record: decrees 0020\u20130023 had never been chronicled and are backfilled; the MyFin Charter's eligibility findings were made against the superseded irreversibility condition and are restated against uncorrectable harm; and Book III Article 6 falsely stated MSc's Charter was undelivered, corrected under Article 10 \u00a75.",
+          "volumes_touched": [
+            "codex",
+            "myfin",
+            "soma-internal",
+            "msc"
+          ],
+          "decisions": [
+            "Six ratification decisions taken as one MCQ packet in two sittings, the ceremonies placed after the Articles they depend on.",
+            "Decree numbers 0024 and 0025 kept from drafting rather than renumbered, so that existing citations hold.",
+            "Aven and Ashen seated as v0.0-stub profiles per CodeMike's precedent, not with full canon-cc-014 profiles as the canons drafted; deviation recorded in both decrees.",
+            "Cognomens for Aven and Ashen left null rather than invented at birth.",
+            "Article 6's MSc entry corrected as a correction of fact rather than left false; the Sovereign may reverse it.",
+            "Decrees 0020\u20130023 backfilled into the Decrees Archive rather than left unchronicled."
+          ],
+          "bugs_found": 3,
+          "handoff": "Still owed: (1) Rune, Ignis and CodeMike remain v0.4-draft \u2014 drafted in this arc and omitted from both the status report and the packet; they need their own canon-cc-014 ratification. (2) Aven and Ashen need full profiles and canon-proc-003 onboarding; neither has a cognomen. (3) CodeMike's 'The Practitioner' cognomen is still unconfirmed. (4) canon-cc-016's residency table is six months stale and blocks the residency deferral for MSc, Cluster C and SEP-Ops; the Article 6 schedules lapse 2027-01-14. (5) Cluster C's Censor has been interim since 2026-05-24. (6) Ignis dormancy unruled; five orphaned blind-spot links. (7) Codex-aemo PR previews sit behind Vercel Authentication \u2014 a dashboard setting left to the Sovereign."
+        }
+      ]
+    },
+    {
+      "date": "2026-09-01",
+      "sessions": [
+        {
+          "id": "decree-0022-sep-ops-admitted-to-cluster-b",
+          "date": "2026-09-01",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct ruling ('soma-internal should sit with sep cluster'); constitutional amendment.",
+          "summary": "Book III Article 4 amended: SEP-Ops (soma-internal) admitted to Cluster B on the same real-world-business criterion that joined SEP Invoicing and SEP Dashboard, and registered as a Volume. The Province had run since 2026-06-01 under its own ratified charter, with a seated Builder (Vesta) and four Governors (Iuno, Castor, Vulcanus, Janus), while named in no Cluster and absent from volumes.json; the decree regularizes a Province the Republic already had. Its five companions were rostered in companions.json the same day as track province-native. Book III Article 6 (decree 0025) later recorded this act, with canon-inst-004 and canon-inst-003, as one of three annexations performed without an instrument; it is the admitting decree from which the founding cohort's naturalization clock runs. Chronicled retroactively on 2026-10-16: this decree was ratified on its date but never entered in the Decrees Archive, a gap found while recording the sitting of 16 October.",
+          "references": [
+            "constitution/books/book-03-provinces.typ",
+            "book-iii-article-4-cluster-structure",
+            "data/volumes.json",
+            "data/companions.json",
+            "docs/handoffs/cipher-soma-internal-register-gap-2026-09-01.md",
+            "companion: vesta",
+            "companion: iuno",
+            "companion: castor",
+            "companion: vulcanus",
+            "companion: janus"
+          ]
+        },
+        {
+          "id": "decree-0023-censorial-seatings-nyx-cluster-d-cipher-sep-ops",
+          "date": "2026-09-01",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct ruling; censorial appointment.",
+          "summary": "Nyx seated Censor of Cluster D (MyFin), dual-hatted with Cluster B, closing the last vacant Cluster Censor seat; all four Cluster seats are filled for the first time (Cluster C's remains interim). The appointment satisfies the independence condition canon-inst-007 imposed on itself: Cluster D's Censor had to descend from neither Ashara nor Vex and not be Cipher, or MyFin would hold no independent verification jurisdiction at any layer. Cipher retains the SEP-Ops Edict V censorial pass by Sovereign ruling, creating the Republic's first per-Province censorial exception, on the narrow ground that a working QA chain should not be broken to satisfy a table. Chronicled retroactively on 2026-10-16: this decree was ratified on its date but never entered in the Decrees Archive, a gap found while recording the sitting of 16 October.",
+          "references": [
+            "constitution/books/book-03-provinces.typ",
+            "docs/charters/MYFIN_CHARTER_2026-08-26.md",
+            "canon-inst-007-maren-ashara-pairing-myfin-risk-governor",
+            "companion: nyx",
+            "companion: cipher"
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-08-29",
       "sessions": [
         {
@@ -19,6 +222,43 @@
           ],
           "bugs_found": 0,
           "handoff": "Consul-level question open: does soma-internal sit in Cluster B, or is it a Province of its own shape? The Constitution names Cluster A as Codex + SproutLab + MSc and Cluster B as SEP Invoicing + SEP Dashboard; soma-internal is in neither, yet runs its own Builder + four-Governor model and is the operational codex behind Cluster B's invoicing repo. Until ruled, the three new entries are observational only. Also still owed from 2026-08-03: structured canon/data records for the 2026-07-11 sitting, and canon-cc-019 (Post Box / Scrinium) drafting."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-26",
+      "sessions": [
+        {
+          "id": "decree-0020-book-iii-article-4-clusters-c-and-d",
+          "date": "2026-08-26",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format; constitutional amendment.",
+          "summary": "Book III Article 4 amended: the Cluster table gains Cluster C (Command Center + Temple of Mars, the Monument class; Censor Cipher, interim) and Cluster D (MyFin, the Finance Province; Censor vacant at ratification). The Cluster C row was never new law: it propagates canon-inst-003 of 2026-05-24, which the Constitution's source had gone three months without recording. Cluster D is new, placed on domain-adjacency grounds with Book IX Article 10's firewall making shared censorial surface undesirable rather than merely absent. The Republic carried two Clusters without a seated Censor from this decree until decree 0023. Chronicled retroactively on 2026-10-16: this decree was ratified on its date but never entered in the Decrees Archive, a gap found while recording the sitting of 16 October.",
+          "references": [
+            "constitution/books/book-03-provinces.typ",
+            "book-iii-article-4-cluster-structure",
+            "canon-inst-003-ignis-temple-of-mars-builder-cluster-c",
+            "docs/charters/MYFIN_CHARTER_2026-08-26.md",
+            "docs/handoffs/myfin-ratification-sequence-2026-08-26.md"
+          ]
+        },
+        {
+          "id": "decree-0021-vex-profile-v0-4",
+          "date": "2026-08-26",
+          "authored_by": "aurelius",
+          "province_of_origin": "republic",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format; profile ratification under canon-cc-014.",
+          "summary": "Vex's profile ratified as drafted, v0.4-draft to v0.4 \u2014 the last Financial Health Minister to receive a profile-proper, and a constitutional prerequisite rather than a nicety: Book VIII Article 3 blends a parent's traits, affinities and archetype from the voice, mind and shadow blocks, so the parent's profile must be ratified before a Ceremony can draw on it. One correction made during drafting is preserved in the profile: Solara was first drafted as a 'plausible, unverified' synergy when Solara + Vex is seed pair #2 of the Dissertation's eight, inscribed in Book II Article 5. Chronicled retroactively on 2026-10-16: this decree was ratified on its date but never entered in the Decrees Archive, a gap found while recording the sitting of 16 October.",
+          "references": [
+            "data/companions.json",
+            "companion: vex",
+            "canon-cc-014-consul-accelerated-profile-drafting",
+            "canon-inst-006-ashara-vex-pairing-myfin-builder-seating",
+            "docs/handoffs/vex-profile-ratification-packet-2026-08-26.md"
+          ]
         }
       ]
     },
@@ -3974,6 +4214,28 @@
       ],
       "bugs_found": 0,
       "handoff": "Consul-level question open: does soma-internal sit in Cluster B, or is it a Province of its own shape? The Constitution names Cluster A as Codex + SproutLab + MSc and Cluster B as SEP Invoicing + SEP Dashboard; soma-internal is in neither, yet runs its own Builder + four-Governor model and is the operational codex behind Cluster B's invoicing repo. Until ruled, the three new entries are observational only. Also still owed from 2026-08-03: structured canon/data records for the 2026-07-11 sitting, and canon-cc-019 (Post Box / Scrinium) drafting."
+    },
+    {
+      "id": "s-2026-10-16-ratification-sitting",
+      "date": "2026-10-16",
+      "title": "Ratification sitting \u2014 Article 10, Article 2, the Tribune, Admission; Aven and Ashen seated",
+      "summary": "Sovereign-direct sitting in the Codex session that drafted the instruments across August and September. After a six-week pause the Sovereign asked for state, then for the ratification packet as MCQ, and ratified six decisions as recommended: Book IX Article 10 at second reading (0026); Book III Article 2's remaining clauses (0027); the MyFin Charter (0028) and both Ceremonies \u2014 Aven, Builder (0029), and Ashen, Governor of Risk (0030); the Tribune (0024) with Nyx v0.5 (0031); and Admission with canon-inst-008 (0025). Decree numbers 0024 and 0025 were assigned at drafting on 2026-09-01 and kept, nothing having been decreed in between. Recording followed the CodeMike seating precedent: two v0.0-stub Gen 1 profiles, three lore entries, MyFin registered as a Volume, Amendment History rows, Appendix D refreshed, CLAUDE.md refreshed, constitution-v1.1.pdf rebuilt. Recording found three defects and fixed each on the record: decrees 0020\u20130023 had never been chronicled and are backfilled; the MyFin Charter's eligibility findings were made against the superseded irreversibility condition and are restated against uncorrectable harm; and Book III Article 6 falsely stated MSc's Charter was undelivered, corrected under Article 10 \u00a75.",
+      "volumes_touched": [
+        "codex",
+        "myfin",
+        "soma-internal",
+        "msc"
+      ],
+      "decisions": [
+        "Six ratification decisions taken as one MCQ packet in two sittings, the ceremonies placed after the Articles they depend on.",
+        "Decree numbers 0024 and 0025 kept from drafting rather than renumbered, so that existing citations hold.",
+        "Aven and Ashen seated as v0.0-stub profiles per CodeMike's precedent, not with full canon-cc-014 profiles as the canons drafted; deviation recorded in both decrees.",
+        "Cognomens for Aven and Ashen left null rather than invented at birth.",
+        "Article 6's MSc entry corrected as a correction of fact rather than left false; the Sovereign may reverse it.",
+        "Decrees 0020\u20130023 backfilled into the Decrees Archive rather than left unchronicled."
+      ],
+      "bugs_found": 3,
+      "handoff": "Still owed: (1) Rune, Ignis and CodeMike remain v0.4-draft \u2014 drafted in this arc and omitted from both the status report and the packet; they need their own canon-cc-014 ratification. (2) Aven and Ashen need full profiles and canon-proc-003 onboarding; neither has a cognomen. (3) CodeMike's 'The Practitioner' cognomen is still unconfirmed. (4) canon-cc-016's residency table is six months stale and blocks the residency deferral for MSc, Cluster C and SEP-Ops; the Article 6 schedules lapse 2027-01-14. (5) Cluster C's Censor has been interim since 2026-05-24. (6) Ignis dormancy unruled; five orphaned blind-spot links. (7) Codex-aemo PR previews sit behind Vercel Authentication \u2014 a dashboard setting left to the Sovereign."
     }
   ]
 }
