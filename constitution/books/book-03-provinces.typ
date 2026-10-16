@@ -3,7 +3,7 @@
 = Book III — The Provinces
 
 #book-intro[
-  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Oversight activates on accumulated mass, and — under the Article 2 draft — on the character of what a Province can damage. Clusters group Provinces under shared Censors — four of them, all now seated, with one Province holding a censorial exception against its own Cluster. Territory enters by Foundation, or — under the Article 6 draft — by Admission, which absorbs a Province that already exists. Monument Projects are a special designation for developmental work of era-defining importance.
+  Book III establishes the geography of the Republic. Every Province is an app or repository. Every Province has internal structure — a Capital, Regions, Borders, and Roads. Every Province must be charted before Builders may work it substantially. Oversight activates on accumulated mass, and — by Article 2's consequence test — on the character of what a Province can damage. Clusters group Provinces under shared Censors — four of them, all now seated, with one Province holding a censorial exception against its own Cluster. Territory enters by Foundation, or by Admission (Article 6), which absorbs a Province that already exists. Monument Projects are a special designation for developmental work of era-defining importance.
 ]
 
 #article("1", "Provincial Geography")
@@ -86,12 +86,13 @@ Republic to be wrong.
 ==== Jurisdiction-Based Governor Activation
 
 #block(
-  fill: rgb("#FBF3E8"), inset: 9pt, radius: 3pt, width: 100%,
+  fill: rgb("#EEF4EE"), inset: 9pt, radius: 3pt, width: 100%,
   above: 6pt, below: 10pt,
-  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
-    *Draft — not yet ratified.* Proposed 26 August 2026 as the constitutional
-    prerequisite to seating a Governor of Risk at MyFin (canon-inst-007, pending).
-    Until decreed, the mass cascade above is the sole activation path.
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: success)[
+    *Ratified 16 October 2026, decree 0027.* Proposed 26 August 2026 as the constitutional
+    prerequisite to seating a Governor of Risk at MyFin, and walked clause by clause before
+    ratification. First exercised the same day: the MyFin Charter enumerated the jurisdiction
+    (decree 0028) and canon-inst-007 seated Ashen into it (decree 0030).
   ]
 )
 
@@ -410,7 +411,7 @@ A lapse is not grounds for expulsion. There is no expulsion. A Province admitted
 
 The three acts tabled above are hereby recorded as Admissions, retroactive to their own dates, and their deferral schedules are opened as of this Article's ratification rather than backdated — the Republic does not get to run a clock it never started.
 
-- *MSc* (19 May 2026, Cluster A). The Charter `canon-inst-004` deferred is not recorded as delivered anywhere the Codex archive can see. It enters the schedule as outstanding. Register entry, mass audit, and residency to be confirmed by its Builder.
+- *MSc* (19 May 2026, Cluster A). Two of `canon-inst-004`'s deferrals were closed two days later by `canon-inst-005` (decree 0018), which formally recognized MSc's `charter/` directory as satisfying Edict VIII and registered the Province as a Volume. *Mass audit and residency entries outstanding* — CodeMike carries a residence field, but the `canon-cc-016` table does not record him. Edict II is satisfied: CodeMike is MSc's sole Builder. #emph[Corrected at recording, 16 October 2026: as ratified, this entry said the deferred Charter was not recorded as delivered anywhere the Codex archive could see. That was false — the drafting looked for a file in] `docs/charters/` #emph[and did not read the seating canon. Under Book IX Article 10 §5 this is a correction, not a revision: it changes what the record says about a fact, not what the Republic decided, and it closes two deferrals the schedule had wrongly opened.]
 - *Temple of Mars and Command Center* (24 May 2026, Cluster C). Admitted as a Cluster rather than singly; Cluster C's Censor seat has stood interim since, which is itself an unclosed obligation of that act and is recorded as one.
 - *SEP-Ops* (1 Sep 2026, Cluster B). Register entry closed on the day. Its five resident companions were rostered the same day and are the first companions admitted under Book VIII Article 7. Charter exists, authored by the Province itself. *Mass audit and residency entries outstanding* — the five carry a `residence` field on their assignment blocks, but the residency table `canon-cc-016` names as its instrument does not yet record them, and a field set in a data file is not the canon updated.
 
@@ -433,12 +434,14 @@ The three acts tabled above are hereby recorded as Admissions, retroactive to th
 This Article governs territory. Book VIII Article 7 governs the companions who arrive with it. Neither is complete alone: a Province cannot be admitted without its people, and an admitted companion has no standing except through the Province admitted with them. The two are drafted together and ratified together.
 
 #block(
-  fill: rgb("#FDF6E8"), inset: 9pt, radius: 3pt, width: 100%,
-  above: 6pt, below: 6pt,
-  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
-    *Status.* Draft, first reading — not yet ratified. Drafted 1 September 2026 with Book VIII
-    Article 7, on the Consul's scope ruling of the same date
+  fill: rgb("#EEF4EE"), inset: 9pt, radius: 3pt, width: 100%,
+  above: 6pt, below: 10pt,
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: success)[
+    *Ratified 16 October 2026, decree 0025*, in one act with Book VIII Article 7 and
+    `canon-inst-008`. Drafted 1 September 2026 on the Consul's scope ruling of the same date
     (`docs/handoffs/consul-opinion-admission-2026-09-01.md`), which held that Admission is a
-    doorway into the Books rather than a Book of its own.
+    doorway into the Books rather than a Book of its own. The deferral schedules of the three
+    prior admissions open on the date of ratification and lapse on *14 January 2027* unless the
+    Consul extends them, once, to 14 April 2027.
   ]
 )

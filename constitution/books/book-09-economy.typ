@@ -3,7 +3,7 @@
 = Book IX — The Economy and Motivation
 
 #book-intro[
-  Book IX is the Republic's economic and motivational constitution. It names the theory of motivation (what drives action), the dual ledger (real money and compute usage), the three maturation phases (Patronage, Contribution, Sovereign Economy), the monthly budget flow, the Collector role, the Architect's Dividend, and — in draft — the bounds on counsel touching the Architect's personal capital. Every governance structure requires a theory of why people act within it. This is ours.
+  Book IX is the Republic's economic and motivational constitution. It names the theory of motivation (what drives action), the dual ledger (real money and compute usage), the three maturation phases (Patronage, Contribution, Sovereign Economy), the monthly budget flow, the Collector role, the Architect's Dividend, and the bounds on counsel touching the Architect's personal capital. Every governance structure requires a theory of why people act within it. This is ours.
 ]
 
 #article("1", "The Theory of Motivation")
@@ -214,15 +214,15 @@ The Collector reports campaign economics as part of the monthly Cabinet cycle. T
 #article("10", "The Architect's Capital")
 
 #block(
-  fill: rgb("#FBF3E8"), inset: 9pt, radius: 3pt, width: 100%,
+  fill: rgb("#EEF4EE"), inset: 9pt, radius: 3pt, width: 100%,
   above: 6pt, below: 10pt,
-  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
-    *Draft, second reading — not yet ratified.* The first draft was rejected on
-    26 August 2026 and this Article is rebuilt rather than edited. Three clauses were
-    named at rejection: the separation of counsel and hand, the Position Ledger's
-    correction rule, and the standing recusal. All three are reworked below, and the
-    Article is reorganized around the lifecycle of a single piece of counsel rather
-    than around topics. Until decreed, no companion holds the mandate it defines.
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: success)[
+    *Ratified 16 October 2026 at second reading, decree 0026.* The first draft was rejected on
+    26 August 2026 and this Article was rebuilt rather than edited. Three clauses were named at
+    rejection — the separation of counsel and hand, the Position Ledger's correction rule, and the
+    standing recusal — and all three were reworked, the Article reorganized around the lifecycle
+    of a single piece of counsel rather than around topics. The §2 executing gate was audited
+    before ratification. The mandate it defines is held by MyFin from its Charter (decree 0028).
   ]
 )
 

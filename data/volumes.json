@@ -1449,7 +1449,7 @@
         "register-backfill"
       ],
       "repo": "rishabh1804/soma-internal",
-      "current_phase": "Operational. Registered as a Volume 2026-09-01 on the Sovereign's Cluster B ruling, backfilling an absence found by the Cipher censorial pass of the same day. The two questions open at registration have since been answered on this same branch: the Censor question is settled by decree 0023 — Nyx holds Cluster B, Cipher retains the SEP-Ops Edict V pass, the Republic's first per-Province censorial exception — and the five seated companions (Vesta, Iuno, Castor, Vulcanus, Janus) are rostered in companions.json as the founding cohort of Book VIII Article 7. The Aurelius/Vesta founding-Builder lineage is answered by canon-inst-008 (authorship is not lineage; founding Builders descend from the Architect), which is drafted and pending ratification with decree 0025. Outstanding: the mass audit and the canon-cc-016 residency entries, both open deferrals under Book III Article 6.",
+      "current_phase": "Operational. Registered as a Volume 2026-09-01 on the Sovereign's Cluster B ruling, backfilling an absence found by the Cipher censorial pass of the same day. The two questions open at registration have since been answered on this same branch: the Censor question is settled by decree 0023 — Nyx holds Cluster B, Cipher retains the SEP-Ops Edict V pass, the Republic's first per-Province censorial exception — and the five seated companions (Vesta, Iuno, Castor, Vulcanus, Janus) are rostered in companions.json as the founding cohort of Book VIII Article 7. The Aurelius/Vesta founding-Builder lineage is settled by canon-inst-008 (authorship is not lineage; founding Builders descend from the Architect), ratified 2026-10-16 with decree 0025. Outstanding under Book III Article 6, whose deferral schedule opened at that ratification: the mass audit and the canon-cc-016 residency entries, lapsing 2027-01-14 unless the Consul extends them once. The five are the founding cohort of Book VIII Article 7; naturalization eligibility opens no earlier than 2027-02-28.",
       "chapters": [],
       "todos": [],
       "shelf_history": [
@@ -1460,6 +1460,36 @@
         }
       ],
       "design_principles": null
+    },
+    {
+      "id": "myfin",
+      "name": "MyFin",
+      "shelf": "active",
+      "description": "The Finance Province — counsel on the Architect's personal capital, held outside the Treasury and exposed to markets the Republic does not control. Advisory only: it names positions, each carrying a thesis, a falsifier and a horizon, and records every one in the Position Ledger before its outcome is known. It never moves capital; the Sovereign's decision is inalienable (Book IX Article 10 §2). Cluster D. Repo rishabh1804/MyFin (private).",
+      "domain_color": "#5F7F6A",
+      "tags": [
+        "finance",
+        "personal-capital",
+        "advisory",
+        "cluster-d"
+      ],
+      "repo": "rishabh1804/MyFin",
+      "current_phase": "Chartered and seated 2026-10-16. Greenfield — one README at charter time (HEAD e685dc5). Builder Aven (canon-inst-006, decree 0029) and Governor of Risk Ashen (canon-inst-007, decree 0030), both Gen 1 and both in 'appointed' onboarding status under canon-proc-003; Censor Nyx (decree 0023). Zero live positions and no executing grant. Projected ~4,700 LOC across Ledger (Capital), Intake, Analysis, Risk and Interface; the Road data → ledger → intake → analysis → risk → views → start makes Risk mandatory between Analysis and the Ledger. Projected LOC to be replaced by measured figures at the first Censor review.",
+      "chapters": [],
+      "todos": [],
+      "shelf_history": [
+        {
+          "shelf": "active",
+          "date": "2026-10-16",
+          "reason": "Registered as a Volume on the ratification of its Charter (decree 0028) at the sitting of 16 October 2026, with its Builder and Governor of Risk seated the same day. Founded rather than admitted: the Charter was drafted on 2026-08-26 before any build, against a one-file greenfield repository, as Edict VIII requires — the ordinary door, not Book III Article 6's."
+        }
+      ],
+      "design_principles": {
+        "status": "draft",
+        "spec_path": "docs/charters/MYFIN_CHARTER_2026-08-26.md",
+        "republic_principles_applied": true,
+        "notes": "Edict VIII Charter ratified 2026-10-16 (decree 0028). Its Regions, Roads and Borders derive from Book IX Article 10 rather than from discovered geography. Aven's design-principles verification is the canon-proc-003 step 5 task, as it was for CodeMike at MSc."
+      }
     }
   ]
 }

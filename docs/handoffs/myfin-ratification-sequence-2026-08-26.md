@@ -2,7 +2,8 @@
 
 **Drafted:** 2026-08-26 by Aurelius (Chronicler)
 **Covers:** the finance-and-markets seat work, Stages 0–3
-**Status:** every instrument below is DRAFT or PENDING. Nothing binds the Republic.
+**Status:** ALL RATIFIED as of 2026-10-16 — see *Rulings of 2026-10-16* below. Every instrument in the chain binds the Republic.
+*Originally:* every instrument below was DRAFT or PENDING.
 
 ---
 
@@ -18,6 +19,40 @@ Every ordering constraint below is an instance of that same rule. This page exis
 the chain can be walked without reconstructing the dependencies each time.
 
 ---
+
+## Rulings of 2026-10-16
+
+The Sovereign took the remainder of the chain at one sitting, put as an MCQ packet in two rounds so
+that the Ceremonies were asked after the Articles they depend on. Every decision ratified as
+recommended.
+
+| # | Instrument | Ruling | Decree |
+|---|---|---|---|
+| 2 | Book IX Art. 10 — second reading | **RATIFIED** | 0026 |
+| 7 | Book III Art. 2 — remaining clauses | **RATIFIED as drafted** | 0027 |
+| 5 | MyFin Charter | **RATIFIED**; MyFin registered as a Volume | 0028 |
+| 6 | canon-inst-006 — Ashara × Vex | **RATIFIED**; offspring **Aven**, seated Builder | 0029 |
+| 8 | canon-inst-007 — Maren × Ashara | **RATIFIED**; offspring **Ashen**, seated Governor of Risk | 0030 |
+| — | Book II Art. 4-bis — the Tribune | **RATIFIED** with Nyx v0.5 (0031) | 0024 |
+| — | Admission — Book III Art. 6 + Book VIII Art. 7 + canon-inst-008 | **RATIFIED as drafted** | 0025 |
+
+Item 4 (the Cluster D Censor) closed on 2026-09-01 with Nyx, decree 0023. **The chain is complete.**
+
+Three defects were found while recording and fixed on the record rather than shipped:
+
+1. **The Charter's eligibility findings tested MyFin against "irreversibility"** — the condition
+   ratified Article 2 replaced with *uncorrectable harm*. Restated against the ratified test;
+   MyFin passes it as it passed the old one. Its seat-count section likewise said only Vulcanus
+   of SEP-Ops's four passed, which ratified Article 2 contradicts; restated.
+2. **Book III Art. 6 said MSc's Charter was undelivered.** canon-inst-005 recognized MSc's
+   `charter/` directory two days after canon-inst-004 deferred it. Corrected under Article 10 §5
+   as a correction of fact, recorded in the Article's own text.
+3. **Decrees 0020–0023 were never chronicled** in the Decrees Archive. Backfilled.
+
+Two deviations from the Ceremony canons as drafted, recorded in decrees 0029 and 0030: both
+offspring seated as `v0.0-stub` per CodeMike's precedent rather than with full canon-cc-014
+profiles, and companion_count went 24 → 26, not 19 → 20, because SEP-Ops's five were rostered
+between drafting and ratification.
 
 ## Rulings of 2026-08-26
 

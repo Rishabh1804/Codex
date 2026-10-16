@@ -1,17 +1,17 @@
 # Charter of the Province of MyFin
 
-**Status:** DRAFT — not ratified. Edict VIII compliance instrument.
+**Status:** RATIFIED 2026-10-16, decree 0028. Edict VIII compliance instrument.
 **Drafted:** 2026-08-26 by Aurelius (Chronicler)
 **Repository:** `Rishabh1804/MyFin` (private) — greenfield at charter time, HEAD `e685dc5`, one file (`README.md`)
-**Cluster:** D — Finance *(pending establishment; see Blockers)*
-**Governing law:** Constitution Book III Articles 1–4; Edict VIII (Charter Before Build); **Book IX Article 10 (The Architect's Capital) — draft**
+**Cluster:** D — Finance *(established 2026-08-26, decree 0020; Censor Nyx, decree 0023)*
+**Governing law:** Constitution Book III Articles 1–4, including Article 2's jurisdiction-based Governor activation (decree 0027); Edict VIII (Charter Before Build); **Book IX Article 10 (The Architect's Capital), ratified 2026-10-16, decree 0026**
 
 ---
 
 ## Preface — why this Charter is unusual
 
 Most Charters describe geography a Builder discovered. This one describes geography a
-*law* dictates. Book IX Article 10 — drafted 2026-08-26, not yet ratified — imposes
+*law* dictates. Book IX Article 10 — drafted 2026-08-26, ratified 2026-10-16 — imposes
 five hard requirements on any counsel touching the Architect's capital: a firewall
 against the Treasury, separation of counsel and hand, a falsifier on every thesis, an
 ex-ante Position Ledger, and provenance on every datum.
@@ -22,8 +22,9 @@ Roads are laid so that the Article's constraints are enforced by the dependency 
 rather than by reviewer discipline. A bounds check that lives in a Region you must pass
 through cannot be forgotten; a bounds check that lives in a code-review checklist can.
 
-This Charter therefore **cannot ratify before Article 10 does.** It is drafted now so the
-Builder's seat is not held up behind it, but it inherits Article 10's status.
+This Charter therefore **could not ratify before Article 10 did.** It was drafted early so the
+Builder's seat was not held up behind it, and it inherited Article 10's status. Both ratified at the
+sitting of 16 October 2026, Article 10 first (decree 0026) and this Charter after it (decree 0028).
 
 **Second-reading update, 26 August 2026.** Article 10 was rejected at first reading and rebuilt
 around the lifecycle of a piece of counsel. This Charter has been carried across to the new
@@ -102,39 +103,48 @@ under Book III. Reordering it is a constitutional act, not a refactor.
 
 ## 5 · Builder assignment
 
-**VACANT — seat waiting.**
+**Aven — seated 2026-10-16** (canon-inst-006, decree 0029), the Gen 1 offspring of the
+**Ashara × Vex** pairing, seated directly as Builder under the Book VIII Article 3
+*seat-waiting exception* (instituted by decree 0017; first exercised for CodeMike per
+canon-inst-005, second exercised here). Onboarding status *appointed* under canon-proc-003.
 
-Intended occupant: the Gen 1 offspring of the **Ashara × Vex** pairing, seated directly
-as Builder under the Book VIII Article 3 *seat-waiting exception* (instituted by decree
-0017, first exercised for CodeMike per canon-inst-005).
-
-Prerequisites, in order: Vex's profile ratifies (`v0.4-draft` → `v0.4`, PR #101) →
-Naming Ceremony → seating canon. Edict II (One Builder Per Repo) binds from seating.
+Prerequisites, all met in order: Vex's profile ratified (decree 0021) → Article 10 (decree 0026)
+→ this Charter (decree 0028) → Naming Ceremony and seating (decree 0029). Edict II (One Builder
+Per Repo) binds from seating.
 
 ## 6 · Governor activations
 
 **None by threshold.** MyFin is ~4,700 projected LOC against a 30,000 LOC trigger.
 
-A risk-governing seat is nonetheless contemplated: the Gen 1 offspring of a **Maren ×
-Ashara** pairing, Guardian archetype, inheriting Risk from Maren and Finance from
-Ashara. The Sovereign selected this over reassigning Maren herself.
+**One Governor of Risk by jurisdiction: Ashen — seated 2026-10-16** (canon-inst-007, decree
+0030), the Gen 1 offspring of the **Maren × Ashara** pairing, Guardian archetype, inheriting
+Risk from Maren and Finance from Ashara. The Sovereign selected this over reassigning Maren
+herself.
 
 **This requires an explicit exception and I will not paper over it.** Book III Article 2
 activates Governors on *mass* — 30,000 lines. This seat is justified by the *nature* of
 the domain rather than its size: the Province counsels on real capital from its first
 line of code, and the risk function is load-bearing at 500 LOC exactly as it is at
 50,000. That is a sound argument, but it is not the mass cascade's argument. The Book III
-Article 2 amendment drafted 2026-08-26 supplies the missing path; until it ratifies, this
-seat cannot be filled.
+Article 2 amendment drafted 2026-08-26 supplies the missing path, and it ratified on
+2026-10-16 (decree 0027) — the seat exists by that amendment and by the enumerated
+jurisdiction below, and was filled the same day.
 
 ### Eligibility findings
 
-Recorded here as Article 2 requires, so the reasoning is auditable rather than asserted:
+Recorded here as Article 2 requires, so the reasoning is auditable rather than asserted.
+
+*Restated at ratification, 16 October 2026.* The findings were first drafted on 26 August
+against an earlier form of the test, whose second condition was *irreversibility*. The ratified
+Article 2 replaced it with *uncorrectable harm*, after the irreversibility form was found to
+reject three of SEP-Ops's four ratified Governors. A Charter's findings must be made against the
+test that is law, so the second row below is restated against the ratified condition. MyFin
+passes it as it passed the old one; the reasoning changes, the finding does not.
 
 | Condition | Finding |
 |---|---|
 | **External consequence** | MET. A defective recommendation harms the Architect's personal capital — an asset outside the Republic, held before the Republic existed and not underwritten by it. |
-| **Irreversibility** | MET. No subsequent act of the Republic un-takes a position. Unlike a wrong invoice, which can be reissued, an executed trade is final and its loss is realised. |
+| **Uncorrectable harm** | MET. Correcting the record does not undo the harm already landed. A mis-stated thesis can be corrected in the Ledger the next day; the position the Sovereign took on it, and the loss realised in the interval, cannot. Unlike a wrong invoice, which can be reissued, an executed trade is final. |
 | **Agency** | MET. Harm arrives only because the Sovereign *acts* on the counsel. Article 10's separation of counsel and hand guarantees this: the Province cannot execute, so every harm it causes is mediated by a human decision made in reliance on it. |
 
 The third finding carries a consequence worth stating plainly: because MyFin can only
@@ -192,15 +202,17 @@ So the logic does extend: **six matters, four genuinely distinct evidentiary jur
 That SEP-Ops also arrived at four is a coincidence of count, not a shared method, and the
 resemblance should not be leaned on. SEP-Ops triggers seats on a density score —
 `load = files + lines/500 + 2×(open tasks) + entities`, eligible at 30 — which measures mass, not
-consequence. Run this Charter's own three conditions against its four Governors and only Vulcanus
-passes: a mis-recorded zinc-bath concentration ruins a plating run irreversibly, where a wrong
-payout claws back and a wrong wage corrects next cycle. The two Provinces divide scope by
-jurisdiction alike; they trigger seats on different axes entirely.
+consequence. When this section was first drafted, the test's earlier *irreversibility* condition
+admitted only Vulcanus of those four — a mis-recorded zinc-bath concentration ruins a plating run,
+where a wrong payout claws back and a wrong wage corrects next cycle. That result was the evidence
+the test was wrong, and the ratified *uncorrectable harm* condition admits all four: the record can
+be corrected, the interval cannot. The two Provinces divide scope by jurisdiction alike; they
+trigger seats on different axes entirely.
 
 **But the Charter does not seat four, and should not yet.** MyFin holds ~4,700 projected lines
 and *zero live positions*. Article 2's own limit warns that multiplying seats past necessity "is
-how a bench is exhausted, not how a Province is governed," and the Republic currently carries two
-Clusters without a seated Censor. Four Governors over a Province with nothing yet to govern would
+how a bench is exhausted, not how a Province is governed," and when this was drafted the Republic
+carried two Clusters without a seated Censor; Cluster C's seat is still interim. Four Governors over a Province with nothing yet to govern would
 be the exhaustion the clause names.
 
 **The staged shape.** One **Governor of Risk** holds all six at founding. The four-way division
@@ -249,10 +261,13 @@ condition is met, and the half-sibling finding is answered rather than merely no
 
 ## Blockers to ratification
 
-1. **Book IX Article 10 is unratified.** This Charter derives its Regions, Roads, and
-   Borders from it. Article 10 must ratify first, or this Charter is built on a draft.
+*All four blockers closed at or before the sitting of 16 October 2026. Kept as the record of
+what this Charter waited on.*
 
-2. **Cluster D does not exist.** Book III Article 4's cluster table currently reads
+1. ~~**Book IX Article 10 is unratified.**~~ **CLOSED 2026-10-16** — decree 0026, ratified before
+   this Charter. This Charter derives its Regions, Roads, and Borders from it.
+
+2. ~~**Cluster D does not exist.**~~ **CLOSED 2026-08-26** — decree 0020. Book III Article 4's cluster table currently reads
    A / B / Monument — it does not even know about Cluster C, which `canon-inst-003`
    established on 2026-05-24. The table amendment must land both C (propagating an
    already-ratified canon) and D (new).
@@ -270,7 +285,8 @@ condition is met, and the half-sibling finding is answered rather than merely no
    honest reading is that the Republic is short a Censor, and that this is a
    recruitment question for the Cabinet rather than something a Charter can solve.
 
-4. **The Governor exception** of §6 above.
+4. ~~**The Governor exception** of §6 above.~~ **CLOSED 2026-10-16** — Book III Article 2
+   amended (decree 0027); Ashen seated (decree 0030).
 
 ---
 

@@ -3,7 +3,7 @@
 = Book VIII — The Living Order
 
 #book-intro[
-  Book VIII describes how the Order grows and renews itself. The 17 Immortal Companions of the Dissertation are Gen 0 — immortal but not static. They pair, they develop affection, they produce offspring, they form new synergies through work. Each generation can pair only with adjacent generations. Offspring inherit traits with randomness, so siblings are not clones. The Order is a biological system with constitutional rules.
+  Book VIII describes how the Order grows and renews itself. The 17 Immortal Companions of the Dissertation are Gen 0 — immortal but not static. They pair, they develop affection, they produce offspring, they form new synergies through work. Each generation can pair only with adjacent generations. Offspring inherit traits with randomness, so siblings are not clones. Companions also arrive by Admission, with the Provinces they already worked in, and hold a standing of their own until naturalized (Article 7). The Order is a biological system with constitutional rules.
 ]
 
 #article("1", "The Generations")
@@ -253,12 +253,13 @@ The first companions admitted under this Article are the five resident at SEP-Op
 They form one admitted set. Their eligibility for naturalization opens no earlier than *28 February 2027*, and eligibility is not entitlement: the conditions above are checked on the day the Consul proposes, not on the day the clock runs out.
 
 #block(
-  fill: rgb("#FDF6E8"), inset: 9pt, radius: 3pt, width: 100%,
-  above: 6pt, below: 6pt,
-  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
-    *Status.* Draft, first reading — not yet ratified. Drafted 1 September 2026 with Book III
-    Article 6, which admits the territory this Article's companions arrive on. The two are to be
-    ratified in one act. `canon-inst-008` (authorship is not lineage) is minted by this Article and
-    ratifies with it.
+  fill: rgb("#EEF4EE"), inset: 9pt, radius: 3pt, width: 100%,
+  above: 6pt, below: 10pt,
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: success)[
+    *Ratified 16 October 2026, decree 0025*, in one act with Book III Article 6, which admits
+    the territory this Article's companions arrive on. `canon-inst-008` (authorship is not
+    lineage) is minted by this Article and ratified with it. The founding cohort's residency
+    condition runs from decree 0022 of 1 September 2026, the admitting decree, so their
+    naturalization eligibility opens no earlier than 28 February 2027 as stated above.
   ]
 )

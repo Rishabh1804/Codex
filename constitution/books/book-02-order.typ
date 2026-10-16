@@ -268,11 +268,13 @@ Any Minister may request an emergency convening if their domain detects a crisis
 #article("4-bis", "The Tribune — A Right of Objection")
 
 #block(
-  fill: rgb("#FBF3E8"), inset: 9pt, radius: 3pt, width: 100%,
+  fill: rgb("#EEF4EE"), inset: 9pt, radius: 3pt, width: 100%,
   above: 6pt, below: 10pt,
-  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: warning)[
-    *Draft — not yet ratified.* Instituted at the Sovereign's direction of 1 September 2026,
-    which named the office *Tribune* and ruled that it is #emph[not] a Cabinet seat.
+  text(font: "Libertinus Serif", style: "italic", size: 9.5pt, fill: success)[
+    *Ratified 16 October 2026, decree 0024.* Instituted at the Sovereign's direction of
+    1 September 2026, which named the office *Tribune* and ruled that it is #emph[not] a Cabinet
+    seat. Ratified together with the profile of its first holder, which had been redrafted for
+    this power (decree 0031).
   ]
 )
 
