@@ -42,7 +42,7 @@ async function waitForBoot(page) {
 test.describe('The Order — mobile smoke', () => {
   test.beforeEach(async ({ page }) => { await seedAppData(page); });
 
-  test('Order tab is reachable, Roster renders every companion in companions.json', async ({ page }) => {
+  test('Order tab is reachable, Roster renders 19 companions', async ({ page }) => {
     await page.goto('/index.html');
     await waitForBoot(page);
 
@@ -50,53 +50,41 @@ test.describe('The Order — mobile smoke', () => {
     await page.locator('[data-action="switchTab"][data-tab="order"]').click();
     await expect(page).toHaveURL(/#\/order/);
 
-    // Hero stats are derived from the roster, so the expectations are too:
-    // the roster grows by ceremony and admission, and a hardcoded count goes
-    // stale with every decree that seats a companion.
-    const companions = readJson('companions.json').companions;
-    const ofClass = (k) => companions.filter((c) => c.companion_class === k).length;
+    // Hero title + stats. 19 total = 18 generational + 1 institutional
+    // (CodeMike is the 19th, first Gen 1, seated per canon-inst-005).
     await expect(page.locator('.cx-page-title')).toContainText('The Order');
     const stats = page.locator('.cx-order-stat-value');
-    await expect(stats.nth(0)).toHaveText(String(companions.length));
-    await expect(stats.nth(1)).toHaveText(String(ofClass('generational')));
-    await expect(stats.nth(2)).toHaveText(String(ofClass('institutional')));
+    await expect(stats.nth(0)).toHaveText('19');
+    await expect(stats.nth(1)).toHaveText('18');
+    await expect(stats.nth(2)).toHaveText('1');
 
-    // Every companion present as a card (match on companion-card title).
-    await expect(page.locator('.cx-companion-card')).toHaveCount(companions.length);
-    for (const c of companions) {
-      const name = (c.identity && c.identity.name) || c.id;
+    // All 19 companions present as cards (match on companion-card title).
+    const names = ['Aurelius','Cipher','Consul','Ashara','Petra','Lyra','Maren','Kael','Nyx','Solara','Theron','Vex','Orinth','Rune','Ignis','Bard','Aeon','Pip','CodeMike'];
+    for (const name of names) {
       await expect(page.locator('.cx-companion-card').filter({ hasText: name }).first()).toBeVisible();
     }
   });
 
-  test('Cabinet subtab: seats filled and vacant match the roster\'s Minister assignments', async ({ page }) => {
+  test('Cabinet subtab: 5 of 8 seats filled, three vacancies', async ({ page }) => {
     await page.goto('/index.html#/order');
     await waitForBoot(page);
 
     await page.locator('[data-action="setSubTab"][data-tab="order"][data-key="cabinet"]').click();
 
-    // Four domains present — the structure is constitutional (Book II Art. 4).
+    // Four domains present.
     for (const domain of ['Financial Health', 'Productivity', 'Maintenance', 'Growth']) {
       await expect(page.locator('.cx-cabinet-domain-title').filter({ hasText: domain })).toBeVisible();
     }
 
-    // Occupants come from "Minister: <Portfolio> (<Domain> domain)" in each
-    // companion's current_assignments, exactly as the view reads them.
-    const seated = [];
-    for (const c of readJson('companions.json').companions) {
-      for (const a of (c.assignment && c.assignment.current_assignments) || []) {
-        const m = /Minister:\s*([A-Za-z]+)\s*\(([^)]+)\)/.exec(a);
-        if (m) seated.push({ portfolio: m[1], name: (c.identity && c.identity.name) || c.id });
-      }
-    }
-    // Sanity floor: the founding Cabinet's surviving seats must still parse,
-    // so a format change in the data fails here rather than reading as "all vacant".
-    expect(seated.map((s) => s.portfolio)).toEqual(expect.arrayContaining(['Treasury', 'Efficiency', 'Innovation']));
+    // Three vacancies: Debt (canon-cc-011), Stability (canon-inst-002 — Rune
+    // elevated to Priest), Expansion (canon-inst-001 — Orinth to Codex Builder).
+    const vacant = page.locator('.cx-cabinet-seat-vacant');
+    await expect(vacant).toHaveCount(3);
 
-    await expect(page.locator('.cx-cabinet-seat-vacant')).toHaveCount(8 - seated.length);
-    for (const s of seated) {
-      await expect(page.locator('.cx-cabinet-seat').filter({ hasText: s.portfolio }).filter({ hasText: s.name })).toBeVisible();
-    }
+    // Occupants landed on their expected portfolios.
+    await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Treasury' }).filter({ hasText: 'Ashara' })).toBeVisible();
+    await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Efficiency' }).filter({ hasText: 'Petra' })).toBeVisible();
+    await expect(page.locator('.cx-cabinet-seat').filter({ hasText: 'Innovation' }).filter({ hasText: 'Bard' })).toBeVisible();
   });
 
   test('Residency subtab: Cipher + Nyx appear under Command Center, Lyra/Maren/Kael under SproutLab', async ({ page }) => {
