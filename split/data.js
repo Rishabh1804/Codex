@@ -53,6 +53,17 @@ function escHtml(str) {
 }
 function escAttr(str) { return escHtml(str); }
 
+/* --- Constitution reader (constitution/reader/, built from the Typst source) ---
+   The app is served from the repo root; split/ builds are one level down. */
+function constitutionUrl(anchor) {
+  var base = /\/split\/[^\/]*$/.test(location.pathname) ? '../constitution/reader/' : 'constitution/reader/';
+  return base + (anchor ? '#' + anchor : '');
+}
+/* An inline citation that opens the reader at one provision, e.g. ('b2-art-4', 'Book II Article 4'). */
+function constitutionCite(anchor, label) {
+  return '<a class="cx-cite-link" href="' + escAttr(constitutionUrl(anchor)) + '" target="_blank" rel="noopener">' + escHtml(label) + '</a>';
+}
+
 function localDateStr(date) {
   var d = date || new Date();
   return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');

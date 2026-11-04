@@ -1050,6 +1050,9 @@ body {
 .cx-order-stat-value{font-family:var(--ff-heading);font-size:var(--fs-lg);font-weight:700;color:var(--accent);line-height:1}
 .cx-order-stat-label{font-size:var(--fs-2xs);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px;margin-top:var(--sp-4);text-align:center}
 .cx-order-hero-meta{font-size:var(--fs-xs);color:var(--text-tertiary);margin-top:var(--sp-8);font-style:italic}
+.cx-order-constitution{gap:var(--sp-4);margin-top:var(--sp-8);padding-left:0;text-decoration:none}
+.cx-order-constitution svg{width:16px;height:16px}
+.cx-cite-link{color:var(--accent);text-decoration:underline;text-decoration-color:var(--accent-light);text-underline-offset:2px}
 
 /* Subtab bar reuses cx-subtab-row/cx-subtab-pill from Forum Pattern */
 
@@ -1343,6 +1346,17 @@ function escHtml(str) {
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 function escAttr(str) { return escHtml(str); }
+
+/* --- Constitution reader (constitution/reader/, built from the Typst source) ---
+   The app is served from the repo root; split/ builds are one level down. */
+function constitutionUrl(anchor) {
+  var base = /\/split\/[^\/]*$/.test(location.pathname) ? '../constitution/reader/' : 'constitution/reader/';
+  return base + (anchor ? '#' + anchor : '');
+}
+/* An inline citation that opens the reader at one provision, e.g. ('b2-art-4', 'Book II Article 4'). */
+function constitutionCite(anchor, label) {
+  return '<a class="cx-cite-link" href="' + escAttr(constitutionUrl(anchor)) + '" target="_blank" rel="noopener">' + escHtml(label) + '</a>';
+}
 
 function localDateStr(date) {
   var d = date || new Date();
@@ -5859,6 +5873,7 @@ function renderOrderHeader(companions) {
   if (meta.updated) {
     html += '<div class="cx-order-hero-meta">Roster updated ' + escHtml(formatAbsoluteDate(meta.updated)) + '</div>';
   }
+  html += '<a class="cx-link-btn cx-order-constitution" href="' + escAttr(constitutionUrl()) + '" target="_blank" rel="noopener">' + cx('scroll') + ' Read the Constitution</a>';
   html += '</div>';
   return html;
 }
@@ -5976,7 +5991,7 @@ function renderOrderCabinetSubTab(companions) {
   });
   html += '</div>';
 
-  html += '<div class="cx-cabinet-footnote">Cabinet structure per Constitution Book II Article 4 and working-papers.typ. Vacancies chronicled per canon-cc-011.</div>';
+  html += '<div class="cx-cabinet-footnote">Cabinet structure per Constitution ' + constitutionCite('b2-art-4', 'Book II Article 4') + ' and working-papers.typ. Vacancies chronicled per canon-cc-011.</div>';
 
   return html;
 }
@@ -6131,7 +6146,7 @@ function renderOrderLadderSubTab(companions) {
 
   html += '</div>';
 
-  html += '<div class="cx-ladder-footnote">Single-ladder per Constitution Book II Article 1. The Scribe rung is a worker tier (Article 3-bis), not a roster. Military-track parallel (General/Centurion) and Treasury parallel (Collector) not yet seated.</div>';
+  html += '<div class="cx-ladder-footnote">Single-ladder per Constitution ' + constitutionCite('b2-art-1', 'Book II Article 1') + '. The Scribe rung is a worker tier (' + constitutionCite('b2-art-3-bis', 'Article 3-bis') + '), not a roster. Military-track parallel (General/Centurion) and Treasury parallel (Collector) not yet seated.</div>';
 
   return html;
 }
