@@ -14,6 +14,16 @@
 #let error = rgb("#B84C4C")
 #let subtle = rgb("#F0EBE3")
 
+// ============ OUTPUT TARGET ============
+// The same source compiles to two targets. PDF is the default and is
+// untouched by everything below. The reader (constitution/reader/) compiles
+// with `--features html --input target=html`; every helper then emits a
+// semantic element with a class the reader's stylesheet owns, and figures
+// are laid out by Typst itself as SVG plates so they stay faithful to print.
+#let html-mode = sys.inputs.at("target", default: "pdf") == "html"
+
+#let _h(tag, cls, body, ..attrs) = html.elem(tag, attrs: (class: cls, ..attrs.named()), body)
+
 // ============ DOCUMENT SETUP ============
 #let constitution-doc(
   title: "Constitution of the Republic of Codex",
@@ -23,6 +33,13 @@
   body
 ) = {
   set document(title: title, author: author)
+  if html-mode {
+    show block.where(fill: rgb("#EEF4EE")): it => _h("aside", "notice notice-ratified", it.body)
+    show block.where(fill: rgb("#FDF6E8")): it => _h("aside", "notice notice-pending", it.body)
+    show align: it => if it.alignment == right { _h("div", "signature", it.body) } else { _h("div", "colophon", it.body) }
+    show line: none
+    body
+  } else {
   set page(
     paper: "a4",
     margin: (left: 22mm, right: 22mm, top: 28mm, bottom: 22mm),
@@ -88,10 +105,12 @@
     })
   }
   body
+  }
 }
 
 // ============ SPECIAL BLOCKS ============
 #let ratified(date: "15 April 2026") = {
+  if html-mode { return _h("p", "status status-ratified", [Ratified #date], data-date: date) }
   block(fill: rgb("#EEF4EE"), inset: 10pt, radius: 4pt, width: 100%, {
     set text(font: "Libertinus Serif", style: "italic", weight: "bold", size: 11pt, fill: success)
     align(center)[RATIFIED #sym.dot.c #date]
@@ -99,6 +118,7 @@
 }
 
 #let open-status() = {
+  if html-mode { return _h("p", "status status-open", [Open for continuation]) }
   block(fill: rgb("#FBF3E8"), inset: 10pt, radius: 4pt, width: 100%, {
     set text(font: "Libertinus Serif", style: "italic", weight: "bold", size: 11pt, fill: warning)
     align(center)[OPEN FOR CONTINUATION]
@@ -106,6 +126,12 @@
 }
 
 #let pillar(numeral, title, body) = {
+  if html-mode {
+    return _h("section", "pillar", {
+      _h("h4", "pillar-title", [#_h("span", "pillar-num", [Pillar #numeral]) #title])
+      _h("div", "pillar-body", body)
+    }, data-numeral: numeral)
+  }
   block(
     fill: bg-card, inset: 12pt, radius: 4pt, width: 100%,
     above: 8pt, below: 10pt,
@@ -117,6 +143,7 @@
 }
 
 #let canon-block(body) = {
+  if html-mode { return _h("div", "canon-block", body) }
   block(fill: bg-card, inset: 10pt, radius: 3pt, width: 100%,
     above: 6pt, below: 8pt,
     text(font: "Libertinus Serif", size: 10.5pt, fill: ink, body)
@@ -124,6 +151,12 @@
 }
 
 #let edict(numeral, title, body) = {
+  if html-mode {
+    return _h("section", "edict", {
+      _h("h4", "edict-title", [#_h("span", "edict-num", [Edict #numeral]) #title])
+      _h("div", "edict-body", body)
+    }, data-numeral: numeral)
+  }
   block(
     stroke: (left: 2pt + accent),
     inset: (left: 12pt, rest: 8pt),
@@ -136,6 +169,12 @@
 }
 
 #let quote-block(body, source: none) = {
+  if html-mode {
+    return _h("figure", "quote", {
+      html.elem("blockquote", body)
+      if source != none { html.elem("figcaption", source) }
+    })
+  }
   block(
     stroke: (left: 1pt + accent-light),
     inset: (left: 14pt, rest: 4pt),
@@ -150,10 +189,12 @@
 }
 
 #let article(num, title) = {
+  if html-mode { return _h("h3", "article", title, data-num: num) }
   heading(level: 2, numbering: none)[Article #num #sym.dot.c #title]
 }
 
 #let book-intro(body) = {
+  if html-mode { return _h("div", "book-intro", body) }
   block(
     fill: subtle, inset: 10pt, radius: 3pt, width: 100%,
     above: 4pt, below: 12pt,
@@ -167,6 +208,18 @@
 }
 
 #let fig-frame(body, caption: none) = {
+  if html-mode {
+    // Laid out by Typst as SVG, so the diagram matches print exactly.
+    return _h("figure", "plate", {
+      _h("div", "plate-art", html.frame({
+        // Alignment is restyled rather than re-emitted, so the colophon
+        // rule above never sees an align element inside a plate.
+        show align: it => { set align(it.alignment); it.body }
+        block(fill: rgb("#FCFAF7"), inset: 10pt, width: 162mm, align(center, body))
+      }))
+      if caption != none { html.elem("figcaption", caption) }
+    })
+  }
   block(
     fill: rgb("#FCFAF7"),
     stroke: 0.5pt + rule-color,
