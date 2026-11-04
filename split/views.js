@@ -3019,6 +3019,7 @@ function renderOrderHeader(companions) {
   if (meta.updated) {
     html += '<div class="cx-order-hero-meta">Roster updated ' + escHtml(formatAbsoluteDate(meta.updated)) + '</div>';
   }
+  html += '<a class="cx-link-btn cx-order-constitution" href="' + escAttr(constitutionUrl()) + '" target="_blank" rel="noopener">' + cx('scroll') + ' Read the Constitution</a>';
   html += '</div>';
   return html;
 }
@@ -3136,7 +3137,7 @@ function renderOrderCabinetSubTab(companions) {
   });
   html += '</div>';
 
-  html += '<div class="cx-cabinet-footnote">Cabinet structure per Constitution Book II Article 4 and working-papers.typ. Vacancies chronicled per canon-cc-011.</div>';
+  html += '<div class="cx-cabinet-footnote">Cabinet structure per Constitution ' + constitutionCite('b2-art-4', 'Book II Article 4') + ' and working-papers.typ. Vacancies chronicled per canon-cc-011.</div>';
 
   return html;
 }
@@ -3291,7 +3292,7 @@ function renderOrderLadderSubTab(companions) {
 
   html += '</div>';
 
-  html += '<div class="cx-ladder-footnote">Single-ladder per Constitution Book II Article 1. The Scribe rung is a worker tier (Article 3-bis), not a roster. Military-track parallel (General/Centurion) and Treasury parallel (Collector) not yet seated.</div>';
+  html += '<div class="cx-ladder-footnote">Single-ladder per Constitution ' + constitutionCite('b2-art-1', 'Book II Article 1') + '. The Scribe rung is a worker tier (' + constitutionCite('b2-art-3-bis', 'Article 3-bis') + '), not a roster. Military-track parallel (General/Centurion) and Treasury parallel (Collector) not yet seated.</div>';
 
   return html;
 }

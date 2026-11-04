@@ -118,6 +118,24 @@ test.describe('The Order — mobile smoke', () => {
     await expect(page.locator('.cx-ladder-row').filter({ hasText: 'Scribes' })).toContainText(/Worker Tier/i);
   });
 
+  test('Constitution reader: hero link opens the reader; footnote cites land on their Article', async ({ page, context }) => {
+    await page.goto('/index.html#/order');
+    await waitForBoot(page);
+
+    const [reader] = await Promise.all([context.waitForEvent('page'), page.locator('.cx-order-constitution').click()]);
+    await reader.waitForLoadState('domcontentloaded');
+    expect(new URL(reader.url()).pathname).toBe('/constitution/reader/');
+    await expect(reader.locator('.front-title')).toHaveText('Constitution');
+    await reader.close();
+
+    await page.locator('[data-action="setSubTab"][data-tab="order"][data-key="ladder"]').click();
+    const cite = page.locator('.cx-ladder-footnote .cx-cite-link').filter({ hasText: '3-bis' });
+    const [art] = await Promise.all([context.waitForEvent('page'), cite.click()]);
+    await art.waitForLoadState('domcontentloaded');
+    expect(new URL(art.url()).hash).toBe('#b2-art-3-bis');
+    await expect(art.locator('#b2-art-3-bis-h')).toBeInViewport();
+  });
+
   test('Companion detail: Aurelius card → detail page renders Voice/Mind/Shadow blocks, no raw JSON', async ({ page }) => {
     await page.goto('/index.html#/order');
     await waitForBoot(page);
