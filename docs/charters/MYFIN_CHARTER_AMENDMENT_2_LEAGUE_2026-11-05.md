@@ -1,6 +1,6 @@
 # MyFin Charter: Amendment 2, the Sandbox League
 
-**Status: DRAFT, not ratified.** Drafted by Aurelius (Chronicler), 5 November 2026, at the Sovereign's direction ("Draft decree and check the codex to fill out the lore and every other section, as needed for this").
+**Status: DRAFT, reviewed (Ashen clears; Nyx LGTM), awaiting the Sovereign's decree.** Drafted by Aurelius (Chronicler), 5 November 2026, at the Sovereign's direction ("Draft decree and check the codex to fill out the lore and every other section, as needed for this").
 **Amends:** `docs/charters/MYFIN_CHARTER_2026-08-26.md` (decree 0028): §4 Borders and §6 Ashen's seat.
 **Carries:** the draft decree for the league (below), and canon-inst-009 (`data/canons.json`, status *pending*).
 **Chain:**
@@ -112,7 +112,7 @@ When the Sovereign decrees, the Chronicler records it on these surfaces, followi
 - a reward is a separate act citing a result, not a conversion;
 - the lapse clause and an interim holder are written into the decree itself, with the office following the Ledger jurisdiction if the seat ever divides.
 
-**Ashen's final check (5 Nov 2026): clears** at `6c95d7c`. **Nyx's final check: amended** with four small fixes, all folded: the gaming hole closed (every order counts; undecidable falsifiers score *not held*; the scorer judges at placement), the league rules' §9 teaser corrected, this section's replaced condition marked, and a non-schema key removed from the interaction record.
+**Ashen's final check (5 Nov 2026): clears** at `6c95d7c`. **Nyx's final check: amended** with four small fixes, all folded: the gaming hole closed (every order counts; undecidable falsifiers score *not held*; the scorer judges at placement), the league rules' §9 teaser corrected, this section's replaced condition marked, and the interaction record's placeholder note kept in the cc-024 §D form. **Nyx: LGTM at `5a29ed6`.** The chain is complete; the amendment goes to the Sovereign for decree.
 
 Foreign fills (source and FX stamp) are a league-rules matter, already in `docs/SANDBOX_LEAGUE.md` §5.
 
