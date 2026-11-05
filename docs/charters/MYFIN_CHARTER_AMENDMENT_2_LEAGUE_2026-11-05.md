@@ -107,10 +107,12 @@ When the Sovereign decrees, the Chronicler records it on these surfaces, followi
 ## Review
 
 **Ashen, Governor of Risk (5 Nov 2026): clears with conditions.** All four are folded:
-- he signs scorer lines as transcriptions only, and any non-mechanical score on a MyFin-chartered companion's record is Nyx's;
+- he signs scorer lines as transcriptions only (his further ask, that a non-mechanical score on a MyFin-chartered companion's record go to Nyx, was replaced at Nyx's review: such falsifiers must be mechanical instead);
 - the real portfolio's points stay on the Sovereign's screen, never in league tables, reports or the ledger, and never cited by a reward or standing (an outward firewall leak closed);
 - a reward is a separate act citing a result, not a conversion;
 - the lapse clause and an interim holder are written into the decree itself, with the office following the Ledger jurisdiction if the seat ever divides.
+
+**Ashen's final check (5 Nov 2026): clears** at `6c95d7c`.
 
 Foreign fills (source and FX stamp) are a league-rules matter, already in `docs/SANDBOX_LEAGUE.md` §5.
 
