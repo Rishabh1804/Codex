@@ -39,7 +39,7 @@ Neither seat can grant this itself. Charter §6 says its list is "amendable by t
 
 ### §6: after "Enumerated jurisdiction", add
 
-> **A separate office: governing body of the MyFin Sandbox League** (Amendment 2). Ashen, while he holds the seat of Governor of Risk, also holds the office of governing body of the league kept in MyFin's points sandbox (`docs/SANDBOX_LEAGUE.md`, as ratified). The office is not a seventh risk matter. It adds nothing to the six above and takes nothing from them. Its duties and limits are those the league rules set: Ashen checks orders against the rules, signs the ledger lines the scorer writes **as transcriptions only**, publishes the tables and reports, and rules on disputes. **A MyFin-chartered companion's orders must carry falsifiers the scorer can decide mechanically** (a series in the daily files and a threshold); an order whose falsifier cannot be so decided does not count toward the record shown beside counsel. So no ruling of his ever shapes that record. He does not play, change a rule, or touch a player's order. His league duties never inform his audits of counsel, and those audits never use the league table. The evidence of skill shown beside counsel is the scorer's computed record, never his report. He staffs the office from his own Scribe detail (Book II Art. 3-bis). An agent beyond that needs his case to the Sovereign.
+> **A separate office: governing body of the MyFin Sandbox League** (Amendment 2). Ashen, while he holds the seat of Governor of Risk, also holds the office of governing body of the league kept in MyFin's points sandbox (`docs/SANDBOX_LEAGUE.md`, as ratified). The office is not a seventh risk matter. It adds nothing to the six above and takes nothing from them. Its duties and limits are those the league rules set: Ashen checks orders against the rules, signs the ledger lines the scorer writes **as transcriptions only**, publishes the tables and reports, and rules on disputes. **A MyFin-chartered companion's orders must carry falsifiers the scorer can decide mechanically** (a series in the daily files and a threshold). The scorer, not Ashen, judges this when the order is placed. Every order counts in full toward return and drawdown; a falsifier the scorer cannot decide is scored *not held*. So no ruling of his ever shapes the record shown beside counsel, and a vague falsifier cannot hide a loss. He does not play, change a rule, or touch a player's order. His league duties never inform his audits of counsel, and those audits never use the league table. The evidence of skill shown beside counsel is the scorer's computed record, never his report. He staffs the office from his own Scribe detail (Book II Art. 3-bis). An agent beyond that needs his case to the Sovereign.
 
 ### §4 Borders: add one row
 
@@ -112,13 +112,13 @@ When the Sovereign decrees, the Chronicler records it on these surfaces, followi
 - a reward is a separate act citing a result, not a conversion;
 - the lapse clause and an interim holder are written into the decree itself, with the office following the Ledger jurisdiction if the seat ever divides.
 
-**Ashen's final check (5 Nov 2026): clears** at `6c95d7c`.
+**Ashen's final check (5 Nov 2026): clears** at `6c95d7c`. **Nyx's final check: amended** with four small fixes, all folded: the gaming hole closed (every order counts; undecidable falsifiers score *not held*; the scorer judges at placement), the league rules' §9 teaser corrected, this section's replaced condition marked, and a non-schema key removed from the interaction record.
 
 Foreign fills (source and FX stamp) are a league-rules matter, already in `docs/SANDBOX_LEAGUE.md` §5.
 
 **Nyx, Cluster D Censor (5 Nov 2026): amended.** The instrument is right: a Charter amendment under decree 0030's authority for the office, a global canon for the door, and no Book III text, since the door acts on no other Province's territory. Folded:
 - one text: the decree incorporates canon-inst-009, and the two now agree that the office is Ashen's and lapses with him;
-- the interim holder is the Sovereign's nominee, never Nyx, and Nyx makes no first-instance ruling. A MyFin-chartered companion's falsifiers must be mechanical instead, so no ruling shapes the record beside counsel;
+- the interim holder is the Sovereign's nominee, never Nyx, and Nyx makes no first-instance ruling. A MyFin-chartered companion's falsifiers must be mechanical instead (judged by the scorer at placement; every order counts toward return and drawdown, and an undecidable falsifier scores *not held*), so no ruling shapes the record beside counsel;
 - Nyx's appellate reach is league records only;
 - admitted companions (Book VIII Art. 7) may play, put to the Sovereign above;
 - "never in a published league table";
