@@ -1496,7 +1496,7 @@
           "started": "2026-11-05",
           "completed": "2026-11-05",
           "ended": null,
-          "summary": "Drafted on the Republic Design System; reviewed by Aven, Ashen and Nyx over three rounds in one day; ratified v1.0 by the Sovereign. Provenance states, bounds, counsel and refusal, and the Ledger on screen; danger kept for risk and integrity.",
+          "summary": "Drafted on the Republic Design System; reviewed by Aven, Ashen and Nyx over three rounds in one day (Nyx's LGTM at 0.2.2); ratified v1.0 by the Sovereign. Provenance states, bounds, counsel and refusal, and the Ledger on screen; danger kept for risk and integrity.",
           "spec_url": "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
           "_deleted": false,
           "_deleted_date": null,
@@ -1597,7 +1597,7 @@
         "status": "ratified",
         "spec_path": "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
         "republic_principles_applied": true,
-        "notes": "Ratified v1.0 by the Sovereign on 2026-11-05 (Province-scoped: session-level under canon-proc-004, no decree). Extends the Republic Design System with one MyFin flourish (figures wider as they get bigger) and eight Hard Rules HR-M-1..HR-M-8. Reviewed by Aven (revise), Ashen (did not clear, then cleared), Nyx (amended, then LGTM). Lives in the private MyFin repo. Its §15 league display rules stay provisional until the league rules ratify. The Charter (docs/charters/MYFIN_CHARTER_2026-08-26.md) remains the Edict VIII instrument."
+        "notes": "Ratified v1.0 by the Sovereign on 2026-11-05 (Province-scoped: session-level under canon-proc-004, no decree). Extends the Republic Design System with one MyFin flourish (figures wider as they get bigger) and eight Hard Rules HR-M-1..HR-M-8. Reviewed by Aven (revise), Ashen (did not clear, then cleared), Nyx (amended, then LGTM at 0.2.2; the league display folds of 0.2.3-0.2.4 are unsigned and stay provisional). Lives in the private MyFin repo. Its §15 league display rules stay provisional until the league rules ratify. The Charter (docs/charters/MYFIN_CHARTER_2026-08-26.md) remains the Edict VIII instrument."
       }
     }
   ]

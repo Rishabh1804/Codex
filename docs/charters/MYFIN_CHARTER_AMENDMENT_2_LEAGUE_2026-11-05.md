@@ -39,15 +39,15 @@ Neither seat can grant this itself. Charter §6 says its list is "amendable by t
 
 ### §6: after "Enumerated jurisdiction", add
 
-> **A separate office: governing body of the MyFin Sandbox League** (Amendment 2). The Governor of Risk also holds the office of governing body of the league kept in MyFin's points sandbox (`docs/SANDBOX_LEAGUE.md`, as ratified). The office is not a seventh risk matter. It adds nothing to the six above and takes nothing from them. Its duties and limits are those the league rules set: Ashen checks orders against the rules, signs the ledger the scorer writes, publishes the tables and reports, and rules on disputes. He does not play, change a rule, or touch a player's order. His league duties never inform his audits of counsel, and those audits never use the league table. The evidence of skill shown beside counsel is the scorer's computed record, never his report. He staffs the office from his own Scribe detail (Book II Art. 3-bis). An agent beyond that needs his case to the Sovereign.
+> **A separate office: governing body of the MyFin Sandbox League** (Amendment 2). Ashen, while he holds the seat of Governor of Risk, also holds the office of governing body of the league kept in MyFin's points sandbox (`docs/SANDBOX_LEAGUE.md`, as ratified). The office is not a seventh risk matter. It adds nothing to the six above and takes nothing from them. Its duties and limits are those the league rules set: Ashen checks orders against the rules, signs the ledger lines the scorer writes **as transcriptions only**, publishes the tables and reports, and rules on disputes. **A MyFin-chartered companion's orders must carry falsifiers the scorer can decide mechanically** (a series in the daily files and a threshold); an order whose falsifier cannot be so decided does not count toward the record shown beside counsel. So no ruling of his ever shapes that record. He does not play, change a rule, or touch a player's order. His league duties never inform his audits of counsel, and those audits never use the league table. The evidence of skill shown beside counsel is the scorer's computed record, never his report. He staffs the office from his own Scribe detail (Book II Art. 3-bis). An agent beyond that needs his case to the Sovereign.
 
 ### §4 Borders: add one row
 
-> | **MyFin ↔ every other Province: the league** | A seated companion of any Province may hold one account in MyFin's Sandbox League and play under its rules. Play is not counsel: a player from another Province builds a league record only. That record is never shown beside counsel and never confers any part of MyFin's mandate, which stays with the companions this Charter names (Art. 10 §7). Points are not Treasury currency and not the Architect's capital; no point is spent, moved or converted into either. The league reaches no other Province's territory. Its players come to it. |
+> | **MyFin ↔ every other Province: the league** | A seated companion of any Province, an admitted companion under Book VIII Art. 7 included, may hold one account in MyFin's Sandbox League and play under its rules. Play is not counsel: a player from another Province builds a league record only. That record is never shown beside counsel and never confers any part of MyFin's mandate, which stays with the companions this Charter names (Art. 10 §7). Points are not Treasury currency and not the Architect's capital; no point is spent, moved or converted into either. **Nor does the Architect's capital reach the league:** the real portfolio's return, shown as points beside the players, is on the Sovereign's own screen alone, never in a published league table, a report or the sandbox ledger, and never cited by a reward or a standing. A reward is a separate act (a Book IX act for anything from the Treasury) that may cite a league result; it is not a conversion of points. The league reaches no other Province's territory. Its players come to it. |
 
 ### §6: one line on appeals
 
-> **Appeals in the league** go to the Cluster D Censor (Nyx), who holds no account. A ruling that touches a MyFin-chartered companion's record goes to her first.
+> **Appeals in the league** go to the Cluster D Censor (Nyx), who holds no account and makes no ruling at first instance. Her appellate reach covers league records only: a player's conduct anywhere else stays with that player's own Censor.
 
 ## The decree (draft)
 
@@ -56,11 +56,14 @@ Neither seat can grant this itself. Charter §6 says its list is "amendable by t
 > The Sovereign, by the authority that activated the Governor of Risk's seat (decree 0030) and enumerated its jurisdiction (decree 0028), decrees:
 >
 > 1. **The league office.** Ashen, Governor of Risk of MyFin, holds the separate office of governing body of the MyFin Sandbox League. It adds nothing to his enumerated risk jurisdiction and takes nothing from it. He holds no account in the league.
-> 2. **Open to every Province.** Any seated companion of any Province may play in the league, as a league record only and never as counsel on the Architect's capital.
-> 3. **Appeals.** The Cluster D Censor hears appeals in the league and holds no account.
-> 4. **What this does not move.** Nothing in this decree touches Article 10 §2's inalienable limit, the revision prohibition of §5, or the firewall of §1. A reward in which a companion decides with real capital stays outside any decree's reach (Art. 10 §7).
+> 2. **Lapse.** The office is Ashen's, not the seat's: it lapses when he leaves the seat. Until a further decree, or the end of the season then running, the Sovereign's nominee holds it in the interim; the nominee may be neither a player nor the Cluster D Censor, who hears the appeals. Should the Governor of Risk's seat ever divide, the office goes with the Ledger jurisdiction, never with any seat that judges counsel.
+> 3. **Open to every Province.** Any seated companion of any Province, an admitted companion under Book VIII Art. 7 included, may play in the league, as a league record only and never as counsel on the Architect's capital.
+> 4. **Appeals.** The Cluster D Censor hears appeals in the league, makes no first-instance ruling, reaches league records only, and holds no account.
+> 5. **What this does not move.** Nothing in this decree touches Article 10 §2's inalienable limit, the revision prohibition of §5, or the firewall of §1. A reward in which a companion decides with real capital stays outside any decree's reach (Art. 10 §7).
 >
-> The MyFin Charter is amended accordingly (Amendment 2). canon-inst-009 is active from this decree.
+> 6. **One text.** canon-inst-009 is incorporated in this decree: read together they say one thing, and this decree's text governs.
+>
+> The MyFin Charter is amended accordingly (Amendment 2). canon-inst-009 is active from this decree, its prose status corrected from *pending* to *active* at recording.
 
 ## What this amendment does not do
 
@@ -69,27 +72,28 @@ Neither seat can grant this itself. Charter §6 says its list is "amendable by t
   - no reward in capital a companion decides with;
   - no reward priced in points;
   - a Treasury reward goes through Book IX.
-- **It does not create a seat.** The office attaches to Ashen's seat and lapses with it. A successor in the seat succeeds to the office only by a further decree.
+- **It does not create a seat.** The office is Ashen's and lapses when he leaves the seat (decree clause 2), with the Sovereign's nominee in the interim until a further decree. A successor in the seat succeeds to the office only by that decree.
 - **It does not change Ashen's six risk matters.**
 - **It does not give any player a part in counsel.**
 
 ## What is recorded at ratification
 
-When the Sovereign decrees, the Chronicler records it on these surfaces, following the 16 October precedent:
-1. **This Charter:** Amendment 2 is merged into `MYFIN_CHARTER_2026-08-26.md` §4 and §6, with an amendment note.
-2. **`constitution/main.typ` Amendment History:** a row for the decree.
-3. **`data/journal.json`:** a `decree-00NN-myfin-charter-amendment-2-sandbox-league` record in the canonical v1 shape (canon-proc-004).
-4. **`data/canons.json`:** canon-inst-009 moves from *pending* to *active*, with the decree in its references. The lore doctrine *An umpire does not play* moves from *pending* to *active*.
-5. **`data/companions.json`:**
+When the Sovereign decrees, the Chronicler records it on these surfaces, following the 16 October precedent (`efacecb`):
+1. **This Charter:** Amendment 2 is merged into `MYFIN_CHARTER_2026-08-26.md` §4 and §6, with an amendment note. (No Amendment History row in `constitution/main.typ`: that table carries decrees touching the Constitution's source, and decree 0028 has none. The PDF is not rebuilt, since its source does not change.)
+2. **`data/journal.json`:** a `decree-00NN-myfin-charter-amendment-2-sandbox-league` record in the canonical v1 shape (canon-proc-004).
+3. **`data/canons.json`:** canon-inst-009 moves from *pending* to *active*, with the decree in its references and its prose "Status is **pending**" corrected (the defect found at the 16 October recording). The doctrine *An umpire does not play* moves from *pending* to *active*.
+4. **`data/companions.json`:**
    - Ashen's `assignment.current_assignments` gains "Governing body, MyFin Sandbox League (Charter Amendment 2)";
    - Nyx's gains "Appeals, MyFin Sandbox League";
    - both are profile changes under canon-cc-012 per-block discipline, put to the Sovereign as blocks.
-6. **`data/volumes.json`:** MyFin's *Sandbox League* chapter moves on, and its decree todo resolves.
-7. **`CLAUDE.md` (Codex):** the Cluster D line in the Constitutional Layer names Ashen's league office and the league, under canon-pers-001's hotfix rule or its chain, whichever applies.
-8. **`data/interactions.json`:** `interaction-2026-11-05-001` (the review rounds, retrospective) closes its review.
+5. **`data/volumes.json`:** MyFin's *Sandbox League* chapter moves on, and todo-0066 resolves.
+6. **`CLAUDE.md` (Codex):** the Cluster D line in the Constitutional Layer names Ashen's league office, under canon-pers-001's hotfix rule or its chain, whichever applies.
+7. **`data/interactions.json`:** `interaction-2026-11-05-001` (the review chain, retrospective) closes its review.
+8. **A handoff** for the ratification sequence, like `docs/handoffs/myfin-ratification-sequence-2026-08-26.md`.
 9. **The MyFin repo:**
    - `docs/SANDBOX_LEAGUE.md` §12 cites the decree;
-   - its ratification follows;
+   - MyFin's `CLAUDE.md`, which names Ashen's seat, names the office;
+   - the league rules ratify;
    - design principles §15's league display rules lose their *provisional* mark when the rules ratify.
 
 ## Open for the reviewers
@@ -98,4 +102,22 @@ When the Sovereign decrees, the Chronicler records it on these surfaces, followi
 2. **Nyx:**
    - Is a Charter amendment under decree 0030's authority the right instrument, or does cross-Province play need a Book III text too?
    - Is canon-inst-009 correctly decree-shaped under canon-proc-004 (global scope, since it crosses Provinces)?
-3. **The Sovereign:** the decree, and whether the office should outlast a change of seat-holder.
+3. **The Sovereign:** the decree, and whether admitted companions (Book VIII Art. 7, the SEP-Ops cohort among them) may play before they are naturalized. This draft says they may: play is no ratification voice and no standing outside their Province. *(Ashen answered the lapse question in review: the office lapses with him, clause 2.)*
+
+## Review
+
+**Ashen, Governor of Risk (5 Nov 2026): clears with conditions.** All four are folded:
+- he signs scorer lines as transcriptions only, and any non-mechanical score on a MyFin-chartered companion's record is Nyx's;
+- the real portfolio's points stay on the Sovereign's screen, never in league tables, reports or the ledger, and never cited by a reward or standing (an outward firewall leak closed);
+- a reward is a separate act citing a result, not a conversion;
+- the lapse clause and an interim holder are written into the decree itself, with the office following the Ledger jurisdiction if the seat ever divides.
+
+Foreign fills (source and FX stamp) are a league-rules matter, already in `docs/SANDBOX_LEAGUE.md` §5.
+
+**Nyx, Cluster D Censor (5 Nov 2026): amended.** The instrument is right: a Charter amendment under decree 0030's authority for the office, a global canon for the door, and no Book III text, since the door acts on no other Province's territory. Folded:
+- one text: the decree incorporates canon-inst-009, and the two now agree that the office is Ashen's and lapses with him;
+- the interim holder is the Sovereign's nominee, never Nyx, and Nyx makes no first-instance ruling. A MyFin-chartered companion's falsifiers must be mechanical instead, so no ruling shapes the record beside counsel;
+- Nyx's appellate reach is league records only;
+- admitted companions (Book VIII Art. 7) may play, put to the Sovereign above;
+- "never in a published league table";
+- the recording list corrected against `efacecb`.

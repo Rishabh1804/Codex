@@ -389,17 +389,19 @@
     },
     {
       "id": "interaction-2026-11-05-001",
-      "type": "visitation",
+      "type": "spec-signing-chain",
       "venue": "myfin",
       "date": "2026-11-05",
       "participants": [
+        "aurelius",
         "aven",
         "ashen",
-        "nyx"
+        "nyx",
+        "sovereign"
       ],
       "originating_cluster": "D",
       "subject": "MyFin design principles v0.1 to v1.0, and the Sandbox League rules draft 0.1 to 0.3: review rounds",
-      "substance": "Round 1 on the design principles: Aven (Builder) returned REVISE with four blockers on buildability; Ashen (Governor of Risk) returned DOES NOT CLEAR with four blockers on absent data reading as clean; Nyx (Censor) returned AMENDED, adjudicating their disagreements (gain or loss carries no status tone; gate 7 checks mechanism, not words), verifying nine of ten claims against the files, and adding that counsel had no surface and that the fold rule would footnote a disclosed defect. Round 2: Ashen cleared with conditions (an open Ledger field had no write path; '≥' over a stale input; bounds over incomplete inputs; counsel omitting its instrument's own states), then cleared at 3c8d163 after conditions on the real-portfolio row. Nyx signed off LGTM at c2f76cc. League round 1: Ashen cleared with conditions, finding the office outside his seat, the conflict with his audit of counsel, a gameable qualification and copyable orders, and making his case for two Scribes; Nyx amended, finding the same seat question and the cross-Province door to be Codex matters, recusing from play, and finding contradictions between the league rules, APP_PLAN and the design principles.",
+      "substance": "Round 1 on the design principles: Aven (Builder) returned REVISE with four blockers on buildability; Ashen (Governor of Risk) returned DOES NOT CLEAR with four blockers on absent data reading as clean; Nyx (Censor) returned AMENDED, adjudicating their disagreements (gain or loss carries no status tone; gate 7 checks mechanism, not words), verifying nine of ten claims against the files, and adding that counsel had no surface and that the fold rule would footnote a disclosed defect. Round 2: Ashen cleared with conditions (an open Ledger field had no write path; '≥' over a stale input; bounds over incomplete inputs; counsel omitting its instrument's own states), then cleared at 3c8d163 after conditions on the real-portfolio row. Nyx signed off LGTM at c2f76cc (version 0.2.2); the league display folds of 0.2.3-0.2.4 were not signed and stay provisional. League round 1: Ashen cleared with conditions, finding the office outside his seat, the conflict with his audit of counsel, a gameable qualification and copyable orders, and making his case for two Scribes; Nyx amended, finding the same seat question and the cross-Province door to be Codex matters, recusing from play, and finding contradictions between the league rules, APP_PLAN and the design principles.",
       "decision_or_outcome": "Every finding folded or logged with an owner. The Sovereign ratified the design principles at v1.0 on 2026-11-05. The league's institutional questions went to the Codex as MyFin Charter Amendment 2 and canon-inst-009 (pending).",
       "authored_by": "aurelius-retrospective",
       "status": "pending_review",
@@ -410,7 +412,8 @@
         "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
         "myfin: docs/SANDBOX_LEAGUE.md",
         "myfin: PR #5"
-      ]
+      ],
+      "_type_placeholder_note": "Descriptive type per the 2026-06-05 precedent (interaction-2026-06-05-001): a review and signing chain on a Province document and its league rules."
     }
   ]
 }

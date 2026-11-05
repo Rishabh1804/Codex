@@ -4241,7 +4241,7 @@
       "id": "s-2026-11-05-myfin-design-principles-and-league",
       "date": "2026-11-05",
       "title": "MyFin: the app plan, design principles ratified v1.0, and the Sandbox League drafted; Charter Amendment 2 and canon-inst-009 drafted",
-      "summary": "Chronicler session across 3-5 November 2026 in the MyFin repo, with Aven, Ashen and Nyx run as review seats. The app was planned as a private Android APK. The design principles were drafted, reviewed over three rounds (Aven: revise; Ashen: did not clear, then cleared; Nyx: amended, then LGTM) and ratified v1.0 by the Sovereign. The points sandbox gained the Sovereign as a player and the real portfolio as a yardstick in points, and then became a league with Ashen its governing body. The league's institutional questions were drafted into the Codex as MyFin Charter Amendment 2 and canon-inst-009, both pending.",
+      "summary": "Chronicler session across 3-5 November 2026 in the MyFin repo, with Aven, Ashen and Nyx run as review seats. The app was planned as a private Android APK. The design principles were drafted, reviewed over three rounds (Aven: revise; Ashen: did not clear, then cleared; Nyx: amended, then LGTM at 0.2.2, the later league display folds unsigned and provisional) and ratified v1.0 by the Sovereign. The points sandbox gained the Sovereign as a player and the real portfolio as a yardstick in points, and then became a league with Ashen its governing body. The league's institutional questions were drafted into the Codex as MyFin Charter Amendment 2 and canon-inst-009, both pending.",
       "volumes_touched": [
         "myfin",
         "codex"
