@@ -45,7 +45,7 @@
 
 ## Still open
 
-1. **Ashen's and Nyx's profile blocks.** Ashen gains the league office in his `current_assignments`, and Nyx gains league appeals. Under canon-cc-012 these are per-block profile changes, so they go to the Sovereign as blocks.
+1. ~~Ashen's and Nyx's profile blocks.~~ **Approved by the Sovereign, 2026-11-05** (canon-cc-012, per block). Recorded in `data/companions.json`: Ashen's `current_assignments` gains the league office, and Nyx's gains league appeals.
 2. **The league rules ratify in MyFin.** Five questions are open: the single-holding cap, play-off match lengths, qualifying theses, the foreign price source, and rewards.
 3. **Charter Amendment 1 (the Household Region)** still needs Aven's review, Nyx's sign-off and a decree. It takes the next number.
 4. **A foreign cost schedule** needs a CA check before foreign trades open (todo-0068).
