@@ -386,6 +386,31 @@
         "sproutlab/docs/SYNTHESIS_2026-06-05_skill-deploy-shape.md"
       ],
       "chronicled_notes": "First canon-cc-027 chain rendered end-to-end via direct subagent invocation (Cipher, Consul) rather than bridging-authorship. Both reviewers caught real defects a single pass would have shipped: Cipher a latent contradiction with cc-026's literal zero-diff clause; the Consul an enforcement-altitude over-reach (an obligation the Republic cannot yet mechanically meet). The chain held."
+    },
+    {
+      "id": "interaction-2026-11-05-001",
+      "type": "visitation",
+      "venue": "myfin",
+      "date": "2026-11-05",
+      "participants": [
+        "aven",
+        "ashen",
+        "nyx"
+      ],
+      "originating_cluster": "D",
+      "subject": "MyFin design principles v0.1 to v1.0, and the Sandbox League rules draft 0.1 to 0.3: review rounds",
+      "substance": "Round 1 on the design principles: Aven (Builder) returned REVISE with four blockers on buildability; Ashen (Governor of Risk) returned DOES NOT CLEAR with four blockers on absent data reading as clean; Nyx (Censor) returned AMENDED, adjudicating their disagreements (gain or loss carries no status tone; gate 7 checks mechanism, not words), verifying nine of ten claims against the files, and adding that counsel had no surface and that the fold rule would footnote a disclosed defect. Round 2: Ashen cleared with conditions (an open Ledger field had no write path; '≥' over a stale input; bounds over incomplete inputs; counsel omitting its instrument's own states), then cleared at 3c8d163 after conditions on the real-portfolio row. Nyx signed off LGTM at c2f76cc. League round 1: Ashen cleared with conditions, finding the office outside his seat, the conflict with his audit of counsel, a gameable qualification and copyable orders, and making his case for two Scribes; Nyx amended, finding the same seat question and the cross-Province door to be Codex matters, recusing from play, and finding contradictions between the league rules, APP_PLAN and the design principles.",
+      "decision_or_outcome": "Every finding folded or logged with an owner. The Sovereign ratified the design principles at v1.0 on 2026-11-05. The league's institutional questions went to the Codex as MyFin Charter Amendment 2 and canon-inst-009 (pending).",
+      "authored_by": "aurelius-retrospective",
+      "status": "pending_review",
+      "review": {},
+      "references": [
+        "canon-inst-009-myfin-sandbox-league",
+        "lore-2026-11-05-myfin-design-principles-and-the-league",
+        "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
+        "myfin: docs/SANDBOX_LEAGUE.md",
+        "myfin: PR #5"
+      ]
     }
   ]
 }

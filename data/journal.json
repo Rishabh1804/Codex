@@ -4236,6 +4236,60 @@
       ],
       "bugs_found": 3,
       "handoff": "Still owed: (1) Rune, Ignis and CodeMike remain v0.4-draft \u2014 drafted in this arc and omitted from both the status report and the packet; they need their own canon-cc-014 ratification. (2) Aven and Ashen need full profiles and canon-proc-003 onboarding; neither has a cognomen. (3) CodeMike's 'The Practitioner' cognomen is still unconfirmed. (4) canon-cc-016's residency table is six months stale and blocks the residency deferral for MSc, Cluster C and SEP-Ops; the Article 6 schedules lapse 2027-01-14. (5) Cluster C's Censor has been interim since 2026-05-24. (6) Ignis dormancy unruled; five orphaned blind-spot links. (7) Codex-aemo PR previews sit behind Vercel Authentication \u2014 a dashboard setting left to the Sovereign."
+    },
+    {
+      "id": "s-2026-11-05-myfin-design-principles-and-league",
+      "date": "2026-11-05",
+      "title": "MyFin: the app plan, design principles ratified v1.0, and the Sandbox League drafted; Charter Amendment 2 and canon-inst-009 drafted",
+      "summary": "Chronicler session across 3-5 November 2026 in the MyFin repo, with Aven, Ashen and Nyx run as review seats. The app was planned as a private Android APK. The design principles were drafted, reviewed over three rounds (Aven: revise; Ashen: did not clear, then cleared; Nyx: amended, then LGTM) and ratified v1.0 by the Sovereign. The points sandbox gained the Sovereign as a player and the real portfolio as a yardstick in points, and then became a league with Ashen its governing body. The league's institutional questions were drafted into the Codex as MyFin Charter Amendment 2 and canon-inst-009, both pending.",
+      "volumes_touched": [
+        "myfin",
+        "codex"
+      ],
+      "chapters_touched": [
+        "myfin-app-plan",
+        "myfin-design-principles",
+        "myfin-sandbox-league",
+        "myfin-household-region"
+      ],
+      "decisions": [
+        "The app: an Android APK (React, TypeScript, Vite, Capacitor), code private in MyFin's app/; the public Myfin-app repo unused (Sovereign, 4 Nov 2026).",
+        "Prices from the NSE and AMFI free daily files, NSE terms risk accepted; Kite rejected because no key is read-only.",
+        "The points sandbox in two stages: points first; real trades later only by Charter amendment and decree, each approved by the Sovereign (option 3).",
+        "Design principles ratified v1.0 by the Sovereign (5 Nov 2026), Province-scoped and so session-level under canon-proc-004. The screen build gate lifts.",
+        "The Sovereign plays in the sandbox under the same rules; the real portfolio is shown beside the players as points: season return only, time-weighted, no rupees, unranked, inheriting the Holdings states (5 Nov 2026).",
+        "The sandbox becomes a league (5 Nov 2026): players from every Province, Ashen the governing body (he does not play), a financial-year season of 38 weekly rounds, a Premier Division of 20 with everyone in it the first season, a top-5 round robin, semi-finals and a final; rewards decided when the laws are written.",
+        "League rulings (5 Nov 2026): a pre-season to 31 March 2027 with Season 1 as FY 2027-28; three down, two up and a third by a Championship-style play-off; domestic trades first, foreign at most 25% of an account with LRS costs and taxes.",
+        "Charter Amendment 2 and canon-inst-009 drafted (pending), at the Sovereign's direction, for the league office and the cross-Province door both review seats found outside the Province's power."
+      ],
+      "bugs_found": 0,
+      "bugs_fixed": 0,
+      "duration_minutes": null,
+      "open_todos": [
+        "todo-0066-myfin-amendment-2-decree",
+        "todo-0067-myfin-league-rules-ratify",
+        "todo-0068-myfin-league-foreign-cost-schedule",
+        "todo-0069-myfin-amendment-1-decree",
+        "todo-0070-myfin-app-first-slice"
+      ],
+      "new_todos": [
+        "todo-0066-myfin-amendment-2-decree",
+        "todo-0067-myfin-league-rules-ratify",
+        "todo-0068-myfin-league-foreign-cost-schedule",
+        "todo-0069-myfin-amendment-1-decree",
+        "todo-0070-myfin-app-first-slice"
+      ],
+      "resolved_todos": [],
+      "handoff": "Next: Ashen and Nyx review Charter Amendment 2; the Sovereign decrees it; then the league rules ratify in MyFin. Amendment 1 (Household) still awaits its decree. Aven builds the first slice against the ratified design principles.",
+      "screenshots": [],
+      "tags": [
+        "myfin",
+        "design-principles",
+        "sandbox",
+        "league",
+        "cluster-d",
+        "chronicler"
+      ]
     }
   ]
 }

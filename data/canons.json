@@ -2066,6 +2066,30 @@
         "book-iii-article-6-the-admission-of-provinces",
         "book-viii-article-7-admitted-lineages"
       ]
+    },
+    {
+      "id": "canon-inst-009-myfin-sandbox-league",
+      "family": "inst",
+      "title": "The MyFin Sandbox League: Ashen's League Office, Open to Every Province, Appeals to Nyx",
+      "scope": "global",
+      "category": "governance",
+      "created": "2026-11-05",
+      "status": "pending",
+      "rationale": "This canon inscribes the institutional side of the MyFin Sandbox League. Status is **pending** at drafting; it becomes **active** with the decree that ratifies MyFin Charter Amendment 2 (docs/charters/MYFIN_CHARTER_AMENDMENT_2_LEAGUE_2026-11-05.md).\n\n**What happened.** On 2026-11-05 the Sovereign ruled that the Sovereign plays in MyFin's points sandbox (APP_PLAN §10, stage 1), that the real portfolio is shown beside the players as points, and then that the sandbox becomes a league: companions of every Province play, each with their own motives; a season is the financial year, 38 weekly rounds; a Premier Division of 20, everyone in it the first season; a top-5 round robin, semi-finals and a final; three down, two up and a third by a Championship-style play-off; domestic trades first, foreign at most 25% of an account. Ashen was first named a player, then made the governing body instead: the one who sees the rules followed, collates the results and writes the reports. The rules are drafted in the MyFin repo (docs/SANDBOX_LEAGUE.md, draft 0.3).\n\n**Why a canon and a decree.** Ashen's seat is enumerated: the MyFin Charter §6 gives the Governor of Risk six matters 'and no others', amendable by the authority that activated it (decree 0030). Governing a league is not one of the six. Ashen said so in his own review ('§3 is outside my seat as written') and asked that the office be recorded by decree as a separate one. Nyx found the same and added that opening the league to every Province is a Codex matter (Book III), and that cross-Province play needs an instrument the Province cannot write for itself. Under canon-proc-004 the canon is decree-shaped because its scope is global: it crosses Provinces.\n\n**What it does.** (1) Ashen holds the office of governing body of the MyFin Sandbox League, separate from his seat, adding nothing to his six risk matters and taking nothing from them; he holds no account; he staffs the office from his own Scribe detail (Book II Art. 3-bis) and needs a case to the Sovereign for any agent beyond it. (2) Any seated companion of any Province may play, as a league record only, never as counsel on the Architect's capital, which stays with MyFin's chartered companions (Art. 10 §7). (3) The Cluster D Censor hears appeals and holds no account.\n\n**The conflict it resolves, and the one it guards against.** Ashen declined a sandbox account on the ground that the auditor of counsel should not produce its evidence of skill. Governing the league could make him produce it by another route, since the sandbox record is shown beside counsel. So the record shown beside counsel is the scorer's computed record from the sandbox ledger, never his report, and his league duties never inform his audits. Nyx recused for the same reason: an umpire does not play (see the pending doctrine lore-2026-11-05-doctrine-an-umpire-does-not-play).\n\n**What it does not move.** Nothing here touches Art. 10 §2's inalienable limit, §5's revision prohibition or §1's firewall. A reward in which a companion decides with real capital stays outside any decree's reach (Art. 10 §7); the league rules leave rewards to the laws for the sandbox, with that limit, no reward priced in points, and any Treasury reward going through Book IX.\n\n**Lapse.** The office attaches to Ashen's seat. A successor in the seat succeeds to the office only by a further decree.",
+      "references": [
+        "canon-inst-007-maren-ashara-pairing-myfin-risk-governor",
+        "decree-0028-myfin-charter",
+        "decree-0030-canon-inst-007-ashen-myfin-risk-governor",
+        "decree-0026-book-ix-article-10-the-architects-capital",
+        "canon-proc-004-decree-minting-criterion",
+        "canon-proc-006",
+        "lore-2026-11-05-doctrine-an-umpire-does-not-play",
+        "lore-2026-11-05-myfin-design-principles-and-the-league",
+        "companion: ashen",
+        "companion: nyx",
+        "myfin: docs/SANDBOX_LEAGUE.md",
+        "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md"
+      ]
     }
   ],
   "schisms": [
@@ -4022,6 +4046,71 @@
       "_deleted": false,
       "_deleted_date": null,
       "status": "active"
+    },
+    {
+      "id": "lore-2026-11-05-myfin-design-principles-and-the-league",
+      "title": "MyFin's Design Principles, and the League That Grew Out of a Sandbox",
+      "category": "chronicles",
+      "body": "Between 3 and 5 November 2026 MyFin went from a Charter and a Ledger to the plan of an app. The Sovereign chose an Android app, built in React and kept private in MyFin's own repo, its prices taken from the free daily files NSE and AMFI publish. The Sovereign asked for the rules of the screens to be written before any screen was built, the lesson Codex and SEP Invoicing had both learned late.\n\nThe design principles were drafted on the Republic Design System, with one MyFin flourish: a money figure gets wider as it gets bigger. They went through three seats in one day. Aven, the Builder, found rules that could not be built as written: a single permitted inline style where badges and bars need colours from data, a ban on payment words that would have blocked the app's own screens, tokens that did not exist. Ashen, the Governor of Risk, did not clear them: a holding with no price would drop out of a total and leave it reading clean; a Ledger entry did not show its disclosed defects; nothing refused a change to what had been thought; there was no display for bounds at all, while none were set. Nyx, the Censor, adjudicated where the two differed, checked their claims against the files, and found what both had missed: there was no surface for counsel itself, and the rule that folds detail away would have folded a disclosed defect into a footnote, which Article 10 §3 forbids. Red was taken back for risk and integrity alone; a loss against cost became a signed figure with words. After two more rounds of conditions, all folded, the Sovereign ratified the design principles at v1.0 on 5 November.\n\nIn the same sitting the sandbox changed shape. The Sovereign asked to play in it, then to see the real portfolio beside the players as points, then to make it a league: companions of every Province, each with their own motives, a season the length of the financial year, a Premier Division of twenty, a play-off for the top five. Ashen was named a player and then, at the Sovereign's next word, the league's governing body. Both review seats then found that the league had outgrown the Province: Ashen's seat is enumerated and a league is not on its list, and a door open to every Province is the Codex's to open. The decree was drafted the same day, as MyFin Charter Amendment 2 and canon-inst-009, to wait for the Sovereign.",
+      "domain": [
+        "myfin",
+        "codex"
+      ],
+      "tags": [
+        "myfin",
+        "design-principles",
+        "sandbox",
+        "league",
+        "article-10",
+        "cluster-d",
+        "ratification"
+      ],
+      "references": [
+        "canon-inst-009-myfin-sandbox-league",
+        "decree-0026-book-ix-article-10-the-architects-capital",
+        "decree-0028-myfin-charter",
+        "companion: aven",
+        "companion: ashen",
+        "companion: nyx",
+        "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
+        "myfin: docs/APP_PLAN.md",
+        "myfin: docs/SANDBOX_LEAGUE.md"
+      ],
+      "created": "2026-11-05",
+      "updated": "2026-11-05",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null,
+      "status": "active"
+    },
+    {
+      "id": "lore-2026-11-05-doctrine-an-umpire-does-not-play",
+      "title": "An Umpire Does Not Play",
+      "category": "doctrines",
+      "body": "A companion who judges a contest holds no stake in it. Ashen first declined a sandbox account because the Governor who audits counsel should not produce the evidence of skill that is shown beside it. When the sandbox became a league and Ashen its governing body, Nyx, who hears its appeals, recused on the same ground without being asked. The doctrine runs one step further than recusal: what the umpire writes is not the evidence either. The record shown beside counsel is computed from the ledger by code, never taken from the governing body's report.\n\nStatus pending: it is held by the two seats that stated it, and becomes the Republic's with canon-inst-009.",
+      "domain": [
+        "myfin"
+      ],
+      "tags": [
+        "doctrine",
+        "recusal",
+        "sandbox",
+        "league",
+        "independence"
+      ],
+      "references": [
+        "canon-inst-009-myfin-sandbox-league",
+        "companion: ashen",
+        "companion: nyx"
+      ],
+      "created": "2026-11-05",
+      "updated": "2026-11-05",
+      "sourceType": "manual",
+      "sourceId": null,
+      "_deleted": false,
+      "_deleted_date": null,
+      "status": "pending"
     }
   ]
 }
