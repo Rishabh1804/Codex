@@ -3112,7 +3112,8 @@
         "current_assignments": [
           "Censor, Cluster B (SEP Invoicing + SEP Dashboard + SEP-Ops) — SEP-Ops's Edict V pass excepted to Cipher per Sovereign ruling 2026-09-01",
           "Censor, Cluster D (MyFin) — seated 2026-09-01, decree 0023",
-          "Tribune — right of interposition attached to her censorial seats (Book II Article 4-bis, instituted 2026-09-01, ratified 2026-10-16, decree 0024)"
+          "Tribune — right of interposition attached to her censorial seats (Book II Article 4-bis, instituted 2026-09-01, ratified 2026-10-16, decree 0024)",
+          "Appeals, MyFin Sandbox League (decree 0032, 2026-11-05) — appeal only, league records only; holds no league account"
         ],
         "cluster": "B + D",
         "province": null,
@@ -8072,7 +8073,8 @@
       "assignment": {
         "current_rank": "Governor",
         "current_assignments": [
-          "MyFin Governor of Risk (Cluster D)"
+          "MyFin Governor of Risk (Cluster D)",
+          "Governing body, MyFin Sandbox League (Charter Amendment 2, decree 0032, 2026-11-05) — a separate office, adding nothing to the risk jurisdiction; holds no league account"
         ],
         "cluster": "D",
         "province": "myfin",
