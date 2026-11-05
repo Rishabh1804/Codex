@@ -1474,9 +1474,118 @@
         "cluster-d"
       ],
       "repo": "rishabh1804/MyFin",
-      "current_phase": "Chartered and seated 2026-10-16. Greenfield — one README at charter time (HEAD e685dc5). Builder Aven (canon-inst-006, decree 0029) and Governor of Risk Ashen (canon-inst-007, decree 0030), both Gen 1 and both in 'appointed' onboarding status under canon-proc-003; Censor Nyx (decree 0023). Zero live positions and no executing grant. Projected ~4,700 LOC across Ledger (Capital), Intake, Analysis, Risk and Interface; the Road data → ledger → intake → analysis → risk → views → start makes Risk mandatory between Analysis and the Ledger. Projected LOC to be replaced by measured figures at the first Censor review.",
-      "chapters": [],
-      "todos": [],
+      "current_phase": "Chartered and seated 2026-10-16. App planned 2026-11-04/05: an Android APK (React, TypeScript, Vite, Capacitor), code private in the MyFin repo's app/, prices from the NSE and AMFI daily files (docs/APP_PLAN.md). Design principles ratified v1.0 by the Sovereign 2026-11-05 (app/docs/MYFIN_DESIGN_PRINCIPLES.md), after Aven, Ashen and Nyx reviewed them; the screen build gate is lifted. The points sandbox became a league 2026-11-05 (docs/SANDBOX_LEAGUE.md, draft 0.3), its institutional side decreed 2026-11-05 as MyFin Charter Amendment 2 and canon-inst-009 (decree 0032); the rules themselves await ratification in the MyFin repo. Charter Amendment 1 (the Household Region) awaits its decree. Builder Aven and Governor of Risk Ashen remain in 'appointed' onboarding status; Censor Nyx. Zero live positions and no executing grant.",
+      "chapters": [
+        {
+          "id": "myfin-app-plan",
+          "name": "The app plan",
+          "status": "in-progress",
+          "started": "2026-11-04",
+          "completed": null,
+          "ended": null,
+          "summary": "Android APK in React, TypeScript, Vite and Capacitor, private in the MyFin repo; stock work kept; prices from NSE and AMFI daily files; the points sandbox in two stages (points, then decree-gated proposals). Plan at docs/APP_PLAN.md; the first slice waits on the ratified design principles, now in place.",
+          "spec_url": "myfin: docs/APP_PLAN.md",
+          "_deleted": false,
+          "_deleted_date": null,
+          "order": 1
+        },
+        {
+          "id": "myfin-design-principles",
+          "name": "Design principles v1.0",
+          "status": "complete",
+          "started": "2026-11-05",
+          "completed": "2026-11-05",
+          "ended": null,
+          "summary": "Drafted on the Republic Design System; reviewed by Aven, Ashen and Nyx over three rounds in one day (Nyx's LGTM at 0.2.2); ratified v1.0 by the Sovereign. Provenance states, bounds, counsel and refusal, and the Ledger on screen; danger kept for risk and integrity.",
+          "spec_url": "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
+          "_deleted": false,
+          "_deleted_date": null,
+          "order": 2
+        },
+        {
+          "id": "myfin-household-region",
+          "name": "Charter Amendment 1: the Household Region",
+          "status": "review",
+          "started": "2026-11-03",
+          "completed": null,
+          "ended": null,
+          "summary": "Adds the Household Region (spending, insurance, plans) to the Charter's Regions, Roads and Borders. Drafted 2026-11-03; awaits Aven's review, Nyx's sign-off and the Sovereign's decree.",
+          "spec_url": "docs/charters/MYFIN_CHARTER_AMENDMENT_1_HOUSEHOLD_2026-11-03.md",
+          "_deleted": false,
+          "_deleted_date": null,
+          "order": 3
+        },
+        {
+          "id": "myfin-sandbox-league",
+          "name": "The Sandbox League",
+          "status": "spec-drafting",
+          "started": "2026-11-05",
+          "completed": null,
+          "ended": null,
+          "summary": "The points sandbox as a league: players from every Province and the Sovereign, Ashen the governing body, Nyx on appeals, a financial-year season of 38 weekly rounds, a Premier Division of 20, a top-5 play-off. Rules draft 0.3 in the MyFin repo; the institutional side decreed as Charter Amendment 2 and canon-inst-009 (decree 0032, 2026-11-05); admitted companions play only from the first season after naturalization.",
+          "spec_url": "docs/charters/MYFIN_CHARTER_AMENDMENT_2_LEAGUE_2026-11-05.md",
+          "_deleted": false,
+          "_deleted_date": null,
+          "order": 4
+        }
+      ],
+      "todos": [
+        {
+          "id": "todo-0066-myfin-amendment-2-decree",
+          "text": "Put MyFin Charter Amendment 2 and canon-inst-009 to Ashen and Nyx, then the Sovereign for decree; record on the surfaces the amendment lists.",
+          "status": "resolved",
+          "chapter": "myfin-sandbox-league",
+          "created": "2026-11-05",
+          "resolved": "2026-11-05",
+          "source_session": "s-2026-11-05-myfin-design-principles-and-league",
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "todo-0067-myfin-league-rules-ratify",
+          "text": "Ratify the league rules (docs/SANDBOX_LEAGUE.md) after the decree; settle the five open questions (single-holding cap, play-off match lengths, qualifying theses, foreign price source, rewards).",
+          "status": "open",
+          "chapter": "myfin-sandbox-league",
+          "created": "2026-11-05",
+          "resolved": null,
+          "source_session": "s-2026-11-05-myfin-design-principles-and-league",
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "todo-0068-myfin-league-foreign-cost-schedule",
+          "text": "A CA to confirm the schedule of foreign costs and taxes (LRS, TCS, withholding) before foreign trades open in the league.",
+          "status": "open",
+          "chapter": "myfin-sandbox-league",
+          "created": "2026-11-05",
+          "resolved": null,
+          "source_session": "s-2026-11-05-myfin-design-principles-and-league",
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "todo-0069-myfin-amendment-1-decree",
+          "text": "Charter Amendment 1 (the Household Region): Aven's review, Nyx's sign-off, the Sovereign's decree.",
+          "status": "open",
+          "chapter": "myfin-household-region",
+          "created": "2026-11-05",
+          "resolved": null,
+          "source_session": "s-2026-11-05-myfin-design-principles-and-league",
+          "_deleted": false,
+          "_deleted_date": null
+        },
+        {
+          "id": "todo-0070-myfin-app-first-slice",
+          "text": "Build the first slice (Today and Write a line) against the ratified design principles; clear the §19 debt rows owned by Aven that the slice touches.",
+          "status": "open",
+          "chapter": "myfin-app-plan",
+          "created": "2026-11-05",
+          "resolved": null,
+          "source_session": "s-2026-11-05-myfin-design-principles-and-league",
+          "_deleted": false,
+          "_deleted_date": null
+        }
+      ],
       "shelf_history": [
         {
           "shelf": "active",
@@ -1485,10 +1594,10 @@
         }
       ],
       "design_principles": {
-        "status": "draft",
-        "spec_path": "docs/charters/MYFIN_CHARTER_2026-08-26.md",
+        "status": "ratified",
+        "spec_path": "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
         "republic_principles_applied": true,
-        "notes": "Edict VIII Charter ratified 2026-10-16 (decree 0028). Its Regions, Roads and Borders derive from Book IX Article 10 rather than from discovered geography. Aven's design-principles verification is the canon-proc-003 step 5 task, as it was for CodeMike at MSc."
+        "notes": "Ratified v1.0 by the Sovereign on 2026-11-05 (Province-scoped: session-level under canon-proc-004, no decree). Extends the Republic Design System with one MyFin flourish (figures wider as they get bigger) and eight Hard Rules HR-M-1..HR-M-8. Reviewed by Aven (revise), Ashen (did not clear, then cleared), Nyx (amended, then LGTM at 0.2.2; the league display folds of 0.2.3-0.2.4 are unsigned and stay provisional). Lives in the private MyFin repo. Its §15 league display rules stay provisional until the league rules ratify. The Charter (docs/charters/MYFIN_CHARTER_2026-08-26.md) remains the Edict VIII instrument."
       }
     }
   ]
