@@ -2,6 +2,31 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-11-05",
+      "sessions": [
+        {
+          "id": "decree-0032-myfin-charter-amendment-2-sandbox-league",
+          "date": "2026-11-05",
+          "authored_by": "aurelius",
+          "province_of_origin": "myfin",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format, 2026-11-05; Charter amendment with canon-inst-009 incorporated, decree-shaped under canon-proc-004 clause (i) (global scope).",
+          "summary": "MyFin Charter Amendment 2, the Sandbox League; canon-inst-009 active. Ashen holds a separate office as governing body of MyFin's points-sandbox league: it adds nothing to his six risk matters and takes nothing from them; he does not play, signs the scorer's lines as transcriptions only, staffs the office from his Scribe detail, and the office lapses when he leaves the seat, the Sovereign's nominee (neither a player nor the Censor) holding it in the interim. Any seated companion of any Province may play, as a league record only and never as counsel; an admitted companion under Book VIII Art. 7 only from the first season after its naturalization (the Sovereign's ruling at decree, against the draft's proposal). The Cluster D Censor hears appeals, never at first instance, on league records only. The real portfolio's points stay on the Sovereign's screen, outside every published table, report and ledger. Nothing moves Art. 10 §1, §2 or §5. Reviewed by Ashen (clears) and Nyx (LGTM).",
+          "references": [
+            "docs/charters/MYFIN_CHARTER_AMENDMENT_2_LEAGUE_2026-11-05.md",
+            "docs/charters/MYFIN_CHARTER_2026-08-26.md",
+            "canon-inst-009-myfin-sandbox-league",
+            "lore-2026-11-05-doctrine-an-umpire-does-not-play",
+            "decree-0028-myfin-charter",
+            "decree-0030-canon-inst-007-ashen-myfin-risk-governor",
+            "interaction-2026-11-05-001",
+            "companion: ashen",
+            "companion: nyx"
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-10-16",
       "sessions": [
         {
@@ -4260,7 +4285,8 @@
         "The Sovereign plays in the sandbox under the same rules; the real portfolio is shown beside the players as points: season return only, time-weighted, no rupees, unranked, inheriting the Holdings states (5 Nov 2026).",
         "The sandbox becomes a league (5 Nov 2026): players from every Province, Ashen the governing body (he does not play), a financial-year season of 38 weekly rounds, a Premier Division of 20 with everyone in it the first season, a top-5 round robin, semi-finals and a final; rewards decided when the laws are written.",
         "League rulings (5 Nov 2026): a pre-season to 31 March 2027 with Season 1 as FY 2027-28; three down, two up and a third by a Championship-style play-off; domestic trades first, foreign at most 25% of an account with LRS costs and taxes.",
-        "Charter Amendment 2 and canon-inst-009 drafted (pending), at the Sovereign's direction, for the league office and the cross-Province door both review seats found outside the Province's power."
+        "Charter Amendment 2 and canon-inst-009 drafted (pending), at the Sovereign's direction, for the league office and the cross-Province door both review seats found outside the Province's power.",
+        "Decree 0032: Charter Amendment 2 and canon-inst-009 decreed after Ashen cleared and Nyx gave LGTM; admitted companions play only from the first season after naturalization (the Sovereign, against the draft's proposal). The design principles' ratification is session-level (Province-scoped, canon-proc-004), not a decree."
       ],
       "bugs_found": 0,
       "bugs_fixed": 0,
@@ -4279,8 +4305,10 @@
         "todo-0069-myfin-amendment-1-decree",
         "todo-0070-myfin-app-first-slice"
       ],
-      "resolved_todos": [],
-      "handoff": "Next: Ashen and Nyx review Charter Amendment 2; the Sovereign decrees it; then the league rules ratify in MyFin. Amendment 1 (Household) still awaits its decree. Aven builds the first slice against the ratified design principles.",
+      "resolved_todos": [
+        "todo-0066-myfin-amendment-2-decree"
+      ],
+      "handoff": "Charter Amendment 2 decreed as 0032 the same day. Next: the league rules ratify in MyFin. Amendment 1 (Household) still awaits its decree. Aven builds the first slice against the ratified design principles.",
       "screenshots": [],
       "tags": [
         "myfin",

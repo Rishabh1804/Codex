@@ -1474,7 +1474,7 @@
         "cluster-d"
       ],
       "repo": "rishabh1804/MyFin",
-      "current_phase": "Chartered and seated 2026-10-16. App planned 2026-11-04/05: an Android APK (React, TypeScript, Vite, Capacitor), code private in the MyFin repo's app/, prices from the NSE and AMFI daily files (docs/APP_PLAN.md). Design principles ratified v1.0 by the Sovereign 2026-11-05 (app/docs/MYFIN_DESIGN_PRINCIPLES.md), after Aven, Ashen and Nyx reviewed them; the screen build gate is lifted. The points sandbox became a league 2026-11-05 (docs/SANDBOX_LEAGUE.md, draft 0.3), awaiting MyFin Charter Amendment 2 (canon-inst-009, pending). Charter Amendment 1 (the Household Region) awaits its decree. Builder Aven and Governor of Risk Ashen remain in 'appointed' onboarding status; Censor Nyx. Zero live positions and no executing grant.",
+      "current_phase": "Chartered and seated 2026-10-16. App planned 2026-11-04/05: an Android APK (React, TypeScript, Vite, Capacitor), code private in the MyFin repo's app/, prices from the NSE and AMFI daily files (docs/APP_PLAN.md). Design principles ratified v1.0 by the Sovereign 2026-11-05 (app/docs/MYFIN_DESIGN_PRINCIPLES.md), after Aven, Ashen and Nyx reviewed them; the screen build gate is lifted. The points sandbox became a league 2026-11-05 (docs/SANDBOX_LEAGUE.md, draft 0.3), its institutional side decreed 2026-11-05 as MyFin Charter Amendment 2 and canon-inst-009 (decree 0032); the rules themselves await ratification in the MyFin repo. Charter Amendment 1 (the Household Region) awaits its decree. Builder Aven and Governor of Risk Ashen remain in 'appointed' onboarding status; Censor Nyx. Zero live positions and no executing grant.",
       "chapters": [
         {
           "id": "myfin-app-plan",
@@ -1522,7 +1522,7 @@
           "started": "2026-11-05",
           "completed": null,
           "ended": null,
-          "summary": "The points sandbox as a league: players from every Province and the Sovereign, Ashen the governing body, Nyx on appeals, a financial-year season of 38 weekly rounds, a Premier Division of 20, a top-5 play-off. Rules draft 0.3 in the MyFin repo; the institutional side in Charter Amendment 2 and canon-inst-009, pending the decree.",
+          "summary": "The points sandbox as a league: players from every Province and the Sovereign, Ashen the governing body, Nyx on appeals, a financial-year season of 38 weekly rounds, a Premier Division of 20, a top-5 play-off. Rules draft 0.3 in the MyFin repo; the institutional side decreed as Charter Amendment 2 and canon-inst-009 (decree 0032, 2026-11-05); admitted companions play only from the first season after naturalization.",
           "spec_url": "docs/charters/MYFIN_CHARTER_AMENDMENT_2_LEAGUE_2026-11-05.md",
           "_deleted": false,
           "_deleted_date": null,
@@ -1533,10 +1533,10 @@
         {
           "id": "todo-0066-myfin-amendment-2-decree",
           "text": "Put MyFin Charter Amendment 2 and canon-inst-009 to Ashen and Nyx, then the Sovereign for decree; record on the surfaces the amendment lists.",
-          "status": "open",
+          "status": "resolved",
           "chapter": "myfin-sandbox-league",
           "created": "2026-11-05",
-          "resolved": null,
+          "resolved": "2026-11-05",
           "source_session": "s-2026-11-05-myfin-design-principles-and-league",
           "_deleted": false,
           "_deleted_date": null

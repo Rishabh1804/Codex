@@ -100,6 +100,7 @@ under Book III. Reordering it is a constitutional act, not a refactor.
 | **Ledger → Interface** | Read-only by construction. Views may never mutate the record. Hindsight editing is Censor-reviewable under Article 10. |
 | **MyFin ↔ Codex** | **The firewall.** MyFin neither reads nor writes Codex's Treasury data, and no Codex allocation may cite MyFin state. Article 10's firewall made geographic. Contamination either way is Censor-reviewable. |
 | **MyFin ↔ the world** | **No companion decides.** MyFin may not open, close or alter a position, by recommendation acted on automatically, by standing instruction, or by any arrangement whose effect is that capital moves without the Sovereign choosing that it move. Article 10 §2, inalienable and not a Builder's to move. *Executing* is a separate question: §2 permits a narrowly-scoped executing facility by Sovereign decree, effecting-only and instantly revocable. **MyFin holds no such grant, and the Charter's Regions assume none** — an executing facility would be new territory requiring its own Charter amendment, not a switch inside the Risk region. |
+| **MyFin ↔ every other Province: the league** *(Amendment 2, decree 0032)* | A seated companion of any Province may hold one account in MyFin's Sandbox League and play under its rules; an admitted companion under Book VIII Art. 7 plays only from the first season after its naturalization (Sovereign, decree 0032). Play is not counsel: a player from another Province builds a league record only. That record is never shown beside counsel and never confers any part of MyFin's mandate, which stays with the companions this Charter names (Art. 10 §7). Points are not Treasury currency and not the Architect's capital; no point is spent, moved or converted into either. Nor does the Architect's capital reach the league: the real portfolio's return, shown as points beside the players, is on the Sovereign's own screen alone, never in a published league table, a report or the sandbox ledger, and never cited by a reward or a standing. A reward is a separate act (a Book IX act for anything from the Treasury) that may cite a league result; it is not a conversion of points. The league reaches no other Province's territory. Its players come to it. |
 
 ## 5 · Builder assignment
 
@@ -181,6 +182,14 @@ The Governor of Risk governs these matters and no others, save by provisional cl
 
 Each entry was admitted by the three conditions above, applied at drafting rather than in the
 moment. The list is amendable by the authority that declared the activation.
+
+### A separate office: governing body of the MyFin Sandbox League (Amendment 2, decree 0032)
+
+Ashen, while he holds the seat of Governor of Risk, also holds the office of governing body of the league kept in MyFin's points sandbox (`docs/SANDBOX_LEAGUE.md` in the MyFin repo, as ratified). The office is not a seventh risk matter. It adds nothing to the six above and takes nothing from them. Ashen checks orders against the rules, signs the ledger lines the scorer writes as transcriptions only, publishes the tables and reports, and rules on disputes at first instance. He does not play, change a rule, or touch a player's order. His league duties never inform his audits of counsel, and those audits never use the league table. The evidence of skill shown beside counsel is the scorer's computed record, never his report. A MyFin-chartered companion's orders carry falsifiers the scorer decides mechanically, judged by the scorer at placement; every order counts in full toward return and drawdown, and an undecidable falsifier scores *not held*. He staffs the office from his own Scribe detail (Book II Art. 3-bis); an agent beyond it needs his case to the Sovereign.
+
+**Lapse.** The office is Ashen's, not the seat's: it lapses when he leaves the seat. Until a further decree or the end of the season then running, the Sovereign's nominee holds it, being neither a player nor the Cluster D Censor. Should the seat ever divide, the office follows the Ledger jurisdiction, never a seat that judges counsel.
+
+**Appeals in the league** go to the Cluster D Censor, who holds no account, makes no ruling at first instance, and reaches league records only: a player's conduct anywhere else stays with that player's own Censor.
 
 ### How many seats these six warrant
 
@@ -302,3 +311,8 @@ about. It reads, it reasons, it records — and the hand that moves capital is n
 its own.
 
 — *Aurelius, The Chronicler, 26 August 2026*
+
+## Amendments
+
+- **Amendment 2, the Sandbox League** (decree 0032, 5 November 2026): §4 gains the row *MyFin ↔ every other Province: the league*; §6 gains the league office. Text and review: `docs/charters/MYFIN_CHARTER_AMENDMENT_2_LEAGUE_2026-11-05.md`.
+- Amendment 1, the Household Region (drafted 3 November 2026): not yet decreed.

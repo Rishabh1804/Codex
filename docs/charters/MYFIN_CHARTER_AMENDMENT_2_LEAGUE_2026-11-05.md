@@ -1,6 +1,6 @@
 # MyFin Charter: Amendment 2, the Sandbox League
 
-**Status: DRAFT, reviewed (Ashen clears; Nyx LGTM), awaiting the Sovereign's decree.** Drafted by Aurelius (Chronicler), 5 November 2026, at the Sovereign's direction ("Draft decree and check the codex to fill out the lore and every other section, as needed for this").
+**Status: RATIFIED by decree 0032, 5 November 2026.** Reviewed by Ashen (clears) and Nyx (LGTM); decreed by the Sovereign. Drafted by Aurelius (Chronicler), 5 November 2026, at the Sovereign's direction ("Draft decree and check the codex to fill out the lore and every other section, as needed for this").
 **Amends:** `docs/charters/MYFIN_CHARTER_2026-08-26.md` (decree 0028): §4 Borders and §6 Ashen's seat.
 **Carries:** the draft decree for the league (below), and canon-inst-009 (`data/canons.json`, status *pending*).
 **Chain:**
@@ -8,7 +8,7 @@
 2. Nyx signs off (Cluster D Censor, Edict V).
 3. The Sovereign decrees.
 
-**Decree number:** assigned at the sitting. MyFin Charter Amendment 1 (the Household Region, drafted 3 Nov 2026) also awaits a decree; whichever is decreed first takes 0032.
+**Decree number:** 0032. MyFin Charter Amendment 1 (the Household Region, drafted 3 Nov 2026) still awaits Aven's review, Nyx's sign-off and its own decree.
 
 ## At a glance
 
@@ -43,21 +43,21 @@ Neither seat can grant this itself. Charter §6 says its list is "amendable by t
 
 ### §4 Borders: add one row
 
-> | **MyFin ↔ every other Province: the league** | A seated companion of any Province, an admitted companion under Book VIII Art. 7 included, may hold one account in MyFin's Sandbox League and play under its rules. Play is not counsel: a player from another Province builds a league record only. That record is never shown beside counsel and never confers any part of MyFin's mandate, which stays with the companions this Charter names (Art. 10 §7). Points are not Treasury currency and not the Architect's capital; no point is spent, moved or converted into either. **Nor does the Architect's capital reach the league:** the real portfolio's return, shown as points beside the players, is on the Sovereign's own screen alone, never in a published league table, a report or the sandbox ledger, and never cited by a reward or a standing. A reward is a separate act (a Book IX act for anything from the Treasury) that may cite a league result; it is not a conversion of points. The league reaches no other Province's territory. Its players come to it. |
+> | **MyFin ↔ every other Province: the league** | A seated companion of any Province may hold one account in MyFin's Sandbox League and play under its rules; **an admitted companion under Book VIII Art. 7 plays only from the first season after its naturalization** (the Sovereign's ruling at decree). Play is not counsel: a player from another Province builds a league record only. That record is never shown beside counsel and never confers any part of MyFin's mandate, which stays with the companions this Charter names (Art. 10 §7). Points are not Treasury currency and not the Architect's capital; no point is spent, moved or converted into either. **Nor does the Architect's capital reach the league:** the real portfolio's return, shown as points beside the players, is on the Sovereign's own screen alone, never in a published league table, a report or the sandbox ledger, and never cited by a reward or a standing. A reward is a separate act (a Book IX act for anything from the Treasury) that may cite a league result; it is not a conversion of points. The league reaches no other Province's territory. Its players come to it. |
 
 ### §6: one line on appeals
 
 > **Appeals in the league** go to the Cluster D Censor (Nyx), who holds no account and makes no ruling at first instance. Her appellate reach covers league records only: a player's conduct anywhere else stays with that player's own Censor.
 
-## The decree (draft)
+## The decree
 
-> **Decree [number at the sitting]: MyFin Charter Amendment 2, the Sandbox League; canon-inst-009.**
+> **Decree 0032 (5 November 2026): MyFin Charter Amendment 2, the Sandbox League; canon-inst-009.**
 >
 > The Sovereign, by the authority that activated the Governor of Risk's seat (decree 0030) and enumerated its jurisdiction (decree 0028), decrees:
 >
 > 1. **The league office.** Ashen, Governor of Risk of MyFin, holds the separate office of governing body of the MyFin Sandbox League. It adds nothing to his enumerated risk jurisdiction and takes nothing from it. He holds no account in the league.
 > 2. **Lapse.** The office is Ashen's, not the seat's: it lapses when he leaves the seat. Until a further decree, or the end of the season then running, the Sovereign's nominee holds it in the interim; the nominee may be neither a player nor the Cluster D Censor, who hears the appeals. Should the Governor of Risk's seat ever divide, the office goes with the Ledger jurisdiction, never with any seat that judges counsel.
-> 3. **Open to every Province.** Any seated companion of any Province, an admitted companion under Book VIII Art. 7 included, may play in the league, as a league record only and never as counsel on the Architect's capital.
+> 3. **Open to every Province.** Any seated companion of any Province may play in the league, an admitted companion under Book VIII Art. 7 only from the first season after its naturalization, as a league record only and never as counsel on the Architect's capital.
 > 4. **Appeals.** The Cluster D Censor hears appeals in the league, makes no first-instance ruling, reaches league records only, and holds no account.
 > 5. **What this does not move.** Nothing in this decree touches Article 10 §2's inalienable limit, the revision prohibition of §5, or the firewall of §1. A reward in which a companion decides with real capital stays outside any decree's reach (Art. 10 §7).
 >
@@ -102,7 +102,7 @@ When the Sovereign decrees, the Chronicler records it on these surfaces, followi
 2. **Nyx:**
    - Is a Charter amendment under decree 0030's authority the right instrument, or does cross-Province play need a Book III text too?
    - Is canon-inst-009 correctly decree-shaped under canon-proc-004 (global scope, since it crosses Provinces)?
-3. **The Sovereign:** the decree, and whether admitted companions (Book VIII Art. 7, the SEP-Ops cohort among them) may play before they are naturalized. This draft says they may: play is no ratification voice and no standing outside their Province. *(Ashen answered the lapse question in review: the office lapses with him, clause 2.)*
+3. **The Sovereign:** decreed (0032). On admitted companions the Sovereign ruled against the draft's proposal: they play only from the first season after naturalization. *(Ashen answered the lapse question in review: the office lapses with him, clause 2.)*
 
 ## Review
 
@@ -120,6 +120,11 @@ Foreign fills (source and FX stamp) are a league-rules matter, already in `docs/
 - one text: the decree incorporates canon-inst-009, and the two now agree that the office is Ashen's and lapses with him;
 - the interim holder is the Sovereign's nominee, never Nyx, and Nyx makes no first-instance ruling. A MyFin-chartered companion's falsifiers must be mechanical instead (judged by the scorer at placement; every order counts toward return and drawdown, and an undecidable falsifier scores *not held*), so no ruling shapes the record beside counsel;
 - Nyx's appellate reach is league records only;
-- admitted companions (Book VIII Art. 7) may play, put to the Sovereign above;
+- admitted companions (Book VIII Art. 7): put to the Sovereign, who ruled at decree that they play only from the first season after naturalization;
 - "never in a published league table";
 - the recording list corrected against `efacecb`.
+
+
+## Decree
+
+**Decree 0032, 5 November 2026.** The Sovereign decreed the amendment and canon-inst-009 as reviewed, by MCQ under the canon-cc-014 house format, with one ruling against the draft: admitted companions under Book VIII Art. 7 play only from the first season after their naturalization. Recorded on the surfaces listed above the same day.
