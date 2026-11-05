@@ -390,6 +390,7 @@
     {
       "id": "interaction-2026-11-05-001",
       "type": "spec-signing-chain",
+      "_type_placeholder_note": "Descriptive type pending cc-017 enum-extension to add 'spec-signing-chain'; recorded per cc-024 §D placeholder clause. Subject is a review and signing chain on a Province document (MyFin design principles) and its league rules, with a Charter amendment drafted from it.",
       "venue": "myfin",
       "date": "2026-11-05",
       "participants": [
