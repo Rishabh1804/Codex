@@ -419,6 +419,38 @@
         "myfin: docs/SANDBOX_LEAGUE.md",
         "myfin: PR #5"
       ]
+    },
+    {
+      "id": "interaction-2026-11-06-001",
+      "type": "spec-signing-chain",
+      "_type_placeholder_note": "Descriptive type pending cc-017 enum-extension to add 'spec-signing-chain'; recorded per cc-024 §D placeholder clause. Subject is a review and signing chain on a Charter amendment (MyFin Amendment 1) and a Province document (MyFin design principles amendment 1.1).",
+      "venue": "myfin",
+      "date": "2026-11-06",
+      "participants": [
+        "aurelius",
+        "aven",
+        "ashen",
+        "nyx",
+        "sovereign"
+      ],
+      "originating_cluster": "D",
+      "subject": "MyFin Charter Amendment 1 with its vision board clause, and design principles amendment 1.1: review rounds",
+      "substance": "Round 1: Aven (Builder) returned REVISE on the Charter amendment, finding Ashen's seat bound to Intake → Analysis 'and no others', the ratings walled off in words only, no Modules named and a goal able to name a position, and cleared the design amendment with conditions (touch targets, storage, HR-2's allowlist, an ungated 'never typed' rule). Ashen (Governor of Risk) cleared with conditions: a goal's cost is a planned outlay Risk must see; staleness rules for household sources; double counting and a stated method (catching a wrong figure on the canvas, ₹15,000 for ₹10,000); a goal never a Ledger entry; the ratings needing a gate; mixes clear of status fills. Re-checks: both found the new vision-store border cut off the bounds feed it was meant to supply; one door, goalOutlays(), was added and gate 15 extended to aliases, paths and scripts. Aven then found the path check rejecting allowed imports; fixed. Nyx (Censor) amended both: gate 15 bypassable by a re-export and blind to transitive imports; the script check a heuristic; the market goal's value unable to come from the Capital, first in the Road; matter 3 to cover hand-kept household figures; the decree's ground cited to a canon that does not say it. Each finding was folded and proved on planted cases.",
+      "decision_or_outcome": "Ashen cleared; Aven's last condition met; Nyx LGTM once folded, which was done. The Sovereign decreed Charter Amendment 1 as decree 0033 and ratified design principles amendment 1.1 on 2026-11-06, ruling against Nyx's within-set reading that colours be distinct across sets too (design principles amendment 1.2 to follow).",
+      "authored_by": "aurelius-retrospective",
+      "status": "reviewed_archived",
+      "review": {
+        "reviewed_by": "sovereign",
+        "reviewed_at": "2026-11-06",
+        "outcome": "archived at the recording of decree 0033"
+      },
+      "references": [
+        "decree-0033-myfin-charter-amendment-1-household",
+        "docs/charters/MYFIN_CHARTER_AMENDMENT_1_HOUSEHOLD_2026-11-03.md",
+        "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
+        "myfin: PR #7",
+        "codex: PR #109"
+      ]
     }
   ]
 }
