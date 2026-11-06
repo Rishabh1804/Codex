@@ -141,7 +141,7 @@ Two of the Governor of Risk's six matters reach the new borders. They are not ne
 
 > **Decree 0033 (draft): MyFin Charter Amendment 1, the Household Region.**
 >
-> The Sovereign, amending the instrument ratified by decree 0028 under Edict VIII, and amending §6's list by the authority of decree 0030 (canon-proc-004: an amendment of a decreed instrument is itself decreed), decrees:
+> The Sovereign, amending the MyFin Charter (decree 0028) on its own terms (reordering the Road is a constitutional act under Book III, Charter §3, and the §6 list is amendable only by the authority that activated the seat, decree 0030), and recording the act in decree shape under canon-proc-004, decrees:
 >
 > 1. **The Household Region** is added to MyFin, with the Road, borders and privacy care of this amendment.
 > 2. **The vision board** is kept in the Household Region on the terms of §2, the vision board: it records and reasons only about money; no companion counsels on, rates or scores a goal; the ratings stay in MyFin and are read by the Interface alone; a goal is never a position, and the Sovereign alone sets any bound it inspires (Art. 10 §4).
@@ -186,7 +186,7 @@ Also folded: the LOC figures (Household ~1,300, Interface ~2,000, total ≈ 6,60
 - the vision store border promised more than CI sees: CI enforces the code (imports followed transitively, alias, path) and the scripts (a heuristic, said so); what a session reads is a conduct rule she reviews, cited by the league rules when written;
 - a market goal's value is worked out in the Interface, not exported from the Capital, which comes first in the Road and cannot read Intake;
 - matter 3 covers every household figure, hand-kept ones included; matter 1 keeps "stated once, earmarked apart, applied";
-- §3's claim about theses corrected; the decree's ground stated (canon-proc-004); Art. 10 §4 in decree clause 2; the interaction record and handoff in the recording list; "never a judgement" in clause 2; the store's files opaque to sync;
+- §3's claim about theses corrected; the decree's ground stated (the Charter's own terms, recorded in decree shape under canon-proc-004; corrected at her final check, LGTM once folded); Art. 10 §4 in decree clause 2; the interaction record and handoff in the recording list; "never a judgement" in clause 2; the store's files opaque to sync;
 - her answer on insurance: protection cover is not a position, a market-linked policy becomes one when counsel names buying, surrendering or switching it. Added to the Household ↛ Ledger row.
 
 Next: the Sovereign's decree.
