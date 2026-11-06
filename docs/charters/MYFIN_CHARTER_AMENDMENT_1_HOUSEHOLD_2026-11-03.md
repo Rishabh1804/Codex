@@ -105,7 +105,7 @@ the household bounds in place. The Charter's load-bearing line is unchanged and 
 | **Intake → Household** | The provenance boundary of §4 applies unchanged: a balance or price without source and as-of does not cross. Each household source carries its own staleness age, and a figure past it is disclosed as stale wherever it is shown. |
 | **Household → Risk** | The bounds feed. Household supplies the facts from which the Sovereign's bounds are set: the reserve floor, the cash flow, and **planned outlays, a vision board goal's cost and date among them, each counted once**. Sums already set aside for goals are stated separately in the feed, and the Sovereign decides whether the floor counts them. Household **never sets a bound** and never decides how an earmarked sum is treated (Art. 10 §4). A goal's words and photos and the monthly ratings are not among these facts. |
 | **Household ↛ Ledger** | **No write.** Household names no position and writes nothing to the Position Ledger. Insurance and outlay research is counsel in the ordinary sense, but it is not a *position* under Article 10. A household decision that is a market position (selling holdings to fund an outlay, borrowing against investments) is entered in the Ledger through the Road like any other. A vision board goal is never an entry (§2, the vision board, clause 4). |
-| **Household vision store → Interface only** | The vision board's records (the goals' words and photos, the areas' questions and lines, and the monthly ratings) are read by the Interface alone. No other Region, no export from the Capital, no script that builds a dashboard or summary, and no league tool reads them. CI enforces this with an import rule, as the Road's other rules are enforced (`docs/APP_PLAN.md` §1 in the MyFin repository). A goal's cost and date reach Risk only through the bounds feed above. |
+| **Household vision store → Interface only** | The vision board's records (the goals' words and photos, the areas' questions and lines, and the monthly ratings) are read by the Interface alone. No other Region, no export from the Capital, no script that builds a dashboard or summary, and no league player's session reads them. **One door only:** a goal's cost and date, the sum set aside for it and its source leave the store by a single export (`goalOutlays()`), read only by the household bounds feed, and reach Risk only through the bounds feed above. CI enforces this border, as the Road's other rules are enforced: by import, by alias and by path, and in the scripts (`docs/APP_PLAN.md` §1 and the design principles' gate 15 in the MyFin repository). |
 
 ### §4: one further care, privacy
 
@@ -178,7 +178,9 @@ Also folded: the LOC figures (Household ~1,300, Interface ~2,000, total ≈ 6,60
 - A goal funded from the Treasury has no money side in MyFin. Folded into clause 1.
 - Each household source needs a staleness age. Folded into Intake → Household and matter 3.
 
-Next: Ashen's re-check of the folds, then Nyx.
+**Re-checks (6 Nov 2026):** Aven, *clears with conditions*; Ashen, *clears with conditions*. Both found that the vision store's border, as first drawn, cut off the bounds feed it was meant to supply, and that a read by path would slip past an import rule. Folded: the one door, `goalOutlays()`, named in the vision store row; CI enforcing the border by import, alias and path and in the scripts; no league player's session given the store. Ashen's further conditions (who sets a source's staleness age, a market goal's value shown alone, the surplus stamped) are design principles matters, folded there (1.1.2).
+
+Next: Nyx.
 
 ## Open for the reviewers
 
