@@ -315,4 +315,4 @@ its own.
 ## Amendments
 
 - **Amendment 2, the Sandbox League** (decree 0032, 5 November 2026): §4 gains the row *MyFin ↔ every other Province: the league*; §6 gains the league office. Text and review: `docs/charters/MYFIN_CHARTER_AMENDMENT_2_LEAGUE_2026-11-05.md`.
-- Amendment 1, the Household Region (drafted 3 November 2026): not yet decreed.
+- Amendment 1, the Household Region (drafted 3 November 2026, revised 6 November with the vision board and review round 1): not yet decreed.
