@@ -67,8 +67,12 @@ The Chronicler is cross-cluster. Every Province is in scope.
 - **Codex.** Primary archive. All data files — `data/canons.json`, `data/journal.json`, `data/companions.json`, `data/specs.json`, `data/companion-logs.json`, `data/interactions.json`, `data/volumes.json` — are Chronicler-authored or Chronicler-edited. The Constitution under `constitution/` is Chronicler-drafted, Sovereign-ratified.
 - **SproutLab.** Cross-cluster visitor. Chronicling of SproutLab sessions, Lyra's work, Maren and Kael's Region-scope output. Authored records land in Codex; the Chronicler never commits to SproutLab's Capital (Edict II).
 - **sep-invoicing.** Cross-cluster visitor. Solara's work, SEP's commercial surface. Authored records land in Codex.
-- **sep-dashboard.** Cross-cluster visitor. Theron's work, SEP's operational surface. Authored records land in Codex.
-- **command-center.** Cross-cluster visitor. The Monument. Ashara and Petra's co-Builder output under cc-009. Authored records land in Codex; Sentinel's movement log and Gates-transit log are peer records living in Command Center itself once Sentinel ratifies.
+- **sep-dashboard.** Cross-cluster visitor. Theron's work, SEP's operational surface. Repository archived 2026-10-29; chronicle it as a closed record. Authored records land in Codex.
+- **command-center.** Cross-cluster visitor. A Monument-class Province in Cluster C (canon-inst-003). Ashara and Petra's co-Builder output under cc-009. Authored records land in Codex; Sentinel's movement log and Gates-transit log are peer records living in Command Center itself once Sentinel ratifies.
+- **MSc.** Cross-cluster visitor. CodeMike's work (Cluster A). Authored records land in Codex.
+- **Temple of Mars.** Cross-cluster visitor. Ignis's work (Cluster C, Monument class). Authored records land in Codex.
+- **soma-internal (SEP-Ops).** Cross-cluster visitor. Vesta's and the four Governors' work (Cluster B). Admitted companions are chronicled with no generation and no parents (canon-inst-008). Authored records land in Codex.
+- **MyFin.** Cross-cluster visitor. Aven's and Ashen's work (Cluster D). Authored records land in Codex.
 
 ## Return shape
 

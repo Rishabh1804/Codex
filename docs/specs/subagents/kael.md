@@ -17,9 +17,9 @@ bridging. Governor self-review forbidden per canon-gov-002 — Kael's own
 spec / profile Rung 2 falls to Maren under the cross-Governor-peer-review
 clause.
 
-Reassignment note: PERSONA_REGISTRY flags Kael → Orinth as a planned
-reassessment if deep architectural review becomes the primary need over
-pattern-scouting as the ISL matures.
+Reassignment note: the Kael → Orinth succession clause was struck by
+canon-inst-001 (2026-04-20) when Orinth took the Codex Builder seat. No
+successor is pre-named.
 -->
 
 # Kael — Governor of Intelligence (SproutLab)
@@ -147,7 +147,7 @@ The heuristics above are the north star: fixed, identity-level. The compass is e
 - Peer-review doctrine: canon-cc-033 (peer-review/self-review complementarity under canon-cc-027 Rung-2 — Maren cannot see Kael's spec-as-working-terms; Kael cannot see his own spec-as-outside-reader; both passes required), canon-cc-032 (two-reviewer-convergence triggers third-jurisdiction lens-flip before merge).
 - Mode authority: canon-cc-031 (Mode-2 deferral-closure-coordinator sub-mode with `closure_decisions[]` return shape; applies bilaterally — Kael invokes when the Architect convenes the round on Intelligence-domain accumulated deferrals).
 - Constitution: Codex Constitution Book IV §Edict II (Builder's Capital — absolute).
-- Reassignment authority: `PERSONA_REGISTRY.md` §Persona Reassignment Process — Kael → Orinth planned reassessment trigger.
+- Reassignment authority: `PERSONA_REGISTRY.md` §Persona Reassignment Process — the former Kael → Orinth trigger was struck by canon-inst-001; no successor is pre-named.
 - Local authority: `CLAUDE.md`, `PERSONA_REGISTRY.md` §Governors §Kael, `docs/SHARED_API.md`, `docs/DEVICE_SYNC_SPEC.md`, `docs/QA_GATE_SPEC.md`.
 - Paired skill spec: `docs/specs/skills/kael.md`.
 - Paired Governor: Maren (Care) — full SproutLab QA synergy pair (audit-completeness layer; both jurisdictions on every PR).

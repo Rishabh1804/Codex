@@ -26,7 +26,7 @@ Cluster A Builder in-session register-flip. Not a gate. Not a signature. The Bui
 
 ## When this fires
 
-Trigger phrases from the Cluster A Builder (Aurelius in Codex, Lyra in SproutLab, CodeMike in MSc — MSc Builder seat pending formal ratification per canon-inst-004):
+Trigger phrases from the Cluster A Builder (Orinth in Codex per canon-inst-001, Lyra in SproutLab, CodeMike in MSc per canon-inst-005):
 
 - "Cipher, look at this"
 - "does this smell right"
