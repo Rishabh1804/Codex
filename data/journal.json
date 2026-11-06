@@ -4367,13 +4367,13 @@
         "Decree 0033: Charter Amendment 1, the Household Region, with the vision board clause; Ashen's matters 1 and 3 extended; the vision store read by the Interface alone.",
         "Design principles amendment 1.1 ratified by the Sovereign (6 Nov 2026), Province-scoped and so session-level under canon-proc-004: §6.5 mixes, §6.6 areas, Life areas icons (91), 55 components, §10.1 the vision board, gates 15 and 16.",
         "Colours distinct across sets too (Sovereign, 6 Nov 2026, against Nyx's within-set reading): every area and every category its own colour; about 15 are needed, more than the primaries and their mixes give, so design principles amendment 1.2 is drafted to add lighter or darker steps of a primary.",
-        "MyFin design principles 1.2 ratified by the Sovereign (6 Nov 2026) after Aven, Ashen and Nyx: the categories hold the seven primaries; the areas take seven deep steps of a primary and coral, none a category's colour or icon. Nyx's last fold found that washes sit under the 4.8 bar even among the ratified primaries (0.9 apart); the Sovereign ruled that a coding disc shows its fill, carried by amendment 1.3 (todo-0072)."
+        "MyFin design principles 1.2 ratified by the Sovereign (6 Nov 2026) after Aven, Ashen and Nyx: the categories hold the seven primaries; the areas take seven deep steps of a primary and coral, none a category's colour or icon. Nyx's last fold found that washes sit under the 4.8 bar even among the ratified primaries (0.9 apart); the Sovereign ruled that a coding disc shows its fill, carried by amendment 1.3 (todo-0072).",
+        "MyFin design principles 1.3 ratified by the Sovereign (6 Nov 2026) after Aven (revise, then clears), Ashen (clears) and Nyx (amended, then LGTM once folded): a coding disc is filled with its colour in a control-edge ring, its icon in disc-ink; and, at the Sovereign's request that colours never drift, every colour is catalogued append-only (app/docs/COLOUR_CATALOGUE.md, household/colours.md), held by gate 13 as a true append and by tests that the app draws only what the catalogue says. The Sovereign ruled that Home wears amber-dusk, its dark fill stepped clear of warning."
       ],
       "bugs_found": 3,
       "bugs_fixed": 3,
       "duration_minutes": null,
       "open_todos": [
-        "todo-0072-myfin-design-principles-1-3-disc-fill",
         "todo-0067-myfin-league-rules-ratify",
         "todo-0068-myfin-league-foreign-cost-schedule",
         "todo-0070-myfin-app-first-slice"
