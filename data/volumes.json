@@ -1588,6 +1588,16 @@
         {
           "id": "todo-0071-myfin-design-principles-1-2-colours",
           "text": "Design principles amendment 1.2: every area of life and every category its own colour across both sets (Sovereign, 6 Nov 2026), by adding lighter or darker steps of a primary; review by Aven, Ashen, Nyx; ratify.",
+          "status": "resolved",
+          "chapter": "myfin-design-principles",
+          "created": "2026-11-06",
+          "resolved": "2026-11-06",
+          "source_session": "s-2026-11-06-myfin-vision-board-and-household",
+          "resolution": "Ratified by the Sovereign as 1.2 (6 Nov 2026) after Aven, Ashen and Nyx (LGTM once folded). MyFin PR #8. The Sovereign ruled the washes: a coding disc shows its fill; carried by todo-0072 (amendment 1.3)."
+        },
+        {
+          "id": "todo-0072-myfin-design-principles-1-3-disc-fill",
+          "text": "Design principles amendment 1.3: a coding disc shows its fill (a ring or a filled disc), so its full colour is always seen (Sovereign, 6 Nov 2026, at 1.2's ratification); review by Aven, Ashen, Nyx; ratify.",
           "status": "open",
           "chapter": "myfin-design-principles",
           "created": "2026-11-06",
