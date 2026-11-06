@@ -1,6 +1,6 @@
 # MyFin Charter: Amendment 1, the Household Region
 
-**Status: DRAFT, not ratified.** Drafted by Aurelius (Chronicler), 3 November 2026, at the
+**Status: RATIFIED by decree 0033, 6 November 2026.** Reviewed by Aven (clears with conditions, folded), Ashen (clears) and Nyx (LGTM once folded); decreed by the Sovereign. Drafted by Aurelius (Chronicler), 3 November 2026, at the
 Sovereign's direction: Sovereign MCQ on 3 Nov 2026, "Amend: Household Region".
 **Revised 6 November 2026:**
 - the vision board clause was added to §2, at the Sovereign's direction ("Write the clause"), after the Sovereign chose MyFin's Plans door as the board's home;
@@ -8,7 +8,7 @@ Sovereign's direction: Sovereign MCQ on 3 Nov 2026, "Amend: Household Region".
 
 **Amends:** `docs/charters/MYFIN_CHARTER_2026-08-26.md` (decree 0028): §2 Regions, §3 Roads, §4 Borders and §6 Ashen's seat.
 **Carries:** the draft decree (below).
-**Decree number:** 0033, the next free number when this draft was revised. It is provisional until the decree is made.
+**Decree number:** 0033.
 **Ratification path:**
 1. Builder review by **Aven**.
 2. **Ashen** reviews, for his seat: this amendment extends two of his six matters (§6) and draws the bounds feed (§4).
@@ -137,9 +137,9 @@ Two of the Governor of Risk's six matters reach the new borders. They are not ne
 
 ---
 
-## The decree (draft)
+## The decree
 
-> **Decree 0033 (draft): MyFin Charter Amendment 1, the Household Region.**
+> **Decree 0033 (6 November 2026): MyFin Charter Amendment 1, the Household Region.**
 >
 > The Sovereign, amending the MyFin Charter (decree 0028) on its own terms (reordering the Road is a constitutional act under Book III, Charter §3, and the §6 list is amendable only by the authority that activated the seat, decree 0030), and recording the act in decree shape under canon-proc-004, decrees:
 >
@@ -191,6 +191,10 @@ Also folded: the LOC figures (Household ~1,300, Interface ~2,000, total ≈ 6,60
 
 Next: the Sovereign's decree.
 
+## Decree
+
+**Decree 0033, 6 November 2026.** The Sovereign decreed the amendment as reviewed, by MCQ under the canon-cc-014 house format, together with the ratification of MyFin design principles amendment 1.1 and a ruling on colour: every area of life and every category gets its own colour across both sets, not only within one (to be drawn by design principles amendment 1.2). Recorded on the surfaces listed above the same day.
+
 ## Open for the reviewers
 
 1. **Nyx** (answered at her review, 6 Nov 2026):
@@ -199,4 +203,4 @@ Next: the Sovereign's decree.
    - The import rule is necessary but not sufficient; the conduct rule completes it (folded).
 2. **Sovereign:** the decree.
 
-*Drafted in the Codex archive, where constitutional records live. Nothing in MyFin is changed by this draft until it is ratified.*
+*Drafted in the Codex archive, where constitutional records live. Merged into the Charter at decree 0033.*

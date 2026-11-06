@@ -2,6 +2,32 @@
   "_schema_version": 1,
   "journal": [
     {
+      "date": "2026-11-06",
+      "sessions": [
+        {
+          "id": "decree-0033-myfin-charter-amendment-1-household",
+          "date": "2026-11-06",
+          "authored_by": "aurelius",
+          "province_of_origin": "myfin",
+          "ratified_by": "sovereign",
+          "ratification_mode": "Sovereign-direct MCQ ruling under the canon-cc-014 house format, 2026-11-06; amendment of the MyFin Charter (decree 0028) on its own terms (reordering the Road is a Book III act, Charter §3; the §6 list amendable only by decree 0030's authority), recorded in decree shape under canon-proc-004.",
+          "summary": "MyFin Charter Amendment 1, the Household Region. MyFin gains a Household Region for the Architect's capital outside markets (balances, cash flow, spending, insurance, planned outlays), stamped with source and date, after Intake and before Analysis in the Road; it supplies facts to Risk, never sets a bound, names no position and writes nothing to the Ledger. It keeps the Sovereign's vision board: goals in every area of life and a monthly rating of each, reasoning only about their money; no companion counsels on, rates or scores a goal; a goal is never a position; the ratings and a goal's words and photos are read by the Interface alone, enforced in code by CI and in companions' sessions as a conduct rule the Cluster D Censor reviews; a goal's cost and date reach Risk as a planned outlay by one door. The Governor of Risk's matters 1 and 3 reach the bounds feed and every household figure; the list stays six. Nothing moves Art. 10 §1, §2, §4 or §5. Reviewed by Aven (revise, then clears with conditions, folded), Ashen (clears) and Nyx (amended, then LGTM once folded). Decreed with the ratification of MyFin design principles amendment 1.1 and a colour ruling: every area of life and every category gets its own colour across both sets.",
+          "references": [
+            "docs/charters/MYFIN_CHARTER_AMENDMENT_1_HOUSEHOLD_2026-11-03.md",
+            "docs/charters/MYFIN_CHARTER_2026-08-26.md",
+            "decree-0028-myfin-charter",
+            "decree-0030-canon-inst-007-ashen-myfin-risk-governor",
+            "interaction-2026-11-06-001",
+            "docs/handoffs/myfin-household-decree-2026-11-06.md",
+            "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
+            "companion: aven",
+            "companion: ashen",
+            "companion: nyx"
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-05",
       "sessions": [
         {
@@ -4319,6 +4345,39 @@
         "cluster-d",
         "chronicler"
       ]
+    },
+    {
+      "id": "s-2026-11-06-myfin-vision-board-and-household",
+      "date": "2026-11-06",
+      "title": "MyFin: app slice 1a merged; the vision board designed; Charter Amendment 1 decreed (0033); design principles 1.1 ratified",
+      "summary": "Chronicler session in the MyFin repo with Aven, Ashen and Nyx run as review seats. App build slice 1a (the Ledger read and append-only write modules, design foundations, gates) merged as MyFin PR #6. At the Sovereign's request a vision board was designed from four references and the Plannedo method: eight areas, one board per goal, a monthly 1-10 rating on a wheel, the money side worked out from household figures; drawn on the MyFin canvas. The Sovereign ruled that every new colour is a mix of the seven primary domain colours (the first, coral, rose + amber). The vision board clause was written into Charter Amendment 1 and design principles amendment 1.1 drafted; Aven (revise, then clears with conditions), Ashen (clears with conditions twice, then clears) and Nyx (amended, then LGTM once folded) reviewed both. The Sovereign decreed Amendment 1 as decree 0033 and ratified design principles 1.1, ruling that colours be distinct across sets too.",
+      "volumes_touched": [
+        "myfin",
+        "codex"
+      ],
+      "chapters_touched": [
+        "myfin-household-region",
+        "myfin-design-principles",
+        "myfin-app-plan"
+      ],
+      "decisions": [
+        "App slice 1a merged (MyFin PR #6): ledger.ts read-only, ledger.write.ts append-only with revisions refused, tokens and icons generated, gates 1-9 and 12-14 in CI.",
+        "The vision board lives in MyFin's Plans through Charter Amendment 1; eight areas; one board per goal; a monthly 1-10 rating; notes in Geist, no handwriting face; calendar year by default with a financial-year toggle and filters by quarter, month or dates (Sovereign, 6 Nov 2026).",
+        "Every new coding colour is a mix of the seven primary domain colours, never a shared one (Sovereign, 6 Nov 2026); mixed in OKLCH, kept at ΔE 4.79 from every coding colour and status fill; at most six such mixes exist.",
+        "Decree 0033: Charter Amendment 1, the Household Region, with the vision board clause; Ashen's matters 1 and 3 extended; the vision store read by the Interface alone.",
+        "Design principles amendment 1.1 ratified by the Sovereign (6 Nov 2026), Province-scoped and so session-level under canon-proc-004: §6.5 mixes, §6.6 areas, Life areas icons (91), 55 components, §10.1 the vision board, gates 15 and 16.",
+        "Colours distinct across sets too (Sovereign, 6 Nov 2026, against Nyx's within-set reading): every area and every category its own colour; about 15 are needed, more than the primaries and their mixes give, so design principles amendment 1.2 is drafted to add lighter or darker steps of a primary."
+      ],
+      "bugs_found": 3,
+      "bugs_fixed": 3,
+      "duration_minutes": null,
+      "open_todos": [
+        "todo-0071-myfin-design-principles-1-2-colours",
+        "todo-0067-myfin-league-rules-ratify",
+        "todo-0068-myfin-league-foreign-cost-schedule",
+        "todo-0070-myfin-app-first-slice"
+      ],
+      "handoff": "Design principles amendment 1.2 (colours distinct across sets) to be drafted and reviewed; the league rules still in discussion; app slice 1b (store.ts, the household screens) now chartered."
     }
   ]
 }

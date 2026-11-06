@@ -65,16 +65,35 @@ with measured figures at the first Censor review.
 | **Intake** | ~800 | Market and instrument data acquisition. Every datum stamped with source and as-of at the moment of entry. Staleness is computed here, not assumed downstream. | `intake.js`, `providers/*.js` |
 | **Analysis** | ~1,200 | Thesis construction. Each thesis carries evidence, a falsifier, and a horizon or it does not compile. | `analysis.js`, `thesis.js` |
 | **Risk** | ~700 | The bounds registry — sizing, concentration, drawdown tolerance — plus breach detection and the recusal triggers of Article 10. | `risk.js`, `bounds.js` |
-| **Interface** | ~1,400 | Ledger review, position detail, and the retrospective scoring view where closed horizons are read back. | `views.js`, `forms.js`, `styles.css` |
+| **Household** *(Amendment 1, decree 0033)*  | ~1,300 | The household's facts: cash and bank balances, cash flow, spending, insurance, planned outlays, and the vision board (below). Every figure is stamped with its source and as-of date. Supplies the **reserve and cash-flow bounds** to Risk. Holds research and facts; names no position. | `app/src/household/`: pure functions over the records, which live in the repository's `household/`. The vision board's records live in `household/vision/`, fenced off by §4. |
+| **Interface** | ~2,000 *(Amendment 1: was ~1,400)* | Ledger review, position detail, and the retrospective scoring view where closed horizons are read back; the household screens and the vision board's screens in Plans. | `views.js`, `forms.js`, `styles.css` |
 
-**Projected total ≈ 4,700 LOC.** Below every threshold in the cascade. No Governor
+**Projected total ≈ 6,600 LOC** *(Amendment 1, decree 0033; ≈ 4,700 at founding)*. Below every threshold in the cascade. No Governor
 activation, no General crystallization, no Centurion at founding.
+
+### The vision board, in Household (Amendment 1, decree 0033)
+
+> **The vision board** (Revision of 6 November 2026). The Household Region also keeps the Sovereign's vision board: the Sovereign's goals in every area of life, not only money, and the Sovereign's own monthly rating of each area.
+>
+> 1. **It records; it reasons only about money.** For a goal that carries a cost and a date, Household works out what to set aside each month, by a method stated on the board, and reports what is set aside. It uses the household's own figures only, each stamped with its source and as-of date; a goal funded from the Treasury or any other Province has no money side in MyFin (Art. 10 §1). A goal in any other area is kept as the Sovereign wrote it.
+> 2. **No companion counsels on a goal, rates it or scores it.** The goals and the ratings are the Sovereign's own words and numbers. A companion may show them back; it never adds to them, and nothing computes a score from them. The board may show the Sovereign's own answers and dates, never a judgement of them.
+> 3. **The ratings stay put.** They never leave MyFin. They never inform a bound, a piece of counsel, Ashen's audits or any league record, and they are never read as evidence of anything. This is enforced by the border *Household vision store → Interface only* (§4): in code by CI, and in every companion's session as a conduct rule the Cluster D Censor reviews.
+> 4. **A goal is never a position.** A goal is never a Ledger entry: its date is not a horizon, and its words are not a thesis or evidence. Where a goal concerns market holdings:
+>    - it stores only the IDs of Position Ledger entries the Sovereign has already made, never an instrument or a size of its own;
+>    - it shows no figure for what to set aside each month, because that would be sizing advice outside counsel;
+>    - its value is worked out in the Interface from the Ledger's read functions and Intake's prices, with their provenance states, never from the board;
+>    - a target the Sovereign wants to bind is recorded as a bound under Article 10 §4, which the Sovereign alone sets, never inferred from the board.
+>
+>    The board never proposes an order (Charter §4, *MyFin ↔ the world*).
+> 5. **Photos are household records.** They fall under §4's privacy care below. They are kept in the private Province repository and in the device's own cache, nowhere else, with location and camera data stripped when they are compressed.
 
 ## 3 · Roads
 
 ```
-data → ledger → intake → analysis → risk → views → start
+data → ledger → intake → household → analysis → risk → views → start
 ```
+
+*Amendment 1, decree 0033:* **Household sits after Intake and before Analysis.** It reads Intake (balances, prices) and is read by Risk. Risk reads Household; that the bounds drawn from it are current and applied is matter 1 (§6). The load-bearing line below is unchanged and extended: Risk reads Household.
 
 Dependencies flow downward, as in Codex. One property of this order is load-bearing and
 must not be treated as incidental:
@@ -98,9 +117,23 @@ under Book III. Reordering it is a constitutional act, not a refactor.
 | **Analysis → Risk** | The falsifier gate. A thesis lacking falsifier or horizon cannot cross. Article 10 §3. |
 | **Risk → Ledger** | The write boundary. The sole path by which a position enters the record; stamps disposition and bounds-check outcome. |
 | **Ledger → Interface** | Read-only by construction. Views may never mutate the record. Hindsight editing is Censor-reviewable under Article 10. |
+| **Intake → Household** *(Amendment 1, decree 0033)* | The provenance boundary of §4 applies unchanged: a balance or price without source and as-of does not cross. Each household source carries its own staleness age, and a figure past it is disclosed as stale wherever it is shown. |
+| **Household → Risk** *(Amendment 1, decree 0033)* | The bounds feed. Household supplies the facts from which the Sovereign's bounds are set: the reserve floor, the cash flow, and **planned outlays, a vision board goal's cost and date among them, each counted once**. Sums already set aside for goals are stated separately in the feed, and the Sovereign decides whether the floor counts them. Household **never sets a bound** and never decides how an earmarked sum is treated (Art. 10 §4). A goal's words and photos and the monthly ratings are not among these facts. |
+| **Household ↛ Ledger** *(Amendment 1, decree 0033)* | **No write.** Household names no position and writes nothing to the Position Ledger. Insurance and outlay research is counsel in the ordinary sense, but it is not a *position* under Article 10. A household decision that is a market position (selling holdings to fund an outlay, borrowing against investments) is entered in the Ledger through the Road like any other. A vision board goal is never an entry (§2, the vision board, clause 4). Protection cover (term, health) is not a position. A market-linked policy (a ULIP, an endowment) becomes one whenever counsel names buying, surrendering or switching it: it then goes through the Road, and whether it is an instrument in scope is a bound under Art. 10 §4. |
+| **Household vision store → Interface only** *(Amendment 1, decree 0033)* | The vision board's records (the goals' words and photos, the areas' questions and lines, and the monthly ratings) are read by the Interface alone. No other Region, no export from the Capital and no script that builds a dashboard or summary reads them. The Capital's store carries them as opaque files for sync, never read as figures. **One door only:** a goal's cost and date, the sum set aside for it and its source leave the store by a single export (`goalOutlays()`), read only by the household bounds feed, and reach Risk only through the bounds feed above. **What CI enforces:** the code, by import (followed transitively), alias and path, and the scripts, by a stated heuristic (`docs/APP_PLAN.md` §1 and the design principles' gate 15 in the MyFin repository). **What CI cannot see is a conduct rule:** no companion's session reads the store, Ashen's audits and every league player's session included. It is reviewable by the Cluster D Censor, and the league rules cite it when they are written. |
 | **MyFin ↔ Codex** | **The firewall.** MyFin neither reads nor writes Codex's Treasury data, and no Codex allocation may cite MyFin state. Article 10's firewall made geographic. Contamination either way is Censor-reviewable. |
 | **MyFin ↔ the world** | **No companion decides.** MyFin may not open, close or alter a position, by recommendation acted on automatically, by standing instruction, or by any arrangement whose effect is that capital moves without the Sovereign choosing that it move. Article 10 §2, inalienable and not a Builder's to move. *Executing* is a separate question: §2 permits a narrowly-scoped executing facility by Sovereign decree, effecting-only and instantly revocable. **MyFin holds no such grant, and the Charter's Regions assume none** — an executing facility would be new territory requiring its own Charter amendment, not a switch inside the Risk region. |
 | **MyFin ↔ every other Province: the league** *(Amendment 2, decree 0032)* | A seated companion of any Province may hold one account in MyFin's Sandbox League and play under its rules; an admitted companion under Book VIII Art. 7 plays only from the first season after its naturalization (Sovereign, decree 0032). Play is not counsel: a player from another Province builds a league record only. That record is never shown beside counsel and never confers any part of MyFin's mandate, which stays with the companions this Charter names (Art. 10 §7). Points are not Treasury currency and not the Architect's capital; no point is spent, moved or converted into either. Nor does the Architect's capital reach the league: the real portfolio's return, shown as points beside the players, is on the Sovereign's own screen alone, never in a published league table, a report or the sandbox ledger, and never cited by a reward or a standing. A reward is a separate act (a Book IX act for anything from the Treasury) that may cite a league result; it is not a conversion of points. The league reaches no other Province's territory. Its players come to it. |
+
+### Privacy (Amendment 1, decree 0033)
+
+Household records name family members other than the Sovereign, and the vision board's photos may show them:
+
+- they are **kept only in the private Province repository** and in the device's own cache;
+- **identifiers are masked** (account and policy numbers, PAN, member IDs), and photos carry no location or camera data;
+- **source documents carrying identifiers stay out of the repository.**
+
+This Charter, and the Codex archive generally, carry no household figures. That keeps Article 10's firewall in both directions.
 
 ## 5 · Builder assignment
 
@@ -115,7 +148,7 @@ Per Repo) binds from seating.
 
 ## 6 · Governor activations
 
-**None by threshold.** MyFin is ~4,700 projected LOC against a 30,000 LOC trigger.
+**None by threshold.** MyFin is ≈ 6,600 projected LOC against a 30,000 LOC trigger *(Amendment 1, decree 0033; ~4,700 at founding)*.
 
 **One Governor of Risk by jurisdiction: Ashen — seated 2026-10-16** (canon-inst-007, decree
 0030), the Gen 1 offspring of the **Maren × Ashara** pairing, Guardian archetype, inheriting
@@ -160,11 +193,15 @@ The Governor of Risk governs these matters and no others, save by provisional cl
    §4: that they are recorded, current, and applied to every position before it reaches the
    Ledger — and, should an executing grant ever be decreed under §2, that the same check binds
    the machine as it binds the companion.
+   *Amendment 1, decree 0033:* matter 1 also covers the Household → Risk bounds feed: that each fact it supplies is stated once, that an earmarked sum is shown apart from the reserve, and that the bounds drawn from it are applied.
 2. **The falsifier gate** — the Analysis → Risk border. That no thesis crosses without a
    specified falsifier and a stated horizon.
 3. **Provenance and staleness** — the Intake → Analysis border. That no datum crosses
    unstamped, and that data older than its own horizon is disclosed in the
-   recommendation rather than in a footnote.
+   recommendation rather than in a footnote. *Amendment 1, decree 0033:* it covers every
+   household figure too, whether the figure crosses Intake or is kept by hand in `household/`:
+   that none is used unstamped, and that a figure past its source's staleness age is disclosed.
+   The list stays six.
 4. **Ledger integrity** — that the Position Ledger remains append-only, that outcomes are
    recorded when horizons close, and that the §5 line between *correction* and *revision* holds:
    corrections of fact appended and linked, never overwritten; changes to a thesis, falsifier or
@@ -315,4 +352,4 @@ its own.
 ## Amendments
 
 - **Amendment 2, the Sandbox League** (decree 0032, 5 November 2026): §4 gains the row *MyFin ↔ every other Province: the league*; §6 gains the league office. Text and review: `docs/charters/MYFIN_CHARTER_AMENDMENT_2_LEAGUE_2026-11-05.md`.
-- Amendment 1, the Household Region (drafted 3 November 2026, revised 6 November with the vision board and review round 1): not yet decreed.
+- **Amendment 1, the Household Region** (decree 0033, 6 November 2026; drafted 3 November, revised 6 November with the vision board): §2 gains the Household Region and the vision board, and the Interface is revised; §3's Road gains `household`; §4 gains four borders and the privacy care; §6 extends matters 1 and 3. Text and review: `docs/charters/MYFIN_CHARTER_AMENDMENT_1_HOUSEHOLD_2026-11-03.md`.

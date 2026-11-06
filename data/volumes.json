@@ -1496,7 +1496,7 @@
           "started": "2026-11-05",
           "completed": "2026-11-05",
           "ended": null,
-          "summary": "Drafted on the Republic Design System; reviewed by Aven, Ashen and Nyx over three rounds in one day (Nyx's LGTM at 0.2.2); ratified v1.0 by the Sovereign. Provenance states, bounds, counsel and refusal, and the Ledger on screen; danger kept for risk and integrity.",
+          "summary": "Drafted on the Republic Design System; reviewed by Aven, Ashen and Nyx over three rounds in one day (Nyx's LGTM at 0.2.2); ratified v1.0 by the Sovereign. Provenance states, bounds, counsel and refusal, and the Ledger on screen; danger kept for risk and integrity. Amendment 1.1 (the vision board, mixed colours, gates 15 and 16) reviewed by Aven, Ashen and Nyx and ratified 2026-11-06; amendment 1.2 (colours distinct across sets) to follow.",
           "spec_url": "myfin: app/docs/MYFIN_DESIGN_PRINCIPLES.md",
           "_deleted": false,
           "_deleted_date": null,
@@ -1505,11 +1505,11 @@
         {
           "id": "myfin-household-region",
           "name": "Charter Amendment 1: the Household Region",
-          "status": "review",
+          "status": "complete",
           "started": "2026-11-03",
-          "completed": null,
+          "completed": "2026-11-06",
           "ended": null,
-          "summary": "Adds the Household Region (spending, insurance, plans) to the Charter's Regions, Roads and Borders. Drafted 2026-11-03; awaits Aven's review, Nyx's sign-off and the Sovereign's decree.",
+          "summary": "Adds the Household Region (balances, cash flow, spending, insurance, planned outlays) and the vision board to the Charter's Regions, Roads and Borders, and extends Ashen's matters 1 and 3. Drafted 2026-11-03, revised 2026-11-06 with the vision board clause; reviewed by Aven, Ashen and Nyx; ratified by decree 0033, 2026-11-06.",
           "spec_url": "docs/charters/MYFIN_CHARTER_AMENDMENT_1_HOUSEHOLD_2026-11-03.md",
           "_deleted": false,
           "_deleted_date": null,
@@ -1566,10 +1566,10 @@
         {
           "id": "todo-0069-myfin-amendment-1-decree",
           "text": "Charter Amendment 1 (the Household Region): Aven's review, Nyx's sign-off, the Sovereign's decree.",
-          "status": "open",
+          "status": "resolved",
           "chapter": "myfin-household-region",
           "created": "2026-11-05",
-          "resolved": null,
+          "resolved": "2026-11-06",
           "source_session": "s-2026-11-05-myfin-design-principles-and-league",
           "_deleted": false,
           "_deleted_date": null
@@ -1584,6 +1584,15 @@
           "source_session": "s-2026-11-05-myfin-design-principles-and-league",
           "_deleted": false,
           "_deleted_date": null
+        },
+        {
+          "id": "todo-0071-myfin-design-principles-1-2-colours",
+          "text": "Design principles amendment 1.2: every area of life and every category its own colour across both sets (Sovereign, 6 Nov 2026), by adding lighter or darker steps of a primary; review by Aven, Ashen, Nyx; ratify.",
+          "status": "open",
+          "chapter": "myfin-design-principles",
+          "created": "2026-11-06",
+          "resolved": null,
+          "source_session": "s-2026-11-06-myfin-vision-board-and-household"
         }
       ],
       "shelf_history": [
