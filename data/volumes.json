@@ -1608,10 +1608,11 @@
         {
           "id": "todo-0073-myfin-design-principles-1-4-income",
           "text": "Design principles amendment 1.4: Spent and Received on Write a line, Today's verdict as income against expense, Paid with Bank, UPI or Cash, eight income categories each with its own colour and icon, lighter steps allowed, 104 icons; built with the vision board's App v1 boards (Sovereign, 7 Nov 2026); review by Aven, Ashen, Nyx; ratify.",
-          "status": "open",
+          "status": "resolved",
           "chapter": "myfin-design-principles",
           "created": "2026-11-09",
-          "resolved": null,
+          "resolved": "2026-11-09",
+          "resolution": "Ratified by the Sovereign as 1.4 (9 Nov 2026) after Aven, Ashen and Nyx. MyFin PR #11. Income on Write a line and Today; eight income categories with their own colours and icons, catalogued; light steps; 104 icons. Ruled: colours as proposed, SEP salary, four accounts.csv columns (party, by, source, as_of).",
           "source_session": "s-2026-11-06-myfin-vision-board-and-household"
         }
       ],
