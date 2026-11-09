@@ -1604,6 +1604,15 @@
           "resolved": "2026-11-06",
           "resolution": "Ratified by the Sovereign as 1.3 (6 Nov 2026) after Aven, Ashen and Nyx (LGTM once folded). MyFin PR #9. Carries the filled coding disc (control-edge ring, icon in disc-ink) and, at the Sovereign's request, the colour catalogue: every colour recorded append-only in app/docs/COLOUR_CATALOGUE.md and household/colours.md, held by gate 13 and catalogue tests so none drifts. The Sovereign ruled that Home wears amber-dusk in dark.",
           "source_session": "s-2026-11-06-myfin-vision-board-and-household"
+        },
+        {
+          "id": "todo-0073-myfin-design-principles-1-4-income",
+          "text": "Design principles amendment 1.4: Spent and Received on Write a line, Today's verdict as income against expense, Paid with Bank, UPI or Cash, eight income categories each with its own colour and icon, lighter steps allowed, 104 icons; built with the vision board's App v1 boards (Sovereign, 7 Nov 2026); review by Aven, Ashen, Nyx; ratify.",
+          "status": "open",
+          "chapter": "myfin-design-principles",
+          "created": "2026-11-09",
+          "resolved": null,
+          "source_session": "s-2026-11-06-myfin-vision-board-and-household"
         }
       ],
       "shelf_history": [

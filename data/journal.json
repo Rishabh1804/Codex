@@ -4368,7 +4368,8 @@
         "Design principles amendment 1.1 ratified by the Sovereign (6 Nov 2026), Province-scoped and so session-level under canon-proc-004: §6.5 mixes, §6.6 areas, Life areas icons (91), 55 components, §10.1 the vision board, gates 15 and 16.",
         "Colours distinct across sets too (Sovereign, 6 Nov 2026, against Nyx's within-set reading): every area and every category its own colour; about 15 are needed, more than the primaries and their mixes give, so design principles amendment 1.2 is drafted to add lighter or darker steps of a primary.",
         "MyFin design principles 1.2 ratified by the Sovereign (6 Nov 2026) after Aven, Ashen and Nyx: the categories hold the seven primaries; the areas take seven deep steps of a primary and coral, none a category's colour or icon. Nyx's last fold found that washes sit under the 4.8 bar even among the ratified primaries (0.9 apart); the Sovereign ruled that a coding disc shows its fill, carried by amendment 1.3 (todo-0072).",
-        "MyFin design principles 1.3 ratified by the Sovereign (6 Nov 2026) after Aven (revise, then clears), Ashen (clears) and Nyx (amended, then LGTM once folded): a coding disc is filled with its colour in a control-edge ring, its icon in disc-ink; and, at the Sovereign's request that colours never drift, every colour is catalogued append-only (app/docs/COLOUR_CATALOGUE.md, household/colours.md), held by gate 13 as a true append and by tests that the app draws only what the catalogue says. The Sovereign ruled that Home wears amber-dusk, its dark fill stepped clear of warning."
+        "MyFin design principles 1.3 ratified by the Sovereign (6 Nov 2026) after Aven (revise, then clears), Ashen (clears) and Nyx (amended, then LGTM once folded): a coding disc is filled with its colour in a control-edge ring, its icon in disc-ink; and, at the Sovereign's request that colours never drift, every colour is catalogued append-only (app/docs/COLOUR_CATALOGUE.md, household/colours.md), held by gate 13 as a true append and by tests that the app draws only what the catalogue says. The Sovereign ruled that Home wears amber-dusk, its dark fill stepped clear of warning.",
+        "MyFin coding principles 1.0 ratified by the Sovereign (7 Nov 2026; MyFin PR #10) after Aven (revise), Ashen (does not clear until four conditions) and Nyx (amended; clears once folded): eleven hard rules HR-C-1 to HR-C-11, a pure core and a thin shell, each record its own writer rule, sync that never loses, repeats or reorders a write, provenance on every line, gates 17 to 23 landing as slice 1b's first commit. Ruled: money as integer paise inside the app; gates first; provenance as two end columns (source, as_of); a Keystore plugin for the token. Republic-wide adoption left open until MyFin has run a slice on them. Design principles amendment 1.4 (income, Spent and Received, eight income colours, 104 icons) opened (todo-0073)."
       ],
       "bugs_found": 3,
       "bugs_fixed": 3,
@@ -4376,7 +4377,8 @@
       "open_todos": [
         "todo-0067-myfin-league-rules-ratify",
         "todo-0068-myfin-league-foreign-cost-schedule",
-        "todo-0070-myfin-app-first-slice"
+        "todo-0070-myfin-app-first-slice",
+        "todo-0073-myfin-design-principles-1-4-income"
       ],
       "handoff": "Design principles amendment 1.2 (colours distinct across sets) to be drafted and reviewed; the league rules still in discussion; app slice 1b (store.ts, the household screens) now chartered."
     }
