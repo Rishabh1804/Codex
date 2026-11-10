@@ -1614,6 +1614,15 @@
           "resolved": "2026-11-09",
           "resolution": "Ratified by the Sovereign as 1.4 (9 Nov 2026) after Aven, Ashen and Nyx. MyFin PR #11. Income on Write a line and Today; eight income categories with their own colours and icons, catalogued; light steps; 104 icons. Ruled: colours as proposed, SEP salary, four accounts.csv columns (party, by, source, as_of).",
           "source_session": "s-2026-11-06-myfin-vision-board-and-household"
+        },
+        {
+          "id": "todo-0074-myfin-principles-remaining-documents",
+          "text": "MyFin's four remaining principle documents, each through Aven, Ashen and Nyx to the Sovereign: security and recovery, release and operations, testing and QA, words and accessibility (docs/PRINCIPLES.md §2; the Sovereign, 10 Nov 2026: every layer of the app well thought out, usable across repos).",
+          "status": "open",
+          "chapter": "myfin-design-principles",
+          "created": "2026-11-10",
+          "resolved": null,
+          "source_session": "s-2026-11-06-myfin-vision-board-and-household"
         }
       ],
       "shelf_history": [
