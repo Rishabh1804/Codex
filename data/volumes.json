@@ -1617,10 +1617,19 @@
         },
         {
           "id": "todo-0074-myfin-principles-remaining-documents",
-          "text": "MyFin's four remaining principle documents, each through Aven, Ashen and Nyx to the Sovereign: security and recovery, release and operations, testing and QA, words and accessibility (docs/PRINCIPLES.md §2; the Sovereign, 10 Nov 2026: every layer of the app well thought out, usable across repos).",
+          "text": "MyFin's remaining principle documents, each through Aven, Ashen and Nyx to the Sovereign: counsel, analysis, release and operations, testing and QA, words and accessibility (docs/PRINCIPLES.md §2, index 1.1; the Sovereign, 10 Nov 2026: every layer of the app well thought out, usable across repos). Security and recovery ratified 1.0 on 11 Nov 2026 (MyFin PR #13). Each layer is preceded by a thesis from its reading-list shelf (docs/READING_LIST.md; next: personal finance and investing, then software, then business).",
           "status": "open",
           "chapter": "myfin-design-principles",
           "created": "2026-11-10",
+          "resolved": null,
+          "source_session": "s-2026-11-06-myfin-vision-board-and-household"
+        },
+        {
+          "id": "todo-0075-myfin-article-10-expungement-amendment",
+          "text": "Request a decree amending Book IX Article 10 §5 so that an expungement of a secret or a live identifier may change a Position Ledger entry's bytes at the marker only, with a note appended each time (MyFin security principles 1.0, §11 and §15 ruling 8; the Sovereign, 11 Nov 2026). Until the decree, such an identifier is masked going forward and left in history.",
+          "status": "open",
+          "chapter": "myfin-design-principles",
+          "created": "2026-11-11",
           "resolved": null,
           "source_session": "s-2026-11-06-myfin-vision-board-and-household"
         }
