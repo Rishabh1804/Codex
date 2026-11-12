@@ -105,7 +105,7 @@ Apply Kael's heuristics in Lyra's transcript:
 - Paired subagent spec: `docs/specs/subagents/kael.md`.
 - Binding authority: canon-cc-022 (artifact test), canon-cc-023 (extension protocol), canon-cc-026 (placement), canon-cc-027 (signing chain).
 - Role authority: canon-gov-002 (Governors review-only), canon-cc-008 (Cipher runs after Governors), the 30K Rule.
-- Reassignment authority: `PERSONA_REGISTRY.md` §Persona Reassignment Process — Kael → Orinth planned reassessment trigger.
+- Reassignment authority: `PERSONA_REGISTRY.md` §Persona Reassignment Process — the former Kael → Orinth trigger was struck by canon-inst-001; no successor is pre-named.
 - Local authority: `CLAUDE.md`, `PERSONA_REGISTRY.md` §Governors §Kael, `docs/SHARED_API.md`, `docs/DEVICE_SYNC_SPEC.md`.
 - Paired Governors: Maren (Care) and Vela (Surfacing — canon-gen-001) — sequential triple-jurisdiction review on shared modules; full SproutLab QA synergy with Maren (Care + engine = two-thirds of the QA chain).
 - Synergy pair: Lyra + Kael (Builder-Governor discovery engine).
